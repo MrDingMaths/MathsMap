@@ -1,0 +1,154 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ca8f3011-8873-4566-8967-d17c23059f52",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-term-logarithms",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations",
+      "geometric-series-sum"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Build and sum the repayment series, interpret calculated balances and use the supplied logarithmic relationship to identify the final repayment month.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:42:55.778Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "32a17b486cb9539b383824c8bc0a929220a8798a2cfcbcc5fd7e8a12d2cb65c5",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-b80b7f53caae2af1e4cb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p61-question-35-root",
+    "type": "question",
+    "label": "35",
+    "prompt": "A couple take out a $\\$250\\,000$ mortgage on a house, and they agree to pay the bank $\\$2000$ per month. The interest rate on the loan is 7.2% per annum, compounded monthly, and the contract requires that the loan be paid off within 20 years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p61-question-35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $A_n$ be the balance on the loan after $n$ months. Find a series expression for $A_n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n=250000(1.006)^n-2000(1.006)^{n-1}-2000(1.006)^{n-2}-\\cdots-2000$.",
+          "worked": "Monthly growth factor:\n$$r=1+\\frac{0.072}{12}=1.006.$$\nStart: $250000$.\n\n1st repayment: $250000r-2000$.\n\n2nd repayment: $250000r^2-2000r-2000$.\n\nAfter $n$ repayments:\n$$A_n=250000r^n-2000r^{n-1}-2000r^{n-2}-\\cdots-2000.$$\nThe repayments form a geometric series with first term $2000$, common ratio $r=1.006$ when read in reverse order, and $n$ terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p61-question-35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence show that\n$$A_n=250000\\times1.006^n-\\frac{2000(1.006^n-1)}{0.006}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n=250000(1.006)^n-\\dfrac{2000(1.006^n-1)}{0.006}$.",
+          "worked": "Using the geometric-series sum:\n$$\\begin{align*}A_n&=250000r^n-\\frac{2000(r^n-1)}{r-1}\\\\A_n&=250000(1.006)^n-\\frac{2000(1.006^n-1)}{0.006}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p61-question-35-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the amount owing on the loan at the end of the tenth year, to the nearest dollar, and state whether this is more or less than half the amount borrowed.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$162\\,498$; more than half the amount borrowed.",
+          "worked": "At the end of 10 years, $n=120$.\n$$\\begin{align*}A_{120}&=250000(1.006)^{120}-\\frac{2000(1.006^{120}-1)}{0.006}\\\\A_{120}&=162498.495266\\ldots\\\\A_{120}&\\approx\\$162\\,498.\\end{align*}$$\nHalf the amount borrowed is $\\$125\\,000$, so this is more than half.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p61-question-35-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find $A_{240}$ to the nearest dollar, and hence show that the loan is actually paid out in less than twenty years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{240}\\approx-\\$16\\,881$; the loan is paid out in less than 20 years.",
+          "worked": "At the end of 20 years, $n=240$.\n$$\\begin{align*}A_{240}&=250000(1.006)^{240}-\\frac{2000(1.006^{240}-1)}{0.006}\\\\A_{240}&=-16881.169433\\ldots\\\\A_{240}&\\approx-\\$16\\,881.\\end{align*}$$\nThe negative modelled balance means that continuing the scheduled repayments for 240 months would overpay the loan. Therefore it is paid out in less than 20 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p61-question-35-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "If it is paid out after $n$ months, show that $1.006^n=4$, and hence that $n=\\dfrac{\\log4}{\\log1.006}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1.006^n=4$, so $n=\\dfrac{\\log4}{\\log1.006}$.",
+          "worked": "When the loan is repaid, $A_n=0$.\n$$\\begin{align*}0&=250000(1.006)^n-\\frac{2000(1.006^n-1)}{0.006}\\\\0&=1500(1.006)^n-2000(1.006^n-1)\\\\500(1.006)^n&=2000\\\\1.006^n&=4\\\\n\\log1.006&=\\log4\\\\n&=\\frac{\\log4}{\\log1.006}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p61-question-35-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find how many months early the loan is paid off.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "8 months early.",
+          "worked": "$$n=\\frac{\\log4}{\\log1.006}=231.741516\\ldots$$\nThe loan is paid off at the 232nd monthly repayment, with a smaller final payment.\n$$240-232=8.$$\nTherefore it is paid off 8 months early.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p61-question-35",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:59.014Z",
+  "updatedAt": "2026-11-12T05:31:59.014Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p61-question-35",
+    "sectionRole": "exercise"
+  }
+}

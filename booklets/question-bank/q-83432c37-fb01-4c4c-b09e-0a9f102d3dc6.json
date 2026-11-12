@@ -1,0 +1,390 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-83432c37-fb01-4c4c-b09e-0a9f102d3dc6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Find a missing overlap by subtraction, then distinguish neither, exclusive or, both and inclusive or when calculating probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T13:05:51.339Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "caa34110e698748cc0981a944707a337b0b5049e24c17d5e0ab713151b357e72",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/lean-review/calls/content-1792933474786-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The Venn diagram below shows the number of students speaking French and Italian in a classroom of 80 students.\n\nFirst find the missing information, then find the probability that a randomly chosen student:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q3-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) rectangle (70,47);\n\\draw (24,26) circle (18);\n\\draw (46,26) circle (18);\n\\node at (20,32) {Italian};\n\\node at (51,32) {French};\n\\node at (20,20) {15};\n\\node at (51,20) {35};\n\\node[anchor=west] at (1,4) {Neither $=21$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 3, left-hand Venn diagram",
+          "description": "Two overlapping circles inside a rectangular universal set. Italian is on the left and French on the right. The intersection remains blank for completion.",
+          "mathematics": "Italian only 15; French only 35; neither 21; total population 80.",
+          "answerVisibility": "The intersection count is withheld from the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q3-missing",
+        "type": "part",
+        "label": "a",
+        "prompt": "Missing intersection count:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "9 students",
+          "worked": "$$\\begin{aligned}\\text{Both}&=80-15-35-21\\\\\\text{Both}&=9\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p42-q3-completed-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q3 completed diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) rectangle (70,47);\n\\draw (24,26) circle (18);\n\\draw (46,26) circle (18);\n\\node at (20,32) {Italian};\n\\node at (51,32) {French};\n\\node at (20,20) {15};\n\\node at (35,25) {9};\n\\node at (51,20) {35};\n\\node[anchor=west] at (1,4) {Neither $=21$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 42,
+                "sourceRegion": "Question 3, left-hand Venn diagram",
+                "description": "Completed Venn diagram with 9 in the intersection and all supplied labels and counts retained.",
+                "mathematics": "15+9+35+21=80.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p42-q3-a",
+        "type": "part",
+        "label": "b",
+        "prompt": "Speaks neither French nor Italian.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{21}{80}$",
+          "worked": "$$P(\\text{neither})=\\frac{21}{80}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p42-q3-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "Speaks Italian or French, but not both.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{5}{8}$",
+          "worked": "$$\\begin{aligned}P(\\text{Italian or French, but not both})&=\\frac{15+35}{80}\\\\&=\\frac{50}{80}\\\\&=\\frac{5}{8}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p42-q3-c",
+        "type": "part",
+        "label": "d",
+        "prompt": "Speaks Italian and French.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{9}{80}$",
+          "worked": "$$P(\\text{Italian and French})=\\frac{9}{80}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p42-q3-d",
+        "type": "part",
+        "label": "e",
+        "prompt": "Speaks Italian or French.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{59}{80}$",
+          "worked": "$$\\begin{aligned}P(\\text{Italian or French})&=\\frac{15+9+35}{80}\\\\&=\\frac{59}{80}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p42-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q3-root/label",
+                  "type": "item",
+                  "ref": "p42-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "p42-q3-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p42-q3-root/prompt",
+                      "type": "item",
+                      "ref": "p42-q3-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p42-q3-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p42-q3-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p42-q3-diagram",
+                              "type": "item",
+                              "ref": "p42-q3-diagram",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p42-q3-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p42-q3-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p42-q3-missing:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p42-q3-missing/label",
+                                      "type": "item",
+                                      "ref": "p42-q3-missing/label",
+                                      "title": "Part a"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-missing/prompt",
+                                      "type": "item",
+                                      "ref": "p42-q3-missing/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-missing/space",
+                                      "type": "item",
+                                      "ref": "p42-q3-missing/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Unlabelled part 1",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p42-q3-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p42-q3-a/label",
+                                      "type": "item",
+                                      "ref": "p42-q3-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-a/prompt",
+                                      "type": "item",
+                                      "ref": "p42-q3-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-a/space",
+                                      "type": "item",
+                                      "ref": "p42-q3-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p42-q3-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p42-q3-b/label",
+                                      "type": "item",
+                                      "ref": "p42-q3-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-b/prompt",
+                                      "type": "item",
+                                      "ref": "p42-q3-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-b/space",
+                                      "type": "item",
+                                      "ref": "p42-q3-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p42-q3-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p42-q3-c/label",
+                                      "type": "item",
+                                      "ref": "p42-q3-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-c/prompt",
+                                      "type": "item",
+                                      "ref": "p42-q3-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-c/space",
+                                      "type": "item",
+                                      "ref": "p42-q3-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p42-q3-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p42-q3-d/label",
+                                      "type": "item",
+                                      "ref": "p42-q3-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-d/prompt",
+                                      "type": "item",
+                                      "ref": "p42-q3-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p42-q3-d/space",
+                                      "type": "item",
+                                      "ref": "p42-q3-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:38.107Z",
+  "updatedAt": "2026-11-12T05:33:38.108Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-2-v1",
+    "blockId": "p42-q3",
+    "sectionRole": "exercise"
+  }
+}

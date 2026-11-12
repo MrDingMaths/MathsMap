@@ -1,0 +1,346 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f81d2bf4-e6c5-4c74-84e0-65e474a9ec82",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [
+      "instantaneous-rate-tangent"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Requires expanding and simplifying the difference quotient, taking its limit, evaluating three tangent gradients, and checking them against sketches. The intermediate results and sequence are supplied, so the algebra-to-graph connection is routine and explicitly prompted.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T06:20:16.339Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ca247a3b727a944b9f97940c7e3de1d43a062a7427fbb324bc8678e39c4b756a",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-estimating-change-r5/ratings-1/ratings-review.json"
+    }
+  },
+  "content": {
+    "id": "p18-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Consider the function $f(x)=x^2-4x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q3-graph\"}\n\\definecolor{houseGrid}{HTML}{CCCCCC}\n\\begin{tikzpicture}[x=1.25cm,y=1.25cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\useasboundingbox (-1.1,-4.45) rectangle (5.45,0.55);\n\\draw[houseGrid,line width=0.15pt,step=0.2] (-1,-4) grid (5,0);\n\\draw[houseGrid,line width=0.25pt,step=1] (-1,-4) grid (5,0);\n\\draw[black,line width=0.4pt] (-1,-4) rectangle (5,0);\n\\draw[black,->,line width=0.5pt] (-1,0)--(5.3,0) node[right] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-4)--(0,0.35) node[above left] {$y$};\n\\foreach \\v in {0,1,2,3,4}{\\node[below left,inner sep=2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,-2,-3,-4}{\\node[left,inner sep=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,<->,line width=0.8pt,domain=0:4,samples=101] plot (\\x,{\\x*\\x-4*\\x});\n\\node[fill=white,inner sep=2pt] at (2.55,-1.5) {$y=x^2-4x$};\n\\fill[black] (1,-3) circle (1.6pt) node[below left,fill=white,inner sep=1pt] {$A$};\n\\fill[black] (3,-3) circle (1.6pt) node[below right,fill=white,inner sep=1pt] {$B$};\n\\fill[black] (2,-4) circle (1.6pt) node[above,fill=white,inner sep=1pt] {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Upper-right graph beside question 3",
+          "description": "Editable shared drawing surface: parabola on a coordinate grid, with five fine subdivisions per unit, positive axis arrows, branch arrows and labelled points A, B and C.",
+          "mathematics": "y=x^2-4x; roots 0 and 4; A=(1,-3), B=(3,-3), C=(2,-4). Grid steps are 1 major unit and 0.2 minor units.",
+          "answerVisibility": "The curve, grid, coordinates and point labels are supplied. Tangents are absent from the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\dfrac{f(x+h)-f(x)}{h}=2x+h-4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{f(x+h)-f(x)}{h}=2x+h-4$ for $h\\ne0$.",
+          "worked": "$$\\begin{aligned}f(x+h)&=(x+h)^2-4(x+h)\\\\&=x^2+2xh+h^2-4x-4h\\end{aligned}$$\nFor $h\\ne0$,\n$$\\begin{aligned}\\frac{f(x+h)-f(x)}{h}&=\\frac{x^2+2xh+h^2-4x-4h-(x^2-4x)}{h}\\\\&=\\frac{2xh+h^2-4h}{h}\\\\&=2x+h-4.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p18-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $f'(x)=2x-4$ by taking the limit as $h\\to0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=2x-4$.",
+          "worked": "$$\\begin{aligned}f'(x)&=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}\\\\&=\\lim_{h\\to0}(2x+h-4)\\\\&=2x-4.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p18-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Evaluate $f'(1)$ to find the gradient of the tangent to the curve at $A(1,-3)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(1)=-2$.",
+          "worked": "$$\\begin{aligned}f'(1)&=2(1)-4\\\\&=-2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p18-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Similarly, find the gradients of the tangents at $B(3,-3)$ and $C(2,-4)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At $B$, $f'(3)=2$. At $C$, $f'(2)=0$.",
+          "worked": "At $B$:\n$$\\begin{aligned}f'(3)&=2(3)-4\\\\&=2.\\end{aligned}$$\nAt $C$:\n$$\\begin{aligned}f'(2)&=2(2)-4\\\\&=0.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p18-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Check the reasonableness of your answers in parts c and d by sketching a tangent to the curve at each of those points and inspecting its gradient.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The tangents at $A$, $B$ and $C$ have gradients $-2$, $2$ and $0$, respectively, consistent with parts c and d.",
+          "worked": "At $A$, the tangent falls 2 units for each unit to the right, so its gradient is $-2$. At $B$, it rises 2 units for each unit to the right, so its gradient is $2$. At $C$, it is horizontal, so its gradient is $0$. These agree with the calculated values.",
+          "solutionDiagrams": [
+            {
+              "id": "p18-q3-e-tangents",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"tangentBlue\",\"hex\":\"268CFF\",\"reason\":\"solution tangent sketches distinguished from supplied curve\"}],\"reference\":\"source page 18 p18-q3-e-tangents\"}\n\\definecolor{houseGrid}{HTML}{CCCCCC}\n\\begin{tikzpicture}[x=1.25cm,y=1.25cm]\n\\definecolor{tangentBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\useasboundingbox (-1.1,-4.45) rectangle (5.45,0.55);\n\\draw[houseGrid,line width=0.15pt,step=0.2] (-1,-4) grid (5,0);\n\\draw[houseGrid,line width=0.25pt,step=1] (-1,-4) grid (5,0);\n\\draw[black,line width=0.4pt] (-1,-4) rectangle (5,0);\n\\draw[black,->,line width=0.5pt] (-1,0)--(5.3,0) node[right] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-4)--(0,0.35) node[above left] {$y$};\n\\foreach \\v in {0,1,2,3,4}{\\node[below left,inner sep=2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,-2,-3,-4}{\\node[left,inner sep=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,<->,line width=0.8pt,domain=0:4,samples=101] plot (\\x,{\\x*\\x-4*\\x});\n\\node[fill=white,inner sep=2pt] at (2.55,-1.5) {$y=x^2-4x$};\n\\draw[tangentBlue,dashed,line width=0.8pt] (-0.5,0)--(1.5,-4);\n\\draw[tangentBlue,dashed,line width=0.8pt] (2.5,-4)--(4.5,0);\n\\draw[tangentBlue,dashed,line width=0.8pt] (-0.6,-4)--(4.6,-4);\n\\fill[black] (1,-3) circle (1.6pt) node[below left,fill=white,inner sep=1pt] {$A$};\n\\fill[black] (3,-3) circle (1.6pt) node[below right,fill=white,inner sep=1pt] {$B$};\n\\fill[black] (2,-4) circle (1.6pt) node[above,fill=white,inner sep=1pt] {$C$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 18,
+                "sourceRegion": "Question 3 shared graph",
+                "description": "Complete solution graph with the supplied parabola and tangents at A, B and C. Blue dashed tangent lines distinguish student additions from the supplied black curve.",
+                "mathematics": "Tangents are y=-2x-1 at A, y=2x-9 at B and y=-4 at C.",
+                "answerVisibility": "Solution only; all three required tangent sketches are shown."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 13
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p18-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q3:fullwidth-tail",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p18-q3:graph-introduction",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p18-q3:intro",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q3-root/label",
+                          "type": "item",
+                          "ref": "p18-q3-root/label"
+                        },
+                        {
+                          "id": "layout:p18-q3-root/prompt",
+                          "type": "item",
+                          "ref": "p18-q3-root/prompt"
+                        },
+                        {
+                          "id": "p18-q3-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q3-a/label",
+                              "type": "item",
+                              "ref": "p18-q3-a/label"
+                            },
+                            {
+                              "id": "layout:p18-q3-a/prompt",
+                              "type": "item",
+                              "ref": "p18-q3-a/prompt"
+                            },
+                            {
+                              "id": "layout:p18-q3-a/space",
+                              "type": "item",
+                              "ref": "p18-q3-a/space"
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 88
+                    },
+                    {
+                      "id": "layout:p18-q3-graph",
+                      "type": "item",
+                      "ref": "p18-q3-graph",
+                      "width": 75,
+                      "weight": 78
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p18-q3-b:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p18-q3-b/label",
+                      "type": "item",
+                      "ref": "p18-q3-b/label"
+                    },
+                    {
+                      "id": "layout:p18-q3-b/prompt",
+                      "type": "item",
+                      "ref": "p18-q3-b/prompt"
+                    },
+                    {
+                      "id": "layout:p18-q3-b/space",
+                      "type": "item",
+                      "ref": "p18-q3-b/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p18-q3-c:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p18-q3-c/label",
+                      "type": "item",
+                      "ref": "p18-q3-c/label"
+                    },
+                    {
+                      "id": "layout:p18-q3-c/prompt",
+                      "type": "item",
+                      "ref": "p18-q3-c/prompt"
+                    },
+                    {
+                      "id": "layout:p18-q3-c/space",
+                      "type": "item",
+                      "ref": "p18-q3-c/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p18-q3-d:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p18-q3-d/label",
+                      "type": "item",
+                      "ref": "p18-q3-d/label"
+                    },
+                    {
+                      "id": "layout:p18-q3-d/prompt",
+                      "type": "item",
+                      "ref": "p18-q3-d/prompt"
+                    },
+                    {
+                      "id": "layout:p18-q3-d/space",
+                      "type": "item",
+                      "ref": "p18-q3-d/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p18-q3-e:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p18-q3-e/label",
+                      "type": "item",
+                      "ref": "p18-q3-e/label"
+                    },
+                    {
+                      "id": "layout:p18-q3-e/prompt",
+                      "type": "item",
+                      "ref": "p18-q3-e/prompt"
+                    },
+                    {
+                      "id": "layout:p18-q3-e/space",
+                      "type": "item",
+                      "ref": "p18-q3-e/space"
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:20.518Z",
+  "updatedAt": "2026-11-12T05:33:20.518Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-1-estimating-change-and-the-derivative-v1",
+    "blockId": "p18-q3",
+    "sectionRole": "exercise"
+  }
+}

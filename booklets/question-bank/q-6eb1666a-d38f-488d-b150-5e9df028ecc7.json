@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6eb1666a-d38f-488d-b150-5e9df028ecc7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [
+      "curve-sketching-calculus"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect a derivative sign, a decreasing curve and strict rectangular area bounds without evaluating the integral.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:50:14.005Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0aba2b8d215b6e6e60003b3e3d3b92b2cf72b125a854c1dcdb61ce623f12b16c",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-d5f8da182c4be502bfd2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p47-q33-root",
+    "type": "question",
+    "label": "33",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p47-q33-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Given that $y=\\dfrac{1}{1+\\sin x}$, show that $y'=-\\dfrac{\\cos x}{(1+\\sin x)^2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=-\\dfrac{\\cos x}{(1+\\sin x)^2}$.",
+          "worked": "$$\\begin{aligned}y&=(1+\\sin x)^{-1}\\\\y'&=-(1+\\sin x)^{-2}\\cos x\\\\&=-\\frac{\\cos x}{(1+\\sin x)^2}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p47-q33-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence explain why the function $y=\\dfrac{1}{1+\\sin x}$ is decreasing for $0<x<\\dfrac{\\pi}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "On $0<x<\\dfrac{\\pi}{2}$, $\\cos x>0$ and $(1+\\sin x)^2>0$, so $y'<0$. Hence $y$ is decreasing.",
+          "worked": "For $0<x<\\dfrac{\\pi}{2}$, $\\cos x>0$ and $(1+\\sin x)^2>0$. Therefore $y'=-\\dfrac{\\cos x}{(1+\\sin x)^2}<0$, so $y$ is decreasing.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p47-q33-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch the curve for $0\\le x\\le\\dfrac{\\pi}{2}$, and hence show that $\\dfrac{\\pi}{4}<\\displaystyle\\int_0^{\\pi/2}\\dfrac{1}{1+\\sin x}\\,dx<\\dfrac{\\pi}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve decreases from $(0,1)$ to $\\left(\\dfrac{\\pi}{2},\\dfrac12\\right)$ and flattens at its right endpoint. Its area lies strictly between the areas of rectangles of width $\\dfrac{\\pi}{2}$ and heights $\\dfrac12$ and $1$, so $\\dfrac{\\pi}{4}<\\displaystyle\\int_0^{\\pi/2}\\dfrac{1}{1+\\sin x}\\,dx<\\dfrac{\\pi}{2}$.",
+          "worked": "Since $y$ is decreasing on $\\left[0,\\dfrac{\\pi}{2}\\right]$,\n$$\\begin{aligned}y\\left(\\frac{\\pi}{2}\\right)&\\le y(x)\\le y(0),\\\\\\frac12&\\le\\frac{1}{1+\\sin x}\\le1.\\end{aligned}$$\nIntegrating gives\n$$\\begin{aligned}\\frac12\\left(\\frac{\\pi}{2}\\right)&\\le\\int_0^{\\pi/2}\\frac{1}{1+\\sin x}\\,dx\\le1\\left(\\frac{\\pi}{2}\\right).\\end{aligned}$$\nThe curve lies strictly between the two horizontal bounds for $0<x<\\dfrac{\\pi}{2}$, so both area inequalities are strict:\n$$\\frac{\\pi}{4}<\\int_0^{\\pi/2}\\frac{1}{1+\\sin x}\\,dx<\\frac{\\pi}{2}.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p47-q33-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"solution function curve\"}],\"reference\":\"source page 47 question 33c\"}\n\\begin{tikzpicture}[x=3cm,y=1.6cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-0.04,0)--(1.72,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-1.16)--(0,2.18) node[above] {$y$};\n\\foreach \\v in {-1,1,2}{\\draw[black,line width=0.4pt] (-0.025,\\v)--(0.025,\\v);\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.4pt] (1.570796,-0.045)--(1.570796,0.045);\n\\node[below] at (1.570796,-0.045) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\draw[seriesBlue,line width=0.8pt,->,domain=0:1.570796,samples=90] plot (\\x,{1/(1+sin(\\x r))});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 47,
+                "sourceRegion": "Question 33c answer graph, lower left",
+                "description": "Decreasing curve from (0,1) to (π/2,1/2), flattening at the right endpoint, with the source's rightward endpoint arrow. Axes and labels use house black; the solution curve uses standard blue.",
+                "mathematics": "y=1/(1+sin x), 0≤x≤π/2. Vertical ticks −1, 1, 2; horizontal tick π/2. No grid or origin label.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p47-q33",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:12.865Z",
+  "updatedAt": "2026-11-12T05:33:12.865Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p47-q33",
+    "sectionRole": "challenge"
+  }
+}

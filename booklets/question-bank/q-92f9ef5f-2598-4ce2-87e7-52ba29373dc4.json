@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-92f9ef5f-2598-4ce2-87e7-52ba29373dc4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "annuity-lump-sum-and-withdrawals",
+    "secondarySkillIds": [
+      "loan-term-logarithms",
+      "geometric-series-sum"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a withdrawal model using a geometric series, solve its zero-balance equation with logarithms, and interpret the non-integer result to calculate a final partial withdrawal.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:34:05.111Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d396f6facfaa69e0dec80737f15bf643639841fd026fe73f7cdab56c3f77f107",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-581cf7b3b2f17287b7d0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p37-q15-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A retirement fund begins with ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "$250 000",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". It earns 6% p.a., compounded monthly.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "At the end of each month, ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "$1800 is withdrawn.",
+              "marks": [
+                "bold"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $A_n$ be the amount remaining after $n$ months. Show that\n$$A_n=250000(1.005)^n-\\frac{1800(1.005^n-1)}{0.005}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n=250000(1.005)^n-\\dfrac{1800(1.005^n-1)}{0.005}$, obtained by subtracting the geometric series of withdrawals from the compounded initial balance.",
+          "worked": "Monthly growth factor:\n$$r=1+\\frac{0.06}{12}=1.005.$$\nAfter 1 month:\n$$A_1=250000r-1800.$$\nAfter 2 months:\n$$A_2=250000r^2-1800r-1800.$$\nAfter $n$ months:\n$$A_n=250000r^n-1800r^{n-1}-1800r^{n-2}-\\cdots-1800.$$\nThe withdrawal terms form a geometric series with first term $a=1800$, common ratio $r=1.005$ and $n$ terms.\n$$\\begin{align*}A_n&=250000r^n-\\frac{1800(r^n-1)}{r-1}\\\\A_n&=250000(1.005)^n-\\frac{1800(1.005^n-1)}{0.005}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 57
+      },
+      {
+        "id": "p37-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the fund will not last for 20 years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{240}\\approx-\\$4122.49$, so the fund is exhausted before 20 years.",
+          "worked": "Twenty years is $n=20\\times12=240$ months.\n$$\\begin{align*}A_{240}&=250000(1.005)^{240}-\\frac{1800(1.005^{240}-1)}{0.005}\\\\A_{240}&\\approx-4122.49.\\end{align*}$$\nSince the model gives a negative balance, the fund is exhausted **before 20 years**.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p37-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Determine how many complete monthly withdrawals of $\\$1800$ can be made before the fund is exhausted, and the amount that can be withdrawn in the final month. Give the final amount to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "237 complete monthly withdrawals; a final partial withdrawal of $\\$1291.60$ in month 238.",
+          "worked": "To find when the fund reaches zero, set $A_n=0$.\n$$\\begin{align*}0&=250000(1.005)^n-\\frac{1800(1.005^n-1)}{0.005}\\\\0&=1250(1.005)^n-1800(1.005^n-1)\\\\0&=1250(1.005)^n-1800(1.005)^n+1800\\\\550(1.005)^n&=1800\\\\1.005^n&=\\frac{1800}{550}\\\\1.005^n&=3.272727\\ldots\\\\n&=\\frac{\\log(1800/550)}{\\log(1.005)}\\\\n&=237.717\\ldots\\end{align*}$$\nCheck the balance after 237 complete withdrawals:\n$$\\begin{align*}A_{237}&=250000(1.005)^{237}-\\frac{1800(1.005^{237}-1)}{0.005}\\\\A_{237}&=1285.178435\\ldots\\end{align*}$$\nThe balance is approximately $\\$1285.18$. Before the 238th withdrawal, this grows to\n$$A_{237}(1.005)=1291.604327\\ldots$$\nTherefore, **237 complete monthly withdrawals can be made**, and the fund is exhausted in month 238 with a final partial withdrawal of $\\$1291.60$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 79
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:00.591Z",
+  "updatedAt": "2026-11-12T05:32:00.593Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p37-q15",
+    "sectionRole": "challenge"
+  }
+}

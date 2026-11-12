@@ -1,0 +1,247 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2cc7a00b-c888-48dc-98e8-3cfd2410fadb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-integral-symmetry",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Explains the supplied integral by recognising reflection symmetry and identifying the lower exponential curve on the right half, then evaluates a routine exponential integral.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:09:55.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dbe91b1700e28d3067d8abde536bfb0fe917c2bf5f32cfd260b24fe475be72c7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-integral-calculus-3-further-areas-under-curves-v1/ff373e00c336bbc2a123c1e6a3012591daff82f41f4f0ec9ddb4d04760899eca-1793876948997/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "The diagram shows the region above the $x$-axis, below both $y=e-e^{-x}$ and $y=e-e^x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q17-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"The region above the x-axis and below both exponential curves whose area is requested.\"}],\"reference\":\"page 38 question 17 diagram\"}\n\\begin{tikzpicture}[x=16mm,y=12mm,>=Stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\path[fill=regionFill] (-1,0) -- plot[domain=-1:0,samples=45] (\\x,{exp(1)-exp(-\\x)}) -- plot[domain=0:1,samples=45] (\\x,{exp(1)-exp(\\x)}) -- cycle;\n\\draw[dashed,line width=0.4pt] (-2.05,{exp(1)})--(2.05,{exp(1)});\n\\draw[->,line width=0.5pt] (-2.05,0)--(2.12,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.02)--(0,3.12) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-2.05:1.28,samples=100] (\\x,{exp(1)-exp(\\x)});\n\\draw[<->,line width=0.8pt] plot[domain=-1.28:2.05,samples=100] (\\x,{exp(1)-exp(-\\x)});\n\\node[below] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{exp(1)-1}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e-1$\\special{dvisvgm:raw </g>}};\n\\node[below left] at (0,{exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 17, graph to the right of the introduction and part a",
+          "description": "Two exponential curves reflected in the y-axis, with continuation arrows, a dashed common horizontal asymptote and a light blue common region above the x-axis. Ordinary curves, axes, guides and labels are black.",
+          "mathematics": "Curves y=e-e^x and y=e-e^{-x}; intersection (0,e-1); x-intercepts 1 and -1 respectively; horizontal asymptote y=e. The shaded region is 0<=y<=e-e^{|x|} for -1<=x<=1.",
+          "answerVisibility": "The source-supplied graph and its labels remain visible; no calculated area is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p38-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the area of this region may be written as $\\text{area}=2\\int_0^1(e-e^x)\\,dx$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curves are reflections of each other in the $y$-axis. The right half of the region lies under $y=e-e^x$ for $0\\le x\\le1$, so doubling its area gives the whole region.",
+          "worked": "Replacing $x$ by $-x$ interchanges $y=e-e^{-x}$ and $y=e-e^x$, so the region is symmetric about the $y$-axis. For $0\\le x\\le1$, the region lies above the $x$-axis and below $y=e-e^x$, which reaches zero at $x=1$. Hence\n$$\\text{area}=2\\int_0^1(e-e^x)\\,dx.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p38-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the area of this region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\text{ units}^2$",
+          "worked": "$$\\begin{align*}\nA&=2\\int_0^1(e-e^x)\\,dx\\\\\nA&=2\\left[ex-e^x\\right]_0^1\\\\\nA&=2\\left[(e-e)-(0-1)\\right]\\\\\nA&=2\\text{ units}^2.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p38-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q17-root/label",
+                  "type": "item",
+                  "ref": "p38-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "p38-q17-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p38-q17-root/prompt",
+                      "type": "item",
+                      "ref": "p38-q17-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p38-q17-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p38-q17-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p38-q17-diagram",
+                              "type": "item",
+                              "ref": "p38-q17-diagram",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p38-q17-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p38-q17-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p38-q17-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p38-q17-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p38-q17-a/label",
+                                          "type": "item",
+                                          "ref": "p38-q17-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p38-q17-a/prompt",
+                                          "type": "item",
+                                          "ref": "p38-q17-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p38-q17-a/space",
+                                          "type": "item",
+                                          "ref": "p38-q17-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p38-q17-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p38-q17-b/label",
+                                          "type": "item",
+                                          "ref": "p38-q17-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p38-q17-b/prompt",
+                                          "type": "item",
+                                          "ref": "p38-q17-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p38-q17-b/space",
+                                          "type": "item",
+                                          "ref": "p38-q17-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 17",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:02.333Z",
+  "updatedAt": "2026-11-12T05:33:02.334Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p38-q17",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cef7154f-9cc5-4b30-810f-730194600c01",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Find positive areas below the x-axis using logarithmic antiderivatives; part b also requires the x-intercept.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:43:15.948Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "11b826c61fdd3ae95864044f3760e4a2b65e3123e5f5bf6a5882665c116b765a",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-b02029dd1b453efe9bde/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p35-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p35-q10a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the region bounded by $y=-\\frac{1}{x}$, the $x$-axis, $x=1$ and $x=4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p35-q10a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"area bounded by the curve and x-axis\"}],\"reference\":\"source page 35, p35-q10a-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] (1,0)--(4,0)--plot[domain=4:1,samples=60] (\\x,{-1/\\x})--cycle;\n\\draw[line width=0.4pt] (1,0)--(1,-1) (4,0)--(4,-0.25);\n\\draw[->,line width=0.5pt] (-0.5,0)--(5.25,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.4)--(0,1) node[left] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=0.31:5,samples=100] (\\x,{-1/\\x});\n\\node[above] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[above] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 35,
+              "sourceRegion": "Question 10a graph",
+              "description": "Reciprocal curve below the positive x-axis, with shaded bounded region from x=1 to x=4 and numerical labels above the axis.",
+              "mathematics": "y=-1/x; bounded region 1<=x<=4, -1/x<=y<=0.",
+              "answerVisibility": "All supplied graph features remain visible in the student edition. No calculated answer is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\ln 4\\text{ units}^2$",
+          "worked": "The curve is below the $x$-axis on $1\\le x\\le4$.\n$$\\begin{aligned}A&=\\int_1^4\\frac{1}{x}\\,dx\\\\&=[\\ln x]_1^4\\\\&=\\ln4\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p35-q10b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of the region bounded by $y=\\frac{3}{x}-3$, the $x$-axis and $x=3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p35-q10b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"area bounded by the curve and x-axis\"}],\"reference\":\"source page 35, p35-q10b-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] (1,0)--(3,0)--plot[domain=3:1,samples=60] (\\x,{3/\\x-3})--cycle;\n\\draw[dashed,line width=0.4pt] (-0.45,-2)--(3,-2) (-0.45,-3)--(3.6,-3);\n\\draw[line width=0.4pt] (3,0)--(3,-2);\n\\draw[->,line width=0.5pt] (-0.5,0)--(3.8,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.5)--(0,0.8) node[left] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=0.8:3.6,samples=100] (\\x,{3/\\x-3});\n\\node[above] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[above] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below right] at (0,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[below right] at (0,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 35,
+              "sourceRegion": "Question 10b graph",
+              "description": "Decreasing translated reciprocal curve through (1,0) and (3,-2), with shaded region below the x-axis, vertical boundary x=3 and dashed guides y=-2 and y=-3.",
+              "mathematics": "y=3/x-3; horizontal asymptote y=-3; bounded region 1<=x<=3, 3/x-3<=y<=0.",
+              "answerVisibility": "Source intercept, boundary labels and guides remain visible in the student edition. No calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(6-3\\ln3)\\text{ units}^2$",
+          "worked": "At the $x$-intercept, $\\frac{3}{x}-3=0$, so $x=1$. The bounded region lies below the $x$-axis.\n$$\\begin{aligned}A&=-\\int_1^3\\left(\\frac{3}{x}-3\\right)\\,dx\\\\&=-[3\\ln x-3x]_1^3\\\\&=-[(3\\ln3-9)-(-3)]\\\\&=(6-3\\ln3)\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p35-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:02.860Z",
+  "updatedAt": "2026-11-12T05:33:02.860Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p35-q10",
+    "sectionRole": "exercise"
+  }
+}

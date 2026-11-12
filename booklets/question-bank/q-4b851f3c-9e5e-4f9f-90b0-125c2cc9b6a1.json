@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4b851f3c-9e5e-4f9f-90b0-125c2cc9b6a1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trapezoidal-rule-integral",
+    "secondarySkillIds": [],
+    "reasoningScore": 50,
+    "difficulty": "Mastery",
+    "difficultyReason": "Heights must be found from a circle of radius 6, giving surds (3√3), then the trapezoidal rule in exact form, then π is extracted. Part b adds a concavity explanation. It is a linked multi-step task, but a cleaner one than the calculus-based p29-q12, whose values are decimals.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:53:28.642Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b70db8edaec7ba16f1c35cc69c7e6e31f93ec39aab23c2ccdf4c1631879fa312",
+      "diagramBlindHash": "7ec68ce83de57ce70101032ad0dd1124392c463617ed28ff18f9ee45f34797e1",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-3-further-areas-under-curves-2-v1/20261111-044013/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p47-q32",
+          "score": 43
+        },
+        "easierThan": {
+          "ref": "p29-q12-block",
+          "score": 57
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-9cfdc-p26-practice-slot-1-upper-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram shows the semicircular entrance of a tunnel, divided into four strips of equal width.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-9cfdc-p26-practice-slot-1-upper-slot-1-upper-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"tunnel entrance whose area is estimated\"}],\"reference\":\"slot-1-upper diagram\"}\n\\begin{tikzpicture}[x=5mm,y=5mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-6.4,-2.4) rectangle (6.4,6.4);\n\\filldraw[fill=regionBlue,draw=black,line width=0.8pt] (-6,0)--(6,0) arc[start angle=0,end angle=180,radius=6]--cycle;\n\\foreach \\x in {-3,0,3}{\\draw[line width=0.4pt] (\\x,0)--(\\x,{sqrt(36-\\x*\\x)});}\n\\draw[line width=0.4pt] (-6,-0.2)--(-6,-1.2) (6,-0.2)--(6,-1.2);\n\\draw[<->,line width=0.4pt] (-6,-1)--(6,-1) node[midway,below] {$12\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 64,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-9cfdc-p26-practice-slot-1-upper-slot-1-upper-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the trapezoidal rule to estimate the area of the entrance. Give your answer in exact form.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(18+18\\sqrt3)\\text{ m}^2$",
+          "worked": "The semicircle has centre $O$ and radius $6\\text{ m}$, so $y=\\sqrt{36-x^2}$ and $h=3$. At $x=-6,-3,0,3,6$ the heights are $0,3\\sqrt3,6,3\\sqrt3,0$.\n$$\\begin{align*}A&\\approx\\frac{3}{2}\\bigl[0+0+2(3\\sqrt3+6+3\\sqrt3)\\bigr]\\\\&=3(6\\sqrt3+6)\\\\&=(18+18\\sqrt3)\\text{ m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "v2-9cfdc-p26-practice-slot-1-upper-slot-1-upper-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use part a to approximate $\\pi$. Give your answer correct to one decimal place, and explain why your approximation is less than $\\pi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\pi\\approx1+\\sqrt3\\approx2.7$ (1 d.p.). The curve is concave down, so the chords lie below it and the trapezoidal rule underestimates the area.",
+          "worked": "The area of the semicircle is $\\dfrac12\\pi(6)^2=18\\pi$.\n$$\\begin{align*}18\\pi&\\approx18+18\\sqrt3\\\\\\pi&\\approx1+\\sqrt3\\\\&\\approx2.7\\quad\\text{(1 d.p.)}\\end{align*}$$\nThe curve is concave down, so each trapezium lies below the curve. The area estimate is too small, so the approximation of $\\pi$ is less than $\\pi$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-9cfdc-p26-practice-slot-1-upper",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:00.539Z",
+  "updatedAt": "2026-11-12T05:33:00.539Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "v2-9cfdc-p26-practice-slot-1-upper",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7e5ad719-33c2-4e81-a96c-d59a8aab1145",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-term-logarithms",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Derive the supplied balance formula, rearrange to the supplied exponential result and use logarithms, rounding up to the next repayment month.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:42:23.984Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "badcbe4c0c93c567a3eee24dd9e3cab30f8ae37fcac5f03ac8afdfde22d4bc67",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-393407099c0e271b18f2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p60-q34-root",
+    "type": "question",
+    "label": "34",
+    "prompt": "A company borrows $\\$500\\,000$ from the bank at an interest rate of $5.25\\%$ per annum, compounded monthly, to be repaid in monthly instalments. The company repays the loan at the rate of $\\$10\\,000$ per month.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p60-q34-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $A_n$ be the amount owing at the end of the $n$th month. Show that\n$$A_n=500000\\times1.004375^n-\\frac{10000(1.004375^n-1)}{0.004375}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n=500000(1.004375)^n-\\dfrac{10000((1.004375)^n-1)}{0.004375}$, obtained by summing the geometric series of repayments.",
+          "worked": "Monthly growth factor:\n$$r=1+\\frac{0.0525}{12}=1.004375.$$\nStart: $500000$.\n\nAfter the first repayment: $500000r-10000$.\n\nAfter the second repayment:\n$$\\begin{align*}A_2&=(500000r-10000)r-10000\\\\A_2&=500000r^2-10000r-10000.\\end{align*}$$\nAfter $n$ repayments:\n$$A_n=500000r^n-10000r^{n-1}-10000r^{n-2}-\\cdots-10000.$$\nThe repayment terms form a geometric series with first term $10000$, common ratio $r$ and $n$ terms, written in reverse order.\n$$\\begin{align*}A_n&=500000r^n-10000\\frac{r^n-1}{r-1}\\\\A_n&=500000(1.004375)^n-\\frac{10000((1.004375)^n-1)}{0.004375}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p60-q34-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that the loan is paid off, use the result in part a to show that $1.004375^n=1.28$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7812.5(1.004375)^n=10000$, so $(1.004375)^n=1.28$.",
+          "worked": "When the loan is repaid, $A_n=0$.\n$$\\begin{align*}0&=500000(1.004375)^n-\\frac{10000((1.004375)^n-1)}{0.004375}\\\\0&=2187.5(1.004375)^n-10000((1.004375)^n-1)\\\\0&=-7812.5(1.004375)^n+10000\\\\7812.5(1.004375)^n&=10000\\\\(1.004375)^n&=\\frac{10000}{7812.5}\\\\(1.004375)^n&=1.28.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p60-q34-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use logarithms or trial-and-error to find how long it will take to pay off the loan. Give your answer in whole months.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "57 months. The final payment is $\\$5490.41$.",
+          "worked": "$$\\begin{align*}n&=\\frac{\\log1.28}{\\log1.004375}\\\\n&=56.5485009\\ldots\\end{align*}$$\nTherefore the loan is paid off in 57 months, with a smaller final payment.\n\nUsing the unrounded balance after 56 repayments, the final payment is\n$$\\begin{align*}A_{56}(1.004375)&=\\left[500000(1.004375)^{56}-\\frac{10000((1.004375)^{56}-1)}{0.004375}\\right](1.004375)\\\\A_{56}(1.004375)&\\approx\\$5490.41.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p60-q34",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:57.851Z",
+  "updatedAt": "2026-11-12T05:31:57.851Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p60-q34",
+    "sectionRole": "exercise"
+  }
+}

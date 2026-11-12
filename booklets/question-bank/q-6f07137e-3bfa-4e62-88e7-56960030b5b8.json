@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6f07137e-3bfa-4e62-88e7-56960030b5b8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-density-function",
+    "secondarySkillIds": [
+      "pdf-unknown-constant"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Normalise a cubic density, then use definite integrals to calculate two interval probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:49:31.426Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5b71995745988590e6296721fbe45819f15a46ad2f343f14034be05168c6b0bc",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-73d886ebc1dd1a9f670c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "The continuous random variable $X$ has PDF $f(x)=ax^3$ on $[0,3]$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Evaluate $a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q16-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"densityBlue\",\"hex\":\"268CFF\",\"reason\":\"probability density curve\"}],\"reference\":\"source page 22 question 16\"}\n\\begin{tikzpicture}[x=1.25cm,y=2.15cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{densityBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (-0.65,0)--(4.25,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.35)--(0,1.65) node[above left] {$f(x)$};\n\\draw[densityBlue,line width=0.8pt,domain=0:3,samples=70] plot (\\x,{pow(\\x,3)/20.25});\n\\draw[densityBlue,line width=0.8pt] (3,0)--(3,1.333333);\n\\draw[black,line width=0.4pt] (3,0)--(3,-0.055);\n\\node[below] at (3,-0.055) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (2.25,0.5625) {$y=ax^3$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 16, right of part a",
+              "description": "Increasing cubic density from the origin to x=3, with a vertical endpoint segment, arrowed axes and no vertical numerical scale or shading.",
+              "mathematics": "The curve is proportional to x^3 on [0,3]. Its plotted height uses the normalised coefficient 4/81 without displaying that coefficient or a vertical scale.",
+              "answerVisibility": "The supplied graph is visible in the question; the value of a is not labelled."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$a=\\dfrac{4}{81}$",
+          "worked": "$$\\begin{align*}\n\\int_0^3 ax^3\\,dx&=1\\\\\n\\left[\\frac{ax^4}{4}\\right]_0^3&=1\\\\\n\\frac{81a}{4}&=1\\\\\na&=\\frac{4}{81}\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p22-q16-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p22-q16-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(1\\le X\\le3)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{80}{81}$",
+              "worked": "$$\\begin{align*}\nP(1\\le X\\le3)&=\\int_1^3\\frac{4x^3}{81}\\,dx\\\\\nP(1\\le X\\le3)&=\\left[\\frac{x^4}{81}\\right]_1^3\\\\\nP(1\\le X\\le3)&=\\frac{81-1}{81}\\\\\nP(1\\le X\\le3)&=\\frac{80}{81}\n\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p22-q16-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$P(X<2)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{16}{81}$",
+              "worked": "$$\\begin{align*}\nP(X<2)&=\\int_0^2\\frac{4x^3}{81}\\,dx\\\\\nP(X<2)&=\\left[\\frac{x^4}{81}\\right]_0^2\\\\\nP(X<2)&=\\frac{16-0}{81}\\\\\nP(X<2)&=\\frac{16}{81}\n\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:53.895Z",
+  "updatedAt": "2026-11-12T05:33:53.895Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-v1",
+    "blockId": "p22-q16",
+    "sectionRole": "exercise"
+  }
+}

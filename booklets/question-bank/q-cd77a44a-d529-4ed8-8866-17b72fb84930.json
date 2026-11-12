@@ -1,0 +1,109 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cd77a44a-d529-4ed8-8866-17b72fb84930",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "estimate-instantaneous-rate-graph",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a tangent at the specified x-value, choose readable points on it, and calculate rise over run using the different axis scales. The taught method supplies the approach, but tangent placement requires graphical judgment.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T06:56:00.249Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c4c1f7a8a84b045643afed4c54575b9a02ad6ddd5b73a922edb620adca103351",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-estimating-change-r5/generation-r6/legacy-independent-ratings-0/ratings-review.json",
+      "originalTaskHash": "4eab378ea2cc4453d7b1ab2d9f2bfd81bf52187853be18796cea4f440a72a148",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "fce866c5883151cdf42e085e65cf931ded2646824ebb19048e458798522a6092"
+      }
+    }
+  },
+  "content": {
+    "id": "p10-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The graph of $y=f(x)$ is shown. Estimate $f'(3)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q1-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10, p10-q1-graph\"}\n\\begin{tikzpicture}[x=1.8cm,y=0.45cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.4,-1.5) rectangle (4.95,19.5);\n\\draw[black,densely dotted,line width=0.15pt,xstep=0.1,ystep=0.4] (0,0) grid (4.5,18);\n\\draw[black,densely dotted,line width=0.25pt,xstep=0.5,ystep=2] (0,0) grid (4.5,18);\n\\draw[->,black,line width=0.5pt] (0,0)--(4.82,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,19.1) node[above left] {$y$};\n\\foreach \\v in {0,0.5,1,1.5,2,2.5,3,3.5,4,4.5}{\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.22);\\node[below] at (\\v,-0.22) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {2,4,6,8,10,12,14,16,18}{\\draw[black,line width=0.4pt] (0,\\v)--(-0.06,\\v);\\node[left] at (-0.06,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] plot[smooth,tension=0.7] coordinates {(0,0) (0.5,0.025) (1,0.2) (1.5,0.65) (2,1.6) (2.5,3.05) (3,5.3) (3.5,8.4) (4,12.6) (4.5,18)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 67,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 1 coordinate graph",
+          "description": "Editable reconstruction of the source's unspecified curve using approximate graph readings. Preserve the first-quadrant axes, arrowheads, numbered scales and dotted major and minor grids. No tangent is supplied.",
+          "mathematics": "Increasing concave-up curve near the origin, approximately through (3,5.3) and (4.5,18). Horizontal major step 0.5 and minor step 0.1; vertical major step 2 and minor step 0.4. No equation is asserted.",
+          "answerVisibility": "The curve and grid are permanent givens; the tangent and gradient calculation appear only in solutions."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$f'(3)\\approx5$.",
+      "worked": "Draw a tangent to the curve at $x=3$. Two approximate points on this tangent are $(2,0.3)$ and $(4,10.3)$.\n$$\\begin{align*}f'(3)&\\approx\\frac{10.3-0.3}{4-2}\\\\&=5.\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p10-q1-tangent-overlay",
+          "role": "solution-overlay",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"tangentBlue\",\"hex\":\"268CFF\",\"reason\":\"solution tangent and gradient triangle\"}],\"reference\":\"source page 10, p10-q1-tangent-overlay\"}\n\\begin{tikzpicture}[x=1.8cm,y=0.45cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{tangentBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.4,-1.5) rectangle (4.95,19.5);\n\\draw[tangentBlue,line width=0.8pt] (1.94,0)--(4.5,12.8);\n\\draw[tangentBlue,dashed,line width=0.4pt] (2,0.3)--(4,0.3)--(4,10.3);\n\\fill[tangentBlue] (3,5.3) circle (1.5pt);\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 90,
+          "alt": "Mathematical diagram",
+          "overlayOf": "p10-q1-graph",
+          "transparent": true,
+          "axes": null,
+          "spec": {
+            "sourcePage": 10,
+            "sourceRegion": "Question 1 authored solution",
+            "description": "Solution tangent and rise/run triangle in the exact base graph coordinate frame and bounding box.",
+            "mathematics": "Approximate tangent y=5x-9.7 through (3,5.3), with rise 10 and run 2 between (2,0.3) and (4,10.3).",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "ownerId": "p10-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:16.779Z",
+  "updatedAt": "2026-11-12T05:33:16.779Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-1-estimating-change-and-the-derivative-v1",
+    "blockId": "p10-q1",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5769554e-94bb-4c50-a973-90fc93003060",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trapezoidal-rule-integral",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "The ordinates are not given. The student must find five heights from the radius using Pythagoras, then apply the rule with six values, then convert the area to an estimate of π. There is no explanation part, so it is easier than the semicircle question with an explanation.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:53:28.635Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aaf8de663061649f14050dfb7651b15d2814cb23362552964b25f6c05d01c860",
+      "diagramBlindHash": "2c30a16e2438d440647bf60bbda20758a6b6b4c0633b87e29b4b68fe8b27ce1e",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-3-further-areas-under-curves-2-v1/20261111-044013/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p27-q5-block",
+          "score": 32
+        },
+        "easierThan": {
+          "ref": "p47-q32",
+          "score": 43
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-9cfdc-p26-practice-slot-1-lower-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram shows a quarter circle of radius $5\\text{ cm}$ divided into five strips of equal width. Use the trapezoidal rule to estimate its area. Hence estimate $\\pi$, correct to two decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-9cfdc-p26-practice-slot-1-lower-slot-1-lower-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"quarter circle whose area is estimated\"}],\"reference\":\"slot-1-lower diagram\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-0.3,-1.2) rectangle (5.3,5.3);\n\\filldraw[fill=regionBlue,draw=black,line width=0.8pt] (0,0)--(5,0) arc[start angle=0,end angle=90,radius=5]--cycle;\n\\foreach \\x in {1,2,3,4}{\\draw[line width=0.4pt] (\\x,0)--(\\x,{sqrt(25-\\x*\\x)});}\n\\draw[line width=0.4pt] (0.3,0)--(0.3,0.3)--(0,0.3);\n\\draw[line width=0.4pt] (0,-0.1)--(0,-0.6) (5,-0.1)--(5,-0.6);\n\\draw[<->,line width=0.4pt] (0,-0.45)--(5,-0.45) node[midway,below] {$5\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Area $\\approx18.98\\text{ cm}^2$, so $\\pi\\approx3.04$",
+      "worked": "The circle has equation $x^2+y^2=25$, so the heights are $y=\\sqrt{25-x^2}$. At $x=0,1,2,3,4,5$ these are $5,\\sqrt{24},\\sqrt{21},4,3,0$, and $h=1$.\n$$\\begin{align*}A&\\approx\\frac{1}{2}\\bigl[5+0+2(\\sqrt{24}+\\sqrt{21}+4+3)\\bigr]\\\\&\\approx18.98\\text{ cm}^2\\end{align*}$$\nThe area of the quarter circle is $\\dfrac{\\pi\\times5^2}{4}$.\n$$\\begin{align*}\\frac{25\\pi}{4}&\\approx18.98\\\\\\pi&\\approx\\frac{4\\times18.98}{25}\\\\&\\approx3.04\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
+  },
+  "presentation": {
+    "ownerId": "v2-9cfdc-p26-practice-slot-1-lower",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:00.322Z",
+  "updatedAt": "2026-11-12T05:33:00.323Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "v2-9cfdc-p26-practice-slot-1-lower",
+    "sectionRole": "exercise"
+  }
+}

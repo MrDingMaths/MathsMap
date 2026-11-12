@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e12c2b6-b46d-4f5c-bbc1-67fc805ffc32",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-integral-symmetry",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "The student reads curved regions from the graph. Part a compares equal-width areas by height without computing them. Part b needs an extra step: split the interval and use the sign of the extra region. It is slightly more demanding than the sign and triangle arguments in p19-q4, but needs no area formulae.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:42:38.347Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "20a4f037eefe4fd06f4c9cb022e356faa0ace6a8c07bfd8d186e990821c97a29",
+      "diagramBlindHash": "1efc43d6a15ae9b9e13d47116422f1d072bd62db4ea1e476c84d796489c59a7d",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-2-integration-of-exponential-logarithmic-and-trigonometric-functions-v1/20261111-043248/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p19-q4-block",
+          "score": 35
+        },
+        "easierThan": {
+          "ref": "p21-q9-block",
+          "score": 48
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-4b274-p18-practice-slot-2-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram shows the curve $y=4-x^2$.\n\nWithout evaluating the definite integrals, explain why:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-4b274-p18-practice-slot-2-slot-2-q-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.8cm,y=0.4cm]\n\\draw[->,black,line width=0.5pt] (-3,0)--(3.8,0) node[below left] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-6.6)--(0,5.2) node[left] {$y$};\n\\draw[<->,black,line width=0.8pt,domain=-2.6:3.2,samples=60,smooth,variable=\\x] plot ({\\x},{4-\\x*\\x});\n\\foreach \\v in {1,3} {\n\\draw[black,line width=0.4pt] (\\v,-0.2)--(\\v,0.2);\n\\node[below] at (\\v,-0.2) {$\\v$};\n}\n\\draw[black,line width=0.4pt] (2,-0.2)--(2,0.2);\n\\node[below left] at (2,-0.2) {$2$};\n\\draw[black,line width=0.4pt] (-2,-0.2)--(-2,0.2);\n\\node[below right] at (-2,-0.2) {$-2$};\n\\draw[black,line width=0.4pt] (-0.1,4)--(0.1,4);\n\\node[left] at (0,4) {$4$};\n\\node[anchor=west] at (1.3,4.1) {$y=4-x^2$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-4b274-p18-practice-slot-2-slot-2-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\displaystyle\\int_0^1(4-x^2)\\,dx>\\int_1^2(4-x^2)\\,dx$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both regions lie above the $x$-axis and have width $1$, but the curve is higher on $[0,1]$, so that area is larger.",
+          "worked": "Both intervals have width $1$ and the curve lies above the $x$-axis on $0\\le x\\le2$, so both integrals are areas.\nThe curve is decreasing, so it is higher on $[0,1]$ than on $[1,2]$. The area on $[0,1]$ is larger, so $\\displaystyle\\int_0^1(4-x^2)\\,dx>\\int_1^2(4-x^2)\\,dx$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-4b274-p18-practice-slot-2-slot-2-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\displaystyle\\int_{-2}^{3}(4-x^2)\\,dx<\\int_{-2}^{2}(4-x^2)\\,dx$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The extra interval $[2,3]$ lies below the $x$-axis, so it subtracts from the signed area.",
+          "worked": "Split the interval at $x=2$:\n$$\\int_{-2}^{3}(4-x^2)\\,dx=\\int_{-2}^{2}(4-x^2)\\,dx+\\int_{2}^{3}(4-x^2)\\,dx$$\nOn $[2,3]$ the curve lies below the $x$-axis, so $\\displaystyle\\int_2^3(4-x^2)\\,dx<0$. Hence $\\displaystyle\\int_{-2}^{3}(4-x^2)\\,dx<\\int_{-2}^{2}(4-x^2)\\,dx$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-4b274-p18-practice-slot-2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:47.465Z",
+  "updatedAt": "2026-11-12T05:32:47.465Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-2-integration-of-exponential-logarithmic-and-trigonometric-functions-v1",
+    "blockId": "v2-4b274-p18-practice-slot-2",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3d06e885-8100-4c7d-a8d3-c771328e68c5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Direct integration of sine and cosine, including a region below the x-axis.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:48:24.195Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "567a15bd8b532599f83eb85fdcb51a0b8060a42054ae43e88de5b7401536e9d6",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/lean-review/calls/content-1792824465394-39/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate the area of the shaded region between $y=\\sin x$ and the $x$-axis from $x=\\frac{\\pi}{6}$ to $x=\\frac{\\pi}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p32-q4-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"given shaded integration region\"}],\"reference\":\"page 32 p32-q4-a-diagram\"}\n\\begin{tikzpicture}[x=1.25cm,y=1.1cm]\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.15,-1.9) rectangle (4.3,2.1);\n\\fill[regionBlue] (0.523599,0)--plot[domain=0.523599:1.570796,samples=60] (\\x,{sin(\\x r)})--(1.570796,0)--cycle;\n\\draw[line width=0.4pt] (0.523599,0)--(0.523599,0.5) (1.570796,0)--(1.570796,1);\n\\draw[->,line width=0.5pt] (-1,0)--(4.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.75)--(0,2) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=-0.95:3.8,samples=100] plot (\\x,{sin(\\x r)});\n\\node[above right] at (1.8,1.05) {$y=\\sin x$};\n\\foreach \\v/\\lab in {0.523599/{\\frac{\\pi}{6}},1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi}} {\\draw[line width=0.4pt] (\\v,-0.05)--(\\v,0.05);\\node[below] at (\\v,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,1} {\\draw[line width=0.4pt] (-0.05,\\v)--(0.05,\\v);\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 32,
+              "sourceRegion": "Question 4a graph",
+              "description": "Sine graph with source shading from pi/6 to pi/2; this conflicts with the printed upper bound pi.",
+              "mathematics": "y=sin(x); shaded region pi/6 <= x <= pi/2, 0 <= y <= sin(x).",
+              "answerVisibility": "Permanent supplied graph and shading."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{\\sqrt3}{2}\\text{ units}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_{\\pi/6}^{\\pi/2}\\sin x\\,dx\\\\&=[-\\cos x]_{\\pi/6}^{\\pi/2}\\\\&=0+\\frac{\\sqrt3}{2}\\\\&=\\frac{\\sqrt3}{2}\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p32-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate the area of the shaded region between $y=\\cos x$ and the $x$-axis from $x=\\frac{2\\pi}{3}$ to $x=\\pi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p32-q4-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"given shaded integration region\"}],\"reference\":\"page 32 p32-q4-b-diagram\"}\n\\begin{tikzpicture}[x=1.25cm,y=1.1cm]\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.15,-2) rectangle (4.3,2.1);\n\\fill[regionBlue] (2.094395,0)--plot[domain=2.094395:3.141593,samples=60] (\\x,{cos(\\x r)})--(3.141593,0)--cycle;\n\\draw[line width=0.4pt] (2.094395,0)--(2.094395,-0.5) (3.141593,0)--(3.141593,-1);\n\\draw[->,line width=0.5pt] (-1,0)--(4.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.8)--(0,2) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=-0.8:3.85,samples=100] plot (\\x,{cos(\\x r)});\n\\node[above right] at (0.5,0.9) {$y=\\cos x$};\n\\draw[line width=0.4pt] (1.570796,-0.05)--(1.570796,0.05);\n\\node[below] at (1.570796,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\foreach \\v/\\lab in {2.094395/{\\frac{2\\pi}{3}},3.141593/{\\pi}} {\\draw[line width=0.4pt] (\\v,-0.05)--(\\v,0.05);\\node[above] at (\\v,0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,1} {\\draw[line width=0.4pt] (-0.05,\\v)--(0.05,\\v);\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 32,
+              "sourceRegion": "Question 4b graph",
+              "description": "Cosine graph with source shading from 2pi/3 to pi; this conflicts with the printed lower bound pi/2.",
+              "mathematics": "y=cos(x); shaded region 2pi/3 <= x <= pi, cos(x) <= y <= 0.",
+              "answerVisibility": "Permanent supplied graph and shading."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{\\sqrt3}{2}\\text{ units}^2$",
+          "worked": "The curve is below the $x$-axis on this interval.\n$$\\begin{aligned}A&=-\\int_{2\\pi/3}^{\\pi}\\cos x\\,dx\\\\&=-[\\sin x]_{2\\pi/3}^{\\pi}\\\\&=-\\left(0-\\frac{\\sqrt3}{2}\\right)\\\\&=\\frac{\\sqrt3}{2}\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:02.583Z",
+  "updatedAt": "2026-11-12T05:33:02.583Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p32-q4-block",
+    "sectionRole": "exercise"
+  }
+}

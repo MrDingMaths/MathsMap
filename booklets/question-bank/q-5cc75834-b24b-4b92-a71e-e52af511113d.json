@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5cc75834-b24b-4b92-a71e-e52af511113d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "estimate-instantaneous-rate-graph",
+    "secondarySkillIds": [
+      "instantaneous-rate-tangent"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Adjust a line through the external point until it matches the curve locally, read the initially unknown contact point, then use both points to calculate the gradient and intercept. Locating contact is the main demand; the equation follows routinely.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T06:56:00.249Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6b70dbef9ef6d43126374ebcde58a1253d8d32636756cbdff51577bb762c85d7",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-estimating-change-r5/generation-r6/legacy-independent-ratings-0/ratings-review.json",
+      "originalTaskHash": "7dc8da6aabc7732c01e2347b6255457e3527789e8277afdb33675b4797d35646",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "3ba9a72e2d14fb8714ebe1fa9b122d311861cb62cb2ebb548b05265a5eaecc6e"
+      }
+    }
+  },
+  "content": {
+    "id": "p10-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "The diagram shows $y=f(x)$ and the point $P(-2,11)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q2-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10, p10-q2-graph\"}\n\\begin{tikzpicture}[x=1.25cm,y=0.25cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.55,-11.2) rectangle (3.55,16.8);\n\\draw[black,densely dotted,line width=0.15pt,xstep=0.1,ystep=0.5] (-2,-10) grid (3,15);\n\\draw[black,densely dotted,line width=0.25pt,xstep=1,ystep=5] (-2,-10) grid (3,15);\n\\draw[->,black,line width=0.5pt] (-2.05,0)--(3.3,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-10.1)--(0,16.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,0,1,2,3}{\\draw[black,line width=0.4pt] (\\v,-0.18)--(\\v,0.18);\\node[below,fill=white,inner sep=1pt] at (\\v,-0.28) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-10,-5,5,10,15}{\\draw[black,line width=0.4pt] (-0.04,\\v)--(0.04,\\v);\\node[left,fill=white,inner sep=1pt] at (-0.06,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\begin{scope}\\clip (-2,-10) rectangle (3,15);\\draw[black,line width=0.8pt,domain=-2:3,samples=120] plot (\\x,{-2*\\x*\\x+\\x+3});\\end{scope}\n\\fill[black] (-2,11) circle (1.6pt);\n\\node[left] at (-2,11) {$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 71.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 2 shared graph",
+          "description": "Downward-opening black parabola, separate point P, unequal coordinate scales, fine dotted grid and stronger integer/five-unit grid lines. No tangent or contact point is supplied.",
+          "mathematics": "The source curve is reconstructed by y=-2x^2+x+3, matching its intercepts, vertex and supplied tangent answer. Displayed grid: -2≤x≤3 and -10≤y≤15; minor steps 0.1 horizontally and 0.5 vertically; major steps 1 and 5. P=(-2,11). The reconstruction equation is not printed.",
+          "answerVisibility": "Only the given curve, grid, axes and P appear in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The tangent from $P$ touches the graph of $y=f(x)$ at the point $(a,b)$.\nBy drawing this tangent, find the values of $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=1,\\ b=2$",
+          "worked": "Draw the line through $P$ that has the same slope as the curve at its point of contact. Reading the contact point from the graph gives $(a,b)=(1,2)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p10-q2-a-tangent-overlay",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"tangentBlue\",\"hex\":\"268CFF\",\"reason\":\"constructed tangent and its point of contact\"}],\"reference\":\"source page 10, p10-q2-a-tangent-overlay\"}\n\\begin{tikzpicture}[x=1.25cm,y=0.25cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{tangentBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.55,-11.2) rectangle (3.55,16.8);\n\\begin{scope}\\clip (-2,-10) rectangle (3,15);\\draw[tangentBlue,line width=0.8pt] (-2,11)--(3,-4);\\end{scope}\n\\fill[tangentBlue] (1,2) circle (1.8pt);\n\\node[above right,fill=white,inner sep=1pt] at (1,2) {$(1,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p10-q2-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 10,
+                "sourceRegion": "Question 2(a) constructed solution",
+                "description": "Tangent through P and labelled contact point, using exactly the base graph's coordinate frame, units and bounding box.",
+                "mathematics": "The tangent y=-3x+5 passes through (-2,11) and touches the curve at (1,2).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p10-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the tangent in the form $y=mx+c$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-3x+5$",
+          "worked": "Using $P(-2,11)$ and the contact point $(1,2)$:\n$$\\begin{align*}m&=\\frac{2-11}{1-(-2)}\\\\m&=-3\\end{align*}$$\nSubstitute $(1,2)$ into $y=mx+c$:\n$$\\begin{align*}2&=-3(1)+c\\\\c&=5\\\\y&=-3x+5\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:17.784Z",
+  "updatedAt": "2026-11-12T05:33:17.784Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-1-estimating-change-and-the-derivative-v1",
+    "blockId": "p10-q2",
+    "sectionRole": "exercise"
+  }
+}

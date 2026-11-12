@@ -1,0 +1,87 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c04caed4-4cc5-4217-a922-77dde2123c31",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Determine the financed balance, derive the monthly repayment using a geometric series, and include the deposit in the total cost.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:39:25.896Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d99e01ba80eb1d70568c8201408afa8470664b95b0802d84e0d3ccc2504e2d1f",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-0c8406dae1928b61ff4b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p50-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "Danny buys a home cinema system for $\\$10\\,000$. He pays a $\\$1500$ deposit and borrows the balance at 18% p.a. over 4 years, compounded monthly.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p50-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the amount of each monthly repayment to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$249.69$ per month.",
+          "worked": "Loan amount:\n$$\\begin{aligned}P&=10000-1500\\\\P&=8500\\end{aligned}$$\nMonthly growth factor:\n$$r=1+\\frac{0.18}{12}=1.015$$\nNumber of repayments:\n$$n=4\\times12=48$$\nLet $M$ be the monthly repayment.\n\nStart: $8500$.\n\nAfter the first repayment: $8500r-M$.\n\nAfter the second repayment:\n$$\\begin{aligned}(8500r-M)r-M&=8500r^2-Mr-M\\end{aligned}$$\nAfter the 48th repayment:\n$$8500r^{48}-Mr^{47}-\\cdots-M$$\nThe repayment terms form a geometric series with first term $M$, common ratio $r$ and 48 terms. When the loan is repaid:\n$$\\begin{aligned}0&=8500r^{48}-M\\frac{r^{48}-1}{r-1}\\\\M\\frac{r^{48}-1}{r-1}&=8500r^{48}\\\\M&=\\frac{8500r^{48}(r-1)}{r^{48}-1}\\\\M&=\\frac{8500(1.015)^{48}(0.015)}{(1.015)^{48}-1}\\\\M&\\approx\\$249.69\\end{aligned}$$\nThe monthly repayment is $\\$249.69$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p50-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How much did Danny pay altogether? Use your rounded repayment from part (a).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$13\\,485.12$.",
+          "worked": "Include the deposit and all 48 monthly repayments:\n$$\\begin{aligned}\\text{Total paid}&=1500+48(249.69)\\\\\\text{Total paid}&=\\$13\\,485.12\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p50-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:59.729Z",
+  "updatedAt": "2026-11-12T05:31:59.729Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p50-q20",
+    "sectionRole": "exercise"
+  }
+}

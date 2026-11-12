@@ -1,0 +1,181 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-66bad97a-79fa-4b1a-8408-f3654008c250",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "annuity-due-start-of-period",
+    "secondarySkillIds": [
+      "annuity-problems-gp",
+      "geometric-series-sum"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Use the contribution dates to model an annuity due, apply the supplied target inequality with logarithms, interpret the whole-year result and solve for an unknown contribution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:38:15.332Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "11287634e389bd7bebc3a6286660c3045711353b2e19cf6b525a97f12902a4d1",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-e460e5999a87092ef7dd/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p47-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A person invests $\\$10\\,000$ each year in a superannuation fund. Compound interest is paid at 10% per annum on the investment. The first payment is made on 1 January 2021 and the last payment is made on 1 January 2040.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p47-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How much did the person invest over the life of the fund?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$200\\,000$",
+          "worked": "There are $2040-2021+1=20$ contributions.\n\n$$\\begin{align*}\\text{Total invested}&=20(10\\,000)\\\\\\text{Total invested}&=\\$200\\,000.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 11
+      },
+      {
+        "id": "p47-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate, correct to the nearest dollar, the amount to which the 2021 payment has grown by the beginning of 2041.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$67\\,275$",
+          "worked": "The first payment grows for $2041-2021=20$ years.\n\n$$\\begin{align*}V&=10\\,000(1.1)^{20}\\\\V&\\approx\\$67\\,275\\quad\\text{(nearest dollar).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p47-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the total value of the fund when it is paid out on 1 January 2041, correct to the nearest dollar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$630\\,025$",
+          "worked": "On 1 January 2041, the contributions have grown to\n\n$$10\\,000(1.1)^{20}+10\\,000(1.1)^{19}+\\cdots+10\\,000(1.1).$$\n\nIn increasing order of powers, this geometric series has $a=10\\,000(1.1)$, $r=1.1$ and $n=20$.\n\n$$\\begin{align*}FV&=\\frac{10\\,000(1.1)(1.1^{20}-1)}{1.1-1}\\\\FV&\\approx\\$630\\,025\\quad\\text{(nearest dollar).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p47-q4-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "The person wants to reach a total value of $\\$1\\,000\\,000$ in superannuation. For this part, suppose the annual contributions of $\\$10\\,000$ continue at the beginning of each year beyond 2040. Measure the value at the end of each investment year, before the next contribution.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p47-q4-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Find a formula for $A_n$, the value of the investment after $n$ years.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$A_n=\\dfrac{10\\,000(1.1)(1.1^n-1)}{0.1}$",
+              "worked": "After $n$ years,\n\n$$A_n=10\\,000(1.1)^n+10\\,000(1.1)^{n-1}+\\cdots+10\\,000(1.1).$$\n\nIn increasing order of powers, this is a geometric series with first term $10\\,000(1.1)$, common ratio $1.1$ and $n$ terms.\n\n$$\\begin{align*}A_n&=\\frac{10\\,000(1.1)(1.1^n-1)}{1.1-1}\\\\A_n&=\\frac{10\\,000(1.1)(1.1^n-1)}{0.1}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p47-q4-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Show that the target is exceeded when $1.1^n>\\dfrac{10}{1.1}+1$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$A_n>1\\,000\\,000$ gives $1.1^n>\\dfrac{10}{1.1}+1$.",
+              "worked": "$$\\begin{align*}\\frac{10\\,000(1.1)(1.1^n-1)}{0.1}&>1\\,000\\,000\\\\1.1(1.1^n-1)&>10\\\\1.1^n-1&>\\frac{10}{1.1}\\\\1.1^n&>\\frac{10}{1.1}+1.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          },
+          {
+            "id": "p47-q4-d-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "At the end of which investment year will the superannuation first exceed $\\$1\\,000\\,000$? Give the calendar year as well.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The 25th investment year: the end of 2045.",
+              "worked": "$$\\begin{align*}n&>\\frac{\\log\\left(\\frac{10}{1.1}+1\\right)}{\\log1.1}\\\\n&>24.253809\\ldots\\end{align*}$$\n\nThe least whole number is $n=25$. The first investment year is 2021, so the 25th is $2021+25-1=2045$. The target is first exceeded at the end of 2045, immediately before 1 January 2046.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      },
+      {
+        "id": "p47-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Suppose instead that the person wanted to achieve the same total investment of $\\$1\\,000\\,000$ after only 20 years. What annual contribution, paid at the beginning of each year, would produce this amount? Give your answer to the nearest cent. (Hint: Let $M$ be the amount of each contribution.)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$15\\,872.39$ per year.",
+          "worked": "Let the annual contribution be $M$. After 20 years, the value is\n\n$$M(1.1)^{20}+M(1.1)^{19}+\\cdots+M(1.1).$$\n\nIn increasing order of powers, this geometric series has $a=M(1.1)$, $r=1.1$ and $n=20$.\n\n$$\\begin{align*}1\\,000\\,000&=\\frac{M(1.1)(1.1^{20}-1)}{0.1}\\\\M&=\\frac{1\\,000\\,000(0.1)}{1.1(1.1^{20}-1)}\\\\M&\\approx\\$15\\,872.39.\\end{align*}$$\n\nThe annual contribution is $\\$15\\,872.39$ to the nearest cent.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p47-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:58.308Z",
+  "updatedAt": "2026-11-12T05:31:58.308Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p47-q4-block",
+    "sectionRole": "exercise"
+  }
+}

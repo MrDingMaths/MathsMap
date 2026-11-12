@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f341c7ef-1567-465f-82a3-244a9c98c28f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 20,
+    "difficulty": "Foundation",
+    "difficultyReason": "Directly integrate 1/x over supplied positive bounds and use a standard logarithm identity in part b.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:41:28.573Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b7d66d291bd61161a0b607f55c8893112ce940ab2415087d10a6cdd94c9b100a",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-65f79050e88fdead759c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p30-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q2a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the shaded region under $y=\\frac1x$ from $x=2$ to $x=3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q2a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 30 p30-q2a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-0.7,-0.6) rectangle (3.85,3.85);\n\\fill[areaBlue] (2,0)--plot[domain=2:3,samples=45] (\\x,{1/\\x})--(3,0)--cycle;\n\\draw[black,line width=0.5pt,->] (-0.5,0)--(3.65,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.45)--(0,3.7) node[left] {$y$};\n\\draw[black,line width=0.4pt] (2,0)--(2,0.5) (3,0)--(3,{1/3});\n\\draw[black,line width=0.8pt,<->,domain=0.28:3.5,samples=100] plot (\\x,{1/\\x});\n\\node[right] at (0.8,1.65) {$y=\\frac1x$};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 68.1,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 2a",
+              "description": "Positive reciprocal branch with the region from x=2 to x=3 shaded; axes and curve have arrowheads.",
+              "mathematics": "y=1/x; shaded region 2≤x≤3 and 0≤y≤1/x.",
+              "answerVisibility": "All graph information is supplied in the student question."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(\\ln3-\\ln2)\\text{ units}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_2^3\\frac1x\\,dx\\\\&=\\left[\\ln x\\right]_2^3\\\\&=(\\ln3-\\ln2)\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p30-q2b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of the shaded region under $y=\\frac1x$ from $x=\\frac12$ to $x=2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q2b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 30 p30-q2b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-0.7,-0.8) rectangle (3.85,3.85);\n\\fill[areaBlue] (0.5,0)--plot[domain=0.5:2,samples=65] (\\x,{1/\\x})--(2,0)--cycle;\n\\draw[black,line width=0.5pt,->] (-0.5,0)--(3.65,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.65)--(0,3.7) node[left] {$y$};\n\\draw[black,line width=0.4pt] (0.5,0)--(0.5,2) (2,0)--(2,0.5);\n\\draw[black,line width=0.8pt,<->,domain=0.28:3.5,samples=100] plot (\\x,{1/\\x});\n\\node[right] at (0.85,1.65) {$y=\\frac1x$};\n\\node[below] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65.2,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 2b",
+              "description": "Positive reciprocal branch with the region from x=1/2 to x=2 shaded; axes and curve have arrowheads.",
+              "mathematics": "y=1/x; shaded region 1/2≤x≤2 and 0≤y≤1/x.",
+              "answerVisibility": "All graph information is supplied in the student question."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$2\\ln2\\text{ units}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_{1/2}^2\\frac1x\\,dx\\\\&=\\left[\\ln x\\right]_{1/2}^2\\\\&=\\ln2-\\ln\\left(\\frac12\\right)\\\\&=2\\ln2\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:00.745Z",
+  "updatedAt": "2026-11-12T05:33:00.745Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p30-q2",
+    "sectionRole": "exercise"
+  }
+}

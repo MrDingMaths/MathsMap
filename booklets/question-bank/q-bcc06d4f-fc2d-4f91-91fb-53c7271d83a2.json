@@ -1,0 +1,348 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bcc06d4f-fc2d-4f91-91fb-53c7271d83a2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-integral-symmetry",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "The parts explicitly guide the student through proving oddness, cancelling a symmetric signed integral and doubling a supplied positive-side integral.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:47:19.667Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e824ec6057ebdcc05ec7a80ac9f3598ba257d14409e7c15280ea3e3ccbdc2880",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-098ef0855e19a4ab264f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p41-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "The diagram shows the region between the curve $y=e^x-e^{-x}$, the $x$-axis and the lines $x=-3$ and $x=3$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p41-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"The two regions whose total area is requested.\"}],\"reference\":\"source page 41 p41-q18-diagram\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.16cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] (-3,0)--plot[domain=-3:0,samples=60] (\\x,{exp(\\x)-exp(-\\x)})--cycle;\n\\path[fill=regionBlue] (0,0)--plot[domain=0:3,samples=60] (\\x,{exp(\\x)-exp(-\\x)})--(3,0)--cycle;\n\\draw[line width=0.4pt] (-3,0)--(-3,{exp(-3)-exp(3)});\n\\draw[line width=0.4pt] (3,0)--(3,{exp(3)-exp(-3)});\n\\draw[->,line width=0.5pt] (-6,0)--(6.3,0) node[below left] {$x$};\n\\draw[->,line width=0.5pt] (0,-22)--(0,24) node[left] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-3.12:3.12,samples=100] (\\x,{exp(\\x)-exp(-\\x)});\n\\node[above] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 41,
+          "sourceRegion": "Question 18 graph",
+          "description": "Odd increasing exponential-difference curve through the origin, with shaded regions below the axis from −3 to 0 and above it from 0 to 3. Boundary labels retain their source sides of the axis. No y-axis numerical ticks.",
+          "mathematics": "y=e^x-e^{-x}; boundaries x=-3 and x=3; the two shaded regions have equal unsigned area.",
+          "answerVisibility": "Only the supplied graph and boundary labels are visible; no calculated area is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p41-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=e^x-e^{-x}$ is an odd function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(-x)=-f(x)$, so $f$ is odd.",
+          "worked": "Let $f(x)=e^x-e^{-x}$.\n$$\\begin{align*}f(-x)&=e^{-x}-e^x\\\\&=-(e^x-e^{-x})\\\\&=-f(x).\\end{align*}$$\nTherefore $f$ is odd.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p41-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence write down the value of $\\displaystyle\\int_{-3}^{3}(e^x-e^{-x})\\,dx$ without finding a primitive.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0$",
+          "worked": "The integrand is odd and the limits are symmetric about zero, so\n$$\\int_{-3}^{3}(e^x-e^{-x})\\,dx=0.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p41-q18-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why the area of this region may be written as $\\displaystyle\\text{area}=2\\int_0^3(e^x-e^{-x})\\,dx$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Odd symmetry makes the two shaded areas equal; the curve is above the axis for $0<x\\le3$.",
+          "worked": "The graph has rotational symmetry about the origin, so the shaded regions have equal unsigned areas. Since $e^x-e^{-x}>0$ for $0<x\\le3$, the integral from $0$ to $3$ gives the right-hand area. Doubling it gives the total area.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p41-q18-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence find the area of this region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2(e^3+e^{-3}-2)\\text{ units}^2$",
+          "worked": "$$\\begin{align*}A&=2\\int_0^3(e^x-e^{-x})\\,dx\\\\&=2[e^x+e^{-x}]_0^3\\\\&=2[(e^3+e^{-3})-2]\\\\&=2(e^3+e^{-3}-2)\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p41-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q18-root": {
+          "textWidthMm": 115,
+          "gapMm": 6,
+          "diagramWidthMm": 45,
+          "diagramSizing": "fixed"
+        },
+        "p41-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-q18-root/label",
+                  "type": "item",
+                  "ref": "p41-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "p41-q18-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p41-q18-root/prompt",
+                      "type": "item",
+                      "ref": "p41-q18-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p41-q18-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p41-q18-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q18-diagram",
+                              "type": "item",
+                              "ref": "p41-q18-diagram",
+                              "title": "Diagram",
+                              "width": 45
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p41-q18-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p41-q18-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p41-q18-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p41-q18-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p41-q18-a/label",
+                                          "type": "item",
+                                          "ref": "p41-q18-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-a/prompt",
+                                          "type": "item",
+                                          "ref": "p41-q18-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-a/space",
+                                          "type": "item",
+                                          "ref": "p41-q18-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p41-q18-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p41-q18-b/label",
+                                          "type": "item",
+                                          "ref": "p41-q18-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-b/prompt",
+                                          "type": "item",
+                                          "ref": "p41-q18-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-b/space",
+                                          "type": "item",
+                                          "ref": "p41-q18-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p41-q18-root:row:2",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p41-q18-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p41-q18-c/label",
+                                          "type": "item",
+                                          "ref": "p41-q18-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-c/prompt",
+                                          "type": "item",
+                                          "ref": "p41-q18-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-c/space",
+                                          "type": "item",
+                                          "ref": "p41-q18-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p41-q18-d:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p41-q18-d/label",
+                                          "type": "item",
+                                          "ref": "p41-q18-d/label",
+                                          "title": "Label d"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-d/prompt",
+                                          "type": "item",
+                                          "ref": "p41-q18-d/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p41-q18-d/space",
+                                          "type": "item",
+                                          "ref": "p41-q18-d/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part d",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 6
+                }
+              ],
+              "title": "Question 18",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:06.625Z",
+  "updatedAt": "2026-11-12T05:33:06.626Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p41-q18",
+    "sectionRole": "exercise"
+  }
+}

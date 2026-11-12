@@ -1,0 +1,245 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a9e07af3-e20f-4262-8897-6370ea92c91d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Integrate exponential functions over graph-supported intervals, using the negative of the integral for regions below the x-axis.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:41:33.843Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "20fce584fb0a6bece791a8065adb2064b7f84588989d5e7576b4be24634c7084",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-a0472681b0ce1b7b6d1f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the region in the first quadrant bounded by the coordinate axes and the curve $y=e-e^x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q3-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 31 p31-q3-a-graph\"}\n\\begin{tikzpicture}[x=1.65cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0)--plot[domain=0:1,samples=60] (\\x,{exp(1)-exp(\\x)})--cycle;\n\\draw[dashed,line width=0.4pt] (-2.05,{exp(1)})--(1.9,{exp(1)});\n\\draw[->,line width=0.5pt] (-2.05,0)--(2.05,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1)--(0,3.1) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-2:1.34,samples=90] (\\x,{exp(1)-exp(\\x)});\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{exp(1)-1}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e-1$\\special{dvisvgm:raw </g>}};\n\\node[below left] at (0,{exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 3a graph",
+              "description": "Decreasing exponential curve with continuation arrows, dashed horizontal asymptote y=e, intercept labels 1 and e−1, and the first-quadrant bounded region shaded light blue.",
+              "mathematics": "y=e-e^x; x-intercept 1, y-intercept e-1, horizontal asymptote y=e. Required region: 0≤x≤1 and 0≤y≤e-e^x.",
+              "answerVisibility": "Supplied question diagram; no calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$1\\text{ u}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_0^1(e-e^x)\\,dx\\\\&=[ex-e^x]_0^1\\\\&=(e-e)-(0-1)\\\\&=1\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p31-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area between the $x$-axis, the curve $y=e^x-1$ and the line $x=-1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q3-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 31 p31-q3-b-graph\"}\n\\begin{tikzpicture}[x=1.8cm,y=1.3cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-1,0)--plot[domain=-1:0,samples=60] (\\x,{exp(\\x)-1})--cycle;\n\\draw[->,line width=0.5pt] (-1.45,0)--(1.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.25)--(0,2.2) node[above] {$y$};\n\\draw[<->,line width=0.5pt] (-1,-1.2)--(-1,2.05);\n\\draw[<->,line width=0.8pt] plot[domain=-1.4:1.1,samples=90] (\\x,{exp(\\x)-1});\n\\node[above right] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 3b graph",
+              "description": "Increasing exponential curve through the origin, vertical boundary x=−1 with continuation arrows, and light-blue region below the x-axis between x=−1 and x=0.",
+              "mathematics": "y=e^x-1; required region: -1≤x≤0 and e^x-1≤y≤0.",
+              "answerVisibility": "Supplied question diagram; no calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$e^{-1}\\text{ u}^2$",
+          "worked": "The region lies below the $x$-axis.\n$$\\begin{aligned}A&=-\\int_{-1}^0(e^x-1)\\,dx\\\\&=-[e^x-x]_{-1}^0\\\\&=-[1-(e^{-1}+1)]\\\\&=e^{-1}\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p31-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the area bounded by $x=2$, $y=e^{-x}-2$, the $x$-axis and the $y$-axis?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q3-c-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 31 p31-q3-c-graph\"}\n\\begin{tikzpicture}[x=1.15cm,y=1.2cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0)--(2,0)--plot[domain=2:0,samples=65] (\\x,{exp(-\\x)-2})--cycle;\n\\draw[->,line width=0.5pt] (-1.5,0)--(2.85,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2.45)--(0,1.65) node[above] {$y$};\n\\draw[<->,line width=0.5pt] (2,-2.4)--(2,1.55);\n\\draw[<->,line width=0.8pt] plot[domain=-1.2:2.75,samples=90] (\\x,{exp(-\\x)-2});\n\\node[above left] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 3c graph",
+              "description": "Decreasing exponential curve with y-intercept −1, vertical boundary x=2 with continuation arrows, and the bounded region below the x-axis shaded light blue.",
+              "mathematics": "y=e^{-x}-2; required region: 0≤x≤2 and e^{-x}-2≤y≤0.",
+              "answerVisibility": "Supplied question diagram; no calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(3+e^{-2})\\text{ u}^2$",
+          "worked": "The region lies below the $x$-axis.\n$$\\begin{aligned}A&=-\\int_0^2(e^{-x}-2)\\,dx\\\\&=-[-e^{-x}-2x]_0^2\\\\&=-[(-e^{-2}-4)-(-1)]\\\\&=(3+e^{-2})\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p31-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the area of the region bounded by the curve $y=e^{-x}-e$ and the coordinate axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q3-d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 31 p31-q3-d-graph\"}\n\\begin{tikzpicture}[x=1.5cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-1,0)--(0,0)--plot[domain=0:-1,samples=60] (\\x,{exp(-\\x)-exp(1)})--cycle;\n\\draw[dashed,line width=0.4pt] (-1.9,{-exp(1)})--(2.05,{-exp(1)});\n\\draw[->,line width=0.5pt] (-1.9,0)--(2.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,1.1) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-1.3:2.05,samples=90] (\\x,{exp(-\\x)-exp(1)});\n\\node[below left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{1-exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-e+1$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (0,{-exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-e$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 3d graph",
+              "description": "Decreasing exponential curve with x-intercept −1, y-intercept −e+1, dashed asymptote y=−e and the region bounded by the coordinate axes shaded light blue.",
+              "mathematics": "y=e^{-x}-e; required region: -1≤x≤0 and e^{-x}-e≤y≤0.",
+              "answerVisibility": "Supplied question diagram; no calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$1\\text{ u}^2$",
+          "worked": "The graph meets the $x$-axis at $x=-1$, and the bounded region lies below the $x$-axis.\n$$\\begin{aligned}A&=-\\int_{-1}^0(e^{-x}-e)\\,dx\\\\&=-[-e^{-x}-ex]_{-1}^0\\\\&=-[(-1)-(-e+e)]\\\\&=1\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p31-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the area of the region bounded by the curve $y=3-e^{-x}$, the $x$-axis, and the lines $x=-1$ and $x=2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q3-e-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"source page 31 p31-q3-e-graph\"}\n\\begin{tikzpicture}[x=1.35cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-1,0)--plot[domain=-1:2,samples=80] (\\x,{3-exp(-\\x)})--(2,0)--cycle;\n\\draw[dashed,line width=0.4pt] (-1.45,3)--(2.65,3);\n\\draw[->,line width=0.5pt] (-1.5,0)--(2.7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.65)--(0,3.55) node[above] {$y$};\n\\draw[line width=0.5pt] (-1,0)--(-1,{3-exp(1)});\n\\draw[line width=0.5pt] (2,0)--(2,{3-exp(-2)});\n\\draw[<->,line width=0.8pt] plot[domain=-1.27:2.6,samples=100] (\\x,{3-exp(-\\x)});\n\\node[below] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below left] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 3e graph",
+              "description": "Increasing exponential curve with continuation arrows, y-intercept 2, dashed asymptote y=3, boundary labels −1 and 2, and the area above the x-axis between the boundaries shaded light blue.",
+              "mathematics": "y=3-e^{-x}; required region: -1≤x≤2 and 0≤y≤3-e^{-x}. The curve is positive at x=-1; its x-intercept is -ln(3), slightly left of that boundary.",
+              "answerVisibility": "Supplied question diagram; no calculated area is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(9+e^{-2}-e)\\text{ u}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_{-1}^2(3-e^{-x})\\,dx\\\\&=[3x+e^{-x}]_{-1}^2\\\\&=(6+e^{-2})-(-3+e)\\\\&=(9+e^{-2}-e)\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:04.932Z",
+  "updatedAt": "2026-11-12T05:33:04.933Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p31-q3",
+    "sectionRole": "exercise"
+  }
+}

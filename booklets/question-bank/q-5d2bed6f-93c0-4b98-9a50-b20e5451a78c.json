@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5d2bed6f-93c0-4b98-9a50-b20e5451a78c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the supplied intersections to sketch both curves, determines that their vertical order reverses at x=2, and constructs two oppositely ordered difference integrals so the enclosed areas add rather than cancel.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:09:55.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "59bc56ec62855f03b9bcf825c413eab5551e03f5305d6e37f647ea4d54d396f1",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-integral-calculus-3-further-areas-under-curves-v1/ff373e00c336bbc2a123c1e6a3012591daff82f41f4f0ec9ddb4d04760899eca-1793876948997/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p43-q24-root",
+    "type": "question",
+    "label": "24",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q24-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the curves $y=\\dfrac{6}{x}$ and $y=x^2-6x+11$ intersect when $x=1$, $2$ and $3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The points $(1,6)$, $(2,3)$ and $(3,2)$ lie on both curves.",
+          "worked": "At $x=1$: $\\dfrac61=6$ and $1-6+11=6$.\n\nAt $x=2$: $\\dfrac62=3$ and $4-12+11=3$.\n\nAt $x=3$: $\\dfrac63=2$ and $9-18+11=2$.\n\nTherefore $(1,6)$, $(2,3)$ and $(3,2)$ lie on both curves.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p43-q24-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Graph these two curves and shade the two areas enclosed by them.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Shade the regions between the curves for $1\\le x\\le2$ and $2\\le x\\le3$.",
+          "worked": "The curves intersect at $(1,6)$, $(2,3)$ and $(3,2)$. The parabola is above the hyperbola on $1<x<2$, and the hyperbola is above the parabola on $2<x<3$. Shade these two enclosed regions.",
+          "solutionDiagrams": [
+            {
+              "id": "p43-q24-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"268CFF\",\"reason\":\"the two enclosed regions requested for shading\"}],\"reference\":\"source page 43 question 24b; authored solution focused on all three intersections\"}\n\\begin{tikzpicture}[x=1cm,y=0.6cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.7,-1.4) rectangle (5.1,10);\n\\begin{scope}\n\\clip (0.65,0) rectangle (4,8.7);\n\\fill[regionBlue,opacity=0.65] plot[domain=1:2,samples=90] (\\x,{\\x*\\x-6*\\x+11}) -- plot[domain=2:1,samples=90] (\\x,{6/\\x}) -- cycle;\n\\fill[regionBlue,opacity=0.65] plot[domain=2:3,samples=90] (\\x,{6/\\x}) -- plot[domain=3:2,samples=90] (\\x,{\\x*\\x-6*\\x+11}) -- cycle;\n\\draw[line width=0.8pt] plot[domain=0.72:4,samples=160] (\\x,{6/\\x});\n\\draw[dashed,line width=0.8pt] plot[domain=0.72:4,samples=160] (\\x,{\\x*\\x-6*\\x+11});\n\\end{scope}\n\\draw[->,line width=0.5pt] (0,0)--(4.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,9) node[above] {$y$};\n\\foreach \\x in {1,2,3}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.15) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {2,3,6}{\\draw[line width=0.4pt] (0,\\y)--(-0.08,\\y) node[left] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\foreach \\x/\\y in {1/6,2/3,3/2}{\\fill (\\x,\\y) circle (0.8pt);}\n\\node[above right] at (1.1,6.2) {$(1,6)$};\n\\node[below left] at (1.9,2.7) {$(2,3)$};\n\\node[below right] at (3.1,1.5) {$(3,2)$};\n\\node[above] at (2.8,8.8) {$y=x^2-6x+11$};\n\\node[right] at (3.2,5.7) {$y=\\frac6x$};\n\\draw[->,line width=0.4pt] (3.6,5.2)--(3.5,{6/3.5});\n\\node[left] at (0.9,4.3) {$R_1$};\n\\draw[->,line width=0.4pt] (0.95,4.3)--(1.42,4.27);\n\\node[right] at (3.1,3.8) {$R_2$};\n\\draw[->,line width=0.4pt] (3.1,3.6)--(2.5,2.325);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 43,
+                "sourceRegion": "Question 24b",
+                "description": "Focused positive-domain view showing all three intersections; exact two enclosed regions have stronger blue fill and labelled leader arrows R1/R2, with no enlargement of their geometry.",
+                "mathematics": "y=6/x and y=(x-3)^2+2 intersect at (1,6), (2,3), (3,2). The parabola is higher on (1,2); the reciprocal curve is higher on (2,3).",
+                "answerVisibility": "Solution only; no graph or axes are supplied in the student question."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 53
+      },
+      {
+        "id": "p43-q24-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the total area enclosed by the two curves.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\left(2-6\\ln\\dfrac43\\right)\\text{ units}^2$",
+          "worked": "On $[1,2]$, the parabola is above the hyperbola. On $[2,3]$, the hyperbola is above the parabola.\n\n$$\\begin{align*}A&=\\int_1^2\\left(x^2-6x+11-\\frac6x\\right)\\,dx+\\int_2^3\\left(\\frac6x-x^2+6x-11\\right)\\,dx\\\\&=\\left[\\frac{x^3}{3}-3x^2+11x-6\\ln x\\right]_1^2+\\left[6\\ln x-\\frac{x^3}{3}+3x^2-11x\\right]_2^3\\\\&=\\left(\\frac{13}{3}-6\\ln2\\right)+\\left(6\\ln\\frac32-\\frac73\\right)\\\\&=2-6\\ln\\frac43\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q24",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:08.409Z",
+  "updatedAt": "2026-11-12T05:33:08.409Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p43-q24",
+    "sectionRole": "exercise"
+  }
+}

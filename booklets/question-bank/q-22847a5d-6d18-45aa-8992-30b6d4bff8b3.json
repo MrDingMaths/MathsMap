@@ -1,0 +1,182 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-22847a5d-6d18-45aa-8992-30b6d4bff8b3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-compound-angle",
+    "secondarySkillIds": [
+      "solve-trig-equations-graphically"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Use the explicitly taught compound-angle substitution, transform the domain, enumerate all relevant exact-angle solutions and map back to x. Supplied curves scaffold the final interpretation as intersections with a horizontal line.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T13:47:25.421Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d5045ae6e1e6a75bd3cf097c220f2ed4879ffc8e03d3121b5f6061b0a2f83e76",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-trig-transform-r4/fresh-four-ratings/reply.json",
+      "originalTaskHash": "ea2a60e5fd1b454a9db368fbc25a411adbaf623bb211cdb531c5ff3d9d4df754",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "075846a76fb3485c1aff4bd77856c06b0f1460c8ca779eb50f828b7a239f6281"
+      }
+    }
+  },
+  "content": {
+    "id": "p25-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Solve each equation algebraically in the domain $[0,2\\pi]$ and indicate the solutions on the graph.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$2\\sin\\left(x-\\frac{\\pi}{3}\\right)=1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q1-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied function curve\"}],\"reference\":\"source page 25 p25-q1-a-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[->,line width=0.5pt] (-0.08,0)--(6.7,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2.3)--(0,2.3) node[above] {$y$};\n\\foreach \\k in {1,...,12}{\\draw[line width=0.4pt] ({\\k*pi/6},-0.055)--({\\k*pi/6},0.055);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-2,-1,1,2}{\\draw[line width=0.4pt] (-0.055,\\v)--(0.055,\\v);\\node[left=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:6.283185,samples=181] plot (\\x,{2*sin((\\x-pi/3)*180/pi)});\n\\fill[curveBlue] (0,{-sqrt(3)}) circle (1.3pt);\n\\fill[curveBlue] ({2*pi},{-sqrt(3)}) circle (1.3pt);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "question 1a",
+              "description": "Sine curve with filled endpoints, labelled axes and quarter-period labels; unlabelled horizontal ticks occur every pi/6. No grid.",
+              "mathematics": "y=2 sin(x-pi/3), 0<=x<=2pi; vertical ticks at -2,-1,1,2.",
+              "answerVisibility": "Curve and axes supplied; solution markings hidden."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=\\frac{\\pi}{2},\\ \\frac{7\\pi}{6}$.",
+          "worked": "Let $u=x-\\frac{\\pi}{3}$. The transformed domain is $-\\frac{\\pi}{3}\\le u\\le\\frac{5\\pi}{3}$.\n$$\\begin{align*}2\\sin u&=1\\\\\\sin u&=\\frac12\\\\u&=\\frac{\\pi}{6},\\ \\frac{5\\pi}{6}\\\\x&=u+\\frac{\\pi}{3}\\\\x&=\\frac{\\pi}{2},\\ \\frac{7\\pi}{6}.\\end{align*}$$\nDraw $y=1$ and mark its intersections with the supplied curve.",
+          "solutionDiagrams": [
+            {
+              "id": "p25-q1-a-solution-overlay",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionRed\",\"hex\":\"EF6068\",\"reason\":\"equation level and solution intersections\"}],\"reference\":\"source page 25 p25-q1-a-solution-overlay\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionRed}{HTML}{EF6068}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[solutionRed,dashed,line width=0.4pt] (0,1)--({2*pi},1);\n\\node[solutionRed,above left] at ({2*pi},1) {$y=1$};\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.665191/{\\frac{7\\pi}{6}}}{\\draw[solutionRed,dashed,line width=0.4pt] (\\v,0)--(\\v,1);\\fill[solutionRed] (\\v,1) circle (1.6pt);\\node[solutionRed,above=3pt] at (\\v,1) {$\\lab$};}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p25-q1-a-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 25,
+                "sourceRegion": "question 1a",
+                "description": "Solution overlay uses the identical coordinate units and bounding box as the question graph. A dashed horizontal line and marked intersections indicate both solutions.",
+                "mathematics": "Intersections with y=1 at (pi/2,1) and (7pi/6,1).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p25-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$2\\cos(2x)=-1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q1-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied function curve\"}],\"reference\":\"source page 25 p25-q1-b-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[->,line width=0.5pt] (-0.08,0)--(6.7,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2.3)--(0,2.3) node[above] {$y$};\n\\foreach \\k in {1,...,12}{\\draw[line width=0.4pt] ({\\k*pi/6},-0.055)--({\\k*pi/6},0.055);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-2,-1,1,2}{\\draw[line width=0.4pt] (-0.055,\\v)--(0.055,\\v);\\node[left=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:6.283185,samples=241] plot (\\x,{2*cos(2*\\x*180/pi)});\n\\fill[curveBlue] (0,2) circle (1.3pt);\n\\fill[curveBlue] ({2*pi},2) circle (1.3pt);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "question 1b",
+              "description": "Two complete cosine cycles with filled endpoints, labelled axes and quarter-period labels; unlabelled horizontal ticks occur every pi/6. No grid.",
+              "mathematics": "y=2 cos(2x), 0<=x<=2pi; vertical ticks at -2,-1,1,2.",
+              "answerVisibility": "Curve and axes supplied; solution markings hidden."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=\\frac{\\pi}{3},\\ \\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}$.",
+          "worked": "Let $u=2x$. The transformed domain is $0\\le u\\le4\\pi$.\n$$\\begin{align*}2\\cos u&=-1\\\\\\cos u&=-\\frac12\\\\u&=\\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{8\\pi}{3},\\ \\frac{10\\pi}{3}\\\\x&=\\frac{u}{2}\\\\x&=\\frac{\\pi}{3},\\ \\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}.\\end{align*}$$\nDraw $y=-1$ and mark its four intersections with the supplied curve.",
+          "solutionDiagrams": [
+            {
+              "id": "p25-q1-b-solution-overlay",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionRed\",\"hex\":\"EF6068\",\"reason\":\"equation level and solution intersections\"}],\"reference\":\"source page 25 p25-q1-b-solution-overlay\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionRed}{HTML}{EF6068}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[solutionRed,dashed,line width=0.4pt] (0,-1)--({2*pi},-1);\n\\node[solutionRed,above left=2pt] at (0,-1) {$y=-1$};\n\\foreach \\v/\\lab in {1.047198/{\\frac{\\pi}{3}},2.094395/{\\frac{2\\pi}{3}},4.188790/{\\frac{4\\pi}{3}},5.235988/{\\frac{5\\pi}{3}}}{\\draw[solutionRed,dashed,line width=0.4pt] (\\v,0)--(\\v,-1);\\fill[solutionRed] (\\v,-1) circle (1.6pt);\\node[solutionRed,below=3pt] at (\\v,-1) {$\\lab$};}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p25-q1-b-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 25,
+                "sourceRegion": "question 1b",
+                "description": "Solution overlay uses the identical coordinate units and bounding box as the question graph. A dashed horizontal line and marked intersections indicate all four solutions.",
+                "mathematics": "Intersections with y=-1 at x=pi/3,2pi/3,4pi/3,5pi/3.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:21.932Z",
+  "updatedAt": "2026-11-12T05:32:21.932Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-further-graph-transformations-and-modelling-1-transformations-of-trigonometric-functions-v1",
+    "blockId": "p25-q1",
+    "sectionRole": "exercise"
+  }
+}

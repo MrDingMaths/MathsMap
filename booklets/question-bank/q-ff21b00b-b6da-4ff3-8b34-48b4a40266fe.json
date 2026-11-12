@@ -1,0 +1,393 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ff21b00b-b6da-4ff3-8b34-48b4a40266fe",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-integral-symmetry",
+    "secondarySkillIds": [
+      "definite-integral-geometric"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Explain signs, equal areas and an area inequality using symmetry and graphical comparison without evaluating integrals; the isolated c label contains no assessable task.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:28:14.015Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aad6acb34184dc06ac1bf23792795e5085bb1c25d5478ed2fcc9b70b3c5d59dc",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-2-integration-of-exponential-logarithmic-and-trigonometric-functions-20261024/lean-review/calls/content-1792830458328-28/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The diagram shows the parabola $y=1-x^2$.\n\nWithout evaluating the definite integrals, explain why:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q5-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.24cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,black,line width=0.5pt] (-3.6,0)--(4.1,0) node[below right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-10)--(0,3.5) node[above] {$y$};\n\\draw[<->,black,line width=0.8pt,domain=-3.2:3.2,samples=100] plot (\\x,{1-\\x*\\x});\n\\foreach \\x in {-1,0.5,1,2,3} {\\draw[black,line width=0.4pt] (\\x,-0.17)--(\\x,0.17);}\n\\node[above left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (0.5,-0.25) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[above right] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 5, right-hand graph",
+          "description": "Unshaded downward-opening parabola with positive-direction axis arrows, arrows at both lower curve ends, selected labelled ticks and an unlabelled tick at 2. Source grey strokes use house black.",
+          "mathematics": "y=1-x^2; vertex (0,1); roots -1 and 1; labelled x-values -1, 1/2, 1 and 3.",
+          "answerVisibility": "Permanent supplied question graph."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\displaystyle\\int_{-1}^{1}(1-x^2)\\,dx$ is positive",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve lies above the $x$-axis for $-1<x<1$, so the integral is positive.",
+          "worked": "Between $x=-1$ and $x=1$, the parabola lies above the $x$-axis, meeting it at the endpoints. Its signed area is positive.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p19-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\displaystyle\\int_1^3(1-x^2)\\,dx$ is negative",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve lies below the $x$-axis for $1<x\\leq3$, so the integral is negative.",
+          "worked": "From $x=1$ to $x=3$, the parabola lies below the $x$-axis except at $x=1$. The region contributes negative signed area.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p19-q5-lower-row",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p19-q5-d",
+            "type": "part",
+            "label": "c",
+            "prompt": "$\\displaystyle\\int_{-1}^{0}(1-x^2)\\,dx=\\int_0^1(1-x^2)\\,dx$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The parabola is symmetric about the $y$-axis, so the two regions have equal area.",
+              "worked": "$y=1-x^2$ is an even function, so its graph is symmetric about the $y$-axis. The regions above the $x$-axis on $[-1,0]$ and $[0,1]$ are mirror images and have equal area. Hence the integrals are equal.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p19-q5-e",
+            "type": "part",
+            "label": "d",
+            "prompt": "$\\displaystyle\\int_0^{\\frac12}(1-x^2)\\,dx>\\int_{\\frac12}^1(1-x^2)\\,dx$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The intervals have equal width, and the positive curve is higher over the first interval. Its area is greater.",
+              "worked": "On $[0,1]$, the parabola is nonnegative and decreasing. Both intervals have width $\\tfrac12$. For each $x$ in the first interval, the curve is higher than at $x+\\tfrac12$ in the second interval. Thus the first area is greater.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 34
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p19-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q5-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q5-root/label",
+                  "type": "item",
+                  "ref": "p19-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p19-q5-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p19-q5-root/prompt",
+                      "type": "item",
+                      "ref": "p19-q5-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p19-q5-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p19-q5-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q5-graph",
+                              "type": "item",
+                              "ref": "p19-q5-graph",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p19-q5-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p19-q5-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p19-q5-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p19-q5-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p19-q5-a/label",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-a/prompt",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-a/space",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p19-q5-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p19-q5-b/label",
+                                          "type": "item",
+                                          "ref": "p19-q5-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-b/prompt",
+                                          "type": "item",
+                                          "ref": "p19-q5-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-b/space",
+                                          "type": "item",
+                                          "ref": "p19-q5-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p19-q5-root:row:2",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p19-q5-lower-row:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "p19-q5-lower-row:parts",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "p19-q5-lower-row:row:0",
+                                              "type": "group",
+                                              "direction": "row",
+                                              "children": [
+                                                {
+                                                  "id": "p19-q5-d:question",
+                                                  "type": "group",
+                                                  "direction": "stack",
+                                                  "children": [
+                                                    {
+                                                      "id": "layout:p19-q5-d/label",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-d/label",
+                                                      "title": "Label c"
+                                                    },
+                                                    {
+                                                      "id": "layout:p19-q5-d/prompt",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-d/prompt",
+                                                      "title": "Text"
+                                                    },
+                                                    {
+                                                      "id": "layout:p19-q5-d/space",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-d/space",
+                                                      "title": "Answer space"
+                                                    }
+                                                  ],
+                                                  "title": "Part c",
+                                                  "gap": 2
+                                                }
+                                              ],
+                                              "gap": 2
+                                            },
+                                            {
+                                              "id": "p19-q5-lower-row:row:1",
+                                              "type": "group",
+                                              "direction": "row",
+                                              "children": [
+                                                {
+                                                  "id": "p19-q5-e:question",
+                                                  "type": "group",
+                                                  "direction": "stack",
+                                                  "children": [
+                                                    {
+                                                      "id": "layout:p19-q5-e/label",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-e/label",
+                                                      "title": "Label d"
+                                                    },
+                                                    {
+                                                      "id": "layout:p19-q5-e/prompt",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-e/prompt",
+                                                      "title": "Text"
+                                                    },
+                                                    {
+                                                      "id": "layout:p19-q5-e/space",
+                                                      "type": "item",
+                                                      "ref": "p19-q5-e/space",
+                                                      "title": "Answer space"
+                                                    }
+                                                  ],
+                                                  "title": "Part d",
+                                                  "gap": 2
+                                                }
+                                              ],
+                                              "gap": 2
+                                            }
+                                          ],
+                                          "gap": 2
+                                        }
+                                      ],
+                                      "title": "Unlabelled part 3",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p19-q5-root:row:2:fill:1",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [],
+                                      "title": "Empty column",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:47.276Z",
+  "updatedAt": "2026-11-12T05:32:47.277Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-2-integration-of-exponential-logarithmic-and-trigonometric-functions-v1",
+    "blockId": "p19-q5-block",
+    "sectionRole": "exercise"
+  }
+}

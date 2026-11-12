@@ -1,0 +1,493 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-56fd4b0a-9f51-4397-a2d9-b955838690bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [
+      "area-with-y-axis"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied reflection and rectangle decomposition, convert two bounds, evaluate an exponential integral and subtract its area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:47:14.572Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bceb5ce5d5fbdaf8b123cce3fd4cd7a3bf1d77272603b3993e07c84afb424ce6",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-69a859637930fa7fa524/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p40-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p40-q17-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\int_1^3\\ln x\\,dx",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". We have not yet learned a direct integration rule for ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\ln x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Instead, use the fact that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=\\ln x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=e^x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " are reflections of each other across ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". The shaded regions in the first two graphs therefore have equal areas. For the exponential curve, the reflected region lies between the curve and the y-axis from y = 1 to y = 3. Find it by subtracting the area under the exponential curve from the bounding rectangle:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p40-q17-complement",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "A_{\\text{reflected}}",
+              "display": false,
+              "colour": "#4f9b63"
+            },
+            {
+              "type": "math",
+              "latex": "=",
+              "display": false
+            },
+            {
+              "type": "math",
+              "latex": "A_{\\text{rectangle}}",
+              "display": false,
+              "colour": "#268cff"
+            },
+            {
+              "type": "math",
+              "latex": "-",
+              "display": false
+            },
+            {
+              "type": "math",
+              "latex": "\\int_{\\ln 1}^{\\ln 3}e^x\\,dx",
+              "display": false,
+              "colour": "#ef6068"
+            }
+          ]
+        },
+        {
+          "id": "p40-q17-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "We will find the area bounded by ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=\\ln x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", the x-axis, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=3",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " by following these steps.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q17-diagram-1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"logarithmic curve in the reflection comparison\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"region whose equal reflected area is compared\"},{\"name\":\"boundaryGreen\",\"hex\":\"4F9B63\",\"reason\":\"boundary of the green region\"}],\"reference\":\"source page 40 question 17 left graph\"}\n\\begin{tikzpicture}[x=5mm,y=5mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\\definecolor{regionGreen}{HTML}{DCEBE0}\\definecolor{boundaryGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-4.6,-4.6) rectangle (4.8,4.8);\n\\fill[regionGreen] (1,0)--plot[domain=1:3,samples=45] (\\x,{ln(\\x)})--(3,0)--cycle;\n\\draw[boundaryGreen,line width=0.4pt] (3,0)--(3,{ln(3)});\n\\draw[<->,line width=0.5pt] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.09) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.09,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,<->,line width=0.8pt] plot[domain=0.015:4.3,samples=130] (\\x,{ln(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 17, left explanatory graph",
+          "description": "Logarithmic curve with the region under it from x = 1 to x = 3 shaded green. This graph forms the first panel of the comparison row.",
+          "mathematics": "y = ln x; shaded region 1 ≤ x ≤ 3 and 0 ≤ y ≤ ln x.",
+          "answerVisibility": "Supplied explanatory region only; no numerical answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p40-q17-diagram-2",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"logarithmic curve\"},{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"reflected exponential curve\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"equal reflected regions\"},{\"name\":\"boundaryGreen\",\"hex\":\"4F9B63\",\"reason\":\"boundaries of the reflected regions\"}],\"reference\":\"source page 40 question 17 middle graph\"}\n\\begin{tikzpicture}[x=5mm,y=5mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\\definecolor{curveRed}{HTML}{EF6068}\\definecolor{regionGreen}{HTML}{DCEBE0}\\definecolor{boundaryGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-4.6,-4.6) rectangle (4.8,4.8);\n\\fill[regionGreen] (1,0)--plot[domain=1:3,samples=45] (\\x,{ln(\\x)})--(3,0)--cycle;\n\\fill[regionGreen] (0,1)--plot[domain=0:1.098612289,samples=45] (\\x,{exp(\\x)})--(0,3)--cycle;\n\\draw[boundaryGreen,line width=0.4pt] (3,0)--(3,{ln(3)}) (0,3)--({ln(3)},3);\n\\draw[<->,line width=0.5pt] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.09) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.09,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,<->,line width=0.8pt] plot[domain=0.015:4.3,samples=130] (\\x,{ln(\\x)});\n\\draw[curveRed,<->,line width=0.8pt] plot[domain=-4.3:1.46,samples=110] (\\x,{exp(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 17, middle explanatory graph",
+          "description": "Blue logarithmic and red exponential curves with reflected equal green regions, shown on common axes.",
+          "mathematics": "The region under ln x for 1 ≤ x ≤ 3 reflects to the region between the y-axis and e^x for 1 ≤ y ≤ 3.",
+          "answerVisibility": "Supplied explanatory regions only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p40-q17-diagram-3",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"exponential curve\"},{\"name\":\"rectangleBlue\",\"hex\":\"268CFF\",\"reason\":\"bounding rectangle\"},{\"name\":\"regionRed\",\"hex\":\"FCDFE1\",\"reason\":\"area subtracted from the rectangle\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"complement equal to the logarithmic area\"}],\"reference\":\"source page 40 question 17 right graph\"}\n\\begin{tikzpicture}[x=8mm,y=8mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveRed}{HTML}{EF6068}\\definecolor{rectangleBlue}{HTML}{268CFF}\\definecolor{regionRed}{HTML}{FCDFE1}\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\path[use as bounding box] (-1.5,-1.5) rectangle (4.7,4.8);\n\\fill[regionGreen] (0,0) rectangle ({ln(3)},3);\n\\fill[regionRed] (0,0)--(0,1)--plot[domain=0:1.098612289,samples=60] (\\x,{exp(\\x)})--({ln(3)},0)--cycle;\n\\draw[<->,line width=0.5pt] (-1.2,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.2)--(0,4.4) node[above] {$y$};\n\\foreach \\t in {-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.06)--(\\t,0.06);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.06,\\t)--(0.06,\\t);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.06,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[rectangleBlue,dashed,line width=0.8pt] (0,0) rectangle ({ln(3)},3);\n\\draw[curveRed,<->,line width=0.8pt] plot[domain=-1.15:1.46,samples=90] (\\x,{exp(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 17, right explanatory graph",
+          "description": "Red exponential curve through the rectangle's upper-right corner (ln 3, 3). Blue dashed rectangle; pale red region below the curve and pale green complementary region above it.",
+          "mathematics": "Rectangle 0 ≤ x ≤ ln 3, 0 ≤ y ≤ 3. Its area is split into the area under e^x and the reflected logarithmic region.",
+          "answerVisibility": "Supplied explanatory decomposition only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The original region and its reflection have equal areas. To find the area under the exponential curve, first express its limits in terms of $x$. Show that this area is $\\displaystyle\\int_0^{\\ln 3}e^x\\,dx$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\ln y$, so $y=1$ gives $x=0$ and $y=3$ gives $x=\\ln3$. Hence the area is $\\displaystyle\\int_0^{\\ln3}e^x\\,dx$.",
+          "worked": "$$\\begin{align*}y&=e^x\\\\x&=\\ln y\\end{align*}$$\nAt $y=1$, $x=\\ln1=0$. At $y=3$, $x=\\ln3$.\n\nThus the area under the exponential curve between these vertical boundaries is $\\displaystyle\\int_0^{\\ln3}e^x\\,dx$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p40-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Therefore, find the area under $y=e^x$ from $x=0$ to $x=\\ln3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\ \\text{units}^2$",
+          "worked": "$$\\begin{align*}A&=\\int_0^{\\ln3}e^x\\,dx\\\\A&=\\left[e^x\\right]_0^{\\ln3}\\\\A&=3-1\\\\A&=2\\ \\text{units}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p40-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Calculate the area of the bounding rectangle with width $\\ln3$ and height $3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\ln3\\ \\text{units}^2$",
+          "worked": "$$\\begin{align*}A_{\\text{rectangle}}&=3\\times\\ln3\\\\A_{\\text{rectangle}}&=3\\ln3\\ \\text{units}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p40-q17-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Therefore, find $\\displaystyle\\int_1^3\\ln x\\,dx$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\ln3-2$",
+          "worked": "Reflection preserves area. Subtract the area under the exponential curve from the rectangle:\n\n$$\\begin{align*}\\int_1^3\\ln x\\,dx&=A_{\\text{rectangle}}-\\int_0^{\\ln3}e^x\\,dx\\\\\\int_1^3\\ln x\\,dx&=3\\ln3-2.\\end{align*}$$\nThe corresponding area is $(3\\ln3-2)\\ \\text{units}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q17-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p40-q17-number",
+                  "type": "item",
+                  "ref": "p40-q17-root/label"
+                },
+                {
+                  "id": "p40-q17-intro-item",
+                  "type": "item",
+                  "ref": "p40-q17-root/prompt#p40-q17-intro"
+                },
+                {
+                  "id": "p40-q17-complement-item",
+                  "type": "item",
+                  "ref": "p40-q17-root/prompt#p40-q17-complement"
+                },
+                {
+                  "id": "p40-q17-figure-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p40-q17-figure-item-1",
+                      "type": "item",
+                      "ref": "p40-q17-diagram-1",
+                      "width": 55
+                    },
+                    {
+                      "id": "p40-q17-figure-item-2",
+                      "type": "item",
+                      "ref": "p40-q17-diagram-2",
+                      "width": 55
+                    },
+                    {
+                      "id": "p40-q17-figure-item-3",
+                      "type": "item",
+                      "ref": "p40-q17-diagram-3",
+                      "width": 55
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p40-q17-instruction-item",
+                  "type": "item",
+                  "ref": "p40-q17-root/prompt#p40-q17-instruction"
+                },
+                {
+                  "id": "p40-q17-a-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q17-a-label-item",
+                      "type": "item",
+                      "ref": "p40-q17-a/label"
+                    },
+                    {
+                      "id": "p40-q17-a-prompt-item",
+                      "type": "item",
+                      "ref": "p40-q17-a/prompt"
+                    },
+                    {
+                      "id": "p40-q17-a-space-item",
+                      "type": "item",
+                      "ref": "p40-q17-a/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p40-q17-b-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q17-b-label-item",
+                      "type": "item",
+                      "ref": "p40-q17-b/label"
+                    },
+                    {
+                      "id": "p40-q17-b-prompt-item",
+                      "type": "item",
+                      "ref": "p40-q17-b/prompt"
+                    },
+                    {
+                      "id": "p40-q17-b-space-item",
+                      "type": "item",
+                      "ref": "p40-q17-b/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p40-q17-c-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q17-c-label-item",
+                      "type": "item",
+                      "ref": "p40-q17-c/label"
+                    },
+                    {
+                      "id": "p40-q17-c-prompt-item",
+                      "type": "item",
+                      "ref": "p40-q17-c/prompt"
+                    },
+                    {
+                      "id": "p40-q17-c-space-item",
+                      "type": "item",
+                      "ref": "p40-q17-c/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p40-q17-d-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q17-d-label-item",
+                      "type": "item",
+                      "ref": "p40-q17-d/label"
+                    },
+                    {
+                      "id": "p40-q17-d-prompt-item",
+                      "type": "item",
+                      "ref": "p40-q17-d/prompt"
+                    },
+                    {
+                      "id": "p40-q17-d-space-item",
+                      "type": "item",
+                      "ref": "p40-q17-d/space"
+                    }
+                  ]
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p40-q17"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:08.702Z",
+  "updatedAt": "2026-11-12T05:33:08.703Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p40-q17",
+    "sectionRole": "exercise"
+  }
+}

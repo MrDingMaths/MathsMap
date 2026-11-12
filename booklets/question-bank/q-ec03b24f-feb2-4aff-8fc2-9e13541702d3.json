@@ -1,0 +1,251 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ec03b24f-feb2-4aff-8fc2-9e13541702d3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-with-y-axis",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Convert horizontal boundary values to integration limits and subtract an exponential integral from a bounding rectangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:46:16.103Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2a09070a7a7e5f16f1f8bfa23b4abb60b65125435cb36586a625a082055c0fc5",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-f681acc0733a9dcde1f0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p39-q15-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the area between the curve ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=e^x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", the ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": "-axis and the lines ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=3",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p39-q15-hint",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Hint: subtract the area under the curve from the bounding rectangle.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p39-q15-limits-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "You will need to change the limits.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q15-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"exponential curve\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"requested region between the curve and y-axis for 1 to 3\"},{\"name\":\"boundaryGreen\",\"hex\":\"4F9B63\",\"reason\":\"upper boundary of the requested region\"}],\"reference\":\"page 39 question 15 graph\"}\n\\begin{tikzpicture}[x=8mm,y=8mm,>=Stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveRed}{HTML}{EF6068}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\definecolor{boundaryGreen}{HTML}{4F9B63}\n\\path[fill=regionGreen] (0,1)--(0,3)--({ln(3)},3)--plot[domain=ln(3):0,samples=50] (\\x,{exp(\\x)})--cycle;\n\\draw[boundaryGreen,line width=0.4pt] (0,3)--({ln(3)},3);\n\\draw[<->,line width=0.5pt] (-1.4,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.3)--(0,5.5) node[above] {$y$};\n\\foreach \\v in {-1,1,2,3,4,5} {\n\\draw[line width=0.4pt] (\\v,-0.1)--(\\v,0.1);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {1,2,3,4,5} {\n\\draw[line width=0.4pt] (-0.1,\\v)--(0.1,\\v);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveRed,<->,line width=0.8pt] plot[domain=-1.3:1.67,samples=90] (\\x,{exp(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 15 graph",
+          "description": "Exponential curve with arrowheads, both labelled axes, all source ticks, and the shaded region to the left of the curve between y=1 and y=3. Source red and green roles use the standard palette.",
+          "mathematics": "Curve y=e^x. Requested region is 1≤y≤3 and 0≤x≤ln y. Horizontal upper boundary joins (0,3) to (ln 3,3).",
+          "answerVisibility": "Only source givens and shading appear; converted limits are not labelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$(3\\ln 3-2)\\text{ units}^2$",
+      "worked": "Change the limits:\n$$\\begin{align*}y=1:&\\quad x=\\ln 1=0\\\\y=3:&\\quad x=\\ln 3\\end{align*}$$\nThe bounding rectangle has height $3$ and width $\\ln 3$.\n$$\\begin{align*}A_{\\text{rectangle}}&=3\\ln 3\\\\A_{\\text{under curve}}&=\\int_0^{\\ln 3}e^x\\,dx\\\\&=[e^x]_0^{\\ln 3}\\\\&=3-1\\\\&=2\\\\A_{\\text{required}}&=3\\ln 3-2\\text{ units}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 39
+  },
+  "presentation": {
+    "ownerId": "p39-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "completion-33",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "completion-24",
+                  "type": "item",
+                  "ref": "p39-q15-root/label"
+                },
+                {
+                  "id": "completion-25",
+                  "type": "item",
+                  "ref": "p39-q15-root/prompt#p39-q15-stem"
+                },
+                {
+                  "id": "completion-26",
+                  "type": "item",
+                  "ref": "p39-q15-root/prompt#p39-q15-hint"
+                },
+                {
+                  "id": "completion-27",
+                  "type": "item",
+                  "ref": "p39-q15-root/prompt#p39-q15-limits-instruction"
+                },
+                {
+                  "id": "completion-32",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "completion-29",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-28",
+                          "type": "item",
+                          "ref": "p39-q15-graph",
+                          "width": 66.9
+                        }
+                      ],
+                      "gap": 1,
+                      "width": 66.9
+                    },
+                    {
+                      "id": "completion-31",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-30",
+                          "type": "item",
+                          "ref": "p39-q15-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 4
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:09.809Z",
+  "updatedAt": "2026-11-12T05:33:09.810Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p39-q15",
+    "sectionRole": "exercise"
+  }
+}

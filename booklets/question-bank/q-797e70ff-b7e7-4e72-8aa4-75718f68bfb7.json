@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-797e70ff-b7e7-4e72-8aa4-75718f68bfb7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-with-y-axis",
+    "secondarySkillIds": [],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Rewrites the logarithmic curve as x=e^y and recognises that horizontal widths from the y-axis must be integrated between y=2 and y=4. This applies the preceding inverse-function area relationship with new limits.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:09:55.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ed6b3d287d4f2904731d47f7fed05cb42f95827649c25ed2137e7e7d5ccd0a83",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-integral-calculus-3-further-areas-under-curves-v1/ff373e00c336bbc2a123c1e6a3012591daff82f41f4f0ec9ddb4d04760899eca-1793876948997/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Find the area between the curve $y=\\ln x$, the $y$-axis and the lines $y=2$ and $y=4$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q14-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"logarithmic curve\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"region whose area is requested\"},{\"name\":\"boundaryGreen\",\"hex\":\"4F9B63\",\"reason\":\"horizontal boundaries of the requested region\"}],\"reference\":\"page 39 question 14\"}\n\\begin{tikzpicture}[x=0.48mm,y=8mm,>=Stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\definecolor{boundaryGreen}{HTML}{4F9B63}\n\\path[fill=regionGreen] (0,2)--({exp(2)},2) -- plot[domain=2:4,samples=70,variable=\\t] ({exp(\\t)},\\t)--(0,4)--cycle;\n\\draw[boundaryGreen,line width=0.4pt] (0,2)--({exp(2)},2) (0,4)--({exp(4)},4);\n\\draw[<->,line width=0.5pt] (-7,0)--(108,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.5)--(0,6.5) node[above] {$y$};\n\\foreach \\v in {2,4,6} {\\draw[line width=0.4pt] (-1.5,\\v)--(1.5,\\v);\\node[left] at (-1.5,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-1.4:4.65,samples=120,variable=\\t] ({exp(\\t)},\\t);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 14 graph",
+          "description": "Logarithmic curve with arrowheads, labelled axes, y-axis ticks 2, 4 and 6, and no numerical x-axis labels. The green region lies between the y-axis and curve for 2 ≤ y ≤ 4. Unequal axis units preserve the broad source presentation without changing the equation.",
+          "mathematics": "y=ln x, equivalently x=e^y; region 2≤y≤4 and 0≤x≤e^y.",
+          "answerVisibility": "Only the supplied curve, boundaries, shading and axis labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$(e^4-e^2)\\text{ units}^2$",
+      "worked": "Since $y=\\ln x$, $x=e^y$.\n$$\\begin{align*}A&=\\int_2^4 e^y\\,dy\\\\A&=\\left[e^y\\right]_2^4\\\\A&=(e^4-e^2)\\text{ units}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 23
+  },
+  "presentation": {
+    "ownerId": "p39-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "completion-23",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "completion-16",
+                  "type": "item",
+                  "ref": "p39-q14-root/label"
+                },
+                {
+                  "id": "completion-17",
+                  "type": "item",
+                  "ref": "p39-q14-root/prompt"
+                },
+                {
+                  "id": "completion-22",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "completion-19",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-18",
+                          "type": "item",
+                          "ref": "p39-q14-graph",
+                          "width": 58.9
+                        }
+                      ],
+                      "gap": 1,
+                      "width": 58.9
+                    },
+                    {
+                      "id": "completion-21",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-20",
+                          "type": "item",
+                          "ref": "p39-q14-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 4
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:03.914Z",
+  "updatedAt": "2026-11-12T05:33:03.914Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p39-q14",
+    "sectionRole": "exercise"
+  }
+}

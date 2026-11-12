@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-215ed8af-7a6e-4529-9741-3a6a31a714a5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infer missing exclusive regions in a three-set Venn diagram from overlapping totals, then distinguish inclusive intersection and exactly one country.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:43:39.271Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9e3d8e9d9b6684e564828d7ecae4c3e9f4975be0b28ac277002958bfb9bb66c9",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/semantic-packets/assignments/assignment-e0da791e330c3fd947cb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "58 people took a trip to Europe to visit either France, England or Spain. Of this group, 26 visited France, 38 visited England, 29 visited Spain, 10 visited France and Spain, 12 visited only Spain, 13 visited only England and 8 visited all three countries.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p43-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 43 question 7\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (0,1.3) circle (1.5);\n\\draw[black] (-1, -0.7) circle (1.5);\n\\draw[black] (1, -0.7) circle (1.5);\n\\node at (0,1.85) {France};\n\\node at (-1.48,-0.85) {England};\n\\node at (1.48,-0.85) {Spain};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 43,
+          "sourceRegion": "Question 7 diagram below the givens",
+          "description": "Three overlapping circles with France above, England below left and Spain below right. Labels occupy exclusive regions; there is no universal-set rectangle.",
+          "mathematics": "All seven regions are initially blank. The three circles have a common intersection.",
+          "answerVisibility": "Country labels and circle outlines are permanent givens; region counts are withheld."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p43-q7-probabilities",
+        "type": "group",
+        "label": "",
+        "prompt": "A person from the group of 58 was chosen at random. What is the probability that the person:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q7-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Visited France only",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{29}$",
+              "worked": "Fill the overlapping regions first.\n$$\\begin{align*}\n\\text{France and Spain only}&=10-8=2\\\\\n\\text{England and Spain only}&=29-12-2-8=7\\\\\n\\text{England and France only}&=38-13-7-8=10\\\\\n\\text{France only}&=26-2-10-8=6\\\\\nP(\\text{France only})&=\\frac{6}{58}=\\frac{3}{29}\n\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 43
+          },
+          {
+            "id": "p43-q7-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Visited England and France",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{9}{29}$",
+              "worked": "$$\\begin{align*}\n\\text{France and Spain only}&=10-8=2\\\\\n\\text{England and Spain only}&=29-12-2-8=7\\\\\n\\text{England and France only}&=38-13-7-8=10\\\\\nP(\\text{England and France})&=\\frac{10+8}{58}\\\\\n&=\\frac{18}{58}=\\frac{9}{29}\n\\end{align*}$$\nThe intersection includes those who visited all three countries.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 37
+          },
+          {
+            "id": "p43-q7-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "Visited only one country?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{31}{58}$",
+              "worked": "The completed Venn diagram gives 6 who visited France only, 13 England only and 12 Spain only.\n$$\\begin{align*}\n\\text{Only one country}&=6+13+12=31\\\\\nP(\\text{only one country})&=\\frac{31}{58}\n\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 21
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:39.877Z",
+  "updatedAt": "2026-11-12T05:33:39.877Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-2-v1",
+    "blockId": "p43-q7",
+    "sectionRole": "challenge"
+  }
+}

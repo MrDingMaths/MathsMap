@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-876c0e1e-b3fb-484d-852a-e518fd385533",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Connect specified intersections and a common-axis trigonometric sketch to an exact integral of the upper curve minus the lower curve.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:49:00.271Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "92303d346f26fce2960be1d5cca2bf0e4aaa5a46733c2cf13e8590750c730fb0",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-d986a127982cfe24f30c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p44-q26-root",
+    "type": "question",
+    "label": "26",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q26-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show by substitution that $y=\\sin x$ and $y=\\cos 2x$ meet at $x=-\\dfrac{\\pi}{2}$ and $x=\\dfrac{\\pi}{6}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At $x=-\\dfrac{\\pi}{2}$, both functions equal $-1$. At $x=\\dfrac{\\pi}{6}$, both functions equal $\\dfrac12$.",
+          "worked": "At $x=-\\dfrac{\\pi}{2}$:\n$$\\begin{align*}\\sin\\left(-\\frac{\\pi}{2}\\right)&=-1,\\\\\\cos\\left(2\\times-\\frac{\\pi}{2}\\right)&=\\cos(-\\pi)\\\\&=-1.\\end{align*}$$\nAt $x=\\dfrac{\\pi}{6}$:\n$$\\begin{align*}\\sin\\frac{\\pi}{6}&=\\frac12,\\\\\\cos\\left(2\\times\\frac{\\pi}{6}\\right)&=\\cos\\frac{\\pi}{3}\\\\&=\\frac12.\\end{align*}$$\nThe two functions have the same value at each specified $x$-coordinate, so they meet at both points.\n\nThe supplied equation-solving working also gives:\n$$\\begin{align*}\\sin x&=\\cos 2x\\\\\\sin x&=1-2\\sin^2x\\\\2\\sin^2x+\\sin x-1&=0\\\\(2\\sin x-1)(\\sin x+1)&=0.\\end{align*}$$\nThus $\\sin x=\\dfrac12$ or $\\sin x=-1$, giving $x=\\dfrac{\\pi}{6}$ and $x=-\\dfrac{\\pi}{2}$ respectively in the interval used in part b.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p44-q26-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "On the same number plane, sketch $y=\\sin x$ and $y=\\cos 2x$, for $-\\dfrac{\\pi}{2}\\le x\\le\\dfrac{\\pi}{6}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curves meet at $\\left(-\\dfrac{\\pi}{2},-1\\right)$ and $\\left(\\dfrac{\\pi}{6},\\dfrac12\\right)$. Between these points, $y=\\cos 2x$ lies above $y=\\sin x$. See sketch.",
+          "worked": "$y=\\sin x$ increases from $\\left(-\\dfrac{\\pi}{2},-1\\right)$ through $(0,0)$ to $\\left(\\dfrac{\\pi}{6},\\dfrac12\\right)$. The curve $y=\\cos 2x$ rises from the first intersection to its maximum $(0,1)$, then falls to the second intersection. Draw both curves on the same axes.",
+          "solutionDiagrams": [
+            {
+              "id": "p44-q26-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"source answer curves and interval guides\"}],\"reference\":\"source page 44 question 26b\"}\n\\begin{tikzpicture}[x=0.85cm,y=1.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,<->] (-4.3,0)--(4.3,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-2.05)--(0,2.05) node[above] {$y$};\n\\draw[curveBlue,dashed,line width=0.4pt] (-1.570796,-2.05)--(-1.570796,2.05);\n\\draw[curveBlue,dashed,line width=0.4pt] (0.523599,-2.05)--(0.523599,2.05);\n\\fill[black] (-1.570796,0) circle[radius=0.7pt];\n\\fill[black] (0.523599,0) circle[radius=0.7pt];\n\\node[above left] at (-1.570796,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\node[below right] at (0.523599,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{6}$\\special{dvisvgm:raw </g>}};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-4.2:4.2,samples=201] plot (\\x,{sin(\\x r)});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-4.2:4.2,samples=241] plot (\\x,{cos(2*\\x r)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 44,
+                "sourceRegion": "Question 26b, supplied blue sketch beneath the instruction",
+                "description": "Common arrowed axes with sine and double-angle cosine curves, continuing beyond the requested interval. Dashed vertical guides identify the two boundary values. No region shading or curve-name labels.",
+                "mathematics": "y=sin(x), y=cos(2x); intersections at (-pi/2,-1) and (pi/6,1/2); cos(2x)>=sin(x) on [-pi/2,pi/6].",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p44-q26-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence find the area of the region bounded by the two curves.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3\\sqrt3}{4}$ square units.",
+          "worked": "On $\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{6}\\right]$, $\\cos 2x\\ge\\sin x$.\n$$\\begin{align*}A&=\\int_{-\\pi/2}^{\\pi/6}(\\cos 2x-\\sin x)\\,dx\\\\&=\\left[\\frac12\\sin 2x+\\cos x\\right]_{-\\pi/2}^{\\pi/6}\\\\&=\\left(\\frac{\\sqrt3}{4}+\\frac{\\sqrt3}{2}\\right)-(0+0)\\\\&=\\frac{3\\sqrt3}{4}\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p44-q26",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:11.717Z",
+  "updatedAt": "2026-11-12T05:33:11.717Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p44-q26",
+    "sectionRole": "exercise"
+  }
+}

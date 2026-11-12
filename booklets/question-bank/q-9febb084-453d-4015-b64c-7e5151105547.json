@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9febb084-453d-4015-b64c-7e5151105547",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine equilateral-triangle geometry with equal circular arcs and sectors, then account for overlapping triangle areas to find the enclosed area exactly.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:14:45.173Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "92b45f043055b1b5f75bd6c9ced1aeeb7853b6c330ad209c41bffb1b9179f210",
+      "evidence": ".booklet-work/full-imports/s6adv-trigonometry-and-measure-of-angles-3-radians-20261024/semantic-packets/assignments/assignment-1b7c9e26bb54f8b8142a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p14-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Triangle $ABC$ is equilateral with side length $2\\text{ cm}$. Circular arcs $AB$, $BC$ and $CA$ have centres $C$, $A$ and $B$ respectively. Answer each part in exact form.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 p14-q12-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1,{sqrt(3)});\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2,0);\n\\coordinate (P) at ({2-sqrt(3)},1);\n\\coordinate (Q) at (1,{sqrt(3)-2});\n\\coordinate (R) at ({sqrt(3)},1);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[black,line width=0.8pt] (A) arc[start angle=120,end angle=180,radius=2];\n\\draw[black,line width=0.8pt] (B) arc[start angle=240,end angle=300,radius=2];\n\\draw[black,line width=0.8pt] (C) arc[start angle=0,end angle=60,radius=2];\n\\fill[black] (P) circle[radius=1.2pt] (Q) circle[radius=1.2pt] (R) circle[radius=1.2pt];\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[left] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[right] at (R) {$R$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 12 diagram",
+          "description": "Unshaded equilateral triangle with three outward circular arcs. A is above B and C; filled points P, Q and R lie on the left, bottom and right arcs respectively. All straight triangle sides remain visible.",
+          "mathematics": "AB=BC=CA=2 cm. Arc APB has centre C, arc BQC has centre A, and arc CRA has centre B; each subtends pi/3 radians. The boundary order is A-P-B-Q-C-R-A.",
+          "answerVisibility": "Only source geometry, labels and the three supplied arc points are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p14-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the length of the arc $AB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{2\\pi}{3}\\text{ cm}$",
+          "worked": "Since $ABC$ is equilateral, $\\angle ACB=60^\\circ$.\n$$\\begin{align*}\\theta&=60\\times\\frac{\\pi}{180}=\\frac{\\pi}{3}\\\\l&=r\\theta\\\\l&=2\\times\\frac{\\pi}{3}\\\\l&=\\frac{2\\pi}{3}\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p14-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of the sector $CAPBC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{2\\pi}{3}\\text{ cm}^2$",
+          "worked": "$$\\begin{align*}A_{\\text{sector}}&=\\frac12r^2\\theta\\\\A_{\\text{sector}}&=\\frac12\\times2^2\\times\\frac{\\pi}{3}\\\\A_{\\text{sector}}&=\\frac{2\\pi}{3}\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p14-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the length of the perimeter $APBQCRA$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\pi\\text{ cm}$",
+          "worked": "The boundary consists of three equal arcs.\n$$\\begin{align*}P&=3\\times\\frac{2\\pi}{3}\\\\P&=2\\pi\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p14-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the area of $\\triangle ABC$ and hence find the area enclosed by the perimeter $APBQCRA$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{\\triangle ABC}=\\sqrt3\\text{ cm}^2$; enclosed area $=2(\\pi-\\sqrt3)\\text{ cm}^2$.",
+          "worked": "$$\\begin{align*}A_{\\triangle ABC}&=\\frac12\\times2\\times2\\sin60^\\circ\\\\A_{\\triangle ABC}&=\\sqrt3\\text{ cm}^2\\end{align*}$$\nEach curved segment is a sector minus $\\triangle ABC$. The enclosed region consists of the triangle and three such segments.\n$$\\begin{align*}A_{\\text{enclosed}}&=\\sqrt3+3\\left(\\frac{2\\pi}{3}-\\sqrt3\\right)\\\\A_{\\text{enclosed}}&=2\\pi-2\\sqrt3\\\\A_{\\text{enclosed}}&=2(\\pi-\\sqrt3)\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:34:32.930Z",
+  "updatedAt": "2026-11-12T05:34:32.931Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometry-and-measure-of-angles-3-radians-v1",
+    "blockId": "p14-q12",
+    "sectionRole": "exercise"
+  }
+}

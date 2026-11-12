@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b4b029a3-0450-4d4c-b4f3-7ba37fc78c63",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate the equal repayment, substitute its rounded value into the balance expression and explain the remaining debt through payment shortfalls and interest.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:41:35.485Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "925ec7aaac72648bbf42497089a9307654a447e6d67198e6ab8ca20a85c6922f",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-97e4705eedd43870dac8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p57-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p57-q31-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "[Problems with rounding]",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p57-q31-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Most questions so far have asked you to round monetary amounts correct to the nearest dollar. This is not always wise, as this question demonstrates. A personal loan for $30 000 is approved with the following conditions. The reducible interest rate is 13.3% per annum, with payments to be made at six-monthly intervals over five years.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p57-q31-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the size of each instalment, correct to the nearest dollar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$4202$ every six months.",
+          "worked": "Payments are made every 6 months. The six-month growth factor is\n$$r=1+\\frac{0.133}{2}=1.0665.$$\nThere are $10$ repayments. Let $M$ be each repayment.\n$$\\begin{aligned}A_0&=30000\\\\A_1&=30000r-M\\\\A_2&=(30000r-M)r-M\\\\A_2&=30000r^2-Mr-M\\\\A_{10}&=30000r^{10}-Mr^9-Mr^8-\\cdots-M.\\end{aligned}$$\nThe repayments form a geometric series with first term $M$, common ratio $r$ and $10$ terms. For the loan to be repaid,\n$$\\begin{aligned}0&=30000r^{10}-M\\frac{r^{10}-1}{r-1}\\\\M\\frac{r^{10}-1}{r-1}&=30000r^{10}\\\\M&=\\frac{30000(1.0665)^{10}(0.0665)}{(1.0665)^{10}-1}\\\\M&=4202.482996\\ldots\\\\M&\\approx\\$4202.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p57-q31-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Using this amount, show that $A_{10}\\ne0$, that is, the loan is not paid off in five years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{10}\\approx\\$6.56\\ne0$; the loan is not fully repaid.",
+          "worked": "Using the rounded repayment of $\\$4202$ in the geometric-series expression:\n$$\\begin{aligned}A_{10}&=30000(1.0665)^{10}-4202\\frac{(1.0665)^{10}-1}{0.0665}\\\\A_{10}&=6.563995\\ldots\\\\A_{10}&\\approx\\$6.56\\ne0.\\end{aligned}$$\nTherefore the loan is not exactly paid off after five years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p57-q31-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why this has happened.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The required repayment is about $\\$4202.48$. Rounding down makes each payment about 48 cents short, leaving a small balance.",
+          "worked": "The unrounded geometric-series calculation gives a repayment of $\\$4202.482996\\ldots$. Each rounded payment of $\\$4202$ is about 48 cents short. Interest also accrues on the unpaid amounts, so a small balance remains after the tenth repayment.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:59.254Z",
+  "updatedAt": "2026-11-12T05:31:59.254Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p57-q31",
+    "sectionRole": "exercise"
+  }
+}

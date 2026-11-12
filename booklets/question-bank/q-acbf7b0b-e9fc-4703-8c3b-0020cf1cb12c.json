@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-acbf7b0b-e9fc-4703-8c3b-0020cf1cb12c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Find the central angle from arc length, calculate sector and triangle areas, then subtract to obtain the minor segment area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:14:45.322Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b04963d7804218b00b52d561afccb3459f1372b395ca3e4c05b7e1ec579e5f82",
+      "evidence": ".booklet-work/full-imports/s6adv-trigonometry-and-measure-of-angles-3-radians-20261024/semantic-packets/assignments/assignment-b7bfb2169c6b0b6f422c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p14-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "The diagram below shows an arc $PQ$ of length $40\\text{ cm}$, subtended by some angle in a circle with radius $70\\text{ cm}$. Find:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"segmentFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the minor segment whose area is requested\"}],\"reference\":\"source page 14 p14-q11-diagram\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{segmentFill}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (230:2);\n\\coordinate (Q) at (310:2);\n\\fill[segmentFill] (P) arc[start angle=230,end angle=310,radius=2] -- cycle;\n\\draw[black,line width=0.8pt] (O) circle[radius=2];\n\\draw[black,line width=0.8pt] (P)--(O)--(Q)--cycle;\n\\draw[black,line width=0.4pt] ($(O)!0.5!(P)+(-40:0.065)$)--($(O)!0.5!(P)+(140:0.065)$);\n\\draw[black,line width=0.4pt] ($(O)!0.5!(Q)+(40:0.065)$)--($(O)!0.5!(Q)+(220:0.065)$);\n\\node[above] at (O) {$O$};\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\path (O)--(P) node[midway,above left] {$70\\text{ cm}$};\n\\node[below] at (270:2) {$40\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 36.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 11",
+          "description": "Schematic circle with centre O, lower endpoints P and Q, equal-radius ticks, a horizontal chord PQ and the minor segment shaded. The radius OP is labelled 70 cm and the minor arc PQ is labelled 40 cm. The source schematic proportions are retained without asserting a measured angle.",
+          "mathematics": "OP and OQ are equal radii of 70 cm. The minor arc PQ has length 40 cm. The shaded minor segment is the sector POQ less triangle POQ.",
+          "answerVisibility": "Only source givens and the requested shaded region are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p14-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\angle POQ$ in radians.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{4}{7}\\text{ rad}$",
+          "worked": "$$\\begin{align*}l&=r\\theta\\\\40&=70\\theta\\\\\\theta&=\\frac{40}{70}\\\\\\theta&=\\frac47\\text{ rad}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p14-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Area of sector $POQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1400\\text{ cm}^2$",
+          "worked": "$$\\begin{align*}A_{\\text{sector}}&=\\frac12r^2\\theta\\\\A_{\\text{sector}}&=\\frac12\\times70^2\\times\\frac47\\\\A_{\\text{sector}}&=1400\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p14-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Area of $\\triangle POQ$ to the nearest $\\text{cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1325\\text{ cm}^2$",
+          "worked": "Use the included angle in radians.\n$$\\begin{align*}A_{\\triangle}&=\\frac12ab\\sin C\\\\A_{\\triangle}&=\\frac12\\times70\\times70\\times\\sin\\left(\\frac47\\right)\\\\A_{\\triangle}&\\approx1325\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p14-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Shaded area correct to the nearest $\\text{cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$75\\text{ cm}^2$",
+          "worked": "Subtract the triangle from the sector, using the unrounded triangle area.\n$$\\begin{align*}A_{\\text{segment}}&=A_{\\text{sector}}-A_{\\triangle}\\\\A_{\\text{segment}}&=1400-2450\\sin\\left(\\frac47\\right)\\\\A_{\\text{segment}}&\\approx75\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:34:30.499Z",
+  "updatedAt": "2026-11-12T05:34:30.499Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometry-and-measure-of-angles-3-radians-v1",
+    "blockId": "p14-q11",
+    "sectionRole": "exercise"
+  }
+}

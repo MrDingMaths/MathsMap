@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a4775b9b-8520-4009-a14b-b3f2024bead1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate the deferred balance, apply the taught repayment derivation to the explicitly supplied payment schedule and multiply the rounded repayment by 54.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:40:50.115Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dad306ccb4705210561a5b75db6a9526986b88c16b0738bd5ab03228843281c9",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-eeed3a5f5d98d0ba41cc/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p54-q27-root",
+    "type": "question",
+    "label": "27",
+    "prompt": "A store offers furniture on hire purchase at 20% p.a. over 5 years, with no repayments for 6 months. Ali buys furniture worth $\\$12\\,000$. Interest is compounded monthly, with repayments at the end of months 7 to 60. Give monetary answers to the nearest cent.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p54-q27-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How much does Ali owe after 6 months?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$13\\,251.13$",
+          "worked": "Monthly growth factor: $r=1+\\frac{0.20}{12}$. No repayments are made for 6 months.\n\nStart: $12\\,000$.\n\nAfter 1 month: $12\\,000r$.\n\nAfter 2 months: $12\\,000r^2$.\n\nAfter 6 months:\n$$\\begin{aligned}A_6&=12\\,000r^6\\\\&=12\\,000\\left(1+\\frac{0.20}{12}\\right)^6\\\\&\\approx\\$13\\,251.13.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p54-q27-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What are the monthly repayments?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$374.07$ per month.",
+          "worked": "Let each monthly repayment be $M$, and let $r=1+\\frac{0.20}{12}$. After the 6-month delay there are $60-6=54$ repayments.\n\nAfter the 1st repayment: $12\\,000r^7-M$.\n\nAfter the 2nd repayment: $12\\,000r^8-Mr-M$.\n\nAt the end of 60 months:\n$$A_{60}=12\\,000r^{60}-Mr^{53}-Mr^{52}-\\cdots-M.$$\nThe repayment terms form a geometric series with first term $a=M$, common ratio $r$, and $n=54$.\n$$\\begin{aligned}0&=12\\,000r^{60}-M\\frac{r^{54}-1}{r-1}\\\\M\\frac{r^{54}-1}{r-1}&=12\\,000r^{60}\\\\M&=\\frac{12\\,000r^{60}(r-1)}{r^{54}-1}\\\\&\\approx\\$374.07.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p54-q27-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How much does Ali pay for the furniture altogether? Use the rounded repayment from part (b).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$20\\,199.78$",
+          "worked": "Using the geometric-series repayment from part (b):\n$$\\begin{aligned}\\text{Total paid}&=54(374.07)\\\\&=\\$20\\,199.78.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p54-q27",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:58.542Z",
+  "updatedAt": "2026-11-12T05:31:58.542Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p54-q27",
+    "sectionRole": "exercise"
+  }
+}

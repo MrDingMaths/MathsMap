@@ -1,0 +1,325 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9296f333-4117-4bd0-94a8-1e4bcae6872e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires modelling a repayment delay, distinguishing 36 interest periods from 34 repayments, and deriving the repayment using a geometric series.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:40:02.543Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c12c13315ca59faba35f67bdd70cd09f9348b44b6234cbf49175043a7cbba01f",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-c668ae46e2dea90a0e9f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p53-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": "A $\\$2000$ loan is offered at 18% p.a. with interest charged monthly, over 3 years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p53-q25-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If no repayment need be paid for the first 2 months, find the amount of each repayment to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$77.81$ per month.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p53-q25-a-rate",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Monthly growth factor:",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "r=1+\\frac{0.18}{12}=1.015",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-delay",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "No repayments are made for the first 2 months. The balance after 2 months is ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "2000r^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". There are then 34 monthly repayments. Let M be each repayment.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-first-payment",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "1st repayment after the delay: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "2000r^3-M",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-second-payment",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "2nd repayment after the delay: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "2000r^4-Mr-M",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-final-balance",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "At the end of 36 months:",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A_{36}=2000r^{36}-Mr^{33}-Mr^{32}-\\cdots-M",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-series",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The repayment terms form a geometric series with ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "a=M",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", common ratio ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "r=1.015",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=34",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". Set the final balance to zero.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-a-solve",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "center",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}0&=2000r^{36}-M\\frac{r^{34}-1}{r-1}\\\\M\\frac{r^{34}-1}{r-1}&=2000r^{36}\\\\M&=\\frac{2000(1.015)^{36}(0.015)}{(1.015)^{34}-1}\\\\M&\\approx\\$77.81\\end{align*}",
+                    "display": true
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p53-q25-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How much will be paid back altogether? Use your rounded repayment from part (a).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$2645.54$.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p53-q25-b-total",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Using the repayment from part (a):",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}\\text{Total paid}&=34(77.81)\\\\\\text{Total paid}&=\\$2645.54\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p53-q25-b-alternative",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Using the unrounded repayment instead gives ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\$2645.42",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p53-q25",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:00.200Z",
+  "updatedAt": "2026-11-12T05:32:00.201Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p53-q25",
+    "sectionRole": "challenge"
+  }
+}

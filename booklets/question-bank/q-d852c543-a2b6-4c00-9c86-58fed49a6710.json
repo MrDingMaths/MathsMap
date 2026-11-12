@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d852c543-a2b6-4c00-9c86-58fed49a6710",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-integral-symmetry",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate a definite integral with an integer upper limit, then connect cancellation over complete periods with a geometric area interpretation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:49:55.427Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bfeb714762d47197a2b82525068ddc607fc67e0305deddf7a462289f5e83b105",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-8ca803da9d35edd6c031/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p46-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p46-q31-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\displaystyle\\int_0^n(1+\\sin 2\\pi x)\\,dx=n$, for all positive integers $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\int_0^n(1+\\sin 2\\pi x)\\,dx=n$, since $\\cos 2\\pi n=\\cos 0=1$.",
+          "worked": "For every positive integer $n$, $\\cos 2\\pi n=1$.\n$$\\begin{align*}\\int_0^n(1+\\sin 2\\pi x)\\,dx&=\\left[x-\\frac{1}{2\\pi}\\cos 2\\pi x\\right]_0^n\\\\&=\\left(n-\\frac{1}{2\\pi}\\right)-\\left(0-\\frac{1}{2\\pi}\\right)\\\\&=n.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p46-q31-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch $y=1+\\sin 2\\pi x$, and interpret the result geometrically.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve oscillates between $y=0$ and $y=2$ about $y=1$, with period $1$. Over $0\\le x\\le n$, deviations above and below $y=1$ cancel, so the area under the curve is $n$ square units.",
+          "worked": "The curve $y=1+\\sin 2\\pi x$ oscillates about $y=1$ with period $1$, and passes through $(0,1)$. Its maximum value is $2$ and its minimum value is $0$.\n\nFor positive integer $n$, the interval $0\\le x\\le n$ contains $n$ complete periods. The positive and negative deviations from $y=1$ cancel, so the area under the curve equals the area of a rectangle $n$ units long and $1$ unit high:\n$$A=n\\times1=n\\text{ square units}.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p46-q31-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"trigonometric function curve\"}],\"reference\":\"source page 46 question 31(b)\"}\n\\begin{tikzpicture}[x=1.4cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.35,-1.4) rectangle (2.45,3.45);\n\\draw[black,line width=0.5pt,<->] (-2.15,0)--(2.18,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-1.2)--(0,3.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2} {\n\\draw[black,line width=0.4pt] (\\v,-0.055)--(\\v,0.055);\n\\node[below] at (\\v,-0.055) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-1,1,2,3} {\n\\draw[black,line width=0.4pt] (-0.04,\\v)--(0.04,\\v);\n\\node[left] at (-0.04,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveBlue,line width=0.8pt,<->,samples=241,domain=-2.15:2.15] plot (\\x,{1+sin(360*\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 46,
+                "sourceRegion": "Question 31(b), supplied teacher sketch below the prompt.",
+                "description": "A complete solution graph with double-ended coordinate axes, the source tick labels, four complete oscillations and continuation arrows. No shading or midline is drawn. Ordinary axes and labels use house black; the function uses standard blue.",
+                "mathematics": "y=1+sin(2*pi*x), period 1, range [0,2], y-intercept 1; horizontal labels -2,-1,1,2 and vertical labels -1,1,2,3.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 62
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p46-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:10.969Z",
+  "updatedAt": "2026-11-12T05:33:10.969Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p46-q31",
+    "sectionRole": "exercise"
+  }
+}

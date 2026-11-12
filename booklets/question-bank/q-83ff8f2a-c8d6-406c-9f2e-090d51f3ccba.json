@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-83ff8f2a-c8d6-406c-9f2e-090d51f3ccba",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "understand-annuity",
+    "secondarySkillIds": [
+      "interpret-tables-graphs"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the demonstrated spreadsheet recurrence for annual deposits, then describe and sketch the increasing balance.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:18:46.988Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d68008fcafa938873456db9f11cbf327c8952ef874b1088f867d6fb7287a3b41",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-44d0a4c31dc9cf63cfce/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p11-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Each year, since his daughter’s first birthday, Lucas has put $\\$1500$ into a savings account that can be accessed when his daughter turns 21. The savings account pays interest of 5% p.a.\n\nAnswer using a spreadsheet.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How much will be in the savings account on his daughter’s 21st birthday? Assume that Lucas contributes a final $\\$1500$ to the account on this day. Give your answer to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$53\\,578.88$",
+          "worked": "Let $V_n$ be the balance immediately after the deposit on the $n$th birthday.\n\n$$\\begin{aligned}V_0&=0\\\\V_{n+1}&=1.05V_n+1500\\end{aligned}$$\n\nIn the spreadsheet, enter payment numbers 0 to 21 in A2:A23 and enter 0 in B2. In B3 enter `=B2*1.05+1500`, then fill down to B23. Keep full precision during calculation and display balances to two decimal places.\n\nB23 gives $V_{21}=\\$53\\,578.88$, including the final deposit on her 21st birthday.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p11-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the spreadsheet to create a line graph of how the balance is changing over time. Describe the shape of your graph and sketch it.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p11-q2-b-axes",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11 p11-q2-b-axes\"}\n\\begin{tikzpicture}[>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,0)--(6,0);\n\\draw[->,line width=0.5pt] (0,0)--(0,5.3);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 11,
+              "sourceRegion": "Question 2b, axes to the right of the instruction",
+              "description": "Unlabelled horizontal and vertical axes meeting at the lower-left corner, with rightward and upward arrowheads. No ticks or grid.",
+              "mathematics": "Blank scaffold for a sketch of savings balance against time.",
+              "answerVisibility": "Axes remain visible in the question edition; the balance graph is solution-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "The balance increases at an increasing rate: the graph curves upwards and becomes steeper over time.",
+          "worked": "Select the payment-number and balance columns and insert a line graph, using age in years on the horizontal axis and balance in dollars on the vertical axis. The plotted annual balances rise from $\\$0$ before the first deposit to $\\$53\\,578.88$ immediately after the deposit on the 21st birthday. The graph becomes steeper because each year interest is earned on a larger balance, as well as another $\\$1500$ being deposited.",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q2-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11 p11-q2-b-solution-graph\"}\n\\begin{tikzpicture}[x=0.23cm,y=0.85cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,0)--(23,0) node[below] {Age (years)};\n\\draw[->,line width=0.5pt] (0,0)--(0,6.2) node[above right] {Balance (dollars)};\n\\draw[line width=0.8pt] plot[domain=0:21,samples=22] (\\x,{3*(pow(1.05,\\x)-1)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Question 2b answer sketch",
+                "description": "Self-contained qualitative line graph joining annual balance points, increasing and becoming steeper, with labelled axes and no numerical ticks.",
+                "mathematics": "Annual points satisfy V_0=0 and V_(n+1)=1.05V_n+1500 for n=0,...,20. Plot coordinates use balance divided by 10000; the sketch has no printed numerical scale.",
+                "answerVisibility": "Solution-only completed graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q2-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:06.038Z",
+  "updatedAt": "2026-11-12T05:32:06.038Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-v1",
+    "blockId": "p11-q2-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-50ab2dea-c7ec-40fb-a258-e5b28fad0f33",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follow supplied stages to derive the repayment series, solve for the monthly payment, calculate interest and substitute into the simple-interest formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:08:19.520Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "058433f20bbff9fb757c34e38d0c1d1a107caba6ae7fb0656e87990ef47a1de8",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/lean-review/calls/content-1792836442490-57/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p59-q33-root",
+    "type": "question",
+    "label": "33",
+    "prompt": "As can be seen from these questions, the calculations involved with reducible loans are reasonably complex. For that reason, it is sometimes convenient to convert the reducible interest rate into a simple interest rate. Suppose that a mortgage is taken out on a $\\$180\\,000$ house at $6.6\\%$ reducible interest per annum for a period of 25 years, with payments of amount $M$ made monthly.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p59-q33-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $A_n$ be the balance owing after $n$ monthly repayments. Explain why $A_{300}=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The loan is fully repaid after $25\\times12=300$ monthly repayments, so $A_{300}=0$.",
+          "worked": "There are $25\\times12=300$ monthly repayments. Since $A_{300}$ is the balance owing after the final repayment, $A_{300}=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p59-q33-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that\n$$A_{300}=180000\\times1.0055^{300}-\\frac{M(1.0055^{300}-1)}{0.0055}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{300}=180000(1.0055)^{300}-\\dfrac{M(1.0055^{300}-1)}{0.0055}$.",
+          "worked": "Monthly growth factor:\n$$r=1+\\frac{0.066}{12}=1.0055.$$\nStart: $180000$.\n\nAfter the first repayment: $180000r-M$.\n\nAfter the second repayment: $180000r^2-Mr-M$.\n\nAfter 300 repayments:\n$$A_{300}=180000r^{300}-Mr^{299}-Mr^{298}-\\cdots-M.$$\nThe repayment terms form a geometric series with first term $M$, common ratio $r$ and 300 terms.\n$$\\begin{aligned}A_{300}&=180000r^{300}-M\\frac{r^{300}-1}{r-1}\\\\A_{300}&=180000(1.0055)^{300}-\\frac{M(1.0055^{300}-1)}{0.0055}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p59-q33-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the size of each repayment to the bank, correct to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$1226.64$ per month.",
+          "worked": "Set $A_{300}=0$:\n$$\\begin{aligned}0&=180000(1.0055)^{300}-\\frac{M(1.0055^{300}-1)}{0.0055}\\\\M&=\\frac{180000(1.0055)^{300}(0.0055)}{1.0055^{300}-1}\\\\M&=1226.644379\\ldots\\end{aligned}$$\nThe monthly repayment is $\\$1226.64$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p59-q33-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence find the total paid to the bank, correct to the nearest dollar, over the life of the loan. Use the unrounded repayment from part c.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$367\\,993$.",
+          "worked": "Using the unrounded repayment:\n$$\\begin{aligned}\\text{Total paid}&=300\\times1226.644379\\ldots\\\\&=367993.313715\\ldots\\end{aligned}$$\nThe total paid is $\\$367\\,993$, to the nearest dollar.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p59-q33-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What amount is therefore paid in interest? Use this amount and the simple interest formula to calculate the simple interest rate per annum over the life of the loan, correct to two significant figures.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$187\\,993$ in interest; equivalent simple interest rate $4.2\\%$ p.a.",
+          "worked": "Using the total from part d:\n$$\\begin{aligned}I&=367993-180000\\\\I&=187993.\\end{aligned}$$\nThus $\\$187\\,993$ is paid in interest. Using $I=Prt$:\n$$\\begin{aligned}187993&=180000(r)(25)\\\\r&=\\frac{187993}{180000\\times25}\\\\r&=0.0417762\\ldots\\end{aligned}$$\nThe equivalent simple interest rate is $4.2\\%$ p.a., to two significant figures.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p59-q33",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:57.614Z",
+  "updatedAt": "2026-11-12T05:31:57.614Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p59-q33",
+    "sectionRole": "exercise"
+  }
+}

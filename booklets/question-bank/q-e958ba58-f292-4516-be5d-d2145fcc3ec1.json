@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e958ba58-f292-4516-be5d-d2145fcc3ec1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-with-y-axis",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Converts the two horizontal boundaries into logarithmic x-coordinates and extends the taught rectangle-subtraction method to two nonzero heights, selecting the rectangles and exponential integral that isolate the requested area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:09:55.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "14261db7c680f1bdacefad44393bf06a54ed9dd0a7c2a2e0e5202e52675bee97",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-integral-calculus-3-further-areas-under-curves-v1/ff373e00c336bbc2a123c1e6a3012591daff82f41f4f0ec9ddb4d04760899eca-1793876948997/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "Find the area between the curve $y=2e^x$, the $y$-axis, and the lines $y=3$ and $y=5$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q16-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"exponential function series\"},{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"requested area between the y-axis and curve for 3 <= y <= 5\"},{\"name\":\"boundaryGreen\",\"hex\":\"4F9B63\",\"reason\":\"horizontal limits of the requested region\"}],\"reference\":\"page 39 question 16 graph\"}\n\\begin{tikzpicture}[x=8mm,y=8mm,>=Stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveRed}{HTML}{EF6068}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\definecolor{boundaryGreen}{HTML}{4F9B63}\n\\path[fill=regionGreen] (0,3)--({ln(1.5)},3) -- plot[domain=ln(1.5):ln(2.5),samples=45] (\\x,{2*exp(\\x)})--(0,5)--cycle;\n\\draw[boundaryGreen,line width=0.4pt] (0,3)--({ln(1.5)},3) (0,5)--({ln(2.5)},5);\n\\draw[<->,line width=0.5pt] (-1.4,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.3)--(0,5.5) node[above] {$y$};\n\\foreach \\t in {-1,1,2,3,4,5} {\n\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {1,2,3,4,5} {\n\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[line width=0.4pt] (-0.09,-1)--(0.09,-1);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\draw[curveRed,<->,line width=0.8pt] plot[domain=-1.3:ln(2.7),samples=80] (\\x,{2*exp(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 16, graph beneath the prompt",
+          "description": "Equation-driven exponential graph with arrowheads, labelled axes and source ticks. The green region is bounded by the y-axis, the curve and both horizontal lines y=3 and y=5. Source red and green are represented by standard palette accents.",
+          "mathematics": "Curve y=2e^x passes through (0,2). The horizontal boundaries meet the curve at x=ln(3/2) and x=ln(5/2).",
+          "answerVisibility": "Only supplied graphical givens appear; intersection x-values and the area are withheld."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\left(5\\ln\\frac52-3\\ln\\frac32-2\\right)\\text{ units}^2$",
+      "worked": "The horizontal boundaries meet the curve at\n$$\\begin{align*}\n3&=2e^a,&a&=\\ln\\frac32,\\\\\n5&=2e^b,&b&=\\ln\\frac52.\n\\end{align*}$$\nSubtract the lower rectangle and the area under the curve from the upper rectangle.\n$$\\begin{align*}\nA&=5b-3a-\\int_a^b2e^x\\,dx\\\\\nA&=5b-3a-\\left[2e^x\\right]_a^b\\\\\nA&=5\\ln\\frac52-3\\ln\\frac32-(5-3)\\\\\nA&=\\left(5\\ln\\frac52-3\\ln\\frac32-2\\right)\\text{ units}^2.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 40
+  },
+  "presentation": {
+    "ownerId": "p39-q16",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "completion-41",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "completion-34",
+                  "type": "item",
+                  "ref": "p39-q16-root/label"
+                },
+                {
+                  "id": "completion-35",
+                  "type": "item",
+                  "ref": "p39-q16-root/prompt"
+                },
+                {
+                  "id": "completion-40",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "completion-37",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-36",
+                          "type": "item",
+                          "ref": "p39-q16-graph",
+                          "width": 66.9
+                        }
+                      ],
+                      "gap": 1,
+                      "width": 66.9
+                    },
+                    {
+                      "id": "completion-39",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "completion-38",
+                          "type": "item",
+                          "ref": "p39-q16-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 4
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:07.162Z",
+  "updatedAt": "2026-11-12T05:33:07.162Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "p39-q16",
+    "sectionRole": "exercise"
+  }
+}

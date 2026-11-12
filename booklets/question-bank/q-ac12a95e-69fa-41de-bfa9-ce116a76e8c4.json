@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ac12a95e-69fa-41de-bfa9-ce116a76e8c4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Requires the antiderivative of tan x, -ln|cos x|, and evaluating logs at exact trig values. Part b adds a sign decision because the region lies below the axis.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:53:28.656Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ddff16b8dcf6bdbf36df9020a87a35e1e37203555ba724013677ce7d6286044f",
+      "diagramBlindHash": "7013bf7bd1fb23b50fc7604a129c4117178151bc7b2953d1dd8dedd3e3a1f836",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-3-further-areas-under-curves-2-v1/20261111-044013/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p40-q17",
+          "score": 36
+        },
+        "easierThan": {
+          "ref": "p31-q3",
+          "score": 39
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-2f0902af-p30-topic-slot-5-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Find the area of the region shaded in each graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-2f0902af-p30-topic-slot-5-slot-5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The region is bounded by the curve $y=\\tan x$, the $x$-axis and the line $x=\\frac{\\pi}{6}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-2f0902af-p30-topic-slot-5-slot-5-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"slot-5 part a graph\"}\n\\begin{tikzpicture}[x=2cm,y=1.2cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-1.0,-1.5) rectangle (1.5,2.55);\n\\fill[regionBlue] (0,0)--plot[domain=0:0.523599,samples=30] (\\x,{tan(\\x r)})--(0.523599,0)--cycle;\n\\draw[->,line width=0.5pt] (-0.9,0)--(1.3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.4)--(0,2.2) node[above] {$y$};\n\\draw[line width=0.5pt] (0.523599,0)--(0.523599,{tan(0.523599 r)});\n\\draw[<->,line width=0.8pt] plot[domain=-0.85:1.1,samples=80] (\\x,{tan(\\x r)});\n\\node[below] at (0.523599,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{6}$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 50,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\ln\\dfrac{2}{\\sqrt3}\\text{ units}^2$",
+          "worked": "$$\\begin{align*}A&=\\int_0^{\\pi/6}\\tan x\\,dx\\\\&=\\left[-\\ln(\\cos x)\\right]_0^{\\pi/6}\\\\&=-\\ln\\left(\\frac{\\sqrt3}{2}\\right)+\\ln1\\\\&=\\ln\\frac{2}{\\sqrt3}\\text{ units}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-2f0902af-p30-topic-slot-5-slot-5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The region is bounded by the curve $y=\\tan x$, the $x$-axis and the line $x=-\\frac{\\pi}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-2f0902af-p30-topic-slot-5-slot-5-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"slot-5 part b graph\"}\n\\begin{tikzpicture}[x=2cm,y=1.2cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-1.2,-1.8) rectangle (1.4,2.0);\n\\fill[regionBlue] (-0.785398,0)--plot[domain=-0.785398:0,samples=30] (\\x,{tan(\\x r)})--cycle;\n\\draw[->,line width=0.5pt] (-1.1,0)--(1.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.7)--(0,1.6) node[above] {$y$};\n\\draw[line width=0.5pt] (-0.785398,0)--(-0.785398,-1);\n\\draw[<->,line width=0.8pt] plot[domain=-1.0:0.9,samples=80] (\\x,{tan(\\x r)});\n\\node[above] at (-0.785398,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{\\pi}{4}$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 50,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac12\\ln2\\text{ units}^2$",
+          "worked": "The region lies below the $x$-axis.\n$$\\begin{align*}A&=-\\int_{-\\pi/4}^0\\tan x\\,dx\\\\&=-\\left[-\\ln(\\cos x)\\right]_{-\\pi/4}^0\\\\&=\\left[\\ln(\\cos x)\\right]_{-\\pi/4}^0\\\\&=\\ln1-\\ln\\left(\\frac{\\sqrt2}{2}\\right)\\\\&=\\ln\\sqrt2\\\\&=\\frac12\\ln2\\text{ units}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-2f0902af-p30-topic-slot-5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:04.685Z",
+  "updatedAt": "2026-11-12T05:33:04.685Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-2-v1",
+    "blockId": "v2-2f0902af-p30-topic-slot-5",
+    "sectionRole": "exercise"
+  }
+}

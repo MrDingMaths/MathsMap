@@ -1,0 +1,220 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-331d81a8-f1d8-4f53-98fa-add69dc46dbe",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "estimate-instantaneous-rate-graph",
+    "secondarySkillIds": [
+      "average-rate-of-change",
+      "interpret-derivative-rate"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "The taught secant and tangent methods are explicitly prompted. Students must position tangents, choose readable points and interpret their gradients. The hardest demand is extending the flattening trend to a derivative approaching zero and connecting that to thermal equilibrium; this is a routine conceptual link supported by the earlier decreasing-rate observation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T22:16:08.535Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a771b90926d319d049c9c269ce553a63fa2eb70dce9170aff20ad0da2c1c55b",
+      "evidence": ".booklet-work/end-goal-20261028/phase4/local-estimating-presentation-triage/new-task-rating/reply.json"
+    }
+  },
+  "content": {
+    "id": "p11-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A bottle of water was taken out of the fridge on a hot day.\nIts temperature started at $0^\\circ\\mathrm{C}$ and started rising.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p11-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"annotationRed\",\"hex\":\"EF6068\",\"reason\":\"source line-segment annotation distinct from the underlying temperature curve\"}],\"reference\":\"source page 11, p11-q3-graph\"}\n\\begin{tikzpicture}[x=0.19cm,y=0.19cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{annotationRed}{HTML}{EF6068}\n\\path[use as bounding box] (-6,-4) rectangle (84,44);\n\\draw[step=1,line width=0.15pt,color=black!20] (0,0) grid (80,40);\n\\draw[xstep=5,ystep=5,line width=0.25pt,color=black!45] (0,0) grid (80,40);\n\\draw[->,line width=0.5pt] (0,0)--(82.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,42.5) node[above] {$y$};\n\\foreach \\x in {10,20,30,40,50,60,70,80}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.5);\\node[below] at (\\x,-0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {10,20,30,40}{\\draw[line width=0.4pt] (0,\\y)--(-0.5,\\y);\\node[left] at (-0.5,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y^\\circ\\mathrm{C}$\\special{dvisvgm:raw </g>}};}\n\\draw[->,black,line width=0.8pt] (0,0) .. controls (6,8.3) and (12,14.4) .. (20,20) .. controls (26,24.2) and (33,27.6) .. (40,30) .. controls (47,32.4) and (53,33.6) .. (60,35) .. controls (67,36.4) and (74,37) .. (80,37.5);\n\\draw[annotationRed,line width=0.8pt] (0,0)--(10,13.9)--(10,13.1)--(20,20)--(30,27)--(30,26.3)--(40,30)--(50,33.5)--(50,33.1)--(60,35)--(70,36.7)--(80,37.5);\n\\node[fill=white,inner sep=1pt,above] at (20,21) {$A$};\n\\node[fill=white,inner sep=1pt,below] at (40,29.6) {$B$};\n\\node[fill=white,inner sep=1pt,below] at (60,34.5) {$C$};\n\\node[fill=white,inner sep=1pt,below] at (80,37) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 170,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Shared graph above parts a–f",
+          "description": "Temperature–time graph reconstructed with editable smooth Bézier segments through the source-labelled positions; no function equation is supplied. Retains fine unit grid, heavier five-unit grid, labelled ten-unit ticks, axes and curve arrowheads, A–D labels and the distinct red source annotation. The origin O label is omitted under the graph convention.",
+          "mathematics": "Horizontal range 0–80 minutes; vertical range 0–40 degrees Celsius. Curve passes approximately through (0,0), (20,20), (40,30), (60,35), (80,37.5), increasing at a decreasing rate.",
+          "answerVisibility": "Permanent source graph and red annotation only; supplied blue answers are excluded."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p11-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the average rate of change of the temperature in the first 20 minutes?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1^\\circ\\mathrm{C}$ per minute.",
+          "worked": "$$\\begin{align*}\\text{Average rate}&=\\frac{20-0}{20-0}\\\\&=1^\\circ\\mathrm{C}/\\mathrm{min}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p11-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Is the temperature increasing at this rate the whole time?\nExplain how you know by referring to the graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. The graph becomes less steep, so the rate of temperature increase decreases.",
+          "worked": "The graph is curved rather than straight, so its gradient is not constant. It becomes less steep as time increases. At a constant rate of $1^\\circ\\mathrm{C}/\\mathrm{min}$, the temperature after 80 minutes would be $80^\\circ\\mathrm{C}$, whereas the graph shows less than $40^\\circ\\mathrm{C}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p11-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q3-c-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Estimate the ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "instantaneous",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " rate of temperature change at 0 minutes by finding the gradient of the tangent at the origin. We call this ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "f'(0)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ". Give your estimate to 2 decimal places.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(0)\\approx1.39^\\circ\\mathrm{C}/\\mathrm{min}$.",
+          "worked": "Draw a tangent to the smooth temperature curve at the origin. A suitable tangent rises about $13.9^\\circ\\mathrm{C}$ over 10 minutes.\n$$\\begin{align*}f'(0)&\\approx\\frac{13.9-0}{10-0}\\\\&=1.39^\\circ\\mathrm{C}/\\mathrm{min}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p11-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Estimate $f'(20)$ using a tangent. Give your estimate to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(20)\\approx0.7^\\circ\\mathrm{C}/\\mathrm{min}$.",
+          "worked": "Draw a tangent at $A$. For example, read approximately $(0,6)$ and $(40,34)$ on this tangent.\n$$\\begin{align*}f'(20)&\\approx\\frac{34-6}{40-0}\\\\&=0.7^\\circ\\mathrm{C}/\\mathrm{min}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p11-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Estimate $f'(60)$ using a tangent. Give your estimate to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(60)\\approx0.2^\\circ\\mathrm{C}/\\mathrm{min}$.",
+          "worked": "Draw a tangent at $C$. For example, read approximately $(40,31)$ and $(80,39)$ on this tangent.\n$$\\begin{align*}f'(60)&\\approx\\frac{39-31}{80-40}\\\\&=0.2^\\circ\\mathrm{C}/\\mathrm{min}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p11-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "What do you think will happen to the value of $f'(x)$ as $x\\to\\infty$?\nInterpret your answer in relation to the context.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)\\to0$. The temperature approaches room temperature, so its rate of increase approaches zero.",
+          "worked": "The curve becomes increasingly horizontal, so the gradient of its tangent approaches zero. The water warms towards room temperature and its temperature increases more slowly as it approaches that temperature.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:17.194Z",
+  "updatedAt": "2026-11-12T05:33:17.195Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-1-estimating-change-and-the-derivative-v1",
+    "blockId": "p11-q3",
+    "sectionRole": "exercise"
+  }
+}

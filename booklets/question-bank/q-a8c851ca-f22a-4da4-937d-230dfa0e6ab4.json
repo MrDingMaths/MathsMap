@@ -1,0 +1,164 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a8c851ca-f22a-4da4-937d-230dfa0e6ab4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "reducing-balance-loan",
+    "secondarySkillIds": [],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Use a monthly spreadsheet recurrence to calculate mortgage balances and interpret the changing gradient of its graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T09:30:42.369Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51c7e6796c56b955bc28537338245187746eb90ba719d344a2ba008c75c4e846",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/lean-review/calls/content-1792920623776-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Answer using a spreadsheet. Sari buys a house with a $\\$750\\,000$ mortgage. The mortgage has a fixed rate of $5.4\\%$ p.a. compounded monthly, and she makes a mortgage payment of $\\$4200$ each month. Give monetary answers to the nearest cent.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the balance of the mortgage after 10 years?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$619\\,112.94$",
+          "worked": "The monthly interest rate is $0.054\\div12=0.0045$. Set up spreadsheet columns for the number of months and the balance. Enter $0$ in A2 and $750000$ in B2. Enter $1$ in A3 and `=B2*1.0045-4200` in B3. Continue the month numbers and fill the balance formula down to month $120$.\n$$\\begin{aligned}V_0&=750000\\\\V_{n+1}&=1.0045V_n-4200\\\\V_{120}&\\approx619112.94\\end{aligned}$$\nThe balance after 10 years is $\\$619\\,112.94$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p11-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the balance of the mortgage after 20 years?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$394\\,781.76$",
+          "worked": "Continue filling the same spreadsheet formula down to month $20\\times12=240$, retaining unrounded balances in the calculations.\n$$V_{240}\\approx394781.76$$\nThe balance after 20 years is $\\$394\\,781.76$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p11-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the balance of the mortgage after 30 years?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$10\\,293.96$",
+          "worked": "Continue filling the same spreadsheet formula down to month $30\\times12=360$, retaining unrounded balances in the calculations.\n$$V_{360}\\approx10293.96$$\nThe balance after 30 years is $\\$10\\,293.96$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p11-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the spreadsheet to create a line graph to see how the balance is changing over time. Comment on how the gradient is changing. Sketch the shape of your graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p11-q4-d-axes",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11 p11-q4-d-axes\"}\n\\begin{tikzpicture}[>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,0)--(6,0);\n\\draw[->,line width=0.5pt] (0,0)--(0,5);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 11,
+              "sourceRegion": "Question 4d, lower-right corner",
+              "description": "Unlabelled horizontal and vertical axes with arrowheads, meeting at the lower-left corner. No ticks or grid.",
+              "mathematics": "Blank axes for sketching the mortgage balance against time.",
+              "answerVisibility": "Axes are visible in the student question; the curve is solution-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "The balance decreases, and the gradient becomes increasingly negative: the graph gets steeper downwards.",
+          "worked": "Create a spreadsheet line graph with time on the horizontal axis and mortgage balance on the vertical axis. The balance starts at $\\$750\\,000$ and falls to about $\\$10\\,293.96$ after 30 years. The graph slopes downwards and is concave down. As the balance falls, less interest is charged each month, so more of each fixed payment reduces the principal. The gradient therefore becomes more negative.",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q4-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11 p11-q4-d-solution\"}\n\\begin{tikzpicture}[>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,0)--(6.5,0) node[midway,below] {Time (years)};\n\\draw[->,line width=0.5pt] (0,0)--(0,5.6) node[above right] {Balance (\\$)};\n\\draw[line width=0.4pt] (6,0.06)--(6,-0.06);\n\\node[below] at (6,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$30$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.06,5)--(0.06,5);\n\\node[left] at (-0.06,5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$750\\,000$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.8pt,domain=0:30,samples=121] plot ({\\x/5},{(56-11*pow(1.0045,12*\\x))/9});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Question 4d",
+                "description": "Self-contained solution sketch showing the decreasing, concave-down mortgage balance over 30 years.",
+                "mathematics": "The curve passes through the monthly spreadsheet balances V_n=750000(1.0045)^n-4200((1.0045)^n-1)/0.0045, with n=12t.",
+                "answerVisibility": "Solution-only graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:06.541Z",
+  "updatedAt": "2026-11-12T05:32:06.541Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-v1",
+    "blockId": "p11-q4-block",
+    "sectionRole": "exercise"
+  }
+}

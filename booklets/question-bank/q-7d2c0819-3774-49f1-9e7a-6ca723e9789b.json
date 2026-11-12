@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7d2c0819-3774-49f1-9e7a-6ca723e9789b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "reducing-balance-loan-calculations",
+    "secondarySkillIds": [
+      "geometric-series-sum"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Expand successive balances, sum the repayment series using the supplied target expression and interpret a negative projected balance as earlier repayment.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:41:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e381d3482abb8a5b22a85d5e27633e98374f71e18147dd12d59f15375056396a",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-fb205e46caee91c63fde/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p56-q30-root",
+    "type": "question",
+    "label": "30",
+    "prompt": "A couple take out a $\\$165\\,000$ mortgage on a house, and they agree to pay the bank $\\$1700$ per month. The interest rate on the loan is 9% per annum, compounded monthly, and the contract requires that the loan be paid off within 15 years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p56-q30-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $A_{180}$ be the balance on the loan after 15 years. Find a series expression for $A_{180}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{180}=165000r^{180}-1700r^{179}-1700r^{178}-\\cdots-1700$, where $r=1.0075$.",
+          "worked": "Monthly growth factor:\n$$r=1+\\frac{0.09}{12}=1.0075.$$\nStart: $165000$.\n\n1st repayment: $165000r-1700$.\n\n2nd repayment: $165000r^2-1700r-1700$.\n\nAfter 180 repayments:\n$$A_{180}=165000r^{180}-1700r^{179}-1700r^{178}-\\cdots-1700.$$\nThe repayments form a geometric series:\n$$1700+1700r+\\cdots+1700r^{179},$$\nwith $a=1700$, common ratio $r$, and $n=180$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p56-q30-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that\n$$A_{180}=165000\\times1.0075^{180}-\\frac{1700(1.0075^{180}-1)}{0.0075}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{180}=165000\\times1.0075^{180}-\\dfrac{1700(1.0075^{180}-1)}{0.0075}$.",
+          "worked": "Using the geometric-series sum:\n$$\\begin{align*}A_{180}&=165000r^{180}-1700\\frac{r^{180}-1}{r-1}\\\\A_{180}&=165000(1.0075)^{180}-\\frac{1700(1.0075^{180}-1)}{0.0075}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p56-q30-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Evaluate $A_{180}$, and hence show that the loan is actually paid out in less than 15 years. Give the monetary value to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{180}=-\\$10\\,012.67$. The negative projected balance shows that the loan is paid out in less than 15 years.",
+          "worked": "$$\\begin{align*}A_{180}&=165000(1.0075)^{180}-\\frac{1700(1.0075^{180}-1)}{0.0075}\\\\A_{180}&\\approx-\\$10\\,012.67.\\end{align*}$$\nContinuing the scheduled repayments for all 180 months would give a negative balance, so the loan reaches zero and is paid out before 15 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p56-q30",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:55.248Z",
+  "updatedAt": "2026-11-12T05:31:55.248Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p56-q30",
+    "sectionRole": "exercise"
+  }
+}

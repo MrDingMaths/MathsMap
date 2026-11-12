@@ -1,0 +1,1686 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5923ea9b-e156-445e-9653-370fab8ebfa4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "reducing-balance-loan",
+    "secondarySkillIds": [
+      "annuity-problems"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Convert an annual rate to a monthly rate, complete a loan table, write its recurrence relation and check the fourth balance by iteration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:00:03.680Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5a296a5718af5d7da3f9a9088bde911ea5dabfb564e2a00887dab4bb0360e536",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/lean-review/calls/content-1792835989647-8/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Gabriel borrows $\\$250\\,000$ at a rate of $4.8\\%$ p.a. compounding monthly and makes a repayment of $\\$2000$ per month. Keep unrounded values in calculations and round monetary answers to the nearest cent.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p8-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p8-q4-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the table for the first four months.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p8-q4-a-table",
+              "type": "table",
+              "widthMm": 166,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1.5,
+              "widths": [
+                10,
+                21,
+                21,
+                21,
+                27
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p8-q4-a-h-month",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-h-month-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Month",
+                            "marks": [
+                              "bold"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-h-start",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-h-start-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Balance at start",
+                            "marks": [
+                              "bold"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-h-interest",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-h-interest-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Interest",
+                            "marks": [
+                              "bold"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-h-payment",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-h-payment-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Payment",
+                            "marks": [
+                              "bold"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-h-end",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-h-end-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Balance at end",
+                            "marks": [
+                              "bold"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p8-q4-a-r1-month",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-r1-month-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-r1-start",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r1-interest",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r1-payment",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r1-end",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ],
+                [
+                  {
+                    "id": "p8-q4-a-r2-month",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-r2-month-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-r2-start",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r2-interest",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r2-payment",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r2-end",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ],
+                [
+                  {
+                    "id": "p8-q4-a-r3-month",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-r3-month-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-r3-start",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r3-interest",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r3-payment",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r3-end",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ],
+                [
+                  {
+                    "id": "p8-q4-a-r4-month",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-q4-a-r4-month-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "4",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-q4-a-r4-start",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r4-interest",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r4-payment",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-q4-a-r4-end",
+                    "type": "cell",
+                    "header": false,
+                    "align": "right",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p8-q4-a-answer-table",
+                "type": "table",
+                "widthMm": 166,
+                "marginBefore": 2,
+                "marginAfter": 2,
+                "borderColour": "#cccccc",
+                "borderWidthMm": 0.26,
+                "rowHeights": [],
+                "annotations": [],
+                "border": true,
+                "padding": 0.5,
+                "widths": [
+                  15,
+                  24,
+                  18.5,
+                  18.5,
+                  24
+                ],
+                "rows": [
+                  [
+                    {
+                      "id": "p8-q4-a-ah1",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "#d3e8fc",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-ah1-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Month",
+                              "marks": [
+                                "bold"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-ah2",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "#d3e8fc",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-ah2-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Balance at start ($)",
+                              "marks": [
+                                "bold"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-ah3",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "#d3e8fc",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-ah3-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Interest ($)",
+                              "marks": [
+                                "bold"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-ah4",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "#d3e8fc",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-ah4-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Payment ($)",
+                              "marks": [
+                                "bold"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-ah5",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "#d3e8fc",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-ah5-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Balance at end ($)",
+                              "marks": [
+                                "bold"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p8-q4-a-a11",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a11-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "1",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a12",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a12-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "250000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a13",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a13-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "1000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a14",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a14-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a15",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a15-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "249000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p8-q4-a-a21",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a21-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a22",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a22-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "249000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a23",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a23-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "996.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a24",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a24-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a25",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a25-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "247996.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p8-q4-a-a31",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a31-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "3",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a32",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a32-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "247996.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a33",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a33-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "991.98",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a34",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a34-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a35",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a35-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "246987.98",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p8-q4-a-a41",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a41-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "4",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a42",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a42-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "246987.98",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a43",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a43-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "987.95",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a44",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a44-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2000.00",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p8-q4-a-a45",
+                      "type": "cell",
+                      "header": false,
+                      "align": "right",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p8-q4-a-a45-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "245975.94",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          },
+          "worked": "The monthly interest rate is $0.048\\div12=0.004$. Each month's interest is the starting balance multiplied by $0.004$, and the end balance is the starting balance plus interest minus $\\$2000$.\n$$\\begin{align*}I_1&=250000(0.004)=1000\\\\V_1&=250000+1000-2000=249000\\\\I_2&=249000(0.004)=996\\\\V_2&=249000+996-2000=247996\\\\I_3&=247996(0.004)=991.984\\\\V_3&=247996+991.984-2000=246987.984\\\\I_4&=246987.984(0.004)=987.951936\\\\V_4&=246987.984+987.951936-2000=245975.935936\\end{align*}$$\nDisplay monetary values to the nearest cent, retaining unrounded values for the next calculation. The balance after four months is $\\$245\\,975.94$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p8-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write the recurrence relation for this loan.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V_n=1.004V_{n-1}-2000$, where $V_0=250000$.\n\nDivide $0.048$ by $12$ for the monthly rate; apply interest before subtracting each repayment.",
+          "worked": "$$\\begin{align*}r&=\\frac{0.048}{12}=0.004\\\\V_n&=V_{n-1}(1+0.004)-2000\\\\V_n&=1.004V_{n-1}-2000\\end{align*}$$\nThe starting balance is $V_0=250000$, and $n$ counts monthly repayments.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p8-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Check your answer to part a by finding the balance of the loan at the end of 4 months using the recurrence relation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V_4=\\$245\\,975.94$, matching the balance at the end of month 4 in the table.\n\nIterate the recurrence from $V_0=250000$ four times, retaining unrounded balances.",
+          "worked": "$$\\begin{align*}V_0&=250000\\\\V_1&=250000(1.004)-2000=249000\\\\V_2&=249000(1.004)-2000=247996\\\\V_3&=247996(1.004)-2000=246987.984\\\\V_4&=246987.984(1.004)-2000=245975.935936\\end{align*}$$\nThe balance is $\\$245\\,975.94$ to the nearest cent, which matches the table.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "shortAnswerTableFullWidth": true,
+    "ownerId": "p8-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:04.997Z",
+  "updatedAt": "2026-11-12T05:32:04.999Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-v1",
+    "blockId": "p8-q4",
+    "sectionRole": "exercise"
+  }
+}

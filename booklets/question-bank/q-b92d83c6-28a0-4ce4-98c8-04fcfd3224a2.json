@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b92d83c6-28a0-4ce4-98c8-04fcfd3224a2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "loan-repayment-geometric-series",
+    "secondarySkillIds": [
+      "reducing-balance-loan-calculations"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Convert monthly compounding to an annual growth factor, solve the taught repayment equation for five annual payments, then calculate their total.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:40:32.052Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a12698298561e03cc8f09eb2405e6a666f08c785763f114f7b169c16be925521",
+      "evidence": ".booklet-work/full-imports/s6adv-financial-maths-20261024/semantic-packets/assignments/assignment-427541291c5eac11e91f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p54-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "A loan of $\\$6000$ over 5 years at 15% p.a. interest, charged monthly, is paid back in 5 annual instalments.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p54-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the amount of each instalment, to the nearest cent?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$1835.68$ annually.",
+          "worked": "Interest is compounded monthly but repayments are annual. The one-year growth factor is\n$$r=\\left(1+\\frac{0.15}{12}\\right)^{12}.$$\nLet each annual instalment be $M$.\n\nStart: $6000$\n\n1st annual repayment: $6000r-M$\n\n2nd annual repayment:\n$$\\begin{aligned}[6000r-M]r-M&=6000r^2-Mr-M\\end{aligned}$$\n5th annual repayment: $6000r^5-Mr^4-Mr^3-\\cdots-M$.\n\nThe repayments form a geometric series with $a=M$, common ratio $r$ and $n=5$. When the loan is repaid, the balance is zero:\n$$\\begin{aligned}0&=6000r^5-M\\frac{r^5-1}{r-1}\\\\M\\frac{r^5-1}{r-1}&=6000r^5\\\\M&=\\frac{6000r^5(r-1)}{r^5-1}\\\\M&\\approx\\$1835.68.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p54-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How much is paid back altogether?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$9178.40$ using rounded instalments; $\\$9178.41$ using the unrounded repayment.",
+          "worked": "Using the geometric-series repayment from part (a), rounded to the nearest cent:\n$$\\begin{aligned}\\text{Total paid}&=5(1835.68)\\\\&=\\$9178.40.\\end{aligned}$$\nUsing the unrounded repayment instead gives a total of $\\$9178.41$ to the nearest cent.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p54-q28-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:31:58.781Z",
+  "updatedAt": "2026-11-12T05:31:58.781Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-financial-maths-2-v1",
+    "blockId": "p54-q28-block",
+    "sectionRole": "exercise"
+  }
+}

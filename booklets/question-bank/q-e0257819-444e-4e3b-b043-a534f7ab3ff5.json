@@ -1,0 +1,103 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e0257819-444e-4e3b-b043-a534f7ab3ff5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-compound-angle",
+    "secondarySkillIds": [],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Transform the domain, select both cosine solutions, undo the shift and locate them on the supplied graph.",
+    "assessment": {
+      "model": "gpt-6.1-terra",
+      "assessedAt": "2026-10-31T06:20:15.856Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ee3896d1a078f024075e66dd90694b4b2c17803c01c35d51a73a709bed9e4024",
+      "evidence": ".booklet-work/end-goal-20261028/practice-trig-transform-solving-r8/seven-independent-review.json",
+      "originalTaskHash": "3c3ee5a79d711e2a3672200933d46f323a0d980164b3ca5d570d2a4a24af6770",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "2634bc6b3084e262da47611bd1b33e57f73e34a967088dce2de97c4e3f86ec7f"
+      }
+    }
+  },
+  "content": {
+    "id": "trig-r10-routine-3-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Solve $2\\cos\\left(x-\\frac{\\pi}{6}\\right)=1$ algebraically in the domain $[0,2\\pi]$ and indicate the solutions on the graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "trig-r10-routine-3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied function curve\"}],\"reference\":\"trig-r10-routine-3 question graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[->,line width=0.5pt] (-0.08,0)--(6.7,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2.3)--(0,2.3) node[above] {$y$};\n\\foreach \\k in {1,...,12}{\\draw[line width=0.4pt] ({\\k*pi/6},-0.055)--({\\k*pi/6},0.055);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-2,-1,1,2}{\\draw[line width=0.4pt] (-0.055,\\v)--(0.055,\\v);\\node[left=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:6.283185,samples=181] plot (\\x,{2*cos((\\x-pi/6)*180/pi)});\n\\fill[curveBlue] (0,{sqrt(3)}) circle (1.3pt);\n\\fill[curveBlue] ({2*pi},{sqrt(3)}) circle (1.3pt);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Cosine curve with filled endpoints, labelled axes and quarter-period labels; unlabelled horizontal ticks occur every pi/6. No grid.",
+          "mathematics": "y=2 cos(x-pi/6), 0<=x<=2pi; maximum 2 at x=pi/6; endpoints (0,sqrt3) and (2pi,sqrt3); vertical ticks at -2,-1,1,2.",
+          "answerVisibility": "Curve and axes supplied; solution markings hidden."
+        },
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$x=\\frac{\\pi}{2},\\ \\frac{11\\pi}{6}$.",
+      "worked": "Let $u=x-\\frac{\\pi}{6}$. The transformed domain is $-\\frac{\\pi}{6}\\le u\\le\\frac{11\\pi}{6}$.\n$$\\begin{align*}2\\cos u&=1\\\\\\cos u&=\\frac12\\\\u&=\\frac{\\pi}{3},\\ \\frac{5\\pi}{3}\\\\x&=u+\\frac{\\pi}{6}\\\\x&=\\frac{\\pi}{2},\\ \\frac{11\\pi}{6}.\\end{align*}$$\nDraw $y=1$ and mark its intersections with the supplied curve.",
+      "solutionDiagrams": [
+        {
+          "id": "trig-r10-routine-3-solution-overlay",
+          "role": "solution-overlay",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionRed\",\"hex\":\"EF6068\",\"reason\":\"equation level and solution intersections\"}],\"reference\":\"trig-r10-routine-3 solution overlay\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionRed}{HTML}{EF6068}\n\\path[use as bounding box] (-0.6,-2.65) rectangle (6.9,2.7);\n\\draw[solutionRed,dashed,line width=0.4pt] (0,1)--({2*pi},1);\n\\node[solutionRed,below right=1pt] at (0,1) {$y=1$};\n\\draw[solutionRed,dashed,line width=0.4pt] (1.570796,0)--(1.570796,1);\n\\fill[solutionRed] (1.570796,1) circle (1.6pt);\n\\node[solutionRed,above right=1pt] at (1.570796,1) {$\\frac{\\pi}{2}$};\n\\draw[solutionRed,dashed,line width=0.4pt] (5.759587,0)--(5.759587,1);\n\\fill[solutionRed] (5.759587,1) circle (1.6pt);\n\\node[solutionRed,above left=1pt] at (5.759587,1) {$\\frac{11\\pi}{6}$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 100,
+          "alt": "Mathematical diagram",
+          "overlayOf": "trig-r10-routine-3-graph",
+          "transparent": true,
+          "axes": null,
+          "spec": {
+            "description": "Solution overlay with the identical coordinate units and bounding box as the question graph. A dashed horizontal line and marked intersections indicate both solutions.",
+            "mathematics": "Intersections of y=2 cos(x-pi/6) with y=1 at x=pi/2 and x=11pi/6.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false
+        }
+      ]
+    },
+    "answerSpaceMm": 41
+  },
+  "presentation": {
+    "ownerId": "trig-r10-routine-3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:32:22.138Z",
+  "updatedAt": "2026-11-12T05:32:22.139Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-further-graph-transformations-and-modelling-1-transformations-of-trigonometric-functions-v1",
+    "blockId": "trig-r10-routine-3",
+    "sectionRole": "exercise"
+  }
+}

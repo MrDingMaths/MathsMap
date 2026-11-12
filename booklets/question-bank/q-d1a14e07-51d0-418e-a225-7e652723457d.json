@@ -1,0 +1,106 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d1a14e07-51d0-418e-a225-7e652723457d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "sector-area-radians"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Express the shaded segment as sector minus triangle and combine the two symbolic area formulas by factoring. Earlier supplied practice already establishes this decomposition, so the proof requires routine generalisation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T14:34:19.122Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0a60e9a2a07ff24de413f57b0a6761c0dd4b4046a8fdecb26a1170424228598a",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-radians-r7/fresh-five-ratings/reply.json"
+    }
+  },
+  "content": {
+    "id": "p19-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": "The shaded region is called a segment. Prove that its area is given by the formula\n$$A=\\frac12r^2(\\theta-\\sin\\theta),$$\nwhere $\\theta$ is measured in radians.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q25-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"segmentBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the segment whose area is to be proved\"}],\"reference\":\"source page 19 p19-q25-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{segmentBlue}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (27:3.2);\n\\coordinate (B) at (-27:3.2);\n\\fill[segmentBlue] (B) arc[start angle=-27,end angle=27,radius=3.2]--cycle;\n\\draw[black,line width=0.8pt] (O)--(A) arc[start angle=27,end angle=-27,radius=3.2]--cycle;\n\\draw[black,line width=0.8pt] (A)--(B);\n\\pic[draw=black,line width=0.4pt,angle radius=5mm,angle eccentricity=1.45,\"$\\theta$\"] {angle=B--O--A};\n\\foreach \\ang in {27,-27}{\n  \\begin{scope}[rotate=\\ang]\n    \\draw[black,line width=0.4pt] (1.6,-0.065)--(1.6,0.065);\n  \\end{scope}\n}\n\\path (O)--(A) node[midway,above=3mm] {$r$};\n\\path (O)--(B) node[midway,below=3mm] {$r$};\n\\node[left] at (O) {$O$};\n\\node[above] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 25, diagram beneath the instruction",
+          "description": "Sector with centre O at the left, equal radii OA and OB bearing matching single ticks and labels r, central angle theta, and vertical chord AB. Light blue shading replaces source grey and identifies only the segment between chord AB and the minor arc.",
+          "mathematics": "OA=OB=r. The minor segment is the sector AOB with triangle AOB removed. Coordinates determine a schematic figure and introduce no numerical angle given.",
+          "answerVisibility": "Only supplied labels, equal-radius marks, central-angle cue and the requested shaded region are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p19-q25-short-proof",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{aligned}A_{\\text{segment}}&=A_{\\text{sector}}-A_{\\triangle OAB}\\\\&=\\frac12r^2\\theta-\\frac12r^2\\sin\\theta\\\\&=\\frac12r^2(\\theta-\\sin\\theta).\\end{aligned}",
+                "display": true
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Area of triangle:\n$$A_{\\triangle OAB}=\\frac12r^2\\sin\\theta.$$\nArea of sector:\n$$A_{\\text{sector}}=\\frac12r^2\\theta.$$\nThe segment is the sector with the triangle removed.\n$$\\begin{align*}A_{\\text{segment}}&=A_{\\text{sector}}-A_{\\triangle OAB}\\\\A_{\\text{segment}}&=\\frac12r^2\\theta-\\frac12r^2(\\sin\\theta)\\\\A_{\\text{segment}}&=\\frac12r^2(\\theta-\\sin\\theta).\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 39
+  },
+  "presentation": {
+    "ownerId": "p19-q25",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:34:27.969Z",
+  "updatedAt": "2026-11-12T05:34:27.969Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometry-and-measure-of-angles-3-radians-v1",
+    "blockId": "p19-q25",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,1092 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8a3df585-458e-4d92-89b0-d9efd8f8414e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quartiles-from-cumulative-histogram",
+    "secondarySkillIds": [
+      "discrete-probability-distribution",
+      "expected-value-discrete",
+      "frequency-cumulative-graphs"
+    ],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects histogram probabilities, polygon areas, expectation and cumulative graphical readings.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T03:51:14.863Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7e49868cf9b43e777b57990c5e2ce4db215df10d618af7979e3f89c33ef813b5",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/lean-review/calls/content-1792986651231-0/last-message.txt",
+      "originalTaskHash": "30df6880927486a49dcae302e42917577fb1a3609afde1beac4d3590a36e9ff4",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "34df48f06530e8540b5670e3e9c6046108fd9177df8c29a3b530417a7dbe6d8b"
+      }
+    }
+  },
+  "content": {
+    "id": "p7-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The number of cars owned per household in a suburb is recorded from census data. Results are shown in a relative frequency histogram. (Relative frequencies equal probabilities since this is a population.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"barFill\",\"hex\":\"D4E8FF\",\"reason\":\"histogram probability areas\"},{\"name\":\"polygonBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes frequency polygon from histogram\"}],\"reference\":\"page 7 p7-q3-graph\"}\n\\begin{tikzpicture}[x=1.15cm,y=9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{barFill}{HTML}{D4E8FF}\\definecolor{polygonBlue}{HTML}{268CFF}\n\\draw[step=0.5cm,draw=none] (0,0)--(0,0);\n\\foreach \\x in {-1,-0.5,...,5.5}{\\draw[black!20,line width=0.15pt] (\\x,0)--(\\x,0.55);}\n\\foreach \\y in {0,0.1,...,0.5}{\\draw[black!20,line width=0.25pt] (-1,\\y)--(5.5,\\y);}\n\\foreach \\x/\\h in {0/0.25,1/0.5,2/0.125,3/0.1,4/0.025}{\\draw[fill=barFill,draw=black,line width=0.8pt] (\\x-0.5,0) rectangle (\\x+0.5,\\h);}\n\\draw[polygonBlue,line width=0.8pt] (-1,0)--(0,0.25)--(1,0.5)--(2,0.125)--(3,0.1)--(4,0.025)--(5,0);\n\\foreach \\x/\\h in {0/0.25,1/0.5,2/0.125,3/0.1,4/0.025}{\\draw[black,fill=white,line width=0.4pt] (\\x,\\h) circle[radius=1.5pt];}\n\\draw[black,line width=0.5pt] (-1,0.55)--(-1,0)--(5.5,0);\n\\foreach \\x in {0,...,5}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.008) node[below]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.2,0.4}{\\draw[black,line width=0.4pt] (-1.07,\\y)--(-0.93,\\y);\\node[left] at (-1.08,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[rotate=90] at (-1.85,0.28){relative frequency};\\node[right] at (5.5,-0.015){cars};\\node[above] at (2.25,0.57){Number of cars in household};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "shared graph above part a",
+          "description": "Unit-width histogram and frequency polygon on common axes. House blue distinguishes the polygon from the pale blue bar areas; source grey fills remain in original evidence.",
+          "mathematics": "Bars centred at 0,1,2,3,4 with heights 0.25,0.5,0.125,0.1,0.025. Polygon endpoints (-1,0),(5,0). Grid steps: x=0.5, y=0.1.",
+          "answerVisibility": "All supplied graph data remain visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p7-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What fraction of households have no cars?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac14$",
+          "worked": "$P(X=0)=0.25=\\frac14$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p7-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What fraction of households have fewer than 2 cars?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac34$",
+          "worked": "$$\\begin{aligned}P(X<2)&=P(X=0)+P(X=1)\\\\&=0.25+0.50\\\\&=\\frac34.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p7-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the probability that a randomly selected household has three cars?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.1$",
+          "worked": "The bar at 3 cars has height $0.1$, so $P(X=3)=0.1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p7-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Planners advise additional on-street parking if more than 40% of households have 3 or more cars. Will they advise additional parking?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No; $12.5\\%<40\\%$.",
+          "worked": "$$\\begin{aligned}P(X\\ge3)&=0.10+0.025\\\\&=0.125\\\\&=12.5\\%.\\end{aligned}$$Since $12.5\\%<40\\%$, planners will not advise additional parking.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p7-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p7-q3-e-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the probability distribution table ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "P(X=x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " using the histogram.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p7-q3-e-table",
+              "type": "table",
+              "widthMm": 100,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                9,
+                11
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1,
+              "widths": [
+                3,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p7-e-h0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "x",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-h1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "0",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-h2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-h3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-h4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h4-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-h5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-h5-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p7-e-v0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p7-e-v0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "P(X=x)",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p7-e-v1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p7-e-v2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p7-e-v3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p7-e-v4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p7-e-v5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $x=0,1,2,3,4$: $0.25,\\ 0.50,\\ 0.125,\\ 0.10,\\ 0.025$.",
+          "worked": "Read each bar height at $x=0,1,2,3,4$, respectively: $P(X=x)=0.25,\\ 0.50,\\ 0.125,\\ 0.10,\\ 0.025$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p7-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Show the sum of probabilities is 1. How does this relate to the histogram area?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.25+0.50+0.125+0.10+0.025=1$. Each bar has width 1, so its area equals its probability; the total area is 1.",
+          "worked": "$$0.25+0.50+0.125+0.10+0.025=1.$$For each rectangle, area $=\\text{width}\\times\\text{height}=1\\times\\text{relative frequency}=\\text{probability}$. Hence the total histogram area is the sum of the probabilities, 1.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p7-q3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Explain why the area under the relative frequency polygon equals the area of the histogram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The triangular areas removed from the tops of bars balance the triangular areas added between them, including the end triangles, so the total area stays 1.",
+          "worked": "Between adjacent bar centres the polygon forms a trapezium of width 1, with area equal to half the sum of the two bar heights. The end triangles each contribute half the first or last bar height. Altogether each bar height is counted once, giving the same total area as the unit-width histogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p7-q3-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Show the mean number of cars per household is 1.15.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$E(X)=1.15$ cars per household.",
+          "worked": "$$\\begin{aligned}E(X)&=0(0.25)+1(0.50)+2(0.125)+3(0.10)+4(0.025)\\\\&=0+0.50+0.25+0.30+0.10\\\\&=1.15.\\end{aligned}$$The population average is 1.15 cars per household.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p8-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "For a street of 100 households, how many cars in total would you expect? Are the assumptions reasonable?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "115 cars, assuming the street has the suburb’s car-ownership distribution. This may be unreasonable for some streets.",
+          "worked": "$$\\begin{aligned}\\text{Expected total cars}&=100\\times1.15\\\\&=115.\\end{aligned}$$This assumes the street’s car-ownership distribution matches the suburb’s. Streets near train stations or in wealthier areas may differ, so the assumption may not hold.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p8-j",
+        "type": "part",
+        "label": "j",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p8-j-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the cumulative probability table ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "P(X\\le x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p8-j-table",
+              "type": "table",
+              "widthMm": 100,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                9,
+                11
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1,
+              "widths": [
+                3,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p8-j-h0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "x",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-h1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "0",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-h2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-h3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-h4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h4-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-h5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-h5-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p8-j-v0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p8-j-v0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "P(X\\le x)",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p8-j-v1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-j-v2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-j-v3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-j-v4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p8-j-v5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $x=0,1,2,3,4$: $0.25,\\ 0.75,\\ 0.875,\\ 0.975,\\ 1$.",
+          "worked": "$$\\begin{aligned}P(X\\le0)&=0.25\\\\P(X\\le1)&=0.25+0.50=0.75\\\\P(X\\le2)&=0.75+0.125=0.875\\\\P(X\\le3)&=0.875+0.10=0.975\\\\P(X\\le4)&=0.975+0.025=1.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p8-k",
+        "type": "part",
+        "label": "k",
+        "prompt": "Using horizontal lines at 0.25, 0.5, 0.75, find quartiles $Q_1$, $Q_2$, $Q_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p8-k-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"barFill\",\"hex\":\"D4E8FF\",\"reason\":\"cumulative histogram bars\"},{\"name\":\"polygonBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes interpolating polygon\"}],\"reference\":\"page 8 p8-k-graph\"}\n\\begin{tikzpicture}[x=1.1cm,y=5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.9,-0.18) rectangle (6.5,1.85);\n\\definecolor{barFill}{HTML}{D4E8FF}\\definecolor{polygonBlue}{HTML}{268CFF}\n\\foreach \\x in {-0.5,0,...,5.5}{\\draw[black!20,line width=0.15pt] (\\x,0)--(\\x,1.1);}\\foreach \\y in {0,0.1,...,1.1}{\\draw[black!20,line width=0.25pt] (-0.5,\\y)--(5.5,\\y);}\n\\foreach \\x/\\h in {0/0.25,1/0.75,2/0.875,3/0.975,4/1}{\\draw[black,fill=none,line width=0.8pt] (\\x-0.5,0) rectangle (\\x+0.5,\\h);}\n\\draw[polygonBlue,line width=0.8pt] (-0.5,0)--(0.5,0.25)--(1.5,0.75)--(2.5,0.875)--(3.5,0.975)--(4.5,1);\n\\draw[black,line width=0.5pt] (-0.5,1.1)--(-0.5,0)--(5.5,0);\n\\foreach \\x in {0,...,5}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.015) node[below]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.2,0.4,0.6,0.8,1}{\\draw[black,line width=0.4pt] (-0.57,\\y)--(-0.43,\\y);\\node[left] at (-0.58,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[rotate=90] at (-2.4,0.55){cumulative relative frequency};\\node[right] at (5.5,-0.02){cars};\\node[above,xshift=4pt] at (2.5,1.16){Number of cars in household};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 100,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 8,
+              "sourceRegion": "graph below part k",
+              "description": "Cumulative histogram and supplied interpolating polygon. Bar boundaries are half-integers. Palette replaces grey bars and polygon with light blue areas and a blue line.",
+              "mathematics": "Cumulative heights 0.25,0.75,0.875,0.975,1. Polygon vertices (-0.5,0),(0.5,0.25),(1.5,0.75),(2.5,0.875),(3.5,0.975),(4.5,1). Grid steps x=0.5, y=0.1.",
+              "answerVisibility": "Supplied graph visible; reading guides appear only in solution."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "From the supplied polygon: $Q_1\\approx0.5$, $Q_2=1$, $Q_3\\approx1.5$ cars.",
+          "worked": "Draw horizontal lines at cumulative relative frequencies $0.25$, $0.50$ and $0.75$ to the supplied polygon, then read down to the horizontal axis. The graphical readings are $Q_1\\approx0.5$, $Q_2=1$, $Q_3\\approx1.5$ cars.",
+          "solutionDiagrams": [
+            {
+              "id": "p8-k-reading-overlay",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"readingRed\",\"hex\":\"EF6068\",\"reason\":\"quartile reading guides\"}],\"reference\":\"page 8 p8-k-reading-overlay\"}\n\\begin{tikzpicture}[x=1.1cm,y=5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{readingRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2.9,-0.18) rectangle (6.5,1.85);\n\\foreach \\x/\\y in {0.5/0.25,1/0.5,1.5/0.75}{\\draw[readingRed,dashed,line width=0.4pt] (-0.5,\\y)--(\\x,\\y)--(\\x,0);}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p8-k-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 8,
+                "sourceRegion": "part k graphical readings",
+                "description": "Horizontal and vertical dashed reading guides on the exact base coordinate frame.",
+                "mathematics": "Guides at y=0.25,0.5,0.75 to x=0.5,1,1.5.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:33:55.917Z",
+  "updatedAt": "2026-11-12T05:33:55.919Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-v1",
+    "blockId": "p7-q3-block",
+    "sectionRole": "challenge"
+  }
+}
