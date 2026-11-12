@@ -23,7 +23,8 @@ export function printedPracticeHeadings(inventories){
  const rows=[];
  for(const inventory of inventories??[])for(const group of inventory?.groups??[]){
   const header=typeof group.header==='string'?group.header.trim():'';
-  if(!header||header.length>40||TITLE.test(header)||NON_GROUP_KIND.test(group.kind??''))continue;
+  // Bracketed question subtitles ("[Recursions]"), inventory sentences and long phrases are not group headings.
+  if(!header||header.length>40||header.split(/\s+/).length>4||/^\[.*\]$/.test(header)||/[.:;]$/.test(header)||TITLE.test(header)||NON_GROUP_KIND.test(group.kind??''))continue;
   rows.push({page:inventory.pageNumber,header,groupId:group.id??null});
  }
  return rows;

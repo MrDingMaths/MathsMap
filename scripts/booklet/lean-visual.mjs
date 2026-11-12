@@ -74,8 +74,10 @@ export function samplePatternClasses(inventory,{headings=[]}={}){
  // Headings render through one mechanism, so one printed heading tests them all.
  if(headings.some(h=>h.page===inventory.pageNumber))classes.add('printed-heading');
  for(const group of inventory?.groups??[]){
-  if(/investigation/i.test((group.kind??'')+' '+(group.header??'')))classes.add('investigation');
-  if(/review/i.test((group.kind??'')+' '+(group.header??'')))classes.add('review');
+  // From the group kind or a header that starts with the word; a running header
+  // such as "Chapter 2: Investigation Task" is not the investigation itself.
+  if(/investigation/i.test(group.kind??'')||/^investigation\b/i.test(group.header??''))classes.add('investigation');
+  if(/review/i.test(group.kind??'')||/^(?:chapter\s+\d+\s+)?review\b/i.test(group.header??''))classes.add('review');
  }
  for(const entry of live){
   const p=presentationOf(entry);

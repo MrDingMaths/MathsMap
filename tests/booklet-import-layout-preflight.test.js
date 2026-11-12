@@ -26,6 +26,8 @@ const inventories=[
 
 test('printed headings come from inventory group headers, never titles, running headers or numbered subheadings',()=>{
  assert.deepEqual(printedPracticeHeadings(inventories).map(h=>h.page+':'+h.header),['2:Fundamentals','3:Challenge Problems','4:Fundamentals']);
+ const noisy=[{pageNumber:5,groups:[{kind:'practice',header:'[Recursions]'},{kind:'practice',header:'No category header printed on this page.'},{kind:'practice',header:'Review'}]}];
+ assert.deepEqual(printedPracticeHeadings(noisy).map(h=>h.header),['Review'],'subtitles and inventory sentences are not headings');
 });
 
 test('heading and worked exercise-start fixes touch neither the review hash nor the rating task hash',()=>{
