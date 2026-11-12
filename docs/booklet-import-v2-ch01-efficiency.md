@@ -269,7 +269,11 @@ James accepted every recommendation:
 
 Run `mastering-maths-adv11-ch02` covers source Part 4, pages 2–23, with answer-book pages 7–13. It ran on the same models, 3 workers and the same gates. It used every change above, plus the fixes the pilot itself prompted, which were committed during the run (listed below).
 
-**Result: deliverable within the three-export budget, after one decision by James (12 November 2026).** Not yet published to Studio or the bank.
+**Result: published to Studio (`booklets/projects/mastering-maths-adv11-ch02.json`, revision 2, `library.category: "import-review"`) after one decision by James and one over-budget export (12 November 2026).** Not published to the bank.
+- **Why a fourth export:** the publication check (`check-question-dependencies`) found `p9-q8` referring to "Question 6 and Question 7", the source's numbers for the questions the booklet prints as 10 and 11.
+  - It was reworded to name the two techniques, re-reviewed (1 call), exported a fourth time on James's approval, and re-inspected (page 13, three editions accepted).
+  - Every review had missed it. That check now runs before content review as C10 (81bf8d8c1).
+- **How it was published:** created at revision 1 with the checked fingerprint, then given its library category by a library-only save (`publish-project.mjs`). Ch 2's candidate had no `library` field, and setting it before creation would have changed the checked fingerprint.
 - **What stands:** export 3 has zero DOM and print issues in all five editions. 97 blocks have verified ratings, and 164 pages are accepted.
 - **The decision:** three reviewers independently reported the Question 3(b) graph (`p12-q1-b-graph`; student, with-short and with-worked page 18) as "missing its x-axis". The full-resolution raster of export 3 shows a continuous axis; the curve's flat section runs along it at the origin.
 - **How it was recorded:** James accepted the page as rendered. It was recorded with `lean-review decide-page` (`lean-review/page-decisions.jsonl`, evidence `repairs/q3b-axis-evidence-export3.png`), and the metrics count it (`humanPageDecisions: 3`).
