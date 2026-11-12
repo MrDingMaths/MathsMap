@@ -6,7 +6,8 @@
 //             queue, so the pool dispatches the final inspection jobs.
 import fs from 'node:fs';
 import path from 'node:path';
-import {liveWorkflow,FINAL_EDITIONS} from './workflow-review.mjs';
+import {liveWorkflow,FINAL_EDITIONS,effectiveInventory} from './workflow-review.mjs';
+import {applyLayoutPreflightFixes,printedPracticeHeadings} from './import-layout-preflight.mjs';
 import {describeReview} from './visual-review.mjs';
 import {prepareReviewQueue} from './visual-review-queue.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
@@ -135,10 +136,25 @@ export function sampleBlocksMissingFromEditions(project,report,editions){
  for(const edition of editions){const map=report?.[edition]?.map;if(!Array.isArray(map))continue;for(const block of questions)if(!mapHas(map,block.id))missing.push({edition,blockId:block.id});}
  return missing;
 }
-export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,editions,regenerationReason,visibilityReviews},{exportRuntime,rasterize=ensureSelectedPdfRasters}={}){
+export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,editions,regenerationReason,visibilityReviews},{exportRuntime,rasterize=ensureSelectedPdfRasters,labels}={}){
  if(!out||!projectId||!projectFile)throw Error('A layout sample needs a candidate project, its ID and an output directory');
- const project=read(projectFile);if(!isLeanReview(project))throw Error('A layout sample requires a three-pass project');
+ let project=read(projectFile);if(!isLeanReview(project))throw Error('A layout sample requires a three-pass project');
  const manifestFile=runDir&&path.join(runDir,'manifest.json'),v2=!!manifestFile&&fs.existsSync(manifestFile)&&importV2(read(manifestFile));
+ // Import v2: the sample shows the same deterministic layout fixes finish will make
+ // (headings, worked exercise starts, cue joins), so it reviews what will print.
+ let preflightFixes=[];
+ if(v2){
+  const manifest=read(manifestFile),inventories=(manifest.selectedPages??[]).map(page=>effectiveInventory(runDir,page)).filter(Boolean);
+  const fixed=applyLayoutPreflightFixes(project,{headings:printedPracticeHeadings(inventories)});
+  preflightFixes=fixed.changes;if(preflightFixes.length){project=fixed.project;fs.writeFileSync(projectFile,JSON.stringify(project,null,2)+'\n');}
+ }
+ // Import v2: Studio's label-collision check on the sample's diagrams, in seconds and
+ // before any reviewer looks (Ch 2 pilot: both sample findings were label collisions).
+ let labelCollisions=[];
+ if(v2){
+  const check=labels??(await import('./import-finish.mjs')).diagramLabelCheck;
+  const result=await check({file:projectFile,runDir});labelCollisions=result.collisions??[];
+ }
  const sample=selectLayoutSample(project,{limit,all:v2});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
  const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];
  const lint=leanPreExportLint(project),run=exportRuntime??(await import('./import-verification-runtime.mjs')).exportWithFrozenRuntime;
@@ -167,8 +183,8 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  // Import v2: every practice question must render in every edition the sample
  // covers (Ch 1: an investigation classed as teaching got no worked page).
  const missingBlocks=v2&&!exportError?sampleBlocksMissingFromEditions(project,report,editions):[];
- const ok=!exportError&&!missingEditions.length&&!missingBlocks.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
- const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,missingBlocks,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
+ const ok=!exportError&&!missingEditions.length&&!missingBlocks.length&&!labelCollisions.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
+ const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,missingBlocks,preflightFixes,labelCollisions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
   next:(ok?'':'This sample did not pass: repair the lint, automated issues or render failure listed here and sample again before authoring more. ')+(coversPracticeAnswers?'':'This candidate has no practice answers yet, so short and worked layouts are untested: sample again once the first exercise is authored. ')+'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate and in the instructions for the remaining pages before authoring them; nothing here records an acceptance.'};
  fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
  return {...result,file:path.join(out,'layout-sample.json')};
