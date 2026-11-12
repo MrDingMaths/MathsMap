@@ -1,6 +1,6 @@
 # Import v2 efficiency: Mastering Maths Adv 11 Ch 1 case study (12 November 2026)
 
-Status: investigation report, read-only. Companion to [import pipeline v2](booklet-import-pipeline-v2.md); changes here are proposals until the experiments in [section 5](#5-experiment-results-12-november-2026-read-only) and the pilot confirm them.
+Status: investigation, implemented changes and the Ch 2 pilot ([section 8](#8-pilot-mastering-maths-advanced-11-chapter-2-12-november-2026)). Companion to [import pipeline v2](booklet-import-pipeline-v2.md).
 
 ## Context
 The Ch 1 textbook import (`mastering-maths-adv11-ch01`, 128 blocks) took 2 h 45 min, made 8 full exports against a budget of 3, and needed 4 sample-review rounds. James asked for a read-only investigation: verify the reported figures, reconstruct what each retry achieved, and deliver a ranked set of changes with a pilot plan for the next chapter. Model settings, worker limits and publication gates are fixed. Nothing in the run folder, project or bank was modified. An independent session's report on the same run was reconciled in.
@@ -264,3 +264,68 @@ James accepted every recommendation:
 | 8 | Export budget | **Keep logging the overage;** the completion metrics report it. |
 | — | Completion metrics | **Done.** `import-run-metrics.mjs` (CLI `--run-id`; `finish` writes `lean-review/finish/metrics.json` for v2 runs) counts every model call (`finish`'s own included), tokens, elapsed, active and worker time, exports and targeted renders, fresh inspections vs pixel-retained and stamp-carried rows, and scripts in the run root. On Ch 1 it reproduces the verified baseline (164.6 / 112.1 min, 333 calls, 534 fresh inspections, 868 retained). |
 | — | Old failing test | Left to its owner. Pre-existing failures seen while testing: `teacherBlocks` (guards), two `inactive-cloze-export` tests (the square-root branch hash pin fails at HEAD too) and `arrangement-print` (Git's Xpdf `pdftotext` first on PATH under Bash). |
+
+## 8. Pilot: Mastering Maths Advanced 11 Chapter 2 (12 November 2026)
+
+Run `mastering-maths-adv11-ch02` covers source Part 4, pages 2–23, with answer-book pages 7–13. It ran on the same models, 3 workers and the same gates. It used every change above, plus the fixes the pilot itself prompted, which were committed during the run (listed below).
+
+**Result: not deliverable, pending one decision for James.** Nothing was published to Studio or the bank.
+- **What stands:** export 3 has zero DOM and print issues in all five editions, and visual review accepted 161 pages.
+- **What remains:** three reviewers independently report the Question 3(b) graph (`p12-q1-b-graph`; student, with-short and with-worked page 18) as "missing its x-axis".
+- **The evidence:** the full-resolution raster of export 3 shows a continuous axis; the curve's flat section runs along it at the origin.
+- **Why it waits:** overriding an independent visual verdict is James's decision, and the three-export budget is used.
+
+**Measured with `import-run-metrics.mjs`:**
+
+| Measure | Ch 1 (128 blocks) | Ch 2 pilot (97 blocks) | Ch 2 per 100 blocks | Pilot target |
+|---|---|---|---|---|
+| Elapsed / active minutes | 164.6 / 112.1 | 120.5 / 77.6 (includes about 15 min of coordinator code fixes mid-run) | — | ≤ 120 elapsed |
+| Model calls / input tokens | 333 / 19.6 M | 217 / 11.8 M | 224 / 12.2 M | — |
+| Inventory + author calls | 50 | 48 (one page-18 author output fixed by local patch, 0 regenerated) | — | — |
+| Sample rounds (calls) | 4 (59), sequential, ~5 min each | 3 (59), paired, three at a time, ~1 min each | — | ≤ 2 ✗ |
+| Full exports (failed) | 8 (3) | 3 (1: unrendered maths, then a gate gap) | — | ≤ 4 ✓, 0 failed ✗ |
+| Fresh visual inspections | 534 | 241 | 248 | ≤ 250 ✓ |
+| Visual input tokens | 8.85 M | 4.61 M | 4.75 M | ≤ 4.0 M ✗ |
+| Content re-review calls | 32 | 11 | 11 | ≤ 8 ✗ |
+| Findings caused by repairs | 18 | 1 (a label the content review then moved back) | — | ≤ 3 ✓ |
+| One-off scripts in run root | 9 | 0 | — | 0 ✓ |
+
+Notes on the measures:
+- **Scripts:** one structural split (the investigation, below) needed a scratch script outside the run root. All other repairs went through `lean-review repair` correction files, which the correction log records.
+- **Stage times:** inventory 16 min (Ch 1: 23); sample authoring 17 min; sample 13 min including fixes; bulk authoring 16.5 min (Ch 1: 30); `finish` 52 min including mid-run code fixes.
+
+**What the pilot exposed, and the fixes committed during the run:**
+
+| Exposed | Fix (commit) |
+|---|---|
+| Recommended sample pages split a continuation chain, and assembly refused it | Recommender includes whole chains (88bef6f2b) |
+| Junk group headers (subtitles, inventory sentences, running headers) | Stricter heading filter (7b8f47cf4) |
+| Both sample-review findings were diagram label collisions, and Studio's label check catches them in seconds | Sample applies the preflight fixes and the label check before review (f7d570e8b). Two label collisions on page 23 were then caught before `finish` |
+| Page 11's author wrote `\begin{align*}` without `$$` (raw LaTeX in print) | C7 wraps bare displays before content review (027bb0323) |
+| The first export's DOM failure wasn't caught because the gate only reported its target pages | Gate always renders an anchor block and reports DOM issues from every page (027bb0323) |
+| Page 17's Challenge heading was missed (blocks had no category) | C1 falls back to inventory group members (027bb0323) |
+| A cue "‘o" wasn't joined | C2 accepts an initial after a quote mark (027bb0323) |
+| Reviewer proposed `flow.dependsOn` between parts of one question, and the rejection held the block (twice) | Recorded as not-required (lean-review `applyCorrections`) |
+| The intentional answer-recto blank page was flagged | Skipped by the v2 plan and status (30bd14da5, ff0a5885a) |
+| `finish` refused an export silently (a finding's blocks were unchanged after the content review reverted a label) | Loop refusals are reported as blockers (e32f78cb5) |
+
+**Coordinator errors this run (process, not tooling):**
+- **Answer pages:** the config gave the composite-functions topic answer page 12 only. The author recorded incomplete answer-key-absence claims for five blocks, which `finish` refused. They were fixed by key references verified against page 11.
+- **Investigation structure:** authored as one block with numbered nested questions, so a question number printed twice. It was split into one block per printed question, as in Ch 1.
+- **Lesson:** take each topic's answer pages from the answer book's exercise headings, not by estimate. A config check that every topic's exercise heading appears on one of its answer pages would catch this.
+
+**Running the tools on this machine:**
+- Set `BOOKLET_CODEX_BIN` to the Codex binary when running from Git Bash; `codex` is not on PATH, and the first inventory launch failed with `spawn codex ENOENT`.
+- Run Codex workers with the sandbox disabled, per AGENTS.md.
+
+**Reuse diagnostics (decision 3), answered for this run:**
+- Stamp carry again reused nothing, and pixel retention covered all reuse (96 and 95 rows in exports 2 and 3).
+- Every page that was not pixel-retained had a real reason (`visual-reuse.json`):
+  - its blocks changed (9, then 3);
+  - it was flagged (13, then 5);
+  - its blocks were new (14);
+  - or it had no stamp because it starts or ends inside a split block (33, then 6).
+- No renderer or settings change invalidated anything, and the neighbour rule refused nothing.
+- Stamp carry is therefore redundant when the renderer is frozen. Retiring it is a candidate simplification, not a saving.
+
+**Still open:** re-review gating (decision 1, gate kept). Content re-reviews were 11 per 100 blocks against Ch 1's 25. Most came from the investigation split and two diagram repairs, not from presentation-only edits.
