@@ -1,0 +1,374 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-08e491e3-99a1-4e46-ae11-d26c2aa158a4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-periodic-phenomena",
+    "secondarySkillIds": [
+      "find-sinusoidal-model",
+      "solve-trig-equations-restricted"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Build the supplied sine model from extrema and timing, then solve threshold equations using the appropriate quadrants and convert elapsed decimal hours into clock times across midnight. Earlier parts scaffold the model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:03.367Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "68ab292ddea469b9180fa872c408ac545a0be264e7b331ae65fa64ddcdb3a861",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part5-20261009/274fc5315dae905f278aa94f34fdec754bef21d92e5ee80eb971dc193bb8d7aa-1792558601609/last-message.txt",
+      "originalTaskHash": "1beda160916f286d918f75cda7dae54e5e094ae1da18096b25cc3bf4c4144e82"
+    }
+  },
+  "content": {
+    "id": "p22-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "On a winter’s day, the hourly temperature was recorded every hour for 24 hours, starting at 9 am. The maximum temperature was $14^\\circ\\mathrm{C}$ and occurred at 3 pm. The minimum temperature was $2^\\circ\\mathrm{C}$ and occurred at 3 am.\n\nThe temperature $T$ (in $^\\circ\\mathrm{C}$) can be modelled by the function:\n$$T(t)=b+a\\sin(nt),$$\nwhere $t$ is the number of hours after 9 am.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the values of $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=6$, $b=8$.",
+          "worked": "$$\\begin{align*}a&=\\frac{14-2}{2}\\\\a&=6\\\\b&=\\frac{14+2}{2}\\\\b&=8\\end{align*}$$\nThe temperature rises from its mean at 9 am, so $a$ is positive.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p22-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch the graph of $T(t)$ over a 24-hour period starting at 9 am.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A sine curve through $(0,8)$, $(6,14)$, $(12,8)$, $(18,2)$ and $(24,8)$.",
+          "worked": "The mean temperature is $8^\\circ\\mathrm{C}$ and the amplitude is $6^\\circ\\mathrm{C}$. Draw a smooth sine curve through $(0,8)$, $(6,14)$, $(12,8)$, $(18,2)$ and $(24,8)$, rising initially.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q1-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"temperatureBlue\",\"hex\":\"268CFF\",\"reason\":\"temperature function\"}],\"reference\":\"source page 22 question 19F 1(b); teacher page 24\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.25cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{temperatureBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(26,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,0)--(0,16) node[above] {$T(t)$};\n\\foreach \\v in {6,12,18,24}{\\draw[line width=0.4pt] (\\v,0.2)--(\\v,-0.2);\\node[below] at (\\v,-0.2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {2,8,14}{\\draw[dashed,line width=0.4pt] (0,\\v)--(24,\\v);\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[temperatureBlue,line width=0.8pt,domain=0:24,samples=121] plot (\\x,{8+6*sin(15*\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "19F 1(b); corresponding answer graph on teacher PDF page 24",
+                "description": "One full temperature cycle with labelled quarter-period ticks and dashed minimum, mean and maximum guides.",
+                "mathematics": "T(t)=8+6 sin(pi t/12), 0<=t<=24.",
+                "answerVisibility": "Solution only; no supplied student graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p22-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the period of the function. Hence, calculate $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Period: $24$ hours; $n=\\dfrac{\\pi}{12}$.",
+          "worked": "The maximum and minimum occur 12 hours apart, which is half a period. The period is therefore 24 hours.\n$$\\begin{align*}24&=\\frac{2\\pi}{n}\\\\24n&=2\\pi\\\\n&=\\frac{\\pi}{12}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p22-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the temperature, correct to one decimal place, at 2 pm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$13.8^\\circ\\mathrm{C}$.",
+          "worked": "At 2 pm, $t=5$.\n$$\\begin{align*}T(5)&=8+6\\sin\\left(\\frac{5\\pi}{12}\\right)\\\\T(5)&\\approx13.8\\end{align*}$$\nThe temperature is $13.8^\\circ\\mathrm{C}$, correct to one decimal place.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the times when the temperature is $11^\\circ\\mathrm{C}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "11 am and 7 pm.",
+          "worked": "$$\\begin{align*}8+6\\sin\\left(\\frac{\\pi t}{12}\\right)&=11\\\\\\sin\\left(\\frac{\\pi t}{12}\\right)&=\\frac12\\\\\\frac{\\pi t}{12}&=\\frac{\\pi}{6}\\quad\\text{or}\\quad\\frac{5\\pi}{6}\\\\t&=2\\quad\\text{or}\\quad10\\end{align*}$$\nThese are 11 am and 7 pm in the recorded 24-hour period.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p22-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find the times to the nearest minute when the temperature is $7^\\circ\\mathrm{C}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "9:38 pm and 8:22 am the following day.\n\nSolve $\\sin(\\pi \\frac{t}{12})=-\\frac{1}{6}$ in the recorded 24-hour period.",
+          "worked": "$$\\begin{align*}8+6\\sin\\left(\\frac{\\pi t}{12}\\right)&=7\\\\\\sin\\left(\\frac{\\pi t}{12}\\right)&=-\\frac16\\end{align*}$$\nLet $\\alpha=\\arcsin(\\frac{1}{6})$. For $0\\le t\\le24$, the angle lies in the third or fourth quadrant.\n$$\\begin{align*}\\frac{\\pi t}{12}&=\\pi+\\alpha\\quad\\text{or}\\quad2\\pi-\\alpha\\\\t&=12+\\frac{12\\alpha}{\\pi}\\quad\\text{or}\\quad24-\\frac{12\\alpha}{\\pi}\\\\t&\\approx12.6396\\quad\\text{or}\\quad23.3604\\end{align*}$$\nMeasured from 9 am, these times are 9:38 pm and 8:22 am the following day, to the nearest minute.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q1-root/label",
+                  "type": "item",
+                  "ref": "p22-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p22-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p22-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-a/label",
+                          "type": "item",
+                          "ref": "p22-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-a/space",
+                          "type": "item",
+                          "ref": "p22-q1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-b/label",
+                          "type": "item",
+                          "ref": "p22-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-b/space",
+                          "type": "item",
+                          "ref": "p22-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q1-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-c/label",
+                          "type": "item",
+                          "ref": "p22-q1-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p22-q1-c/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-c/space",
+                          "type": "item",
+                          "ref": "p22-q1-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-d/label",
+                          "type": "item",
+                          "ref": "p22-q1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p22-q1-d/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-d/space",
+                          "type": "item",
+                          "ref": "p22-q1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q1-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-e/label",
+                          "type": "item",
+                          "ref": "p22-q1-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p22-q1-e/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-e/space",
+                          "type": "item",
+                          "ref": "p22-q1-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q1-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q1-f/label",
+                          "type": "item",
+                          "ref": "p22-q1-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p22-q1-f/prompt",
+                          "type": "item",
+                          "ref": "p22-q1-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q1-f/space",
+                          "type": "item",
+                          "ref": "p22-q1-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:00.474Z",
+  "updatedAt": "2026-11-12T21:45:00.475Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part5-20261009",
+    "blockId": "p22-q1",
+    "sectionRole": "exercise"
+  }
+}

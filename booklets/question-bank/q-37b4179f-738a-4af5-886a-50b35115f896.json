@@ -1,0 +1,223 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-37b4179f-738a-4af5-886a-50b35115f896",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "prime-factorisation",
+      "multiplication-principle"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect divisors with independent exponent choices, complementary factor pairs, and expanded geometric-sum products to prove the three supplied formulas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6239336c3a23528e7b8d4db2f3a7032daac461140972a5cfaf3d5ff9fe659909",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt",
+      "originalTaskHash": "b2999fd07950b02a6fa86c62f9bece6e1852bfdb4531d5afafd70f1474eb442a"
+    }
+  },
+  "content": {
+    "id": "p15-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "Suppose $n\\in\\mathbb N$ has prime decomposition\n$$n=p_1^{e_1}p_2^{e_2}\\cdots p_k^{e_k},$$\nwhere $p_1,p_2,\\ldots,p_k$ are distinct primes and $e_1,e_2,\\ldots,e_k\\in\\mathbb N$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the number of divisors of $n$ is\n$$(e_1+1)(e_2+1)\\cdots(e_k+1).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$(e_1+1)(e_2+1)\\cdots(e_k+1).$$\n\nEach prime exponent can be chosen independently from $0$ to $e_i$.",
+          "worked": "By unique prime factorisation, every positive divisor of $n$ has a unique form $p_1^{a_1}p_2^{a_2}\\cdots p_k^{a_k}$, where $0\\le a_i\\le e_i$. There are $e_i+1$ choices for each exponent $a_i$. By the multiplication principle, the number of divisors is\n$$(e_1+1)(e_2+1)\\cdots(e_k+1).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p15-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that the product of the divisors of $n$ is\n$$n^{\\frac12(e_1+1)(e_2+1)\\cdots(e_k+1)}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$n^{\\frac12(e_1+1)(e_2+1)\\cdots(e_k+1)}.$$\n\nPair complementary divisors whose product is $n$; if $n$ is a square, include the unpaired divisor $\\sqrt n$.",
+          "worked": "Let $D=(e_1+1)(e_2+1)\\cdots(e_k+1)$ be the number of positive divisors, and let $P$ be their product.\n\nIf $n$ is not a perfect square, its divisors form $\\frac{D}{2}$ distinct pairs $d,\\frac{n}{d}$, each with product $n$. Hence\n$$P=n^{D/2}.$$\nIf $n$ is a perfect square, all divisors except $\\sqrt n$ form $\\frac{(D-1)}{2}$ such pairs. Thus\n$$\\begin{align*}P&=n^{(D-1)/2}\\sqrt n\\\\P&=n^{D/2}\\\\P&=n^{\\frac12(e_1+1)(e_2+1)\\cdots(e_k+1)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p15-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that the sum of the divisors of $n$ is\n$$\\left(\\frac{p_1^{e_1+1}-1}{p_1-1}\\right)\\left(\\frac{p_2^{e_2+1}-1}{p_2-1}\\right)\\cdots\\left(\\frac{p_k^{e_k+1}-1}{p_k-1}\\right).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$\\prod_{i=1}^{k}\\frac{p_i^{e_i+1}-1}{p_i-1}.$$\n\nExpand the product of the prime-power sums; each positive divisor occurs exactly once.",
+          "worked": "For each prime $p_i$, put $S_i=1+p_i+p_i^2+\\cdots+p_i^{e_i}$. Multiplying by $p_i$ and subtracting gives\n$$\\begin{align*}(p_i-1)S_i&=p_i^{e_i+1}-1\\\\S_i&=\\frac{p_i^{e_i+1}-1}{p_i-1}.\\end{align*}$$\nExpanding $S_1S_2\\cdots S_k$ chooses one power of each prime independently. By unique prime factorisation, the resulting terms are precisely all positive divisors of $n$, each appearing once. Therefore, if $S$ is their sum,\n$$\\begin{align*}S&=(1+p_1+\\cdots+p_1^{e_1})\\cdots(1+p_k+\\cdots+p_k^{e_k})\\\\S&=\\prod_{i=1}^{k}\\frac{p_i^{e_i+1}-1}{p_i-1}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q23-root/label",
+                  "type": "item",
+                  "ref": "p15-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "layout:p15-q23-root/prompt",
+                  "type": "item",
+                  "ref": "p15-q23-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p15-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p15-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q23-a/label",
+                          "type": "item",
+                          "ref": "p15-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p15-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p15-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q23-a/space",
+                          "type": "item",
+                          "ref": "p15-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q23-b/label",
+                          "type": "item",
+                          "ref": "p15-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p15-q23-b/prompt",
+                          "type": "item",
+                          "ref": "p15-q23-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q23-b/space",
+                          "type": "item",
+                          "ref": "p15-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q23-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q23-c/label",
+                          "type": "item",
+                          "ref": "p15-q23-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p15-q23-c/prompt",
+                          "type": "item",
+                          "ref": "p15-q23-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q23-c/space",
+                          "type": "item",
+                          "ref": "p15-q23-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 23",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:27.367Z",
+  "updatedAt": "2026-11-12T21:44:27.367Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p15-q23",
+    "sectionRole": "exercise"
+  }
+}

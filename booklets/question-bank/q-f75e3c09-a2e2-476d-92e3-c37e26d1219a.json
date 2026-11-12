@@ -1,0 +1,223 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f75e3c09-a2e2-476d-92e3-c37e26d1219a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "verify-inverse-composition",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "natural-domain-from-equation"
+    ],
+    "reasoningScore": 67,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the parameter determinant to invertibility, proving both directions while handling constant degeneracies and excluded domain values.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b60332172d0917302148c2a9b0ad09786dd1d8524d2745e744fc024c7a7b70cb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt",
+      "originalTaskHash": "2543ca62567b7c8d0d2657ef6d22cc2f7d24019f1448e62d5d5cd5115d8cccd4"
+    }
+  },
+  "content": {
+    "id": "p30-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Consider the function\n$$f(x)=\\frac{ax+b}{cx+d},$$\nwhere $a,b,c,d\\in\\mathbb R$ and $c,d$ are not both zero. Take the codomain of $f$ to be its range.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Determine the implied domain of $f$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\mathbb R\\setminus\\{-\\frac{d}{c}\\}$ if $c\\ne0$; $\\mathbb R$ if $c=0$.",
+          "worked": "The denominator must be nonzero: $cx+d\\ne0$.\n\nIf $c\\ne0$, this excludes $x=-\\frac{d}{c}$, so $\\operatorname{dom}(f)=\\mathbb R\\setminus\\{-\\frac{d}{c}\\}$.\n\nIf $c=0$, then $d\\ne0$, so $\\operatorname{dom}(f)=\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p30-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose $f$ is bijective. Find the rule for $f^{-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=\\dfrac{b-dx}{cx-a}$.\n\nInterchange $x$ and $y$, then collect the terms containing $y$.",
+          "worked": "Interchange $x$ and $y$ and solve for $y$:\n$$\\begin{align*}x&=\\frac{ay+b}{cy+d}\\\\cxy+dx&=ay+b\\\\cxy-ay&=b-dx\\\\y(cx-a)&=b-dx\\\\y&=\\frac{b-dx}{cx-a}.\\end{align*}$$\nHence $f^{-1}(x)=\\dfrac{b-dx}{cx-a}$.\n\nFor $c\\ne0$, its domain is $\\mathbb R\\setminus\\{\\frac{a}{c}\\}$ and its range is $\\mathbb R\\setminus\\{-\\frac{d}{c}\\}$. For $c=0$, bijectivity requires $a\\ne0$, and $f^{-1}(x)=\\dfrac{dx-b}{a}$ has domain and range $\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p30-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $f$ is bijective if and only if $ad-bc\\ne0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f$ is bijective if and only if $ad-bc\\ne0$.\n\nIf $ad-bc=0$, $f$ is constant. Otherwise, $g(x)=\\dfrac{b-dx}{cx-a}$ satisfies both inverse-composition identities.",
+          "worked": "If $ad-bc=0$ and $c\\ne0$, then $b=\\frac{ad}{c}$, so\n$$f(x)=\\frac{a(x+d/c)}{c(x+d/c)}=\\frac ac$$\nthroughout its domain. If $c=0$, then $d\\ne0$ and $ad=0$, giving $a=0$ and $f(x)=\\frac{b}{d}$. In either case $f$ is constant on a domain containing distinct points, so it is not injective and therefore not bijective.\n\nNow suppose $\\Delta=ad-bc\\ne0$. If $c\\ne0$, solving $f(x)=y$ gives $x=\\frac{(b-dy)}{(cy-a)}$ for every $y\\ne \\frac{a}{c}$. This input lies in the domain because\n$$c\\frac{b-dy}{cy-a}+d=\\frac{-\\Delta}{cy-a}\\ne0.$$\nAlso, $f(x)$ cannot equal $\\frac{a}{c}$, since that would imply $bc=ad$. Thus the range is $\\mathbb R\\setminus\\{\\frac{a}{c}\\}$. If $c=0$, then $a,d\\ne0$, and the range is $\\mathbb R$.\n\nDefine $g(x)=\\dfrac{b-dx}{cx-a}$ on this range. For each input in the appropriate domain,\n$$\\begin{align*}g(f(x))&=\\frac{b(cx+d)-d(ax+b)}{c(ax+b)-a(cx+d)}\\\\g(f(x))&=\\frac{(bc-ad)x}{bc-ad}\\\\g(f(x))&=x.\\end{align*}$$\nSimilarly,\n$$\\begin{align*}f(g(x))&=\\frac{a(b-dx)+b(cx-a)}{c(b-dx)+d(cx-a)}\\\\f(g(x))&=\\frac{(bc-ad)x}{bc-ad}\\\\f(g(x))&=x.\\end{align*}$$\nBoth identities hold because $bc-ad\\ne0$. Hence $g$ is the inverse of $f$, so $f$ is bijective. Together the two cases prove the result.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 112
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q14-root/label",
+                  "type": "item",
+                  "ref": "p30-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p30-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p30-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q14-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q14-a/label",
+                          "type": "item",
+                          "ref": "p30-q14-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q14-a/prompt",
+                          "type": "item",
+                          "ref": "p30-q14-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q14-a/space",
+                          "type": "item",
+                          "ref": "p30-q14-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q14-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q14-b/label",
+                          "type": "item",
+                          "ref": "p30-q14-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q14-b/prompt",
+                          "type": "item",
+                          "ref": "p30-q14-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q14-b/space",
+                          "type": "item",
+                          "ref": "p30-q14-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q14-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q14-c/label",
+                          "type": "item",
+                          "ref": "p30-q14-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p30-q14-c/prompt",
+                          "type": "item",
+                          "ref": "p30-q14-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q14-c/space",
+                          "type": "item",
+                          "ref": "p30-q14-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:19.375Z",
+  "updatedAt": "2026-11-12T21:45:19.375Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p30-q14",
+    "sectionRole": "exercise"
+  }
+}

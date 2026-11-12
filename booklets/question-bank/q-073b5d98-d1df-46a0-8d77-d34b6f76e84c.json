@@ -1,0 +1,209 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-073b5d98-d1df-46a0-8d77-d34b6f76e84c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-practical-problems",
+    "secondarySkillIds": [
+      "tangent-secant-properties"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives a radius formula from tangent geometry and a half-angle, then evaluates it with specified rounding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:04:23.482Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "62e4bf7f63e792cbe2e3a7f35d0b8ee30236e46fb8e9ddd30cb3505ad6a9e699",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-86e04ad09182e425de98/1/generation.json",
+      "originalTaskHash": "2225d60db6e928309a4435cf742411a123347ebe2210f089f9d3f9197dff1c57"
+    }
+  },
+  "content": {
+    "id": "p12-q13-root",
+    "type": "question",
+    "label": null,
+    "prompt": "**Radius of the Moon.** Let $r$ denote the radius of the Moon, $\\theta$ the angle subtended by the Moon when it is directly overhead, and $d$ the distance from the surface of the Moon to the surface of Earth.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 12, p12-q13-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (E) at (0,0);\n\\coordinate (C) at (6,0);\n\\coordinate (N) at (5,0);\n\\coordinate (T) at ({35/6},{sqrt(35)/6});\n\\coordinate (B) at ({35/6},{-sqrt(35)/6});\n\\draw[black,line width=0.8pt] (-1,2) .. controls (-0.35,1.5) and (0,0.8) .. (E) .. controls (0,-0.8) and (-0.35,-1.5) .. (-1,-2);\n\\draw[black,line width=0.8pt] (T)--(E)--(B);\n\\draw[black,dashed,line width=0.4pt] (E)--(C);\n\\draw[black,dashed,line width=0.4pt] (T)--(C)--(B);\n\\pic[draw=black,line width=0.4pt,angle radius=2.4mm] {right angle=E--T--C};\n\\pic[draw=black,line width=0.4pt,angle radius=2.4mm] {right angle=C--B--E};\n\\pic[draw=black,line width=0.4pt,angle radius=9mm] {angle=B--E--T};\n\\node at ($(E)!0.27!(C)$) {$\\theta$};\n\\node[above] at ($(E)!0.72!(N)$) {$d$};\n\\node[above] at ($(N)!0.5!(C)$) {$r$};\n\\node[right] at ($(T)!0.5!(C)$) {$r$};\n\\node[right] at ($(C)!0.5!(B)$) {$r$};\n\\node[left] at (-0.25,0) {Earth};\n\\node[above] at ($(T)+(0,0.25)$) {Moon};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Upper-right question 13 diagram",
+          "description": "Earth surface at left; paired tangent sight lines to the Moon at right, with a dashed centre line and dashed tangent radii. Ordinary marks are black and the diagram is unshaded.",
+          "mathematics": "The sight-line angle is theta. The centre line bisects it and has length d+r. Each tangent radius has length r and meets its sight line at a right angle. Coordinates derive both tangent points from a common centre and radius; construction proportions are illustrative.",
+          "answerVisibility": "All supplied labels and construction lines remain visible; no derived formula or numerical answer is drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $r=\\dfrac{d\\sin(\\frac{\\theta}{2})}{1-\\sin(\\frac{\\theta}{2})}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$r=\\dfrac{d\\sin(\\frac{\\theta}{2})}{1-\\sin(\\frac{\\theta}{2})}$.\n\nThe centre line bisects $\\theta$, and $\\sin(\\frac{\\theta}{2})=\\dfrac{r}{d+r}$.",
+          "worked": "The radius is perpendicular to the tangent sight line. The two right triangles are congruent, so the centre line bisects $\\theta$.\n\n$$\\begin{align*}\n\\sin(\\theta/2)&=\\frac{r}{d+r}\\\\\n(d+r)\\sin(\\theta/2)&=r\\\\\nd\\sin(\\theta/2)+r\\sin(\\theta/2)&=r\\\\\nr-r\\sin(\\theta/2)&=d\\sin(\\theta/2)\\\\\nr\\bigl(1-\\sin(\\theta/2)\\bigr)&=d\\sin(\\theta/2)\\\\\nr&=\\frac{d\\sin(\\theta/2)}{1-\\sin(\\theta/2)}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 66
+      },
+      {
+        "id": "p12-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that $\\theta=0.52^\\circ$ and $d=384\\,000$ kilometres, find $r$, to the nearest 10 kilometres.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1750\\text{ km}$, to the nearest $10\\text{ km}$.",
+          "worked": "$$\\begin{align*}\nr&=\\frac{384\\,000\\sin(0.52^\\circ/2)}{1-\\sin(0.52^\\circ/2)}\\\\\nr&=\\frac{384\\,000\\sin 0.26^\\circ}{1-\\sin 0.26^\\circ}\\\\\nr&\\approx1750.474117\\text{ km}\\\\\nr&\\approx1750\\text{ km}\\quad\\text{(nearest 10 km)}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q13-root/label",
+                  "type": "item",
+                  "ref": "p12-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p12-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q13-diagram",
+                  "type": "item",
+                  "ref": "p12-q13-diagram",
+                  "title": "Diagram",
+                  "width": 65
+                },
+                {
+                  "id": "p12-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p12-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q13-a/label",
+                          "type": "item",
+                          "ref": "p12-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p12-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p12-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-q13-a/space",
+                          "type": "item",
+                          "ref": "p12-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p12-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q13-b/label",
+                          "type": "item",
+                          "ref": "p12-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p12-q13-b/prompt",
+                          "type": "item",
+                          "ref": "p12-q13-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-q13-b/space",
+                          "type": "item",
+                          "ref": "p12-q13-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:53.275Z",
+  "updatedAt": "2026-11-12T21:44:53.275Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p12-q13",
+    "sectionRole": "exercise"
+  }
+}

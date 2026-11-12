@@ -1,0 +1,295 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e2c0c872-8abc-4f2f-990f-dcdbe58b5cab",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "area-rule-triangle",
+      "trig-find-side"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Decompose the polygon into central triangles and rewrite its area as a constant times a sine-to-angle ratio to use the explicitly hinted preceding limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c995aad5c4dd564f0f152c605da1a55ec4e9b45ce88cadb2eddd6e80066ee2bc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt",
+      "originalTaskHash": "b450df63e5f058b91e8beb19a106d645afb4ebfae8489192157d39ba3dca8ca4"
+    }
+  },
+  "content": {
+    "id": "p40-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "A regular $n$-sided polygon is inscribed in a circle of radius $r$. The side length of the polygon is denoted by $s$, and the distance from the centre of the circle to any side of the polygon is denoted by $a$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q19-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40 p40-q19-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (V0) at (90:2);\n\\coordinate (V1) at (18:2);\n\\coordinate (V2) at (-54:2);\n\\coordinate (V3) at (-126:2);\n\\coordinate (V4) at (162:2);\n\\coordinate (M) at ($(V0)!0.5!(V1)$);\n\\draw[black] (O) circle (2);\n\\draw[black] (V0)--(V1)--(V2)--(V3)--(V4)--cycle;\n\\draw[black] (O)--node[midway,left] {$r$} (V0);\n\\draw[black] (O)--node[midway,below right] {$a$} (M);\n\\path (V0)--node[midway,above right] {$s$} (V1);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 19, right column",
+          "description": "A pentagon illustrates the general regular n-sided polygon. One vertex is at the top and the bottom side is horizontal. The radius, side and centre-to-side-midpoint segment are labelled r, s and a.",
+          "mathematics": "All five illustrative vertices lie on the circle. The segment labelled a ends at the midpoint of the side labelled s and is perpendicular to that side. The illustration does not restrict n to 5.",
+          "answerVisibility": "All supplied geometry and labels remain visible in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find an expression for $r$ in terms of $s$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$r=\\dfrac{s}{2\\sin(\\frac{\\pi}{n})}$.",
+          "worked": "Join the centre to the endpoints of one side and bisect the resulting isosceles triangle. The right triangle has angle $\\frac{\\pi}{n}$, opposite side $\\frac{s}{2}$ and hypotenuse $r$.\n$$\\begin{align*}\\sin\\left(\\frac{\\pi}{n}\\right)&=\\frac{s}{2r}\\\\r&=\\frac{s}{2\\sin(\\pi/n)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p40-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find an expression for $r$ in terms of $a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$r=\\dfrac{a}{\\cos(\\frac{\\pi}{n})}$.",
+          "worked": "In the same right triangle, the adjacent side is $a$ and the hypotenuse is $r$.\n$$\\begin{align*}\\cos\\left(\\frac{\\pi}{n}\\right)&=\\frac{a}{r}\\\\r&=\\frac{a}{\\cos(\\pi/n)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p40-q19-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the area $A_n$ of the polygon is given by\n$$A_n=\\frac12nr^2\\sin\\left(\\frac{2\\pi}{n}\\right).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n=\\dfrac12nr^2\\sin(\\frac{2\\pi}{n})$.\n\nDivide the polygon into $n$ congruent triangles with two sides $r$ and included angle $\\frac{2\\pi}{n}$.",
+          "worked": "Joining the centre to every vertex divides the polygon into $n$ congruent triangles. Each has two sides of length $r$ and included angle $\\frac{2\\pi}{n}$.\n$$\\begin{align*}A_n&=n\\left(\\frac12r\\cdot r\\sin\\left(\\frac{2\\pi}{n}\\right)\\right)\\\\A_n&=\\frac12nr^2\\sin\\left(\\frac{2\\pi}{n}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p40-q19-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Prove that $A_n$ approaches $\\pi r^2$ as $n$ approaches $\\infty$. Hint: Use your answer to the previous exercise.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_n\\to\\pi r^2$.\n\nWrite $A_n=\\pi r^2(\\frac{\\sin u}{u})$, where $u=\\frac{2\\pi}{n}$, and use $\\frac{\\sin u}{u}\\to1$ as $u\\to0$.",
+          "worked": "Let $u=\\frac{2\\pi}{n}$.\n$$\\begin{align*}A_n&=\\frac12nr^2\\sin u\\\\A_n&=\\pi r^2\\frac{\\sin u}{u}.\\end{align*}$$\nAs $n\\to\\infty$, $u\\to0$. The previous exercise gives $\\frac{\\sin u}{u}\\to1$, so\n$$A_n\\to\\pi r^2.$$\nThus the polygon's area approaches the circle's area.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p40-q19",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q19-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q19-root/label",
+                  "type": "item",
+                  "ref": "p40-q19-root/label",
+                  "title": "Label 19"
+                },
+                {
+                  "id": "layout:p40-q19-root/prompt",
+                  "type": "item",
+                  "ref": "p40-q19-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p40-q19-diagram",
+                  "type": "item",
+                  "ref": "p40-q19-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p40-q19-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q19-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q19-a/label",
+                          "type": "item",
+                          "ref": "p40-q19-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p40-q19-a/prompt",
+                          "type": "item",
+                          "ref": "p40-q19-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q19-a/space",
+                          "type": "item",
+                          "ref": "p40-q19-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p40-q19-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q19-b/label",
+                          "type": "item",
+                          "ref": "p40-q19-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p40-q19-b/prompt",
+                          "type": "item",
+                          "ref": "p40-q19-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q19-b/space",
+                          "type": "item",
+                          "ref": "p40-q19-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p40-q19-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q19-c/label",
+                          "type": "item",
+                          "ref": "p40-q19-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p40-q19-c/prompt",
+                          "type": "item",
+                          "ref": "p40-q19-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q19-c/space",
+                          "type": "item",
+                          "ref": "p40-q19-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p40-q19-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q19-d/label",
+                          "type": "item",
+                          "ref": "p40-q19-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p40-q19-d/prompt",
+                          "type": "item",
+                          "ref": "p40-q19-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q19-d/space",
+                          "type": "item",
+                          "ref": "p40-q19-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 19",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:05.211Z",
+  "updatedAt": "2026-11-12T21:45:05.211Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p40-q19",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-67f178e4-bafe-471a-a424-d50d89c63054",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "hcf-two-numbers"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Apply Bézout's identity for existence, construct a parameterised family, and prove every integer solution belongs to it using coprimality, including zero coefficients.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "564dc880ad7a2e8df5a872dcaa000f137cc342e901d10ee7f1819f482564f657",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt",
+      "originalTaskHash": "86b91918c147562b52c41b3c82d8a15eddd04162f7a81f3a7504bea7f356fe5b"
+    }
+  },
+  "content": {
+    "id": "p19-q36-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p19-q36-assumptions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Suppose ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a,b,c\\in\\mathbb Z",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", with a and b not both zero.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p19-q36-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "linear Diophantine equation",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " is an equation of the form",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p19-q36-equation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "ax+by=c",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p19-q36-integer-solutions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "for which we seek integer solutions ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p19-q36-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Diophantine equations do not always have solutions. Prove that the equation above has solutions if and only if $\\operatorname{GCD}(a,b)$ divides $c$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Integer solutions exist if and only if $d\\mid c$, where $d=\\operatorname{GCD}(a,b)$.\n\nNecessity follows because $d$ divides both terms; sufficiency follows from Bézout’s identity.",
+          "worked": "Let $d=\\operatorname{GCD}(a,b)>0$. If $ax+by=c$ for integers $x,y$, then $d$ divides $ax$ and $by$, so $d\\mid c$.\n\nConversely, suppose $c=dk$ for some $k\\in\\mathbb Z$. By Bézout’s identity there are integers $u,v$ such that $au+bv=d$. Then\n$$\\begin{align*}a(ku)+b(kv)&=k(au+bv)\\\\a(ku)+b(kv)&=kd\\\\a(ku)+b(kv)&=c.\\end{align*}$$\nThus $x=ku$, $y=kv$ is an integer solution, proving both directions.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p19-q36-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that if we can find one particular solution to our equation above, then we can find infinitely many solutions. Use this idea to describe all solutions to the equation above.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If $(x_0,y_0)$ is one integer solution and $d=\\operatorname{GCD}(a,b)$, all integer solutions are\n$$x=x_0+\\frac bd t,\\qquad y=y_0-\\frac ad t,\\qquad t\\in\\mathbb Z.$$\n\nThe coprime coefficients $\\frac{a}{d}$ and $\\frac{b}{d}$ ensure that every solution has this form.",
+          "worked": "Let $d=\\operatorname{GCD}(a,b)$, $a'=\\frac{a}{d}$ and $b'=\\frac{b}{d}$. Suppose $(x_0,y_0)$ is an integer solution. For each $t\\in\\mathbb Z$, set $x=x_0+b't$ and $y=y_0-a't$. These are integers, and\n$$\\begin{align*}ax+by&=a(x_0+b't)+b(y_0-a't)\\\\ax+by&=ax_0+by_0+(ab'-ba')t\\\\ax+by&=c.\\end{align*}$$\nAt least one of $a',b'$ is nonzero, so distinct values of $t$ give distinct solutions. Hence there are infinitely many solutions.\n\nTo prove completeness, let $(x_1,y_1)$ be any integer solution. Subtracting the two equations gives\n$$a'(x_1-x_0)=-b'(y_1-y_0).$$\nIf $b'\\ne0$, coprimality gives $b'\\mid(x_1-x_0)$. Thus $x_1-x_0=b't$ for some integer $t$, and substitution gives $y_1-y_0=-a't$.\n\nIf $b'=0$, then $a'=\\pm1$. The difference equation gives $x_1=x_0$, and every integer difference $y_1-y_0$ can be written as $-a't$.\n\nTherefore all integer solutions are\n$$x=x_0+\\frac bd t,\\qquad y=y_0-\\frac ad t,\\qquad t\\in\\mathbb Z.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 132
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q36",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q36": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q36-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q36-root/label",
+                  "type": "item",
+                  "ref": "p19-q36-root/label",
+                  "title": "Label 36"
+                },
+                {
+                  "id": "layout:p19-q36-root/prompt#p19-q36-assumptions",
+                  "type": "item",
+                  "ref": "p19-q36-root/prompt#p19-q36-assumptions",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q36-root/prompt#p19-q36-definition",
+                  "type": "item",
+                  "ref": "p19-q36-root/prompt#p19-q36-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q36-root/prompt#p19-q36-equation",
+                  "type": "item",
+                  "ref": "p19-q36-root/prompt#p19-q36-equation",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q36-root/prompt#p19-q36-integer-solutions",
+                  "type": "item",
+                  "ref": "p19-q36-root/prompt#p19-q36-integer-solutions",
+                  "title": "Text"
+                },
+                {
+                  "id": "p19-q36-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p19-q36-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q36-a/label",
+                          "type": "item",
+                          "ref": "p19-q36-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p19-q36-a/prompt",
+                          "type": "item",
+                          "ref": "p19-q36-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p19-q36-a/space",
+                          "type": "item",
+                          "ref": "p19-q36-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p19-q36-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q36-b/label",
+                          "type": "item",
+                          "ref": "p19-q36-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p19-q36-b/prompt",
+                          "type": "item",
+                          "ref": "p19-q36-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p19-q36-b/space",
+                          "type": "item",
+                          "ref": "p19-q36-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 36",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:28.365Z",
+  "updatedAt": "2026-11-12T21:44:28.365Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p19-q36",
+    "sectionRole": "exercise"
+  }
+}

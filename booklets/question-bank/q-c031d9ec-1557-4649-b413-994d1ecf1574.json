@@ -1,0 +1,223 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c031d9ec-1557-4649-b413-994d1ecf1574",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "rational-numbers",
+      "prime-factorisation"
+    ],
+    "reasoningScore": 87,
+    "difficulty": "Challenge",
+    "difficultyReason": "Generalise decimal conversion symbolically and prove exact preperiod and period lengths, requiring converse arguments connecting cancellation and divisibility to earlier repetition.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:07.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e74ccdb53585bae29c502635c89f87030da1381d77335221dc16159fb7415b9b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/e87bee938c1fd9f77c5aa16ba64b1a53ccff56d74cac465ae4265d409df104fd-1792558350860/last-message.txt",
+      "originalTaskHash": "55c42262ed9bbf8662ead14b1d40c2f69d7d693fa28bbbd7fcde4a28855d3e66"
+    }
+  },
+  "content": {
+    "id": "p29-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Suppose a rational number has a recurring decimal representation and is expressed as an irreducible fraction $\\frac{p}{q}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q6a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that it can be written in the form\n$$\\frac{r}{10^k(10^n-1)}$$\nwhere $r\\in\\mathbb{Z}$, $k$ is the number of non-repeating digits to the right of the decimal point, and $n$ is the length of the shortest sequence of repeating digits.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Let $A$ be the integer formed by the whole part and the first $k$ decimal digits, and $B$ the integer formed by the repeating block. Then $r=A(10^n-1)+B\\in\\mathbb{Z}$ and $\\frac pq=\\frac{r}{10^k(10^n-1)}$.",
+          "worked": "Write $x=\\frac pq$. First suppose $x\\ge0$. Let $A$ be the integer formed by the whole part followed by the $k$ non-repeating digits, and let $B$ be the integer formed by the $n$ repeating digits, retaining leading zeros in the block. Let $y=0.\\overline{c_1c_2\\cdots c_n}$.\n$$\\begin{align*}10^ny-y&=B\\\\y&=\\frac{B}{10^n-1}\\end{align*}$$\nTherefore,\n$$\\begin{align*}x&=\\frac{A+y}{10^k}\\\\x&=\\frac{A}{10^k}+\\frac{B}{10^k(10^n-1)}\\\\x&=\\frac{A(10^n-1)+B}{10^k(10^n-1)}.\\end{align*}$$\nThus $r=A(10^n-1)+B$ is an integer. For negative $x$, apply the same argument to $-x$ and negate $r$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 98
+      },
+      {
+        "id": "p29-q6b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that $k$ is equal to the larger of the exponent of $2$ and the exponent of $5$ in the prime factorisation of $q$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\max(a,b)$, where $q=2^a5^bq'$ and $\\gcd(q',10)=1$.\n\nCancellation cannot remove both a factor of $2$ and a factor of $5$ from every initial power of $10$, since that would let the recurring part begin earlier.",
+          "worked": "Write $q=2^a5^bq'$, where $\\gcd(q',10)=1$. By part (a), $q$ divides $10^k(10^n-1)$. Since $10^n-1$ is divisible by neither $2$ nor $5$, we have $a\\le k$ and $b\\le k$.\n\nIf $k=0$, this already gives $a=b=0$. Suppose $k>0$ and both $a<k$ and $b<k$. Reducing the fraction in part (a) must then cancel at least one factor of $2$ and one factor of $5$, so $10$ divides $r$.\n\nUsing the notation of part (a),\n$$r=A(10^n-1)+B.$$\nIts last digit is congruent to $c_n-a_k$ modulo $10$, where $a_k$ is the last non-repeating digit and $c_n$ the last digit of the repeating block. Thus $10\\mid r$ gives $c_n=a_k$. The recurring block could therefore begin one digit earlier, with block $c_nc_1\\cdots c_{n-1}$. This contradicts the definition of $k$ as the length of the non-repeating initial segment. Hence at least one of $a,b$ equals $k$, and $k=\\max(a,b)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p29-q6c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $n$ is equal to the smallest positive integer such that $10^k(10^n-1)$ is a multiple of $q$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n=\\min\\{m\\in\\mathbb{N}:q\\mid10^k(10^m-1)\\}$.\n\nThe shifted decimal has a repeating block of length $m$ whenever this divisibility holds; minimality of the source block gives the result.",
+          "worked": "Part (a) gives\n$$\\frac pq\\,10^k(10^n-1)=r\\in\\mathbb{Z}.$$\nSince $\\gcd(p,q)=1$, it follows that $q\\mid10^k(10^n-1)$.\n\nSuppose a positive integer $m<n$ also satisfies $q\\mid10^k(10^m-1)$. Work with $|\\frac{p}{q}|$, which has the same repeating period, and write $10^k|\\frac{p}{q}|=A+y$, where $A$ is an integer and $0<y<1$. Then\n$$\\begin{align*}(10^m-1)y&=C\\\\y&=\\frac{C}{10^m-1},\\end{align*}$$\nfor an integer $C$ with $0<C<10^m-1$. Write $C$ as an $m$-digit block, including leading zeros. Multiplying its recurring decimal by $10^m$ and subtracting the original decimal shows that $y=0.\\overline{C}$. Its repeating period is therefore at most $m$, contradicting the shortest period $n$. Hence no smaller positive integer works.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 102
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q6-root/label",
+                  "type": "item",
+                  "ref": "p29-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p29-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p29-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p29-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q6a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q6a/label",
+                          "type": "item",
+                          "ref": "p29-q6a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p29-q6a/prompt",
+                          "type": "item",
+                          "ref": "p29-q6a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q6a/space",
+                          "type": "item",
+                          "ref": "p29-q6a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p29-q6b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q6b/label",
+                          "type": "item",
+                          "ref": "p29-q6b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p29-q6b/prompt",
+                          "type": "item",
+                          "ref": "p29-q6b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q6b/space",
+                          "type": "item",
+                          "ref": "p29-q6b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p29-q6c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q6c/label",
+                          "type": "item",
+                          "ref": "p29-q6c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p29-q6c/prompt",
+                          "type": "item",
+                          "ref": "p29-q6c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q6c/space",
+                          "type": "item",
+                          "ref": "p29-q6c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:29.317Z",
+  "updatedAt": "2026-11-12T21:44:29.318Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p29-q6",
+    "sectionRole": "exercise"
+  }
+}

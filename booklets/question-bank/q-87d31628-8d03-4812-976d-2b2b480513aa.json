@@ -1,0 +1,484 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-87d31628-8d03-4812-976d-2b2b480513aa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "proof-by-contradiction",
+    "secondarySkillIds": [
+      "rational-numbers",
+      "inequality-properties"
+    ],
+    "reasoningScore": 89,
+    "difficulty": "Challenge",
+    "difficultyReason": "Turn the supplied approximation theorem into infinitely many distinct reduced fractions, then use integer separation to bound denominators and numerators in the rational case.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:07.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bf8389944b7166e065f9b48cfbc7b40f7920ae15955ba1238b372de9fdc646de",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/e87bee938c1fd9f77c5aa16ba64b1a53ccff56d74cac465ae4265d409df104fd-1792558350860/last-message.txt",
+      "originalTaskHash": "a2990563c688725ffec5499fbc345fe0fac1d43593a6977951805636237b55c9"
+    }
+  },
+  "content": {
+    "id": "p29-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p29-q10-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Dirichlet’s Approximation Theorem provides information regarding how well a real number can be approximated by rational numbers. Of course an obvious way to obtain rational approximations to a real number is to consider its decimal representation. For example, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "1.4,1.41,1.414,1.4142,1.41421,\\ldots",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " provide increasingly precise rational approximations to ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\sqrt{2}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". However, Dirichlet’s Approximation Theorem guarantees we can find rational approximations without the denominator growing too large. Its statement is as follows:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p29-q10-theorem-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Suppose ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n\\in\\mathbb{N}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x\\in\\mathbb{R}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Then there exists a fraction ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{p}{q}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " such that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "1\\le q\\le n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p29-q10-theorem-bound",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\left|x-\\frac{p}{q}\\right|<\\frac{1}{nq}.",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p29-q10-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove the following consequence of this theorem:",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q10a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If $x$ is irrational, then there are infinitely many irreducible fractions $\\frac{p}{q}$ satisfying:\n$$\\left|x-\\frac{p}{q}\\right|<\\frac{1}{q^2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "There are infinitely many such irreducible fractions.\n\nDirichlet’s theorem supplies approximations with positive errors tending to zero; finitely many rational numbers cannot do this.",
+          "worked": "For each positive integer $n$, Dirichlet’s theorem gives $\\frac{p_n}{q_n}$ with $1\\le q_n\\le n$ and\n$$\\left|x-\\frac{p_n}{q_n}\\right|<\\frac{1}{nq_n}\\le\\frac{1}{q_n^2}.$$\nReduce this fraction to $\\frac{a_n}{b_n}$. Since $b_n\\le q_n$,\n$$\\left|x-\\frac{a_n}{b_n}\\right|<\\frac{1}{b_n^2}.$$\nAlso,\n$$0<\\left|x-\\frac{a_n}{b_n}\\right|<\\frac{1}{nq_n}\\le\\frac{1}{n},$$\nbecause $x$ is irrational. If only finitely many distinct reduced fractions occurred, their distances from $x$ would have a positive minimum $\\delta$. Choosing $n>\\frac{1}{\\delta}$ gives a distance less than $\\delta$, a contradiction. Therefore infinitely many distinct irreducible fractions satisfy the required inequality.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 88
+      },
+      {
+        "id": "p29-q10b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q10b-statement",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "If ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is rational, then there are only finitely many irreducible fractions ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{p}{q}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " satisfying:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p29-q10b-bound",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\left|x-\\frac{p}{q}\\right|<\\frac{1}{q^2}.",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p29-q10-visualisation-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "One way to visualise this result is to overlay circles onto the number line with centre ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{p}{q}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and radius ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{1}{q^2}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", with there being one circle for each irreducible fraction ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{p}{q}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", as shown in the diagram below. A real number is irrational if and only if it is (strictly) contained within infinitely many of these circles.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q10-diagram",
+            "role": "question",
+            "format": "image",
+            "code": null,
+            "src": "/booklet-assets/projects/enrichment-maths-1-part6-20261008/ae66834e567f-dirichlet-original-illustration.png",
+            "widthMm": 110,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "retentionReason": "Original illustration shows overlapping circles at rational centres p/q with radius1/q²; its finite cutoff and tiny-circle centres are not specified. Preserve exact isolated original pixels rather than inventing a plotted subset. Question, theorem formulas and proof remain fully editable.",
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Exact immutable original1406x1988 raster crop x698..1228,y1580..1778; full circles, ticks−2..2 and complete number-line arrows retained.",
+              "sourceImageHash": "3eac27b81b8cd6c6b12e12d90a1931cb7781cff75edbfa3fd2ad45b5018d462b",
+              "cropBounds": [
+                698,
+                1580,
+                1228,
+                1778
+              ],
+              "mathematics": "Original illustration of irreducible rational centres p/q and radius1/q², stated natively in the question. Preserve all original circles and overlap shading without inferring unspecified finite cutoff.",
+              "answerVisibility": "Original supplied illustration only; no solution shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "There are only finitely many such irreducible fractions.\n\nWriting $x=\\frac{P}{Q}$ in lowest terms bounds the possible denominators by $Q$ and the possible numerators by $Q+|P|$.",
+          "worked": "Write $x=\\frac{P}{Q}$ in lowest terms, with $Q>0$, and take $\\frac{p}{q}$ in lowest terms with $q>0$. If $\\frac{p}{q}=\\frac{P}{Q}$, there is just one such irreducible fraction.\n\nOtherwise $qP-pQ$ is a non-zero integer. If $q>Q$,\n$$\\begin{align*}\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&=\\frac{|qP-pQ|}{qQ}\\\\\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&\\ge\\frac{1}{qQ}\\\\\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&>\\frac{1}{q^2}.\\end{align*}$$\nThus every qualifying fraction has $q\\le Q$. If also $|p|\\ge Q+|P|$,\n$$\\begin{align*}\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&\\ge\\frac{|p|}{q}-\\frac{|P|}{Q}\\\\\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&\\ge\\frac{|p|-|P|}{Q}\\\\\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&\\ge1\\\\\\left|\\frac{P}{Q}-\\frac{p}{q}\\right|&\\ge\\frac{1}{q^2}.\\end{align*}$$\nTherefore qualifying fractions satisfy $1\\le q\\le Q$ and $|p|<Q+|P|$. There are only finitely many integer pairs within these bounds, so only finitely many irreducible fractions satisfy the required inequality.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 124
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q10-root/label",
+                  "type": "item",
+                  "ref": "p29-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p29-q10-root/prompt#p29-q10-introduction",
+                  "type": "item",
+                  "ref": "p29-q10-root/prompt#p29-q10-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p29-q10-root/prompt#p29-q10-theorem-text",
+                  "type": "item",
+                  "ref": "p29-q10-root/prompt#p29-q10-theorem-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p29-q10-root/prompt#p29-q10-theorem-bound",
+                  "type": "item",
+                  "ref": "p29-q10-root/prompt#p29-q10-theorem-bound",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p29-q10-root/prompt#p29-q10-instruction",
+                  "type": "item",
+                  "ref": "p29-q10-root/prompt#p29-q10-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "p29-q10-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q10a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q10a/label",
+                          "type": "item",
+                          "ref": "p29-q10a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p29-q10a/prompt",
+                          "type": "item",
+                          "ref": "p29-q10a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q10a/space",
+                          "type": "item",
+                          "ref": "p29-q10a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p29-q10b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q10b/label",
+                          "type": "item",
+                          "ref": "p29-q10b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p29-q10b/prompt#p29-q10b-statement",
+                          "type": "item",
+                          "ref": "p29-q10b/prompt#p29-q10b-statement",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q10b/prompt#p29-q10b-bound",
+                          "type": "item",
+                          "ref": "p29-q10b/prompt#p29-q10b-bound",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q10b/prompt#p29-q10-visualisation-text",
+                          "type": "item",
+                          "ref": "p29-q10b/prompt#p29-q10-visualisation-text",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q10-diagram",
+                          "type": "item",
+                          "ref": "p29-q10-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p29-q10b/space",
+                          "type": "item",
+                          "ref": "p29-q10b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:30.271Z",
+  "updatedAt": "2026-11-12T21:44:30.272Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p29-q10",
+    "sectionRole": "exercise"
+  }
+}

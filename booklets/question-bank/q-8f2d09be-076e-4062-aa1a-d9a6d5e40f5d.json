@@ -1,0 +1,96 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8f2d09be-076e-4062-aa1a-d9a6d5e40f5d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "limiting-sum-gp",
+    "secondarySkillIds": [
+      "sigma-notation"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "The displayed product suggests geometric expansion, but the proof must connect exponent choices to unique prime factorisations and justify complete, duplicate-free coverage of the sum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7aa0154e68693a4444daccf408759d75a2e6f8088635ac1d91eb21ce286e8498",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt",
+      "originalTaskHash": "00c5e24a26ed5b1cddfb5191e8671a830b360728a5e54c39dd80d9c9e6ea6f77"
+    }
+  },
+  "content": {
+    "id": "p24-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "Let $\\mathcal P_k$ denote the set of the first $k$ primes. Let $N_k$ denote the positive integers whose prime factors are all contained in $\\mathcal P_k$. Prove that\n$$\\prod_{p\\in\\mathcal P_k}\\frac{1}{1-\\frac1p}=\\sum_{n\\in N_k}\\frac1n.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Each factor expands as $1+\\frac1p+\\frac1{p^2}+\\cdots$.\n\nUnique prime factorisation makes the expanded product contain $\\frac1n$ exactly once for each $n\\in N_k$, proving the identity.",
+      "worked": "Write $\\mathcal P_k=\\{p_1,\\ldots,p_k\\}$. Since $0<\\frac{1}{p_i}<1$, each factor is a convergent geometric series:\n$$\\frac{1}{1-\\frac1{p_i}}=\\sum_{e_i=0}^{\\infty}\\frac{1}{p_i^{e_i}}.$$\nConsequently,\n$$\\begin{align*}\\prod_{p\\in\\mathcal P_k}\\frac{1}{1-\\frac1p}&=\\prod_{i=1}^{k}\\left(\\sum_{e_i=0}^{\\infty}\\frac{1}{p_i^{e_i}}\\right)\\\\\\prod_{p\\in\\mathcal P_k}\\frac{1}{1-\\frac1p}&=\\sum_{e_1,\\ldots,e_k\\ge0}\\frac{1}{p_1^{e_1}\\cdots p_k^{e_k}}.\n\\end{align*}$$\nBy the Fundamental Theorem of Arithmetic, every $n\\in N_k$ has exactly one representation $n=p_1^{e_1}\\cdots p_k^{e_k}$ with non-negative integer exponents. The all-zero exponents give $n=1$. Thus every required reciprocal occurs exactly once. All terms are non-negative, so expanding and collecting them preserves the sum. Hence\n$$\\prod_{p\\in\\mathcal P_k}\\frac{1}{1-\\frac1p}=\\sum_{n\\in N_k}\\frac1n.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p24-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p24-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p24-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p24-q20-root/label",
+                  "type": "item",
+                  "ref": "p24-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p24-q20-root/prompt",
+                  "type": "item",
+                  "ref": "p24-q20-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p24-q20-root/space",
+                  "type": "item",
+                  "ref": "p24-q20-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 20",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:50.089Z",
+  "updatedAt": "2026-11-12T21:44:50.089Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p24-q20",
+    "sectionRole": "exercise"
+  }
+}

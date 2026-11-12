@@ -1,0 +1,96 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f180e867-91a6-4ee1-899b-09e69cbd11d3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "verify-inverse-composition"
+    ],
+    "reasoningScore": 77,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate self-inversion into an identity, classify its coefficient conditions, and check nondegeneracy and domain compatibility for all resulting cases.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e150884e7f138306268a87f6582a9c140e84cf72feac89796d33432b3d525406",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt",
+      "originalTaskHash": "2c24bb4ddd5423934c5d8d5670dae6f2537623b6c4bd7a6535835e9b088460ad"
+    }
+  },
+  "content": {
+    "id": "p30-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "Consider the function\n$$f(x)=\\frac{ax+b}{cx+d},$$\nwhere $a,b,c,d\\in\\mathbb R$ and $c,d$ are not both zero. Take its natural domain $D=\\{x\\in\\mathbb R:cx+d\\ne0\\}$ and its codomain to be its range. Determine when such a function has an inverse that is equal to itself.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$ad-bc\\ne0$ and either $a+d=0$, or $b=c=0$ and $a=d\\ne0$.\n\nUse $f(f(x))=x$ and compare coefficients; the second case is the identity function.",
+      "worked": "An inverse requires $ad-bc\\ne0$. If $ad-bc=0$, the numerator is proportional to the denominator, so $f$ is constant on its natural domain.\n\nFor a nonconstant function,\n$$\\begin{align*}\nf(f(x))&=\\frac{a\\left(\\frac{ax+b}{cx+d}\\right)+b}{c\\left(\\frac{ax+b}{cx+d}\\right)+d}\\\\\nf(f(x))&=\\frac{(a^2+bc)x+b(a+d)}{c(a+d)x+bc+d^2}.\n\\end{align*}$$\nRequiring $f(f(x))=x$ gives\n$$c(a+d)x^2+(d^2-a^2)x-b(a+d)=0.$$\nThis identity holds throughout the domain, so its coefficients vanish:\n$$b(a+d)=0,\\qquad c(a+d)=0,\\qquad a^2=d^2.$$\nIf $a+d=0$, these conditions hold. Since $ad-bc=-a^2-bc\\ne0$,\n$$\\begin{align*}\nf(f(x))&=\\frac{(a^2+bc)x}{a^2+bc}\\\\\nf(f(x))&=x.\n\\end{align*}$$\nFor $c\\ne0$, the range excludes $\\frac{a}{c}=-\\frac{d}{c}$, exactly the point excluded from the domain. For $c=0$, both domain and range are $\\mathbb R$. Thus the composition is defined on the whole domain and $f^{-1}=f$.\n\nIf $a+d\\ne0$, the first two coefficient conditions give $b=c=0$. The condition $a^2=d^2$, together with $a+d\\ne0$ and $d\\ne0$, gives $a=d\\ne0$. Hence $f(x)=x$, which is its own inverse.\n\nTherefore the necessary and sufficient conditions are $ad-bc\\ne0$ and either $a+d=0$, or $b=c=0$ and $a=d\\ne0$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 140
+  },
+  "presentation": {
+    "ownerId": "p30-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q15-root/label",
+                  "type": "item",
+                  "ref": "p30-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p30-q15-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q15-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p30-q15-root/space",
+                  "type": "item",
+                  "ref": "p30-q15-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 15",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:20.101Z",
+  "updatedAt": "2026-11-12T21:45:20.101Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p30-q15",
+    "sectionRole": "exercise"
+  }
+}

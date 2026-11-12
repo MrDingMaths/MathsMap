@@ -1,0 +1,363 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7552d086-204c-4341-ad71-c41cadde2d85",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exact-trig-ratios",
+    "secondarySkillIds": [
+      "unknown-sides-angles-figures"
+    ],
+    "reasoningScore": 75,
+    "difficulty": "Mastery",
+    "difficultyReason": "Proves chord-product results for four regular polygons, using exact ratios and the preceding pentagon result.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:50:10.932Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bae84d57e3c1e0d732afa4aaedb9da3e910f5706b67b8fb866ed331edaa5af97",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-3eb5efd900766c7424f7/2/generation.json",
+      "originalTaskHash": "b283947d35196d20c65ea9c0b2c3cbab7b775ee64d71f45765935bd2440b5fa6"
+    }
+  },
+  "content": {
+    "id": "p18-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Consider the figures shown below. These depict an equilateral triangle, a square, a regular pentagon and a regular hexagon, and each is inscribed in a circle of radius 1.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The vertices $A$, $B$ and $C$ of an equilateral triangle lie on a circle of radius 1. Show that\n$$AB\\times AC=3.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q7-triangle-fig",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"productOrange\",\"hex\":\"EF8B2C\",\"reason\":\"chords appearing in the requested product\"}],\"reference\":\"source page 18 question 7 triangle\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productOrange}{HTML}{EF8B2C}\n\\coordinate (A) at (90:1.5);\\coordinate (B) at (-30:1.5);\\coordinate (C) at (210:1.5);\n\\draw[black] (0,0) circle (1.5);\\draw[black] (B)--(C);\n\\draw[productOrange] (B)--(A)--(C);\n\\node[above] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[below left] at (C) {$C$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 7, upper-left figure",
+              "description": "Equilateral triangle inscribed in a circle; the two chords from A are highlighted.",
+              "mathematics": "Circle radius 1; vertices A, B, C in clockwise order, separated by central angles of 120 degrees.",
+              "answerVisibility": "Only supplied geometry and vertex labels are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$AB=AC=\\sqrt3$, so $AB\\times AC=3$.\n\nBisect a central triangle and use $\\sin60^\\circ$.",
+          "worked": "Join the centre $O$ to $A$ and $B$. Then $\\angle AOB=120^\\circ$. The perpendicular from $O$ to $AB$ bisects both the chord and this angle. Since the radius is 1,\n$$\\begin{align*}AB&=2\\sin60^\\circ\\\\AB&=2\\left(\\frac{\\sqrt3}{2}\\right)\\\\AB&=\\sqrt3.\\end{align*}$$\nThe equilateral triangle has $AC=AB$. Thus\n$$AB\\times AC=\\sqrt3\\times\\sqrt3=3.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p18-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The vertices $A$, $B$, $C$ and $D$ of a square lie on a circle of radius 1. Show that\n$$AB\\times AC\\times AD=4.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q7-square-fig",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"productOrange\",\"hex\":\"EF8B2C\",\"reason\":\"highlighted side factors\"},{\"name\":\"diameterRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the diameter factor from side factors\"}],\"reference\":\"source page 18 question 7 square\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productOrange}{HTML}{EF8B2C}\\definecolor{diameterRed}{HTML}{EF6068}\n\\coordinate (A) at (90:1.5);\\coordinate (B) at (0:1.5);\\coordinate (C) at (-90:1.5);\\coordinate (D) at (180:1.5);\n\\draw[black] (0,0) circle (1.5);\\draw[black] (B)--(C)--(D);\n\\draw[productOrange] (B)--(A)--(D);\\draw[diameterRed] (A)--(C);\n\\node[above] at (A) {$A$};\\node[right] at (B) {$B$};\\node[below] at (C) {$C$};\\node[left] at (D) {$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 7, upper-right figure",
+              "description": "Inscribed square with highlighted AB and AD, and separately highlighted diameter AC.",
+              "mathematics": "Circle radius 1; consecutive vertices separated by central angles of 90 degrees; AC is a diameter.",
+              "answerVisibility": "Only supplied geometry and vertex labels are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$AB=AD=\\sqrt2$ and $AC=2$, so $AB\\times AC\\times AD=4$.",
+          "worked": "$AC$ is a diameter, so $AC=2$. Triangle $ABC$ is a $45^\\circ$–$45^\\circ$–$90^\\circ$ triangle. Hence\n$$\\begin{align*}AB&=2\\sin45^\\circ\\\\AB&=\\sqrt2.\\end{align*}$$\nThe square has $AD=AB$. Therefore\n$$AB\\times AC\\times AD=\\sqrt2\\times2\\times\\sqrt2=4.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p18-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p18-q7-c-stem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The vertices ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "A,B,C,D\\text{ and }E",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " of a regular pentagon lie on a circle of radius 1. Show that",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p18-q7-c-product",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "AB\\times AC\\times AD\\times AE=5.",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p18-q7-c-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: You may refer to exercise 6.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q7-pentagon-fig",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"productOrange\",\"hex\":\"EF8B2C\",\"reason\":\"chords appearing in the requested product\"}],\"reference\":\"source page 18 question 7 pentagon\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productOrange}{HTML}{EF8B2C}\n\\coordinate (A) at (90:1.5);\\coordinate (B) at (18:1.5);\\coordinate (C) at (-54:1.5);\\coordinate (D) at (-126:1.5);\\coordinate (E) at (162:1.5);\n\\draw[black] (0,0) circle (1.5);\\draw[black] (B)--(C)--(D)--(E);\n\\draw[productOrange] (B)--(A)--(E) (A)--(C) (A)--(D);\n\\node[above] at (A) {$A$};\\node[right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[left] at (E) {$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 7, lower-left figure",
+              "description": "Regular inscribed pentagon with all four chords from A highlighted.",
+              "mathematics": "Circle radius 1; consecutive vertices separated by central angles of 72 degrees; diagonals AC and AD are supplied.",
+              "answerVisibility": "Only supplied geometry and vertex labels are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$AB\\times AC\\times AD\\times AE=5$.\n\nUse the exact values from exercise 6 to obtain $AB^2=\\frac{(5-\\sqrt5)}{2}$ and $AC^2=\\frac{(5+\\sqrt5)}{2}$.",
+          "worked": "The central angles for $AB$ and $AC$ are $72^\\circ$ and $144^\\circ$. Bisecting the corresponding isosceles triangles gives $AB=2\\sin36^\\circ$ and $AC=2\\sin72^\\circ$. Using exercise 6,\n$$AB=AE=\\sqrt{\\frac{5-\\sqrt5}{2}},\\qquad AC=AD=\\sqrt{\\frac{5+\\sqrt5}{2}}.$$\nThus\n$$\\begin{align*}AB\\times AC\\times AD\\times AE&=AB^2AC^2\\\\AB\\times AC\\times AD\\times AE&=\\frac{5-\\sqrt5}{2}\\cdot\\frac{5+\\sqrt5}{2}\\\\AB\\times AC\\times AD\\times AE&=\\frac{25-5}{4}\\\\AB\\times AC\\times AD\\times AE&=5.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p18-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p18-q7-d-stem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The vertices ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "A,B,C,D,E\\text{ and }F",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " of a regular hexagon lie on a circle of radius 1. Show that",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p18-q7-d-product",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "AB\\times AC\\times AD\\times AE\\times AF=6.",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p18-q7-note",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Note.",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " The results obtained in this exercise can be generalised to a regular ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": "-gon, but we will not do this here.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q7-hexagon-fig",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"productOrange\",\"hex\":\"EF8B2C\",\"reason\":\"highlighted non-diameter chord factors\"},{\"name\":\"diameterRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the diameter factor from other chords\"}],\"reference\":\"source page 18 question 7 hexagon\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{productOrange}{HTML}{EF8B2C}\\definecolor{diameterRed}{HTML}{EF6068}\n\\coordinate (A) at (90:1.5);\\coordinate (B) at (30:1.5);\\coordinate (C) at (-30:1.5);\\coordinate (D) at (-90:1.5);\\coordinate (E) at (-150:1.5);\\coordinate (F) at (150:1.5);\n\\draw[black] (0,0) circle (1.5);\\draw[black] (B)--(C)--(D)--(E)--(F);\n\\draw[productOrange] (B)--(A)--(F) (A)--(C) (A)--(E);\\draw[diameterRed] (A)--(D);\n\\node[above] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below] at (D) {$D$};\\node[below left] at (E) {$E$};\\node[above left] at (F) {$F$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 7, lower-right figure",
+              "description": "Regular inscribed hexagon with chords from A highlighted; diameter AD has a distinct accent.",
+              "mathematics": "Circle radius 1; consecutive vertices separated by central angles of 60 degrees; diagonals AC, AD and AE are supplied.",
+              "answerVisibility": "Only supplied geometry and vertex labels are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$AB=AF=1$, $AC=AE=\\sqrt3$ and $AD=2$, so the product is $6$.",
+          "worked": "Each central angle between consecutive vertices is $60^\\circ$, so the triangles formed by two adjacent radii are equilateral. Hence $AB=AF=1$. Also, $AD$ is a diameter, so $AD=2$. Bisecting the $120^\\circ$ central triangle gives\n$$\\begin{align*}AC&=2\\sin60^\\circ\\\\AC&=\\sqrt3.\\end{align*}$$\nBy symmetry, $AE=AC$. Therefore\n$$AB\\times AC\\times AD\\times AE\\times AF=1\\times\\sqrt3\\times2\\times\\sqrt3\\times1=6.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:56.101Z",
+  "updatedAt": "2026-11-12T21:44:56.103Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p18-q7-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,530 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d6403b1a-5c2b-4c1d-b3bb-71be0ef20c5c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-inverse-function",
+    "secondarySkillIds": [
+      "set-notation-fundamentals"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires constructing an endpoint-shifting bijection, exploiting decimal ambiguity to refute digit splitting, and proving the supplied block construction invertible. The final extension connects interval bijections with real coordinates and induction; the block rule and staged prompts provide substantial scaffolding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:45.780Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4e89ac82278f1905dceb2711289fb4b1f1fb98602f8980d0e3c01f94d1c51d8e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/d36a00c5b654bbfae034ecfcc7b05fd4635fbe1d248520d75b97be99b7cb2ac8-1792558645493/last-message.txt",
+      "originalTaskHash": "9714bb27ad7808ad77b2fd53dd077833674fe8ab1812fcd935f15b9bcdf762c9",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "2b25348d267a8714cf5b2317bf0ad732ef55c182c540c0c68aadc1c15786038b"
+      }
+    }
+  },
+  "content": {
+    "id": "p38-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p38-q16-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In this question we will prove the surprising fact that the unit interval ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "[0,1]",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " has the same cardinality as the unit square,",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p38-q16-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "[0,1]^2=\\{(x,y):0\\le x\\le1,\\ 0\\le y\\le1\\}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q16-square",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"unitRegion\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the entire two-dimensional unit-square region\"}],\"reference\":\"source page 38 p38-q16-square\"}\n\\begin{tikzpicture}[x=22mm,y=22mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{unitRegion}{HTML}{D4E8FF}\n\\fill[unitRegion] (0,0) rectangle (1,1);\n\\draw[black,line width=0.8pt] (0,0) rectangle (1,1);\n\\draw[black,->,line width=0.5pt] (-0.35,0)--(1.5,0) node[right] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.3)--(0,1.5) node[above] {$y$};\n\\draw[black,line width=0.4pt] (1,0.04)--(1,-0.04);\n\\draw[black,line width=0.4pt] (0.04,1)--(-0.04,1);\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "question 16 unit-square diagram",
+          "description": "Closed unit square in the first quadrant; positive arrowed axes labelled x and y, both boundary ticks labelled 1, no origin label. Light blue identifies the mathematical region.",
+          "mathematics": "[0,1] × [0,1]",
+          "answerVisibility": "permanent supplied region"
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p38-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that there is a bijection from $(0,1]$ to $[0,1]$. Deduce that to prove $[0,1]$ and $[0,1]^2$ have the same cardinality, it suffices to prove $(0,1]$ and $(0,1]^2$ have the same cardinality.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Send $1$ to $0$, send $\\frac{1}{n}$ to $\\frac{1}{(n-1)}$ for $n\\ge2$, and fix all other points.\n\nApply this bijection to each coordinate, then compose with a bijection $(0,1]\\to(0,1]^2$.",
+          "worked": "Define $h:(0,1]\\to[0,1]$ by\n$$h(x)=\\begin{cases}0,&x=1,\\\\1/(n-1),&x=1/n,\\ n\\ge2,\\\\x,&x\\notin\\{1/n:n\\in\\mathbb N\\}.\\end{cases}$$\nOn the reciprocal sequence this shifts $1,\\frac{1}{2},\\frac{1}{3},\\ldots$ onto $0,1,\\frac{1}{2},\\ldots$. All other points are fixed. These two ranges are disjoint and together cover $[0,1]$, with each point having exactly one preimage. Thus $h$ is bijective.\nThe map $H:(0,1]^2\\to[0,1]^2$, $H(x,y)=(h(x),h(y))$, is also bijective. If $f:(0,1]\\to(0,1]^2$ is bijective, then $H\\circ f\\circ h^{-1}$ is a bijection $[0,1]\\to[0,1]^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p38-q16-map-context",
+        "type": "group",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p39-q-cont-map",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "We now define a map",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "f:(0,1]\\to(0,1]^2",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p39-q-cont-definition-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "This mapping involves splitting decimal representations of numbers into blocks that contain some zeroes (possibly none) followed by a single non-zero digit, and then allocating these blocks alternately to the left and right in ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "(0,1]^2",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ". We demonstrate this with an example:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p39-q-cont-example-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\begin{aligned}f(0.{\\color{#ef6068}03}\\,{\\color{#268cff}001}\\,{\\color{#ef6068}5}\\,{\\color{#268cff}6}\\,{\\color{#ef6068}07}\\,{\\color{#268cff}2}\\,{\\color{#ef6068}005}\\ldots)\\\\=\\bigl(0.{\\color{#ef6068}03507005}\\ldots,\\,0.{\\color{#268cff}00162}\\ldots\\bigr)\\end{aligned}",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p39-q-cont-convention",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "In order for our mapping to be well-defined, we avoid decimal representations involving infinite strings of zeroes. For example, we represent ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\tfrac12",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " as ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "0.4999\\ldots",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", instead of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "0.5000\\ldots",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "responseSpace": "given",
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p39-q-cont-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If we had defined our mapping to simply split the decimal representation by allocating consecutive digits alternately to the left and right in $(0,1]^2$, then it would not be bijective. Give an example to show this.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.45909090\\ldots$ and $0.44999999\\ldots$ both give $(\\frac{1}{2},\\frac{1}{2})$, so digit splitting is not injective.",
+          "worked": "Splitting alternate digits gives\n$$0.45909090\\ldots\\longmapsto(0.4999\\ldots,0.5000\\ldots)=(1/2,1/2),$$\nwhereas\n$$0.44999999\\ldots\\longmapsto(0.4999\\ldots,0.4999\\ldots)=(1/2,1/2).$$\nThe two inputs are different but their outputs are equal. Therefore this map is not injective and cannot be bijective.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p39-q-cont-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why $f$ is bijective, and deduce that $[0,1]$ and $[0,1]^2$ have the same cardinality.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The inverse alternately interleaves the blocks of the two coordinates. Thus $f$ is bijective; composing with the endpoint bijections in part (a) gives $|[0,1]|=|[0,1]^2|$.",
+          "worked": "Use the decimal expansion that is not eventually zero; for $1$, use $0.999\\ldots$. Each expansion has infinitely many non-zero digits and therefore a unique sequence of blocks, each ending at the next non-zero digit.\nWrite an input as $0.A_1A_2A_3\\ldots$, where the $A_i$ are these blocks. Then\n$$f(0.A_1A_2A_3\\ldots)=(0.A_1A_3A_5\\ldots,0.A_2A_4A_6\\ldots).$$\nEach coordinate still has infinitely many non-zero digits, so its chosen expansion and its block decomposition are unique. Equal output coordinates therefore give equal odd blocks and equal even blocks, hence equal inputs. Thus $f$ is injective.\nFor any output pair $(0.B_1B_2\\ldots,0.C_1C_2\\ldots)$, interleave its blocks to form $0.B_1C_1B_2C_2\\ldots$. This is an element of $(0,1]$, and its image is the required pair. Thus $f$ is surjective.\nConsequently $f$ is bijective, and part (a) gives $|[0,1]|=|[0,1]^2|$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p39-q-cont-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the ideas introduced above to explain why $\\mathbb R$ and $\\mathbb R^n$ have the same cardinality for any $n\\in\\mathbb N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Transfer the block bijection to obtain a bijection $\\mathbb R^2\\to\\mathbb R$, then combine one coordinate at a time by induction.",
+          "worked": "There is a bijection $j:(0,1]\\to(0,1)$: send $\\frac{1}{n}$ to $\\frac{1}{(n+1)}$ for every $n\\ge1$, and fix all other points. The reciprocal sequence maps onto all reciprocal points in $(0,1)$, while the remaining points map identically.\nThe function $t(x)=\\tan(\\pi x-\\frac{\\pi}{2})$ is a bijection $(0,1)\\to\\mathbb R$. Hence $k=t\\circ j$ is a bijection $(0,1]\\to\\mathbb R$.\nLet $K(x,y)=(k(x),k(y))$. Using part (c),\n$$F=k\\circ f^{-1}\\circ K^{-1}:\\mathbb R^2\\to\\mathbb R$$\nis a bijection.\nFor $n=1$ use the identity. If $G_n:\\mathbb R^n\\to\\mathbb R$ is bijective, define\n$$G_{n+1}(x_1,\\ldots,x_{n+1})=F(G_n(x_1,\\ldots,x_n),x_{n+1}).$$\nThis is a composition of bijections, so it is bijective. Induction establishes $|\\mathbb R^n|=|\\mathbb R|$ for every $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q16-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q16-root/label",
+                  "type": "item",
+                  "ref": "p38-q16-root/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "layout:p38-q16-root/prompt#p38-q16-stem",
+                  "type": "item",
+                  "ref": "p38-q16-root/prompt#p38-q16-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q16-root/prompt#p38-q16-definition-text",
+                  "type": "item",
+                  "ref": "p38-q16-root/prompt#p38-q16-definition-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q16-square",
+                  "type": "item",
+                  "ref": "p38-q16-square",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p38-q16-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p38-q16-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q16-a/label",
+                          "type": "item",
+                          "ref": "p38-q16-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p38-q16-a/prompt",
+                          "type": "item",
+                          "ref": "p38-q16-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q16-a/space",
+                          "type": "item",
+                          "ref": "p38-q16-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p38-q16-context-and-b",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p38-q16-map-context:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p38-q16-map-context/prompt#p39-q-cont-map",
+                              "type": "item",
+                              "ref": "p38-q16-map-context/prompt#p39-q-cont-map",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p38-q16-map-context/prompt#p39-q-cont-definition-text",
+                              "type": "item",
+                              "ref": "p38-q16-map-context/prompt#p39-q-cont-definition-text",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p38-q16-map-context/prompt#p39-q-cont-example-text",
+                              "type": "item",
+                              "ref": "p38-q16-map-context/prompt#p39-q-cont-example-text",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p38-q16-map-context/prompt#p39-q-cont-convention",
+                              "type": "item",
+                              "ref": "p38-q16-map-context/prompt#p39-q-cont-convention",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p38-q16-map-context/space",
+                              "type": "item",
+                              "ref": "p38-q16-map-context/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Unlabelled part 2",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p39-q-cont-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p39-q-cont-b/label",
+                              "type": "item",
+                              "ref": "p39-q-cont-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p39-q-cont-b/prompt",
+                              "type": "item",
+                              "ref": "p39-q-cont-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p39-q-cont-b/space",
+                              "type": "item",
+                              "ref": "p39-q-cont-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2,
+                      "keepTogether": true
+                    },
+                    {
+                      "id": "p39-q-cont-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q-cont-c/label",
+                          "type": "item",
+                          "ref": "p39-q-cont-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p39-q-cont-c/prompt",
+                          "type": "item",
+                          "ref": "p39-q-cont-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q-cont-c/space",
+                          "type": "item",
+                          "ref": "p39-q-cont-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p39-q-cont-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q-cont-d/label",
+                          "type": "item",
+                          "ref": "p39-q-cont-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p39-q-cont-d/prompt",
+                          "type": "item",
+                          "ref": "p39-q-cont-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q-cont-d/space",
+                          "type": "item",
+                          "ref": "p39-q-cont-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 16",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p38-q16"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:23.627Z",
+  "updatedAt": "2026-11-12T21:45:23.628Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p38-q16",
+    "sectionRole": "exercise"
+  }
+}

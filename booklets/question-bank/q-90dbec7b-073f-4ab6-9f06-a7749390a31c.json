@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-90dbec7b-073f-4ab6-9f06-a7749390a31c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expected-value-discrete",
+    "secondarySkillIds": [],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "The student must express the risk of losing the accumulated score as a variable loss, calculate the expected gain from continuing, and interpret its sign as a stopping threshold.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:33.334Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "11876b9bd7603b4bd25bdad71c2df96f995bf11b3ebae60d256e8dc5f75646e6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/3b8fbb4df6ade2f1d829472282f75aff59f60e8dbd547e820debdfcda4470a66-1792558438545/last-message.txt",
+      "originalTaskHash": "be9b8808ffd660e89834e1306ee99f5d1786f047f68f6d952bdd97e6767eb913"
+    }
+  },
+  "content": {
+    "id": "p33-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p33-q18-prompt",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A popular primary school game is called ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Greedy Pig",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". In this game, a player rolls a six-sided die until they choose to stop. Their score is equal to the sum of rolled values. However, if they roll a 1 before they stop, their score is zero. At what score should a player choose to stop given that they want to maximise their expected score?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Stop when the score is at least $20$.\n\nThe expected gain from another roll is $\\frac{(20-S)}{6}$, which is positive only when the current score $S<20$.",
+      "worked": "Let $S$ be the current score and $G$ the gain from the next roll. Rolling a 1 loses $S$ points; rolling 2, 3, 4, 5 or 6 gains that many points. Each outcome has probability $\\frac{1}{6}$.\n\n$$\\begin{align*}E(G)&=(-S)\\times\\frac16+2\\times\\frac16+3\\times\\frac16+4\\times\\frac16+5\\times\\frac16+6\\times\\frac16\\\\E(G)&=\\frac{20-S}{6}.\\end{align*}$$\n\nThe expected gain is positive for $S<20$ and negative for $S>20$. At $S=20$, another roll has zero expected gain. Continue while the score is below $20$, and stop when it reaches at least $20$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 55
+  },
+  "presentation": {
+    "ownerId": "p33-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q18-root/label",
+                  "type": "item",
+                  "ref": "p33-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p33-q18-root/prompt#p33-q18-prompt",
+                  "type": "item",
+                  "ref": "p33-q18-root/prompt#p33-q18-prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p33-q18-root/space",
+                  "type": "item",
+                  "ref": "p33-q18-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:28.585Z",
+  "updatedAt": "2026-11-12T21:44:28.586Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p33-q18",
+    "sectionRole": "exercise"
+  }
+}

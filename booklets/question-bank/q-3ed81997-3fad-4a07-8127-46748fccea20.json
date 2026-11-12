@@ -1,0 +1,272 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3ed81997-3fad-4a07-8127-46748fccea20",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "limiting-sum-gp",
+    "secondarySkillIds": [
+      "angle-properties-plane-shapes"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a square side length using similar triangles, then determine the area ratio and sum an infinite geometric series.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T01:41:53.553Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4ae25712b6c3c3470a7427315ff311efac9939cc82d9c4e4b7ebdecd99973411",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-e503b9668f2e900afeb1/2/generation.json",
+      "originalTaskHash": "23cbabd9bfb4f47b0d81922780df99dfc0102b023f86484f1bab2ce9bcc87bae"
+    }
+  },
+  "content": {
+    "id": "p23-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "A right-angled triangle has a base of length $3$ and a height of $2$. An infinite set of squares are arranged along the base as shown in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"squareFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the squares whose total area is requested\"}],\"reference\":\"source PDF page 23, p23-q15-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{squareFill}{HTML}{D4E8FF}\n\\foreach \\k in {0,...,8}{\n  \\pgfmathsetmacro{\\rightedge}{3*pow(0.6,\\k)}\n  \\pgfmathsetmacro{\\side}{1.2*pow(0.6,\\k)}\n  \\pgfmathsetmacro{\\leftedge}{\\rightedge-\\side}\n  \\path[draw=black,fill=squareFill] (\\leftedge,0) rectangle (\\rightedge,\\side);\n}\n\\draw[black] (0,0)--(3,0)--(3,2)--cycle;\n\\path (0,0)--(3,0) node[midway,below] {$3$};\n\\path (3,0)--(3,2) node[midway,right] {$2$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 15, upper right column",
+          "description": "Adjacent squares increase in size towards the vertical right side of a right-angled triangle. Each square rests on the base and its top-left corner touches the hypotenuse. Nine visible squares represent the infinite sequence.",
+          "mathematics": "Triangle vertices are (0,0), (3,0), (3,2). For drawing only, square k has right edge 3(3/5)^k and side length (6/5)(3/5)^k. These derived values are not printed.",
+          "answerVisibility": "Only the given triangle lengths 3 and 2 are labelled; square dimensions and area results remain hidden."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the side length of the largest square.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac65$ units.",
+          "worked": "Let $x$ be the side length of the largest square. The triangle above it is similar to the whole triangle.\n$$\\begin{align*}\n\\frac{x}{2-x}&=\\frac32\\\\\n2x&=3(2-x)\\\\\n2x&=6-3x\\\\\n5x&=6\\\\\nx&=\\frac65.\n\\end{align*}$$\nThe largest square has side length $\\dfrac65$ units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p23-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the total area of all the squares.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p23-q15-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\dfrac94",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " square units.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p23-q15-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Sum the geometric series of areas with first term ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\dfrac{36}{25}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and common ratio ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\dfrac9{25}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "After removing the largest square, the remaining triangle on the left is similar to the original triangle. Its base is $3-\\dfrac65=\\dfrac95$, so successive square side lengths have ratio $\\dfrac{\\frac{9}{5}}{3}=\\dfrac35$.\n$$\\begin{align*}\na&=\\left(\\frac65\\right)^2\\\\\na&=\\frac{36}{25}\\\\\nr&=\\left(\\frac35\\right)^2\\\\\nr&=\\frac9{25}.\n\\end{align*}$$\nSince $|r|<1$, the total area is\n$$\\begin{align*}\nS&=\\frac{a}{1-r}\\\\\nS&=\\frac{36/25}{1-9/25}\\\\\nS&=\\frac94.\n\\end{align*}$$\nThe total area is $\\dfrac94$ square units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q15-root/label",
+                  "type": "item",
+                  "ref": "p23-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p23-q15-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q15-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p23-q15-diagram",
+                  "type": "item",
+                  "ref": "p23-q15-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p23-q15-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q15-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q15-a/label",
+                          "type": "item",
+                          "ref": "p23-q15-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q15-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q15-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q15-a/space",
+                          "type": "item",
+                          "ref": "p23-q15-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p23-q15-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q15-b/label",
+                          "type": "item",
+                          "ref": "p23-q15-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q15-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q15-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q15-b/space",
+                          "type": "item",
+                          "ref": "p23-q15-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 15",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:49.416Z",
+  "updatedAt": "2026-11-12T21:44:49.416Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p23-q15",
+    "sectionRole": "exercise"
+  }
+}

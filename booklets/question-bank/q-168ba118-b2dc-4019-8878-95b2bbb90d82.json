@@ -1,0 +1,363 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-168ba118-b2dc-4019-8878-95b2bbb90d82",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expected-value-discrete",
+    "secondarySkillIds": [
+      "probability-dependent-events"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hardest parts require deriving the number of ordered pairs giving each absolute difference, forming a symbolic weighted sum, and adjusting the sample space for replacement.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:33.334Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9b4c0dbbbf77b3b3e2ca5b0df72506f3c6f489df4769932669c4f3e523b3a2b2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/3b8fbb4df6ade2f1d829472282f75aff59f60e8dbd547e820debdfcda4470a66-1792558438545/last-message.txt",
+      "originalTaskHash": "bfe85f9f41ef7a7ad1d5a282a80058358088dee6d3e539d9d39bde1e58b0c077"
+    }
+  },
+  "content": {
+    "id": "p33-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "A bag contains balls numbered 1 through to $n$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Two balls are drawn from the bag with replacement and the sum of the numbers is recorded. Find the expected value.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n+1$",
+          "worked": "Let $A$ and $B$ be the two numbers drawn. Each ordered pair has probability $\\frac{1}{n^2}$.\n$$\\begin{align*}E(A+B)&=\\frac{1}{n^2}\\sum_{i=1}^{n}\\sum_{j=1}^{n}(i+j)\\\\E(A+B)&=\\frac{2n}{n^2}\\left(\\frac{n(n+1)}{2}\\right)\\\\E(A+B)&=n+1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p33-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Two balls are drawn from the bag without replacement and the sum of the numbers is recorded. Find the expected value.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n+1$",
+          "worked": "Each ordered pair of distinct numbers has probability $\\frac{1}{[n(n-1)]}$. Each number occurs $n-1$ times in each position.\n$$\\begin{align*}E(A+B)&=\\frac{1}{n(n-1)}\\sum_{i=1}^{n}\\sum_{\\substack{j=1\\\\j\\ne i}}^{n}(i+j)\\\\E(A+B)&=\\frac{2(n-1)}{n(n-1)}\\left(\\frac{n(n+1)}{2}\\right)\\\\E(A+B)&=n+1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p33-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Two balls are drawn from the bag with replacement and the difference between the greatest and least of these numbers is recorded. Find the expected value.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p33-q17-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac{1}{3}\\left(n-\\frac{1}{n}\\right)",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p33-q17-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Weight each difference by its probability; a positive difference ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "k",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " occurs in ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "2(n-k)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " ordered pairs.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Let $D=|A-B|$. For $k=1,\\ldots,n-1$, there are $2(n-k)$ ordered pairs with difference $k$, so $P(D=k)=\\frac{2(n-k)}{n^2}$. The difference $0$ contributes nothing to the expected value.\n$$\\begin{align*}E(D)&=\\frac{2}{n^2}\\sum_{k=1}^{n-1}k(n-k)\\\\E(D)&=\\frac{2}{n^2}\\left(n\\sum_{k=1}^{n-1}k-\\sum_{k=1}^{n-1}k^2\\right)\\\\E(D)&=\\frac{2}{n^2}\\left(\\frac{n^2(n-1)}{2}-\\frac{n(n-1)(2n-1)}{6}\\right)\\\\E(D)&=\\frac{n^2-1}{3n}\\\\E(D)&=\\frac{1}{3}\\left(n-\\frac{1}{n}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p33-q17-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Two balls are drawn from the bag without replacement and the difference between the greatest and least of these numbers is recorded. Find the expected value.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p33-q17-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac{n+1}{3}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p33-q17-d-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Count the ordered pairs for each difference and weight by their probabilities.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "There are $n(n-1)$ equally likely ordered pairs. For $k=1,\\ldots,n-1$, exactly $2(n-k)$ have difference $k$.\n$$\\begin{align*}E(D)&=\\frac{2}{n(n-1)}\\sum_{k=1}^{n-1}k(n-k)\\\\E(D)&=\\frac{2}{n(n-1)}\\left(\\frac{n(n-1)(n+1)}{6}\\right)\\\\E(D)&=\\frac{n+1}{3}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q17-root/label",
+                  "type": "item",
+                  "ref": "p33-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p33-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q17-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q17-a/label",
+                          "type": "item",
+                          "ref": "p33-q17-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q17-a/prompt",
+                          "type": "item",
+                          "ref": "p33-q17-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q17-a/space",
+                          "type": "item",
+                          "ref": "p33-q17-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q17-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q17-b/label",
+                          "type": "item",
+                          "ref": "p33-q17-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q17-b/prompt",
+                          "type": "item",
+                          "ref": "p33-q17-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q17-b/space",
+                          "type": "item",
+                          "ref": "p33-q17-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q17-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q17-c/label",
+                          "type": "item",
+                          "ref": "p33-q17-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q17-c/prompt",
+                          "type": "item",
+                          "ref": "p33-q17-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q17-c/space",
+                          "type": "item",
+                          "ref": "p33-q17-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q17-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q17-d/label",
+                          "type": "item",
+                          "ref": "p33-q17-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p33-q17-d/prompt",
+                          "type": "item",
+                          "ref": "p33-q17-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q17-d/space",
+                          "type": "item",
+                          "ref": "p33-q17-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:27.549Z",
+  "updatedAt": "2026-11-12T21:44:27.549Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p33-q17",
+    "sectionRole": "exercise"
+  }
+}

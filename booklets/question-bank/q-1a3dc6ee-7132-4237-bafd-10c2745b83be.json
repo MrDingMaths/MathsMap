@@ -1,0 +1,239 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1a3dc6ee-7132-4237-bafd-10c2745b83be",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [
+      "define-trig-ratios",
+      "angle-sum-triangle"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Extend acute-angle sine ordering to triangle angles through supplement comparisons and both directions of an equivalence, then transfer the ordering to sides using the sine rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "164be489c248d849bcd84cd9872ec5d57cf21980c6bd7eab5384ce15e59c491c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt",
+      "originalTaskHash": "14485c02e0f497c7d9703d400a51b81f07cb941bd7255cdb5895145ff8976a29"
+    }
+  },
+  "content": {
+    "id": "p28-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Suppose $\\angle A,\\angle B\\leq90^\\circ$. With the aid of a diagram explain why\n$$\\angle A\\leq\\angle B\\iff\\sin(A)\\leq\\sin(B).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For right triangles with hypotenuse $1$, the opposite side has length $\\sin\\theta$. As the acute angle increases, this side increases, so the stated equivalence holds, including equality.",
+          "worked": "Draw two right triangles with a common initial ray and hypotenuses of length $1$, as shown. The vertical sides have lengths $\\sin A$ and $\\sin B$. On the quarter-circle of radius $1$, the height increases strictly as the angle increases from $0^\\circ$ to $90^\\circ$. Thus the smaller angle has the smaller opposite side, and conversely. Equal angles give equal opposite sides. Hence\n$$\\angle A\\leq\\angle B\\iff\\sin A\\leq\\sin B.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q17-a-solution-figure",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"teacher PDF page 13, Section F 17(a)\"}\n\\begin{tikzpicture}[x=4cm,y=4cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at ({cos(30)},{sin(30)});\n\\coordinate (Q) at ({cos(55)},{sin(55)});\n\\coordinate (X) at ({cos(30)},0);\n\\coordinate (Y) at ({cos(55)},0);\n\\draw[black] (O)--(X)--(P)--cycle;\n\\draw[black] (O)--(Y)--(Q)--cycle;\n\\draw[black,line width=0.4pt] ($(X)+(-0.045,0)$)--($(X)+(-0.045,0.045)$)--($(X)+(0,0.045)$);\n\\draw[black,line width=0.4pt] ($(Y)+(-0.045,0)$)--($(Y)+(-0.045,0.045)$)--($(Y)+(0,0.045)$);\n\\path (O)--(P) node[midway,below] {$1$};\n\\path (O)--(Q) node[midway,above left] {$1$};\n\\path (X)--(P) node[midway,right] {$\\sin A$};\n\\path (Y)--(Q) node[pos=0.8,right] {$\\sin B$};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm] {angle=X--O--P};\n\\pic[draw=black,line width=0.4pt,angle radius=11mm] {angle=X--O--Q};\n\\node at ({0.23*cos(15)},{0.23*sin(15)}) {$A$};\n\\node at ({0.34*cos(42)},{0.34*sin(42)}) {$B$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 17(a); answer figure on teacher PDF page 13",
+                "description": "Two overlapping right triangles with a common initial ray and unit hypotenuses, illustrating a smaller and a larger acute angle. Illustrative coordinates are not numerical givens.",
+                "mathematics": "Unit hypotenuses make the perpendicular opposite sides equal to sin A and sin B; A is illustrated smaller than B.",
+                "answerVisibility": "Solution only; the student must supply a diagram."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p28-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that\n$$\\angle A\\leq\\angle B\\iff\\sin(A)\\leq\\sin(B)$$\nwhenever $\\angle A$ and $\\angle B$ are (possibly obtuse) angles in a triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Use part (a), $A+B<180^\\circ$ and $\\sin(180^\\circ-\\theta)=\\sin\\theta$ to prove both directions, treating an obtuse angle through its acute supplement.",
+          "worked": "Angles in a triangle satisfy $A+B<180^\\circ$.\n\nFirst suppose $A\\leq B$. If $B\\leq90^\\circ$, part (a) gives $\\sin A\\leq\\sin B$. If $B>90^\\circ$, then $A<180^\\circ-B<90^\\circ$, so part (a) gives\n$$\\sin A<\\sin(180^\\circ-B)=\\sin B.$$\n\nConversely, suppose $\\sin A\\leq\\sin B$. If $A>90^\\circ$, then $B<180^\\circ-A<90^\\circ$. Part (a) would give $\\sin B<\\sin(180^\\circ-A)=\\sin A$, a contradiction. Thus $A\\leq90^\\circ$. If $B\\leq90^\\circ$, part (a) gives $A\\leq B$. If $B>90^\\circ$, then $A\\leq90^\\circ<B$.\n\nTherefore\n$$A\\leq B\\iff\\sin A\\leq\\sin B.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 95
+      },
+      {
+        "id": "p28-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Given $\\triangle ABC$, prove that $a\\leq b\\leq c$ if and only if $\\angle A\\leq\\angle B\\leq\\angle C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The sine rule gives $\\frac{a}{b}=\\frac{\\sin A}{\\sin B}$. Thus $a\\leq b$ is equivalent to $\\sin A\\leq\\sin B$, and hence to $A\\leq B$ by part (b). Apply the same argument to $b$ and $c$.",
+          "worked": "By the sine rule,\n$$\\frac{a}{b}=\\frac{\\sin A}{\\sin B}.$$\nSince $b>0$ and $\\sin B>0$,\n$$\\begin{aligned}\na\\leq b&\\iff\\frac{a}{b}\\leq1\\\\\na\\leq b&\\iff\\frac{\\sin A}{\\sin B}\\leq1\\\\\na\\leq b&\\iff\\sin A\\leq\\sin B\\\\\na\\leq b&\\iff A\\leq B.\n\\end{aligned}$$\nThe last equivalence follows from part (b). Similarly, $b\\leq c$ if and only if $B\\leq C$. Combining the two equivalences gives\n$$a\\leq b\\leq c\\iff A\\leq B\\leq C.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q17-root/label",
+                  "type": "item",
+                  "ref": "p28-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "p28-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q17-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q17-a/label",
+                          "type": "item",
+                          "ref": "p28-q17-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p28-q17-a/prompt",
+                          "type": "item",
+                          "ref": "p28-q17-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q17-a/space",
+                          "type": "item",
+                          "ref": "p28-q17-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q17-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q17-b/label",
+                          "type": "item",
+                          "ref": "p28-q17-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p28-q17-b/prompt",
+                          "type": "item",
+                          "ref": "p28-q17-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q17-b/space",
+                          "type": "item",
+                          "ref": "p28-q17-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q17-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q17-c/label",
+                          "type": "item",
+                          "ref": "p28-q17-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p28-q17-c/prompt",
+                          "type": "item",
+                          "ref": "p28-q17-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q17-c/space",
+                          "type": "item",
+                          "ref": "p28-q17-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:58.208Z",
+  "updatedAt": "2026-11-12T21:44:58.209Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p28-q17",
+    "sectionRole": "exercise"
+  }
+}

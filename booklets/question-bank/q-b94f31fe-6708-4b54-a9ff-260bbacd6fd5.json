@@ -1,0 +1,338 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b94f31fe-6708-4b54-a9ff-260bbacd6fd5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "double-angle-identities",
+    "secondarySkillIds": [
+      "unit-circle-definitions",
+      "prove-trig-identities"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives two half-angle identities geometrically and combines them.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T23:36:56.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e2fd74e312e8200c54e2a4f955a17454f7da93a28cca45a016dbc6915e01ba5f",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part6-20261009/semantic-packets/assignments/assignment-bf9b29ec29ae8bf01001/1/generation.json",
+      "originalTaskHash": "92e070e4ce8d47d0004f13db75b8f62d0819ab5d4bea63fe55a551350ae718dc"
+    }
+  },
+  "content": {
+    "id": "p8-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "Another half-angle formula for the tangent function can be found using the figure below, in which $\\triangle ABC$ is inscribed in a unit circle with centre $O$. Suppose $\\angle BAC=\\dfrac{\\alpha}{2}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p8-q23-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 8 p8-q23-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=2.7cm,y=2.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-1,0);\n\\coordinate (C) at (1,0);\n\\coordinate (B) at ({cos(52)},{sin(52)});\n\\coordinate (D) at (B |- O);\n\\draw[black,line width=0.8pt] (O) circle (1);\n\\draw[black,line width=0.8pt] (A)--(C) (A)--(B)--(C) (O)--(B) (B)--(D);\n\\coordinate (Rup) at ($(D)!0.11!(B)$);\n\\coordinate (Rright) at ($(D)!0.11!(C)$);\n\\draw[black,line width=0.4pt] (Rup)--($(Rup)+(Rright)-(D)$)--(Rright);\n\\path (A)--(O) node[midway,below] {$1$};\n\\pic[draw=none,angle radius=17mm,angle eccentricity=1,\"$\\frac{\\alpha}{2}$\"] {angle=C--A--B};\n\\node[left] at (A) {$A$};\n\\node[below] at (O) {$O$};\n\\node[below] at (D) {$D$};\n\\node[right] at (C) {$C$};\n\\node[above] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 49,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 23, lower left column",
+          "description": "Unshaded unit circle with diameter AC, centre O, upper-right point B and perpendicular BD. Includes chords AB and BC, radius OB, AO=1 and the angle BAC label. Coordinates select a representative view without adding numerical givens.",
+          "mathematics": "A, O, D and C are collinear in that order; B lies on the unit circle; BD is perpendicular to AC; angle BAC is alpha/2.",
+          "answerVisibility": "Only source givens are visible; OD, DB and angle BOD remain unlabelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p8-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $\\angle BOD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\alpha$",
+          "worked": "The angle at the centre is twice the angle at the circumference subtending arc $BC$. Since $OD$ lies along $OC$,\n$$\\begin{align*}\\angle BOD&=2\\angle BAC\\\\\\angle BOD&=2\\left(\\frac{\\alpha}{2}\\right)\\\\\\angle BOD&=\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p8-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find lengths $OD$ and $DB$ in terms of $\\alpha$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$OD=\\cos\\alpha$, $DB=\\sin\\alpha$",
+          "worked": "In right-angled triangle $ODB$, $OB=1$ and $\\angle BOD=\\alpha$.\n$$\\begin{align*}\\cos\\alpha&=\\frac{OD}{1}\\\\OD&=\\cos\\alpha\\\\\\sin\\alpha&=\\frac{DB}{1}\\\\DB&=\\sin\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p8-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, show that\n$$\\tan\\frac{\\alpha}{2}=\\frac{\\sin\\alpha}{1+\\cos\\alpha}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\dfrac{\\alpha}{2}=\\dfrac{\\sin\\alpha}{1+\\cos\\alpha}$\n\nUse $\\tan\\angle BAD=\\frac{DB}{AD}$ and $AD=AO+OD$.",
+          "worked": "In right-angled triangle $ABD$, $\\angle BAD=\\frac{\\alpha}{2}$.\n$$\\begin{align*}\\tan\\frac{\\alpha}{2}&=\\frac{DB}{AD}\\\\\\tan\\frac{\\alpha}{2}&=\\frac{DB}{AO+OD}\\\\\\tan\\frac{\\alpha}{2}&=\\frac{\\sin\\alpha}{1+\\cos\\alpha}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p8-q23-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Using triangle $CBD$, also deduce that\n$$\\tan\\frac{\\alpha}{2}=\\frac{1-\\cos\\alpha}{\\sin\\alpha}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\dfrac{\\alpha}{2}=\\dfrac{1-\\cos\\alpha}{\\sin\\alpha}$\n\nUse $\\angle CBD=\\frac{\\alpha}{2}$, $CD=1-\\cos\\alpha$ and $BD=\\sin\\alpha$.",
+          "worked": "Since $AC$ is a diameter, $\\angle ABC=90^\\circ$. In right-angled triangle $ABD$, $\\angle ABD=90^\\circ-\\frac{\\alpha}{2}$, so $\\angle CBD=\\frac{\\alpha}{2}$.\n$$\\begin{align*}CD&=OC-OD\\\\CD&=1-\\cos\\alpha\\\\\\tan\\frac{\\alpha}{2}&=\\frac{CD}{BD}\\\\\\tan\\frac{\\alpha}{2}&=\\frac{1-\\cos\\alpha}{\\sin\\alpha}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "p8-q23-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What do you obtain if you multiply the above two identities?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan^2\\dfrac{\\alpha}{2}=\\dfrac{1-\\cos\\alpha}{1+\\cos\\alpha}$",
+          "worked": "$$\\begin{align*}\\tan^2\\frac{\\alpha}{2}&=\\frac{\\sin\\alpha}{1+\\cos\\alpha}\\cdot\\frac{1-\\cos\\alpha}{\\sin\\alpha}\\\\\\tan^2\\frac{\\alpha}{2}&=\\frac{1-\\cos\\alpha}{1+\\cos\\alpha}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p8-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p8-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p8-q23-root/label",
+                  "type": "item",
+                  "ref": "p8-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "layout:p8-q23-root/prompt",
+                  "type": "item",
+                  "ref": "p8-q23-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p8-q23-diagram",
+                  "type": "item",
+                  "ref": "p8-q23-diagram",
+                  "title": "Diagram",
+                  "width": 49
+                },
+                {
+                  "id": "p8-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p8-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q23-a/label",
+                          "type": "item",
+                          "ref": "p8-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p8-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p8-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q23-a/space",
+                          "type": "item",
+                          "ref": "p8-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p8-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q23-b/label",
+                          "type": "item",
+                          "ref": "p8-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p8-q23-b/prompt",
+                          "type": "item",
+                          "ref": "p8-q23-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q23-b/space",
+                          "type": "item",
+                          "ref": "p8-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p8-q23-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q23-c/label",
+                          "type": "item",
+                          "ref": "p8-q23-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p8-q23-c/prompt",
+                          "type": "item",
+                          "ref": "p8-q23-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q23-c/space",
+                          "type": "item",
+                          "ref": "p8-q23-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p8-q23-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q23-d/label",
+                          "type": "item",
+                          "ref": "p8-q23-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p8-q23-d/prompt",
+                          "type": "item",
+                          "ref": "p8-q23-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q23-d/space",
+                          "type": "item",
+                          "ref": "p8-q23-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p8-q23-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q23-e/label",
+                          "type": "item",
+                          "ref": "p8-q23-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p8-q23-e/prompt",
+                          "type": "item",
+                          "ref": "p8-q23-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q23-e/space",
+                          "type": "item",
+                          "ref": "p8-q23-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 23",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:00.509Z",
+  "updatedAt": "2026-11-12T21:45:00.511Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part6-20261009",
+    "blockId": "p8-q23",
+    "sectionRole": "exercise"
+  }
+}

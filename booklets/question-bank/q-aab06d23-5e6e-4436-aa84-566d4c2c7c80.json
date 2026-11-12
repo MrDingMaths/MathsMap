@@ -1,0 +1,359 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-aab06d23-5e6e-4436-aa84-566d4c2c7c80",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exact-trig-ratios",
+    "secondarySkillIds": [
+      "prove-similar-triangles",
+      "find-sides-similar"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Turn the prompted similarity into a quadratic for the diagonal, then choose auxiliary perpendiculars that expose the requested unfamiliar exact trigonometric ratios.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:41.541Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fd963c951f7253c593890a92e26b4e89a95eb5f28e95fde95d7175ef7bade962",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/2325c858e5bb376be0ba2df401447129075a886969f37fe31430ca4f0a53063d-1792558563152/last-message.txt",
+      "originalTaskHash": "dd67071a993dd907440bfd9450131c1a969218e4fd0f10612026f69e84f1327e"
+    }
+  },
+  "content": {
+    "id": "p18-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The regular pentagon $ABCDE$ has sides of length $1$. The diagonals $AD$, $BD$ and $AC$ have been drawn, and diagonals $AC$ and $BD$ meet at $P$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18, p18-q6-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (90:3);\n\\coordinate (B) at (18:3);\n\\coordinate (C) at (-54:3);\n\\coordinate (D) at (-126:3);\n\\coordinate (E) at (162:3);\n\\coordinate (P) at ($(A)!{2/(1+sqrt(5))}!(C)$);\n\\draw[black] (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[black] (A)--(D) (B)--(D) (A)--(C);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\node[above left] at (P) {$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Right column, question 6 pentagon",
+          "description": "Unfilled regular pentagon, with all five vertex labels and intersection P. Diagonals AD, BD and AC are retained.",
+          "mathematics": "ABCDE is regular with side length 1; P is AC intersect BD. Vertices occur clockwise as A, B, C, D, E.",
+          "answerVisibility": "Only supplied vertices, intersection and diagonals appear; no calculated angles or lengths."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Copy the diagram, and then determine all of the missing angles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle EAD=\\angle DAC=\\angle CAB=36^\\circ$; $\\angle ABD=72^\\circ$, $\\angle DBC=36^\\circ$; $\\angle BCA=36^\\circ$, $\\angle ACD=72^\\circ$; $\\angle EDA=\\angle ADB=\\angle BDC=36^\\circ$; $\\angle AED=108^\\circ$.\n\nAt $P$: $\\angle APB=\\angle CPD=72^\\circ$ and $\\angle BPC=\\angle DPA=108^\\circ$.",
+          "worked": "Each interior angle of the regular pentagon is $108^\\circ$. Its diagonals are equal.\n\nSince $AB=BC$, $\\triangle ABC$ is isosceles:\n$$\\begin{align*}\\angle BAC&=\\frac{180^\\circ-108^\\circ}{2}\\\\\\angle BAC&=36^\\circ.\\end{align*}$$\nSimilarly, $\\angle BCA=\\angle EAD=\\angle EDA=36^\\circ$. Subtracting these from the interior angles gives:\n$$\\begin{align*}\\angle DAC&=108^\\circ-36^\\circ-36^\\circ=36^\\circ\\\\\\angle ACD&=108^\\circ-36^\\circ=72^\\circ.\\end{align*}$$\n\nIn $\\triangle BCD$, $BC=CD$, so $\\angle DBC=\\angle BDC=36^\\circ$. Hence $\\angle ABD=72^\\circ$ and $\\angle ADB=36^\\circ$.\n\nIn $\\triangle ABP$:\n$$\\begin{align*}\\angle APB&=180^\\circ-36^\\circ-72^\\circ\\\\\\angle APB&=72^\\circ.\\end{align*}$$\nVertically opposite angles give $\\angle CPD=72^\\circ$. Adjacent angles on a straight line give $\\angle BPC=\\angle DPA=108^\\circ$. The completed diagram shows every elementary angle.",
+          "solutionDiagrams": [
+            {
+              "id": "p18-q6-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18, p18-q6-a-solution-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},every pic/.style={draw=black,line width=0.4pt,angle radius=10mm,angle eccentricity=1.18}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (90:3);\n\\coordinate (B) at (18:3);\n\\coordinate (C) at (-54:3);\n\\coordinate (D) at (-126:3);\n\\coordinate (E) at (162:3);\n\\coordinate (P) at ($(A)!{2/(1+sqrt(5))}!(C)$);\n\\draw[black] (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[black] (A)--(D) (B)--(D) (A)--(C);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\node at ($(P)+(0,0.35)$) {$P$};\n\\pic {angle=E--A--D};\n\\pic {angle=D--A--C};\n\\pic {angle=C--A--B};\n\\pic {angle=A--B--D};\n\\pic {angle=D--B--C};\n\\pic {angle=B--C--A};\n\\pic {angle=A--C--D};\n\\pic {angle=C--D--B};\n\\pic {angle=B--D--A};\n\\pic {angle=A--D--E};\n\\node at ($(A)+(-1.00,-1.38)$) {$36^\\circ$};\n\\node at ($(A)+(0,-1.75)$) {$36^\\circ$};\n\\node at ($(A)+(1.00,-1.38)$) {$36^\\circ$};\n\\node at ($(B)+(-0.65,0)$) {$72^\\circ$};\n\\node at ($(B)+(-0.88,-1.21)$) {$36^\\circ$};\n\\node at ($(C)+(0,0.95)$) {$36^\\circ$};\n\\node at ($(C)+(-0.55,0.40)$) {$72^\\circ$};\n\\node at ($(D)+(1.52,0.49)$) {$36^\\circ$};\n\\node at ($(D)+(0.94,1.29)$) {$36^\\circ$};\n\\node at ($(D)+(0,1.65)$) {$36^\\circ$};\n\\pic {angle=D--E--A};\\node at ($(E)+(1.45,-0.48)$) {$108^\\circ$};\n\\pic[\"$72^\\circ$\",angle radius=8mm,angle eccentricity=1.65] {angle=B--P--A};\n\\pic[\"$108^\\circ$\",angle radius=6mm,angle eccentricity=1.2] {angle=C--P--B};\n\\pic[\"$72^\\circ$\",angle radius=8mm,angle eccentricity=1.65] {angle=D--P--C};\n\\pic[\"$108^\\circ$\",angle radius=8mm,angle eccentricity=1.65] {angle=A--P--D};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 18,
+                "sourceRegion": "Question 6(a)",
+                "description": "Complete copied pentagon with all elementary angles labelled, including the four angles at P.",
+                "mathematics": "A has three 36-degree sectors; B has 72 and 36; C has 36 and 72; D has three 36-degree sectors; E has 108. Opposite angles at P are 72 and 108.",
+                "answerVisibility": "Answer-edition-only completed angle diagram."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p18-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that triangles $\\triangle ADC$ and $\\triangle DCP$ are similar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ADC\\sim\\triangle DCP$ by AAA: corresponding angles are $36^\\circ$, $72^\\circ$ and $72^\\circ$.",
+          "worked": "$$\\begin{align*}\\angle DAC&=\\angle CDP=36^\\circ\\\\\\angle ADC&=\\angle DCP=72^\\circ\\\\\\angle ACD&=\\angle DPC=72^\\circ.\\end{align*}$$\nTherefore $\\triangle ADC\\sim\\triangle DCP$ by AAA, with $A\\leftrightarrow D$, $D\\leftrightarrow C$ and $C\\leftrightarrow P$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p18-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the length of the diagonal $AD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AD=\\dfrac{1+\\sqrt5}{2}$.\n\nSimilarity gives $AD=\\frac{1}{(AD-1)}$.",
+          "worked": "Let $x=AD=AC$. In $\\triangle ABP$, equal angles at $B$ and $P$ give $AP=AB=1$. Thus $CP=x-1$.\n\nUsing the corresponding sides of $\\triangle ADC$ and $\\triangle DCP$:\n$$\\begin{align*}\\frac{x}{1}&=\\frac{1}{x-1}\\\\x(x-1)&=1\\\\x^2-x-1&=0\\\\x&=\\frac{1\\pm\\sqrt5}{2}\\\\AD&=\\frac{1+\\sqrt5}{2}.\\end{align*}$$\nThe negative root is rejected because a length is positive.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p18-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the exact values of $\\sin18^\\circ$, $\\cos18^\\circ$, $\\sin72^\\circ$ and $\\cos72^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin18^\\circ=\\cos72^\\circ=\\dfrac{\\sqrt5-1}{4}$;\n$\\cos18^\\circ=\\sin72^\\circ=\\sqrt{\\dfrac{5+\\sqrt5}{8}}$.\n\nBisect $\\triangle ADC$ into right triangles, then use Pythagoras and complementary angles.",
+          "worked": "Let $M$ be the midpoint of $DC$. Since $AD=AC$, $AM\\perp DC$ and $\\angle DAM=18^\\circ$. Here $DM=\\tfrac12$ and $AD=\\tfrac{1+\\sqrt5}{2}$.\n$$\\begin{align*}\\sin18^\\circ&=\\frac{DM}{AD}\\\\\\sin18^\\circ&=\\frac{1}{1+\\sqrt5}\\\\\\sin18^\\circ&=\\frac{\\sqrt5-1}{4}.\\end{align*}$$\nPythagoras in the same right triangle gives:\n$$\\begin{align*}\\cos^2 18^\\circ&=1-\\left(\\frac{\\sqrt5-1}{4}\\right)^2\\\\\\cos^2 18^\\circ&=\\frac{5+\\sqrt5}{8}\\\\\\cos18^\\circ&=\\sqrt{\\frac{5+\\sqrt5}{8}}.\\end{align*}$$\nThe other acute angle is $72^\\circ$, so:\n$$\\begin{align*}\\sin72^\\circ&=\\cos18^\\circ=\\sqrt{\\frac{5+\\sqrt5}{8}}\\\\\\cos72^\\circ&=\\sin18^\\circ=\\frac{\\sqrt5-1}{4}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p18-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the exact values of $\\sin36^\\circ$, $\\cos36^\\circ$, $\\sin54^\\circ$ and $\\cos54^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin36^\\circ=\\cos54^\\circ=\\sqrt{\\dfrac{5-\\sqrt5}{8}}$;\n$\\cos36^\\circ=\\sin54^\\circ=\\dfrac{1+\\sqrt5}{4}$.\n\nBisect $\\triangle ABC$ into right triangles, then use Pythagoras and complementary angles.",
+          "worked": "Let $N$ be the midpoint of $AC$. Since $AB=BC=1$, $BN\\perp AC$, $\\angle BAN=36^\\circ$ and $AN=\\tfrac{1+\\sqrt5}{4}$.\n$$\\begin{align*}\\cos36^\\circ&=\\frac{AN}{AB}\\\\\\cos36^\\circ&=\\frac{1+\\sqrt5}{4}.\\end{align*}$$\nPythagoras in $\\triangle ABN$ gives:\n$$\\begin{align*}\\sin^2 36^\\circ&=1-\\left(\\frac{1+\\sqrt5}{4}\\right)^2\\\\\\sin^2 36^\\circ&=\\frac{5-\\sqrt5}{8}\\\\\\sin36^\\circ&=\\sqrt{\\frac{5-\\sqrt5}{8}}.\\end{align*}$$\nThe other acute angle is $54^\\circ$, so:\n$$\\begin{align*}\\sin54^\\circ&=\\cos36^\\circ=\\frac{1+\\sqrt5}{4}\\\\\\cos54^\\circ&=\\sin36^\\circ=\\sqrt{\\frac{5-\\sqrt5}{8}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 82
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p18-q6-root/label",
+                  "type": "item",
+                  "ref": "p18-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p18-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p18-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p18-q6-diagram",
+                  "type": "item",
+                  "ref": "p18-q6-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p18-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p18-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q6-a/label",
+                          "type": "item",
+                          "ref": "p18-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p18-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p18-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q6-a/space",
+                          "type": "item",
+                          "ref": "p18-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q6-b/label",
+                          "type": "item",
+                          "ref": "p18-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p18-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p18-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q6-b/space",
+                          "type": "item",
+                          "ref": "p18-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q6-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q6-c/label",
+                          "type": "item",
+                          "ref": "p18-q6-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p18-q6-c/prompt",
+                          "type": "item",
+                          "ref": "p18-q6-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q6-c/space",
+                          "type": "item",
+                          "ref": "p18-q6-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q6-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q6-d/label",
+                          "type": "item",
+                          "ref": "p18-q6-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p18-q6-d/prompt",
+                          "type": "item",
+                          "ref": "p18-q6-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q6-d/space",
+                          "type": "item",
+                          "ref": "p18-q6-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q6-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q6-e/label",
+                          "type": "item",
+                          "ref": "p18-q6-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p18-q6-e/prompt",
+                          "type": "item",
+                          "ref": "p18-q6-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q6-e/space",
+                          "type": "item",
+                          "ref": "p18-q6-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:55.141Z",
+  "updatedAt": "2026-11-12T21:44:55.142Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p18-q6",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,272 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ab5c1a7c-462d-4a6b-bd5a-f14a60750d20",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sector-area-radians",
+    "secondarySkillIds": [
+      "define-trig-ratios"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate the supplied area comparison into trigonometric inequalities, manipulate positive ratios and reciprocals correctly, then apply the resulting squeeze to the limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d4482db08306520819706ed83519c4d5dd2a46ba3f8d5a7fc2753b879e083570",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt",
+      "originalTaskHash": "74fd93beec56438accc0587954c5d815853efbbc9d4fdb894616589d6cecd5f4"
+    }
+  },
+  "content": {
+    "id": "p40-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p40-q18-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the figure shown below. Suppose that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\angle AOB=\\theta",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an acute angle and is measured in radians.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p40-q18-area-comparison",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Note that",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "math",
+              "latex": "\\begin{aligned}\\operatorname{area}(\\triangle AOB)&\\leq\\operatorname{area}(\\operatorname{sector}(AOD))\\\\&\\leq\\operatorname{area}(\\triangle COD).\\end{aligned}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 40, p40-q18-diagram\"}\n\\begin{tikzpicture}[x=5cm,y=5cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at ({cos(37)},{sin(37)});\n\\coordinate (B) at ({cos(37)},0);\n\\coordinate (D) at (1,0);\n\\coordinate (C) at (1,{tan(37)});\n\\draw[black] (O)--(C)--(D)--cycle;\n\\draw[black] (A)--(B);\n\\draw[black] (D) arc[start angle=0,end angle=37,radius=1];\n\\path (O)--(A) node[midway,above left] {$1$};\n\\node[below left] at (O) {$O$};\n\\node[above left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\path (O) ++(18.5:0.28) node {$\\theta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52.2,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 18 figure at the bottom of the left column",
+          "description": "Nested triangle AOB, unit-radius sector AOD and triangle COD. O, B and D are collinear; O, A and C are collinear; AB and DC are vertical. The illustrative acute angle is not a numerical given. Source cyan fills are omitted under house style; all nested boundaries remain.",
+          "mathematics": "OA=OD=1; A=(cos(theta),sin(theta)), B=(cos(theta),0), D=(1,0), C=(1,tan(theta)), with 0<theta<pi/2. Arc AD is centred at O.",
+          "answerVisibility": "Only source givens and point labels are visible; no derived lengths or areas are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using this fact, prove that $$\\cos\\theta\\leq\\frac{\\sin\\theta}{\\theta}\\leq\\frac{1}{\\cos\\theta}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\cos\\theta\\leq\\dfrac{\\sin\\theta}{\\theta}\\leq\\dfrac{1}{\\cos\\theta}$.\n\nCompare the triangle and sector areas, then divide by positive quantities.",
+          "worked": "Since $OA=OD=1$, $OB=\\cos\\theta$, $AB=\\sin\\theta$ and $DC=\\tan\\theta$.\n\n$$\\begin{align*}\\operatorname{area}(\\triangle AOB)&=\\frac12\\sin\\theta\\cos\\theta\\\\\\operatorname{area}(\\operatorname{sector}(AOD))&=\\frac12\\theta\\\\\\operatorname{area}(\\triangle COD)&=\\frac12\\tan\\theta.\\end{align*}$$\n\nThe given area comparison gives\n$$\\frac12\\sin\\theta\\cos\\theta\\leq\\frac12\\theta\\leq\\frac12\\frac{\\sin\\theta}{\\cos\\theta}.$$\nDividing by $\\frac12\\sin\\theta>0$ gives\n$$\\cos\\theta\\leq\\frac{\\theta}{\\sin\\theta}\\leq\\frac1{\\cos\\theta}.$$\nTaking reciprocals reverses the inequalities, so\n$$\\cos\\theta\\leq\\frac{\\sin\\theta}{\\theta}\\leq\\frac1{\\cos\\theta}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p40-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, explain why $\\dfrac{\\sin\\theta}{\\theta}$ approaches $1$ as $\\theta$ approaches $0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{\\sin\\theta}{\\theta}\\to1$.\n\nIt is squeezed between $\\cos\\theta$ and $\\frac{1}{\\cos\\theta}$, which both approach $1$.",
+          "worked": "As $\\theta$ approaches $0$, both $\\cos\\theta$ and $\\dfrac1{\\cos\\theta}$ approach $1$. By part (a), $\\dfrac{\\sin\\theta}{\\theta}$ lies between these quantities, so it also approaches $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p40-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q18-root/label",
+                  "type": "item",
+                  "ref": "p40-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p40-q18-root/prompt#p40-q18-stem",
+                  "type": "item",
+                  "ref": "p40-q18-root/prompt#p40-q18-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p40-q18-root/prompt#p40-q18-area-comparison",
+                  "type": "item",
+                  "ref": "p40-q18-root/prompt#p40-q18-area-comparison",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p40-q18-diagram",
+                  "type": "item",
+                  "ref": "p40-q18-diagram",
+                  "title": "Diagram",
+                  "width": 52.2
+                },
+                {
+                  "id": "p40-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q18-a/label",
+                          "type": "item",
+                          "ref": "p40-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p40-q18-a/prompt",
+                          "type": "item",
+                          "ref": "p40-q18-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q18-a/space",
+                          "type": "item",
+                          "ref": "p40-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q18-b/label",
+                          "type": "item",
+                          "ref": "p40-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p40-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p40-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q18-b/space",
+                          "type": "item",
+                          "ref": "p40-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:04.056Z",
+  "updatedAt": "2026-11-12T21:45:04.056Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p40-q18",
+    "sectionRole": "exercise"
+  }
+}

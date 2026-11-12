@@ -1,0 +1,222 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-87f89c8a-68c1-4e70-a05d-9762267fccf6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expand-surd-expressions",
+    "secondarySkillIds": [
+      "surd-results"
+    ],
+    "reasoningScore": 59,
+    "difficulty": "Mastery",
+    "difficultyReason": "Follow the squaring hint through nested symbolic radicals, use difference of squares, and justify positivity before recovering roots; then interpret the perfect-square condition and specialise the identities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:34.287Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d54e5ae8bcccd4da464c20cfb1ba2467f4c6ef0f6212fcf47cf87d8a43699806",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part8-20261008/d036a47a082e43c9a8b2e95714b3b329c37ce723a820f371713f7f888e815f1f-1792558387216/last-message.txt",
+      "originalTaskHash": "57a18044317657cbfa59ce80acf9eb891cf5d6dd0e8750227bc82c376a6658bd"
+    }
+  },
+  "content": {
+    "id": "p10-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "The previous exercise contained examples of nested roots of the form $\\sqrt{a+\\sqrt b}$. In this exercise we will explore these expressions more generally. Let $a$ and $b$ be positive integers, where $a^2>b$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p10-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove the following identities:\n\n$$\\sqrt{a+\\sqrt b}=\\sqrt{\\frac{a+\\sqrt{a^2-b}}2}+\\sqrt{\\frac{a-\\sqrt{a^2-b}}2}.$$\n\n$$\\sqrt{a-\\sqrt b}=\\sqrt{\\frac{a+\\sqrt{a^2-b}}2}-\\sqrt{\\frac{a-\\sqrt{a^2-b}}2}.$$\n\nHint: start by squaring the right-hand side of each expression.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both identities hold.\n\nSquare each right-hand side: the results are $a+\\sqrt b$ and $a-\\sqrt b$. Both right-hand sides are nonnegative, so take their positive square roots.",
+          "worked": "Let $c=\\sqrt{a^2-b}$, $U=\\sqrt{\\frac{(a+c)}{2}}$ and $V=\\sqrt{\\frac{(a-c)}{2}}$. Since $0<c<a$, we have $U>V>0$.\n\n$$\\begin{align*}(U+V)^2&=\\frac{a+c}{2}+2\\sqrt{\\frac{(a+c)(a-c)}4}+\\frac{a-c}{2}\\\\(U+V)^2&=a+2\\sqrt{\\frac{a^2-c^2}{4}}\\\\(U+V)^2&=a+2\\sqrt{\\frac{b}{4}}\\\\(U+V)^2&=a+\\sqrt b\\end{align*}$$\n\nSince $U+V>0$, this gives the first identity.\n\n$$\\begin{align*}(U-V)^2&=\\frac{a+c}{2}-2\\sqrt{\\frac{(a+c)(a-c)}4}+\\frac{a-c}{2}\\\\(U-V)^2&=a-2\\sqrt{\\frac{a^2-c^2}{4}}\\\\(U-V)^2&=a-2\\sqrt{\\frac{b}{4}}\\\\(U-V)^2&=a-\\sqrt b\\end{align*}$$\n\nSince $U-V>0$, this gives the second identity.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p10-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose that $a^2-b$ is a perfect square. Prove that $\\sqrt{a+\\sqrt b}$ can be written in the form $\\sqrt x+\\sqrt y$ and $\\sqrt{a-\\sqrt b}$ can be written in the form $\\sqrt x-\\sqrt y$ for some pair of rational numbers $x$ and $y$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\dfrac{a+c}{2},\\quad y=\\dfrac{a-c}{2}$, where $c=\\sqrt{a^2-b}$ is an integer.\n\nThese radicands are rational; substitute them into part (a).",
+          "worked": "Write $a^2-b=c^2$ for a positive integer $c$. Since $b>0$, $c<a$. Set $x=\\frac{(a+c)}{2}$ and $y=\\frac{(a-c)}{2}$; both are positive rational numbers.\n\n$$\\begin{align*}\\sqrt{a+\\sqrt b}&=\\sqrt{\\frac{a+c}{2}}+\\sqrt{\\frac{a-c}{2}}\\\\\\sqrt{a+\\sqrt b}&=\\sqrt x+\\sqrt y\\end{align*}$$\n\n$$\\begin{align*}\\sqrt{a-\\sqrt b}&=\\sqrt{\\frac{a+c}{2}}-\\sqrt{\\frac{a-c}{2}}\\\\\\sqrt{a-\\sqrt b}&=\\sqrt x-\\sqrt y\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      },
+      {
+        "id": "p10-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use your answer to part (b) to express $\\sqrt{2+\\sqrt3}$ and $\\sqrt{2-\\sqrt3}$ without nested roots.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{2+\\sqrt3}=\\dfrac{\\sqrt6+\\sqrt2}{2}$ and $\\sqrt{2-\\sqrt3}=\\dfrac{\\sqrt6-\\sqrt2}{2}$.\n\nUse $2^2-3=1^2$ in part (b).",
+          "worked": "Here $a=2$, $b=3$ and $c=1$, since $2^2-3=1^2$.\n\n$$\\begin{align*}\\sqrt{2+\\sqrt3}&=\\sqrt{\\frac{2+1}{2}}+\\sqrt{\\frac{2-1}{2}}\\\\\\sqrt{2+\\sqrt3}&=\\sqrt{\\frac32}+\\sqrt{\\frac12}\\\\\\sqrt{2+\\sqrt3}&=\\frac{\\sqrt6+\\sqrt2}{2}\\end{align*}$$\n\n$$\\begin{align*}\\sqrt{2-\\sqrt3}&=\\sqrt{\\frac{2+1}{2}}-\\sqrt{\\frac{2-1}{2}}\\\\\\sqrt{2-\\sqrt3}&=\\sqrt{\\frac32}-\\sqrt{\\frac12}\\\\\\sqrt{2-\\sqrt3}&=\\frac{\\sqrt6-\\sqrt2}{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 66
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p10-q8-root/label",
+                  "type": "item",
+                  "ref": "p10-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p10-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p10-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p10-q8-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p10-q8-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q8-a/label",
+                          "type": "item",
+                          "ref": "p10-q8-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p10-q8-a/prompt",
+                          "type": "item",
+                          "ref": "p10-q8-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p10-q8-a/space",
+                          "type": "item",
+                          "ref": "p10-q8-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p10-q8-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q8-b/label",
+                          "type": "item",
+                          "ref": "p10-q8-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p10-q8-b/prompt",
+                          "type": "item",
+                          "ref": "p10-q8-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p10-q8-b/space",
+                          "type": "item",
+                          "ref": "p10-q8-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p10-q8-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q8-c/label",
+                          "type": "item",
+                          "ref": "p10-q8-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p10-q8-c/prompt",
+                          "type": "item",
+                          "ref": "p10-q8-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p10-q8-c/space",
+                          "type": "item",
+                          "ref": "p10-q8-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:22.722Z",
+  "updatedAt": "2026-11-12T21:44:22.723Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part8-20261008",
+    "blockId": "p10-q8",
+    "sectionRole": "exercise"
+  }
+}

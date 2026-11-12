@@ -1,0 +1,508 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-20efae63-e78b-4936-a875-c056d35d1336",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "tangent-secant-properties",
+      "pythagoras-find-side",
+      "arc-length-radians"
+    ],
+    "reasoningScore": 71,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct the auxiliary right triangle involving the difference of radii, derive tangent lengths and exterior arc angles, and generalise the symbolic perimeter to separated centres.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "74fe132d0378982a6e5ec235d8df54c6a1bd443c80eda5e1c475265ae2800fc9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt",
+      "originalTaskHash": "6a35b74c0f99d0854679f4e55b40203884e31c1bd26d62de4c49660cf2bb16bb"
+    }
+  },
+  "content": {
+    "id": "p40-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "Consider two tangent circles of radius $a$ and $b$ (where $a>b$), as shown in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q16-diagram1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40, p40-q16-diagram1\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{acos(1/3)}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,0);\n\\coordinate (A) at ({2*cos(\\t)},{2*sin(\\t)});\n\\coordinate (B) at ({3+cos(\\t)},{sin(\\t)});\n\\coordinate (D) at ({2*cos(\\t)},{-2*sin(\\t)});\n\\coordinate (E) at ({3+cos(\\t)},{-sin(\\t)});\n\\draw[black,line width=0.4pt] (O) circle (2) (P) circle (1);\n\\draw[black] (A) arc[start angle=\\t,end angle={360-\\t},radius=2] -- (E) arc[start angle={-\\t},end angle=\\t,radius=1] -- cycle;\n\\draw[black,line width=0.4pt] (O)--(P) (O)--(A) node[midway,right] {$a$} (P)--(B) node[midway,right] {$b$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60.4,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 16, upper-left figure",
+          "description": "Externally tangent circles with horizontally aligned centres, larger circle left, two common external tangent string segments and exterior string arcs. Decorative yellow fills omitted.",
+          "mathematics": "The centre distance is a+b. Both upper radii are perpendicular to their common tangent. Drawing coordinates are illustrative and introduce no printed numerical givens.",
+          "answerVisibility": "Only supplied circles, string, centre segment and radius labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the length of the shortest string that can be wrapped around the circles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p40-q16-a-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "2\\pi a+4\\sqrt{ab}-2(a-b)\\cos^{-1}\\!\\left(\\frac{a-b}{a+b}\\right)",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p40-q16-a-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Add the two tangent lengths and the exterior arcs; the inverse cosine is in radians.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Let $\\theta$ be the angle between the centre line and the larger radius to an upper tangent point, measured in radians. The radii are perpendicular to the tangent. If each straight string segment has length $d$, then\n$$\\begin{align*}d^2&=(a+b)^2-(a-b)^2\\\\d^2&=4ab\\\\d&=2\\sqrt{ab}.\\end{align*}$$\nThe corresponding right triangle gives\n$$\\begin{align*}\\cos\\theta&=\\frac{a-b}{a+b}\\\\\\theta&=\\cos^{-1}\\!\\left(\\frac{a-b}{a+b}\\right).\\end{align*}$$\nThe exterior arcs have angles $2\\pi-2\\theta$ and $2\\theta$. Using $L=r\\theta$, the total length is\n$$\\begin{align*}L&=a(2\\pi-2\\theta)+2b\\theta+2d\\\\L&=2\\pi a-2(a-b)\\theta+4\\sqrt{ab}\\\\L&=2\\pi a+4\\sqrt{ab}-2(a-b)\\cos^{-1}\\!\\left(\\frac{a-b}{a+b}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p40-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose $a=b$. What does your expression in (a) simplify to?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2\\pi+4)a$",
+          "worked": "$$\\begin{align*}L&=2\\pi a+4\\sqrt{a^2}-2(a-a)\\cos^{-1}(0)\\\\L&=(2\\pi+4)a.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p40-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Suppose $a$ is fixed and $b$ approaches $0$. What does your expression in (a) approach?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\pi a$",
+          "worked": "As $b\\to0$, $\\sqrt{ab}\\to0$ and $\\cos^{-1}(\\frac{(a-b)}{(a+b)})\\to\\cos^{-1}(1)=0$. Hence\n$$\\begin{align*}L&\\to2\\pi a+0-2a\\times0\\\\L&\\to2\\pi a.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p40-q16-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p40-q16-extension",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Suppose instead that the centres of the circles are distance ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "c",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " apart (where ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "c>a+b",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": "), as shown in the diagram below.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p40-q16-d-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find an expression for the length of the shortest string that can be wrapped around the circles, in terms of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "b",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "c",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p40-q16-diagram2",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40, p40-q16-diagram2\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{acos(1/4)}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,0);\n\\coordinate (A) at ({2*cos(\\t)},{2*sin(\\t)});\n\\coordinate (B) at ({4+cos(\\t)},{sin(\\t)});\n\\coordinate (E) at ({4+cos(\\t)},{-sin(\\t)});\n\\draw[black,line width=0.4pt] (O) circle (2) (P) circle (1);\n\\draw[black] (A) arc[start angle=\\t,end angle={360-\\t},radius=2] -- (E) arc[start angle={-\\t},end angle=\\t,radius=1] -- cycle;\n\\draw[black,line width=0.4pt] (O)--(P) node[midway,above] {$c$} (O)--(A) node[midway,right] {$a$} (P)--(B) node[midway,right] {$b$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 40,
+              "sourceRegion": "Question 16, lower-left circle figure",
+              "description": "Separated circles enclosed by two common external tangents and exterior arcs, with larger circle left and horizontal centre distance c. Decorative yellow fills omitted.",
+              "mathematics": "c>a+b; upper radii meet the common external tangent perpendicularly. Illustrative coordinates introduce no printed numerical givens.",
+              "answerVisibility": "Only supplied circles, string, centre segment and labels a, b, c are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p40-q16-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "2\\pi a+2\\sqrt{c^2-(a-b)^2}-2(a-b)\\cos^{-1}\\!\\left(\\frac{a-b}{c}\\right)",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p40-q16-d-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Each tangent has length ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\sqrt{c^2-(a-b)^2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": "; add both tangents and the exterior arcs. The inverse cosine is in radians.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Using the same angle $\\theta$ and straight tangent length $d$ as in (a),\n$$\\begin{align*}d^2&=c^2-(a-b)^2\\\\d&=\\sqrt{c^2-(a-b)^2},\\\\\\cos\\theta&=\\frac{a-b}{c}\\\\\\theta&=\\cos^{-1}\\!\\left(\\frac{a-b}{c}\\right).\\end{align*}$$\nAdding the two exterior arcs and two tangent segments gives\n$$\\begin{align*}L&=a(2\\pi-2\\theta)+2b\\theta+2d\\\\L&=2\\pi a+2\\sqrt{c^2-(a-b)^2}-2(a-b)\\cos^{-1}\\!\\left(\\frac{a-b}{c}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 57
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p40-q16",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q16-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q16-root/label",
+                  "type": "item",
+                  "ref": "p40-q16-root/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "layout:p40-q16-root/prompt",
+                  "type": "item",
+                  "ref": "p40-q16-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p40-q16-diagram1",
+                  "type": "item",
+                  "ref": "p40-q16-diagram1",
+                  "title": "Diagram",
+                  "width": 60.4
+                },
+                {
+                  "id": "p40-q16-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q16-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q16-a/label",
+                          "type": "item",
+                          "ref": "p40-q16-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p40-q16-a/prompt",
+                          "type": "item",
+                          "ref": "p40-q16-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q16-a/space",
+                          "type": "item",
+                          "ref": "p40-q16-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q16-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q16-b/label",
+                          "type": "item",
+                          "ref": "p40-q16-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p40-q16-b/prompt",
+                          "type": "item",
+                          "ref": "p40-q16-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q16-b/space",
+                          "type": "item",
+                          "ref": "p40-q16-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q16-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q16-c/label",
+                          "type": "item",
+                          "ref": "p40-q16-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p40-q16-c/prompt",
+                          "type": "item",
+                          "ref": "p40-q16-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q16-c/space",
+                          "type": "item",
+                          "ref": "p40-q16-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q16-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q16-d/label",
+                          "type": "item",
+                          "ref": "p40-q16-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p40-q16-d/prompt#p40-q16-extension",
+                          "type": "item",
+                          "ref": "p40-q16-d/prompt#p40-q16-extension",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q16-d/prompt#p40-q16-d-instruction",
+                          "type": "item",
+                          "ref": "p40-q16-d/prompt#p40-q16-d-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q16-diagram2",
+                          "type": "item",
+                          "ref": "p40-q16-diagram2",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p40-q16-d/space",
+                          "type": "item",
+                          "ref": "p40-q16-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 16",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:45:01.681Z",
+  "updatedAt": "2026-11-12T21:45:01.681Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p40-q16",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,364 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3424a73-e8dc-4247-9d5b-fb0919828d85",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "proof-by-contradiction",
+    "secondarySkillIds": [
+      "evaluate-index-notation",
+      "prove-results-integers",
+      "irrational-numbers"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Generalise the observed square pattern by separating trailing base-3 zeroes, then use the supplied observation in a rationality contradiction involving p² and 2q².",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:07.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e7f47e07d3671d602064fed7d6a3a06df8b35834e2ceb8d3a229fb4c76a94f31",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/e87bee938c1fd9f77c5aa16ba64b1a53ccff56d74cac465ae4265d409df104fd-1792558350860/last-message.txt",
+      "originalTaskHash": "a0cb8971d8d5b0c9106c768709b93fb6f09babb8609da2fd002bfc70cbc108b2"
+    }
+  },
+  "content": {
+    "id": "p34-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down the first nine positive integers in base 3.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1_3,\\ 2_3,\\ 10_3,\\ 11_3,\\ 12_3,\\ 20_3,\\ 21_3,\\ 22_3,\\ 100_3$.",
+          "worked": "Count using the digits $0$, $1$ and $2$, carrying to the next place after $2$:\n$$1_3,\\ 2_3,\\ 10_3,\\ 11_3,\\ 12_3,\\ 20_3,\\ 21_3,\\ 22_3,\\ 100_3.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p34-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Square each of these numbers, writing your answer in base 3.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "In order: $1_3,\\ 11_3,\\ 100_3,\\ 121_3,\\ 221_3,\\ 1100_3,\\ 1211_3,\\ 2101_3,\\ 10000_3$.",
+          "worked": "$$\\begin{align*}(1_3)^2 &= 1_3\\\\(2_3)^2 &= 4_{10}=11_3\\\\(10_3)^2 &= 9_{10}=100_3\\\\(11_3)^2 &= 16_{10}=121_3\\\\(12_3)^2 &= 25_{10}=221_3\\\\(20_3)^2 &= 36_{10}=1100_3\\\\(21_3)^2 &= 49_{10}=1211_3\\\\(22_3)^2 &= 64_{10}=2101_3\\\\(100_3)^2 &= 81_{10}=10000_3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p34-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What do you notice about the last non-zero digit of each of these answers? Will this always happen?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p34-q23-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The last non-zero digit is always 1. Yes, this holds for every positive integer square in base 3.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-q23-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Remove trailing zeroes before squaring. The remaining integer ends in 1 or 2, whose squares both end in 1.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "The last non-zero digit is $1$ in every answer.\n\nWrite any positive integer as $n=3^k m$, where $m$ is not divisible by $3$. Its base-3 representation ends in $1$ or $2$. Since $1^2=1_3$ and $2^2=11_3$, the square $m^2$ ends in $1$.\n$$n^2=3^{2k}m^2.$$\nMultiplication by $3^{2k}$ appends $2k$ zeroes in base 3. Therefore, the last non-zero digit of $n^2$ is always $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p34-q23-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use this observation to prove that $\\sqrt{2}$ is not a rational number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p34-q23-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\sqrt{2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is irrational.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-q23-d-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "If ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\sqrt{2}=\\frac{p}{q}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", then ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p^2=2q^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". In base 3 the two sides have last non-zero digits 1 and 2 respectively, a contradiction.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Suppose $\\sqrt{2}$ is rational. Then $\\sqrt{2}=\\frac{p}{q}$ for positive integers $p$ and $q$.\n$$\\begin{align*}p^2 &= (\\sqrt{2}\\,q)^2\\\\p^2 &= 2q^2.\\end{align*}$$\nBy part (c), the last non-zero digit of $p^2$ in base 3 is $1$. The last non-zero digit of $q^2$ is also $1$, so doubling $q^2$ makes its last non-zero digit $2$: doubling that digit produces no carry, and trailing zeroes remain zeroes.\n\nThus $p^2$ and $2q^2$ cannot be equal. This contradiction proves that $\\sqrt{2}$ is irrational.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q23-root/label",
+                  "type": "item",
+                  "ref": "p34-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "p34-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q23-a/label",
+                          "type": "item",
+                          "ref": "p34-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p34-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p34-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q23-a/space",
+                          "type": "item",
+                          "ref": "p34-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q23-b/label",
+                          "type": "item",
+                          "ref": "p34-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p34-q23-b/prompt",
+                          "type": "item",
+                          "ref": "p34-q23-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q23-b/space",
+                          "type": "item",
+                          "ref": "p34-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q23-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q23-c/label",
+                          "type": "item",
+                          "ref": "p34-q23-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p34-q23-c/prompt",
+                          "type": "item",
+                          "ref": "p34-q23-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q23-c/space",
+                          "type": "item",
+                          "ref": "p34-q23-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q23-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q23-d/label",
+                          "type": "item",
+                          "ref": "p34-q23-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p34-q23-d/prompt",
+                          "type": "item",
+                          "ref": "p34-q23-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q23-d/space",
+                          "type": "item",
+                          "ref": "p34-q23-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 23",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:44:31.327Z",
+  "updatedAt": "2026-11-12T21:44:31.328Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p34-q23",
+    "sectionRole": "exercise"
+  }
+}
