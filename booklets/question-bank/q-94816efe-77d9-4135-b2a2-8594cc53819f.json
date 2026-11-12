@@ -1,0 +1,341 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-94816efe-77d9-4135-b2a2-8594cc53819f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "function-notation",
+    "secondarySkillIds": [],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "To minimise the input for digit sum 100, infer the minimum number of digits from the bound of 9 per digit, then minimise the leading digit while keeping the remaining sum achievable. Part (b) provides a smaller precursor.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:39.504Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "241abc96d365665dcd2e6b2647aa45bf78a3ee9a616e4357971b4e3046362aa7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/389a3ff7f03938f28aa3569bd4d02edd8de0d40899f9c1346d0db5dda93082aa-1792558623493/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p5-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p5-q9-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "digit sum function ",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "math",
+              "latex": "S(n)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". The input for this function is a natural number ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and the output is the sum of its digits.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p5-q9-example-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For example, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "S(123)=1+2+3=6",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p5-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $S(1234)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10$",
+          "worked": "$$\\begin{align*}S(1234)&=1+2+3+4\\\\S(1234)&=10\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p5-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the smallest natural number $n$ such that $S(n)=10$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$19$",
+          "worked": "A one-digit number has digit sum at most $9$, so at least two digits are needed. Use the smallest possible tens digit, $1$, leaving $9$ for the units digit.\n\n$$S(19)=1+9=10.$$\n\nTherefore the smallest number is $19$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p5-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the smallest natural number $n$ such that $S(n)=100$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p5-q9-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "199\\,999\\,999\\,999",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p5-q9-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "At least 12 digits are needed; the smallest leading digit is 1, followed by eleven 9s.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Eleven digits have digit sum at most $11\\times9=99$, so at least twelve digits are needed. For twelve digits, the last eleven digits contribute at most $99$, so the leading digit must be at least $100-99=1$. Taking the leading digit as $1$ forces all eleven remaining digits to be $9$.\n\n$$S(199\\,999\\,999\\,999)=1+11\\times9=100.$$\n\nTherefore the smallest number is $199\\,999\\,999\\,999$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p5-q9-root/label",
+                  "type": "item",
+                  "ref": "p5-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p5-q9-root/prompt#p5-q9-definition",
+                  "type": "item",
+                  "ref": "p5-q9-root/prompt#p5-q9-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p5-q9-root/prompt#p5-q9-example-paragraph",
+                  "type": "item",
+                  "ref": "p5-q9-root/prompt#p5-q9-example-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "p5-q9-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p5-q9-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q9-a/label",
+                          "type": "item",
+                          "ref": "p5-q9-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p5-q9-a/prompt",
+                          "type": "item",
+                          "ref": "p5-q9-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p5-q9-a/space",
+                          "type": "item",
+                          "ref": "p5-q9-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p5-q9-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q9-b/label",
+                          "type": "item",
+                          "ref": "p5-q9-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p5-q9-b/prompt",
+                          "type": "item",
+                          "ref": "p5-q9-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p5-q9-b/space",
+                          "type": "item",
+                          "ref": "p5-q9-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p5-q9-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q9-c/label",
+                          "type": "item",
+                          "ref": "p5-q9-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p5-q9-c/prompt",
+                          "type": "item",
+                          "ref": "p5-q9-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p5-q9-c/space",
+                          "type": "item",
+                          "ref": "p5-q9-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:11:14.872Z",
+  "updatedAt": "2026-11-12T13:11:14.877Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p5-q9",
+    "sectionRole": "exercise"
+  }
+}

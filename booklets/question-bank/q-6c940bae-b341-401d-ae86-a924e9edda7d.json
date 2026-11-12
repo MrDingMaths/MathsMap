@@ -1,0 +1,93 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6c940bae-b341-401d-ae86-a924e9edda7d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "one-to-one-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 79,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the hint to bound distinct prime images, then construct an injective multiplicative function attaining the bound through a permutation of primes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "906f02e54d949a2bb3060db7dad498e3604737cf5dffdcdb35b67e3c8c2d9e63",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q16-response",
+    "type": "question",
+    "label": "16",
+    "prompt": "Let $f:\\mathbb{N}\\to\\mathbb{N}$ be an injective function for which $f(mn)=f(m)f(n)$ for all $m,n\\in\\mathbb{N}$. Find the least possible value of $f(99)$.\n\nHint: First find $f(1)$. Then consider the prime factorisation of $99$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$12$.\n\nUse $f(1)=1$ and $f(99)=f(3)^2f(11)$; the minimum is attained by mapping distinct primes to distinct primes with $f(3)=2$ and $f(11)=3$.",
+      "worked": "$$\\begin{align*}f(1)&=f(1\\cdot1)\\\\f(1)&=f(1)^2\\end{align*}$$\nSince $f(1)$ is a positive integer, $f(1)=1$. Injectivity therefore gives $f(3),f(11)\\ge2$ and $f(3)\\ne f(11)$.\n\n$$\\begin{align*}f(99)&=f(3^2\\cdot11)\\\\f(99)&=f(3)^2f(11)\\end{align*}$$\nIf $f(3)=2$, then $f(11)\\ge3$, so $f(99)\\ge12$. If $f(3)\\ge3$, then $f(99)\\ge3^2\\cdot2=18$. Thus $12$ is a lower bound.\n\nTo attain it, assign $f(3)=2$, $f(11)=3$, $f(2)=11$ and $f(p)=p$ for every other prime $p$. Extend this assignment by $f(1)=1$ and\n$$f(p_1^{e_1}\\cdots p_k^{e_k})=f(p_1)^{e_1}\\cdots f(p_k)^{e_k}.$$\nThis function is multiplicative. Unique prime factorisation makes it injective, because distinct primes have distinct prime images. Hence\n$$f(99)=2^2\\cdot3=12,$$\nand the least possible value is $12$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 105
+  },
+  "presentation": {
+    "ownerId": "p25-q16",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q16-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q16-response/label",
+                  "type": "item",
+                  "ref": "p25-q16-response/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "layout:p25-q16-response/prompt",
+                  "type": "item",
+                  "ref": "p25-q16-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p25-q16-response/space",
+                  "type": "item",
+                  "ref": "p25-q16-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 16",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:15.513Z",
+  "updatedAt": "2026-11-12T13:12:15.513Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p25-q16",
+    "sectionRole": "exercise"
+  }
+}

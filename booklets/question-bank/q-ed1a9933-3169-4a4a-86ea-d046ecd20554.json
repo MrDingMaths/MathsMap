@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ed1a9933-3169-4a4a-86ea-d046ecd20554",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "sector-area-radians",
+      "exact-trig-ratios"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Use the tangent-radius right angle to identify an exact central angle from tangent, then substitute it into the sector-area formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b77e6b21edba55dc04bb926a404b9118f17a6989369367c78c5f695ba0bcc6ea",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A circle of radius $1$ and centre $O$ is drawn below. The line segment $AC$ is tangent to the circle, and $B$ is the point of intersection of $OC$ with the circle. Find the area of the shaded region shown in the figure below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q8-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"sectorFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the sector whose area is requested\"}],\"reference\":\"source page 38, question 8\"}\n\\begin{tikzpicture}[x=2.3cm,y=2.3cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sectorFill}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0,1);\n\\coordinate (B) at ({sqrt(3)/2},0.5);\n\\coordinate (C) at ({sqrt(3)},1);\n\\fill[sectorFill] (O)--(A) arc[start angle=90,end angle=30,radius=1]--cycle;\n\\draw[black] (O) circle[radius=1];\n\\draw[black] (O)--(A)--(C)--cycle;\n\\draw[black,line width=0.4pt] (0,0.86)--(0.14,0.86)--(0.14,1);\n\\path (O)--(A) node[midway,left] {$1$};\n\\path (A)--(C) node[midway,above] {$\\sqrt{3}$};\n\\node[above left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[below] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 53,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 8, right column",
+          "description": "Circle centred at O, with vertical radius OA, horizontal tangent AC, and segment OC meeting the circle at B. The minor sector AOB is shaded.",
+          "mathematics": "OA=1, AC=sqrt(3), OA perpendicular to AC, O-B-C collinear. Coordinates derive from O=(0,0), A=(0,1), C=(sqrt(3),1), and OB=1.",
+          "answerVisibility": "Only source givens appear; the central angle and sector area are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{\\pi}{6}$ square units.\n\nUse $\\tan\\angle AOB=\\sqrt{3}$ to find the central angle, then apply $A=\\tfrac12r^2\\theta$.",
+      "worked": "The radius is perpendicular to the tangent, so $\\angle OAC=90^\\circ$. Let $\\theta=\\angle AOB=\\angle AOC$.\n\n$$\\begin{align*}\\tan\\theta&=\\frac{AC}{OA}\\\\\\tan\\theta&=\\frac{\\sqrt{3}}{1}\\\\\\theta&=\\frac{\\pi}{3}.\\end{align*}$$\n\n$$\\begin{align*}A&=\\frac12r^2\\theta\\\\A&=\\frac12\\times1^2\\times\\frac{\\pi}{3}\\\\A&=\\frac{\\pi}{6}\\text{ square units}.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 42
+  },
+  "presentation": {
+    "ownerId": "p38-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q8-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q8-root/label",
+                  "type": "item",
+                  "ref": "p38-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p38-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q8-figure",
+                  "type": "item",
+                  "ref": "p38-q8-figure",
+                  "title": "Diagram",
+                  "width": 53
+                },
+                {
+                  "id": "layout:p38-q8-root/space",
+                  "type": "item",
+                  "ref": "p38-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:52.268Z",
+  "updatedAt": "2026-11-12T13:40:52.268Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p38-q8-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c898776b-5623-4400-8f47-36b7f8138309",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-exp-log-quadratic-form",
+    "secondarySkillIds": [
+      "graph-log-functions"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Compare a logarithm and its square, then solve an inequality using a quadratic in the logarithm.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:40:38.143Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7f82b69022805a19d7f1a9b471ce71e742007fc016cc9caea99886f67fc5e2a1",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part8-20261009/semantic-packets/assignments/assignment-f81aec71f8461a7263ff/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p30-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graphs of $y=\\log_2x$ and $y=(\\log_2x)^2$ on the same set of axes. Write down the maximal domain and the range of $f(x)=(\\log_2x)^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{dom}f=(0,\\infty)$; $\\operatorname{ran}f=[0,\\infty)$. The graphs intersect at $(1,0)$ and $(2,1)$.",
+          "worked": "The logarithm requires $x>0$. Its square is non-negative and equals $0$ at $x=1$, so $\\operatorname{dom}f=(0,\\infty)$ and $\\operatorname{ran}f=[0,\\infty)$.\nFor the intersections, set $t=\\log_2x$:\n$$\\begin{align*}t^2&=t\\\\t(t-1)&=0\\\\t&=0\\text{ or }1\\\\x&=1\\text{ or }2\\end{align*}$$\nThe intersection points are $(1,0)$ and $(2,1)$. The logarithm increases throughout its domain. Its square decreases from $+\\infty$ to $(1,0)$, then increases to $+\\infty$. Both have vertical asymptote $x=0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-q6-a-sol",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"squared logarithmic function\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"logarithmic function\"}],\"reference\":\"page 30 question 6(a)\"}\n\\begin{tikzpicture}[x=1cm,y=0.8cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{seriesBlue}{HTML}{268CFF}\\definecolor{seriesRed}{HTML}{EF6068}\\path[use as bounding box] (-0.8,-3.5) rectangle (6.4,5);\\draw[->,line width=0.5pt] (-0.5,0)--(4.4,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-3)--(0,4.5) node[above] {$y$};\\node[below left] at (0,-3) {$x=0$};\\begin{scope}\\clip (0,-3) rectangle (4,4.2);\\draw[seriesRed,line width=0.8pt,domain=0.125:4,samples=140] plot (\\x,{ln(\\x)/ln(2)});\\draw[seriesBlue,line width=0.8pt,domain=0.24:4,samples=140] plot (\\x,{(ln(\\x)/ln(2))^2});\\end{scope}\\node[seriesRed,right] at (4,2) {$y=\\log_2x$};\\node[seriesBlue,right] at (4,4) {$y=(\\log_2x)^2$};\\fill (1,0) circle (1.4pt) node[below right] {$(1,0)$};\\fill (2,1) circle (1.4pt) node[above left] {$(2,1)$};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "6(a)",
+                "description": "Shared axes compare the logarithm and its square, with both intersection points and matched curve labels.",
+                "mathematics": "y=log_2x and y=(log_2x)^2 on x>0; intersections (1,0),(2,1); square has minimum zero.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p30-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $x$ for which $(\\log_2x)^2>\\log_2x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0<x<1$ or $x>2$.",
+          "worked": "Let $t=\\log_2x$, with $x>0$.\n$$\\begin{align*}t^2&>t\\\\t(t-1)&>0\\\\t&<0\\text{ or }t>1\\end{align*}$$\nSince $\\log_2x$ is increasing, $\\log_2x<0$ gives $0<x<1$, and $\\log_2x>1$ gives $x>2$. Thus $0<x<1$ or $x>2$, corresponding to where the squared-logarithm curve is above the logarithm curve.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q6-root/label",
+                  "type": "item",
+                  "ref": "p30-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "p30-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q6-a/label",
+                          "type": "item",
+                          "ref": "p30-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p30-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q6-a/space",
+                          "type": "item",
+                          "ref": "p30-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q6-b/label",
+                          "type": "item",
+                          "ref": "p30-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p30-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q6-b/space",
+                          "type": "item",
+                          "ref": "p30-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:41.301Z",
+  "updatedAt": "2026-11-12T13:12:41.302Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part8-20261009",
+    "blockId": "p30-q6",
+    "sectionRole": "exercise"
+  }
+}

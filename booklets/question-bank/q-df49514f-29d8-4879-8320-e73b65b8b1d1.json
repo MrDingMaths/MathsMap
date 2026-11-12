@@ -1,0 +1,293 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-df49514f-29d8-4879-8320-e73b65b8b1d1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-periodic-phenomena",
+    "secondarySkillIds": [
+      "find-sinusoidal-model"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Determine a cosine model from a graph, convert time units and solve for repeated heights over the ride.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:29:46.947Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "525e75f01a47f571e5cc126f7a460e9a7cea9835d2adacbdc0f3f00ad16dbec4",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part5-20261009/semantic-packets/assignments/assignment-a14c61e35c8d8fc92a65/4/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Cormac is riding a ferris wheel. The height $H$ in metres of his seat above the ground after $t$ minutes can be modelled by the function:\n$$H(t)=b+a\\cos(nt).$$\nThe graph of $H(t)$ for the duration of the ride is shown below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q2-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from axes and guides\"}],\"reference\":\"source page 23, p23-q2-graph\"}\n\\begin{tikzpicture}[x=1.35cm,y=0.38cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (0,0)--(4.35,0) node[right] {$t$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,11) node[above] {$H(t)$};\n\\foreach \\h in {2,6,10}{\\draw[black,dashed,line width=0.4pt] (0,\\h)--(4,\\h);\\node[left] at (0,\\h) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\h$\\special{dvisvgm:raw </g>}};}\n\\foreach \\t in {1,2,3,4}{\\draw[black,line width=0.4pt] (\\t,-0.15)--(\\t,0.15);\\node[below] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:4,samples=161] plot (\\x,{6-4*cos(180*\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Upper left column, above Question 2(a)",
+          "description": "Cosine height graph with arrowed axes, four labelled time ticks and dashed horizontal guides at heights 2, 6 and 10.",
+          "mathematics": "Domain 0≤t≤4; H(t)=6−4cos(πt); minima (0,2), (2,2), (4,2); maxima (1,10), (3,10).",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the values of $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=-4,\\quad b=6$.",
+          "worked": "$$\\begin{align*}b&=\\frac{10+2}{2}\\\\b&=6\\\\|a|&=\\frac{10-2}{2}\\\\|a|&=4\\end{align*}$$\nThe graph starts at its minimum, so the cosine coefficient is negative. Hence $a=-4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p23-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the period of the function. Hence, calculate $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Period $=2$ minutes; $n=\\pi$.",
+          "worked": "Consecutive maxima occur at $t=1$ and $t=3$, so the period is $2$ minutes.\n$$\\begin{align*}2&=\\frac{2\\pi}{n}\\\\2n&=2\\pi\\\\n&=\\pi\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p23-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How far above the ground is the seat after 20 seconds?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4\\text{ m}$.",
+          "worked": "$$\\begin{align*}t&=\\frac{20}{60}=\\frac13\\text{ min}\\\\H\\left(\\frac13\\right)&=6-4\\cos\\left(\\frac\\pi3\\right)\\\\H\\left(\\frac13\\right)&=6-4\\left(\\frac12\\right)\\\\H\\left(\\frac13\\right)&=4\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p23-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "At what times (in minutes) is the seat 8 metres above the ground?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=\\frac23,\\ \\frac43,\\ \\frac83,\\ \\frac{10}3$ minutes.\n\nSolve $\\cos(\\pi t)=-\\frac12$ over the four-minute ride.",
+          "worked": "$$\\begin{align*}6-4\\cos(\\pi t)&=8\\\\-4\\cos(\\pi t)&=2\\\\\\cos(\\pi t)&=-\\frac12\\end{align*}$$\nFor $0\\le t\\le4$, the angle satisfies $0\\le\\pi t\\le4\\pi$.\n$$\\begin{align*}\\pi t&=\\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{8\\pi}{3},\\ \\frac{10\\pi}{3}\\\\t&=\\frac23,\\ \\frac43,\\ \\frac83,\\ \\frac{10}3\\text{ min}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q2-root/label",
+                  "type": "item",
+                  "ref": "p22-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p22-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p23-q2-graph",
+                  "type": "item",
+                  "ref": "p23-q2-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p22-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q2-a/label",
+                          "type": "item",
+                          "ref": "p23-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q2-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q2-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q2-a/space",
+                          "type": "item",
+                          "ref": "p23-q2-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q2-b/label",
+                          "type": "item",
+                          "ref": "p23-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q2-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q2-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q2-b/space",
+                          "type": "item",
+                          "ref": "p23-q2-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q2-c/label",
+                          "type": "item",
+                          "ref": "p23-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p23-q2-c/prompt",
+                          "type": "item",
+                          "ref": "p23-q2-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q2-c/space",
+                          "type": "item",
+                          "ref": "p23-q2-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q2-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q2-d/label",
+                          "type": "item",
+                          "ref": "p23-q2-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p23-q2-d/prompt",
+                          "type": "item",
+                          "ref": "p23-q2-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q2-d/space",
+                          "type": "item",
+                          "ref": "p23-q2-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:41:20.005Z",
+  "updatedAt": "2026-11-12T13:41:20.005Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part5-20261009",
+    "blockId": "p22-q2",
+    "sectionRole": "exercise"
+  }
+}

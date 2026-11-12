@@ -1,0 +1,294 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5b27adf4-1b4e-4cb7-ab2f-5151d3fd28e1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-trig-identities",
+    "secondarySkillIds": [
+      "exterior-angle-triangle",
+      "exact-trig-ratios"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Proves a half-angle identity, obtains an exact value and applies it to a regular polygon.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:10:08.700Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "70f879966a497a641340b2c4024dcd464c9dba4822f712c41ded3bc4f87f4503",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-f11a31f46adf166eefa1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p18-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Consider the figure shown below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q4-diagram\"}\n\\begin{tikzpicture}[x=4cm,y=4cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-1,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (0.5,0);\n\\coordinate (D) at (0.5,{sqrt(3)/2});\n\\draw[dashed] (A)--(C);\n\\draw[dashed] (A)--(D);\n\\draw (B)--(D)--(C);\n\\draw[line width=0.4pt] ($(A)!0.5!(B)+(0,-0.025)$)--($(A)!0.5!(B)+(0,0.025)$);\n\\draw[line width=0.4pt] ($(B)!0.5!(D)+({-sqrt(3)*0.025/2},0.0125)$)--($(B)!0.5!(D)+({sqrt(3)*0.025/2},-0.0125)$);\n\\draw[line width=0.4pt] ($(C)+(-0.11,0)$)--($(C)+(-0.11,0.11)$)--($(C)+(0,0.11)$);\n\\path (A)--(B) node[midway,below=3pt] {$1$};\n\\path (B)--(D) node[midway,above left=3pt] {$1$};\n\\pic[draw=none,\"$\\alpha$\",angle radius=10mm,angle eccentricity=1] {angle=B--A--D};\n\\pic[draw=none,\"$\\theta$\",angle radius=7mm,angle eccentricity=1] {angle=C--B--D};\n\\node[below left=2pt] at (A) {$A$};\n\\node[below=3pt] at (B) {$B$};\n\\node[below=3pt] at (C) {$C$};\n\\node[above=3pt] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 59.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Question 4 diagram, left column",
+          "description": "Unfilled reconstruction retaining dashed AC and AD, solid BD and CD, equal-length ticks, labels and the right angle at C. Coordinates express a representative configuration without supplying a numerical angle.",
+          "mathematics": "A, B and C are collinear in order; AB=BD=1; CD is perpendicular to AC; angle DAC is alpha and angle DBC is theta.",
+          "answerVisibility": "Only source givens are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\alpha=\\dfrac{\\theta}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta=\\alpha+\\alpha=2\\alpha$, so $\\alpha=\\dfrac{\\theta}{2}$.",
+          "worked": "Since $AB=BD$, triangle $ABD$ is isosceles, so $\\angle ADB=\\angle BAD=\\alpha$. By the exterior angle theorem,\n$$\\begin{align*}\\theta&=\\angle BAD+\\angle ADB\\\\\\theta&=\\alpha+\\alpha\\\\\\theta&=2\\alpha.\\end{align*}$$\nTherefore, $\\alpha=\\dfrac{\\theta}{2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p18-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that $\\tan\\dfrac{\\theta}{2}=\\dfrac{\\sin\\theta}{1+\\cos\\theta}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\dfrac{\\theta}{2}=\\tan\\alpha=\\dfrac{CD}{AB+BC}=\\dfrac{\\sin\\theta}{1+\\cos\\theta}$.",
+          "worked": "In right-angled triangle $BCD$, $BD=1$, so $CD=\\sin\\theta$ and $BC=\\cos\\theta$. Using part (a) and triangle $ACD$,\n$$\\begin{align*}\\tan\\frac{\\theta}{2}&=\\tan\\alpha\\\\\\tan\\frac{\\theta}{2}&=\\frac{CD}{AC}\\\\\\tan\\frac{\\theta}{2}&=\\frac{CD}{AB+BC}\\\\\\tan\\frac{\\theta}{2}&=\\frac{\\sin\\theta}{1+\\cos\\theta}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p18-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the above formula to find the exact value of $\\tan22.5^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt2-1$.\n\nSubstitute $\\theta=45^\\circ$ into the identity, then rationalise.",
+          "worked": "$$\\begin{align*}\\tan22.5^\\circ&=\\frac{\\sin45^\\circ}{1+\\cos45^\\circ}\\\\\\tan22.5^\\circ&=\\frac{1/\\sqrt2}{1+1/\\sqrt2}\\\\\\tan22.5^\\circ&=\\frac{1}{\\sqrt2+1}\\\\\\tan22.5^\\circ&=\\frac{\\sqrt2-1}{(\\sqrt2+1)(\\sqrt2-1)}\\\\\\tan22.5^\\circ&=\\sqrt2-1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p18-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use this to determine the area of a regular octagon of side length $1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2+2\\sqrt2$ square units.\n\nDivide the octagon into eight congruent triangles and use $\\tan22.5^\\circ$ to find their perpendicular height.",
+          "worked": "Join the centre to each vertex and bisect one of the eight congruent triangles. Its central half-angle is $22.5^\\circ$, its half-base is $\\tfrac12$, and its perpendicular height is $h$.\n$$\\begin{align*}\\tan22.5^\\circ&=\\frac{1/2}{h}\\\\h&=\\frac{1}{2\\tan22.5^\\circ}\\\\h&=\\frac{1}{2(\\sqrt2-1)}\\\\h&=\\frac{\\sqrt2+1}{2}.\\end{align*}$$\n$$\\begin{align*}A&=8\\times\\frac12\\times1\\times h\\\\A&=4\\times\\frac{\\sqrt2+1}{2}\\\\A&=2+2\\sqrt2\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p18-q4-root/label",
+                  "type": "item",
+                  "ref": "p18-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p18-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p18-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p18-q4-diagram",
+                  "type": "item",
+                  "ref": "p18-q4-diagram",
+                  "title": "Diagram",
+                  "width": 59.7
+                },
+                {
+                  "id": "p18-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p18-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q4-a/label",
+                          "type": "item",
+                          "ref": "p18-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p18-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p18-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q4-a/space",
+                          "type": "item",
+                          "ref": "p18-q4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q4-b/label",
+                          "type": "item",
+                          "ref": "p18-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p18-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p18-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q4-b/space",
+                          "type": "item",
+                          "ref": "p18-q4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q4-c/label",
+                          "type": "item",
+                          "ref": "p18-q4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p18-q4-c/prompt",
+                          "type": "item",
+                          "ref": "p18-q4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q4-c/space",
+                          "type": "item",
+                          "ref": "p18-q4-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q4-d/label",
+                          "type": "item",
+                          "ref": "p18-q4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p18-q4-d/prompt",
+                          "type": "item",
+                          "ref": "p18-q4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q4-d/space",
+                          "type": "item",
+                          "ref": "p18-q4-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:33.957Z",
+  "updatedAt": "2026-11-12T13:40:33.958Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p18-q4",
+    "sectionRole": "exercise"
+  }
+}

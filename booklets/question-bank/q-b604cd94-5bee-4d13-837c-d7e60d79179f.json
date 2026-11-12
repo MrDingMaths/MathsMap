@@ -1,0 +1,95 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b604cd94-5bee-4d13-837c-d7e60d79179f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "set-notation-fundamentals",
+    "secondarySkillIds": [
+      "relations-and-functions"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a correspondence between subsets and binary-valued functions and prove it is bijective.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:49:23.318Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c2c9e83d12bd597bcfdb31214e49d56754535ddbbc4a9aabcf56ca07aa5a86cd",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part7-20261009/semantic-packets/assignments/assignment-6a79f3fa29ff58014339/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Let $X$ be a set. Prove that $\\mathcal P(X)$ has the same cardinality as the set of all functions $g:X\\to\\{0,1\\}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The bijection sends each subset $S\\subseteq X$ to its characteristic function $g_S$, where $g_S(x)=1$ for $x\\in S$ and $g_S(x)=0$ otherwise.\n\nIts inverse sends $g$ to $\\{x\\in X:g(x)=1\\}$. Hence the two sets have the same cardinality.",
+      "worked": "Let $G=\\{g:X\\to\\{0,1\\}\\}$. Define $F:\\mathcal P(X)\\to G$ by $F(S)=g_S$, where\n$$g_S(x)=\\begin{cases}0,&x\\notin S,\\\\1,&x\\in S.\\end{cases}$$\nIf $F(S)=F(T)$, then $g_S(x)=g_T(x)$ for every $x\\in X$. Thus $x\\in S$ exactly when $x\\in T$, so $S=T$. Hence $F$ is injective.\n\nFor any $g\\in G$, let $S=\\{x\\in X:g(x)=1\\}$. If $x\\in S$, then $g_S(x)=1=g(x)$; otherwise $g_S(x)=0=g(x)$. Therefore $F(S)=g$, so $F$ is surjective.\n\nThus $F$ is a bijection and $|\\mathcal P(X)|=|G|$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p38-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q12-root/label",
+                  "type": "item",
+                  "ref": "p38-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p38-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q12-root/space",
+                  "type": "item",
+                  "ref": "p38-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:36.365Z",
+  "updatedAt": "2026-11-12T13:12:36.365Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p38-q12",
+    "sectionRole": "exercise"
+  }
+}

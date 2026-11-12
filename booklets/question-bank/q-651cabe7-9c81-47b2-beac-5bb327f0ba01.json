@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-651cabe7-9c81-47b2-beac-5bb327f0ba01",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians",
+      "exact-trig-ratios"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Use the tangent-radius right angle to determine an exact central angle, then calculate the arc length.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:27:34.494Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d791ebd9985dc46c9307fc49ebfbca330eac955dfbb1ee8fc71e51b88502462b",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-3b804a959da2b3436c9e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "A circle of radius $\\sqrt{3}$ and centre $O$ is drawn below. The line segment $AC$ is tangent to the circle, and $B$ is the point of intersection of $OC$ with the circle. Find the length of arc $AB$ shown in the figure in red.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q7-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"arcRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the requested minor arc AB\"}],\"reference\":\"source PDF page 38, question 7\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{arcRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0,{sqrt(3)});\n\\coordinate (C) at (1,{sqrt(3)});\n\\coordinate (B) at ({sqrt(3)/2},1.5);\n\\draw[black,line width=0.8pt] (O) circle[radius={sqrt(3)}];\n\\draw[black,line width=0.8pt] (O)--(A)--(C)--cycle;\n\\draw[arcRed,line width=0.8pt] (A) arc[start angle=90,end angle=60,radius={sqrt(3)}];\n\\draw[black,line width=0.4pt] (0,{sqrt(3)-0.16})--(0.16,{sqrt(3)-0.16})--(0.16,{sqrt(3)});\n\\path (O)--(A) node[midway,left] {$\\sqrt{3}$};\n\\path (A)--(C) node[midway,above] {$1$};\n\\node[above left] at (A) {$A$};\n\\node[above right] at (C) {$C$};\n\\node[below right] at (B) {$B$};\n\\node[below] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 36.4,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 7, upper-right column",
+          "description": "Circle with vertical radius OA, horizontal tangent AC, and segment OC intersecting the circle at B. The requested minor arc AB is red. No fill is needed.",
+          "mathematics": "OA = sqrt(3), AC = 1, OA perpendicular to AC, and O, B, C are collinear. Coordinates derive from these givens; no additional measurements are printed.",
+          "answerVisibility": "Only source givens and the highlighted requested arc are visible; the central angle and arc length are omitted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{\\pi\\sqrt{3}}{6}$.\n\nUse the tangent-radius right angle to find the central angle, then apply $L=r\\theta$.",
+      "worked": "Let $\\theta=\\angle AOB$. Since a tangent is perpendicular to the radius at the point of contact, $\\angle OAC=90^\\circ$.\n\n$$\\begin{align*}\n\\tan\\theta&=\\frac{AC}{OA}\\\\\n\\tan\\theta&=\\frac{1}{\\sqrt{3}}\\\\\n\\theta&=\\frac{\\pi}{6}\n\\end{align*}$$\n\n$$\\begin{align*}\nL&=r\\theta\\\\\nL&=\\sqrt{3}\\times\\frac{\\pi}{6}\\\\\nL&=\\frac{\\pi\\sqrt{3}}{6}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 43
+  },
+  "presentation": {
+    "ownerId": "p38-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q7-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q7-root/label",
+                  "type": "item",
+                  "ref": "p38-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p38-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q7-figure",
+                  "type": "item",
+                  "ref": "p38-q7-figure",
+                  "title": "Diagram",
+                  "width": 36.4
+                },
+                {
+                  "id": "layout:p38-q7-root/space",
+                  "type": "item",
+                  "ref": "p38-q7-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:51.848Z",
+  "updatedAt": "2026-11-12T13:40:51.848Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p38-q7-block",
+    "sectionRole": "exercise"
+  }
+}

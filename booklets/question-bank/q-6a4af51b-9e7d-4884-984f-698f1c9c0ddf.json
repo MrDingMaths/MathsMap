@@ -1,0 +1,294 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6a4af51b-9e7d-4884-984f-698f1c9c0ddf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "trig-practical-problems"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines tangent geometry, cosine and arc length, including reversing the calculation to find a lighthouse height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:29:04.236Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c0bcdf64484d3d6d337ad11c7687912857fd4588e3ec22e1239fd4d656ba1fad",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-efc76a156b54dcad51c7/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "**Distance to the horizon.** A lighthouse has a height of $d$ metres above sea level. The radius of the Earth is $r=6371$ kilometres. We are interested in measuring the length $l$ of the arc from the base of the lighthouse to a point on the horizon. In the formulas below, express $r$ and $d$ in the same units and measure $\\theta$ in degrees.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"horizonRed\",\"hex\":\"EF6068\",\"reason\":\"surface arc whose length is sought\"}],\"reference\":\"source PDF page 39, p39-q10-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{horizonRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (0,2);\n\\coordinate (H) at (0,2.610815);\n\\coordinate (T) at (1.285575,1.532089);\n\\draw[black,line width=0.8pt] (O) circle[radius=2];\n\\draw[black,line width=0.8pt] (O)--(H)--(T)--cycle;\n\\draw[horizonRed,line width=0.8pt] (B) arc[start angle=90,end angle=50,radius=2];\n\\draw[black,line width=0.4pt] ($(T)!0.16cm!(O)$)--($(T)!0.16cm!(O)+(T)!0.16cm!(H)-(T)$)--($(T)!0.16cm!(H)$);\n\\draw[black,line width=0.4pt] (0,0.6) arc[start angle=90,end angle=50,radius=0.6];\n\\path (O)--(B) node[midway,left,font=\\fontsize{10}{12}\\selectfont] {$r$};\n\\path (B)--(H) node[midway,left,font=\\fontsize{10}{12}\\selectfont] {$d$};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (70:0.85) {$\\theta$};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (70:1.68) {$l$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 35.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 10, left column",
+          "description": "Earth cross-section with vertical lighthouse height segment, tangent to an upper-right horizon point, two radii, a derived right-angle marker and highlighted surface arc. The decorative lighthouse is replaced by its height segment.",
+          "mathematics": "The horizon radius is perpendicular to the sightline. The vertical centre-to-top distance is r+d; the central angle is theta and the intervening surface arc has length l. Diagram is schematic.",
+          "answerVisibility": "Only source givens and geometric relationships are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\cos\\theta=\\dfrac{r}{r+d}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\cos\\theta=\\dfrac{\\text{adjacent}}{\\text{hypotenuse}}=\\dfrac{r}{r+d}$.",
+          "worked": "The tangent is perpendicular to the radius at the horizon, so the triangle is right-angled. With $r$ and $d$ expressed in the same units,\n$$\\begin{align*}\\cos\\theta&=\\frac{\\text{adjacent}}{\\text{hypotenuse}}\\\\\\cos\\theta&=\\frac{r}{r+d}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p39-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why $l=\\dfrac{\\theta}{360}\\times2\\pi r$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The arc is $\\dfrac{\\theta}{360}$ of the circumference $2\\pi r$, where $\\theta$ is measured in degrees.",
+          "worked": "An angle of $\\theta$ degrees describes $\\dfrac{\\theta}{360}$ of a full revolution. The arc is the same fraction of the circumference:\n$$l=\\frac{\\theta}{360}\\times2\\pi r.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p39-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Given the lighthouse is $d=20$ metres tall, find the length $l$ of the arc to the nearest kilometre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$16\\text{ km}$.\n\nConvert the height to kilometres, find $\\theta$ using cosine, then calculate the arc length.",
+          "worked": "Use $d=0.020\\text{ km}$ and evaluate the inverse cosine in degrees. Keep the angle unrounded in the arc calculation.\n$$\\begin{align*}\\cos\\theta&=\\frac{6371}{6371+0.020}\\\\\\theta&=\\cos^{-1}\\!\\left(\\frac{6371}{6371.020}\\right)\\\\l&=\\frac{\\cos^{-1}(6371/6371.020)}{360}\\times2\\pi\\times6371\\\\l&\\approx15.96368796\\text{ km}\\\\l&\\approx16\\text{ km}\\quad\\text{(nearest kilometre).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p39-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Given the arc length to the horizon is $l=20\\text{ km}$, find the height $d$ of the lighthouse to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$31\\text{ m}$.\n\nFind the central angle from the arc length, then rearrange the cosine relation.",
+          "worked": "Use kilometres throughout the calculation and evaluate cosine in degrees.\n$$\\begin{align*}\\theta&=\\frac{20\\times360}{2\\pi\\times6371}\\\\6371+d&=\\frac{6371}{\\cos\\theta}\\\\d&=\\frac{6371}{\\cos\\theta}-6371\\\\d&\\approx0.03139237502\\text{ km}\\\\d&\\approx31.39237502\\text{ m}\\\\d&\\approx31\\text{ m}\\quad\\text{(nearest metre).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q10-root/label",
+                  "type": "item",
+                  "ref": "p39-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p39-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p39-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q10-diagram",
+                  "type": "item",
+                  "ref": "p39-q10-diagram",
+                  "title": "Diagram",
+                  "width": 35.7
+                },
+                {
+                  "id": "p39-q10-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p39-q10-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q10-a/label",
+                          "type": "item",
+                          "ref": "p39-q10-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p39-q10-a/prompt",
+                          "type": "item",
+                          "ref": "p39-q10-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q10-a/space",
+                          "type": "item",
+                          "ref": "p39-q10-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q10-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q10-b/label",
+                          "type": "item",
+                          "ref": "p39-q10-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p39-q10-b/prompt",
+                          "type": "item",
+                          "ref": "p39-q10-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q10-b/space",
+                          "type": "item",
+                          "ref": "p39-q10-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q10-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q10-c/label",
+                          "type": "item",
+                          "ref": "p39-q10-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p39-q10-c/prompt",
+                          "type": "item",
+                          "ref": "p39-q10-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q10-c/space",
+                          "type": "item",
+                          "ref": "p39-q10-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q10-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q10-d/label",
+                          "type": "item",
+                          "ref": "p39-q10-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p39-q10-d/prompt",
+                          "type": "item",
+                          "ref": "p39-q10-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q10-d/space",
+                          "type": "item",
+                          "ref": "p39-q10-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:53.080Z",
+  "updatedAt": "2026-11-12T13:40:53.080Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p39-q10",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f7af24f5-2e8d-4445-b259-249015c43d78",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "verify-inverse-composition",
+    "secondarySkillIds": [
+      "one-to-one-functions",
+      "increasing-decreasing-functions",
+      "interpret-piecewise"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine order with self-composition in a contradiction proof and construct a nonmonotonic involution by swapping selected inputs while fixing others.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bf048c4623a7350f1f313ec8af0d8861114e8ed1ca159681a937a24be73f31ae",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Consider functions $f:\\mathbb R\\to\\mathbb R$ that satisfy $f(f(x))=x$ for all $x\\in\\mathbb R$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q11a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that if $f$ satisfies the above condition, then the function must be injective.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If $f(x)=f(y)$, applying $f$ gives $x=y$. Hence $f$ is injective.",
+          "worked": "Suppose $f(x)=f(y)$. Applying $f$ to both sides gives\n$$\\begin{align*}f(f(x))&=f(f(y))\\\\x&=y.\\end{align*}$$\nTherefore $f$ is injective.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p33-q11b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose $f$ satisfies the above condition and is strictly increasing. Prove that $f(x)=x$ for all $x\\in\\mathbb R$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(x)=x$ for all $x\\in\\mathbb R$.\n\nEither strict inequality between $f(x)$ and $x$ is reversed by the self-inverse condition, contradicting strict increase.",
+          "worked": "Fix $x\\in\\mathbb R$. If $f(x)>x$, strict increase gives $f(f(x))>f(x)$, so $x>f(x)$, a contradiction.\n\nIf $f(x)<x$, strict increase gives $f(f(x))<f(x)$, so $x<f(x)$, again a contradiction.\n\nThus $f(x)=x$ for every $x\\in\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49
+      },
+      {
+        "id": "p33-q11c",
+        "type": "part",
+        "label": "c",
+        "prompt": "There are many functions that satisfy the above condition and that are strictly decreasing. For example, show that this is true for all functions of the form $f(x)=k-x$, for any fixed $k\\in\\mathbb R$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(f(x))=k-(k-x)=x$. If $a<b$, then $k-a>k-b$, so $f$ is strictly decreasing.",
+          "worked": "For every $x\\in\\mathbb R$,\n$$\\begin{align*}f(f(x))&=k-(k-x)\\\\f(f(x))&=x.\\end{align*}$$\nIf $a<b$, then $k-a>k-b$, so $f(a)>f(b)$. Therefore $f$ is strictly decreasing and satisfies the required condition for every fixed $k\\in\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p33-q11d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Give an example of a function that satisfies the above condition, but which is neither strictly increasing, nor strictly decreasing.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(x)=\\begin{cases}x,&x\\in\\mathbb Q,\\\\-x,&x\\in\\mathbb R\\setminus\\mathbb Q.\\end{cases}$\n\nRational inputs are fixed; irrational inputs are negated twice. The function is neither strictly increasing nor strictly decreasing.",
+          "worked": "Take\n$$f(x)=\\begin{cases}x,&x\\in\\mathbb Q,\\\\-x,&x\\in\\mathbb R\\setminus\\mathbb Q.\\end{cases}$$\nFor rational $x$, $f(f(x))=f(x)=x$. For irrational $x$, $-x$ is irrational, and\n$$\\begin{align*}f(f(x))&=f(-x)\\\\f(f(x))&=-(-x)\\\\f(f(x))&=x.\\end{align*}$$\nSince $1<\\sqrt2$ but $f(1)=1>f(\\sqrt2)=-\\sqrt2$, the function is not strictly increasing. Since $0<1$ but $f(0)=0<f(1)=1$, it is not strictly decreasing.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q11-root/label",
+                  "type": "item",
+                  "ref": "p33-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p33-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q11a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11a/label",
+                          "type": "item",
+                          "ref": "p33-q11a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q11a/prompt",
+                          "type": "item",
+                          "ref": "p33-q11a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11a/space",
+                          "type": "item",
+                          "ref": "p33-q11a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11b/label",
+                          "type": "item",
+                          "ref": "p33-q11b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q11b/prompt",
+                          "type": "item",
+                          "ref": "p33-q11b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11b/space",
+                          "type": "item",
+                          "ref": "p33-q11b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11c/label",
+                          "type": "item",
+                          "ref": "p33-q11c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q11c/prompt",
+                          "type": "item",
+                          "ref": "p33-q11c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11c/space",
+                          "type": "item",
+                          "ref": "p33-q11c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11d/label",
+                          "type": "item",
+                          "ref": "p33-q11d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p33-q11d/prompt",
+                          "type": "item",
+                          "ref": "p33-q11d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11d/space",
+                          "type": "item",
+                          "ref": "p33-q11d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:27.698Z",
+  "updatedAt": "2026-11-12T13:12:27.699Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p33-q11",
+    "sectionRole": "exercise"
+  }
+}

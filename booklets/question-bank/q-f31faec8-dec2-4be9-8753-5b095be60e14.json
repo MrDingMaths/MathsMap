@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f31faec8-dec2-4be9-8753-5b095be60e14",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "sine-rule",
+      "elevation-depression"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Find the supplementary and remaining triangle angles, use the sine rule for a sight line, then resolve its vertical component, following the taught example.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "408c9a34f616935f168206d2da6fcea0ebe5a8807faca911e3113283e55f886d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "To find the height of a mountaintop, a surveyor takes measurements from two accessible points $A$ and $B$ as shown below. Find the height $h$ of the mountain, correct to the nearest metre.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 27, p27-q10-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (C) at (7,0);\n\\coordinate (D) at (7,{7*tan(31)});\n\\coordinate (B) at ({7-7*tan(31)/tan(47)},0);\n\\draw[black] (A)--(C)--(D)--cycle;\n\\draw[black] (B)--(D);\n\\draw[black,line width=0.4pt] ($(C)!0.22cm!(A)$)--($($(C)!0.22cm!(A)$)+(0,0.22)$)--($(C)+(0,0.22)$);\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.45,\"$31^\\circ$\"] {angle=C--A--D};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.45,\"$47^\\circ$\"] {angle=C--B--D};\n\\path (A)--(B) node[midway,below=3mm] {$321\\,\\mathrm{m}$};\n\\path (C)--(D) node[midway,right=2mm] {$h$};\n\\node[below left=1mm] at (A) {$A$};\n\\node[below=2mm] at (B) {$B$};\n\\node[below right=1mm] at (C) {$C$};\n\\node[above=2mm] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Right column, question 10",
+          "description": "Horizontal baseline A–B–C, vertical CD, sight lines AD and BD, and a right-angle mark at C. Decorative mountain silhouette and shading omitted.",
+          "mathematics": "AB = 321 m; angle DAC = 31 degrees; angle DBC = 47 degrees; CD = h. Coordinates derive the two sight-line angles exactly.",
+          "answerVisibility": "Only source givens and the unknown h are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$439\\text{ m}$.\n\nUse the sine rule in $\\triangle ABD$, then $h=BD\\sin47^\\circ$.",
+      "worked": "$$\\begin{align*}\n\\angle ABD &= 180^\\circ-47^\\circ=133^\\circ\\\\\n\\angle ADB &= 180^\\circ-31^\\circ-133^\\circ=16^\\circ\n\\end{align*}$$\nBy the sine rule in $\\triangle ABD$,\n$$\\begin{align*}\n\\frac{BD}{\\sin31^\\circ} &= \\frac{321}{\\sin16^\\circ}\\\\\nBD &= \\frac{321\\sin31^\\circ}{\\sin16^\\circ}.\n\\end{align*}$$\nIn right-angled $\\triangle BCD$,\n$$\\begin{align*}\nh &= BD\\sin47^\\circ\\\\\nh &= \\frac{321\\sin31^\\circ\\sin47^\\circ}{\\sin16^\\circ}\\\\\nh &\\approx 438.6658\\text{ m}.\n\\end{align*}$$\nThe height of the mountain is $439\\text{ m}$, to the nearest metre.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 65
+  },
+  "presentation": {
+    "ownerId": "p27-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:40.296Z",
+  "updatedAt": "2026-11-12T13:40:40.296Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p27-q10",
+    "sectionRole": "exercise"
+  }
+}

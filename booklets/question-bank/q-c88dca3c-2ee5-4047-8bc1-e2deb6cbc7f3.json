@@ -1,0 +1,60 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c88dca3c-2ee5-4047-8bc1-e2deb6cbc7f3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 92,
+    "difficulty": "Challenge",
+    "difficultyReason": "Recognise independent repeated-squaring chains, identify their nonsquare starting points, and prove that arbitrary starting values classify all solutions uniquely.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "448324a42340812d1e3459bf89101545345a2e209e50cbc0cad9663f6bebf2d0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Consider the function $g:\\mathbb{N}\\to\\mathbb{N}$, $g(x)=x^2$. Determine all possible functions $f:\\mathbb{N}\\to\\mathbb{N}$ such that $g(f(x))=f(g(x))$ for all $x\\in\\mathbb{N}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$f(1)=1$. Choose any positive integer $a_m$ independently for each positive integer $m>1$ that is not a perfect square. Then all solutions are given by $$f\\left(m^{2^k}\\right)=a_m^{2^k},\\qquad k=0,1,2,\\ldots.$$\n\nEvery integer greater than $1$ has a unique such representation; repeated squaring determines its image.",
+      "worked": "The required equality is $$f(x^2)=f(x)^2.$$\nAt $x=1$, $f(1)=f(1)^2$. Since $f(1)$ is a positive integer, $f(1)=1$.\n\nFor each positive integer $m>1$ that is not a perfect square, choose $f(m)=a_m$ arbitrarily in $\\mathbb{N}$. Repeated application of the equality gives\n$$\\begin{align*}f(m^2)&=a_m^2\\\\f(m^4)&=a_m^4\\\\f\\left(m^{2^k}\\right)&=a_m^{2^k}.\\end{align*}$$\nEvery positive integer greater than $1$ can be written uniquely as $m^{2^k}$ with $m>1$ not a perfect square: repeatedly take its square root while it remains a perfect square. Thus these choices determine $f$ everywhere.\n\nConversely, for $x=m^{2^k}$, the constructed function satisfies\n$$\\begin{align*}f(x^2)&=f\\left(m^{2^{k+1}}\\right)\\\\f(x^2)&=a_m^{2^{k+1}}\\\\f(x^2)&=\\left(a_m^{2^k}\\right)^2\\\\f(x^2)&=f(x)^2.\\end{align*}$$\nThe equality also holds at $x=1$. Therefore these, and only these, are the required functions.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p22-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:06.877Z",
+  "updatedAt": "2026-11-12T13:12:06.877Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p22-q12",
+    "sectionRole": "exercise"
+  }
+}

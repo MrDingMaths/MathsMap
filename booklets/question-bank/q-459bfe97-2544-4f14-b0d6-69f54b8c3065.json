@@ -1,0 +1,373 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-459bfe97-2544-4f14-b0d6-69f54b8c3065",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-find-angle",
+    "secondarySkillIds": [
+      "trig-find-side"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Identify a shared side, choose a direct trigonometric ratio, then use an inverse ratio in the second triangle; part (c) also requires combining vertical segments.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:41.541Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ada9835d1844d77896995978e263b93526b2b13ea411a371931d423a63af7271",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/2325c858e5bb376be0ba2df401447129075a886969f37fe31430ca4f0a53063d-1792558563152/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Find $\\theta$ in each of the following figures. Give your answers to 2 decimal places.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q2-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14, p14-q2-a-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\diag}{4*cos(37)}\n\\pgfmathsetmacro{\\height}{sqrt(\\diag*\\diag-9)}\n\\pgfmathsetmacro{\\thetaA}{acos(3/\\diag)}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,\\height);\n\\coordinate (D) at ({4*cos(\\thetaA+37)},{4*sin(\\thetaA+37)});\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle (A)--(C);\n\\coordinate (Bm1) at ($(B)!0.3cm!(A)$);\n\\coordinate (Bm2) at ($(B)!0.3cm!(C)$);\n\\draw[black,line width=0.4pt] (Bm1)--($(Bm1)+(Bm2)-(B)$)--(Bm2);\n\\pic[draw=black,line width=0.4pt,angle radius=0.3cm] {right angle=A--C--D};\n\\pic[draw=black,line width=0.4pt,angle radius=0.7cm] {angle=B--A--C};\n\\pic[draw=black,line width=0.4pt,angle radius=0.95cm] {angle=C--A--D};\n\\node at ({0.95*cos(\\thetaA/2)},{0.95*sin(\\thetaA/2)}) {$\\theta$};\n\\node at ({1.25*cos(\\thetaA+18.5)},{1.25*sin(\\thetaA+18.5)}) {$37^\\circ$};\n\\path (A)--(B) node[midway,below] {$3$};\n\\path (A)--(D) node[midway,left] {$4$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 2(a), upper-left figure",
+              "description": "Two right triangles share the rising diagonal. The outer left side is 4; the lower horizontal base is 3. The upper angle at the shared bottom-left vertex is 37 degrees, and the lower angle is theta. Both source right-angle marks are retained.",
+              "mathematics": "The shared diagonal has length 4 cos(37 degrees); the lower triangle has cos(theta)=3/[4 cos(37 degrees)].",
+              "answerVisibility": "Only source givens and the unknown theta appear; no calculated side or angle is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\theta\\approx20.10^\\circ$.\n\nFind the shared hypotenuse first.",
+          "worked": "Let $x$ be the shared diagonal.\n$$\\begin{align*}x&=4\\cos37^\\circ\\\\\\cos\\theta&=\\frac{3}{x}\\\\\\theta&=\\cos^{-1}\\left(\\frac{3}{4\\cos37^\\circ}\\right)\\\\\\theta&\\approx20.10^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p14-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q2-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14, p14-q2-b-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\baseB}{9*cos(28)}\n\\pgfmathsetmacro{\\heightB}{sqrt(144-\\baseB*\\baseB)}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (\\baseB,0);\n\\coordinate (C) at (\\baseB,\\heightB);\n\\coordinate (D) at (\\baseB,{9*sin(28)});\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (A)--(D);\n\\coordinate (Bm1) at ($(B)!0.6cm!(A)$);\n\\coordinate (Bm2) at ($(B)!0.6cm!(C)$);\n\\draw[black,line width=0.4pt] (Bm1)--($(Bm1)+(Bm2)-(B)$)--(Bm2);\n\\pic[draw=black,line width=0.4pt,angle radius=1.45cm] {angle=B--A--D};\n\\pic[draw=black,line width=0.4pt,angle radius=1.2cm] {angle=A--C--B};\n\\node at ({1.95*cos(14)},{1.95*sin(14)}) {$28^\\circ$};\n\\node at ($(C)+({-1.65*sin(asin(\\baseB/12)/2)},{-1.65*cos(asin(\\baseB/12)/2)})$) {$\\theta$};\n\\path (A)--(C) node[midway,above left] {$12$};\n\\path (A)--(D) node[pos=0.68,below right] {$9$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 2(b), upper-right figure",
+              "description": "Outer right triangle with horizontal base and vertical right side. Hypotenuse 12, internal rising segment 9, angle 28 degrees at bottom left, and theta between the hypotenuse and vertical side at the top.",
+              "mathematics": "The common base is 9 cos(28 degrees). It is opposite theta in the outer triangle, whose hypotenuse is 12.",
+              "answerVisibility": "Only source givens and theta appear."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\theta\\approx41.47^\\circ$.\n\nFind the common base first.",
+          "worked": "Let $x$ be the horizontal base.\n$$\\begin{align*}x&=9\\cos28^\\circ\\\\\\sin\\theta&=\\frac{x}{12}\\\\\\theta&=\\sin^{-1}\\left(\\frac{9\\cos28^\\circ}{12}\\right)\\\\\\theta&\\approx41.47^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p14-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q2-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14, p14-q2-c-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\lowerC}{3*tan(25)}\n\\pgfmathsetmacro{\\totalC}{3+\\lowerC}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,\\totalC);\n\\coordinate (D) at (0,\\lowerC);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (D)--(B);\n\\coordinate (Am1) at ($(A)!0.3cm!(B)$);\n\\coordinate (Am2) at ($(A)!0.3cm!(C)$);\n\\draw[black,line width=0.4pt] (Am1)--($(Am1)+(Am2)-(A)$)--(Am2);\n\\pic[draw=black,line width=0.4pt,angle radius=0.8cm] {angle=D--B--A};\n\\pic[draw=black,line width=0.4pt,angle radius=0.75cm] {angle=A--C--B};\n\\node at ($(B)+({-1.12*cos(12.5)},{1.12*sin(12.5)})$) {$25^\\circ$};\n\\node at ($(C)+({1.02*sin(atan(3/\\totalC)/2)},{-1.02*cos(atan(3/\\totalC)/2)})$) {$\\theta$};\n\\path (A)--(B) node[midway,below] {$3$};\n\\path (D)--(C) node[midway,left] {$3$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 2(c), lower-left figure",
+              "description": "Outer right triangle with vertical left side and horizontal base 3. An internal segment meets the base at 25 degrees at bottom right. The upper portion of the left side, above that segment, is 3; theta is at the top-left vertex.",
+              "mathematics": "The lower vertical portion is 3 tan(25 degrees); the full vertical side is 3+3 tan(25 degrees). Thus tan(theta)=3/[3+3 tan(25 degrees)].",
+              "answerVisibility": "The two printed 3 labels refer to the base and upper vertical segment; no calculated total height appears."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\theta\\approx34.29^\\circ$.\n\nAdd the lower vertical height to 3 before finding the angle.",
+          "worked": "Let $x$ be the lower portion of the vertical side.\n$$\\begin{align*}x&=3\\tan25^\\circ\\\\\\tan\\theta&=\\frac{3}{3+x}\\\\\\theta&=\\tan^{-1}\\left(\\frac{3}{3+3\\tan25^\\circ}\\right)\\\\\\theta&\\approx34.29^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p14-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q2-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14, p14-q2-d-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\baseD}{6*tan(40)}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (\\baseD,0);\n\\coordinate (C) at (0,4);\n\\coordinate (D) at (\\baseD,6);\n\\draw[black,line width=0.8pt] (C)--(A)--(B)--(D) (C)--(B) (A)--(D);\n\\coordinate (Am1) at ($(A)!0.45cm!(B)$);\n\\coordinate (Am2) at ($(A)!0.45cm!(C)$);\n\\coordinate (Bm1) at ($(B)!0.45cm!(A)$);\n\\coordinate (Bm2) at ($(B)!0.45cm!(D)$);\n\\draw[black,line width=0.4pt] (Am1)--($(Am1)+(Am2)-(A)$)--(Am2);\n\\draw[black,line width=0.4pt] (Bm1)--($(Bm1)+(Bm2)-(B)$)--(Bm2);\n\\pic[draw=black,line width=0.4pt,angle radius=0.8cm] {angle=A--C--B};\n\\pic[draw=black,line width=0.4pt,angle radius=0.9cm] {angle=A--D--B};\n\\node at ($(C)+({1.12*sin(atan(\\baseD/4)/2)},{-1.12*cos(atan(\\baseD/4)/2)})$) {$\\theta$};\n\\node at ($(D)+({-1.25*sin(20)},{-1.25*cos(20)})$) {$40^\\circ$};\n\\path (A)--(C) node[midway,left] {$4$};\n\\path (B)--(D) node[midway,right] {$6$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 2(d), lower-right figure",
+              "description": "Two right triangles share a horizontal base. Vertical sides 4 and 6 stand at its left and right ends. Both diagonals and both bottom right-angle marks are retained. Theta is at the upper-left vertex and 40 degrees at the upper-right vertex.",
+              "mathematics": "The common base is 6 tan(40 degrees). In the left triangle, tan(theta) equals that base divided by 4.",
+              "answerVisibility": "Only original givens and theta appear."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\theta\\approx51.53^\\circ$.\n\nFind the common base using the right-hand triangle.",
+          "worked": "Let $x$ be the common base.\n$$\\begin{align*}x&=6\\tan40^\\circ\\\\\\tan\\theta&=\\frac{x}{4}\\\\\\theta&=\\tan^{-1}\\left(\\frac{6\\tan40^\\circ}{4}\\right)\\\\\\theta&\\approx51.53^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q2-root/label",
+                  "type": "item",
+                  "ref": "p14-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p14-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p14-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p14-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p14-q2-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p14-q2-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p14-q2-a/label",
+                              "type": "item",
+                              "ref": "p14-q2-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p14-q2-a-diagram",
+                              "type": "item",
+                              "ref": "p14-q2-a-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p14-q2-a/space",
+                              "type": "item",
+                              "ref": "p14-q2-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p14-q2-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p14-q2-b/label",
+                              "type": "item",
+                              "ref": "p14-q2-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p14-q2-b-diagram",
+                              "type": "item",
+                              "ref": "p14-q2-b-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p14-q2-b/space",
+                              "type": "item",
+                              "ref": "p14-q2-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p14-q2-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p14-q2-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p14-q2-c/label",
+                              "type": "item",
+                              "ref": "p14-q2-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p14-q2-c-diagram",
+                              "type": "item",
+                              "ref": "p14-q2-c-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p14-q2-c/space",
+                              "type": "item",
+                              "ref": "p14-q2-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p14-q2-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p14-q2-d/label",
+                              "type": "item",
+                              "ref": "p14-q2-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p14-q2-d-diagram",
+                              "type": "item",
+                              "ref": "p14-q2-d-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p14-q2-d/space",
+                              "type": "item",
+                              "ref": "p14-q2-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 2",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:30.184Z",
+  "updatedAt": "2026-11-12T13:40:30.184Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p14-q2",
+    "sectionRole": "exercise"
+  }
+}

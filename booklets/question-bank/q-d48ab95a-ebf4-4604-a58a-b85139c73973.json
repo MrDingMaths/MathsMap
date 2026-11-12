@@ -1,0 +1,245 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d48ab95a-ebf4-4604-a58a-b85139c73973",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "one-to-one-functions",
+    "secondarySkillIds": [
+      "domain-and-range",
+      "hyperbola-transformations"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires an algebraic proof of injectivity and surjectivity between two intervals, supported by a sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:48:01.004Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "09e765f7a51f97e961df69b3461ace5d03ca72fd8d9ae8d7b7a0a487aab7db31",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part7-20261009/semantic-packets/assignments/assignment-d7421ac8521be6590e59/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "In this question we will prove the surprising fact that $(0,1)$ and $(0,\\infty)$ have the same cardinality. Let $f:(0,1)\\to(0,\\infty)$ be defined by\n$$f(x)=\\frac{x}{1-x}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $f$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An increasing curve on $0<x<1$, with an open endpoint at $(0,0)$ and vertical asymptote $x=1$.",
+          "worked": "For $0<x<1$, $f(x)>0$. The curve approaches $(0,0)$ as $x$ approaches $0$ from the right, but excludes this point. As $x$ approaches $1$ from the left, $f(x)$ increases without bound. It passes through $\\left(\\frac12,1\\right)$ and has vertical asymptote $x=1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q6-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"teacher PDF page 43, Section I question 6(a)\"}\n\\begin{tikzpicture}[x=3cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.35,-0.65) rectangle (1.65,5.8);\n\\draw[->,line width=0.5pt] (-0.3,0)--(1.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.6)--(0,5.5) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (1,-0.55)--(1,5.4);\n\\draw[line width=0.8pt,domain=0:0.84,samples=100] plot (\\x,{\\x/(1-\\x)});\n\\draw[fill=white,line width=0.8pt] (0,0) circle[radius=1.1mm];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 6(a); teacher PDF page 43, lower-right graph",
+                "description": "Restricted rational-function graph with an open origin, increasing positive branch and dashed vertical asymptote. The source has no numeric ticks or grid.",
+                "mathematics": "y=x/(1-x), 0<x<1; vertical asymptote x=1; excluded endpoint (0,0).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p38-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that $f$ is injective.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f$ is injective.\n\nEquating two outputs and cross-multiplying gives equal inputs.",
+          "worked": "Let $u,v\\in(0,1)$ and suppose $f(u)=f(v)$. The denominators are non-zero, so\n$$\\begin{align*}\n\\frac{u}{1-u}&=\\frac{v}{1-v}\\\\\nu(1-v)&=v(1-u)\\\\\nu-uv&=v-uv\\\\\nu&=v.\n\\end{align*}$$\nThus $f$ is injective.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p38-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $f$ is surjective.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f$ is surjective: every $y>0$ has the preimage $x=\\frac{y}{1+y}\\in(0,1)$.",
+          "worked": "Let $y\\in(0,\\infty)$. Solve $f(x)=y$:\n$$\\begin{align*}\nf(x)&=y\\\\\n\\frac{x}{1-x}&=y\\\\\nx&=y(1-x)\\\\\nx&=y-xy\\\\\nx+xy&=y\\\\\nx(1+y)&=y\\\\\nx&=\\frac{y}{1+y}.\n\\end{align*}$$\nSince $y>0$, we have $0<\\frac{y}{1+y}<1$. For this input,\n$$\\begin{align*}\nf\\left(\\frac{y}{1+y}\\right)&=\\frac{\\frac{y}{1+y}}{1-\\frac{y}{1+y}}\\\\\nf\\left(\\frac{y}{1+y}\\right)&=y.\n\\end{align*}$$\nEvery element of the codomain therefore has a preimage in the domain, so $f$ is surjective.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q6-root/label",
+                  "type": "item",
+                  "ref": "p38-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p38-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p38-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p38-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q6-a/label",
+                          "type": "item",
+                          "ref": "p38-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p38-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p38-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q6-a/space",
+                          "type": "item",
+                          "ref": "p38-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p38-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q6-b/label",
+                          "type": "item",
+                          "ref": "p38-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p38-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p38-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q6-b/space",
+                          "type": "item",
+                          "ref": "p38-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p38-q6-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q6-c/label",
+                          "type": "item",
+                          "ref": "p38-q6-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p38-q6-c/prompt",
+                          "type": "item",
+                          "ref": "p38-q6-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q6-c/space",
+                          "type": "item",
+                          "ref": "p38-q6-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:33.058Z",
+  "updatedAt": "2026-11-12T13:12:33.058Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p38-q6",
+    "sectionRole": "exercise"
+  }
+}

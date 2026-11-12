@@ -1,0 +1,374 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5cb8e46b-14cd-4458-a1c0-a6eb8fd5ce6a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "set-notation-fundamentals",
+    "secondarySkillIds": [],
+    "reasoningScore": 84,
+    "difficulty": "Challenge",
+    "difficultyReason": "Beyond the scaffolded subset counts, the student must discover and prove that minimality means the least element equals the set's size, then transform the resulting binomial sum into a Fibonacci recurrence with valid boundaries.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:45.780Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "59f4376c667627d27b3b3ce545a921d75d4558d0345aeabfdae79c726c4a3a16",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/d36a00c5b654bbfae034ecfcc7b05fd4635fbe1d248520d75b97be99b7cb2ac8-1792558645493/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p39-q18-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A set is said to be ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "selfish",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " if it contains its own cardinality as an element.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p39-q18-example-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For example, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\{1,2,3\\}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is selfish since it has 3 elements, and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "3\\in\\{1,2,3\\}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p39-q18-minimal-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A selfish set is said to be ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "minimal",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " if it has no proper subset that is selfish.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p39-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the number of selfish subsets of $\\{1,2,\\ldots,n\\}$ of cardinality $k$ is $\\binom{n-1}{k-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n-1}{k-1}$.\n\nInclude $k$, then choose the other $k-1$ elements from the remaining $n-1$ elements.",
+          "worked": "A subset of cardinality $k$ is selfish exactly when it contains $k$. After including $k$, choose its remaining $k-1$ elements from the other $n-1$ elements. Thus the number is\n$$\\binom{n-1}{k-1}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p39-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that the number of selfish subsets of $\\{1,2,\\ldots,n\\}$ is $2^{n-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^{n-1}$.\n\nSum the counts in part (a) and use the binomial theorem.",
+          "worked": "Let $S(n)$ be the total number of selfish subsets. Summing over their possible cardinalities gives\n$$\\begin{align*}S(n)&=\\sum_{k=1}^{n}\\binom{n-1}{k-1}\\\\S(n)&=\\sum_{j=0}^{n-1}\\binom{n-1}{j}\\\\S(n)&=(1+1)^{n-1}=2^{n-1}.\\end{align*}$$\nThe last equality uses the binomial theorem.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p39-q18-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that the number of minimal selfish subsets of $\\{1,2,\\ldots,n\\}$ of cardinality $k$ is $\\binom{n-k}{k-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n-k}{k-1}$.\n\nA selfish set of cardinality $k$ is minimal exactly when its least element is $k$.",
+          "worked": "Let $A$ be selfish with $|A|=k$, so $k\\in A$. If $A$ contains an element $j<k$, choose $j-1$ other elements of $A$. Together with $j$, they form a selfish proper subset of cardinality $j$. Thus minimality requires $\\min A=k$.\n\nConversely, if $\\min A=k$, every proper subset $B$ has $|B|<k$, while every element of $B$ is at least $k$. Hence $|B|\\notin B$, so $B$ is not selfish. Therefore $A$ is minimal.\n\nInclude $k$ and choose the other $k-1$ elements from $\\{k+1,\\ldots,n\\}$, which has $n-k$ elements. The number is\n$$\\binom{n-k}{k-1},$$\nwith zero choices when $k-1>n-k$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p39-q18-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, prove that the number of minimal selfish subsets of $\\{1,2,\\ldots,n\\}$ is equal to the $n$th Fibonacci number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_n$, where $F_1=F_2=1$.\n\nThe counts have initial values $1,1$ and satisfy the Fibonacci recurrence.",
+          "worked": "Let $M(n)$ be the total number of minimal selfish subsets. Part (c), with $j=k-1$, gives\n$$M(n)=\\sum_{j=0}^{\\lfloor(n-1)/2\\rfloor}\\binom{n-1-j}{j}.$$\nFor $n=1$ and $n=2$, the only minimal selfish subset is $\\{1\\}$, so $M(1)=M(2)=1$.\n\nFor $n\\ge3$, use Pascal's identity. Interpret $\\binom{a}{b}$ as zero when $b<0$ or $b>a$:\n$$\\begin{align*}M(n)&=\\sum_{j=0}^{\\lfloor(n-1)/2\\rfloor}\\left[\\binom{n-2-j}{j}+\\binom{n-2-j}{j-1}\\right]\\\\M(n)&=\\sum_{j=0}^{\\lfloor(n-2)/2\\rfloor}\\binom{n-2-j}{j}+\\sum_{j=1}^{\\lfloor(n-1)/2\\rfloor}\\binom{n-2-j}{j-1}\\\\M(n)&=M(n-1)+\\sum_{r=0}^{\\lfloor(n-3)/2\\rfloor}\\binom{n-3-r}{r}\\\\M(n)&=M(n-1)+M(n-2).\\end{align*}$$\nThese are the Fibonacci initial values and recurrence. Hence $M(n)=F_n$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q18-root/label",
+                  "type": "item",
+                  "ref": "p39-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p39-q18-root/prompt#p39-q18-definition-text",
+                  "type": "item",
+                  "ref": "p39-q18-root/prompt#p39-q18-definition-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q18-root/prompt#p39-q18-example-text",
+                  "type": "item",
+                  "ref": "p39-q18-root/prompt#p39-q18-example-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q18-root/prompt#p39-q18-minimal-definition-text",
+                  "type": "item",
+                  "ref": "p39-q18-root/prompt#p39-q18-minimal-definition-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "p39-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p39-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q18-a/label",
+                          "type": "item",
+                          "ref": "p39-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p39-q18-a/prompt",
+                          "type": "item",
+                          "ref": "p39-q18-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q18-a/space",
+                          "type": "item",
+                          "ref": "p39-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q18-b/label",
+                          "type": "item",
+                          "ref": "p39-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p39-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p39-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q18-b/space",
+                          "type": "item",
+                          "ref": "p39-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q18-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q18-c/label",
+                          "type": "item",
+                          "ref": "p39-q18-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p39-q18-c/prompt",
+                          "type": "item",
+                          "ref": "p39-q18-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q18-c/space",
+                          "type": "item",
+                          "ref": "p39-q18-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q18-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q18-d/label",
+                          "type": "item",
+                          "ref": "p39-q18-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p39-q18-d/prompt",
+                          "type": "item",
+                          "ref": "p39-q18-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q18-d/space",
+                          "type": "item",
+                          "ref": "p39-q18-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:38.544Z",
+  "updatedAt": "2026-11-12T13:12:38.545Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p39-q18",
+    "sectionRole": "exercise"
+  }
+}

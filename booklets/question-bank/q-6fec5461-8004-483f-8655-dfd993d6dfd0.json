@@ -1,0 +1,118 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6fec5461-8004-483f-8655-dfd993d6dfd0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "laws-of-logarithms",
+      "symmetry-of-graphs"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires recognising that the power law does not preserve the full domain here: squaring admits negative inputs, producing an additional branch reflected in the y-axis.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:26.315Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7b063590e1f11db12057119704c9aea572f853a15b583eab199fcf58a54aa252",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part8-20261009/644f6068ce449fea7839abe9ff2c17da072407bbd532921c0a5044a3af8a8f6a-1792558659635/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Explain how the graph of $y=2\\log_2x$ is different to the graph of $y=\\log_2(x^2)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "They agree for $x>0$. The first has domain $(0,\\infty)$; the second has domain $\\mathbb R\\setminus\\{0\\}$ and also contains the reflection of the first graph in the $y$-axis.",
+      "worked": "For $x>0$, $\\log_2(x^2)=2\\log_2x$. However, $x^2>0$ for every $x\\ne0$, whereas $\\log_2x$ requires $x>0$.\nFor $x<0$, $\\log_2(x^2)=2\\log_2(-x)$. Hence the second graph has an additional branch reflected in the $y$-axis. Both have range $\\mathbb R$ and vertical asymptote $x=0$; the second has $x$-intercepts $(-1,0)$ and $(1,0)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p30-q5-sol",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"common positive branch\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"additional negative branch of log_2(x^2)\"}],\"reference\":\"page 30 question 5\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.55cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{seriesBlue}{HTML}{268CFF}\\definecolor{seriesRed}{HTML}{EF6068}\\path[use as bounding box] (-4,-4.5) rectangle (4,10);\\draw[->,line width=0.5pt] (-3.5,0)--(3.5,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4)--(0,4) node[below right,yshift=-8pt] {$y$};\\begin{scope}\\clip (-3.2,-4) rectangle (3.2,3.8);\\draw[seriesBlue,line width=0.8pt,domain=0.25:3.2,samples=100] plot (\\x,{2*ln(\\x)/ln(2)});\\draw[seriesRed,dashed,line width=0.8pt,domain=-3.2:-0.25,samples=100] plot (\\x,{2*ln(-\\x)/ln(2)});\\end{scope}\\fill (-1,0) circle (1.2pt) node[below left] {$(-1,0)$};\\fill (1,0) circle (1.2pt) node[below right] {$(1,0)$};\\node[seriesBlue,anchor=north] at (0,9) {Positive branch: both functions};\\node[seriesRed,anchor=north,yshift=3pt] at (0,6.5) {Negative branch: $\\log_2(x^2)$ only};\\node[below right] at (0,-4) {$x=0$};\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 30,
+            "sourceRegion": "5",
+            "description": "Comparison shows the common positive branch and the extra reflected negative branch of log_2(x^2).",
+            "mathematics": "2log_2x on x>0; log_2(x^2)=2log_2|x| on x≠0.",
+            "answerVisibility": "solution-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 30
+  },
+  "presentation": {
+    "ownerId": "p30-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q5-root/label",
+                  "type": "item",
+                  "ref": "p30-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p30-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p30-q5-root/space",
+                  "type": "item",
+                  "ref": "p30-q5-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:40.784Z",
+  "updatedAt": "2026-11-12T13:12:40.784Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part8-20261009",
+    "blockId": "p30-q5",
+    "sectionRole": "exercise"
+  }
+}

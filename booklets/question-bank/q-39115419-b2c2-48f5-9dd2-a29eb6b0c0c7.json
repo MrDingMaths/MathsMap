@@ -1,0 +1,93 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-39115419-b2c2-48f5-9dd2-a29eb6b0c0c7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "set-notation-fundamentals",
+    "secondarySkillIds": [],
+    "reasoningScore": 86,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires reframing unknown motion as a countable collection of starting-position and jump-size hypotheses, then scheduling each hypothesis at its own future time. The crucial insight is to target its predicted position at that time rather than search fixed locations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:45.780Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4262e42266a2d358b4ee062c108829dc1d31d684e02ba3fbbb408fbce48d229a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/d36a00c5b654bbfae034ecfcc7b05fd4635fbe1d248520d75b97be99b7cb2ac8-1792558645493/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q19-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A rabbit moves along the number line. It begins at an integer $n$, and each minute jumps $d$ units to the right (where $d$ is a positive integer). A hunter wishes to trap the rabbit by having it jump into one of her traps. Each minute she can place a trap at any integer value of her choosing. Determine a strategy that will allow the hunter to eventually trap the rabbit, irrespective of the values of $n$ and $d$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "List all pairs $(n_t,d_t)\\in\\mathbb Z\\times\\mathbb N$. Just before the rabbit's $t$th jump, place a trap at $n_t+td_t$.\n\nThe actual pair occurs in the list, so its assigned trap catches the rabbit.",
+      "worked": "The integers and positive integers are countable. Their Cartesian product is countable, so list every possible pair once as\n$$ (n_1,d_1),(n_2,d_2),(n_3,d_3),\\ldots. $$\nSuch a list can be constructed by listing the integers as $0,-1,1,-2,2,\\ldots$, arranging pairs with positive integers in a grid, and traversing its diagonals.\n\nJust before the $t$th jump, place a trap at the integer $n_t+td_t$.\n\nThe rabbit's actual pair $(n,d)$ occurs at some finite position $T$ in the list. After its $T$th jump, its position is\n$$\\begin{align*} n+Td&=n_T+Td_T. \\end{align*}$$\nThis is exactly the position of the trap placed for that jump. Hence the strategy eventually catches the rabbit for every integer $n$ and positive integer $d$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 55
+  },
+  "presentation": {
+    "ownerId": "p39-q19",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q19-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q19-root/label",
+                  "type": "item",
+                  "ref": "p39-q19-root/label",
+                  "title": "Label 19"
+                },
+                {
+                  "id": "layout:p39-q19-root/prompt",
+                  "type": "item",
+                  "ref": "p39-q19-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q19-root/space",
+                  "type": "item",
+                  "ref": "p39-q19-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 19",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:39.095Z",
+  "updatedAt": "2026-11-12T13:12:39.095Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p39-q19",
+    "sectionRole": "exercise"
+  }
+}

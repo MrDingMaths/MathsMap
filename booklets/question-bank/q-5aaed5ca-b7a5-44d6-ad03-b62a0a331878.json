@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5aaed5ca-b7a5-44d6-ad03-b62a0a331878",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "sine-rule",
+      "cosine-rule"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Choose the shared diagonal as an intermediate length, obtain it by the sine rule in one triangle and use it with the cosine rule in the other.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d79a42d5ee52f0ae4f1cb8d9b09f7e04d26c8294c84f70e22da3d02a153b3ee9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "A pipeline needs to be constructed from points $A$ to $B$ across a marshland. The engineers cannot measure length $AB$ directly, so they mark out two additional points $D$ and $C$. Their measurements are summarised on the diagram below.\n\nFind the length of the proposed pipe, correct to the nearest metre.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"marshFill\",\"hex\":\"DCEBE0\",\"reason\":\"Identifies the marshland crossed by the inaccessible proposed pipe.\"}],\"reference\":\"source page 32, p32-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{marshFill}{HTML}{DCEBE0}\n\\pgfmathsetmacro{\\ad}{125*sin(95)/sin(60)}\n\\pgfmathsetmacro{\\k}{4/\\ad}\n\\coordinate (A) at (0,0);\n\\coordinate (D) at (4,0);\n\\coordinate (B) at ({4+165*\\k*cos(110)},{165*\\k*sin(110)});\n\\coordinate (C) at ({125*\\k*cos(25)},{-125*\\k*sin(25)});\n\\path[draw=black,line width=0.4pt] (-0.05,4.31)--(B)--(1.99,2.9)--(2.2,1.9)--(1.79,-0.5)--(1.19,0.05)--(0.82,2.85)--cycle;\n\\draw[black,line width=0.8pt] (A)--(B)--(D)--(C)--cycle (A)--(D);\n\\node[left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[right] at (D) {$D$};\n\\node[below] at (C) {$C$};\n\\path (B)--(D) node[midway,right] {$165\\,\\mathrm{m}$};\n\\path (A)--(C) node[midway,below left] {$125\\,\\mathrm{m}$};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.35,\"$70^\\circ$\"] {angle=B--D--A};\n\\pic[draw=black,line width=0.4pt,angle radius=9mm,angle eccentricity=1.3,\"$25^\\circ$\"] {angle=C--A--D};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.4,\"$95^\\circ$\"] {angle=D--C--A};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Question 7 diagram in the right column",
+          "description": "Triangles ABD and ACD share AD. AB crosses an irregular marsh region; decorative reeds are omitted. Light green identifies the inaccessible terrain.",
+          "mathematics": "BD = 165 m; AC = 125 m; angle BDA = 70 degrees; angle DAC = 25 degrees; angle ACD = 95 degrees. Coordinates are derived from these givens.",
+          "answerVisibility": "Only supplied measurements and vertex labels are visible; AD and AB remain unlabelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$178\\,\\mathrm{m}$.\n\nFind $AD$ using the sine rule, then find $AB$ using the cosine rule.",
+      "worked": "In $\\triangle ACD$,\n$$\\begin{align*}\n\\angle ADC &= 180^\\circ-25^\\circ-95^\\circ\\\\\n\\angle ADC &= 60^\\circ.\n\\end{align*}$$\nBy the sine rule,\n$$\\begin{align*}\n\\frac{AD}{\\sin95^\\circ} &= \\frac{125}{\\sin60^\\circ}\\\\\nAD &= \\frac{125\\sin95^\\circ}{\\sin60^\\circ}.\n\\end{align*}$$\nBy the cosine rule in $\\triangle ABD$,\n$$\\begin{align*}\nAB^2 &= AD^2+165^2-2(AD)(165)\\cos70^\\circ\\\\\nAB &= \\sqrt{\\left(\\frac{125\\sin95^\\circ}{\\sin60^\\circ}\\right)^2+165^2-330\\left(\\frac{125\\sin95^\\circ}{\\sin60^\\circ}\\right)\\cos70^\\circ}\\\\\nAB &\\approx 178\\,\\mathrm{m}.\n\\end{align*}$$\nThe proposed pipe is approximately $178\\,\\mathrm{m}$ long, to the nearest metre.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 58
+  },
+  "presentation": {
+    "ownerId": "p32-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p32-q7-root/label",
+                  "type": "item",
+                  "ref": "p32-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p32-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p32-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p32-q7-diagram",
+                  "type": "item",
+                  "ref": "p32-q7-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p32-q7-root/space",
+                  "type": "item",
+                  "ref": "p32-q7-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:45.680Z",
+  "updatedAt": "2026-11-12T13:40:45.680Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p32-q7",
+    "sectionRole": "exercise"
+  }
+}

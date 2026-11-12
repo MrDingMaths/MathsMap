@@ -1,0 +1,123 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-19ce328b-e3f8-4053-9fe9-9363ba74344f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-practical-problems",
+    "secondarySkillIds": [
+      "trig-find-angle"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Find the common pole height using one cable, then use inverse sine to determine the angle of the other cable.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:05:18.821Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "06ba573931678e539ff380b76b18b904adb41bd9cf15380a35712f0ee493775d",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part4-20261009/semantic-packets/assignments/assignment-5a265ec4341573f6e562/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p14-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A flagpole is stabilised by two cables affixed to the top of the pole. The first of these makes a $40^\\circ$ angle to the ground and is 4.9 metres long. The second cable is 3.8 metres long. Determine the angle $\\theta$ that the second cable makes with the ground, to 2 decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 14, p14-q3-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\poleheight}{4.9*sin(40)}\n\\pgfmathsetmacro{\\leftreach}{4.9*cos(40)}\n\\pgfmathsetmacro{\\rightreach}{sqrt(3.8*3.8-\\poleheight*\\poleheight)}\n\\coordinate (F) at (0,0);\n\\coordinate (T) at (0,\\poleheight);\n\\coordinate (L) at (-\\leftreach,0);\n\\coordinate (R) at (\\rightreach,0);\n\\draw[black,line width=0.8pt] ($(L)+(-0.5,0)$)--($(R)+(0.5,0)$);\n\\draw[black,line width=0.8pt] (L)--(T)--(R);\n\\draw[black,line width=0.8pt] (F)--(T) node[midway,left] {$x$};\n\\path (L)--(T) node[midway,above left] {$4.9$};\n\\path (T)--(R) node[midway,above right] {$3.8$};\n\\coordinate (Fu) at ($(F)!0.24cm!(T)$);\n\\coordinate (Fl) at ($(F)!0.24cm!(L)$);\n\\draw[black,line width=0.4pt] (Fu)--($(Fu)+(Fl)-(F)$)--(Fl);\n\\pic[draw=black,line width=0.4pt,angle radius=0.65cm,angle eccentricity=1.35,\"$40^\\circ$\"] {angle=F--L--T};\n\\pic[draw=black,line width=0.4pt,angle radius=0.55cm,angle eccentricity=1.4,\"$\\theta$\"] {angle=T--R--F};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 3 diagram, lower left column",
+          "description": "Two cables meet at the top of a vertical pole, with ground anchors on opposite sides. The pole foot has a right-angle mark. The decorative flag is omitted; all mathematical lines and labels are retained without shading.",
+          "mathematics": "Left cable length 4.9 m and ground angle 40 degrees; right cable length 3.8 m and unknown acute ground angle theta; common perpendicular height x. Drawing coordinates are derived from the supplied lengths and angle and are not printed givens.",
+          "answerVisibility": "Only source givens and unknown labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\theta\\approx55.98^\\circ$.\n\nFind the common pole height using sine, then use inverse sine for the second cable.",
+      "worked": "$$\\begin{align*}x&=4.9\\sin40^\\circ\\text{ m}\\\\\\sin\\theta&=\\frac{x}{3.8}\\\\\\sin\\theta&=\\frac{4.9\\sin40^\\circ}{3.8}\\\\\\theta&=\\sin^{-1}\\!\\left(\\frac{4.9\\sin40^\\circ}{3.8}\\right)\\\\\\theta&\\approx55.98^\\circ\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 46
+  },
+  "presentation": {
+    "ownerId": "p14-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q3-root/label",
+                  "type": "item",
+                  "ref": "p14-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p14-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p14-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q3-diagram",
+                  "type": "item",
+                  "ref": "p14-q3-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p14-q3-root/space",
+                  "type": "item",
+                  "ref": "p14-q3-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:30.527Z",
+  "updatedAt": "2026-11-12T13:40:30.527Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p14-q3",
+    "sectionRole": "exercise"
+  }
+}

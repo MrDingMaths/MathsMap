@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cf29ca24-6140-45bf-a81d-ef87b22af383",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "tangent-secant-properties",
+      "pythagoras-find-side"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the route as two equal tangents and a major arc, derive tangent lengths and the excluded central angle, then add the straight and curved distances.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7c6e11537cdeccfb67de0ea2caee75244f7f5fbe5cb079630cddbd0471126a27",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Point $A$ is 1 kilometre from the edge of a circular lake of radius 1 kilometre. James runs a lap around the lake starting from point $A$, as indicated below. Find the length of his journey.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"journeyOrange\",\"hex\":\"EF8B2C\",\"reason\":\"continuous journey along tangents and major arc\"}],\"reference\":\"source PDF page 38, p38-q9-diagram\"}\n\\begin{tikzpicture}[x=1.8cm,y=1.8cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{journeyOrange}{HTML}{EF8B2C}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0,2);\n\\coordinate (N) at (0,1);\n\\coordinate (L) at ({-sqrt(3)/2},0.5);\n\\coordinate (R) at ({sqrt(3)/2},0.5);\n\\draw[black,line width=0.8pt] (O) circle[radius=1];\n\\draw[black,dashed,line width=0.4pt] (A)--(O) (L)--(O)--(R);\n\\draw[journeyOrange,line width=0.8pt] (A)--(L) arc[start angle=150,end angle=390,radius=1]--(A);\n\\draw[black,line width=0.4pt] ($(L)!0.12!(A)$)--($(L)!0.12!(A)+(L)!0.12!(O)-(L)$)--($(L)!0.12!(O)$);\n\\draw[black,line width=0.4pt] ($(R)!0.12!(A)$)--($(R)!0.12!(A)+(R)!0.12!(O)-(R)$)--($(R)!0.12!(O)$);\n\\node[above] at (A) {$A$};\n\\node[right] at ($(A)!0.5!(N)$) {$1$};\n\\node[right] at ($(N)!0.5!(O)$) {$1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 9, lower right",
+          "description": "External point A, two tangent journey segments and the major journey arc. Dashed centre line carries two consecutive labels 1; dashed radii meet the tangents at marked right angles. The source's decorative lake fill is omitted.",
+          "mathematics": "The lake radius is 1 km and the distance from its centre to A is 2 km. Tangency points are at central angles 30 and 150 degrees; the journey follows the remaining 240-degree arc.",
+          "answerVisibility": "Only supplied lengths and geometry are visible; no calculated lengths or angles are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p38-q9-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\left(\\frac{4\\pi}{3}+2\\sqrt{3}\\right)\\text{ km}",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p38-q9-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Add the two tangent lengths to the length of the major arc.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $O$ be the lake's centre and $T,U$ the tangent contact points. A radius is perpendicular to a tangent at its point of contact, and the two tangents from $A$ have equal lengths.\n\n$$\\begin{align*}\nAO&=1+1=2\\\\\nAT&=\\sqrt{2^2-1^2}\\\\\nAT&=\\sqrt{3}\\\\\n\\cos\\angle TOA&=\\frac{1}{2}\\\\\n\\angle TOA&=\\frac{\\pi}{3}\\\\\n\\angle TOU\\text{ (minor)}&=2\\times\\frac{\\pi}{3}=\\frac{2\\pi}{3}\\\\\n\\theta\\text{ (major)}&=2\\pi-\\frac{2\\pi}{3}=\\frac{4\\pi}{3}\\\\\nL&=r\\theta=1\\times\\frac{4\\pi}{3}=\\frac{4\\pi}{3}\\\\\n\\text{Journey length}&=2\\sqrt{3}+\\frac{4\\pi}{3}\\text{ km}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 78
+  },
+  "presentation": {
+    "ownerId": "p38-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:52.674Z",
+  "updatedAt": "2026-11-12T13:40:52.674Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p38-q9",
+    "sectionRole": "exercise"
+  }
+}

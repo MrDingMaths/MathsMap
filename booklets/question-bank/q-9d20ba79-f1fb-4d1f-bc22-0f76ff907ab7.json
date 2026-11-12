@@ -1,0 +1,373 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9d20ba79-f1fb-4d1f-bc22-0f76ff907ab7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-periodic-phenomena",
+    "secondarySkillIds": [
+      "find-sinusoidal-model",
+      "solve-transformed-trig-equations"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hardest demand is translating maximum survivable exposure into a four-hour interval centred on low tide, then evaluating depth at its endpoints. This connects a continuous duration constraint to a limiting height; the task also requires identifying missing clock-time information.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:57:03.367Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b2969e533f557819cc8b59c31d2802d337add5dbff79385777cbac76397c9f58",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part5-20261009/274fc5315dae905f278aa94f34fdec754bef21d92e5ee80eb971dc193bb8d7aa-1792558601609/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The depth $D$ of water in metres at St Kilda pier $t$ hours after high tide can be modelled by the function:\n$$D(t)=a+b\\cos(nt).$$\nAt high tide the water depth is 8 meters. The next low tide occurs 6.5 hours later, with a depth of 2 meters.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the values of $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=5,\\ b=3$.",
+          "worked": "The mean depth is $a$ and the amplitude is $b$. The depth is greatest at $t=0$, so $b$ is positive.\n$$\\begin{align*}a&=\\frac{8+2}{2}\\\\a&=5\\\\b&=\\frac{8-2}{2}\\\\b&=3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p23-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the period of the function. Hence, calculate $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Period: 13 hours; $n=\\dfrac{2\\pi}{13}$.",
+          "worked": "High tide to the next low tide is half a period.\n$$\\begin{align*}T&=2(6.5)\\\\T&=13\\text{ hours}\\\\n&=\\frac{2\\pi}{T}\\\\n&=\\frac{2\\pi}{13}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p23-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch the graph of $D(t)$ over a 26-hour interval.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$D(t)=5+3\\cos\\left(\\dfrac{2\\pi t}{13}\\right)$ for $0\\le t\\le26$; see graph.",
+          "worked": "$$D(t)=5+3\\cos\\left(\\frac{2\\pi t}{13}\\right),\\qquad 0\\le t\\le26.$$\nThe midline is $D=5$. Maxima occur at $(0,8)$, $(13,8)$ and $(26,8)$; minima occur at $(6.5,2)$ and $(19.5,2)$. Draw a smooth cosine curve through these points.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q3-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from axes and guides\"}],\"reference\":\"source page 23 question 3(c); teacher page 24\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.36cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(28,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,0)--(0,9.4) node[above] {$D(t)$};\n\\foreach \\y in {2,5,8}{\\draw[dashed,line width=0.4pt] (0,\\y)--(26,\\y);\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\foreach \\x in {0,6.5,13,19.5,26}{\\draw[line width=0.4pt] (\\x,0.15)--(\\x,-0.15);\\node[below] at (\\x,-0.15) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:26,samples=161] plot (\\x,{5+3*cos(360*\\x/13)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 3(c); teacher PDF page 24, printed page 353",
+                "description": "Two complete tidal cycles with labelled extrema times and dashed depth guides.",
+                "mathematics": "D(t)=5+3cos(2*pi*t/13), 0<=t<=26; maximum 8, minimum 2, period 13.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p23-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "During this interval, for what values of $t$ is the water depth 3.5 meters?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=\\dfrac{13}{3},\\ \\dfrac{26}{3},\\ \\dfrac{52}{3},\\ \\dfrac{65}{3}$ hours.\n\nSolve $\\cos\\left(\\dfrac{2\\pi t}{13}\\right)=-\\dfrac12$ over two periods.",
+          "worked": "$$\\begin{align*}5+3\\cos\\left(\\frac{2\\pi t}{13}\\right)&=3.5\\\\\\cos\\left(\\frac{2\\pi t}{13}\\right)&=-\\frac12\\end{align*}$$\nFor $0\\le t\\le26$, the angle satisfies $0\\le\\dfrac{2\\pi t}{13}\\le4\\pi$.\n$$\\begin{align*}\\frac{2\\pi t}{13}&=\\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{8\\pi}{3},\\ \\frac{10\\pi}{3}\\\\t&=\\frac{13}{3},\\ \\frac{26}{3},\\ \\frac{52}{3},\\ \\frac{65}{3}\\text{ hours}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p23-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "A pole supporting the pier stands 9 meters above the seabed. What percentage of the pole is exposed at 9 am? Round your answer to the nearest whole number. If this cannot be determined from the given information, explain what additional information is needed.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cannot be determined without the clock time of high tide.",
+          "worked": "Let $t_9$ be the number of hours after high tide at 9 am. The exposed length is $9-D(t_9)$, so\n$$\\begin{align*}\\text{Percentage exposed}&=\\frac{9-D(t_9)}{9}\\times100\\%\\\\\\text{Percentage exposed}&=\\frac{4-3\\cos(2\\pi t_9/13)}{9}\\times100\\%.\\end{align*}$$\nThe clock time of high tide is not supplied, so $t_9$ and the requested percentage cannot be determined.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p23-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Over time, mussels have attached themselves to the pole. A mussel can survive as long as it isn’t exposed to air for more than 4 hours at a time. Determine the maximum height at which a mussel can survive up the pole. Answer in metres, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "3.30 m above the seabed.\n\nThe limiting height equals the water depth two hours either side of low tide.",
+          "worked": "The limiting exposure interval lasts 4 hours and is symmetric about low tide at $t=6.5$. Its endpoints are $t=4.5$ and $t=8.5$. At the maximum surviving height $h$, the water reaches the mussel at both endpoints.\n$$\\begin{align*}h&=D(4.5)\\\\h&=5+3\\cos\\left(\\frac{2\\pi(4.5)}{13}\\right)\\\\h&=5+3\\cos\\left(\\frac{9\\pi}{13}\\right)\\\\h&\\approx3.30\\text{ m}\\end{align*}$$\nA higher mussel would be exposed continuously for more than 4 hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q3-root/label",
+                  "type": "item",
+                  "ref": "p23-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p23-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p23-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-a/label",
+                          "type": "item",
+                          "ref": "p23-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-a/space",
+                          "type": "item",
+                          "ref": "p23-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-b/label",
+                          "type": "item",
+                          "ref": "p23-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-b/space",
+                          "type": "item",
+                          "ref": "p23-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q3-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-c/label",
+                          "type": "item",
+                          "ref": "p23-q3-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p23-q3-c/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-c/space",
+                          "type": "item",
+                          "ref": "p23-q3-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q3-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-d/label",
+                          "type": "item",
+                          "ref": "p23-q3-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p23-q3-d/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-d/space",
+                          "type": "item",
+                          "ref": "p23-q3-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q3-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-e/label",
+                          "type": "item",
+                          "ref": "p23-q3-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p23-q3-e/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-e/space",
+                          "type": "item",
+                          "ref": "p23-q3-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q3-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q3-f/label",
+                          "type": "item",
+                          "ref": "p23-q3-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p23-q3-f/prompt",
+                          "type": "item",
+                          "ref": "p23-q3-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q3-f/space",
+                          "type": "item",
+                          "ref": "p23-q3-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:41:20.254Z",
+  "updatedAt": "2026-11-12T13:41:20.255Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part5-20261009",
+    "blockId": "p23-q3",
+    "sectionRole": "exercise"
+  }
+}

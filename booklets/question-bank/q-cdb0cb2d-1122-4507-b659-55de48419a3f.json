@@ -1,0 +1,217 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cdb0cb2d-1122-4507-b659-55de48419a3f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-exp-log-quadratic-form",
+    "secondarySkillIds": [
+      "exponential-transformations"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Requires coordinating transformed sketches with algebraic intersections; part (b) needs multiplication by 2^x to produce a quadratic, followed by recovering both coordinate pairs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:26.315Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "302807e2b8ae670cd4437a4bc3032fa38f4c85c16c71dac3903e12b1b987c687",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part8-20261009/644f6068ce449fea7839abe9ff2c17da072407bbd532921c0a5044a3af8a8f6a-1792558659635/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q6a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graphs of $y=2^x$ and $y=4^x-2$ on the same set of axes. Locate their point of intersection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The intersection is $(1,2)$.\n\nWrite $4^x=(2^x)^2$ and solve the resulting quadratic, keeping $2^x>0$.",
+          "worked": "At an intersection,\n$$\\begin{align*}2^x&=4^x-2\\\\(2^x)^2-2^x-2&=0\\\\(2^x-2)(2^x+1)&=0.\\end{align*}$$\nSince $2^x>0$, $2^x=2$, so $x=1$ and $y=2$. The intersection is $(1,2)$.\n\nThe graph of $y=2^x$ is increasing, passes through $(0,1)$ and has asymptote $y=0$. The graph of $y=4^x-2$ is increasing, passes through $(0,-1)$ and $(\\tfrac12,0)$, and has asymptote $y=-2$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q6a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes y=2^x\"},{\"name\":\"seriesOrange\",\"hex\":\"EF8B2C\",\"reason\":\"distinguishes y=4^x-2\"}],\"reference\":\"source page 22 question 6(a), teacher page 51\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesOrange}{HTML}{EF8B2C}\n\\draw[->,black,line width=0.5pt] (-3,0)--(2.7,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-2.7)--(0,5.6) node[above] {$y$};\n\\draw[dashed,black,line width=0.4pt] (-3,-2)--(2.55,-2) node[right] {$y=-2$};\n\\draw[seriesBlue,line width=0.8pt,domain=-3:2.3,samples=100] plot (\\x,{pow(2,\\x)});\n\\draw[seriesOrange,line width=0.8pt,domain=-3:1.45,samples=100] plot (\\x,{pow(4,\\x)-2});\n\\node[seriesBlue,right] at (2.05,4.14) {$y=2^x$};\n\\node[seriesOrange,right] at (1.48,5.15) {$y=4^x-2$};\n\\fill[black] (0,1) circle (1.3pt) node[left] {$(0,1)$};\n\\fill[black] (0,-1) circle (1.3pt) node[left] {$(0,-1)$};\n\\fill[black] (0.5,0) circle (1.3pt) node[below right] {$(\\tfrac12,0)$};\n\\fill[black] (1,2) circle (1.5pt) node[right] {$(1,2)$};\n\\node[above left] at (-2.5,0) {$y=0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 6(a); answer PDF page 51, Section F, 6(a)",
+                "description": "Two increasing exponential curves on shared axes, showing both horizontal asymptotes, intercepts and their unique intersection.",
+                "mathematics": "y=2^x and y=4^x-2; intersection (1,2); asymptotes y=0 and y=-2.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p22-q6b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch the graphs of $y=-2^x+4$ and $y=3\\times2^{-x}$ on the same set of axes. Locate their points of intersection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The intersections are $(0,3)$ and $(\\log_2 3,1)$.\n\nMultiply the intersection equation by $2^x$ and factor the quadratic in $2^x$.",
+          "worked": "At an intersection,\n$$\\begin{align*}-2^x+4&=3\\times2^{-x}\\\\-(2^x)^2+4\\times2^x&=3\\\\(2^x)^2-4\\times2^x+3&=0\\\\(2^x-1)(2^x-3)&=0.\\end{align*}$$\nThus $2^x=1$ or $2^x=3$, giving $x=0$ or $x=\\log_2 3$. Substitution gives $y=3$ or $y=1$, respectively. The intersections are $(0,3)$ and $(\\log_2 3,1)$.\n\nThe graph of $y=-2^x+4$ is decreasing, passes through $(0,3)$ and $(2,0)$, and has asymptote $y=4$. The graph of $y=3\\times2^{-x}$ is decreasing, passes through $(0,3)$, has no $x$-intercept and has asymptote $y=0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q6b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes y=-2^x+4\"},{\"name\":\"seriesOrange\",\"hex\":\"EF8B2C\",\"reason\":\"distinguishes y=3 times 2^{-x}\"}],\"reference\":\"source page 22 question 6(b), teacher page 51\"}\n\\begin{tikzpicture}[x=1.2cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesOrange}{HTML}{EF8B2C}\n\\draw[->,black,line width=0.5pt] (-3,0)--(3.4,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-2.7)--(0,5.4) node[above] {$y$};\n\\draw[dashed,black,line width=0.4pt] (-3,4)--(3.2,4) node[right] {$y=4$};\n\\draw[seriesBlue,line width=0.8pt,domain=-3:2.65,samples=100] plot (\\x,{4-pow(2,\\x)});\n\\draw[seriesOrange,line width=0.8pt,domain=-0.8:3.2,samples=100] plot (\\x,{3*pow(2,-\\x)});\n\\node[seriesOrange,right] at (2.65,0.65) {$y=3\\times2^{-x}$};\n\\node[seriesBlue,right] at (2.65,-2.28) {$y=-2^x+4$};\n\\fill[black] (0,3) circle (1.5pt) node[below left,yshift=-2mm] {$(0,3)$};\n\\fill[black] ({ln(3)/ln(2)},1) circle (1.5pt) node[above right] {$(\\log_2 3,1)$};\n\\fill[black] (2,0) circle (1.3pt) node[below left] {$(2,0)$};\n\\node[below] at (-2.45,0) {$y=0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 6(b); answer PDF page 51, Section F, 6(b)",
+                "description": "Two decreasing exponential curves on shared axes, showing their two intersections, the x-intercept of the reflected curve and horizontal asymptotes.",
+                "mathematics": "y=-2^x+4 and y=3*2^(-x); intersections (0,3) and (log_2 3,1); asymptotes y=4 and y=0.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 110
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q6-root/label",
+                  "type": "item",
+                  "ref": "p22-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "p22-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q6a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q6a/label",
+                          "type": "item",
+                          "ref": "p22-q6a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q6a/prompt",
+                          "type": "item",
+                          "ref": "p22-q6a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q6a/space",
+                          "type": "item",
+                          "ref": "p22-q6a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q6b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q6b/label",
+                          "type": "item",
+                          "ref": "p22-q6b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q6b/prompt",
+                          "type": "item",
+                          "ref": "p22-q6b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q6b/space",
+                          "type": "item",
+                          "ref": "p22-q6b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:31.692Z",
+  "updatedAt": "2026-11-12T13:12:31.693Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part8-20261009",
+    "blockId": "p22-q6",
+    "sectionRole": "exercise"
+  }
+}

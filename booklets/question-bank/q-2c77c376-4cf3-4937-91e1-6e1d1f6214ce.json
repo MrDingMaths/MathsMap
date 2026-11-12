@@ -1,0 +1,234 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2c77c376-4cf3-4937-91e1-6e1d1f6214ce",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "solve-exponential-log-equations"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires generalising successive positive-input restrictions into an exponential recurrence for the domain threshold, tracking its indexing and justifying that every repeated composition still has all real outputs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:26.315Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "60ac33f87330d522ca1d33aa7f6c2e361b7674ecb4b102247b1524f1ae0d5cca",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part8-20261009/644f6068ce449fea7839abe9ff2c17da072407bbd532921c0a5044a3af8a8f6a-1792558659635/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p30-q9-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the function ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f:(0,\\infty)\\to\\mathbb R",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " where",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p30-q9-definition-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "f(x)=\\log_2x.",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Determine the domain and range of $f\\circ f$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Domain $(1,\\infty)$; range $\\mathbb R$.",
+          "worked": "$$\\begin{align*}(f\\circ f)(x)&=\\log_2(\\log_2x)\\end{align*}$$\nThe outer logarithm requires $\\log_2x>0$, which gives $x>1$. As $x$ runs through $(1,\\infty)$, $\\log_2x$ runs through $(0,\\infty)$, and its logarithm runs through $\\mathbb R$. Thus the domain is $(1,\\infty)$ and the range is $\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p30-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Determine the domain and range of the function $f\\circ f\\circ\\cdots\\circ f$ obtained by composing $n$ copies of $f$, where $n>2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Domain $(k_n,\\infty)$; range $\\mathbb R$, where $k_2=1$ and $k_{m+1}=2^{k_m}$.\n\nFor $n>2$, $k_n$ is a tower of $n-2$ copies of $2$, with exponentiation evaluated from the top.",
+          "worked": "Write $F_n$ for the composition of $n$ copies of $f$. From part (a), the domain threshold is $k_2=1$.\nThe identity $F_{m+1}(x)=F_m(\\log_2x)$ shows that its domain requires\n$$\\begin{align*}\\log_2x&>k_m\\\\x&>2^{k_m}\\end{align*}$$\nThus $k_{m+1}=2^{k_m}$. In particular, $k_3=2$, $k_4=2^2=4$, and $k_5=2^{2^2}=16$. For $n>2$, $k_n$ is a tower containing $n-2$ copies of $2$.\nOn $(k_n,\\infty)$, the repeated logarithm is continuous and increasing, tends to $-\\infty$ as $x\\to k_n^+$ and tends to $+\\infty$ as $x\\to\\infty$. Therefore its domain is $(k_n,\\infty)$ and its range is $\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q9-root/label",
+                  "type": "item",
+                  "ref": "p30-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p30-q9-root/prompt#p30-q9-intro",
+                  "type": "item",
+                  "ref": "p30-q9-root/prompt#p30-q9-intro",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p30-q9-root/prompt#p30-q9-definition-paragraph",
+                  "type": "item",
+                  "ref": "p30-q9-root/prompt#p30-q9-definition-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "p30-q9-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q9-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q9-a/label",
+                          "type": "item",
+                          "ref": "p30-q9-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q9-a/prompt",
+                          "type": "item",
+                          "ref": "p30-q9-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q9-a/space",
+                          "type": "item",
+                          "ref": "p30-q9-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q9-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q9-b/label",
+                          "type": "item",
+                          "ref": "p30-q9-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q9-b/prompt",
+                          "type": "item",
+                          "ref": "p30-q9-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q9-b/space",
+                          "type": "item",
+                          "ref": "p30-q9-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:42.612Z",
+  "updatedAt": "2026-11-12T13:12:42.612Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part8-20261009",
+    "blockId": "p30-q9",
+    "sectionRole": "exercise"
+  }
+}

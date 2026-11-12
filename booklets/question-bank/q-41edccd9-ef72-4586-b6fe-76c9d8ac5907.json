@@ -1,0 +1,365 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-41edccd9-ef72-4586-b6fe-76c9d8ac5907",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "counting-complement-principle",
+    "secondarySkillIds": [
+      "count-ordered-selections-repetition",
+      "arrange-n-objects",
+      "one-to-one-functions"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Model functions as image assignments and implement the inclusion-exclusion hint by counting functions omitting each chosen set of codomain elements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:11.629Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "71d70239da39fe5364befe2d90ded7b08ee9f9f90851cca8c2042ae446f56543",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part7-20261009/3c8012f60aa0e9a6760377b8ec4d5f3d0b7fbd5d413a7d701271b0b15372ab28-1792558630820/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Consider all functions\n$$f:\\{1,2,\\ldots,n\\}\\to\\{1,2,\\ldots,m\\}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Determine the number of such functions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$m^n$.",
+          "worked": "Each of the $n$ domain elements has $m$ independent choices for its image. By the multiplication principle, the number of functions is $m^n$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p25-q17-counting-group",
+        "type": "group",
+        "label": "",
+        "prompt": "How many of these functions are",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p25-q17-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "both injective and surjective?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$m!$ if $n=m$; otherwise $0$.",
+              "worked": "A function between these finite sets can be both injective and surjective only when $n=m$. In that case, successive domain elements have $m,m-1,\\ldots,1$ choices for distinct images, giving $m!$ functions. If $n\\ne m$, there are none.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p25-q17-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "injective?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{m!}{(m-n)!}$ if $n\\le m$; otherwise $0$.",
+              "worked": "If $n>m$, there are too few codomain elements for distinct images. If $n\\le m$, successive domain elements have $m,m-1,\\ldots,m-n+1$ choices. Thus the number of injective functions is\n$$m(m-1)\\cdots(m-n+1)=\\frac{m!}{(m-n)!}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 36
+          },
+          {
+            "id": "p25-q17-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "surjective?\n\nHint: for part (d) use the principle of inclusion-exclusion.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "p25-q17-d-short-result",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "latex": "\\displaystyle\\sum_{i=0}^{m-1}(-1)^i\\binom{m}{i}(m-i)^n",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": " if ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "n\\ge m",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": "; otherwise ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "0",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": ".",
+                        "marks": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p25-q17-d-short-method",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Use inclusion-exclusion to remove functions that omit codomain elements.",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "worked": "If $n<m$, the image has at most $n$ elements, so there are no surjections.\n\nFor $n\\ge m$, begin with all $m^n$ functions. For a specified set of $i$ omitted codomain elements, each domain element has $m-i$ possible images, giving $(m-i)^n$ functions. There are $\\binom{m}{i}$ choices for the omitted set. Inclusion-exclusion therefore gives\n$$\\begin{aligned}N_{\\mathrm{surjective}}&=m^n-\\binom{m}{1}(m-1)^n+\\binom{m}{2}(m-2)^n-\\cdots+(-1)^{m-1}\\binom{m}{m-1}\\,1^n\\\\N_{\\mathrm{surjective}}&=\\sum_{i=0}^{m-1}(-1)^i\\binom{m}{i}(m-i)^n.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 65
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "sourceResponseLabels": true,
+    "ownerId": "p25-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q17-root/label",
+                  "type": "item",
+                  "ref": "p25-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p25-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p25-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p25-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q17-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q17-a/label",
+                          "type": "item",
+                          "ref": "p25-q17-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p25-q17-a/prompt",
+                          "type": "item",
+                          "ref": "p25-q17-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q17-a/space",
+                          "type": "item",
+                          "ref": "p25-q17-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p25-q17-counting-group:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q17-counting-group/prompt",
+                          "type": "item",
+                          "ref": "p25-q17-counting-group/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p25-q17-counting-group:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p25-q17-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p25-q17-b/label",
+                                  "type": "item",
+                                  "ref": "p25-q17-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p25-q17-b/prompt",
+                                  "type": "item",
+                                  "ref": "p25-q17-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p25-q17-b/space",
+                                  "type": "item",
+                                  "ref": "p25-q17-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p25-q17-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p25-q17-c/label",
+                                  "type": "item",
+                                  "ref": "p25-q17-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p25-q17-c/prompt",
+                                  "type": "item",
+                                  "ref": "p25-q17-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p25-q17-c/space",
+                                  "type": "item",
+                                  "ref": "p25-q17-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p25-q17-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p25-q17-d/label",
+                                  "type": "item",
+                                  "ref": "p25-q17-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p25-q17-d/prompt",
+                                  "type": "item",
+                                  "ref": "p25-q17-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p25-q17-d/space",
+                                  "type": "item",
+                                  "ref": "p25-q17-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Unlabelled part 2",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:15.957Z",
+  "updatedAt": "2026-11-12T13:12:15.958Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p25-q17",
+    "sectionRole": "exercise"
+  }
+}

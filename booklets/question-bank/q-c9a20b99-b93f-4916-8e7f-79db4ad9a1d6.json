@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c9a20b99-b93f-4916-8e7f-79db4ad9a1d6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-square-root-function",
+    "secondarySkillIds": [
+      "graph-function-transformations"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch five horizontal translations of the square root function on one coordinate system.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:23:20.570Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f077ce823167be28caa97329458626e9bc3930e4517bf201ae25a3c01aba393a",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part7-20261009/semantic-packets/assignments/assignment-a923f3b313748d335523/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p19-21d-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "On the same set of axes, sketch the graphs of $y=\\sqrt{x-h}$ for $h=-2,-1,0,1,2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Five square root curves starting at $(-2,0)$, $(-1,0)$, $(0,0)$, $(1,0)$ and $(2,0)$, respectively, and extending upwards to the right.",
+      "worked": "Translate $y=\\sqrt{x}$ horizontally by $h$ units: left for negative $h$ and right for positive $h$.\n\nFor each value of $h$, the curve starts at $(h,0)$ and passes through $(h+1,1)$ and $(h+4,2)$. Sketch the five increasing square root curves on the same axes.",
+      "solutionDiagrams": [
+        {
+          "id": "p19-21d-q1-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curves distinguished from coordinate axes\"}],\"reference\":\"source page 19, 21D question 1; teacher page 34\"}\n\\begin{tikzpicture}[x=0.8cm,y=1.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3,-0.6) rectangle (8,3.5);\n\\draw[->,black,line width=0.5pt] (-3,0)--(7.8,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.45)--(0,3.2) node[above] {$y$};\n\\foreach \\h in {-2,-1,0,1,2}{\n\\draw[curveBlue,line width=0.8pt,domain=0:2.2,samples=65,variable=\\t] plot ({\\h+\\t*\\t},{\\t});\n\\fill[curveBlue] (\\h,0) circle (1.2pt);\n}\n\\foreach \\v in {-2,-1,1,2}{\n\\draw[black,line width=0.4pt] (\\v,0.055)--(\\v,-0.055);\n\\node[below] at (\\v,-0.055) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 19,
+            "sourceRegion": "21D question 1; answer evidence PDF page 34, Section D question 1",
+            "description": "Five translated square root curves on shared axes, with their starting x-values labelled. The answer-book label beneath the rightmost endpoint is corrected from -2 to 2.",
+            "mathematics": "For h=-2,-1,0,1,2, plot (x,y)=(h+t^2,t), t>=0. Each curve has endpoint (h,0).",
+            "answerVisibility": "solution-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p19-21d-q1-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-21d-q1-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-21d-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-21d-q1-root/label",
+                  "type": "item",
+                  "ref": "p19-21d-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p19-21d-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p19-21d-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-21d-q1-root/space",
+                  "type": "item",
+                  "ref": "p19-21d-q1-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:11:53.845Z",
+  "updatedAt": "2026-11-12T13:11:53.845Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p19-21d-q1-block",
+    "sectionRole": "exercise"
+  }
+}

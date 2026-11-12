@@ -1,0 +1,291 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5afe04c2-ae3f-41c4-a1e8-e9fee5959d81",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [],
+    "reasoningScore": 60,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a right triangle from a circumcircle chord to connect its length with the circumradius, and independently partition the triangle about its incentre before combining area identities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:54.262Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "abaa2903356dea66f4e76a76cc86524a92177e1b74414652ad46bc8818de836b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/e18dcc27ee99bb6d696524b765f621316d5b236c4a4710b083d61833630f732c-1792558563291/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "The extended sine rule establishes a connection between the sides, angles and circumradius $R$ of a triangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28, p28-q18-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (192:2);\n\\coordinate (B) at (348:2);\n\\coordinate (C) at (62:2);\n\\draw[black] (O) circle (2);\n\\draw[black] (A)--node[midway,above left] {$b$} (C)--node[midway,right] {$a$} (B)--node[midway,below] {$c$} (A);\n\\draw[black] (O)--node[midway,right] {$R$} (C);\n\\fill[black] (O) circle (1.2pt);\n\\node[left] at (O) {$O$};\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 47.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Upper right column, question 18",
+          "description": "Unshaded circle with inscribed triangle ABC, horizontal base AB, marked centre O and radius OC.",
+          "mathematics": "AB=c, AC=b, BC=a; OC=R. All three vertices lie on the circle. Coordinates express the supplied topology without adding numerical givens.",
+          "answerVisibility": "All labels and the radius are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Assuming the sine rule, prove that\n$$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}=2R$.\n\nBisect the central angle subtended by $BC$, then apply the sine rule.",
+          "worked": "Join $O$ to $B$ and let $M$ be the midpoint of $BC$. Since $OB=OC=R$, $OM$ bisects $\\angle BOC$ and is perpendicular to $BC$. The angle at the centre is twice the angle at the circumference, so $\\angle BOC=2A$ and $\\angle BOM=A$.\n$$\\begin{align*}\\sin A&=\\frac{BM}{OB}\\\\\\sin A&=\\frac{a}{2R}\\\\\\frac{a}{\\sin A}&=2R.\\end{align*}$$\nThe sine rule now gives\n$$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p28-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, show that\n$$\\operatorname{area}(\\triangle ABC)=\\frac{abc}{4R}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{area}(\\triangle ABC)=\\dfrac{abc}{4R}$.\n\nSubstitute $\\sin C=\\dfrac{c}{2R}$ into the triangle area rule.",
+          "worked": "From part (a), $\\sin C=\\dfrac{c}{2R}$.\n$$\\begin{align*}\\operatorname{area}(\\triangle ABC)&=\\frac12 ab\\sin C\\\\\\operatorname{area}(\\triangle ABC)&=\\frac12 ab\\left(\\frac{c}{2R}\\right)\\\\\\operatorname{area}(\\triangle ABC)&=\\frac{abc}{4R}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p28-q18-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "If $r$ is the inradius of $\\triangle ABC$, then show that\n$$\\operatorname{area}(\\triangle ABC)=\\frac{(a+b+c)r}{2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{area}(\\triangle ABC)=\\dfrac{(a+b+c)r}{2}$.\n\nJoin the incentre to the vertices and add the three triangle areas.",
+          "worked": "Join the incentre to $A$, $B$ and $C$. The three resulting triangles have bases $a$, $b$ and $c$, each with perpendicular height $r$.\n$$\\begin{align*}\\operatorname{area}(\\triangle ABC)&=\\frac12 ar+\\frac12 br+\\frac12 cr\\\\\\operatorname{area}(\\triangle ABC)&=\\frac{(a+b+c)r}{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p28-q18-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, prove that\n$$rR=\\frac{abc}{2(a+b+c)}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$rR=\\dfrac{abc}{2(a+b+c)}$.\n\nEquate the area formulas from parts (b) and (c).",
+          "worked": "Parts (b) and (c) give\n$$\\begin{align*}\\frac{(a+b+c)r}{2}&=\\frac{abc}{4R}\\\\(a+b+c)rR&=\\frac{abc}{2}\\\\rR&=\\frac{abc}{2(a+b+c)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q18-root/label",
+                  "type": "item",
+                  "ref": "p28-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p28-q18-root/prompt",
+                  "type": "item",
+                  "ref": "p28-q18-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p28-q18-diagram",
+                  "type": "item",
+                  "ref": "p28-q18-diagram",
+                  "title": "Diagram",
+                  "width": 47.5
+                },
+                {
+                  "id": "p28-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q18-a/label",
+                          "type": "item",
+                          "ref": "p28-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p28-q18-a/prompt",
+                          "type": "item",
+                          "ref": "p28-q18-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q18-a/space",
+                          "type": "item",
+                          "ref": "p28-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q18-b/label",
+                          "type": "item",
+                          "ref": "p28-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p28-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p28-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q18-b/space",
+                          "type": "item",
+                          "ref": "p28-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q18-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q18-c/label",
+                          "type": "item",
+                          "ref": "p28-q18-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p28-q18-c/prompt",
+                          "type": "item",
+                          "ref": "p28-q18-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q18-c/space",
+                          "type": "item",
+                          "ref": "p28-q18-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q18-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q18-d/label",
+                          "type": "item",
+                          "ref": "p28-q18-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p28-q18-d/prompt",
+                          "type": "item",
+                          "ref": "p28-q18-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q18-d/space",
+                          "type": "item",
+                          "ref": "p28-q18-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:42.368Z",
+  "updatedAt": "2026-11-12T13:40:42.368Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p28-q18",
+    "sectionRole": "exercise"
+  }
+}

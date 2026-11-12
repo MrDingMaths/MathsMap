@@ -1,0 +1,407 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c7eab6df-678e-4c73-803d-23bc24e51e44",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-piecewise",
+    "secondarySkillIds": [
+      "function-notation",
+      "solve-function-equation",
+      "composite-functions",
+      "domain-and-range"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Read inputs and outputs from a piecewise-linear graph, recognise an interval of inputs with the same output, and evaluate a nested function.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T23:25:44.658Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6f7c53ff5d0183cd91021cf262222888e239449f8884caad4685dfba62944364",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part7-20261009/semantic-packets/assignments/assignment-cab56aec6cf1d3e6ea70/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p5-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The graph of $f:[-2,2]\\to[-2,2]$ is shown below. Find:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p5-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"function graph distinguished from axes and grid\"}],\"reference\":\"source page 5, p5-q7-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=1,line width=0.25pt,gridGrey] (-2,-2) grid (2,2);\n\\draw[->,black,line width=0.5pt] (-2,0)--(2,0);\n\\draw[->,black,line width=0.5pt] (0,-2)--(0,2);\n\\node[anchor=west,text=black] at (2.12,0) {$x$};\n\\node[anchor=south,text=black] at (0,2.12) {$y$};\n\\draw[seriesBlue,line width=0.8pt] (-2,0)--(-1,1)--(1,1)--(2,2);\n\\fill[seriesBlue] (-2,0) circle (1.2pt);\n\\fill[seriesBlue] (2,2) circle (1.2pt);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Question 7 graph, upper left column",
+          "description": "Square Cartesian unit grid from -2 to 2 on both axes, positive axis arrowheads, x and y labels, no numerical tick labels. Continuous blue graph with filled outer endpoints.",
+          "mathematics": "Line segments join (-2,0), (-1,1), (1,1), (2,2); domain [-2,2]. Grid step is 1 coordinate unit on both axes.",
+          "answerVisibility": "The supplied graph remains visible in the question edition; no solution guides or answer labels are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p5-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f(-1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "At $x=-1$, the graph has $y=1$. Hence $f(-1)=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p5-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f(1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "At $x=1$, the graph has $y=1$. Hence $f(1)=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p5-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$x$ given $f(x)=2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=2$",
+          "worked": "The graph meets $y=2$ only at $(2,2)$. Hence $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p5-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$x$ given $f(x)=1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-1\\le x\\le1$",
+          "worked": "The horizontal segment lies on $y=1$ for every input from $-1$ to $1$, including both endpoints. Hence $-1\\le x\\le1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p5-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$f(f(-2))$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "The graph gives $f(-2)=0$ and $f(0)=1$.\n$$\\begin{align*}f(f(-2))&=f(0)\\\\f(f(-2))&=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p5-q7-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "the range of $f$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$[0,2]$",
+          "worked": "The graph takes every $y$-value from $0$ to $2$, including both endpoints. Hence $\\operatorname{ran}(f)=[0,2]$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p5-q7-root/label",
+                  "type": "item",
+                  "ref": "p5-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p5-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p5-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p5-q7-graph",
+                  "type": "item",
+                  "ref": "p5-q7-graph",
+                  "title": "Diagram",
+                  "width": 66.8
+                },
+                {
+                  "id": "p5-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p5-q7-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p5-q7-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-a/label",
+                              "type": "item",
+                              "ref": "p5-q7-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p5-q7-a/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-a/space",
+                              "type": "item",
+                              "ref": "p5-q7-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p5-q7-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-b/label",
+                              "type": "item",
+                              "ref": "p5-q7-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p5-q7-b/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-b/space",
+                              "type": "item",
+                              "ref": "p5-q7-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p5-q7-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p5-q7-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-c/label",
+                              "type": "item",
+                              "ref": "p5-q7-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p5-q7-c/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-c/space",
+                              "type": "item",
+                              "ref": "p5-q7-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p5-q7-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-d/label",
+                              "type": "item",
+                              "ref": "p5-q7-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p5-q7-d/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-d/space",
+                              "type": "item",
+                              "ref": "p5-q7-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p5-q7-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p5-q7-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-e/label",
+                              "type": "item",
+                              "ref": "p5-q7-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p5-q7-e/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-e/space",
+                              "type": "item",
+                              "ref": "p5-q7-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p5-q7-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p5-q7-f/label",
+                              "type": "item",
+                              "ref": "p5-q7-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p5-q7-f/prompt",
+                              "type": "item",
+                              "ref": "p5-q7-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p5-q7-f/space",
+                              "type": "item",
+                              "ref": "p5-q7-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:11:14.263Z",
+  "updatedAt": "2026-11-12T13:11:14.263Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part7-20261009",
+    "blockId": "p5-q7",
+    "sectionRole": "exercise"
+  }
+}

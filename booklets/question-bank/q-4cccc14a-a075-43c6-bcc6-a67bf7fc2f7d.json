@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4cccc14a-a075-43c6-bcc6-a67bf7fc2f7d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "trig-find-angle",
+      "pythagoras-find-side"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Model grazing as a quadrant clipped by field boundaries, construct sector-minus-triangle corrections, and establish that the two excluded regions do not overlap.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:41.541Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d4b986be50a027a9c789903d3b59e0208c3fab8382292046a21ace3d300192f9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part4-20261009/2325c858e5bb376be0ba2df401447129075a886969f37fe31430ca4f0a53063d-1792558563152/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "A goat is tied by a rope to a corner of a grassy field of width 30 metres and length 40 metres.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q9-field",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 p15-q9-field\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (4,3);\n\\coordinate (D) at (0,3);\n\\coordinate (G) at (2.1,2.1);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\path (A)--(B) node[midway,below] {$40\\,\\mathrm{m}$};\n\\path (B)--(C) node[midway,right] {$30\\,\\mathrm{m}$};\n\\fill (B) circle (1.2pt);\n\\draw (B) to[out=145,in=-70] (G);\n\\fill (G) circle (1.2pt);\n\\node[above left] at (G) {goat};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 9, bottom of left column",
+          "description": "Unfilled rectangular field with bottom and right dimension labels; rope connects the lower-right tether point to an interior goat position marker. The illustrative goat position and rope curve are not numerical givens.",
+          "mathematics": "Rectangular field 40 m by 30 m; tether at the lower-right corner.",
+          "answerVisibility": "Only supplied dimensions and tether relationship are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What length of rope would ensure that the goat can access all of the grass in the field?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$50\\text{ m}$",
+          "worked": "The opposite corner is the farthest point from the tether.\n$$\\begin{align*}L^2&=30^2+40^2\\\\L^2&=2500\\\\L&=50\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p15-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What percentage of the field’s area can the goat access if the length of the rope is 30 metres? Give your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$58.90\\%$",
+          "worked": "The accessible region is a quadrant of radius $30\\text{ m}$.\n$$\\begin{align*}A_{\\text{field}}&=30\\times40=1200\\text{ m}^2\\\\A_{\\text{accessible}}&=\\frac14\\pi(30)^2=225\\pi\\text{ m}^2\\\\\\text{Percentage}&=\\frac{225\\pi}{1200}\\times100\\\\\\text{Percentage}&\\approx58.90\\%.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p15-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What percentage of the field’s area can the goat access if the length of the rope is 35 metres? Give your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$75.09\\%$\n\nSubtract the circular segment beyond the 30 m boundary from the quadrant.",
+          "worked": "Subtract the segment extending beyond the 30 m boundary. Let $\\alpha$ be the angle between the perpendicular to that boundary and the radius to its intersection with the circle; let $s$ be the distance along the boundary from the perpendicular foot to that intersection.\n$$\\begin{align*}\\alpha&=\\cos^{-1}\\left(\\frac{30}{35}\\right)\\\\s&=\\sqrt{35^2-30^2}=5\\sqrt{13}\\text{ m}\\\\A_{\\text{segment}}&=\\frac{\\alpha}{360^{\\circ}}\\pi(35)^2-\\frac12(30)(5\\sqrt{13})\\\\A_{\\text{accessible}}&=\\frac14\\pi(35)^2-A_{\\text{segment}}\\\\A_{\\text{accessible}}&\\approx901.105636\\text{ m}^2\\\\\\text{Percentage}&=\\frac{A_{\\text{accessible}}}{1200}\\times100\\\\\\text{Percentage}&\\approx75.09\\%.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p15-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What percentage of the field’s area can the goat access if the length of the rope is 45 metres? Give your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$97.70\\%$\n\nSubtract the two circular segments beyond the 30 m and 40 m boundaries from the quadrant.",
+          "worked": "The quadrant extends beyond both boundaries. The two outside segments do not overlap because the opposite corner is $50\\text{ m}$ from the tether. Let $\\alpha$ and $\\beta$ be the angles between the perpendiculars to the respective boundaries and the radii to their circle intersections.\n$$\\begin{align*}\\alpha&=\\cos^{-1}\\left(\\frac{30}{45}\\right)\\\\\\beta&=\\cos^{-1}\\left(\\frac{40}{45}\\right)\\\\s_{30}&=\\sqrt{45^2-30^2}=15\\sqrt5\\text{ m}\\\\s_{40}&=\\sqrt{45^2-40^2}=5\\sqrt{17}\\text{ m}\\\\S_{30}&=\\frac{\\alpha}{360^{\\circ}}\\pi(45)^2-\\frac12(30)(15\\sqrt5)\\\\S_{40}&=\\frac{\\beta}{360^{\\circ}}\\pi(45)^2-\\frac12(40)(5\\sqrt{17})\\\\A_{\\text{accessible}}&=\\frac14\\pi(45)^2-S_{30}-S_{40}\\\\A_{\\text{accessible}}&\\approx1172.444332\\text{ m}^2\\\\\\text{Percentage}&=\\frac{A_{\\text{accessible}}}{1200}\\times100\\\\\\text{Percentage}&\\approx97.70\\%.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:40:32.596Z",
+  "updatedAt": "2026-11-12T13:40:32.597Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part4-20261009",
+    "blockId": "p15-q9",
+    "sectionRole": "exercise"
+  }
+}
