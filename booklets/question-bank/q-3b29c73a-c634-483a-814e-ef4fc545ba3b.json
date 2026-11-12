@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3b29c73a-c634-483a-814e-ef4fc545ba3b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "construct-distance-time-graphs",
+    "secondarySkillIds": [
+      "interpret-distance-time-graphs",
+      "calculate-speed-distance-time"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate journey endpoints and rest times, construct the supplied piecewise journeys, then interpret intersections and remaining distance.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T09:45:51.363Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5e19c1f2000af30d8648ebd700b4f2b5cb9aad88215f5bd349d0508448b3f591",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch04-20261015/lean-review/calls/content-1792748707045-33/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q1",
+    "type": "question",
+    "label": "1",
+    "prompt": "Tom begins in Mildura and travels a distance of 300 km to Broken Hill at a constant speed of 80 km/h. Steve, beginning at the same time, travels at a constant speed of 100 km/h from Mildura to Broken Hill with a 30-minute rest after travelling 150 km.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $d$ be the distance (in km) from Mildura, and $t$ the time (in hours) after Tom and Steve leave Mildura. On a single set of axes, draw graphs to illustrate the journeys of Tom and Steve ($d$ against $t$).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tom: join $(0,0)$ to $(3.75,300)$.\n\nSteve: join $(0,0)$, $(1.5,150)$, $(2,150)$ and $(3.5,300)$ in order.",
+          "worked": "Tom travels at a constant speed throughout.\n$$\\begin{align*}t_{\\text{Tom}} &= \\frac{300}{80}\\\\t_{\\text{Tom}} &= 3.75\\text{ h}\\end{align*}$$\nDraw Tom’s straight segment from $(0,0)$ to $(3.75,300)$.\n\nSteve reaches 150 km after:\n$$\\begin{align*}t_{\\text{first stage}} &= \\frac{150}{100}\\\\t_{\\text{first stage}} &= 1.5\\text{ h}\\end{align*}$$\nHis rest ends at $t=2$ h. The remaining 150 km takes another 1.5 h, so he arrives at $t=3.5$ h. Join $(0,0)$, $(1.5,150)$, $(2,150)$ and $(3.5,300)$ with straight segments. The horizontal segment represents his rest.",
+          "solutionDiagrams": [
+            {
+              "id": "p32-q1-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"steveBlue\",\"hex\":\"268CFF\",\"reason\":\"Steve journey series\"}],\"reference\":\"source page 32 question 1; teacher page 16\"}\n\\begin{tikzpicture}[x=1.65cm,y=0.018cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{steveBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(4.6,0) node[right] {$t$ (h)};\n\\draw[->,line width=0.5pt] (0,0)--(0,335) node[above] {$d$ (km)};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\x in {1,2,3,4}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-5);\\node[below] at (\\x,-5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {100,200,300}{\\draw[line width=0.4pt] (0,\\y)--(-0.06,\\y);\\node[left] at (-0.06,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[black,dashed,line width=0.8pt] (0,0)--(3.75,300);\n\\draw[steveBlue,line width=0.8pt] (0,0)--(1.5,150)--(2,150)--(3.5,300);\n\\draw[steveBlue,line width=0.8pt] (0.35,325)--(0.8,325) node[right,black] {Steve};\n\\draw[black,dashed,line width=0.8pt] (2.15,325)--(2.6,325) node[right] {Tom};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 32,
+                "sourceRegion": "Question 1a; teacher page 16 Challenge exercise 1a",
+                "description": "A single set of distance–time axes containing both complete journeys. Steve uses a solid blue line; Tom uses a dashed black line with an explicit legend.",
+                "mathematics": "Tom joins (0,0) to (3.75,300). Steve joins (0,0), (1.5,150), (2,150), (3.5,300). Axes have hourly and 100 km ticks; no grid.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p32-q1-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "From the graphs, find:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p32-q1-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "when and where Tom overtakes Steve",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "After $1$ hour $52\\frac12$ minutes, 150 km from Mildura.",
+              "worked": "Tom’s graph crosses Steve’s horizontal rest segment at $(1.875,150)$.\n$$\\begin{align*}1.875\\text{ h} &= 1\\text{ h}+0.875\\times60\\text{ min}\\\\1.875\\text{ h} &= 1\\text{ h }52\\tfrac12\\text{ min}\\end{align*}$$\nTom overtakes Steve 150 km from Mildura.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p32-q1-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "when and where Steve overtakes Tom",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "After $2\\frac12$ hours, 200 km from Mildura.",
+              "worked": "After Steve’s rest, the two rising graph segments intersect at $(2.5,200)$. Steve overtakes Tom after $2\\frac12$ hours, 200 km from Mildura.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          },
+          {
+            "id": "p32-q1-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "the distance Tom still has to travel to Broken Hill at the time Steve arrives at Broken Hill",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "20 km",
+              "worked": "Steve arrives at $t=3.5$ h. At this time, Tom’s graph gives $d=280$ km.\n$$\\begin{align*}\\text{Remaining distance} &= 300-280\\\\\\text{Remaining distance} &= 20\\text{ km}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q1-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:23:34.582Z",
+  "updatedAt": "2026-11-12T11:23:34.582Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch04-20261015",
+    "blockId": "p32-q1-block",
+    "sectionRole": "exercise"
+  }
+}

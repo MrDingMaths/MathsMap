@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bef68ab2-1cff-4729-9312-d5c44d79fd83",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "midpoint-formula"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the midpoint formula with a supplied internal division ratio to establish a general coordinate result.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T13:17:14.938Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "afada0466fbf6a0a6f9a8581fbffec7f37478759e2c32059a5b9480212e2a3b0",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch04-20261015/direct-independent-statistics-final-fourteen-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p33-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "$AE$, $BF$ and $CD$ are the medians of $\\triangle ABC$. They are concurrent at the point $X$.\n\nWe also have:\n$$\\begin{aligned}BX&=2XF\\\\CX&=2XD\\\\AX&=2XE\\end{aligned}$$\nShow that $X$ has coordinates:\n$$\\left(\\frac13(x_1+x_2+x_3),\\;\\frac13(y_1+y_2+y_3)\\right).$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p33-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 33, p33-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0.6,1.05);\n\\coordinate (B) at (2.8,2.75);\n\\coordinate (C) at (4.8,1.05);\n\\coordinate (D) at ($(A)!0.5!(B)$);\n\\coordinate (E) at ($(B)!0.5!(C)$);\n\\coordinate (F) at ($(A)!0.5!(C)$);\n\\coordinate (X) at ($(B)!0.666666667!(F)$);\n\\draw[->,line width=0.5pt] (-0.5,0)--(6.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.4)--(0,3.3) node[above] {$y$};\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.8pt] (A)--(E) (B)--(F) (C)--(D);\n\\foreach \\P/\\Q in {A/D,D/B} {\n  \\coordinate (T) at ($(\\P)!0.5!(\\Q)$);\n  \\draw[line width=0.4pt] ($(T)!0.075cm!90:(\\Q)$)--($(T)!0.075cm!-90:(\\Q)$);\n  \\coordinate (U) at ($(T)!0.055cm!(\\P)$);\n  \\draw[line width=0.4pt] ($(U)!0.075cm!90:(\\Q)$)--($(U)!0.075cm!-90:(\\Q)$);\n  \\coordinate (V) at ($(T)!0.055cm!(\\Q)$);\n  \\draw[line width=0.4pt] ($(V)!0.075cm!90:(\\Q)$)--($(V)!0.075cm!-90:(\\Q)$);\n}\n\\foreach \\P/\\Q in {B/E,E/C} {\n  \\coordinate (T) at ($(\\P)!0.5!(\\Q)$);\n  \\draw[line width=0.4pt] ($(T)!0.075cm!90:(\\Q)$)--($(T)!0.075cm!-90:(\\Q)$);\n}\n\\foreach \\P/\\Q in {A/F,F/C} {\n  \\coordinate (T) at ($(\\P)!0.5!(\\Q)$);\n  \\coordinate (U) at ($(T)!0.035cm!(\\P)$);\n  \\coordinate (V) at ($(T)!0.035cm!(\\Q)$);\n  \\draw[line width=0.4pt] ($(U)!0.075cm!90:(\\Q)$)--($(U)!0.075cm!-90:(\\Q)$);\n  \\draw[line width=0.4pt] ($(V)!0.075cm!90:(\\Q)$)--($(V)!0.075cm!-90:(\\Q)$);\n}\n\\node[anchor=east] (labelA) at (-0.2,0.65) {$A\\,(x_1,y_1)$};\\draw[line width=0.25pt] (labelA.east)--(A);\n\\node[above] at (B) {$B\\,(x_2,y_2)$};\n\\node[right] at (C) {$C\\,(x_3,y_3)$};\n\\node[above left] at (D) {$D$};\n\\node[above right] at (E) {$E$};\n\\node[below] at (F) {$F$};\n\\node[above left] at (X) {$X$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 33,
+          "sourceRegion": "Question 7, diagram to the right of the stem",
+          "description": "Triangle with three concurrent medians, labelled coordinate vertices and matching side-bisection ticks. Ordinary source blue strokes become black under house style; the origin label is omitted under the graph convention.",
+          "mathematics": "D, E and F are the midpoints of AB, BC and AC respectively. AE, BF and CD meet at X. Triple ticks identify AD=DB, single ticks identify BE=EC, and double ticks identify AF=FC. Drawing coordinates determine only the illustrative geometry and are not printed givens.",
+          "answerVisibility": "All supplied geometry and labels remain visible in the question; no calculated coordinates are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$X=\\left(\\dfrac{x_1+x_2+x_3}{3},\\dfrac{y_1+y_2+y_3}{3}\\right)$.\n\nUse the midpoint $F$ of $AC$ and $BX=2XF$, so $X$ lies two-thirds of the way from $B$ to $F$.",
+      "worked": "Since $BF$ is a median, $F$ is the midpoint of $AC$:\n$$F=\\left(\\frac{x_1+x_3}{2},\\frac{y_1+y_3}{2}\\right).$$\nSince $BX=2XF$, $BF=3XF$, so $X$ lies two-thirds of the way from $B$ to $F$. Write $X=(x,y)$. Applying this fraction to the horizontal and vertical changes gives\n$$\\begin{align*}x&=x_2+\\frac23\\left(\\frac{x_1+x_3}{2}-x_2\\right)\\\\x&=x_2+\\frac{x_1+x_3-2x_2}{3}\\\\x&=\\frac{x_1+x_2+x_3}{3},\\\\y&=y_2+\\frac23\\left(\\frac{y_1+y_3}{2}-y_2\\right)\\\\y&=y_2+\\frac{y_1+y_3-2y_2}{3}\\\\y&=\\frac{y_1+y_2+y_3}{3}.\\end{align*}$$\nTherefore\n$$X=\\left(\\frac13(x_1+x_2+x_3),\\frac13(y_1+y_2+y_3)\\right).$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 100
+  },
+  "presentation": {
+    "ownerId": "p33-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:23:37.172Z",
+  "updatedAt": "2026-11-12T11:23:37.172Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch04-20261015",
+    "blockId": "p33-q7",
+    "sectionRole": "exercise"
+  }
+}

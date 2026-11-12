@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0cc97479-cf43-4d0c-8687-28a375a9332b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "surface-area-composite-pyramid-cone-sphere",
+    "secondarySkillIds": [
+      "surface-area-cone",
+      "find-sides-similar",
+      "identify-slant-perpendicular-height"
+    ],
+    "reasoningScore": 90,
+    "difficulty": "Challenge",
+    "difficultyReason": "Uses similar cones, subtraction of curved areas, algebraic factorisation and Pythagoras to derive frustum formulas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:19:50.570Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "316864ee1748e43f4a59ae5d425b76baa3aa9103167cfc7058590973e688bfd4",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch06-20261015/semantic-packets/assignments/assignment-4e195ac24998f16277fd/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p35-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The frustum of a cone has base radii $r$ and $R$, and the slant height is $s$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p35-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 35, p35-q9-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,4);\\coordinate (B) at (0,0);\\coordinate (C) at (0,2);\\coordinate (D) at (1,2);\\coordinate (E) at (2,0);\n\\draw (-2,0)--(A)--(E);\n\\draw (2,0) arc[start angle=0,end angle=-180,x radius=2,y radius=.48];\n\\draw[dashed,line width=.4pt] (-2,0) arc[start angle=180,end angle=0,x radius=2,y radius=.48];\n\\draw (1,2) arc[start angle=0,end angle=-180,x radius=1,y radius=.24];\n\\draw[dashed,line width=.4pt] (-1,2) arc[start angle=180,end angle=0,x radius=1,y radius=.24];\n\\draw[dashed,line width=.4pt] (B)--(C);\n\\draw (B)--(E) node[midway,below] {$R$};\\draw (C)--(D);\n\\draw[line width=.4pt] (0,.18)--(.18,.18)--(.18,0);\\draw[line width=.4pt] (0,2.18)--(.18,2.18)--(.18,2);\n\\fill (B) circle[radius=.035];\\fill (C) circle[radius=.035];\n\\node[left] at (0,1) {$h$};\n\\draw[->,line width=.4pt] (.25,2.85) node[above] {$r$} to[bend left=20] (.55,2);\n\\draw[<->,line width=.5pt] (-.23,4.1)--(-2.23,.1) node[midway,left] {$\\ell$};\n\\draw[<->,line width=.5pt] (1.24,2.12)--(2.24,.12) node[midway,right] {$s$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 56,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 35,
+          "sourceRegion": "Question 9, upper-right cone and frustum figure",
+          "description": "Full cone retained above a horizontal circular cut. Full slant height ℓ, frustum slant height s, radii r and R, perpendicular frustum height h, centre dots and right-angle markers are retained. Ordinary source blue and red marks become black; hidden arcs remain dashed. No decorative fill.",
+          "mathematics": "The cut is parallel to the base. The upper cone and full cone are similar; the frustum has perpendicular height h and slant height s.",
+          "answerVisibility": "All source givens remain visible; no derived formula is drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p35-q9a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let the slant height of the full cone be $\\ell$. Show that $\\ell=\\dfrac{sR}{R-r}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\ell=\\dfrac{sR}{R-r}$.\n\nUse corresponding radius and slant-height ratios in the similar cones.",
+          "worked": "The removed cone has radius $r$ and slant height $\\ell-s$. The cones are similar, so\n$$\\begin{align*}\\frac{\\ell-s}{\\ell}&=\\frac{r}{R}\\\\R(\\ell-s)&=r\\ell\\\\R\\ell-Rs&=r\\ell\\\\\\ell(R-r)&=Rs\\\\\\ell&=\\frac{sR}{R-r}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p35-q9b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, show that the surface area of the curved section is $\\pi(r+R)s$, and that the total surface area is $\\pi(r^2+R^2)+\\pi(r+R)s$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Curved surface area: $\\pi(r+R)s$.\n\nTotal surface area: $\\pi(r^2+R^2)+\\pi(r+R)s$.\n\nSubtract the smaller cone’s curved area from the full cone’s, then add both circular ends.",
+          "worked": "Subtract the curved area of the removed cone:\n$$\\begin{align*}A_{\\text{curved}}&=\\pi R\\ell-\\pi r(\\ell-s)\\\\A_{\\text{curved}}&=\\pi\\bigl((R-r)\\ell+rs\\bigr)\\\\A_{\\text{curved}}&=\\pi\\left((R-r)\\frac{sR}{R-r}+rs\\right)\\\\A_{\\text{curved}}&=\\pi(Rs+rs)\\\\A_{\\text{curved}}&=\\pi(r+R)s.\\end{align*}$$\nAdd the two circular ends:\n$$\\begin{align*}S&=\\pi r^2+\\pi R^2+A_{\\text{curved}}\\\\S&=\\pi(r^2+R^2)+\\pi(r+R)s.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p35-q9c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the latter can be written as $\\pi(r+R)\\sqrt{(R-r)^2+h^2}+\\pi(r^2+R^2)$, where $h$ is the height of the frustum.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$S=\\pi(r+R)\\sqrt{(R-r)^2+h^2}+\\pi(r^2+R^2)$.\n\nUse $s^2=h^2+(R-r)^2$.",
+          "worked": "An axial section gives a right-angled triangle with legs $h$ and $R-r$ and hypotenuse $s$. By Pythagoras’ theorem,\n$$\\begin{align*}s^2&=h^2+(R-r)^2\\\\s&=\\sqrt{(R-r)^2+h^2}.\\end{align*}$$\nSubstitute into the total surface area from part b:\n$$\\begin{align*}S&=\\pi(r^2+R^2)+\\pi(r+R)s\\\\S&=\\pi(r+R)\\sqrt{(R-r)^2+h^2}+\\pi(r^2+R^2).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p35-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:35:41.115Z",
+  "updatedAt": "2026-11-12T11:35:41.115Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch06-20261015",
+    "blockId": "p35-q9",
+    "sectionRole": "exercise"
+  }
+}

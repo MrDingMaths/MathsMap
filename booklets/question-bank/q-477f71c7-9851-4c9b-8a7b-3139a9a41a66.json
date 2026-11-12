@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-477f71c7-9851-4c9b-8a7b-3139a9a41a66",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-problems",
+    "secondarySkillIds": [
+      "pythagoras-find-shorter-side",
+      "simplify-surds-operations"
+    ],
+    "reasoningScore": 77,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires identifying a right triangle outside a rotated square, finding its shorter side and using perpendicular equal sides to determine the remaining height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T09:57:54.259Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c4a6e37ab53bcec7096f1b85a16fee6bb5f37485a0974083edb722e2bae3bab0",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch02-20261015/semantic-packets/assignments/assignment-7c1697260b2d925144c3/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p25-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A square box of side 7 cm is leaning against a vertical wall, as shown below. Find the height of point $C$ above the floor.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q10-diagram\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at ({-sqrt(24)},5);\n\\coordinate (C) at ({5-sqrt(24)},{5+sqrt(24)});\n\\coordinate (D) at (5,{sqrt(24)});\n\\draw (-5,0)--(5,0)--(5,10);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\coordinate (BAmark) at ($(B)!0.65cm!(A)$);\n\\coordinate (BCmark) at ($(B)!0.65cm!(C)$);\n\\draw[line width=0.4pt] (BAmark)--($(BAmark)+(BCmark)-(B)$)--(BCmark);\n\\node[below] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\path (B)--(A) node[midway,below left] {$7\\text{ cm}$};\n\\path (B)--(C) node[midway,above left] {$7\\text{ cm}$};\n\\path (A)--(5,0) node[midway,below] {$5\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Challenge exercise question 10",
+          "description": "Unshaded tilted square ABCD resting at A on a horizontal floor and touching a vertical wall at D. AB and BC each retain the printed 7 cm label; the angle at B is marked right. The floor distance from A to the wall is labelled 5 cm. Ordinary source blue linework is rendered black under house style.",
+          "mathematics": "AB=BC=CD=DA=7 cm; adjacent square sides are perpendicular. With A=(0,0), D=(5,sqrt(24)), B=(-sqrt(24),5) and C=(5-sqrt(24),5+sqrt(24)), all square relationships and the given floor distance hold exactly. Coordinates are construction data, not additional printed givens.",
+          "answerVisibility": "Only source givens and labels appear; no calculated lengths or heights are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$(5+2\\sqrt6)\\text{ cm}$\n\nUse Pythagoras’ theorem to find the height of $D$, then add the vertical rise from $D$ to $C$.",
+      "worked": "Let $E$ be the point where the wall meets the floor. Then $AE=5$ cm and $AD=7$ cm. In right-angled triangle $AED$,\n$$\\begin{align*}DE^2&=7^2-5^2\\\\DE^2&=24\\\\DE&=2\\sqrt6\\text{ cm}.\\end{align*}$$\nSince $DC=AD$ and $DC$ is perpendicular to $AD$, rotating side $AD$ through a right angle interchanges its horizontal and vertical components. Thus the vertical rise from $D$ to $C$ equals $AE=5$ cm.\n$$\\begin{align*}\\text{Height of }C&=DE+5\\\\\\text{Height of }C&=(2\\sqrt6+5)\\text{ cm}.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 58
+  },
+  "presentation": {
+    "ownerId": "p25-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:46:44.627Z",
+  "updatedAt": "2026-11-12T13:46:44.627Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch02-20261015",
+    "blockId": "p25-q10",
+    "sectionRole": "exercise"
+  }
+}

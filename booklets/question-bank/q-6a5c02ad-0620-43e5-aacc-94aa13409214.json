@@ -1,0 +1,399 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6a5c02ad-0620-43e5-aacc-94aa13409214",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sketch-parabola-from-equation",
+    "secondarySkillIds": [
+      "parabola-intercepts-axis-vertex"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Combines substitution, reading vertex form, sketching and interpreting intercept counts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T20:28:11.799Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1876842739a488327e9fcfdab6d4c575ffdf1d4b8b5326eb377589834b59f84a",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch07-20261015/lean-review/calls/content-1792614472756-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q1-root",
+    "type": "question",
+    "label": "",
+    "prompt": "For each parabola:\n\ni determine the $y$-intercept\n\nii write down the axis of symmetry and the vertex\n\niii sketch the parabola\n\niv determine from the sketch whether the parabola has no $x$-intercepts, one $x$-intercept or two $x$-intercepts",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x^2+3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $3$; axis $x=0$; vertex $(0,3)$; no $x$-intercepts. Sketch shown in panel a.",
+          "worked": "When $x=0$, $y=0^2+3=3$. The form $y=(x-0)^2+3$ gives axis $x=0$ and vertex $(0,3)$. The parabola opens upwards and has minimum value $3>0$, so it has no $x$-intercepts.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-solutions",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {a/1/0/3/3/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel a. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p13-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=x^2-7$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $-7$; axis $x=0$; vertex $(0,-7)$; two $x$-intercepts. Sketch shown in panel b.",
+          "worked": "When $x=0$, $y=0^2-7=-7$. The form $y=(x-0)^2-7$ gives axis $x=0$ and vertex $(0,-7)$. The parabola opens upwards with its vertex below the $x$-axis, so its sketch crosses that axis twice.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-b-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {b/1/0/-7/-7/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel b. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p13-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=(x-2)^2+4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $8$; axis $x=2$; vertex $(2,4)$; no $x$-intercepts. Sketch shown in panel c.",
+          "worked": "When $x=0$, $y=(-2)^2+4=8$. Vertex form gives axis $x=2$ and vertex $(2,4)$. The parabola opens upwards and has minimum value $4>0$, so it has no $x$-intercepts.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-c-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {c/1/2/4/8/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel c. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=(x-3)^2-7$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $2$; axis $x=3$; vertex $(3,-7)$; two $x$-intercepts. Sketch shown in panel d.",
+          "worked": "When $x=0$, $y=(-3)^2-7=2$. Vertex form gives axis $x=3$ and vertex $(3,-7)$. The parabola opens upwards with its vertex below the $x$-axis, so its sketch crosses that axis twice.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-d-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {d/1/3/-7/2/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel d. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=(x+5)^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $25$; axis $x=-5$; vertex $(-5,0)$; one $x$-intercept. Sketch shown in panel e.",
+          "worked": "When $x=0$, $y=5^2=25$. The form $y=(x-(-5))^2+0$ gives axis $x=-5$ and vertex $(-5,0)$. The parabola opens upwards and touches the $x$-axis at its vertex, giving one $x$-intercept.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-e-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {e/1/-5/0/25/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel e. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=(x-7)^2-1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $48$; axis $x=7$; vertex $(7,-1)$; two $x$-intercepts. Sketch shown in panel f.",
+          "worked": "When $x=0$, $y=(-7)^2-1=48$. Vertex form gives axis $x=7$ and vertex $(7,-1)$. The parabola opens upwards with its vertex below the $x$-axis, so its sketch crosses that axis twice.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-f-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {f/1/7/-1/48/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt) node[below right] {$(\\h,\\k)$};\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel f. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "$y=-(x-3)^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $-9$; axis $x=3$; vertex $(3,0)$; one $x$-intercept. Sketch shown in panel g.",
+          "worked": "When $x=0$, $y=-(-3)^2=-9$. Vertex form gives axis $x=3$ and vertex $(3,0)$. The parabola opens downwards and touches the $x$-axis at its vertex, giving one $x$-intercept.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-g-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {g/-1/3/0/-9/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\n\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\fill (\\h,\\k) circle (1pt);\n\\node[anchor=south west,inner sep=2pt,xshift=4mm,yshift=5mm] (vertexlabel) at (\\h,\\k) {$(\\h,\\k)$};\n\\draw[line width=.4pt] (\\h,\\k)--(vertexlabel.south west);\n\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel g. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "$y=-(x+1)^2+5$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $4$; axis $x=-1$; vertex $(-1,5)$; two $x$-intercepts. Sketch shown in panel h.",
+          "worked": "When $x=0$, $y=-(1)^2+5=4$. Vertex form gives axis $x=-1$ and vertex $(-1,5)$. The parabola opens downwards with its vertex above the $x$-axis, so its sketch crosses that axis twice.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-h-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {h/-1/-1/5/4/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt);\n\\node[anchor=south east,inner sep=2pt,xshift=-4mm,yshift=5mm] (vertexlabel) at (\\h,\\k) {$(\\h,\\k)$};\n\\draw[line width=.4pt] (\\h,\\k)--(vertexlabel.south east);\n\\fill (0,\\c) circle (1pt);\n\\node[anchor=south west,inner sep=2pt,xshift=5mm,yshift=2mm] (interceptlabel) at (0,\\c) {$(0,\\c)$};\n\\draw[line width=.4pt] (0,\\c)--(interceptlabel.south west);\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel h. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p13-q1-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "$y=-(x-2)^2-1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $-5$; axis $x=2$; vertex $(2,-1)$; no $x$-intercepts. Sketch shown in panel i.",
+          "worked": "When $x=0$, $y=-(-2)^2-1=-5$. Vertex form gives axis $x=2$ and vertex $(2,-1)$. The parabola opens downwards and has maximum value $-1<0$, so it has no $x$-intercepts.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q1-i-solution-panel",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 13 Q1 solution panels\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\lab/\\a/\\h/\\k/\\c/\\col/\\row in {i/-1/2/-1/-5/0/0}{\n\\pgfmathsetmacro{\\xl}{min(0,\\h)-3.4}\\pgfmathsetmacro{\\xr}{max(0,\\h)+3.4}\n\\pgfmathsetmacro{\\yl}{min(0,\\k,\\c)-3}\\pgfmathsetmacro{\\yr}{max(0,\\k,\\c)+3}\n\\pgfmathsetmacro{\\xu}{4/(\\xr-\\xl)}\\pgfmathsetmacro{\\yu}{3.2/(\\yr-\\yl)}\n\\begin{scope}[shift={(5.6*\\col,-5.3*\\row)}]\n\\node[anchor=west] at (0,3.9){\\lab};\n\\begin{scope}[x=\\xu cm,y=\\yu cm,shift={(-\\xl,-\\yl)}]\n\\draw[->,line width=.5pt] (\\xl,0)--(\\xr,0) node[right]{$x$};\\draw[->,line width=.5pt] (0,\\yl)--(0,\\yr) node[above]{$y$};\n\\draw[dashed,line width=.4pt] (\\h,\\yl)--(\\h,\\yr);\n\\begin{scope}\\clip (\\xl,\\yl) rectangle (\\xr,\\yr);\\draw[line width=.8pt,domain=\\xl:\\xr,samples=90] plot (\\x,{\\a*(\\x-\\h)^2+\\k});\\end{scope}\n\\fill (\\h,\\k) circle (1pt);\n\\node[anchor=south west,inner sep=2pt,xshift=5mm,yshift=6mm] (vertexlabel) at (\\h,\\k) {$(\\h,\\k)$};\n\\draw[line width=.4pt] (\\h,\\k)--(vertexlabel.south west);\n\\fill (0,\\c) circle (1pt) node[above left] {$(0,\\c)$};\n\\end{scope}\\end{scope}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 7B question 1",
+                "description": "Individual panel i. Nine labelled solution sketches in source order. Each panel shows the vertex, y-intercept and dashed axis of symmetry; coordinates use independent horizontal and vertical scales.",
+                "mathematics": "a: x²+3; b: x²−7; c: (x−2)²+4; d: (x−3)²−7; e: (x+5)²; f: (x−7)²−1; g: −(x−3)²; h: −(x+1)²+5; i: −(x−2)²−1.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:14.357Z",
+  "updatedAt": "2026-11-12T13:14:14.362Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch07-20261015",
+    "blockId": "p13-q1",
+    "sectionRole": "exercise"
+  }
+}

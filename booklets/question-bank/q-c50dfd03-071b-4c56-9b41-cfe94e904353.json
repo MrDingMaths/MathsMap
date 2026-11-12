@@ -1,0 +1,286 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c50dfd03-071b-4c56-9b41-cfe94e904353",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sketch-parabola-from-equation",
+    "secondarySkillIds": [
+      "complete-square-form",
+      "parabola-intercepts-axis-vertex"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Complete non-monic squares, determine exact intercepts and combine the features in sketches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T10:09:32.500Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fc15a83bea9e0d82bfea9f4f522f2cfc3397179bc674c0b243425c940e7df09d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch07-20261015/lean-review/calls/content-1792750146397-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "For each parabola:\n\ni determine the $y$-intercept\n\nii complete the square\n\niii find the axis of symmetry and the vertex\n\niv determine any $x$-intercepts\n\nv sketch the parabola",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=2x^2+4x+3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $3$.\n\n$y=2(x+1)^2+1$; axis $x=-1$; vertex $(-1,1)$.\n\nNo $x$-intercepts. Opens upwards.",
+          "worked": "At $x=0$, $y=3$.\n\n$$\\begin{align*}y&=2(x^2+2x)+3\\\\y&=2[(x+1)^2-1]+3\\\\y&=2(x+1)^2+1\\end{align*}$$\n\nThe axis is $x=-1$ and the vertex is $(-1,1)$. Since $y\\geq1$, there are no $x$-intercepts. Sketch an upward-opening parabola through $(0,3)$ with minimum $(-1,1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5a; teacher p27\"}\n\\begin{tikzpicture}[x=1cm,y=0.38cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(1.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.6)--(0,10) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,9.4) node[above] {$x=-1$};\n\\draw[line width=0.8pt,domain=-3:1,samples=70] plot (\\x,{2*(\\x+1)^2+1});\n\\fill (-1,1) circle (1.3pt);\n\\draw[line width=0.4pt] (-1,1)--(-1.35,4.8);\n\\node[anchor=south east,inner sep=2pt] at (-1.35,4.8) {$(-1,1)$};\n\\fill (0,3) circle (1.3pt) node[right] {$(0,3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5a",
+                "description": "Complete solution sketch with vertex, y-intercept and dashed symmetry axis; no x-intercepts.",
+                "mathematics": "y=2(x+1)^2+1",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 112
+      },
+      {
+        "id": "p20-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=-2x^2-4x+7$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $7$.\n\n$y=-2(x+1)^2+9$; axis $x=-1$; vertex $(-1,9)$.\n\n$x$-intercepts: $\\dfrac{-2-3\\sqrt2}{2}$ and $\\dfrac{-2+3\\sqrt2}{2}$. Opens downwards.",
+          "worked": "At $x=0$, $y=7$.\n\n$$\\begin{align*}y&=-2(x^2+2x)+7\\\\y&=-2[(x+1)^2-1]+7\\\\y&=-2(x+1)^2+9\\end{align*}$$\n\nThe axis is $x=-1$ and the vertex is $(-1,9)$.\n\nFor the $x$-intercepts:\n\n$$\\begin{align*}0&=-2(x+1)^2+9\\\\2(x+1)^2&=9\\\\(x+1)^2&=\\frac92\\\\x+1&=\\pm\\frac{3\\sqrt2}{2}\\\\x&=\\frac{-2\\pm3\\sqrt2}{2}\\end{align*}$$\n\nSketch a downward-opening parabola through these intercepts with maximum $(-1,9)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5b; teacher p27\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.26cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-4.2,0)--(2.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-6)--(0,12) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,-5)--(-1,10.6);\n\\node[anchor=east,inner sep=2pt] (symmetrylabel) at (-4.9,15) {$x=-1$};\n\\draw[line width=0.4pt] (-1,10.6)--(-2.8,15)--(symmetrylabel.east);\n\\draw[line width=0.8pt,domain=-3.65:1.65,samples=80] plot (\\x,{-2*(\\x+1)^2+9});\n\\fill (-1,9) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (vertexlabel) at (3,15) {$(-1,9)$};\n\\draw[line width=0.4pt] (-1,9)--(1.5,15)--(vertexlabel.west);\n\\fill (0,7) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (yinterceptlabel) at (3,8) {$(0,7)$};\n\\draw[line width=0.4pt] (0,7)--(yinterceptlabel.west);\n\\fill ({-1-3*sqrt(2)/2},0) circle (1.3pt);\n\\node[anchor=east,inner sep=2pt] (leftrootlabel) at (-4.9,-2) {$\\left(\\frac{-2-3\\sqrt2}{2},0\\right)$};\n\\draw[line width=0.4pt] ({-1-3*sqrt(2)/2},0)--(leftrootlabel.east);\n\\fill ({-1+3*sqrt(2)/2},0) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (rightrootlabel) at (3,-2) {$\\left(\\frac{-2+3\\sqrt2}{2},0\\right)$};\n\\draw[line width=0.4pt] ({-1+3*sqrt(2)/2},0)--(rightrootlabel.west);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5b",
+                "description": "Complete downward-opening solution graph with both exact x-intercepts, y-intercept, vertex and symmetry axis.",
+                "mathematics": "y=-2(x+1)^2+9; roots=(-2±3sqrt(2))/2",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 145
+      },
+      {
+        "id": "p20-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=3x^2+12x-19$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $-19$.\n\n$y=3(x+2)^2-31$; axis $x=-2$; vertex $(-2,-31)$.\n\n$x$-intercepts: $\\dfrac{-6-\\sqrt{93}}3$ and $\\dfrac{-6+\\sqrt{93}}3$. Opens upwards.",
+          "worked": "At $x=0$, $y=-19$.\n\n$$\\begin{align*}y&=3(x^2+4x)-19\\\\y&=3[(x+2)^2-4]-19\\\\y&=3(x+2)^2-31\\end{align*}$$\n\nThe axis is $x=-2$ and the vertex is $(-2,-31)$.\n\nFor the $x$-intercepts:\n\n$$\\begin{align*}0&=3(x+2)^2-31\\\\3(x+2)^2&=31\\\\(x+2)^2&=\\frac{31}{3}\\\\x+2&=\\pm\\frac{\\sqrt{93}}3\\\\x&=\\frac{-6\\pm\\sqrt{93}}3\\end{align*}$$\n\nSketch an upward-opening parabola through these intercepts with minimum $(-2,-31)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5c; teacher p27\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.095cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-6.5,0)--(2.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-39)--(0,20) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-2,-31)--(-2,16);\n\\node[anchor=south east,inner sep=2pt,xshift=-4mm,yshift=3mm] at (-2,16) {$x=-2$};\n\\draw[line width=0.8pt,domain=-6:2,samples=80] plot (\\x,{3*(\\x+2)^2-31});\n\\fill (-2,-31) circle (1.3pt);\n\\node[anchor=north,inner sep=2pt] (vertexlabel) at (-2,-48) {$(-2,-31)$};\n\\draw[line width=0.4pt] (-2,-31)--(vertexlabel.north);\n\\fill (0,-19) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (yinterceptlabel) at (3.5,-29) {$(0,-19)$};\n\\draw[line width=0.4pt] (0,-19)--(2.8,-29)--(yinterceptlabel.west);\n\\fill ({-2-sqrt(93)/3},0) circle (1.3pt);\n\\node[anchor=east,inner sep=2pt] (leftrootlabel) at (-7.5,-8) {$\\left(\\frac{-6-\\sqrt{93}}3,0\\right)$};\n\\draw[line width=0.4pt] ({-2-sqrt(93)/3},0)--(leftrootlabel.east);\n\\fill ({-2+sqrt(93)/3},0) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (rightrootlabel) at (3.5,-8) {$\\left(\\frac{-6+\\sqrt{93}}3,0\\right)$};\n\\draw[line width=0.4pt] ({-2+sqrt(93)/3},0)--(rightrootlabel.west);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5c",
+                "description": "Complete upward-opening solution sketch with exact intercepts and minimum.",
+                "mathematics": "y=3(x+2)^2-31; roots=(-6±sqrt(93))/3",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 148
+      },
+      {
+        "id": "p20-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=3x^2+8x-2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $-2$.\n\n$y=3\\left(x+\\dfrac43\\right)^2-\\dfrac{22}3$; axis $x=-\\dfrac43$; vertex $\\left(-\\dfrac43,-\\dfrac{22}3\\right)$.\n\n$x$-intercepts: $\\dfrac{-4-\\sqrt{22}}3$ and $\\dfrac{-4+\\sqrt{22}}3$. Opens upwards.",
+          "worked": "At $x=0$, $y=-2$.\n\n$$\\begin{align*}y&=3\\left(x^2+\\frac83x\\right)-2\\\\y&=3\\left[\\left(x+\\frac43\\right)^2-\\frac{16}9\\right]-2\\\\y&=3\\left(x+\\frac43\\right)^2-\\frac{22}3\\end{align*}$$\n\nThe axis is $x=-\\frac43$ and the vertex is $\\left(-\\frac43,-\\frac{22}3\\right)$.\n\nFor the $x$-intercepts:\n\n$$\\begin{align*}0&=3\\left(x+\\frac43\\right)^2-\\frac{22}3\\\\3\\left(x+\\frac43\\right)^2&=\\frac{22}3\\\\\\left(x+\\frac43\\right)^2&=\\frac{22}9\\\\x+\\frac43&=\\pm\\frac{\\sqrt{22}}3\\\\x&=\\frac{-4\\pm\\sqrt{22}}3\\end{align*}$$\n\nSketch an upward-opening parabola through these intercepts with the stated minimum.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5d; teacher p27\"}\n\\begin{tikzpicture}[x=1cm,y=0.32cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-4,0)--(1.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-11)--(0,7) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] ({-4/3},{-22/3})--({-4/3},6);\n\\node[anchor=east,inner sep=2pt] (symmetrylabel) at (-4.8,9) {$x=-\\frac43$};\n\\draw[line width=0.4pt] ({-4/3},6)--(-3.8,9)--(symmetrylabel.east);\n\\draw[line width=0.8pt,domain=-3.4:0.73,samples=80] plot (\\x,{3*\\x*\\x+8*\\x-2});\n\\fill ({-4/3},{-22/3}) circle (1.3pt);\n\\node[anchor=north,inner sep=2pt] (vertexlabel) at ({-4/3},-14) {$\\left(-\\frac43,-\\frac{22}3\\right)$};\n\\draw[line width=0.4pt] ({-4/3},{-22/3})--(vertexlabel.north);\n\\fill (0,-2) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (yinterceptlabel) at (2.3,-9) {$(0,-2)$};\n\\draw[line width=0.4pt] (0,-2)--(1.5,-9)--(yinterceptlabel.west);\n\\fill ({(-4-sqrt(22))/3},0) circle (1.3pt);\n\\node[anchor=east,inner sep=2pt] (leftrootlabel) at (-4.8,-3) {$\\left(\\frac{-4-\\sqrt{22}}3,0\\right)$};\n\\draw[line width=0.4pt] ({(-4-sqrt(22))/3},0)--(leftrootlabel.east);\n\\fill ({(-4+sqrt(22))/3},0) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (rightrootlabel) at (2.3,-3) {$\\left(\\frac{-4+\\sqrt{22}}3,0\\right)$};\n\\draw[line width=0.4pt] ({(-4+sqrt(22))/3},0)--(rightrootlabel.west);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5d",
+                "description": "Complete solution sketch retaining fractional vertex and exact radical intercepts.",
+                "mathematics": "y=3(x+4/3)^2-22/3; roots=(-4±sqrt(22))/3",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 158
+      },
+      {
+        "id": "p20-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=2x^2+x-15$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $-15$.\n\n$y=2\\left(x+\\dfrac14\\right)^2-\\dfrac{121}8$; axis $x=-\\dfrac14$; vertex $\\left(-\\dfrac14,-\\dfrac{121}8\\right)$.\n\n$x$-intercepts: $-3$ and $\\dfrac52$. Opens upwards.",
+          "worked": "At $x=0$, $y=-15$.\n\n$$\\begin{align*}y&=2\\left(x^2+\\frac12x\\right)-15\\\\y&=2\\left[\\left(x+\\frac14\\right)^2-\\frac1{16}\\right]-15\\\\y&=2\\left(x+\\frac14\\right)^2-\\frac{121}8\\end{align*}$$\n\nThe axis is $x=-\\frac14$ and the vertex is $\\left(-\\frac14,-\\frac{121}8\\right)$.\n\nFor the $x$-intercepts:\n\n$$\\begin{align*}0&=2\\left(x+\\frac14\\right)^2-\\frac{121}8\\\\2\\left(x+\\frac14\\right)^2&=\\frac{121}8\\\\\\left(x+\\frac14\\right)^2&=\\frac{121}{16}\\\\x+\\frac14&=\\pm\\frac{11}4\\\\x&=-3\\text{ or }\\frac52\\end{align*}$$\n\nSketch an upward-opening parabola through $(-3,0)$, $\\left(\\frac52,0\\right)$ and $(0,-15)$ with the stated minimum.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-e-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5e; teacher p27\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.18cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-4,0)--(3.6,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-22)--(0,9) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-0.25,-16)--(-0.25,7) node[above left] {$x=-\\frac14$};\n\\draw[line width=0.8pt,domain=-3.5:3,samples=80] plot (\\x,{2*\\x*\\x+\\x-15});\n\\fill (-0.25,-15.125) circle (1.3pt);\n\\node[anchor=north east,inner sep=2pt] (vertexlabel) at (-1,-27) {$\\left(-\\frac14,-\\frac{121}8\\right)$};\n\\draw[line width=0.4pt] (-0.25,-15.125)--(-1,-24)--(vertexlabel.north east);\n\\fill (0,-15) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (yinterceptlabel) at (4.5,-16) {$(0,-15)$};\n\\draw[line width=0.4pt] (0,-15)--(yinterceptlabel.west);\n\\fill (-3,0) circle (1.3pt);\n\\node[anchor=east,inner sep=2pt] (leftrootlabel) at (-4.9,3) {$(-3,0)$};\n\\draw[line width=0.4pt] (-3,0)--(leftrootlabel.east);\n\\fill (2.5,0) circle (1.3pt);\n\\node[anchor=west,inner sep=2pt] (rightrootlabel) at (4.5,3) {$\\left(\\frac52,0\\right)$};\n\\draw[line width=0.4pt] (2.5,0)--(rightrootlabel.west);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5e",
+                "description": "Complete solution graph; a leader separates the vertex label from the nearby y-intercept.",
+                "mathematics": "y=2(x+1/4)^2-121/8; roots=-3,5/2",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 155
+      },
+      {
+        "id": "p20-q5-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=2x^2-x+5$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept: $5$.\n\n$y=2\\left(x-\\dfrac14\\right)^2+\\dfrac{39}8$; axis $x=\\dfrac14$; vertex $\\left(\\dfrac14,\\dfrac{39}8\\right)$.\n\nNo $x$-intercepts. Opens upwards.",
+          "worked": "At $x=0$, $y=5$.\n\n$$\\begin{align*}y&=2\\left(x^2-\\frac12x\\right)+5\\\\y&=2\\left[\\left(x-\\frac14\\right)^2-\\frac1{16}\\right]+5\\\\y&=2\\left(x-\\frac14\\right)^2+\\frac{39}8\\end{align*}$$\n\nThe axis is $x=\\frac14$ and the vertex is $\\left(\\frac14,\\frac{39}8\\right)$. Since $y\\geq\\frac{39}8>0$, there are no $x$-intercepts. Sketch an upward-opening parabola through $(0,5)$ with the stated minimum.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q5-f-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source p20 q5f; teacher p27\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2,0)--(2.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.7)--(0,14) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (0.25,0)--(0.25,12.6) node[above right] {$x=\\frac14$};\n\\draw[line width=0.8pt,domain=-1.5:2,samples=70] plot (\\x,{2*\\x*\\x-\\x+5});\n\\fill (0,5) circle (1.3pt) node[left] {$(0,5)$};\n\\fill (0.25,4.875) circle (1.3pt);\n\\draw[line width=0.4pt] (0.25,4.875)--(0.9,2.7) node[right] {$\\left(\\frac14,\\frac{39}8\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "Question 5f",
+                "description": "Complete solution sketch with minimum above the x-axis; leader separates vertex and y-intercept labels.",
+                "mathematics": "y=2(x-1/4)^2+39/8",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 125
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:17.967Z",
+  "updatedAt": "2026-11-12T13:14:17.968Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch07-20261015",
+    "blockId": "p20-q5",
+    "sectionRole": "exercise"
+  }
+}

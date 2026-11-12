@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ef3ce56b-488f-459c-8b2b-6aa9f4cdd4ec",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "area-of-triangle"
+    ],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "Construct an unsignposted signed-area decomposition for a general triangle, justify orientation/translation, then generalise to an ordered quadrilateral by cancellation along an interior diagonal. This is an extended general proof rather than repetitive arithmetic.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T12:07:20.387Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "81af205dd72d12c49b818dabfce29ff50aaf30f4324e56d8222a0983ac171953",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch04-20261015/direct-independent-subagent-post-layout-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p34-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the area of a triangle $ABC$ with vertices $A(x_1,y_1)$, $B(x_2,y_2)$ and $C(x_3,y_3)$ is\n$$\\pm\\frac12(x_1y_2+x_2y_3+x_3y_1-x_2y_1-x_3y_2-x_1y_3).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle A=\\frac12\\left|x_1y_2+x_2y_3+x_3y_1-x_2y_1-x_3y_2-x_1y_3\\right|$.\n\nCombine the signed trapezium areas beneath the three directed sides; choose the sign that makes the area positive.",
+          "worked": "Translate the axes vertically, if necessary, so that all vertices lie above the $x$-axis. This does not change the triangle's area. For a directed side from $(x_i,y_i)$ to $(x_j,y_j)$, the signed trapezium area beneath it is $\\frac12(x_j-x_i)(y_i+y_j)$; reversing direction reverses its sign. Following the boundary $A,B,C,A$, these areas cancel outside the triangle and leave its area with one of the two signs. Thus\n$$\\begin{align*}T&=\\frac12\\big[(x_2-x_1)(y_1+y_2)+(x_3-x_2)(y_2+y_3)+(x_1-x_3)(y_3+y_1)\\big]\\\\T&=\\frac12\\big[x_2y_1+x_3y_2+x_1y_3-x_1y_2-x_2y_3-x_3y_1\\big].\\end{align*}$$\nThe ordinary area is $|T|$, so\n$$A=\\pm\\frac12(x_1y_2+x_2y_3+x_3y_1-x_2y_1-x_3y_2-x_1y_3),$$\nwith the sign chosen to make the area positive. A vertical translation adds the same constant to each $y$-coordinate; its extra terms cancel in this expression, so the formula also holds for the original coordinates.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p34-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area of a quadrilateral whose vertices taken in order are $A(x_1,y_1)$, $B(x_2,y_2)$, $C(x_3,y_3)$ and $D(x_4,y_4)$ is\n$$\\pm\\frac12(x_1y_2+x_2y_3+x_3y_4+x_4y_1-x_2y_1-x_3y_2-x_4y_3-x_1y_4),$$\nwhere the sign is chosen to provide a positive answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle A=\\frac12\\left|\\begin{aligned}&x_1y_2+x_2y_3+x_3y_4+x_4y_1\\\\&{}-x_2y_1-x_3y_2-x_4y_3-x_1y_4\\end{aligned}\\right|$.\n\nSplit the quadrilateral along an interior diagonal and add the two triangle formulas; the diagonal terms cancel.",
+          "worked": "Draw an interior diagonal. First suppose it is $AC$, giving triangles $ABC$ and $ACD$. Use the signed version of part (a), taking both triangles in the same boundary direction. Their signed areas add because the two traversals of the interior diagonal have opposite directions. Write these signed areas as $S_{ABC}$ and $S_{ACD}$. Then\n$$\\begin{align*}2S_{ABC}&=x_1y_2+x_2y_3+x_3y_1-x_2y_1-x_3y_2-x_1y_3,\\\\2S_{ACD}&=x_1y_3+x_3y_4+x_4y_1-x_3y_1-x_4y_3-x_1y_4.\\end{align*}$$\nAdding cancels the terms belonging to diagonal $AC$:\n$$\\begin{align*}2S_{ABCD}&=2S_{ABC}+2S_{ACD}\\\\2S_{ABCD}&=x_1y_2+x_2y_3+x_3y_4+x_4y_1\\\\&\\quad-x_2y_1-x_3y_2-x_4y_3-x_1y_4.\\end{align*}$$\nIf the interior diagonal is $BD$, apply the same argument to triangles $ABD$ and $BCD$; the $BD$ terms cancel and give the same expression. The ordinary area is $|S_{ABCD}|$, proving the stated formula with the sign chosen to give a positive answer.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 85
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:23:38.047Z",
+  "updatedAt": "2026-11-12T11:23:38.047Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch04-20261015",
+    "blockId": "p34-q11",
+    "sectionRole": "exercise"
+  }
+}
