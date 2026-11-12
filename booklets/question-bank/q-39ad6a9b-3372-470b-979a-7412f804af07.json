@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-39ad6a9b-3372-470b-979a-7412f804af07",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sine-rule-angles",
+    "secondarySkillIds": [
+      "sine-rule"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Isolate the triangle formed by the diagonal, use the sine rule to find an angle, then use the angle sum and a second sine-rule calculation. The requested angle explicitly guides the intermediate step.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:04:39.109Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b7c0717676a75c895032d00f13b0037c9b45256c8e517210c37041ffdc270de2",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch12-20261015/lean-review/calls/content-1792580647737-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "$ABCD$ is a parallelogram with $\\angle ADC=50^\\circ$. The shorter diagonal, $AC$, is $20\\text{ m}$, and $AD=15\\text{ m}$. Find $\\angle ACD$ and hence the length of the side $DC$, correct to two decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17 p17-q6-diagram\"}\n\\begin{tikzpicture}[x=0.17cm,y=0.17cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\n\\coordinate (A) at ({15*cos(50)},{15*sin(50)});\n\\coordinate (C) at (26.0114378432,0);\n\\coordinate (B) at ({26.0114378432+15*cos(50)},{15*sin(50)});\n\\draw (D)--(A)--(B)--(C)--cycle;\n\\draw (A)--(C);\n\\path (D)--node[midway,left=4mm] {$15\\text{ m}$} (A);\n\\path (A)--node[midway,above right] {$20\\text{ m}$} (C);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\path (D)++(25:4.1) node {$50^\\circ$};\n\\foreach \\t in {0.47,0.53}{\n\\draw[line width=0.4pt] ($(A)!\\t!(B)+(-0.65,0.35)$)--($(A)!\\t!(B)$)--($(A)!\\t!(B)+(-0.65,-0.35)$);\n\\draw[line width=0.4pt] ($(D)!\\t!(C)+(-0.65,0.35)$)--($(D)!\\t!(C)$)--($(D)!\\t!(C)+(-0.65,-0.35)$);\n}\n\\draw[line width=0.4pt] ($(D)!0.5!(A)+(230:0.7)+(140:0.35)$)--($(D)!0.5!(A)$)--($(D)!0.5!(A)+(230:0.7)+(-40:0.35)$);\n\\draw[line width=0.4pt] ($(C)!0.5!(B)+(230:0.7)+(140:0.35)$)--($(C)!0.5!(B)$)--($(C)!0.5!(B)+(230:0.7)+(-40:0.35)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 72,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Exercise 12D question 6, right-hand diagram",
+          "description": "Parallelogram ABCD with horizontal AB and DC, diagonal AC, single parallel arrow marks on AD and BC, and double parallel arrow marks on AB and DC. Ordinary source blue strokes are reconstructed in house black.",
+          "mathematics": "AD=15 m, AC=20 m, angle ADC=50 degrees; AB parallel DC and AD parallel BC. The shorter diagonal is AC.",
+          "answerVisibility": "Only supplied measurements, vertex labels and parallel marks are visible. Calculated results are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\angle ACD\\approx35.07^\\circ$, $DC\\approx26.01\\text{ m}$.\n\nUse the sine rule to find $\\angle ACD$, then the angle sum and sine rule to find $DC$.",
+      "worked": "In $\\triangle ADC$, apply the sine rule:\n$$\\begin{align*}\\frac{15}{\\sin\\angle ACD}&=\\frac{20}{\\sin50^\\circ}\\\\\\frac{\\sin\\angle ACD}{15}&=\\frac{\\sin50^\\circ}{20}\\\\\\sin\\angle ACD&=\\frac{15\\sin50^\\circ}{20}\\\\\\angle ACD&=\\sin^{-1}\\!\\left(\\frac{15\\sin50^\\circ}{20}\\right)\\\\\\angle ACD&\\approx35.07^\\circ.\\end{align*}$$\nKeep the unrounded angle for the remaining calculations. By the angle sum of a triangle:\n$$\\begin{align*}\\angle DAC&=180^\\circ-50^\\circ-\\angle ACD\\\\\\angle DAC&\\approx94.93304228^\\circ.\\end{align*}$$\nApply the sine rule again:\n$$\\begin{align*}\\frac{DC}{\\sin\\angle DAC}&=\\frac{20}{\\sin50^\\circ}\\\\DC&=\\frac{20\\sin\\angle DAC}{\\sin50^\\circ}\\\\DC&\\approx26.01\\text{ m}.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 86
+  },
+  "presentation": {
+    "ownerId": "p17-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:19.123Z",
+  "updatedAt": "2026-11-12T11:24:19.123Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p17-q6",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73bac21e-8676-4841-8442-0af49b852f3c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-rule-reverse",
+    "secondarySkillIds": [
+      "cosine-rule",
+      "sine-rule-angles"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Reverse the area rule to recover a side, choose the cosine rule for the next side, then find an angle and check the appropriate inverse-sine branch using side sizes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T09:04:12.522Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f61b0bd4e0d4822ee4b255397f67c87b9e457b05e794f60f64ccccf12b1d5b11",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-10-ch12-20261015/b4692e6e8181eac2615e9309093d5e112997ce7c6902678f379b76610a2d37c3-1792573423853/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "In $\\triangle ABC$ shown opposite, the area of the triangle is $40\\text{ cm}^2$. Find, correct to one decimal place:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "p30-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30, p30-q6-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (A) at (2.7335,2.0408);\n\\draw[black] (C)--(A)--(B)--cycle;\n\\node[below left] at (C) {$C$};\n\\node[above right] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\path (C)--node[midway,below] {$14\\text{ cm}$} (B);\n\\path (B)--(A) coordinate[pos=0.24] (BAmark);\n\\path (B)--(C) coordinate[pos=0.16] (BCmark);\n\\node[anchor=east] at ($(B)+(-0.42,0.29)$) {$42^\\circ$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 30,
+          "sourceRegion": "Question 6, bottom-right triangle",
+          "description": "Unshaded triangle with C lower left, A above and B lower right; ordinary source blue outlines and labels rendered black in house style. The source prints the angle value without an arc.",
+          "mathematics": "CB = 14 cm; angle ABC = 42 degrees; area 40 square centimetres is supplied in the shared stem. No unknown lengths or angles are revealed.",
+          "answerVisibility": "givens-only"
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p30-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$AB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8.5\\text{ cm}$",
+          "worked": "Using the area rule:\n$$\\begin{align*}40&=\\frac12\\times14\\times AB\\sin42^\\circ\\\\AB&=\\frac{80}{14\\sin42^\\circ}\\\\AB&\\approx8.5\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p30-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$AC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$9.6\\text{ cm}$",
+          "worked": "Let $x=\\dfrac{80}{14\\sin42^\\circ}$, the unrounded value of $AB$. By the cosine rule:\n$$\\begin{align*}AC^2&=14^2+x^2-2\\times14\\times x\\cos42^\\circ\\\\AC&=\\sqrt{14^2+x^2-28x\\cos42^\\circ}\\\\AC&\\approx9.6\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p30-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\angle ACB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$36.7^\\circ$\n\nUse the sine rule with the unrounded lengths.",
+          "worked": "Let $x$ and $y$ be the unrounded values of $AB$ and $AC$. By the sine rule:\n$$\\begin{align*}\\frac{\\sin\\angle ACB}{x}&=\\frac{\\sin42^\\circ}{y}\\\\\\sin\\angle ACB&=\\frac{x\\sin42^\\circ}{y}\\\\\\angle ACB&=\\sin^{-1}\\!\\left(\\frac{x\\sin42^\\circ}{y}\\right)\\\\\\angle ACB&\\approx36.7^\\circ\\end{align*}$$\nSince $AB<AC$, the opposite angle $\\angle ACB<42^\\circ$, so the acute solution is required.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p30-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:28.310Z",
+  "updatedAt": "2026-11-12T11:24:28.310Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p30-q6",
+    "sectionRole": "exercise"
+  }
+}

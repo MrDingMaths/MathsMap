@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-865f4b01-89fd-4f50-8ca8-c1adfaa3be0f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables",
+      "complementary-probability"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Subtract the triple intersection from inclusive pair counts, complete the single-set and outside regions, then select regions for none, exactly one and exactly two.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T06:13:00.822Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c76c9572ffe281116089ba0e46947172f4bce60ff060675fbbc688ad24ef7d9e",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch15-20261015/lean-review/calls/content-1792563137132-8/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "Use an appropriate Venn diagram.\n\nIn a group of 85 people, 33 own a microwave, 28 own a DVD player and 38 own a computer. In addition, 6 people own both a microwave and a DVD player, 9 own both a DVD player and a computer, 7 own both a computer and a microwave and 2 people own all three items. Draw a Venn diagram representing this information. If a person is chosen at random from the group, what is the probability that the person:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "does not own a microwave, a computer or a DVD player?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p14-q13-solution-venn",
+        "answer": {
+          "short": "$\\frac{6}{85}$",
+          "worked": "Let $M$, $D$ and $C$ represent microwave, DVD player and computer ownership. Put 2 in the triple intersection first. The regions belonging to exactly two sets contain $6-2=4$, $7-2=5$ and $9-2=7$.\n\nThe single-set regions contain $33-4-5-2=22$, $28-4-7-2=15$ and $38-5-7-2=24$.\n\n$$\\begin{align*}n(M\\cup D\\cup C)&=22+15+24+4+5+7+2\\\\n(M\\cup D\\cup C)&=79\\\\n(\\text{none})&=85-79\\\\n(\\text{none})&=6\\\\P(\\text{none})&=\\frac{6}{85}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p14-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "owns exactly one of the three items?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p14-q13-solution-venn",
+        "answer": {
+          "short": "$\\frac{61}{85}$\n\nAdd the three single-set regions.",
+          "worked": "The microwave-only, DVD-player-only and computer-only regions contain 22, 15 and 24 people respectively.\n\n$$\\begin{align*}n(\\text{exactly one})&=22+15+24\\\\n(\\text{exactly one})&=61\\\\P(\\text{exactly one})&=\\frac{61}{85}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p14-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "owns exactly two of the three items?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p14-q13-solution-venn",
+        "answer": {
+          "short": "$\\frac{16}{85}$\n\nExclude the triple intersection from each pairwise count.",
+          "worked": "The regions belonging to exactly two sets contain $6-2=4$, $7-2=5$ and $9-2=7$ people.\n\n$$\\begin{align*}n(\\text{exactly two})&=4+5+7\\\\n(\\text{exactly two})&=16\\\\P(\\text{exactly two})&=\\frac{16}{85}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p14-q13-solution-venn",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 question 13 solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,0) rectangle (8,6.5);\n\\draw[line width=0.8pt] (3,4.2) circle (1.8);\n\\draw[line width=0.8pt] (5,4.2) circle (1.8);\n\\draw[line width=0.8pt] (4,2.5) circle (1.8);\n\\node[anchor=east] at (0,6.3) {$\\xi$};\n\\node at (2.1,6.1) {$M$};\n\\node at (5.9,6.1) {$D$};\n\\node at (4,0.4) {$C$};\n\\node at (2.25,4.6) {$22$};\n\\node at (5.75,4.6) {$15$};\n\\node at (4,1.65) {$24$};\n\\node at (4,4.9) {$4$};\n\\node at (2.95,3) {$5$};\n\\node at (5.05,3) {$7$};\n\\node at (4,3.7) {$2$};\n\\node at (7.3,0.6) {$6$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 13",
+          "description": "Authored unshaded three-set solution diagram. M denotes microwave, D DVD player and C computer. All region counts are solution-only.",
+          "mathematics": "M only 22; D only 15; C only 24; M and D only 4; M and C only 5; D and C only 7; all three 2; none 6.",
+          "answerVisibility": "No diagram or region count is supplied in the student question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:18.945Z",
+  "updatedAt": "2026-11-12T13:14:18.945Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch15-20261015",
+    "blockId": "p14-q13",
+    "sectionRole": "exercise"
+  }
+}

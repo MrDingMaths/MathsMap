@@ -1,0 +1,163 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-eaa21f65-e45c-4de7-9e1f-5de5be62229d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Compare logarithmic curves on both sides of x=1, then use a base relationship or vertical scaling to add the base-4 curve without a new value table.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:10:37.768Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0d3a064822f5b314d446c7c32d2906a2fd1c1e9f8fc01e338a5be53db01ce3e9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-10-ch14-20261015/db5d3125eddaf14aeef90278087b091571fe2f43a16e8aca4e9ba559cb2d51aa-1792559395425/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q4",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q4a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graphs of $y=\\log_2 x$ and $y=\\log_3 x$ on the same set of axes, for $y$ values between $-3$ and $3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Smooth increasing curves through $(1,0)$, with vertical asymptote $x=0$. For $x>1$, $\\log_2 x>\\log_3 x$; for $0<x<1$, $\\log_2 x<\\log_3 x$.",
+          "worked": "Use $x=2^y$ and $x=3^y$ to obtain points for integer $y$ from $-3$ to $3$.\n\nFor $y=\\log_2 x$, plot $(\\tfrac18,-3)$, $(\\tfrac14,-2)$, $(\\tfrac12,-1)$, $(1,0)$, $(2,1)$, $(4,2)$ and $(8,3)$.\n\nFor $y=\\log_3 x$, plot $(\\tfrac1{27},-3)$, $(\\tfrac19,-2)$, $(\\tfrac13,-1)$, $(1,0)$, $(3,1)$, $(9,2)$ and $(27,3)$.\n\nJoin each set with a smooth increasing curve approaching the $y$-axis.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q4a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"baseTwo\",\"hex\":\"268CFF\",\"reason\":\"logarithm base 2\"},{\"name\":\"baseThree\",\"hex\":\"EF6068\",\"reason\":\"logarithm base 3\"}],\"reference\":\"source page 13 question 4a\"}\n\\begin{tikzpicture}[x=3mm,y=10mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{baseTwo}{HTML}{268CFF}\n\\definecolor{baseThree}{HTML}{EF6068}\n\\path[use as bounding box] (-2,-3.7) rectangle (34,3.9);\n\\draw[black,line width=0.5pt,->] (-1,0)--(29,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.3)--(0,3.5) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black,line width=0.4pt] (-0.18,\\v)--(0.18,\\v);\\node[left] at (-0.18,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.4pt] (1,-0.06)--(1,0.06);\n\\node[below right] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[baseTwo,line width=0.8pt,domain=-3:3,samples=140,variable=\\t] plot ({exp(\\t*ln(2))},{\\t});\n\\draw[baseThree,line width=0.8pt,dashed,domain=-3:3,samples=140,variable=\\t] plot ({exp(\\t*ln(3))},{\\t});\n\\fill[black] (1,0) circle (1pt);\n\\node[above right] at (8,3) {$y=\\log_2 x$};\n\\node[right] at (27,3) {$y=\\log_3 x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 14C question 4a",
+                "description": "Two logarithmic curves on common linear axes, drawn parametrically over the requested ordinate interval. Curve labels identify the bases.",
+                "mathematics": "x=2^y and x=3^y for -3<=y<=3; common intercept (1,0), vertical asymptote x=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 95
+      },
+      {
+        "id": "p13-q4b",
+        "type": "part",
+        "label": "b",
+        "prompt": "In what ways are the graphs similar?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both are increasing, have domain $x>0$ and range $\\mathbb R$, cross the $x$-axis at $(1,0)$, have no $y$-intercept and have the $y$-axis as a vertical asymptote.",
+          "worked": "For either base, $\\log_a1=0$, giving the common intercept $(1,0)$. Both bases exceed $1$, so both graphs increase. Logarithms require $x>0$, and their values decrease without bound as $x$ approaches $0$ from the right; hence neither has a $y$-intercept and both approach the vertical asymptote $x=0$. Their ordinates take every real value.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p13-q4c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How do the graphs differ?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\log_2 x$ increases faster than $\\log_3 x$. It is above $\\log_3 x$ for $x>1$ and below it for $0<x<1$.",
+          "worked": "At $y=1$, the curves pass through $(2,1)$ and $(3,1)$ respectively; at $y=-1$, they pass through $(\\tfrac12,-1)$ and $(\\tfrac13,-1)$. The plotted points show that $\\log_2 x$ rises more rapidly: its values are larger for $x>1$ and more negative for $0<x<1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p13-q4d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Without using a table of values, sketch the graph of $y=\\log_4 x$ on the same set of axes used in part a.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Add an increasing curve through $(1,0)$ with asymptote $x=0$. It lies below both existing curves for $x>1$ and above both for $0<x<1$.\n\nIts ordinates are half those of $y=\\log_2 x$.",
+          "worked": "$$\\begin{align*}\\log_4 x&=\\frac{\\log_2 x}{\\log_2 4}\\\\\\log_4 x&=\\frac12\\log_2 x.\\end{align*}$$\nHalve each ordinate of the base-$2$ curve already drawn, retaining $(1,0)$ and the asymptote $x=0$. The new curve passes through $(4,1)$ and $(\\tfrac14,-1)$, lies below both existing curves for $x>1$ and above both for $0<x<1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q4d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"baseTwo\",\"hex\":\"268CFF\",\"reason\":\"logarithm base 2\"},{\"name\":\"baseThree\",\"hex\":\"EF6068\",\"reason\":\"logarithm base 3\"},{\"name\":\"baseFour\",\"hex\":\"4F9B63\",\"reason\":\"added logarithm base 4\"}],\"reference\":\"source page 13 question 4d; teacher page 71 question 4a,d\"}\n\\begin{tikzpicture}[x=3mm,y=10mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{baseTwo}{HTML}{268CFF}\n\\definecolor{baseThree}{HTML}{EF6068}\n\\definecolor{baseFour}{HTML}{4F9B63}\n\\path[use as bounding box] (-2,-3.7) rectangle (34,3.9);\n\\draw[black,line width=0.5pt,->] (-1,0)--(29,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.3)--(0,3.5) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3}{\\draw[black,line width=0.4pt] (-0.18,\\v)--(0.18,\\v);\\node[left] at (-0.18,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below right] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[baseTwo,line width=0.8pt,domain=-3:3,samples=140,variable=\\t] plot ({exp(\\t*ln(2))},{\\t});\n\\draw[baseThree,line width=0.8pt,dashed,domain=-3:3,samples=140,variable=\\t] plot ({exp(\\t*ln(3))},{\\t});\n\\draw[baseFour,line width=0.8pt,dash dot,domain=-3:2.37744,samples=140,variable=\\t] plot ({exp(\\t*ln(4))},{\\t});\n\\fill[black] (1,0) circle (1pt);\n\\node[above right] at (8,3) {$y=\\log_2 x$};\n\\node[right] at (27,3) {$y=\\log_3 x$};\n\\node[right] at (27,2.37744) {$y=\\log_4 x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Exercise 14C question 4d; teacher page 71 question 4a,d",
+                "description": "Complete common-axis solution showing all three labelled logarithmic curves. The added base-4 curve continues beyond the displayed window.",
+                "mathematics": "log_2 x, log_3 x and log_4 x share (1,0) and asymptote x=0. Their order reverses across x=1.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:37:26.127Z",
+  "updatedAt": "2026-11-12T11:37:26.127Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch14-20261015",
+    "blockId": "p13-q4-block",
+    "sectionRole": "exercise"
+  }
+}

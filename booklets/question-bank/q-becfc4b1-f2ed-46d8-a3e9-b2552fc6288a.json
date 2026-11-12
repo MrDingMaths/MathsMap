@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-becfc4b1-f2ed-46d8-a3e9-b2552fc6288a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "count-ordered-selections-repetition",
+      "complementary-multistage"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hardest part requires independently splitting repeated-digit numbers into the disjoint patterns 2+1+1 and 2+2, then choosing digits and counting arrangements without double-counting. The other parts use routine position counting and a complement probability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:44:07.451Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3ede498fd3c444ca4666c1149ae988a8fe5ae538d4ee9a1e66089e8df9b4b4f8",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch15-20261015/lean-review/calls/content-1792568599356-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Four-digit numbers are to be formed from the digits 4, 5, 6, 7, 8, 9.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q3-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "For each of the cases below, find how many four-digit numbers can be formed if:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p34-q3-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "any digit may appear up to four times in the number",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$1296$",
+              "worked": "Each of the four positions has six choices.\n$$N=6^4=1296.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p34-q3-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "no digit may appear more than once in the number",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$360$",
+              "worked": "The successive numbers of choices are 6, 5, 4 and 3.\n$$N=6\\times5\\times4\\times3=360.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p34-q3-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "there is at least one repeated digit, but no digit appears more than twice in a number",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$810$\n\nCount the disjoint patterns $2+1+1$ and $2+2$.",
+              "worked": "The disjoint patterns are one pair with two distinct single digits, or two pairs.\n\nFor one pair, choose its digit in 6 ways. Its positions can be $12,13,14,23,24$ or $34$: 6 choices. Fill the remaining positions from left to right with two different digits in $5\\times4$ ways.\n$$N_{2+1+1}=6\\times6\\times5\\times4=720.$$\n\nFor two pairs, choose the two digits in $(6\\times5)\\div2=15$ ways; division by 2 removes the two orders of each digit pair. Place the smaller digit in one of the same six position pairs; the larger digit fills the other positions.\n$$N_{2+2}=15\\times6=90.$$\nThus $N=720+90=810$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 43
+          }
+        ]
+      },
+      {
+        "id": "p34-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the probability that a four-digit number chosen at random from the set of numbers in part a i contains at least one six.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{671}{1296}$\n\nSubtract the probability of no sixes from 1.",
+          "worked": "There are $6^4$ equally likely numbers. A number with no six has five choices at each position, giving $5^4$ numbers.\n$$\\begin{align*}P(\\text{at least one six})&=1-\\frac{5^4}{6^4}\\\\P(\\text{at least one six})&=\\frac{1296-625}{1296}\\\\P(\\text{at least one six})&=\\frac{671}{1296}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:38.581Z",
+  "updatedAt": "2026-11-12T13:14:38.581Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch15-20261015",
+    "blockId": "p34-q3",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-51aba422-a472-4eb0-8edc-dabd96babe78",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "circle-angle-properties"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Uses diagonal-bisection and rectangle properties to prove the converse of Thales’ theorem.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T10:21:40.716Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d2cb25cef6cabdee1382663c627abfcbc9128244bf1cb27e22e2c1d33558cf3d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch13-20261015/semantic-packets/assignments/assignment-59049b98b5ceae44692c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p8-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "The converse of Thales’ theorem is established by proving the following result:\n\nThe midpoint of the hypotenuse of a right-angled triangle is equidistant from the three vertices of the triangle.\n\nLet $\\triangle ABP$ be right-angled at $P$, and let $O$ be the midpoint of the hypotenuse $AB$. Draw $PO$ and produce it to $Q$ so that $PO=OQ$. Draw $AQ$ and $BQ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p8-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes added construction PQ, QA and QB\"}],\"reference\":\"PDF page 8 question 8\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (P) at (0,0);\\coordinate (A) at (2.4,0);\\coordinate (B) at (0,3.6);\\coordinate (Q) at (2.4,3.6);\\coordinate (O) at ($(A)!0.5!(B)$);\n\\draw[line width=0.8pt] (B)--(P)--(A) (B)--(A);\n\\draw[constructionRed,dashed,line width=0.4pt] (P)--(Q)--(A) (B)--(Q);\n\\fill[constructionRed] (O) circle (1.3pt);\n\\coordinate (R1) at ($(P)!0.19cm!(A)$);\\coordinate (R2) at ($(P)!0.19cm!(B)$);\\draw[line width=0.4pt] (R1)--($(R1)+(R2)-(P)$)--(R2);\n\\foreach \\t in {0.25,0.75}{\\coordinate (T) at ($(B)!\\t!(A)$);\\draw[line width=0.4pt] ($(T)!0.07cm!90:(A)$)--($(T)!0.07cm!-90:(A)$);\\coordinate (U) at ($(T)!0.055cm!(A)$);\\draw[line width=0.4pt] ($(U)!0.07cm!90:(A)$)--($(U)!0.07cm!-90:(A)$);}\n\\foreach \\t in {0.25,0.75}{\\coordinate (V) at ($(P)!\\t!(Q)$);\\foreach \\s in {-0.055,0,0.055}{\\coordinate (W) at ($(V)!\\s cm!(Q)$);\\draw[line width=0.4pt] ($(W)!0.07cm!90:(Q)$)--($(W)!0.07cm!-90:(Q)$);}}\n\\node[below left] at (P) {$P$};\\node[below right] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[above right] at (Q) {$Q$};\\node[right] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 8, right",
+          "description": "Upright rectangle construction with solid original triangle ABP, dashed added sides and diagonal, midpoint ticks and a right-angle mark.",
+          "mathematics": "Angle BPA=90 degrees; AO=OB; PO=OQ; diagonals AB and PQ intersect at O. Two ticks mark AO and OB; three ticks mark PO and OQ.",
+          "answerVisibility": "Construction and givens only; no inferred equalities added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p8-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $APBQ$ is a parallelogram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Its diagonals bisect each other.",
+          "worked": "$AO=OB$ because $O$ is the midpoint of $AB$, and $PO=OQ$ by construction. Thus diagonals $AB$ and $PQ$ bisect each other at $O$, so $APBQ$ is a parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p8-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, explain why $APBQ$ is a rectangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "It is a parallelogram with a right angle.",
+          "worked": "$\\angle APB=90^\\circ$ is given. A parallelogram with a right angle is a rectangle, so $APBQ$ is a rectangle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p8-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, explain why $AO=BO=PO$ and why the circle with diameter $AB$ passes through $P$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AO=BO=PO$, since a rectangle’s diagonals are equal and bisect each other. The circle has centre $O$ and radius $OP$, so it passes through $P$.",
+          "worked": "The diagonals of rectangle $APBQ$ are equal and bisect each other, so $AB=PQ$ and\n$$AO=BO=\\frac{AB}{2}=\\frac{PQ}{2}=PO.$$\nThe circle with diameter $AB$ has centre $O$ and radius $AO$. Since $OP=AO$, the point $P$ lies on this circle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p8-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:36:25.284Z",
+  "updatedAt": "2026-11-12T11:36:25.284Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch13-20261015",
+    "blockId": "p8-q8",
+    "sectionRole": "exercise"
+  }
+}

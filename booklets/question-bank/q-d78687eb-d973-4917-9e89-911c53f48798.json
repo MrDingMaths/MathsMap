@@ -1,0 +1,193 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d78687eb-d973-4917-9e89-911c53f48798",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [
+      "trig-obtuse-relationships"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Uses supplementary angles and two right triangles to deduce the sine rule for an obtuse triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T21:11:33.862Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9efad15935dd05037ab8ebbeb80747d7dac08427b425988f203e977c8880389f",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch12-20261015/semantic-packets/assignments/assignment-ad9332775b6b8fb046ec/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Suppose that $\\angle A$ in triangle $ABC$ is obtuse.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q7-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"altitudeRed\",\"hex\":\"EF6068\",\"reason\":\"altitude and baseline extension forming the auxiliary right triangles\"}],\"reference\":\"source page 22 p22-q7-diagram\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=2pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{altitudeRed}{HTML}{EF6068}\n\\coordinate (M) at (0,0);\n\\coordinate (A) at (1.4,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (0,2.7);\n\\draw[black,line width=0.8pt] (A)--(C)--(B)--cycle;\n\\draw[altitudeRed,dashed,line width=0.4pt] (C)--(M)--(A);\n\\draw[black,line width=0.4pt] (0,0.20)--(0.20,0.20)--(0.20,0);\n\\node[above left] at (C) {$C$};\n\\node[below] at (M) {$M$};\n\\node[below] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\path (C)--node[above right] {$a$} (B);\n\\path (C)--node[below left] {$b$} (A);\n\\path (C)--node[left] {$h$} (M);\n\\draw[<->,black,line width=0.4pt] (1.4,-0.52)--node[below] {$c$} (4,-0.52);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 7, diagram to the right of parts a–c",
+          "description": "Obtuse triangle ABC with M, A and B collinear in that order; C is vertically above M. Dashed red CM and MA form the auxiliary right triangles. A right-angle marker is at M and a double-headed dimension arrow below AB labels c. Ordinary source blue edges are rendered black under house style.",
+          "mathematics": "CB=a, CA=b, AB=c, CM=h; CM is perpendicular to MB; angle CAB is obtuse.",
+          "answerVisibility": "All geometry, construction lines and labels are permanent question givens; no response is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q7-part-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\sin\\angle A=\\sin\\angle CAM$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The angles are supplementary, and supplementary angles have equal sines.",
+          "worked": "$\\angle A+\\angle CAM=180^\\circ$ because $M$, $A$ and $B$ lie on a straight line. Hence $\\sin\\angle A=\\sin\\angle CAM$, since supplementary angles have equal sines.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p22-q7-part-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use triangle $ACM$ to find a formula for $h$ in terms of $A$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=b\\sin A$",
+          "worked": "In right-angled triangle $ACM$:\n$$\\begin{align*}\\sin\\angle CAM&=\\frac{h}{b}\\\\h&=b\\sin\\angle CAM\\\\h&=b\\sin A\\end{align*}$$\nThe last equality follows from part a.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p22-q7-part-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use triangle $BCM$ to find a formula for $h$ in terms of $B$ and $a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=a\\sin B$",
+          "worked": "Since $BM$ and $BA$ have the same direction, $\\angle CBM=B$. In right-angled triangle $BCM$:\n$$\\begin{align*}\\sin B&=\\frac{h}{a}\\\\h&=a\\sin B\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p22-q7-part-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p22-q7-d-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Deduce that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{a}{\\sin A}=\\frac{b}{\\sin B}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p22-q7-conclusion-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "That is, we have proved the sine rule holds in obtuse-angled triangles.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{a}{\\sin A}=\\frac{b}{\\sin B}$.\n\nEquate the two expressions for $h$ and divide by $\\sin A\\sin B$.",
+          "worked": "Equating the expressions for $h$ from parts b and c:\n$$\\begin{align*}a\\sin B&=b\\sin A\\\\\\frac{a\\sin B}{\\sin A\\sin B}&=\\frac{b\\sin A}{\\sin A\\sin B}\\\\\\frac{a}{\\sin A}&=\\frac{b}{\\sin B}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p22-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:21.836Z",
+  "updatedAt": "2026-11-12T11:24:21.836Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p22-q7-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-101fad2c-cf29-4ec4-b696-54faa80c17f0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "circle-angle-properties",
+      "cyclic-quadrilateral-properties"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "The source supplies the diagonals, two variables and all intermediate targets. Match two same-chord angles, substitute in a triangle sum, then combine the split angle; a fully scaffolded theorem proof.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T11:07:33.833Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6877f9d3f8aa36bd623599f33ae8b7f4c488c5d80a4328bb41dbf693742accb0",
+      "evidence": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\iceem-10-ch13-20261015/direct-subagent-source13-four-linked-circle-proofs-author-20261024/actual-author-assessments.json"
+    }
+  },
+  "content": {
+    "id": "p13-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Here is an alternative proof that: The opposite angles of a cyclic quadrilateral are supplementary.\n\nIn the cyclic quadrilateral ABCD, draw the diagonals AC and BD.\n\nLet $\\alpha=\\angle DAC$ and $\\beta=\\angle BAC$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"Original selected point markers or auxiliary diagonals\"}],\"reference\":\"Actual original13 p13-q8-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,font=\\fontsize{10}{12}\\selectfont,line width=.8pt,line join=round]\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(A)at(-1.63830409,1.14715287);\n\\coordinate(B)at(0.84523652,1.81261557);\n\\coordinate(C)at(1.73205081,-1);\n\\coordinate(D)at(-1.53208889,-1.28557522);\n\\draw(0,0)circle[radius=2];\n\\draw(A)--(B);\n\\draw(B)--(C);\n\\draw(C)--(D);\n\\draw(D)--(A);\n\\node[anchor=center]at(-1.8840497,1.3192258){$A$};\n\\node[anchor=center]at(0.972022,2.08450791){$B$};\n\\node[anchor=center]at(1.99185843,-1.15){$C$};\n\\node[anchor=center]at(-1.76190222,-1.4784115){$D$};\n\\draw[line width=.4pt,constructionRed,dashed](A)--(C);\\draw[line width=.4pt,constructionRed,dashed](B)--(D);\\node[anchor=center]at(-1.31330409,0.58423636){$\\alpha$};\n\\node[anchor=center]at(-0.7981968,1.01784799){$\\beta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "description": "Cyclic quadrilateral ABCD, with A upper left, B upper right, C lower right and D lower left. Blue circle and quadrilateral sides; red dashed diagonals AC and BD. α lies between AD and AC at A; β lies between AC and AB at A.",
+          "answerVisibility": "All original givens/point identities retained, no computed student values or added proof segments."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q8a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\angle DBC=\\alpha$ and $\\angle BDC=\\beta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "They stand on chords DC and BC respectively.",
+          "worked": "Angles DBC and DAC stand on the same chord DC, so $\\angle DBC=\\angle DAC=\\alpha$. Angles BDC and BAC stand on chord BC, so $\\angle BDC=\\angle BAC=\\beta$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p13-q8b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that $\\angle DCB=180^\\circ-(\\alpha+\\beta)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Use the angle sum in triangle DBC.",
+          "worked": "In triangle DBC, $\\angle DBC+\\angle BDC+\\angle DCB=180^\\circ$. Substituting part a gives $\\alpha+\\beta+\\angle DCB=180^\\circ$, hence $\\angle DCB=180^\\circ-(\\alpha+\\beta)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p13-q8c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Deduce that $\\angle DAB+\\angle DCB=180^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle DAB=\\alpha+\\beta$, so the sum is $180^\\circ$.",
+          "worked": "Since AC divides the angle at A, $\\angle DAB=\\alpha+\\beta$. Therefore $\\angle DAB+\\angle DCB=(\\alpha+\\beta)+180^\\circ-(\\alpha+\\beta)=180^\\circ$. This proves the opposite-angle result using same-arc angles and a triangle sum, without assuming the theorem being proved.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:36:26.684Z",
+  "updatedAt": "2026-11-12T11:36:26.684Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch13-20261015",
+    "blockId": "p13-q8",
+    "sectionRole": "exercise"
+  }
+}

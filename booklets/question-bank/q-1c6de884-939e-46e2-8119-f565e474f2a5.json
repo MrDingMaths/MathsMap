@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1c6de884-939e-46e2-8119-f565e474f2a5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "sine-rule",
+      "sine-rule-angles"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Choose triangle ADC, find an intermediate angle using inverse sine, reject its supplement because the triangle is already obtuse, then calculate the remaining angle and apply the sine rule again.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T09:04:21.622Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "44a3a3f0ae0efebb4ec68beeacf262145e5e83150585608e143f63efc84be110",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-10-ch12-20261015/266de2c828aa3c0d4e3f82d51283e065f5f88cae1c3167b7eeacdb5701d2c009-1792573423828/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "$ABCD$ is a parallelogram. $\\angle CDA=130^\\circ$, the long diagonal $AC$ is $50\\text{ m}$ and $AD=30\\text{ m}$. Find the length of the side $DC$, correct to one decimal place.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q9-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 p22-q9-figure\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (D) at (4,0);\n\\coordinate (B) at (1.4,1.6685);\n\\coordinate (C) at (5.4,1.6685);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.8pt] (A)--(C) node[midway,above,sloped] {$50\\text{ m}$};\n\\path (A)--(D) node[midway,below=3mm] {$30\\text{ m}$};\n\\node[below left] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.45,\"$130^\\circ$\"] {angle=C--D--A};\n\\draw[->,black,line width=0.4pt] ($(A)!0.44!(B)$)--($(A)!0.58!(B)$);\n\\draw[->,black,line width=0.4pt] ($(D)!0.44!(C)$)--($(D)!0.58!(C)$);\n\\draw[->,black,line width=0.4pt] ($(A)!0.46!(D)$)--($(A)!0.53!(D)$);\n\\draw[->,black,line width=0.4pt] ($(A)!0.49!(D)$)--($(A)!0.56!(D)$);\n\\draw[->,black,line width=0.4pt] ($(B)!0.46!(C)$)--($(B)!0.53!(C)$);\n\\draw[->,black,line width=0.4pt] ($(B)!0.49!(C)$)--($(B)!0.56!(C)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 9, lower-right diagram",
+          "description": "Parallelogram ABCD with diagonal AC, length labels and the 130-degree interior angle at D. Opposite sloping sides have single parallel arrows; opposite horizontal sides have double parallel arrows. Decorative blue strokes are rendered in house black.",
+          "mathematics": "AC=50 m, AD=30 m, angle CDA=130 degrees. AB is parallel to DC and BC is parallel to AD.",
+          "answerVisibility": "Only source-supplied givens are visible; DC remains unlabelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$DC\\approx25.1\\text{ m}$.\n\nUse the sine rule twice in $\\triangle ADC$, finding an intermediate angle first.",
+      "worked": "In $\\triangle ADC$, the sine rule gives\n$$\\begin{align*}\\sin\\angle ACD&=\\frac{30\\sin130^\\circ}{50}\\\\\\angle ACD&=\\sin^{-1}\\!\\left(\\frac{30\\sin130^\\circ}{50}\\right).\\end{align*}$$\nThe angle is acute because the triangle already contains an obtuse angle. Using the unrounded value,\n$$\\begin{align*}\\angle CAD&=180^\\circ-130^\\circ-\\angle ACD\\\\\\angle CAD&\\approx22.63698044^\\circ.\\end{align*}$$\nApply the sine rule again, retaining the unrounded angle:\n$$\\begin{align*}\\frac{DC}{\\sin\\angle CAD}&=\\frac{50}{\\sin130^\\circ}\\\\DC&=\\frac{50\\sin\\angle CAD}{\\sin130^\\circ}\\\\DC&\\approx25.1\\text{ m}.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 62
+  },
+  "presentation": {
+    "ownerId": "p22-q9-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:22.339Z",
+  "updatedAt": "2026-11-12T11:24:22.339Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p22-q9-block",
+    "sectionRole": "exercise"
+  }
+}

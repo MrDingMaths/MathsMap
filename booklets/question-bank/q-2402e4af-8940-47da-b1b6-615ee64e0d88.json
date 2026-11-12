@@ -1,0 +1,126 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2402e4af-8940-47da-b1b6-615ee64e0d88",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects the scaffolded cosine-rule factorizations and semiperimeter substitutions to the squared area rule; the intermediate identities substantially guide the proof.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T08:35:48.834Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "da715b099950b6a84b576d3ea54a961e74740096d78d35c7c6c8de85a6a3c167",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch12-20261015/lean-review/calls/content-1792571695738-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q6-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the cosine rule to show that\n$$1+\\cos A=\\frac{(b+c)^2-a^2}{2bc}$$\nand\n$$1-\\cos A=\\frac{a^2-(b-c)^2}{2bc}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p34-q6-triangle",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 question 6\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0.8,2.2);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.8,0.45);\n\\draw (A)--node[midway,left] {$c$} (B)--node[midway,below] {$a$} (C)--node[midway,above right] {$b$} cycle;\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 34,
+              "sourceRegion": "Question 6, right of part a",
+              "description": "Unshaded scalene triangle with A upper left, B lower left and C right. Decorative source blue is replaced by house black.",
+              "mathematics": "AB=c, AC=b, BC=a; no numerical givens or angle marks.",
+              "answerVisibility": "All labels are permanent question givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$$1+\\cos A=\\frac{(b+c)^2-a^2}{2bc},\\qquad 1-\\cos A=\\frac{a^2-(b-c)^2}{2bc}.$$\n\nRearrange the cosine rule, then combine each expression over the denominator $2bc$.",
+          "worked": "The cosine rule gives\n$$\\begin{align*}a^2&=b^2+c^2-2bc\\cos A,\\\\\\cos A&=\\frac{b^2+c^2-a^2}{2bc}.\\end{align*}$$\nHence\n$$\\begin{align*}1+\\cos A&=\\frac{2bc+b^2+c^2-a^2}{2bc},\\\\1+\\cos A&=\\frac{(b+c)^2-a^2}{2bc},\\\\1-\\cos A&=\\frac{2bc-b^2-c^2+a^2}{2bc},\\\\1-\\cos A&=\\frac{a^2-(b-c)^2}{2bc}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p34-q6-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $s=\\dfrac{a+b+c}{2}$.\n\nShow that\n$$1+\\cos A=\\frac{2s(s-a)}{bc}$$\nand\n$$1-\\cos A=\\frac{2(s-b)(s-c)}{bc}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$1+\\cos A=\\frac{2s(s-a)}{bc},\\qquad 1-\\cos A=\\frac{2(s-b)(s-c)}{bc}.$$\n\nFactor the numerators in part a and use $2s=a+b+c$.",
+          "worked": "Since $2s=a+b+c$,\n$$\\begin{align*}b+c-a&=2(s-a),\\\\a-b+c&=2(s-b),\\\\a+b-c&=2(s-c).\\end{align*}$$\nUsing part a,\n$$\\begin{align*}1+\\cos A&=\\frac{(b+c-a)(b+c+a)}{2bc},\\\\1+\\cos A&=\\frac{2(s-a)\\cdot2s}{2bc},\\\\1+\\cos A&=\\frac{2s(s-a)}{bc},\\\\1-\\cos A&=\\frac{(a-b+c)(a+b-c)}{2bc},\\\\1-\\cos A&=\\frac{2(s-b)\\cdot2(s-c)}{2bc},\\\\1-\\cos A&=\\frac{2(s-b)(s-c)}{bc}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 88
+      },
+      {
+        "id": "p34-q6-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the fact that $(\\sin A)^2=1-(\\cos A)^2$ to show that the square of the area of $\\triangle ABC$ is $s(s-a)(s-b)(s-c)$ and deduce Heron’s formula for the area of a triangle:\n$$\\text{Area}=\\sqrt{s(s-a)(s-b)(s-c)}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$\\text{Area}^2=s(s-a)(s-b)(s-c),\\qquad \\text{Area}=\\sqrt{s(s-a)(s-b)(s-c)}.$$\n\nMultiply the identities in part b and use $\\text{Area}=\\tfrac12bc\\sin A$.",
+          "worked": "Using part b,\n$$\\begin{align*}\\sin^2 A&=(1+\\cos A)(1-\\cos A),\\\\\\sin^2 A&=\\frac{2s(s-a)}{bc}\\cdot\\frac{2(s-b)(s-c)}{bc},\\\\\\sin^2 A&=\\frac{4s(s-a)(s-b)(s-c)}{b^2c^2}.\\end{align*}$$\nLet the area be $K$. By the triangle area rule,\n$$\\begin{align*}K&=\\frac12bc\\sin A,\\\\K^2&=\\frac14b^2c^2\\sin^2 A,\\\\K^2&=s(s-a)(s-b)(s-c),\\\\K&=\\sqrt{s(s-a)(s-b)(s-c)}.\\end{align*}$$\nTake the positive square root because the area is positive.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 82
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:34.419Z",
+  "updatedAt": "2026-11-12T11:24:34.419Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p34-q6-block",
+    "sectionRole": "exercise"
+  }
+}

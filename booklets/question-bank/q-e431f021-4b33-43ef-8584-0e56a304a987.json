@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e431f021-4b33-43ef-8584-0e56a304a987",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 67,
+    "difficulty": "Mastery",
+    "difficultyReason": "Students must translate grid journeys into arrangements of six right and four upward moves, then recognise that paths through D split into two independently counted segments. Multiplying those segment counts and comparing with the total requires a non-trivial connection between combinatorial counting and equally likely outcomes; part (a) supplies the denominator for part (b).",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:38:48.311Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3d4b4f9db0a0a290dacf8beb7c3469a49f83fda28627e094ec4118211ae4d3ed",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch15-20261015/packet-rating-recovery-20261021/p34-q7/worker/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"pointRed\",\"hex\":\"EF6068\",\"reason\":\"source highlights the three named vertices\"}],\"reference\":\"source page 34, p34-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{pointRed}{HTML}{EF6068}\n\\draw[black,line width=0.25pt,step=1] (0,0) grid (6,4);\n\\fill[pointRed] (0,0) circle (2pt);\n\\fill[pointRed] (6,4) circle (2pt);\n\\fill[pointRed] (2,3) circle (2pt);\n\\node[below left,font=\\fontsize{10}{12}\\selectfont] at (0,0) {$A$};\n\\node[above right,font=\\fontsize{10}{12}\\selectfont] at (6,4) {$B$};\n\\node[above right,font=\\fontsize{10}{12}\\selectfont] at (2,3) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "bottom-right lattice beside Question 7",
+          "description": "Six columns and four rows, with A at the bottom-left corner, B at the top-right corner and D two columns right and three rows up from A. The labelled-vertex feature requires TikZ rather than the blank-grid template.",
+          "mathematics": "A=(0,0), B=(6,4), D=(2,3); unit horizontal and vertical lattice edges.",
+          "answerVisibility": "All supplied grid lines, points and labels remain visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "In the diagram shown, in how many different ways can you get from $A$ to $B$ if you are only allowed to move to the right and upwards?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$210$\n\nChoose the positions of the four upward moves among ten moves.",
+          "worked": "Every complete path contains six right moves and four upward moves. Choosing the positions of the four upward moves determines the path.\n$$N=\\binom{10}{4}=210.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p34-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability that a random journey from $A$ to $B$ passes through the point $D$? (Only moves to the right and up are allowed.)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{5}{21}$\n\nThere are 50 paths through $D$ among 210 equally likely complete paths.",
+          "worked": "Take all complete paths from $A$ to $B$ as equally likely. From $A$ to $D$ requires two right moves and three upward moves; from $D$ to $B$ requires four right moves and one upward move.\n$$\\begin{align*}N_{AD}&=\\binom{5}{2}=10\\\\N_{DB}&=\\binom{5}{1}=5\\\\N_{\\text{through }D}&=10\\times5=50\\\\P(\\text{through }D)&=\\frac{50}{210}=\\frac{5}{21}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p34-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:40.714Z",
+  "updatedAt": "2026-11-12T13:14:40.715Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch15-20261015",
+    "blockId": "p34-q7",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-94f4ad7d-1f6a-4738-b181-9ca5b731ec7c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sine-rule",
+    "secondarySkillIds": [
+      "elevation-depression"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Use an exterior angle to establish an opposite pair, apply the sine rule, then use right-triangle trigonometry without rounding the intermediate length.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T21:09:19.461Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "90c98063dbcbeda7326fbe50ce1a865ea54fb535f8d09c37083b59985d55f925",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch12-20261015/semantic-packets/assignments/assignment-40f0a1b3acf9e1e7f5fc/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "An archaeologist wishes to determine the height of an ancient temple. From a point $A$ at ground level, she measures the angle of elevation of $V$, the top of the temple, to be $37^\\circ$.\n\nShe then walks $100\\text{ m}$ towards the temple to a point $B$. From here, the angle of elevation of $V$ from ground level is $64^\\circ$. Find:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17 p17-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (O) at (4,0);\n\\coordinate (V) at (4,{4*tan(37)});\n\\coordinate (B) at ({4-4*tan(37)/tan(64)},0);\n\\draw (A)--(O)--(V)--cycle;\n\\draw (B)--(V);\n\\draw[line width=0.4pt] (O)++(-0.22,0)--++(0,0.22)--++(0.22,0);\n\\path (A)--node[pos=0.22,above] {$37^\\circ$} (O);\n\\path (B)--node[pos=0.43,above] {$64^\\circ$} (O);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[below right] at (O) {$O$};\n\\node[above] at (V) {$V$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Exercise 12D question 8",
+          "description": "A, B and O lie on horizontal ground in that order, with V vertically above O. AV and BV meet at V. The 64-degree angle lies between BV and BO, exterior to triangle AVB. A right-angle square marks BOV. Ordinary source blue geometry uses house black.",
+          "mathematics": "Angle VAB is 37 degrees; angle VBO is 64 degrees; angle BOV is 90 degrees. AB is 100 m, given only in the stem.",
+          "answerVisibility": "Only source givens and vertex labels appear; no calculated angles, lengths or height are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\angle AVB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$27^\\circ$",
+          "worked": "The exterior angle at $B$ equals the sum of the opposite interior angles of $\\triangle AVB$.\n$$\\begin{align*}\\angle AVB+37^\\circ&=64^\\circ\\\\\\angle AVB&=64^\\circ-37^\\circ\\\\\\angle AVB&=27^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p17-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$VB$, correct to two decimal places",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$132.56\\text{ m}$",
+          "worked": "Apply the sine rule in $\\triangle AVB$:\n$$\\begin{align*}\\frac{VB}{\\sin37^\\circ}&=\\frac{100}{\\sin27^\\circ}\\\\VB&=\\frac{100\\sin37^\\circ}{\\sin27^\\circ}\\\\VB&\\approx132.56\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p17-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$OV$, the height of the temple, to the nearest metre",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$119\\text{ m}$\n\nUse $OV=VB\\sin64^\\circ$, retaining the unrounded value of $VB$.",
+          "worked": "In right-angled $\\triangle BOV$, retain the exact expression for $VB$ from part b.\n$$\\begin{align*}\\sin64^\\circ&=\\frac{OV}{VB}\\\\OV&=VB\\sin64^\\circ\\\\OV&=\\frac{100\\sin37^\\circ}{\\sin27^\\circ}\\sin64^\\circ\\\\OV&\\approx119\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:19.602Z",
+  "updatedAt": "2026-11-12T11:24:19.602Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p17-q8",
+    "sectionRole": "exercise"
+  }
+}

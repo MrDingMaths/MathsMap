@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1553309c-3b73-45f4-b61e-2dc68d83b371",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "intersection-line-curve",
+    "secondarySkillIds": [
+      "area-of-triangle"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Solve two different intersection problems, select the points identified by the diagram and use their coordinates as perpendicular triangle dimensions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T08:49:46.301Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fe37ec1108221f309b8b3a5a062f249fa17bc0a5a9e5d3b8d050d70c01fbd1e9",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch11-20261015/semantic-packets/assignments/assignment-1d0a7b69f1b60bea1e96/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The circle $x^2+y^2=1$, the parabola $y=x^2$ and the line $y=x$ are drawn on the same axes. Let $A$ and $B$ be the points of intersection of $y=x$ with the circle and parabola, respectively. $XA$ and $YB$ are drawn perpendicular to the $x$-axis.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"equation curves and their perpendicular constructions\"},{\"name\":\"pointRed\",\"hex\":\"EF6068\",\"reason\":\"the specified intersection points A and B\"}],\"reference\":\"source page 17, p17-q6-diagram\"}\n\\begin{tikzpicture}[x=1.7cm,y=1.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{pointRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at ({1/sqrt(2)},{1/sqrt(2)});\n\\coordinate (B) at (1,1);\n\\coordinate (X) at ({1/sqrt(2)},0);\n\\coordinate (Y) at (1,0);\n\\draw[->,black,line width=0.5pt] (-2,0)--(2.5,0) node[below left] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-1.35)--(0,2.5) node[below left] {$y$};\n\\draw[curveBlue,line width=0.8pt] (O) circle[radius=1];\n\\draw[curveBlue,line width=0.8pt,domain=-1.42:1.42,samples=101] plot (\\x,{\\x*\\x});\n\\draw[curveBlue,line width=0.8pt,domain=-1.6:1.65] plot (\\x,\\x);\n\\draw[curveBlue,line width=0.4pt] (X)--(A) (Y)--(B);\n\\draw[black,line width=0.4pt] ($(X)+(-0.13,0)$)--($(X)+(-0.13,0.13)$)--($(X)+(0,0.13)$);\n\\draw[black,line width=0.4pt] ($(Y)+(0.13,0)$)--($(Y)+(0.13,0.13)$)--($(Y)+(0,0.13)$);\n\\fill[pointRed] (A) circle[radius=1.5pt];\n\\fill[pointRed] (B) circle[radius=1.5pt];\n\\node[above left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below left] at (O) {$O$};\n\\node[below left] at (X) {$X$};\n\\node[below right] at (Y) {$Y$};\n\\node[above left] at (-1.36,1.95) {$y=x^2$};\n\\node[above right] at (1.65,1.65) {$y=x$};\n\\node[below right] at (0.45,-1.02) {$x^2+y^2=1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 6, upper-right coordinate diagram",
+          "description": "Three equation-driven curves with A and B in the first quadrant, perpendicular feet X and Y and right-angle marks. O is retained because it names a vertex in the requested triangles. Source blue and red are mapped to standard palette accents.",
+          "mathematics": "Unit circle centred at O; parabola y=x²; line y=x; A=(1/√2,1/√2), B=(1,1), X=(1/√2,0), Y=(1,0). Coordinate values are construction data and are not printed.",
+          "answerVisibility": "The supplied figure identifies the required intersections without displaying their coordinates or triangle areas."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the coordinates of $A$ and $B$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\left(\\frac{1}{\\sqrt2},\\frac{1}{\\sqrt2}\\right)$ and $B=(1,1)$.",
+          "worked": "For $A$, substitute $y=x$ into the circle equation:\n$$\\begin{align*}x^2+x^2&=1\\\\2x^2&=1\\\\x^2&=\\frac12\\\\x&=\\pm\\frac1{\\sqrt2}.\\end{align*}$$\nThe diagram selects the first-quadrant intersection, so $x=y=\\frac1{\\sqrt2}$ and $A=\\left(\\frac1{\\sqrt2},\\frac1{\\sqrt2}\\right)$.\n\nFor $B$, equate the expressions for $y$:\n$$\\begin{align*}x^2&=x\\\\x^2-x&=0\\\\x(x-1)&=0\\\\x&=0\\text{ or }x=1.\\end{align*}$$\nThe diagram selects the non-origin intersection in the first quadrant. Thus $x=y=1$ and $B=(1,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49
+      },
+      {
+        "id": "p17-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of triangles $OAX$ and $OBY$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{Area}(\\triangle OAX)=\\frac14$ square unit; $\\operatorname{Area}(\\triangle OBY)=\\frac12$ square unit.",
+          "worked": "The perpendicular segments give $OX=XA=\\frac1{\\sqrt2}$ and $OY=YB=1$.\n$$\\begin{align*}\\operatorname{Area}(\\triangle OAX)&=\\frac12\\times OX\\times XA\\\\\\operatorname{Area}(\\triangle OAX)&=\\frac12\\times\\frac1{\\sqrt2}\\times\\frac1{\\sqrt2}\\\\\\operatorname{Area}(\\triangle OAX)&=\\frac14\\text{ square unit}.\\end{align*}$$\n$$\\begin{align*}\\operatorname{Area}(\\triangle OBY)&=\\frac12\\times OY\\times YB\\\\\\operatorname{Area}(\\triangle OBY)&=\\frac12\\times1\\times1\\\\\\operatorname{Area}(\\triangle OBY)&=\\frac12\\text{ square unit}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:06.707Z",
+  "updatedAt": "2026-11-12T11:24:06.707Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch11-20261015",
+    "blockId": "p17-q6",
+    "sectionRole": "exercise"
+  }
+}

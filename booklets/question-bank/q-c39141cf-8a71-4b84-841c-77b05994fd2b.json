@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c39141cf-8a71-4b84-841c-77b05994fd2b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [
+      "trig-obtuse-relationships"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate geometric projections into cyclic symbolic identities, find a cancellation that yields the cosine rule, and extend the argument to obtuse triangles using external perpendiculars and signed cosine projections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T09:04:12.522Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1848c1309d6804121bfe9f67aaaf346a52fd6a6581d27f695c202763f8d44e55",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-10-ch12-20261015/b4692e6e8181eac2615e9309093d5e112997ce7c6902678f379b76610a2d37c3-1792573423853/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Here is an alternative proof of the cosine rule. Assume $\\triangle ABC$ is acute-angled.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q4-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"altitudeRed\",\"hex\":\"EF6068\",\"reason\":\"highlighted perpendicular used in the proof\"}],\"reference\":\"page 34 question 4\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{altitudeRed}{HTML}{EF6068}\n\\coordinate (B) at (0,0);\\coordinate (C) at (4.4,0);\\coordinate (A) at (2.6,2.4);\\coordinate (D) at (2.6,0);\n\\draw (B)--node[midway,above left]{$c$}(A)--node[midway,above right]{$b$}(C)--node[midway,below]{$a$}cycle;\n\\draw[altitudeRed,dashed,line width=0.4pt] (A)--(D);\n\\draw[line width=0.4pt] (2.38,0)--(2.38,0.22)--(2.6,0.22);\n\\node[above] at (A){$A$};\\node[below left] at (B){$B$};\\node[below right] at (C){$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 4, right",
+          "description": "Acute triangle with red dashed altitude and right-angle marker; the foot remains unlabelled in the question.",
+          "mathematics": "BC=a, AC=b, AB=c. Altitude from A meets the interior of BC perpendicularly.",
+          "answerVisibility": "Only supplied geometry and side labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q4-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $a=b\\cos C+c\\cos B$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=BD+DC=c\\cos B+b\\cos C$, where $D$ is the foot of the perpendicular from $A$.",
+          "worked": "Let $D$ be the foot of the perpendicular from $A$ to $BC$. Right-triangle cosine ratios give $BD=c\\cos B$ and $DC=b\\cos C$.\n$$\\begin{align*}a&=BD+DC\\\\a&=c\\cos B+b\\cos C\\\\a&=b\\cos C+c\\cos B.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p34-q4-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write down corresponding results for $b$ and $c$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$b=a\\cos C+c\\cos A$, $c=a\\cos B+b\\cos A$.",
+          "worked": "Applying the same projection argument to the other two sides gives\n$$\\begin{align*}b&=a\\cos C+c\\cos A,\\\\c&=a\\cos B+b\\cos A.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p34-q4-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $a^2=a(b\\cos C+c\\cos B)$ and, using corresponding results for $b^2$ and $c^2$, prove the cosine rule.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a^2=b^2+c^2-2bc\\cos A$.\n\nMultiply the three projection identities by their respective side lengths, then combine $b^2+c^2-a^2$.",
+          "worked": "Multiply each projection identity by its left-hand side:\n$$\\begin{align*}a^2&=a(b\\cos C+c\\cos B)\\\\a^2&=ab\\cos C+ac\\cos B,\\\\b^2&=ab\\cos C+bc\\cos A,\\\\c^2&=ac\\cos B+bc\\cos A.\\end{align*}$$\nSubtract the expression for $a^2$ from the sum of the other two:\n$$\\begin{align*}b^2+c^2-a^2&=(ab\\cos C+bc\\cos A)+(ac\\cos B+bc\\cos A)-(ab\\cos C+ac\\cos B)\\\\b^2+c^2-a^2&=2bc\\cos A,\\\\a^2&=b^2+c^2-2bc\\cos A.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p34-q4-d-node",
+        "type": "part",
+        "label": "d",
+        "prompt": "Check that a similar proof works for an obtuse-angled triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The projection identities still hold because $\\cos(180^\\circ-B)=-\\cos B$ when $B$ is obtuse. The same cancellation proves $a^2=b^2+c^2-2bc\\cos A$.",
+          "worked": "Suppose $B$ is obtuse. Let the perpendicular from $A$ meet the extension of $BC$ beyond $B$ at $D$. Then\n$$\\begin{align*}BD&=c\\cos(180^\\circ-B)\\\\BD&=-c\\cos B,\\\\CD&=b\\cos C,\\\\a&=CD-BD\\\\a&=b\\cos C+c\\cos B.\\end{align*}$$\nThe angle $A$ is acute, so the perpendicular from $C$ to $AB$ meets $AB$ extended beyond $B$. The same subtraction of projections gives $c=b\\cos A+a\\cos B$. The perpendicular from $B$ to $AC$ gives $b=a\\cos C+c\\cos A$. Thus all three identities remain valid. Multiplying by $a$, $b$ and $c$ respectively and combining them as in part c gives\n$$\\begin{align*}b^2+c^2-a^2&=2bc\\cos A,\\\\a^2&=b^2+c^2-2bc\\cos A.\\end{align*}$$\nRelabelling covers an obtuse angle at either of the other vertices.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 79
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p34-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:24:33.622Z",
+  "updatedAt": "2026-11-12T11:24:33.623Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p34-q4-block",
+    "sectionRole": "exercise"
+  }
+}

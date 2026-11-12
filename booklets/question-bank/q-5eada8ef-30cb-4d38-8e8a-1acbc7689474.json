@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5eada8ef-30cb-4d38-8e8a-1acbc7689474",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-restrictions",
+    "secondarySkillIds": [
+      "probability-independent-events"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "The hardest demand is splitting restricted team selections into disjoint cases; pairing and independent-match probabilities use routine procedures.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:44:07.451Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a5780b1db66789c15bb2c1a27c33c0326ea95bf69fccc6fc0460e256bba53709",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch15-20261015/lean-review/calls/content-1792568599356-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-challenge-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "A tennis team consists of 4 players who must be chosen from a group of 6 boys and 5 girls.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-challenge-q1-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Find the number of ways the team can be picked:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p33-challenge-q1-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "without restriction",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$330$",
+              "worked": "Selecting four players in order gives $11\\times10\\times9\\times8$ lists. Each team occurs $4\\times3\\times2\\times1=24$ times, once for each ordering of its four players. Count each team once:\n$$N=\\frac{11\\times10\\times9\\times8}{24}=330.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p33-challenge-q1-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "with 2 boys and 2 girls in the team",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$150$",
+              "worked": "There are $6\\times5=30$ ordered boy pairs. Each pair is counted twice, so there are $30\\div2=15$ boy pairs. Similarly, there are $(5\\times4)\\div2=10$ girl pairs. Each boy pair can join each girl pair.\n$$N=15\\times10=150.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p33-challenge-q1-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "if at least 2 girls must be in the team",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$215$\n\nCount teams with 2, 3 or 4 girls.",
+              "worked": "Count the disjoint cases with 2, 3 or 4 girls. Part ii gives 150 teams with 2 girls. A group of 3 girls is determined by the 2 girls left out, giving $(5\\times4)\\div2=10$ groups; each can join any of the 6 boys, giving 60 teams. A group of 4 girls is determined by the one girl left out, giving 5 teams.\n$$N=150+60+5=215.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p33-challenge-q1-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "if no more than 2 boys are to be in the team",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$215$\n\nCount teams with 0, 1 or 2 boys.",
+              "worked": "A four-player team with no more than 2 boys has at least 2 girls. This is exactly the set of teams counted in part iii, so there are $215$ teams.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          }
+        ]
+      },
+      {
+        "id": "p33-challenge-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If the team consists of 2 girls (Joanne and Freda) and two boys (Peter and Stuart) from which two pairs of mixed doubles must be selected, how many ways can the mixed doubles pairs be selected?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2$",
+          "worked": "The two possible pairings are:\n\nJoanne with Peter, and Freda with Stuart;\n\nJoanne with Stuart, and Freda with Peter.\n\nThus there are $2$ ways.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p34-q1c",
+        "type": "group",
+        "label": "c",
+        "prompt": "During a particular tournament, the probability of the first mixed doubles pair winning each match it plays is 0.4 and the probability of the second pair winning each match it plays is 0.7.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p34-q1c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Find the probability that both pairs win their first match.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.28$",
+              "worked": "Taking the two match results as independent,\n$$\\begin{align*}P(\\text{both win})&=0.4\\times0.7\\\\P(\\text{both win})&=0.28\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p34-q1c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Find the probability that the first pair wins 2 and loses 1 of their first 3 matches.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.288$\n\nAdd the probabilities of WWL, WLW and LWW.",
+              "worked": "Taking successive match results as independent, the required sequences are WWL, WLW and LWW. Each has probability $0.4^2\\times0.6$.\n$$\\begin{align*}P(\\text{2 wins and 1 loss})&=3\\times0.4^2\\times0.6\\\\P(\\text{2 wins and 1 loss})&=0.288\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p34-q1c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Find the probability that the second pair wins their second and third match, given that they won their first match.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.49$",
+              "worked": "Taking successive match results as independent, winning the first match does not change either later winning probability.\n$$\\begin{align*}P(W_2\\cap W_3\\mid W_1)&=0.7\\times0.7\\\\P(W_2\\cap W_3\\mid W_1)&=0.49\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-challenge-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:37.568Z",
+  "updatedAt": "2026-11-12T13:14:37.568Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch15-20261015",
+    "blockId": "p33-challenge-q1",
+    "sectionRole": "exercise"
+  }
+}

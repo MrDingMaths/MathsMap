@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fad34ce2-6464-4055-87bc-aa6fa734e424",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "intersecting-chords-secants"
+    ],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Identify the useful triangle pair in the supplied auxiliary construction, justify ordered angle correspondence, and transform a corresponding-side ratio into the requested product identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T06:33:59.962Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "47e55f65fb5fe639bc3236e7f9db2f3fa04844448fe2d50ed2145520ea032b1d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch13-20261015/resume-20261027/source34/independent-review.json",
+      "reasoning": "low"
+    }
+  },
+  "content": {
+    "id": "p34-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Let secants from a point, $M$, external to the circle cut the circle at points $A$ and $B$ and $P$ and $Q$, as shown in the diagram. Prove that $AM\\times BM=PM\\times QM$.\n\nThis is the proof of the theorem stated on page 410.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"auxiliaryRed\",\"hex\":\"EF6068\",\"reason\":\"Auxiliary chords distinguish the similarity construction from the original secants.\"}],\"reference\":\"source34 question2\"}\n\\begin{tikzpicture}[x=13mm,y=13mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{auxiliaryRed}{HTML}{EF6068}\n\\coordinate (M) at (0,2);\\pgfmathsetmacro{\\u}{2*cos(20)-sqrt(1-4*sin(20)^2)}\\pgfmathsetmacro{\\v}{2*cos(20)+sqrt(1-4*sin(20)^2)}\n\\coordinate (B) at ({-\\u*sin(20)},{2-\\u*cos(20)});\\coordinate (A) at ({-\\v*sin(20)},{2-\\v*cos(20)});\\coordinate (Q) at ({\\u*sin(20)},{2-\\u*cos(20)});\\coordinate (P) at ({\\v*sin(20)},{2-\\v*cos(20)});\n\\draw (0,0) circle (1);\\draw (A)--(M)--(P);\\draw[auxiliaryRed,dashed,line width=0.4pt] (A)--(Q) (B)--(P);\n\\node[above] at (M) {$M$};\\node[above left] at (B) {$B$};\\node[above right] at (Q) {$Q$};\\node[below left] at (A) {$A$};\\node[below right] at (P) {$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Questions 2 and 3 shared figure",
+          "description": "Two secants from M with near points B and Q and far points A and P; dashed auxiliary chords AQ and BP.",
+          "mathematics": "All four named points lie on the circle; M,B,A and M,Q,P are collinear.",
+          "answerVisibility": "Source-supplied auxiliary chords remain visible; no tangent or proof answers added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\triangle MAQ\\sim\\triangle MPB$, so $\\dfrac{AM}{PM}=\\dfrac{QM}{BM}$ and $AM\\times BM=PM\\times QM$.",
+      "worked": "$\\angle AMQ=\\angle PMB$ because they are the same angle between the secants.\n\n$\\angle MAQ=\\angle MPB$ because they are angles subtended by the same chord $BQ$.\n\nHence $\\triangle MAQ\\sim\\triangle MPB$ (AA), with correspondence $M\\leftrightarrow M$, $A\\leftrightarrow P$, $Q\\leftrightarrow B$.\n\nTherefore,\n$$\\frac{AM}{PM}=\\frac{QM}{BM}.$$\nMultiplying by $PM\\times BM$ gives\n$$AM\\times BM=PM\\times QM.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 66
+  },
+  "presentation": {
+    "ownerId": "p34-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:36:32.274Z",
+  "updatedAt": "2026-11-12T11:36:32.274Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch13-20261015",
+    "blockId": "p34-q2",
+    "sectionRole": "exercise"
+  }
+}
