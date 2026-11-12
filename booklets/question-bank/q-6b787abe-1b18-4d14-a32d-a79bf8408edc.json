@@ -1,0 +1,277 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6b787abe-1b18-4d14-a32d-a79bf8408edc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "transform-translations",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Unpack composition to distinguish changing the input in f(h(x)) from changing the output in k(P(x)), then apply the corresponding translation to landmarks on each supplied graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:07:22.946Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8436ee9256b35a9a7b45abd04483a9cc52dc7fba5d1fa89c77b890b69d9ec880",
+      "evidence": ".booklet-work/reasoning-ratings/calls/graph-transformations-v1/fd9e950e971d543c236c6d547ab9819109fb74cd5626573f0c43d2b9064dbc1d-1792559217993/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "The composition of functions can sometimes result in translations.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Consider $y=f(x)$ below.\n\nLet $h(x)=x-3$.\n\nSketch $f(h(x))$ on the same set of axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p13-q10-a-original-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=0.65cm,y=0.65cm,>=stealth]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13: original curve recovered by inverse of its printed translation\"}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-4.8,-3.3) rectangle (7.2,5.2);\n\\draw[->,line width=0.5pt] (-4.5,0)--(7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,5) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (0,3)--(2,3) (0,4)--(1,4) (1,0)--(1,4) (2,0)--(2,3);\n\\foreach \\x in {1,2,3}{\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,3,4}{\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[<->,line width=0.8pt] (-4.2,1.03) .. controls (-2,1.04) and (-0.8,1.3) .. (0,3) .. controls (0.4,3.8) and (0.7,4) .. (1,4) .. controls (1.35,4) and (1.75,3.65) .. (2,3) .. controls (2.45,2) and (2.8,0.8) .. (3,0) .. controls (3.2,-0.9) and (3.45,-2.1) .. (3.6,-2.9);\n\\node[above] at (2.1,4.4) {$y=f(x)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 13,
+              "sourceRegion": "Question 10a",
+              "description": "Base curve recovered by translating the printed f(x-3) answer curve three units left. Original labelled features (0,3),(1,4),(2,3),(3,0), with left approach to y=1.",
+              "mathematics": "Every coordinate and Bézier control point is the source answer coordinate minus (3,0).",
+              "sourceCorrection": "The source prints the translated answer curve but omits a distinct original curve despite referring to it in the task. Recover the uniquely determined original through the inverse translation; preserve the printed answer as answer-only content."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$f(h(x))=f(x-3)$. Translation 3 units right.",
+          "worked": "$$\\begin{align*}f(h(x))&=f(x-3)\\end{align*}$$\nReplacing $x$ with $x-3$ translates the graph 3 units right. Each point $(x,y)$ moves to $(x+3,y)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q10-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"answerBlue\",\"hex\":\"268CFF\",\"reason\":\"source answer curve and its guides\"}],\"reference\":\"source page 13 p13-q10-a-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{answerBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.6,-3.3) rectangle (7.2,5.2);\n\\draw[->,line width=0.5pt] (-1.2,0)--(7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,5) node[above] {$y$};\n\\draw[answerBlue,dashed,line width=0.4pt] (0,3)--(5,3) (0,4)--(4,4) (3,0)--(3,3) (4,0)--(4,4) (5,0)--(5,3);\n\\foreach \\x in {3,4,5,6}{\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,3,4}{\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[answerBlue,<->,line width=0.8pt] (-1.2,1.03) .. controls (1,1.04) and (2.2,1.3) .. (3,3) .. controls (3.4,3.8) and (3.7,4) .. (4,4) .. controls (4.35,4) and (4.75,3.65) .. (5,3) .. controls (5.45,2) and (5.8,0.8) .. (6,0) .. controls (6.2,-0.9) and (6.45,-2.1) .. (6.6,-2.9);\n\\node[answerBlue,above] at (4.9,4.35) {$y=f(x-3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Question 10a, lower-left graph",
+                "description": "Qualitative answer curve with leftward approach to height 1, guide intersections (3,3) and (5,3), maximum (4,4), x-intercept 6 and downward right continuation. Bézier segments describe the supplied qualitative features, not an inferred function equation.",
+                "mathematics": "Graph of y=f(x-3), obtained by translating y=f(x) 3 units right.",
+                "answerVisibility": "Answer only; the original graph is not distinguishable in the supplied source."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p13-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Consider $P(x)$ below.\n\nLet $k(x)=x+2$.\n\nSketch $k(P(x))$ on the same set of axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p13-q10-b-original-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=0.85cm,y=0.85cm,>=stealth]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13: original curve recovered by inverse of its printed translation\"}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.4,-3.8) rectangle (5.2,5.6);\n\\draw[->,line width=0.5pt] (-2.2,0)--(5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.5)--(0,5.3) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (0,1)--(3,1)--(3,0);\n\\foreach \\x in {-1,2,3}{\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[<->,line width=0.8pt] (-1.85,-3.4) .. controls (-1.6,-1.9) and (-1.35,-0.7) .. (-1,0) .. controls (-0.7,0.65) and (-0.35,1) .. (0,1) .. controls (0.65,1) and (1.35,0) .. (2,0) .. controls (2.45,0) and (2.8,0.5) .. (3,1) .. controls (3.3,1.7) and (3.55,2.6) .. (3.7,3.1);\n\\node[above] at (3,3.2) {$y=P(x)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 13,
+              "sourceRegion": "Question 10b",
+              "description": "Base curve recovered by translating the printed P(x)+2 answer curve two units down. Original points (-1,0),(0,1),(2,0),(3,1).",
+              "mathematics": "Every coordinate and Bézier control point is the source answer coordinate minus (0,2).",
+              "sourceCorrection": "The source prints the translated answer curve but omits a distinct original curve despite referring to it in the task. Recover the uniquely determined original through the inverse translation; preserve the printed answer as answer-only content."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$k(P(x))=P(x)+2$. Translation 2 units up.",
+          "worked": "$$\\begin{align*}k(P(x))&=P(x)+2\\\\y-2&=P(x)\\end{align*}$$\nReplacing $y$ with $y-2$ translates the graph 2 units up. Each point $(x,y)$ moves to $(x,y+2)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q10-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"answerBlue\",\"hex\":\"268CFF\",\"reason\":\"source answer curve and its guides\"}],\"reference\":\"source page 13 p13-q10-b-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{answerBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.4,-1.8) rectangle (5.2,5.6);\n\\draw[->,line width=0.5pt] (-2.2,0)--(5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.5)--(0,5.3) node[above] {$y$};\n\\draw[answerBlue,dashed,line width=0.4pt] (-1,0)--(-1,2)--(2,2)--(2,0) (0,3)--(3,3)--(3,0);\n\\foreach \\x in {-1,2,3}{\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {2,3}{\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[answerBlue,<->,line width=0.8pt] (-1.85,-1.4) .. controls (-1.6,0.1) and (-1.35,1.3) .. (-1,2) .. controls (-0.7,2.65) and (-0.35,3) .. (0,3) .. controls (0.65,3) and (1.35,2) .. (2,2) .. controls (2.45,2) and (2.8,2.5) .. (3,3) .. controls (3.3,3.7) and (3.55,4.6) .. (3.7,5.1);\n\\node[answerBlue,above] at (3,5.2) {$y=P(x)+2$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Question 10b, lower-right graph",
+                "description": "Qualitative cubic-like answer curve through (-1,2), local maximum (0,3), local minimum (2,2) and (3,3), with downward left and upward right continuation. Bézier segments preserve labelled features without assigning an unsupported polynomial.",
+                "mathematics": "Graph of y=P(x)+2, obtained by translating P(x) 2 units up.",
+                "answerVisibility": "Answer only; the original graph is not distinguishable in the supplied source."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q10-root/label",
+                  "type": "item",
+                  "ref": "p13-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p13-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-q10-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p13-q10-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q10-a/label",
+                          "type": "item",
+                          "ref": "p13-q10-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-q10-a/prompt",
+                          "type": "item",
+                          "ref": "p13-q10-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q10-a-original-graph",
+                          "type": "item",
+                          "ref": "p13-q10-a-original-graph",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p13-q10-a/space",
+                          "type": "item",
+                          "ref": "p13-q10-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p13-q10-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q10-b/label",
+                          "type": "item",
+                          "ref": "p13-q10-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-q10-b/prompt",
+                          "type": "item",
+                          "ref": "p13-q10-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q10-b-original-graph",
+                          "type": "item",
+                          "ref": "p13-q10-b-original-graph",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p13-q10-b/space",
+                          "type": "item",
+                          "ref": "p13-q10-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:45:11.941Z",
+  "updatedAt": "2026-11-12T07:45:11.941Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "graph-transformations-v1",
+    "blockId": "p13-q10",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fe3fc0cd-abf1-4487-b9e2-ca4dd5009373",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "order-of-transformations",
+    "secondarySkillIds": [
+      "apply-combined-transformations"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Apply an ordered vertical translation and dilation to a circle, then sketch the resulting ellipse.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-07T15:21:13.760Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "68d0af9d0c704ce52b557d6de0c8620bd55410dc41e2766c511cc22dd77376e7",
+      "evidence": ".booklet-work/full-imports/graph-transformations-20261008/semantic-packets/assignments/assignment-de975a76ad5deb94946a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p53-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Write the new equation after the given transformations have been applied. Draw a graph of the image.\n\n$x^2+y^2=4$: up 2 units, then dilate by a factor of $\\frac12$ vertically.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$x^2+4(y-1)^2=4$.",
+      "worked": "Translate up 2 units by replacing $y$ with $y-2$:\n$$x^2+(y-2)^2=4.$$\nDilate vertically by factor $\\frac12$ by replacing $y$ with $2y$:\n$$\\begin{align*}x^2+(2y-2)^2&=4\\\\x^2+4(y-1)^2&=4.\\end{align*}$$\nThe point mapping is $(x,y)\\mapsto(x,\\frac{y+2}{2})$. The image is an ellipse centred at $(0,1)$, passing through $(-2,1)$, $(2,1)$, $(0,0)$ and $(0,2)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p53-q3-solution-ellipse",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 53, question 3 solution\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-0.6)--(0,2.8) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2} {\\draw[line width=0.4pt] (\\v,-0.07)--(\\v,0.07);\\node[below] at (\\v,-0.07) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2} {\\draw[line width=0.4pt] (-0.07,\\v)--(0.07,\\v);\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.8pt] plot[domain=0:360,samples=121] ({2*cos(\\x)},{1+sin(\\x)});\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 60,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 53,
+            "sourceRegion": "Question 3, bottom-left cell",
+            "description": "Authored solution graph of the transformed circle; the source supplies an equation answer but no graph.",
+            "mathematics": "Ellipse x^2+4(y-1)^2=4, centre (0,1), horizontal semiaxis 2 and vertical semiaxis 1.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 65
+  },
+  "presentation": {
+    "ownerId": "p53-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p53-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p53-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p53-q3-root/label",
+                  "type": "item",
+                  "ref": "p53-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p53-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p53-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p53-q3-root/space",
+                  "type": "item",
+                  "ref": "p53-q3-root/space",
+                  "title": "Answer space",
+                  "height": 40
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p53-q3-root": 40
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:45:06.301Z",
+  "updatedAt": "2026-11-12T07:45:06.301Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "graph-transformations-2-v1",
+    "blockId": "p53-q3-block",
+    "sectionRole": "exercise"
+  }
+}

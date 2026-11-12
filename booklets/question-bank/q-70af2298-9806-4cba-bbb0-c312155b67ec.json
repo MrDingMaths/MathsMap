@@ -1,0 +1,153 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-70af2298-9806-4cba-bbb0-c312155b67ec",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-combined-transformations",
+    "secondarySkillIds": [
+      "describe-transformations-from-equation",
+      "order-of-transformations"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Coordinate horizontal reflection, compression and translation, then map the endpoint and reverse the curve's horizontal direction while retaining its heights.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:07:46.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d4d2d20ed09656aafc1e4f21034ee02cd3a3aebe0f6f98c2139984247449547e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/graph-transformations-v1/25e47fbde161afd40d8f45815a0da6687826a6542df3836dd4d5fd972b78c47f-1792559243018/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p58-q17-answer",
+    "type": "question",
+    "label": "17",
+    "prompt": "The diagram shows $y=f(x)$.\nFirst describe the transformations in $y=f(4-2x)$ and sketch the new curve.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p58-q17-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 58, p58-q17-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.2,-0.85) rectangle (4.15,5.1);\n\\draw[black,line width=0.5pt,->] (-2,0)--(3.9,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.75)--(0,4.9) node[above left] {$y$};\n\\draw[black,line width=0.8pt,->] (3,0) .. controls (3,1.45) and (0.8,2.55) .. (-2,3.2);\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 58,
+          "sourceRegion": "Question 17, supplied graph",
+          "description": "Qualitative decreasing, concave-down curve with an included endpoint at (3,0), a steep tangent near that endpoint, a positive unlabelled y-intercept and an arrow continuing towards the upper left. No grid or additional numeric ticks. Ordinary source blue strokes are rendered in house black.",
+          "mathematics": "The Bezier curve represents only the supplied qualitative shape, not an inferred function formula. Vertical drawing coordinates are schematic and carry no numerical scale.",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$y=f(-2(x-2))$: dilate horizontally by factor $\\tfrac12$, reflect in the $y$-axis, then translate 2 units right. Alternatively, translate 4 units left, reflect in the $y$-axis, then dilate horizontally by factor $\\tfrac12$. The new curve starts at $(\\tfrac12,0)$ and increases to the right, remaining concave down.",
+      "worked": "$$\\begin{align*}y&=f(4-2x)\\\\y&=f(-2(x-2))\\end{align*}$$\nDilate horizontally by factor $\\tfrac12$, reflect in the $y$-axis, then translate 2 units right.\n\nAlternatively, translate 4 units left, reflect in the $y$-axis, then dilate horizontally by factor $\\tfrac12$.\n\nEach point $(u,v)$ maps to $(2-\\tfrac{u}{2},v)$. In particular, $(3,0)$ maps to $(\\tfrac12,0)$. The original y-intercept maps to a point at $x=2$ with the same height. Sketch the increasing, concave-down curve from its included endpoint $(\\tfrac12,0)$, continuing towards the upper right.",
+      "solutionDiagrams": [
+        {
+          "id": "p58-q17-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 58, p58-q17-solution-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.65,-0.85) rectangle (4.15,5.1);\n\\draw[black,line width=0.5pt,->] (-0.55,0)--(3.9,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.75)--(0,4.9) node[above left] {$y$};\n\\begin{scope}[cm={-0.5,0,0,1,(2,0)}]\n\\draw[black,line width=0.8pt,->] (3,0) .. controls (3,1.45) and (0.8,2.55) .. (-2,3.2);\n\\end{scope}\n\\node[below] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 60,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 58,
+            "sourceRegion": "Question 17, derived transformed sketch",
+            "description": "Complete transformed graph with endpoint (1/2,0), steep initial rise and upper-right continuation. The exact affine transformation is applied to the supplied reconstruction and every Bezier control point.",
+            "mathematics": "Apply (u,v) -> (2-u/2,v). The transformed curve is increasing and concave down, with domain x>=1/2 and range y>=0. No numerical vertical scale or function equation is inferred.",
+            "answerVisibility": "Answer editions only; the source supplies transformation sequences but no transformed sketch."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p58-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p58-q17-graph": {
+          "diagramWidthMm": 50
+        },
+        "p58-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p58-q17-answer:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p58-q17-answer/label",
+                  "type": "item",
+                  "ref": "p58-q17-answer/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p58-q17-answer/prompt",
+                  "type": "item",
+                  "ref": "p58-q17-answer/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p58-q17-graph",
+                  "type": "item",
+                  "ref": "p58-q17-graph",
+                  "title": "Diagram",
+                  "width": 50
+                },
+                {
+                  "id": "layout:p58-q17-answer/space",
+                  "type": "item",
+                  "ref": "p58-q17-answer/space",
+                  "title": "Answer space",
+                  "height": 25
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p58-q17-answer": 25
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:45:03.446Z",
+  "updatedAt": "2026-11-12T07:45:03.446Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "graph-transformations-2-v1",
+    "blockId": "p58-q17",
+    "sectionRole": "exercise"
+  }
+}
