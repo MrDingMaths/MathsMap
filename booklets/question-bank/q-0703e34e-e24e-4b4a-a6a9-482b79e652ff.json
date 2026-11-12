@@ -1,0 +1,62 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0703e34e-e24e-4b4a-a6a9-482b79e652ff",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Use supplied partial fractions to solve the initial-value problem, evaluate the population and apply exponential decay to identify the explicitly requested carrying-capacity limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:22:55.428Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b79501a2586af805303f1404579eb8840b0d5c4f8d19ec7f261f56b96f6c96bd",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-f6b625991b72e98fe2db/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p66-q3-response",
+    "type": "question",
+    "label": "3",
+    "prompt": "A seal colony satisfies $\\dfrac{dP}{dt}=\\dfrac14P\\left(1-\\dfrac{P}{800}\\right)$, $P(0)=100$, $t$ in years.\n\nUse\n$$\\frac{800}{P(800-P)}=\\frac1P+\\frac1{800-P}.$$\nFind $P(t)$, $P(8)$, and show that the long-term population is the carrying capacity. Give $P(8)$ to the nearest whole seal.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$P(t)=\\dfrac{800}{1+7e^{-t/4}}$; $P(8)\\approx411$ seals. As $t\\to\\infty$, $P(t)\\to800$ seals, the carrying capacity.",
+      "worked": "$$\\begin{aligned}\n\\frac{dt}{dP}&=\\frac{3200}{P(800-P)}\\\\\n\\frac{dt}{dP}&=4\\left(\\frac1P+\\frac1{800-P}\\right)\\\\\nt&=4\\bigl(\\ln|P|-\\ln|800-P|\\bigr)+D\\\\\n\\ln\\left|\\frac{P}{800-P}\\right|&=\\frac t4-\\frac D4\\\\\n\\frac{P}{800-P}&=Ae^{t/4}.\n\\end{aligned}$$\nUsing $P(0)=100$,\n$$\\begin{aligned}\n\\frac{100}{700}&=Ae^0\\\\\nA&=\\frac17.\n\\end{aligned}$$\nHence\n$$\\begin{aligned}\n\\frac{P}{800-P}&=\\frac17e^{t/4}\\\\\n7P&=(800-P)e^{t/4}\\\\\nP(7+e^{t/4})&=800e^{t/4}\\\\\nP(t)&=\\frac{800}{1+7e^{-t/4}}\\\\\nP(8)&=\\frac{800}{1+7e^{-2}}\\\\\nP(8)&\\approx411.\n\\end{aligned}$$\nAfter 8 years, the population is approximately 411 seals. As $t\\to\\infty$, $e^{-t/4}\\to0$, so $P(t)\\to800$ seals, the carrying capacity.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 75
+  },
+  "presentation": {
+    "ownerId": "p66-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:09.616Z",
+  "updatedAt": "2026-11-12T05:39:09.616Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p66-q3",
+    "sectionRole": "exercise"
+  }
+}

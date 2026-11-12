@@ -1,0 +1,99 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-48850e63-c6e7-43b8-893e-f400f6899800",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Part a is a standard logistic solve. Part b needs C found from two data points by eliminating A, the same demand as p80-q1 with k given.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T13:09:51.061Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c48430c1e98feb77829ba97ada1d4e95c16b51dc09b5e9fd8cc36f1f0aed871d",
+      "diagramBlindHash": "c48430c1e98feb77829ba97ada1d4e95c16b51dc09b5e9fd8cc36f1f0aed871d",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-4-differential-equations-2-v1/20261111-125045/calls/14-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p80-q1",
+          "score": 46
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-6eff0-p80-practice-slot-10-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Each population below follows a logistic model, with $t$ in years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-6eff0-p80-practice-slot-10-slot-10-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The number of Murray cod $P$ in a dam satisfies $\\dfrac{dP}{dt}=0.0003P(1200-P)$, where $t$ is the time since the dam was stocked with 200 cod.\n\nUse $\\dfrac{1}{P(1200-P)}=\\dfrac{1}{1200}\\left(\\dfrac1P+\\dfrac1{1200-P}\\right)$ to find $P$ in terms of $t$, and hence the limiting population.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P=\\dfrac{1200}{1+5e^{-0.36t}}$; the limiting population is $1200$ cod.",
+          "worked": "$$\\begin{align*}\\frac{1}{P(1200-P)}\\,dP&=0.0003\\,dt\\\\\\frac{1}{1200}\\int\\left(\\frac1P+\\frac1{1200-P}\\right)dP&=\\int0.0003\\,dt\\\\\\ln P-\\ln(1200-P)&=0.36t+k\\\\\\frac{P}{1200-P}&=Ae^{0.36t}\\end{align*}$$\nWhen $t=0$, $P=200$, so $A=\\dfrac{200}{1000}=\\dfrac15$.\n$$\\begin{align*}5P&=(1200-P)e^{0.36t}\\\\P&=\\frac{1200}{1+5e^{-0.36t}}\\end{align*}$$\nAs $t\\to\\infty$, $e^{-0.36t}\\to0$, so $P\\to1200$.\nThe limiting population is $1200$ cod.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "v2-6eff0-p80-practice-slot-10-slot-10-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The number of kangaroos $P$ on a sanctuary satisfies $\\dfrac{dP}{dt}=0.1P\\left(1-\\dfrac PC\\right)$, where $t$ is the time since 2015 and $C$ is a constant. There were 1500 kangaroos in 2015 and 3200 in 2025.\n\nUse $\\dfrac{1}{P(C-P)}=\\dfrac1C\\left(\\dfrac1P+\\dfrac1{C-P}\\right)$ to find the limiting population, to the nearest hundred.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$9400$ kangaroos.",
+          "worked": "$$\\begin{align*}\\frac{dP}{dt}&=\\frac{0.1P(C-P)}{C}\\\\\\frac{1}{P(C-P)}\\,dP&=\\frac{0.1}{C}\\,dt\\\\\\int\\left(\\frac1P+\\frac1{C-P}\\right)dP&=\\int0.1\\,dt\\\\\\ln P-\\ln(C-P)&=0.1t+k\\\\\\frac{P}{C-P}&=Ae^{0.1t}\\end{align*}$$\nThe two data points give\n$$\\begin{align*}\\frac{1500}{C-1500}&=A\\\\\\frac{3200}{C-3200}&=Ae.\\end{align*}$$\nDividing eliminates $A$:\n$$\\begin{align*}\\frac{3200(C-1500)}{1500(C-3200)}&=e\\\\32(C-1500)&=15e(C-3200)\\\\(15e-32)C&=48\\,000(e-1)\\\\C&=\\frac{48\\,000(e-1)}{15e-32}\\end{align*}$$\nAs $t\\to\\infty$, $P\\to C$.\nThe limiting population is $9400$ kangaroos, to the nearest hundred.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 95
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-6eff0-p80-practice-slot-10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:38.513Z",
+  "updatedAt": "2026-11-12T05:39:38.513Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "v2-6eff0-p80-practice-slot-10",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a5fd9d07-52b5-462c-8b25-552d73fc9db0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-revolution-between-curves",
+    "secondarySkillIds": [
+      "area-between-curves"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Find quadratic intersection bounds and the area, then reuse the bounds and curve ordering in a directly taught washer integral.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:01:17.803Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "496c97bbbaad5b579ef94090e5508a836f3a3d511da7605b34a00e2d3ca74087",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793174424743-12/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the region bounded by the parabola $y=x^2$ and the line $y=x+2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p33-q4-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"parabolaBlue\",\"hex\":\"268CFF\",\"reason\":\"parabola series distinguished from the straight line\"},{\"name\":\"lineRed\",\"hex\":\"EF6068\",\"reason\":\"straight-line series distinguished from the parabola\"}],\"reference\":\"source page 33 p33-q4-a-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{parabolaBlue}{HTML}{268CFF}\n\\definecolor{lineRed}{HTML}{EF6068}\n\\draw[<->,black,line width=0.5pt] (-2.6,0)--(3,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-1.15)--(0,5.45) node[above] {$y$};\n\\draw[<->,parabolaBlue,line width=0.8pt,domain=-2.25:2.25,samples=100] plot (\\x,{(\\x)^2});\n\\draw[<->,lineRed,line width=0.8pt,domain=-2.65:2.7,samples=2] plot (\\x,{\\x+2});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 33,
+              "sourceRegion": "Question 4(a), graph below the prompt",
+              "description": "Unshaded equation-driven sketch with two intersections, continuation arrows on both curves and both axes, and no numerical ticks or equation labels.",
+              "mathematics": "Parabola y=x^2 and line y=x+2 intersect at (-1,1) and (2,4); the line lies above the parabola between the intersections.",
+              "answerVisibility": "The supplied graph remains visible in the question edition; intersection coordinates and calculations are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{9}{2}\\text{ units}^2$",
+          "worked": "At the intersections,\n$$\\begin{aligned}x^2&=x+2\\\\x^2-x-2&=0\\\\(x-2)(x+1)&=0\\\\x&=-1\\text{ or }2.\\end{aligned}$$\nThe line is above the parabola between the intersections.\n$$\\begin{aligned}A&=\\int_{-1}^{2}(x+2-x^2)\\,dx\\\\A&=\\left[\\frac{x^2}{2}+2x-\\frac{x^3}{3}\\right]_{-1}^{2}\\\\A&=\\frac{10}{3}-\\left(-\\frac76\\right)\\\\A&=\\frac92\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p33-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The area bounded by the curve $y=x^2$ and the line $y=x+2$ is rotated about the $x$-axis. Find the exact volume of the solid formed.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{72\\pi}{5}\\text{ units}^3$",
+          "worked": "Outer radius $=x+2$, inner radius $=x^2$.\n$$\\begin{aligned}V&=\\pi\\int_{-1}^{2}\\left((x+2)^2-x^4\\right)\\,dx\\\\V&=\\pi\\int_{-1}^{2}(x^2+4x+4-x^4)\\,dx\\\\V&=\\pi\\left[\\frac{x^3}{3}+2x^2+4x-\\frac{x^5}{5}\\right]_{-1}^{2}\\\\V&=\\pi\\left(\\frac{184}{15}-\\left(-\\frac{32}{15}\\right)\\right)\\\\V&=\\frac{72\\pi}{5}\\text{ units}^3.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:33.136Z",
+  "updatedAt": "2026-11-12T05:38:33.136Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1",
+    "blockId": "p33-q4",
+    "sectionRole": "exercise"
+  }
+}

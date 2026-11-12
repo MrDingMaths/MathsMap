@@ -1,0 +1,126 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-85627634-4258-4be0-af1c-5416edf3693c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "The method is the same as p16-q8: two tan ratios for the ground legs, then Pythagoras on the right angle between due north and due east. Here the student must also draw the 3D diagram from scratch, which adds a representation change that p14-q1 and p16-q8 partly supply. The calculation is still a single routine chain with no hidden insight. It sits slightly above p16-q8 and above p14-q1, but below p15-q5, which needs a derived expression and a further elevation angle.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T09:15:54.056Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cafc4526308c7a83a163c4b90d79644243455c7f7d152214d7c27cb5bcd0c0de",
+      "diagramBlindHash": "d8b1f3f868e9b755320b9990c62c1b40c9840b24e9871f968a19a3ec12f585ed",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/01-rating-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p14-q1-block",
+          "score": 36
+        },
+        "easierThan": {
+          "ref": "p15-q5-block",
+          "score": 44
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "p16-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A tree is $120\\text{ m}$ tall.\n\nFrom a point $C$ due north of the tree on level ground, the angle of elevation of the top of the tree is $51^\\circ$.\n\nFrom the point $D$ due east of the tree, the angle of elevation of the top of the tree is $37^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q10-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a diagram showing this information.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A labelled diagram is shown.",
+          "worked": "Let $O$ be the foot of the tree and $T$ its top. Show $OT=120\\text{ m}$, $C$ due north of $O$, $D$ due east of $O$, $\\angle TCO=51^\\circ$, $\\angle TDO=37^\\circ$ and $OC\\perp OD$.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q10-a-solution-figure",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16 p16-q10-a authored answer\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0); \\coordinate (T) at (0,3); \\coordinate (C) at (-2.4,-1); \\coordinate (D) at (3.5,-1);\n\\draw (O)--(T);\n\\node[anchor=west] (height120label) at (1.9,2.6) {$120\\,\\mathrm{m}$};\n\\draw[->,line width=0.4pt] (height120label.west)--($(O)!0.5!(T)$);\n\\draw (C)--(O)--(D) (C)--(D);\n\\draw[dashed] (C)--(T)--(D);\n\\draw[line width=0.4pt] ($(O)!0.26cm!(C)$)--($(O)!0.26cm!(C)+(O)!0.26cm!(D)-(O)$)--($(O)!0.26cm!(D)$);\n\\pic[draw,line width=0.4pt,angle radius=8mm] {angle=O--C--T};\n\\node[anchor=east] (angle51label) at ($(C)+(-0.2,0.9)$) {$51^\\circ$};\n\\draw[->,line width=0.4pt] (angle51label.east)--($(C)+(42:8mm)$);\n\\pic[draw,line width=0.4pt,angle radius=9mm] {angle=T--D--O};\n\\node at ($(D)+(147.5:1.8)$) {$37^\\circ$};\n\\node[above] at (T) {$T$}; \\node at ($(O)+(0,-0.55)$) {$O$};\n\\node[below left,align=center] at (C) {$C$\\\\due north}; \\node[below right,align=center] at (D) {$D$\\\\due east};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 81,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Question 10(a) requested diagram",
+                "description": "Authored spatial diagram labels the tree, both observation points, elevation angles and perpendicular ground legs. Direction words refer to the tree foot; no bearing arcs are introduced.",
+                "mathematics": "OT=120 m; C north of O; D east of O; angle TCO=51 degrees; angle TDO=37 degrees; OC perpendicular to OD and OT vertical.",
+                "answerVisibility": "Answer editions only; student drawing space remains blank."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p16-q10-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate the distance $CD$ to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$187\\text{ m}$",
+          "worked": "Using $O$ for the foot of the tree:\n$$\\begin{aligned}OC&=\\frac{120}{\\tan51^\\circ}\\\\OD&=\\frac{120}{\\tan37^\\circ}\\\\CD^2&=OC^2+OD^2\\\\CD&=\\sqrt{\\left(\\frac{120}{\\tan51^\\circ}\\right)^2+\\left(\\frac{120}{\\tan37^\\circ}\\right)^2}\\\\CD&\\approx187\\text{ m}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q10-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:41.603Z",
+  "updatedAt": "2026-11-12T05:37:41.603Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p16-q10-block",
+    "sectionRole": "exercise"
+  }
+}

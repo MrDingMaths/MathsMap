@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2d2372b0-1fe4-4581-9cba-aae060dc7ebb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "permutations-not-distinct"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Connects an explicit outcome list, repeated-letter arrangements and selections of head positions to a probability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T01:11:30.684Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8c0168dfd81603f3215efe4002679e593f7800f2f592285d961063f76694eef4",
+      "evidence": ".booklet-work/full-imports/s6ext1-binomial-distributions-20261027/semantic-packets/assignments/assignment-81cdec72ff73cac1a9d8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p7-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A fair coin is tossed four times and the result is recorded. Janice wins if there are exactly two heads.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p7-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "List all the ways that this could occur, that is, in any order.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "HHTT, HTHT, HTTH, THHT, THTH, TTHH.",
+          "worked": "Choose the positions of the two heads and fill the remaining positions with tails:\n\nHHTT, HTHT, HTTH, THHT, THTH, TTHH.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p7-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By counting, verify that there are exactly 6 cases where Janice wins and find the probability of this outcome.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "There are 6 winning outcomes from $2^4=16$ equally likely outcomes. $P(\\text{win})=\\frac{6}{16}=\\frac{3}{8}$.",
+          "worked": "The list in part a contains 6 distinct winning outcomes. The four independent tosses of a fair coin give $2^4=16$ equally likely outcomes.\n\n$$\\begin{aligned}P(\\text{win})&=\\frac{6}{16}\\\\&=\\frac{3}{8}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p7-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why this is the same as the number of ways of ordering the word HHTT, and use combinatorics to count how many such arrangements exist. Does your answer agree with part a?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each winning sequence is an arrangement of two Hs and two Ts. ${}^{4}C_{2}=\\frac{4!}{2!2!}=6$, agreeing with part a.",
+          "worked": "Each winning sequence contains two heads and two tails, so it is an arrangement of HHTT. The two Hs are identical, as are the two Ts.\n\n$$\\begin{aligned}\\text{Number of arrangements}&=\\frac{4!}{2!2!}\\\\&=6.\\end{aligned}$$\n\nEquivalently, ${}^{4}C_{2}=6$. This agrees with the six sequences in part a.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p7-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Show that this is equivalent to choosing two of the coins and placing them heads up, while placing the other two coins tails up.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Choose the two toss positions occupied by heads: $\\binom{4}{2}=6$. The other two positions must be tails.",
+          "worked": "Label the four positions by toss order. Choosing two positions for heads determines the whole sequence, because the other two positions must contain tails. Each choice gives exactly one winning sequence.\n\n$$\\binom{4}{2}=\\frac{4!}{2!2!}=6.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:46.474Z",
+  "updatedAt": "2026-11-12T05:39:46.474Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-v1",
+    "blockId": "p7-q8",
+    "sectionRole": "exercise"
+  }
+}

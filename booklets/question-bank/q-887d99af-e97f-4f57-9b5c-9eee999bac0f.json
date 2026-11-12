@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-887d99af-e97f-4f57-9b5c-9eee999bac0f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical",
+      "separation-of-variables"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects an immediate harvest with the initial condition, then uses supplied factorisation and partial fractions to solve the IVP and identify extinction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:36:55.455Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a95c8bd2ec173a3788d3368046f8b7c652c02b5ca893b4b467762aa70f17837d",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793165771501-51/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p75-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "Biologists model a fish population $y$ (in hundreds) using:\n$$\\frac{dy}{dt}=-2+\\frac{1}{24}y(16-y)$$\nwhere $t$ is years after the next harvest. The December count indicates 500 fish. Assume the next harvest removes 200 fish immediately after this count.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p75-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the significance of the $-2$ in the equation?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Fish are harvested at a rate of 200 fish per year.",
+          "worked": "Since $y$ is measured in hundreds of fish and $t$ in years, the term $-2$ represents removal of 200 fish per year.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p75-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show the DE can be rewritten as $\\dfrac{dy}{dt}=-\\dfrac{1}{24}(y-4)(y-12)$, and write down the initial condition assuming the harvest goes ahead.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dy}{dt}=-\\dfrac{1}{24}(y-4)(y-12)$. Assuming the next harvest removes 200 fish immediately, $y(0)=3$.",
+          "worked": "$$\\begin{aligned}\\frac{dy}{dt}&=-2+\\frac{1}{24}y(16-y)\\\\\\frac{dy}{dt}&=\\frac{1}{24}\\bigl(-48+y(16-y)\\bigr)\\\\\\frac{dy}{dt}&=-\\frac{1}{24}(y^2-16y+48)\\\\\\frac{dy}{dt}&=-\\frac{1}{24}(y-4)(y-12).\\end{aligned}$$\nThe supplied solution assumes an immediate harvest of 200 fish. Under this assumption, $y(0)=\\dfrac{500-200}{100}=3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p75-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $\\dfrac{24}{(y-4)(y-12)}=\\dfrac{3}{y-12}-\\dfrac{3}{y-4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=-3$, $B=3$, so $\\dfrac{24}{(y-4)(y-12)}=\\dfrac{3}{y-12}-\\dfrac{3}{y-4}$.",
+          "worked": "$$\\begin{aligned}\\frac{24}{(y-4)(y-12)}&=\\frac{A}{y-4}+\\frac{B}{y-12}\\\\24&=A(y-12)+B(y-4).\\end{aligned}$$\nSubstitute $y=12$:\n$$\\begin{aligned}24&=8B\\\\B&=\\frac{24}{8}=3.\\end{aligned}$$\nSubstitute $y=4$:\n$$\\begin{aligned}24&=-8A\\\\A&=\\frac{24}{-8}=-3.\\end{aligned}$$\nHence\n$$\\frac{24}{(y-4)(y-12)}=\\frac{3}{y-12}-\\frac{3}{y-4}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p75-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence solve the IVP in part b.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Assuming $y(0)=3$, $y=\\dfrac{12(1-3e^{-t/3})}{1-9e^{-t/3}}$.",
+          "worked": "Using the supplied solution's assumption $y(0)=3$:\n$$\\begin{aligned}\\frac{dt}{dy}&=-\\frac{24}{(y-4)(y-12)}\\\\\\frac{dt}{dy}&=-\\left(\\frac{3}{y-12}-\\frac{3}{y-4}\\right).\\end{aligned}$$\nIntegrating gives\n$$\\begin{aligned}-t+D&=3\\ln|y-12|-3\\ln|y-4|\\\\3\\ln\\left|\\frac{y-12}{y-4}\\right|&=-t+D\\\\\\ln\\left|\\frac{y-12}{y-4}\\right|&=-\\frac{t}{3}+D_1\\\\\\frac{y-12}{y-4}&=Ae^{-t/3}.\\end{aligned}$$\nApply $y(0)=3$:\n$$\\begin{aligned}\\frac{3-12}{3-4}&=Ae^0\\\\A&=9.\\end{aligned}$$\nTherefore\n$$\\begin{aligned}\\frac{y-12}{y-4}&=9e^{-t/3}\\\\y-12&=9e^{-t/3}(y-4)\\\\y(1-9e^{-t/3})&=12-36e^{-t/3}\\\\y&=\\frac{12-36e^{-t/3}}{1-9e^{-t/3}}\\\\y&=\\frac{12(1-3e^{-t/3})}{1-9e^{-t/3}}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 86
+      },
+      {
+        "id": "p75-q13-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "According to this model, when will the fish die out? Give an exact answer and an approximation to the nearest tenth of a year.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Assuming $y(0)=3$, $3\\ln3\\approx3.3$ years after the next harvest.",
+          "worked": "Using the solution with $y(0)=3$, extinction occurs when $y=0$:\n$$\\begin{aligned}1-3e^{-t/3}&=0\\\\e^{-t/3}&=\\frac13\\\\-\\frac{t}{3}&=-\\ln3\\\\t&=3\\ln3\\\\t&\\approx3.3\\text{ years}.\\end{aligned}$$\nThe denominator is $1-9\\left(\\frac13\\right)=-2\\ne0$, so this gives zero population. The fish die out about 3.3 years after the next harvest.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p75-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:33.568Z",
+  "updatedAt": "2026-11-12T05:39:33.568Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p75-q13",
+    "sectionRole": "exercise"
+  }
+}

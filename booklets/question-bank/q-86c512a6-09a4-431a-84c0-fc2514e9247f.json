@@ -1,0 +1,280 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-86c512a6-09a4-431a-84c0-fc2514e9247f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "add-subtract-vectors",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a sum and a difference of two given vectors on square grids.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:43:03.165Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d85f64b048bb7bcf5b4a9b14e21099db9dd72f9ce836df08b8bdd3bdec0414ff",
+      "evidence": "../../../full-imports/s6ext1-1-vector-representation-notation-and-operations-20261027/lean-review/calls/content-1793166156985-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Given each set of vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$, draw:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q3-givens",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 question 3 givens\"}\n\\begin{tikzpicture}[x=4.5mm,y=4.5mm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1,-1) rectangle (9,9);\n\\draw[step=1,line width=0.15pt,color=black!20] (0,0) grid (8,8);\n\\draw[->,black,line width=0.8pt] (6,0)--(0,5) node[midway,below left] {$\\underset{\\sim}{a}$};\n\\draw[->,black,line width=0.8pt] (6,0)--(7,3) node[midway,right] {$\\underset{\\sim}{b}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 3, left given-vector grid",
+          "description": "Eight-by-eight square grid with two labelled vectors sharing a tail. TikZ is required because the blank-grid template cannot express the supplied vectors.",
+          "mathematics": "Common tail (6,0); a ends at (0,5), b at (7,3). Thus a moves six left and five up; b moves one right and three up.",
+          "answerVisibility": "Permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p13-q3-response-grid",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"template p13-q3-response-grid\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.6,-41.1) rectangle (108.6,0.6);\n\\draw[black,line width=0.4pt] (4.5,0)--(4.5,-40.5);\n\\draw[black,line width=0.4pt] (9,0)--(9,-40.5);\n\\draw[black,line width=0.4pt] (13.5,0)--(13.5,-40.5);\n\\draw[black,line width=0.4pt] (18,0)--(18,-40.5);\n\\draw[black,line width=0.4pt] (22.5,0)--(22.5,-40.5);\n\\draw[black,line width=0.4pt] (27,0)--(27,-40.5);\n\\draw[black,line width=0.4pt] (31.5,0)--(31.5,-40.5);\n\\draw[black,line width=0.4pt] (36,0)--(36,-40.5);\n\\draw[black,line width=0.4pt] (40.5,0)--(40.5,-40.5);\n\\draw[black,line width=0.4pt] (45,0)--(45,-40.5);\n\\draw[black,line width=0.4pt] (49.5,0)--(49.5,-40.5);\n\\draw[black,line width=0.4pt] (54,0)--(54,-40.5);\n\\draw[black,line width=0.4pt] (58.5,0)--(58.5,-40.5);\n\\draw[black,line width=0.4pt] (63,0)--(63,-40.5);\n\\draw[black,line width=0.4pt] (67.5,0)--(67.5,-40.5);\n\\draw[black,line width=0.4pt] (72,0)--(72,-40.5);\n\\draw[black,line width=0.4pt] (76.5,0)--(76.5,-40.5);\n\\draw[black,line width=0.4pt] (81,0)--(81,-40.5);\n\\draw[black,line width=0.4pt] (85.5,0)--(85.5,-40.5);\n\\draw[black,line width=0.4pt] (90,0)--(90,-40.5);\n\\draw[black,line width=0.4pt] (94.5,0)--(94.5,-40.5);\n\\draw[black,line width=0.4pt] (99,0)--(99,-40.5);\n\\draw[black,line width=0.4pt] (103.5,0)--(103.5,-40.5);\n\\draw[black,line width=0.4pt] (0,-4.5)--(108,-4.5);\n\\draw[black,line width=0.4pt] (0,-9)--(108,-9);\n\\draw[black,line width=0.4pt] (0,-13.5)--(108,-13.5);\n\\draw[black,line width=0.4pt] (0,-18)--(108,-18);\n\\draw[black,line width=0.4pt] (0,-22.5)--(108,-22.5);\n\\draw[black,line width=0.4pt] (0,-27)--(108,-27);\n\\draw[black,line width=0.4pt] (0,-31.5)--(108,-31.5);\n\\draw[black,line width=0.4pt] (0,-36)--(108,-36);\n\\draw[black,line width=0.8pt] (0,0) rectangle (108,-40.5);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 109.2,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 3, shared response grid",
+          "description": "One continuous square-cell drawing grid spanning the two response regions. House grid proportions replace uncertain source physical dimensions.",
+          "mathematics": "Twenty-four columns and nine rows; left half serves c and right half serves d.",
+          "answerVisibility": "Blank in the student edition.",
+          "template": {
+            "version": 1,
+            "family": "blank-grid",
+            "rows": 9,
+            "cols": 24,
+            "cellMm": 4.5
+          },
+          "sizing": {
+            "purpose": "drawing",
+            "reason": "Source13 uses equal physical units between supplied and response grids. Restore full24x9 response to4.5mm cells;45:110 native row allocation enlarges writing area from actual86x32.5mm to109.2x41.7mm; all24x9 cells retained."
+          }
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p13-q3-solutions",
+        "answer": {
+          "short": "An arrow 5 squares left and 8 squares up.",
+          "worked": "Place a copy of $\\underset{\\sim}{b}$ at the tip of $\\underset{\\sim}{a}$. Draw the resultant from the first tail to the final tip. Horizontally, move $6-1=5$ squares left; vertically, move $5+3=8$ squares up.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p13-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$\\underset{\\sim}{a}-\\underset{\\sim}{b}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p13-q3-solutions",
+        "answer": {
+          "short": "An arrow 7 squares left and 2 squares up.",
+          "worked": "Use $\\underset{\\sim}{a}-\\underset{\\sim}{b}=\\underset{\\sim}{a}+(-\\underset{\\sim}{b})$. Reverse $\\underset{\\sim}{b}$ and place it tip to tail after $\\underset{\\sim}{a}$. Draw the resultant from the first tail to the final tip. Move $6+1=7$ squares left and $5-3=2$ squares up.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p13-q3-solutions",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"answerBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied resultant arrows in the answer edition\"},{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"pale reference grid distinct from resultant arrows\"}],\"reference\":\"source page 13 question 3 supplied answers\"}\n\\begin{tikzpicture}[x=4mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{answerBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (0,0) rectangle (24,10);\n\\draw[step=1,line width=0.15pt,gridGrey] (0,0) grid (24,10);\n\\draw[answerBlue,line width=0.8pt] (11,1)--(6,9);\n\\fill[answerBlue] (6,9)--(6.05,8.45)--(6.47,8.71)--cycle;\n\\draw[answerBlue,line width=0.8pt] (22,4)--(15,6);\n\\fill[answerBlue] (15,6)--(15.55,6.05)--(15.44,5.67)--cycle;\n\\node[fill=white,inner sep=1pt] at (3,8) {c};\n\\node[fill=white,inner sep=1pt] at (14,4.5) {d};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 96,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 3, supplied blue arrows",
+          "description": "One complete shared answer grid, with the steep resultant in the left region and the shallow resultant in the right region.",
+          "mathematics": "Left arrow displacement (-5,8); right arrow displacement (-7,2).",
+          "answerVisibility": "Answer editions only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q3-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p13-q3-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p13-q3-number-item",
+                      "type": "item",
+                      "ref": "p13-q3-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p13-q3-stem-item",
+                      "type": "item",
+                      "ref": "p13-q3-root/prompt"
+                    }
+                  ],
+                  "gap": 3
+                },
+                {
+                  "id": "p13-q3-figures-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p13-q3-given-item",
+                      "type": "item",
+                      "ref": "p13-q3-givens",
+                      "width": 45,
+                      "weight": 45
+                    },
+                    {
+                      "id": "p13-q3-response-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p13-q3-part-headings",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p13-q3-c-heading",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q3-c-label-item",
+                                  "type": "item",
+                                  "ref": "p13-q3-c/label",
+                                  "width": 6
+                                },
+                                {
+                                  "id": "p13-q3-c-prompt-item",
+                                  "type": "item",
+                                  "ref": "p13-q3-c/prompt",
+                                  "width": 40
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p13-q3-d-heading",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q3-d-label-item",
+                                  "type": "item",
+                                  "ref": "p13-q3-d/label",
+                                  "width": 6
+                                },
+                                {
+                                  "id": "p13-q3-d-prompt-item",
+                                  "type": "item",
+                                  "ref": "p13-q3-d/prompt",
+                                  "width": 40
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 0
+                        },
+                        {
+                          "id": "p13-q3-grid-item",
+                          "type": "item",
+                          "ref": "p13-q3-response-grid",
+                          "width": 109.2
+                        }
+                      ],
+                      "gap": 3,
+                      "weight": 100
+                    }
+                  ],
+                  "gap": 8,
+                  "verticalAlign": "bottom"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p13-q3-block"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:15.709Z",
+  "updatedAt": "2026-11-12T05:38:15.709Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-vector-representation-notation-and-operations-v1",
+    "blockId": "p13-q3-block",
+    "sectionRole": "exercise"
+  }
+}

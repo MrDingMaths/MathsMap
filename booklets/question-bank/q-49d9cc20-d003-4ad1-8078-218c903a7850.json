@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-49d9cc20-d003-4ad1-8078-218c903a7850",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-revolution-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Area between curves with a diagram. The student solves for the intersection (x^3=8; e^x=3), sets up upper minus lower, and integrates exactly with ln and exponential antiderivatives. There is no rotation.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T12:45:48.651Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1dbc92d4b0e6e4796f6c251ab6ded093f281105927daed5903ebac5c25e32445",
+      "diagramBlindHash": "d49e73b293f7cc05f61a87099f9abda611fffe135ad4457a7f76169fff60c842",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1/20261111-123016/calls/10-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p34-q6",
+          "score": 36
+        },
+        "easierThan": {
+          "ref": "p34-q5",
+          "score": 40
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-d4d55-p31-practice-slot-4-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-d4d55-p31-practice-slot-4-slot-4-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the exact area of the shaded region bounded by the curves $y=x^2$ and $y=\\dfrac8x$ and the line $x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-d4d55-p31-practice-slot-4-slot-4-q-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"slot-4 part a\"}\n\\begin{tikzpicture}[x=1.2cm,y=0.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (1,1)--plot[domain=1:2,samples=30](\\x,{\\x*\\x})--plot[domain=2:1,samples=30](\\x,{8/\\x})--cycle;\n\\draw[->,line width=0.5pt] (-0.4,0)--(4.2,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,10) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=0:3,samples=60] plot(\\x,{\\x*\\x});\n\\draw[<->,line width=0.8pt,domain=0.9:3.2,samples=60] plot(\\x,{8/\\x});\n\\draw[line width=0.4pt] (1,1)--(1,8);\n\\node[left] at (1,4.5) {$x=1$};\n\\node[right] at (3,9) {$y=x^2$};\n\\node[right] at (3.2,2.5) {$y=\\dfrac8x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\left(8\\ln2-\\dfrac73\\right)\\text{ u}^2$",
+          "worked": "The curves meet where $x^2=\\dfrac8x$, so $x^3=8$ and $x=2$.\nFor $1\\le x\\le2$ the hyperbola is above the parabola.\n$$\\begin{aligned}A&=\\int_1^2\\left(\\frac8x-x^2\\right)\\,dx\\\\&=\\left[8\\ln x-\\frac{x^3}{3}\\right]_1^2\\\\&=\\left(8\\ln2-\\frac83\\right)-\\left(0-\\frac13\\right)\\\\&=8\\ln2-\\frac73\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "v2-d4d55-p31-practice-slot-4-slot-4-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the exact area of the shaded region bounded by the curves $y=e^x$ and $y=6-e^x$ and the $y$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-d4d55-p31-practice-slot-4-slot-4-q-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is required\"}],\"reference\":\"slot-4 part b\"}\n\\begin{tikzpicture}[x=2cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,1)--plot[domain=0:1.0986,samples=30](\\x,{exp(\\x)})--plot[domain=1.0986:0,samples=30](\\x,{6-exp(\\x)})--cycle;\n\\draw[->,line width=0.5pt] (-0.3,0)--(2.3,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,6.4) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=-0.2:1.45,samples=60] plot(\\x,{exp(\\x)});\n\\draw[<->,line width=0.8pt,domain=-0.2:1.45,samples=60] plot(\\x,{6-exp(\\x)});\n\\node[right] at (1.45,4.26) {$y=e^x$};\n\\node[right] at (1.45,1.74) {$y=6-e^x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(6\\ln3-4)\\text{ u}^2$",
+          "worked": "The curves meet where $e^x=6-e^x$, so $e^x=3$ and $x=\\ln3$.\nFor $0\\le x\\le\\ln3$ the curve $y=6-e^x$ is above $y=e^x$.\n$$\\begin{aligned}A&=\\int_0^{\\ln3}(6-2e^x)\\,dx\\\\&=\\left[6x-2e^x\\right]_0^{\\ln3}\\\\&=(6\\ln3-6)-(0-2)\\\\&=6\\ln3-4\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-d4d55-p31-practice-slot-4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:33.331Z",
+  "updatedAt": "2026-11-12T05:38:33.331Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1",
+    "blockId": "v2-d4d55-p31-practice-slot-4",
+    "sectionRole": "exercise"
+  }
+}

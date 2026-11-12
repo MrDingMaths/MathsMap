@@ -1,0 +1,169 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b80bec83-3255-42e6-a284-7cdbca02e3e5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "A scaffolded intersection, sketch and definite-integral calculation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:05:15.551Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ea2429b4bb16609fd40106d63412933db5c928e6856ed03c2f8691ec9b987522",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/semantic-packets/assignments/assignment-812a1ed7b11b9e0a86ab/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p11-q9-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q9a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=x^2+2x-8$ and $y=2x+1$ intersect at $(3,7)$ and $(-3,-5)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The intersections are $(3,7)$ and $(-3,-5)$.",
+          "worked": "$$\\begin{aligned}x^2+2x-8&=2x+1\\\\x^2-9&=0\\\\(x-3)(x+3)&=0\\\\x&=3\\text{ or }x=-3\\end{aligned}$$\nAt $x=3$, $y=2(3)+1=7$, giving $(3,7)$.\nAt $x=-3$, $y=2(-3)+1=-5$, giving $(-3,-5)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p11-q9b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch both graphs, shading the enclosed region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Shade between the line and parabola for $-3\\le x\\le3$.",
+          "worked": "The line $y=2x+1$ lies above $y=x^2+2x-8$ between $(-3,-5)$ and $(3,7)$. Shade this enclosed region.",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q9-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"requested enclosed area\"}],\"reference\":\"source page 11 p11-q9-graph\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.24cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\fill[regionGreen] (-3,-5)--(3,7)--plot[domain=3:-3,samples=90] (\\x,{(\\x)^2+2*(\\x)-8})--cycle;\n\\draw[<->,line width=0.5pt] (-5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-11)--(0,11) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-5.2:3.2,samples=90] plot (\\x,{(\\x)^2+2*(\\x)-8});\n\\draw[<->,line width=0.8pt,domain=-4.7:3.8] plot (\\x,{2*(\\x)+1});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Middle-left answer sketch for question 9",
+                "description": "Complete answer sketch with the requested enclosed region shaded. Axes and curves are black, with arrowheads and no ticks or numerical labels.",
+                "mathematics": "Parabola vertex (-1,-9); intersections (-3,-5) and (3,7); line above parabola between intersections.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p11-q9c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q9c-integral",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\int_{-3}^{3}\\bigl((2x+1)-(x^2+2x-8)\\bigr)\\,dx=\\int_{-3}^{3}(9-x^2)\\,dx.",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p11-q9c-evaluate",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Evaluate and find the area.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$36\\text{ u}^2$",
+          "worked": "$$(2x+1)-(x^2+2x-8)=9-x^2.$$\nHence the two integrals are equal.\n$$\\begin{aligned}A&=\\int_{-3}^{3}(9-x^2)\\,dx\\\\&=\\left[9x-\\frac{x^3}{3}\\right]_{-3}^{3}\\\\&=(27-9)-(-27+9)\\\\&=36\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:37.381Z",
+  "updatedAt": "2026-11-12T05:38:37.382Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p11-q9",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5307863d-b0f7-444e-9492-ee0773d9f222",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical",
+      "separation-of-variables"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Uses explicitly staged logistic integration and parameter fitting, converts calendar years to elapsed time and interprets prediction error and carrying capacity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:25:16.699Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4b6e50a244aafb8e3414477bcd7af4956ed5ccd056519c922fa2c658182e44b8",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-e89278fd866d0c3494b9/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p77-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "Pierre-François Verhulst (1838) modelled US population growth using:\n$$\\dot N=kN(P-N),$$\nfor some positive constant $k$, where $N$ is population in millions and $t$ is years after 1850.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p77-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\dfrac{P}{N(P-N)}=\\dfrac1N+\\dfrac1{P-N}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac1N+\\dfrac1{P-N}=\\dfrac{P-N+N}{N(P-N)}=\\dfrac{P}{N(P-N)}$.",
+          "worked": "$$\\begin{align*}\\frac1N+\\frac1{P-N}&=\\frac{P-N+N}{N(P-N)}\\\\&=\\frac{P}{N(P-N)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p77-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use part a to find the general solution.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$N=\\dfrac{P}{1+Be^{-kPt}}$, where $B$ is an arbitrary constant. Also $N=0$ is a constant solution.",
+          "worked": "For nonconstant solutions,\n$$\\begin{align*}\\frac{dt}{dN}&=\\frac{1}{kN(P-N)}\\\\&=\\frac1{kP}\\left(\\frac1N+\\frac1{P-N}\\right),\\\\t&=\\frac1{kP}\\bigl(\\ln|N|-\\ln|P-N|\\bigr)+D,\\\\\\ln\\left|\\frac{N}{P-N}\\right|&=kPt+C,\\\\\\frac{N}{P-N}&=Ae^{kPt},\\\\N&=Ae^{kPt}(P-N),\\\\N(1+Ae^{kPt})&=PAe^{kPt},\\\\N&=\\frac{PAe^{kPt}}{1+Ae^{kPt}}\\\\&=\\frac{P}{1+Be^{-kPt}},\\qquad B=\\frac1A.\\end{align*}$$\nThe constant solutions are $N=0$ and $N=P$; the latter is included by $B=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p77-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$P=187.5$ and $N(0)=23.2$ (millions). Determine the arbitrary constant and simplify.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$B=\\dfrac{164.3}{23.2}=\\dfrac{1643}{232}$ and $N=\\dfrac{23.2\\times187.5}{23.2+164.3e^{-187.5kt}}$.",
+          "worked": "$$\\begin{align*}23.2&=\\frac{187.5}{1+B},\\\\1+B&=\\frac{187.5}{23.2},\\\\B&=\\frac{187.5-23.2}{23.2}\\\\&=\\frac{164.3}{23.2},\\\\N&=\\frac{187.5}{1+\\frac{164.3}{23.2}e^{-187.5kt}}\\\\&=\\frac{23.2\\times187.5}{23.2+164.3e^{-187.5kt}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p77-q15-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "The estimate $k=1.6\\times10^{-4}$ predicted 59.8 million in 1890. The actual population was 63.0 million. Calculate a new value for $k$, giving your answer to 4 significant figures.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k\\approx1.702\\times10^{-4}$.",
+          "worked": "In 1890, $t=40$ and $N=63.0$.\n$$\\begin{align*}63&=\\frac{23.2\\times187.5}{23.2+164.3e^{-7500k}},\\\\63\\bigl(23.2+164.3e^{-7500k}\\bigr)&=23.2\\times187.5,\\\\23.2+164.3e^{-7500k}&=\\frac{23.2\\times187.5}{63},\\\\e^{-7500k}&=\\frac{\\frac{23.2\\times187.5}{63}-23.2}{164.3},\\\\k&=-\\frac1{7500}\\ln\\left(\\frac{\\frac{23.2\\times187.5}{63}-23.2}{164.3}\\right)\\\\&\\approx1.702\\times10^{-4}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p77-q15-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Using the revised $k$, compare the predicted population for 1930 with the actual figure of 123.2 million. Give the predicted population to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "120.9 million, approximately 2.3 million below the actual population. The model slightly underestimates.",
+          "worked": "For 1930, $t=80$. Using the unrounded value of $k$ from part d,\n$$\\begin{align*}N(80)&=\\frac{23.2\\times187.5}{23.2+164.3e^{-187.5k(80)}}\\\\&\\approx120.9\\text{ million}.\\end{align*}$$\nThe prediction is approximately $123.2-120.9=2.3$ million below the actual population, so the model is reasonably close but slightly underestimates.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p77-q15-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "The US population in 2018 was approximately 327 million. Comment on this value.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "327 million exceeds the assumed carrying capacity of 187.5 million, so the model's carrying capacity was too low.",
+          "worked": "Since the initial population is below $P=187.5$ million, this model predicts a population that approaches 187.5 million from below. The actual 327 million is far greater, showing that the assumed carrying capacity was too low and the model is unsuitable for this long-term prediction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p77-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:17.323Z",
+  "updatedAt": "2026-11-12T05:39:17.323Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p77-q15",
+    "sectionRole": "exercise"
+  }
+}

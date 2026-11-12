@@ -1,0 +1,169 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cd250ff0-647e-417a-a9c6-e715fb752f3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Each part links routine quadratic intersections, a sketch, upper-boundary selection and definite integration using the explicitly taught procedure.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:05:49.430Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2e41e9caf073e8e83c87fcf36bd7ea7819178a19a765031df83c0be8ed9fa30c",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/semantic-packets/assignments/assignment-79f706fe640ebf4cc963/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q11-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Solve simultaneously, sketch, shade the enclosed region, and find its area for:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x^2-6x+5$ and $y=x-5$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Intersections: $(2,-3)$ and $(5,0)$. Area: $\\frac92\\text{ units}^2$.",
+          "worked": "$$\\begin{aligned}x^2-6x+5&=x-5\\\\x^2-7x+10&=0\\\\(x-2)(x-5)&=0\\\\x&=2\\text{ or }x=5\\end{aligned}$$\nIntersections: $(2,-3)$ and $(5,0)$. The line is above the parabola on $[2,5]$.\n$$\\begin{aligned}A&=\\int_2^5\\big((x-5)-(x^2-6x+5)\\big)\\,dx\\\\&=\\int_2^5(7x-10-x^2)\\,dx\\\\&=\\left[\\frac{7x^2}{2}-10x-\\frac{x^3}{3}\\right]_2^5\\\\&=\\left(\\frac{175}{2}-50-\\frac{125}{3}\\right)-\\left(14-20-\\frac83\\right)\\\\&=-\\frac{25}{6}-\\left(-\\frac{26}{3}\\right)\\\\&=\\frac92\\text{ units}^2\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q11-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"DCEBE0\",\"reason\":\"enclosed region whose area is required\"}],\"reference\":\"source page 12 question 11a\"}\n\\begin{tikzpicture}[x=0.72cm,y=0.28cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{DCEBE0}\n\\path[fill=regionFill] (2,-3) -- plot[domain=2:5,samples=65] (\\x,{(\\x)-5}) -- plot[domain=5:2,samples=65] (\\x,{(\\x)^2-6*(\\x)+5}) -- cycle;\n\\draw[<->,line width=0.5pt] (-1.2,0)--(6.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-7)--(0,11) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-0.7:6.4,samples=100] (\\x,{(\\x)^2-6*(\\x)+5});\n\\draw[<->,line width=0.8pt] (-1.1,-6.1)--(6.4,1.4);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Question 11a, left sketch",
+                "description": "Arrowed axes labelled x and y, an upward parabola and an increasing line; no numerical ticks. Complete answer sketch includes the requested shaded region.",
+                "mathematics": "y=x^2-6x+5 and y=x-5 intersect at (2,-3) and (5,0); the line bounds the region above.",
+                "answerVisibility": "Solution only; supplied blue sketch is teacher answer evidence."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 97
+      },
+      {
+        "id": "p12-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=-3x$ and $y=4-x^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Intersections: $(-1,3)$ and $(4,-12)$. Area: $\\frac{125}{6}\\text{ units}^2$.",
+          "worked": "$$\\begin{aligned}-3x&=4-x^2\\\\x^2-3x-4&=0\\\\(x-4)(x+1)&=0\\\\x&=4\\text{ or }x=-1\\end{aligned}$$\nIntersections: $(4,-12)$ and $(-1,3)$. The parabola is above the line on $[-1,4]$.\n$$\\begin{aligned}A&=\\int_{-1}^4\\big((4-x^2)-(-3x)\\big)\\,dx\\\\&=\\int_{-1}^4(4+3x-x^2)\\,dx\\\\&=\\left[4x+\\frac{3x^2}{2}-\\frac{x^3}{3}\\right]_{-1}^4\\\\&=\\left(16+24-\\frac{64}{3}\\right)-\\left(-4+\\frac32+\\frac13\\right)\\\\&=\\frac{56}{3}-\\left(-\\frac{13}{6}\\right)\\\\&=\\frac{125}{6}\\text{ units}^2\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q11-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"DCEBE0\",\"reason\":\"enclosed region whose area is required\"}],\"reference\":\"source page 12 question 11b\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.23cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{DCEBE0}\n\\path[fill=regionFill] (-1,3) -- plot[domain=-1:4,samples=80] (\\x,{4-(\\x)^2}) -- plot[domain=4:-1,samples=60] (\\x,{-3*(\\x)}) -- cycle;\n\\draw[<->,line width=0.5pt] (-2.8,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-17)--(0,8) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-2.7:4.5,samples=100] (\\x,{4-(\\x)^2});\n\\draw[<->,line width=0.8pt] (-2.3,6.9)--(4.9,-14.7);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Question 11b, left sketch",
+                "description": "Corrected answer sketch of the downward parabola and decreasing straight line, with arrowed labelled axes, no numerical ticks and the enclosed region shaded.",
+                "mathematics": "y=4-x^2 and y=-3x intersect at (-1,3) and (4,-12); the parabola is above the line between these points.",
+                "answerVisibility": "Solution only; corrects the source teacher sketch."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 97
+      },
+      {
+        "id": "p12-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=x^2-1$ and $y=7-x^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Intersections: $(-2,3)$ and $(2,3)$. Area: $\\frac{64}{3}\\text{ units}^2$.",
+          "worked": "$$\\begin{aligned}x^2-1&=7-x^2\\\\2x^2&=8\\\\x^2&=4\\\\x&=2\\text{ or }x=-2\\end{aligned}$$\nIntersections: $(2,3)$ and $(-2,3)$. The second curve is above the first on $[-2,2]$.\n$$\\begin{aligned}A&=\\int_{-2}^2\\big((7-x^2)-(x^2-1)\\big)\\,dx\\\\&=\\int_{-2}^2(8-2x^2)\\,dx\\\\&=\\left[8x-\\frac{2x^3}{3}\\right]_{-2}^2\\\\&=\\left(16-\\frac{16}{3}\\right)-\\left(-16+\\frac{16}{3}\\right)\\\\&=\\frac{32}{3}+\\frac{32}{3}\\\\&=\\frac{64}{3}\\text{ units}^2\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q11-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"DCEBE0\",\"reason\":\"enclosed region whose area is required\"}],\"reference\":\"source page 12 question 11c\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.38cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{DCEBE0}\n\\path[fill=regionFill] (-2,3) -- plot[domain=-2:2,samples=80] (\\x,{7-(\\x)^2}) -- plot[domain=2:-2,samples=80] (\\x,{(\\x)^2-1}) -- cycle;\n\\draw[<->,line width=0.5pt] (-3.6,0)--(3.6,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4)--(0,10) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-3.2:3.2,samples=100] (\\x,{(\\x)^2-1});\n\\draw[<->,line width=0.8pt] plot[domain=-3.2:3.2,samples=100] (\\x,{7-(\\x)^2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Question 11c, left sketch",
+                "description": "Oppositely opening parabolas symmetric about the vertical axis, arrowed labelled axes and no numerical ticks. Complete answer sketch shades the enclosed region.",
+                "mathematics": "y=x^2-1 and y=7-x^2 intersect at (-2,3) and (2,3); the second parabola is above the first.",
+                "answerVisibility": "Solution only; supplied blue sketch is teacher answer evidence."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 97
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q11-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:37.981Z",
+  "updatedAt": "2026-11-12T05:38:37.981Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p12-q11-block",
+    "sectionRole": "exercise"
+  }
+}

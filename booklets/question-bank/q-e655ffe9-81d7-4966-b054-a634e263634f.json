@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e655ffe9-81d7-4966-b054-a634e263634f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "parallel-vectors-condition",
+    "secondarySkillIds": [],
+    "reasoningScore": 31,
+    "difficulty": "Development",
+    "difficultyReason": "All vectors are anchored at O, and the diagram plus the midpoint information scaffold the task. Part a is a doubling from the midpoint (OM to OA). Part b is a single path sum, AO + OB, with a sign reversal. Part c, the hardest part, takes two steps: halve OB to get ON, then go the route M to O to N, MO = -a and ON = 2b. This is more than the single path addition in p59-q3, because the student must use the midpoint relationships and reverse a vector. It is a little easier than p65-q25, which gives AC and BC (both pointing toward C) so the student must reverse directions, and which also needs a half-vector in AM. No coefficient comparison, ratio division or proof is required, so it stays routine linked procedures.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T09:40:41.579Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dcfcbf7dc15d392f7b8b33c4f414c67b0d238e11f1ce540b831c3c528707e741",
+      "diagramBlindHash": "2def5ecf14e0466efec32d10069606275a6b392146ed86893ba2337fdce0a559",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-vector-representation-notation-and-operations-2-v1/20261111-092941/auto-apply/calls/01-rating-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p59-q3",
+          "score": 22
+        },
+        "easierThan": {
+          "ref": "p65-q25",
+          "score": 34
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-92ea4-p59-practice-j4-092941-root",
+    "type": "question",
+    "label": null,
+    "prompt": "$OAB$ is a triangle. $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. $\\overrightarrow{OM}=\\underset{\\sim}{a}$ and $\\overrightarrow{OB}=4\\underset{\\sim}{b}$.\n\nWrite in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "v2-92ea4-p59-practice-j4-092941-j4-q-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"j4 bridge diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (1.4,3);\\coordinate (B) at (5,0.6);\n\\coordinate (M) at ($(O)!0.5!(A)$);\\coordinate (N) at ($(O)!0.5!(B)$);\n\\draw (O)--(A)--(B)--cycle;\n\\draw[->] (O)--($(O)!0.4!(A)$);\\draw[->] (O)--($(O)!0.3!(B)$);\n\\fill (M) circle (1.6pt);\\fill (N) circle (1.6pt);\n\\path (O)--(M) node[midway,above left] {$\\underset{\\sim}{a}$};\n\\path (O)--(B) node[pos=0.8,below] {$4\\underset{\\sim}{b}$};\n\\node[below left] at (O) {$O$};\\node[above] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above left] at (M) {$M$};\\node[below] at (N) {$N$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 56,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-92ea4-p59-practice-j4-092941-j4-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\overrightarrow{OA}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\underset{\\sim}{a}$",
+          "worked": "$$\\begin{align*}\\overrightarrow{OA}&=2\\overrightarrow{OM}\\\\&=2\\underset{\\sim}{a}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-92ea4-p59-practice-j4-092941-j4-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\overrightarrow{AB}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4\\underset{\\sim}{b}-2\\underset{\\sim}{a}$",
+          "worked": "$$\\begin{align*}\\overrightarrow{AB}&=\\overrightarrow{AO}+\\overrightarrow{OB}\\\\&=-2\\underset{\\sim}{a}+4\\underset{\\sim}{b}\\\\&=4\\underset{\\sim}{b}-2\\underset{\\sim}{a}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-92ea4-p59-practice-j4-092941-j4-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\overrightarrow{MN}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\underset{\\sim}{b}-\\underset{\\sim}{a}$",
+          "worked": "$$\\begin{align*}\\overrightarrow{ON}&=\\tfrac12\\overrightarrow{OB}\\\\&=2\\underset{\\sim}{b}\\\\\\overrightarrow{MN}&=\\overrightarrow{MO}+\\overrightarrow{ON}\\\\&=-\\underset{\\sim}{a}+2\\underset{\\sim}{b}\\\\&=2\\underset{\\sim}{b}-\\underset{\\sim}{a}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-92ea4-p59-practice-j4-092941",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:05.163Z",
+  "updatedAt": "2026-11-12T05:38:05.163Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-vector-representation-notation-and-operations-2-v1",
+    "blockId": "v2-92ea4-p59-practice-j4-092941",
+    "sectionRole": "exercise"
+  }
+}

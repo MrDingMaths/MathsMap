@@ -1,0 +1,60 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-32939ecb-112c-4dbe-8211-c84c9e482043",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "The partial-fraction identity is supplied; separation and two population observations determine the carrying capacity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:25:19.181Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4e894d095c4a7ce7a00437617c7125b96fb993dcac399b4fa0b1a538164ac824",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-b3e3e52ae4c943b6eff0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p80-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "A town’s population $P$ satisfies\n$$\\frac{dP}{dt}=0.04P\\left(\\frac{C-P}{C}\\right),$$\nwhere $t$ is years after 2005 and $C$ is the carrying capacity.\n\nIn 2005 the population was $40\\,000$; in 2025 it was $70\\,000$.\n\nUse $\\dfrac{C}{P(C-P)}=\\dfrac{1}{P}+\\dfrac{1}{C-P}$ to find the carrying capacity, to the nearest thousand.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$180\\,000$ people.",
+      "worked": "Separating variables and using the supplied identity,\n$$\\begin{align*}\n\\frac{C}{P(C-P)}\\,dP&=0.04\\,dt\\\\\n\\int\\left(\\frac1P+\\frac1{C-P}\\right)\\,dP&=\\int0.04\\,dt\\\\\n\\ln P-\\ln(C-P)&=0.04t+k\\\\\n\\ln\\left(\\frac{P}{C-P}\\right)&=0.04t+k\\\\\n\\frac{P}{C-P}&=Ae^{0.04t}.\n\\end{align*}$$\nThe two data points give\n$$\\begin{align*}\n\\frac{40\\,000}{C-40\\,000}&=A\\\\\n\\frac{70\\,000}{C-70\\,000}&=Ae^{0.8}.\n\\end{align*}$$\nDividing eliminates $A$:\n$$\\begin{align*}\n\\frac{70\\,000(C-40\\,000)}{40\\,000(C-70\\,000)}&=e^{0.8}\\\\\n\\frac{7(C-40\\,000)}{4(C-70\\,000)}&=e^{0.8}\\\\\n7(C-40\\,000)&=4e^{0.8}(C-70\\,000)\\\\\n(4e^{0.8}-7)C&=280\\,000(e^{0.8}-1)\\\\\nC&=\\frac{280\\,000(e^{0.8}-1)}{4e^{0.8}-7}.\n\\end{align*}$$\nThe carrying capacity is therefore $180\\,000$ people, to the nearest thousand.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 75
+  },
+  "presentation": {
+    "ownerId": "p80-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:35.951Z",
+  "updatedAt": "2026-11-12T05:39:35.951Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p80-q1",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e3f9c67-e2d3-4dda-9972-8e519501293f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the taught logistic solution procedure, fit the rate using the second observation and square the resulting exponential factor to evaluate P(6).",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:23:07.745Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2589a6424b7a7305692a5dccb96482b05b16ab2a051d481e7b1030710787e087",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-3ab4c272c5b54a39087a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p68-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "A herd satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{2000}\\right)$ with $P(0)=250$ and $P(3)=500$.\n\nUse $\\dfrac{2000}{P(2000-P)}=\\dfrac1P+\\dfrac1{2000-P}$.\n\nFind $k$ and $P(6)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$k=\\dfrac13\\ln\\dfrac73$; $P(6)=875$.",
+      "worked": "$$\\begin{align*}\n\\frac{dt}{dP}&=\\frac{2000}{kP(2000-P)}\\\\\n\\frac{dt}{dP}&=\\frac1k\\left(\\frac1P+\\frac1{2000-P}\\right)\\\\\nt&=\\frac1k\\left(\\ln|P|-\\ln|2000-P|\\right)+D\\\\\n\\ln\\left|\\frac{P}{2000-P}\\right|&=kt-kD\\\\\n\\frac{P}{2000-P}&=Ae^{kt}.\n\\end{align*}$$\nUsing $P(0)=250$:\n$$\\begin{align*}\nA&=\\frac{250}{1750}=\\frac17\\\\\n7P&=(2000-P)e^{kt}\\\\\nP(7+e^{kt})&=2000e^{kt}\\\\\nP(t)&=\\frac{2000}{1+7e^{-kt}}.\n\\end{align*}$$\nUsing $P(3)=500$:\n$$\\begin{align*}\n500&=\\frac{2000}{1+7e^{-3k}}\\\\\n1+7e^{-3k}&=4\\\\\ne^{-3k}&=\\frac37\\\\\nk&=\\frac13\\ln\\frac73.\n\\end{align*}$$\nHence\n$$\\begin{align*}\ne^{-6k}&=\\left(\\frac37\\right)^2=\\frac9{49}\\\\\nP(6)&=\\frac{2000}{1+7\\cdot\\frac9{49}}\\\\\nP(6)&=875.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 91
+  },
+  "presentation": {
+    "ownerId": "p68-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:07.457Z",
+  "updatedAt": "2026-11-12T05:39:07.457Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p68-q6",
+    "sectionRole": "exercise"
+  }
+}

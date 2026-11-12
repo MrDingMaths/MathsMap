@@ -1,0 +1,158 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-07f49612-902e-40cd-a598-ba91c9e944c2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "integrate-f-dash-over-f"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Solve a contextual logistic equation using supplied partial fractions, apply an initial condition and evaluate the population.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:22:27.423Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "741e104ee409ec298d79fd5c147ba6ceb9be80d3d71546de19b4d48f2dc5ea23",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-bff903a1f5c8da0978ba/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p65-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p65-q1-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A lake is stocked with fish. The population ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " satisfies the differential equation:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p65-q1-equation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\frac{dP}{dt}=\\frac13P\\left(1-\\frac{P}{900}\\right),\\qquad P(0)=100",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p65-q1-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Here ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is in years. Use ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{900}{P(900-P)}=\\frac1P+\\frac1{900-P}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Find ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(t)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and the population after 6 years, to the nearest whole fish.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$P(t)=\\dfrac{900}{1+8e^{-t/3}}$. After 6 years, approximately $432$ fish.",
+      "worked": "$$\\begin{align*}\\frac{dt}{dP}&=\\frac{2700}{P(900-P)}\\\\\\frac{dt}{dP}&=3\\left(\\frac1P+\\frac1{900-P}\\right)\\\\t&=3\\bigl(\\ln|P|-\\ln|900-P|\\bigr)+D\\\\\\ln\\left|\\frac{P}{900-P}\\right|&=\\frac{t-D}{3}\\\\\\frac{P}{900-P}&=Ae^{t/3}\\end{align*}$$\nUsing $P(0)=100$,\n$$\\begin{align*}\\frac{100}{900-100}&=Ae^0\\\\A&=\\frac18.\\end{align*}$$\nHence\n$$\\begin{align*}\\frac{P}{900-P}&=\\frac18e^{t/3}\\\\8P&=(900-P)e^{t/3}\\\\P(8+e^{t/3})&=900e^{t/3}\\\\P(t)&=\\frac{900e^{t/3}}{8+e^{t/3}}\\\\P(t)&=\\frac{900}{1+8e^{-t/3}}.\\end{align*}$$\nAfter 6 years,\n$$\\begin{align*}P(6)&=\\frac{900}{1+8e^{-2}}\\\\P(6)&\\approx432\\text{ fish}.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 75
+  },
+  "presentation": {
+    "ownerId": "p65-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:23.772Z",
+  "updatedAt": "2026-11-12T05:39:23.772Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p65-q1",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e5dbcb68-d1c7-4aac-9b49-2f7bb57a8ee5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Find intersections, identify the upper parabola and integrate the difference.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:13:56.879Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "34b71796017c487d7a6d5c739f9881242831babd97410e0f87c447d997c0fef0",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793175218554-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q8-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Solve simultaneously, sketch, shade the enclosed region, and find its area for:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q8c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=x^2-x+4$ and $y=-x^2+3x+4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Intersections: $(0,4)$ and $(2,6)$. Area: $\\dfrac{8}{3}\\text{ u}^2$.",
+          "worked": "$$\\begin{aligned}x^2-x+4&=-x^2+3x+4\\\\2x^2-4x&=0\\\\2x(x-2)&=0\\\\x&=0\\text{ or }x=2\\end{aligned}$$\nIntersections: $(0,4)$ and $(2,6)$.\nThe second parabola is above the first on $[0,2]$.\n$$\\begin{aligned}A&=\\int_0^2\\bigl((-x^2+3x+4)-(x^2-x+4)\\bigr)\\,dx\\\\&=\\int_0^2(4x-2x^2)\\,dx\\\\&=\\left[2x^2-\\frac{2x^3}{3}\\right]_0^2\\\\&=8-\\frac{16}{3}\\\\&=\\frac83\\text{ u}^2\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q8c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"requested enclosed area\"}],\"reference\":\"source page 11 p11-q8c-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.35cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\path[fill=regionGreen] plot[domain=0:2,samples=80] (\\x,{-(\\x)^2+3*(\\x)+4}) -- plot[domain=2:0,samples=80] (\\x,{(\\x)^2-(\\x)+4}) -- cycle;\n\\draw[<->,line width=0.5pt] (-3,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2)--(0,8.5) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.5:2.5,samples=80] plot (\\x,{(\\x)^2-(\\x)+4});\n\\draw[<->,line width=0.8pt,domain=-1:4,samples=80] plot (\\x,{-(\\x)^2+3*(\\x)+4});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Top-left answer sketch for question 8(c)",
+                "description": "Two unshaded parabolas with arrowheads, labelled axes and no ticks or point labels. Ordinary source blue strokes become black.",
+                "mathematics": "The curves intersect at (0,4) and (2,6); their vertices are (1/2,15/4) and (3/2,25/4).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 59
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q8-continuation",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:39.089Z",
+  "updatedAt": "2026-11-12T05:38:39.089Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p11-q8-continuation",
+    "sectionRole": "exercise"
+  }
+}

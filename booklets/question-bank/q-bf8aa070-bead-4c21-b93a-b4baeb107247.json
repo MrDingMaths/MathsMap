@@ -1,0 +1,197 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bf8aa070-bead-4c21-b93a-b4baeb107247",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "integrate-f-dash-over-f"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Prove the scaffolded identity, solve the logistic initial-value problem, substitute a time and rearrange the solution for a specified proportion.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:34:49.645Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cda63118961cc0e3af7728aedb1cd0b0d173d75a0c585faa2d3382224ba2ff93",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793172867013-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p69-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "fc6d432c-904f-41cf-8592-2438a4e04161",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Gossip spreads rapidly through a school. The proportion ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " of people who have heard it satisfies",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p69-q7-root-governing-de",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\frac{dP}{dt}=3P(1-P),",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p69-q7-root-conditions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "with ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " in weeks. Initially 20% of people have heard it.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p69-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\dfrac{1}{P}+\\dfrac{1}{1-P}=\\dfrac{1}{P(1-P)}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{P}+\\dfrac{1}{1-P}=\\dfrac{(1-P)+P}{P(1-P)}=\\dfrac{1}{P(1-P)}$.",
+          "worked": "$$\\begin{align*}\\frac{1}{P}+\\frac{1}{1-P}&=\\frac{(1-P)+P}{P(1-P)}\\\\&=\\frac{1}{P(1-P)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p69-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Solve for $P$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P=\\dfrac{e^{3t}}{4+e^{3t}}$.",
+          "worked": "$$\\begin{align*}\\frac{1}{P(1-P)}\\,dP&=3\\,dt\\\\\\int\\left(\\frac{1}{P}+\\frac{1}{1-P}\\right)\\,dP&=\\int3\\,dt\\\\\\ln|P|-\\ln|1-P|&=3t+D\\\\\\ln\\left|\\frac{P}{1-P}\\right|&=3t+D\\\\\\frac{P}{1-P}&=Ae^{3t}.\\end{align*}$$\nUsing $P(0)=\\dfrac15$:\n$$\\begin{align*}\\frac{\\frac15}{\\frac45}&=Ae^0\\\\A&=\\frac14\\\\4P&=(1-P)e^{3t}\\\\P(4+e^{3t})&=e^{3t}\\\\P&=\\frac{e^{3t}}{4+e^{3t}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 69
+      },
+      {
+        "id": "p69-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What proportion of the school has heard the gossip after 1 week? Answer to the nearest percent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$83\\%$.",
+          "worked": "At $t=1$,\n$$\\begin{align*}P(1)&=\\frac{e^3}{4+e^3}\\\\&\\approx83\\%.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p69-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the exact time at which half the school has heard the gossip.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac13\\ln4$ weeks.",
+          "worked": "Set $P=\\dfrac12$:\n$$\\begin{align*}\\frac12&=\\frac{e^{3t}}{4+e^{3t}}\\\\4+e^{3t}&=2e^{3t}\\\\e^{3t}&=4\\\\3t&=\\ln4\\\\t&=\\frac13\\ln4\\text{ weeks}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p69-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:08.155Z",
+  "updatedAt": "2026-11-12T05:39:08.155Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p69-q7",
+    "sectionRole": "exercise"
+  }
+}

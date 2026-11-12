@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bedbd47c-bf26-4df9-965f-789e7e2dfa9f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-revolution-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Find the intersections, then apply taught washer integrals about both axes, reversing the radius ordering after expressing x in terms of y.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:50:24.682Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a287120b260731ab45e445a6c40adb9a1aec833760fcc96b810a8623c6964eee",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/semantic-packets/assignments/assignment-0f8676412a037cfff925/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p33-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Consider the region bounded by the curves $y=x^2$ and $y=x^3$. Find the points of intersection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p33-q3-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"parabolaBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the parabola from the cubic\"},{\"name\":\"cubicRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the cubic from the parabola\"}],\"reference\":\"source page 33 p33-q3-a-graph\"}\n\\begin{tikzpicture}[x=2.6cm,y=2.6cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{parabolaBlue}{HTML}{268CFF}\n\\definecolor{cubicRed}{HTML}{EF6068}\n\\draw[<->,black,line width=0.5pt] (-0.6,0)--(1.2,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-0.55)--(0,1.25) node[above] {$y$};\n\\draw[<->,parabolaBlue,line width=0.8pt,domain=-0.6:1.04,samples=100] plot (\\x,{(\\x)^2});\n\\draw[<->,cubicRed,line width=0.8pt,domain=-0.6:1.04,samples=100] plot (\\x,{(\\x)^3});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 33,
+              "sourceRegion": "Question 3(a), graph below the prompt",
+              "description": "Unticked coordinate axes with continuation arrows; blue parabola and red cubic intersect at the origin and in the first quadrant. No curve labels or intersection coordinates are supplied.",
+              "mathematics": "Equation-driven plots of y=x^2 and y=x^3, retaining both intersections and the negative branches.",
+              "answerVisibility": "Question figure contains no supplied intersection labels."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(0,0)$ and $(1,1)$.",
+          "worked": "$$\\begin{aligned}x^2&=x^3\\\\x^2(x-1)&=0\\\\x&=0\\text{ or }1\\end{aligned}$$\nThe corresponding values of $y$ are $0$ and $1$, so the intersections are $(0,0)$ and $(1,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p33-q3-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the volume of the solid generated when this region is rotated about:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p33-q3-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the $x$-axis",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{2\\pi}{35}\\text{ units}^3$",
+              "worked": "For $0<x<1$, $x^2>x^3$. The outer radius is $x^2$ and the inner radius is $x^3$.\n$$\\begin{aligned}V&=\\pi\\int_0^1(x^4-x^6)\\,dx\\\\&=\\pi\\left[\\frac{x^5}{5}-\\frac{x^7}{7}\\right]_0^1\\\\&=\\pi\\left(\\frac15-\\frac17\\right)\\\\&=\\frac{2\\pi}{35}\\text{ units}^3\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 37
+          },
+          {
+            "id": "p33-q3-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the $y$-axis",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\pi}{10}\\text{ units}^3$",
+              "worked": "From $y=x^2$, $x=y^{1/2}$; from $y=x^3$, $x=y^{1/3}$ in the bounded region.\nFor $0<y<1$, $y^{1/3}>y^{1/2}$. The outer radius is $y^{1/3}$ and the inner radius is $y^{1/2}$.\n$$\\begin{aligned}V&=\\pi\\int_0^1(y^{2/3}-y)\\,dy\\\\&=\\pi\\left[\\frac{3y^{5/3}}5-\\frac{y^2}2\\right]_0^1\\\\&=\\pi\\left(\\frac35-\\frac12\\right)\\\\&=\\frac{\\pi}{10}\\text{ units}^3\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 50
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:34.106Z",
+  "updatedAt": "2026-11-12T05:38:34.107Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1",
+    "blockId": "p33-q3",
+    "sectionRole": "exercise"
+  }
+}

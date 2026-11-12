@@ -1,0 +1,113 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8dbf44fe-b5b7-4add-9a4e-378054e4f6a8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "vectors-in-geometric-figures",
+      "parallel-vectors-condition"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Convert the side ratio into BN=3BC/4, combine it with the midpoint vector, then construct MD and recognise MD=2MN to prove collinearity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:26:07.775Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1c0acc86900d0aad1bd141190845b88d96fd2d5f0d1c888f728d796c750519c2",
+      "evidence": ".booklet-work/full-imports/s6ext1-1-vector-representation-notation-and-operations-20261027/semantic-packets/assignments/assignment-88702b25352f17008bd0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p68-q30-root",
+    "type": "question",
+    "label": null,
+    "prompt": "ABC is a triangle. $\\overrightarrow{AB}=\\underset{\\sim}{a}$ and $\\overrightarrow{AC}=2\\underset{\\sim}{b}$.\n\nM is the midpoint of AB.\n\nN is the point on BC such that $BN:NC=3:1$.\n\nD is the point such that $\\overrightarrow{CD}=\\tfrac12\\overrightarrow{AC}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p68-q30-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 68 p68-q30-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,2.4);\n\\coordinate (C) at (3.75,0);\n\\coordinate (D) at (5.625,0);\n\\coordinate (M) at (1.5,1.2);\n\\coordinate (N) at (3.5625,0.6);\n\\draw[black] (A)--(B)--(C) (A)--(D);\n\\fill[black] (M) circle (1.5pt) (N) circle (1.5pt);\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[above left] at (M) {$M$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 76,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 30, upper-right figure",
+          "description": "Triangle ABC with AC extended to D, midpoint M on AB and N three quarters of the way from B to C. No line MND is supplied.",
+          "mathematics": "AM=MB; BN:NC=3:1; vector CD is half vector AC.",
+          "answerVisibility": "Permanent question figure; the collinearity line is not drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p68-q30-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write the vector $\\overrightarrow{MN}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-\\tfrac14\\underset{\\sim}{a}+\\tfrac32\\underset{\\sim}{b}$",
+          "worked": "$$\\begin{aligned}\\overrightarrow{BC}&=\\overrightarrow{AC}-\\overrightarrow{AB}\\\\\\overrightarrow{BC}&=2\\underset{\\sim}{b}-\\underset{\\sim}{a}\\\\\\overrightarrow{MN}&=\\overrightarrow{MB}+\\overrightarrow{BN}\\\\\\overrightarrow{MN}&=\\tfrac12\\underset{\\sim}{a}+\\tfrac34(2\\underset{\\sim}{b}-\\underset{\\sim}{a})\\\\\\overrightarrow{MN}&=-\\tfrac14\\underset{\\sim}{a}+\\tfrac32\\underset{\\sim}{b}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p68-q30-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use vectors to prove that M, N and D lie on the same straight line.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{MD}=2\\overrightarrow{MN}$. These vectors are parallel and share M, so M, N and D are collinear.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{MN}&=-\\tfrac14\\underset{\\sim}{a}+\\tfrac32\\underset{\\sim}{b}\\\\\\overrightarrow{MN}&=-\\tfrac14(\\underset{\\sim}{a}-6\\underset{\\sim}{b})\\\\\\overrightarrow{MD}&=\\overrightarrow{MA}+\\overrightarrow{AC}+\\overrightarrow{CD}\\\\\\overrightarrow{MD}&=-\\tfrac12\\underset{\\sim}{a}+2\\underset{\\sim}{b}+\\underset{\\sim}{b}\\\\\\overrightarrow{MD}&=-\\tfrac12(\\underset{\\sim}{a}-6\\underset{\\sim}{b})\\\\\\overrightarrow{MD}&=2\\overrightarrow{MN}\\end{aligned}$$\nThe vectors $\\overrightarrow{MN}$ and $\\overrightarrow{MD}$ are parallel and share the common point M. Therefore M, N and D are collinear.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p68-q30",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:11.046Z",
+  "updatedAt": "2026-11-12T05:38:11.046Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-vector-representation-notation-and-operations-2-v1",
+    "blockId": "p68-q30",
+    "sectionRole": "exercise"
+  }
+}

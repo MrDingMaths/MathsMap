@@ -1,0 +1,371 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f5d41100-8dc6-45f8-898e-f858360320d0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "bearings-problems"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "The supplied plan, height introduction and explicit tangent–Pythagoras stages guide the calculation; the remaining interpretation is a routine bearing from the ground triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:00:42.312Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "566ce8c018a5d2ba37d29db0e8cdf37911b6ea0725d848dec3775c1bd67fa630",
+      "evidence": ".booklet-work/full-imports/s6ext1-1-3d-trigonometry-20261027/semantic-packets/assignments/assignment-99e9cf3946b28e361327/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p17-q12-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A motorist on level ground sees, due north of her, a tower whose angle of elevation is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "10^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". After driving 3 km further in a straight line, the tower is in the direction due west, with angle of elevation ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "12^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p17-q12-explanation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In this question, no more than two measurements are known in any one of the triangles. Therefore, we must introduce a pronumeral for the height, and work around until we have enough expressions in terms of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "h",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " such that an equation can be formed and solved.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q12-plan-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 17 question 12 plan\"}\n\\begin{tikzpicture}[line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (F) at (0,0);\\coordinate (A) at (0,-2.6);\\coordinate (B) at (1.9,0);\n\\draw[<->,line width=0.5pt] (0,-3.3)--(0,0.8);\\draw[<->,line width=0.5pt] (-0.8,0)--(3,0);\n\\draw (A)--(B) node[midway,right] {$3\\text{ km}$};\n\\node[above] at (0,0.8) {N};\\node[below] at (0,-3.3) {S};\\node[left] at (-0.8,0) {W};\\node[right] at (3,0) {E};\n\\node[below left] at (F) {$F$};\\node[left] at (A) {$A$};\\node[above] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 46,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 12, left plan",
+          "description": "Compass axes through tower foot F, initial position A south of F, final position B east of F and travel segment AB.",
+          "mathematics": "AF perpendicular to BF; AB=3 km; A to B is northeast.",
+          "answerVisibility": "Supplied positions and distance only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p17-q12-spatial-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 17 question 12 spatial\"}\n\\begin{tikzpicture}[line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (F) at (2,1.5);\\coordinate (B) at (4.4,1.05);\\coordinate (T) at (2,3.5);\n\\coordinate (N) at ($(F)!1.65!(F)-(A)!0.65!(F)$);\n\\coordinate (Nend) at ($(F)+0.65*(F)-0.65*(A)$);\n\\coordinate (Eend) at ($(F)!1.2!(B)$);\n\\draw (A)--(T)--(B)--cycle;\n\\draw[dashed,line width=0.4pt] (A)--(F)--(B) (F)--(T);\n\\draw[dashed,->,line width=0.5pt] (F)--(Nend) node[right] {N};\n\\draw[dashed,->,line width=0.5pt] (B)--(Eend) node[right] {E};\n\\draw[line width=0.4pt] ($(F)!0.12!(A)$)--($(F)!0.12!(A)+(F)!0.12!(B)-(F)$)--($(F)!0.12!(B)$);\n\\pic[draw,line width=0.4pt,angle radius=8mm,\"$10^\\circ$\",angle eccentricity=1.65] {angle=F--A--T};\n\\pic[draw,line width=0.4pt,angle radius=7mm,\"$12^\\circ$\",angle eccentricity=1.65] {angle=T--B--F};\n\\path (A)--(B) node[midway,below] {$3\\text{ km}$};\\path (F)--(T) node[midway,right] {$h$};\n\\node[below left] at (A) {$A$};\\node[below] at (B) {$B$};\\node[left] at (F) {$F$};\\node[above] at (T) {$T$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 69,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 12, right spatial diagram",
+          "description": "Vertical tower TF, dashed perpendicular ground legs AF and BF, north and east extensions and two elevation angles. Source cyan fills are replaced by unfilled black angle marks.",
+          "mathematics": "TF=h; AB=3 km; angle TAF=10 degrees; angle TBF=12 degrees; angle AFB=90 degrees.",
+          "answerVisibility": "All givens remain visible without derived lengths or bearing."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q12-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find an expression for $AF$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{h}{\\tan10^\\circ}$",
+          "worked": "$\\begin{aligned}\\tan10^\\circ&=\\frac{h}{AF}\\\\AF&=\\frac{h}{\\tan10^\\circ}\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p17-q12-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find an expression for $BF$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{h}{\\tan12^\\circ}$",
+          "worked": "$\\begin{aligned}\\tan12^\\circ&=\\frac{h}{BF}\\\\BF&=\\frac{h}{\\tan12^\\circ}\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p17-q12-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use Pythagoras’ theorem to form an equation using $h$, then solve for $h$ to 3 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\dfrac{h}{\\tan10^\\circ}\\right)^2+\\left(\\dfrac{h}{\\tan12^\\circ}\\right)^2=9$; $h\\approx0.407\\text{ km}$.",
+          "worked": "Take $h$ in kilometres. In the right-angled ground triangle $AFB$:\n\n$\\begin{aligned}AF^2+BF^2&=AB^2\\\\\\left(\\frac{h}{\\tan10^\\circ}\\right)^2+\\left(\\frac{h}{\\tan12^\\circ}\\right)^2&=3^2\\\\h^2\\left(\\frac{1}{\\tan^210^\\circ}+\\frac{1}{\\tan^212^\\circ}\\right)&=9\\\\h&=\\frac{3}{\\sqrt{\\frac{1}{\\tan^210^\\circ}+\\frac{1}{\\tan^212^\\circ}}}\\\\&\\approx0.407\\text{ km}\\end{aligned}$\n\nThe positive root is used because $h$ is a height.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p17-q12-d-node",
+        "type": "part",
+        "label": "d",
+        "prompt": "In what direction was the motorist driving? Give the bearing to the nearest degree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Bearing $040^\\circ$.",
+          "worked": "Let $\\theta=\\angle FAB$, measured east of north. Use the unrounded value of $h$ from part c.\n\n$\\begin{aligned}\\sin\\theta&=\\frac{FB}{AB}\\\\&=\\frac{h}{3\\tan12^\\circ}\\\\\\theta&=\\sin^{-1}\\left(\\frac{h}{3\\tan12^\\circ}\\right)\\\\&\\approx40^\\circ\\end{aligned}$\n\nShe was travelling on a bearing of $040^\\circ$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q12-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q12-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p17-q12-label-item",
+                  "type": "item",
+                  "ref": "p17-q12-root/label"
+                },
+                {
+                  "id": "p17-q12-stem-item",
+                  "type": "item",
+                  "ref": "p17-q12-root/prompt#p17-q12-stem"
+                },
+                {
+                  "id": "p17-q12-figure-pair",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p17-q12-plan-item",
+                      "type": "item",
+                      "ref": "p17-q12-plan-figure",
+                      "width": 46
+                    },
+                    {
+                      "id": "p17-q12-spatial-item",
+                      "type": "item",
+                      "ref": "p17-q12-spatial-figure",
+                      "width": 69
+                    }
+                  ],
+                  "gap": 8,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p17-q12-explanation-item",
+                  "type": "item",
+                  "ref": "p17-q12-root/prompt#p17-q12-explanation"
+                },
+                {
+                  "id": "p17-q12-a-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q12-a-label",
+                      "type": "item",
+                      "ref": "p17-q12-a-node/label"
+                    },
+                    {
+                      "id": "p17-q12-a-prompt",
+                      "type": "item",
+                      "ref": "p17-q12-a-node/prompt"
+                    },
+                    {
+                      "id": "p17-q12-a-space",
+                      "type": "item",
+                      "ref": "p17-q12-a-node/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p17-q12-b-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q12-b-label",
+                      "type": "item",
+                      "ref": "p17-q12-b-node/label"
+                    },
+                    {
+                      "id": "p17-q12-b-prompt",
+                      "type": "item",
+                      "ref": "p17-q12-b-node/prompt"
+                    },
+                    {
+                      "id": "p17-q12-b-space",
+                      "type": "item",
+                      "ref": "p17-q12-b-node/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p17-q12-c-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q12-c-label",
+                      "type": "item",
+                      "ref": "p17-q12-c-node/label"
+                    },
+                    {
+                      "id": "p17-q12-c-prompt",
+                      "type": "item",
+                      "ref": "p17-q12-c-node/prompt"
+                    },
+                    {
+                      "id": "p17-q12-c-space",
+                      "type": "item",
+                      "ref": "p17-q12-c-node/space"
+                    }
+                  ]
+                },
+                {
+                  "id": "p17-q12-d-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q12-d-label",
+                      "type": "item",
+                      "ref": "p17-q12-d-node/label"
+                    },
+                    {
+                      "id": "p17-q12-d-prompt",
+                      "type": "item",
+                      "ref": "p17-q12-d-node/prompt"
+                    },
+                    {
+                      "id": "p17-q12-d-space",
+                      "type": "item",
+                      "ref": "p17-q12-d-node/space"
+                    }
+                  ]
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p17-q12-block"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:42.509Z",
+  "updatedAt": "2026-11-12T05:37:42.510Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p17-q12-block",
+    "sectionRole": "exercise"
+  }
+}

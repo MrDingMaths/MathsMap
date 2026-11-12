@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e7cff285-8615-48c1-b3df-ee158da93950",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "differentiate-exponential",
+      "define-differential-equation"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Verify a logistic model by differentiation and substitution, then interpret its initial population, limiting population and relative growth rate.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:25:56.458Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3433d7c2713afe57f3a908f960adc896a9aa8dfde12274e8bd2d32a59ea65fc9",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-c371082b7e247b69b5c4/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p82-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A kangaroo population is modelled by\n$$K=\\frac{12\\,000}{4+e^{-t/4}}$$\nwhere $t$ is years from today.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p82-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $K$ satisfies $\\dfrac{dK}{dt}=\\dfrac14K\\left(1-\\dfrac{K}{3000}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{dK}{dt}=\\frac{3000e^{-t/4}}{(4+e^{-t/4})^2}=\\frac14K\\left(1-\\frac{K}{3000}\\right)$.",
+          "worked": "$$\\begin{align*}K&=12\\,000(4+e^{-t/4})^{-1}\\\\\\frac{dK}{dt}&=12\\,000(-1)(4+e^{-t/4})^{-2}\\left(-\\frac14e^{-t/4}\\right)\\\\&=\\frac{3000e^{-t/4}}{(4+e^{-t/4})^2}.\\end{align*}$$\nCheck by substitution:\n$$\\begin{align*}\\mathrm{RHS}&=\\frac14\\left(\\frac{12\\,000}{4+e^{-t/4}}\\right)\\left(1-\\frac{\\frac{12\\,000}{4+e^{-t/4}}}{3000}\\right)\\\\&=\\frac14\\left(\\frac{12\\,000}{4+e^{-t/4}}\\right)\\left(1-\\frac4{4+e^{-t/4}}\\right)\\\\&=\\frac14\\left(\\frac{12\\,000}{4+e^{-t/4}}\\right)\\left(\\frac{4+e^{-t/4}-4}{4+e^{-t/4}}\\right)\\\\&=\\frac14\\left(\\frac{12\\,000}{4+e^{-t/4}}\\right)\\left(\\frac{e^{-t/4}}{4+e^{-t/4}}\\right)\\\\&=\\frac{3000e^{-t/4}}{(4+e^{-t/4})^2}\\\\&=\\mathrm{LHS}.\\end{align*}$$\nThus $K$ satisfies the differential equation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p82-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the population today?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "2400 kangaroos.",
+          "worked": "Today, $t=0$:\n$$\\begin{align*}K(0)&=\\frac{12\\,000}{4+1}\\\\&=2400.\\end{align*}$$\nThe population today is 2400 kangaroos.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p82-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What eventual population does the model predict?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "3000 kangaroos.",
+          "worked": "As $t\\to\\infty$, $e^{-t/4}\\to0$, so\n$$K\\to\\frac{12\\,000}{4}=3000.$$\nThe model predicts an eventual population of 3000 kangaroos.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 11
+      },
+      {
+        "id": "p82-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the annual percentage growth rate today?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "5% per year.",
+          "worked": "At $t=0$, $K=2400$:\n$$\\begin{align*}\\left.\\frac{dK}{dt}\\right|_{t=0}&=\\frac14(2400)\\left(1-\\frac{2400}{3000}\\right)\\\\&=120\\text{ kangaroos per year}.\\end{align*}$$\n$$\\text{Percentage growth rate}=\\frac{120}{2400}\\times100\\%=5\\%\\text{ per year}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p82-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:38.936Z",
+  "updatedAt": "2026-11-12T05:39:38.936Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p82-q3",
+    "sectionRole": "exercise"
+  }
+}

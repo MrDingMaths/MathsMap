@@ -1,0 +1,212 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fa8f4ffc-fbf8-4930-b23b-6511fd6853c2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied decomposition to integrate, determine the initial-condition constant and unknown rate from two observations, then evaluate the population.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:34:49.645Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "be77575c29e0b6c20e17a34c770e826caa55ffa59b6c63831f103de4819030a0",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793172867013-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p68-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "9bddb1ad-75ad-4949-bdf7-e5a9d6ccc5b3",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A colony of rabbits has carrying capacity 1200 and satisfies",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p68-q5-root-governing-de",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\frac{dP}{dt}=kP\\left(1-\\frac{P}{1200}\\right),\\qquad P(0)=200,\\quad P(2)=400,",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p68-q5-root-conditions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an unknown constant and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is in years.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "ab4cd2f3-0acc-4667-868f-fa2c79475a76",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Use ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\dfrac{1200}{P(1200-P)}=\\dfrac1P+\\dfrac1{1200-P}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "320fbd5c-e464-462a-930d-21a6f8f385ac",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(t)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and hence ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(5)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Give ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(5)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " to the nearest rabbit.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$P(t)=\\dfrac{1200}{1+5e^{-kt}}$, where $k=\\dfrac12\\ln\\dfrac52$. Thus $P(5)\\approx797$ rabbits.",
+      "worked": "$$\\begin{align*}\n\\frac{dt}{dP}&=\\frac{1200}{kP(1200-P)}\\\\\n\\frac{dt}{dP}&=\\frac1k\\left(\\frac1P+\\frac1{1200-P}\\right)\\\\\nt&=\\frac1k\\left(\\ln|P|-\\ln|1200-P|\\right)+D\\\\\n\\ln\\left|\\frac{P}{1200-P}\\right|&=kt-kD\\\\\n\\frac{P}{1200-P}&=Ae^{kt}\n\\end{align*}$$\nUsing $P(0)=200$:\n$$\\begin{align*}\n\\frac{200}{1000}&=A\\\\\nA&=\\frac15\\\\\n5P&=(1200-P)e^{kt}\\\\\nP(5+e^{kt})&=1200e^{kt}\\\\\nP(t)&=\\frac{1200}{1+5e^{-kt}}.\n\\end{align*}$$\nUsing $P(2)=400$:\n$$\\begin{align*}\n400&=\\frac{1200}{1+5e^{-2k}}\\\\\n1+5e^{-2k}&=3\\\\\ne^{-2k}&=\\frac25\\\\\nk&=-\\frac12\\ln\\frac25\\\\\nk&=\\frac12\\ln\\frac52\\approx0.4581.\n\\end{align*}$$\nHence\n$$\\begin{align*}\ne^{-5k}&=\\left(\\frac25\\right)^{5/2}\\\\\nP(5)&=\\frac{1200}{1+5(2/5)^{5/2}}\\\\\nP(5)&\\approx797\\text{ rabbits}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 100
+  },
+  "presentation": {
+    "ownerId": "p68-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:14.384Z",
+  "updatedAt": "2026-11-12T05:39:14.384Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p68-q5",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d6effe7a-9b31-4bf6-b859-747544c1ff35",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-transformed-trig-equations",
+    "secondarySkillIds": [
+      "auxiliary-angle-form",
+      "solve-trig-equations-graphically"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied auxiliary-angle identity to sketch a shifted sine curve, then read the strict inequality between its intersections with y=1.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:30:27.110Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "92340cfcb7edf0f0adc8e737f04f3936d95e7628a950b91942912526493a2853",
+      "evidence": "../../../full-imports/s6ext1-3-further-trigonometric-equations-20261027/lean-review/calls/content-1793161805843-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\sin x-\\cos x=\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin x-\\cos x=\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right)$.",
+          "worked": "Write $\\sin x-\\cos x=R\\sin(x-\\alpha)$, with $R>0$.\n$$\\begin{aligned}R\\sin(x-\\alpha)&=R\\sin x\\cos\\alpha-R\\cos x\\sin\\alpha.\\end{aligned}$$\nComparing coefficients gives $R\\cos\\alpha=1$ and $R\\sin\\alpha=1$.\n$$\\begin{aligned}R^2\\cos^2\\alpha+R^2\\sin^2\\alpha&=1^2+1^2\\\\R^2&=2\\\\R&=\\sqrt{2},\\\\\\tan\\alpha&=1.\\end{aligned}$$\nBoth $\\sin\\alpha$ and $\\cos\\alpha$ are positive, so choose $\\alpha=\\frac{\\pi}{4}$ in quadrant I.\n$$\\begin{aligned}\\sin x-\\cos x&=\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right).\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p33-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence sketch the graph of $y=\\sin x-\\cos x$, for $0\\leq x\\leq2\\pi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A sine curve of amplitude $\\sqrt{2}$ and period $2\\pi$, shifted right by $\\frac{\\pi}{4}$; see graph.",
+          "worked": "$y=\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right)$ has amplitude $\\sqrt{2}$ and period $2\\pi$. It passes through $(0,-1)$, $\\left(\\frac{\\pi}{4},0\\right)$, $\\left(\\frac{3\\pi}{4},\\sqrt{2}\\right)$, $\\left(\\frac{5\\pi}{4},0\\right)$, $\\left(\\frac{7\\pi}{4},-\\sqrt{2}\\right)$ and $(2\\pi,-1)$. The reference line $y=1$ meets the curve at $x=\\frac{\\pi}{2}$ and $x=\\pi$.",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q19-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve and matching reference line\"}],\"reference\":\"source page 33 p33-q19-b-graph\"}\n\\begin{tikzpicture}[x=1.3cm,y=1.25cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-0.35,0)--(6.85,0) node[above left] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.95)--(0,2.05) node[above right,xshift=3pt] {$y$};\n\\foreach \\v in {0.785398,1.570796,2.356194,3.141593,3.926991,4.712389,5.497787,6.283185}{\\draw[line width=0.4pt] (\\v,-0.055)--(\\v,0.055);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below,yshift=-3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v/\\lab/\\position in {1.414214/{\\sqrt{2}}/{above left},1/{1}/{below left},-1/{-1}/{left},-1.414214/{-\\sqrt{2}}/{left}}{\\draw[line width=0.4pt] (-0.055,\\v)--(0.055,\\v);\\node[\\position,xshift=-3pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,dashed,line width=0.4pt] (0,1)--(6.283185,1);\n\\draw[curveBlue,line width=0.8pt,domain=0:6.283185,samples=181] plot (\\x,{sin(\\x r)-cos(\\x r)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Question 19 answer graph, upper right",
+                "description": "Arrowed axes, quarter-pi ticks, labelled half-pi intervals, sine curve and dashed y=1 reference line. Endpoint label corrected to 2π. House style uses black ordinary axes and labels and standard blue for the function and reference line.",
+                "mathematics": "y=sin x-cos x=sqrt(2)sin(x-pi/4), 0<=x<=2pi; maximum sqrt(2), minimum -sqrt(2); y=1 at pi/2 and pi.",
+                "answerVisibility": "Solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p33-q19-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use your sketch to determine the values of $x$ in the domain $0\\leq x\\leq2\\pi$ for which\n$$\\sin x-\\cos x>1.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{\\pi}{2}<x<\\pi$.",
+          "worked": "$$\\begin{aligned}\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right)&>1\\\\\\sin\\left(x-\\frac{\\pi}{4}\\right)&>\\frac{1}{\\sqrt{2}}.\\end{aligned}$$\nThe sketch lies above $y=1$ between its intersections at $x=\\frac{\\pi}{2}$ and $x=\\pi$. Hence $\\frac{\\pi}{2}<x<\\pi$; the endpoints are excluded because the inequality is strict.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q19-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:48.790Z",
+  "updatedAt": "2026-11-12T05:38:48.791Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-further-trigonometric-equations-v1",
+    "blockId": "p33-q19-block",
+    "sectionRole": "exercise"
+  }
+}

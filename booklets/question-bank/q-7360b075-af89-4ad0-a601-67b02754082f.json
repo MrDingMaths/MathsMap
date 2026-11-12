@@ -1,0 +1,87 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7360b075-af89-4ad0-a601-67b02754082f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Combine the given fractions, then apply the demonstrated logistic integration and initial-condition procedure before substituting t=10.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:23:26.993Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2633782a8e11c11b4ed8486e106147b9cece9b4c137f4e879d7f12bf3a2a553c",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-56a12a3e6eb6e3d5d5ff/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p70-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p70-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\dfrac{700}{P(700-P)}=\\dfrac{1}{P}+\\dfrac{1}{700-P}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{P}+\\dfrac{1}{700-P}=\\dfrac{700-P+P}{P(700-P)}=\\dfrac{700}{P(700-P)}$, as required.",
+          "worked": "$$\\begin{align*}\\text{RHS}&=\\frac{700-P+P}{P(700-P)}\\\\\\text{RHS}&=\\frac{700}{P(700-P)}\\end{align*}$$\nThis equals the LHS, as required.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p70-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Solve $\\dfrac{dP}{dt}=\\dfrac{1}{5}P\\left(1-\\dfrac{P}{700}\\right)$, $P(0)=140$. Find $P(t)$ and $P(10)$. Give $P(10)$ to the nearest whole number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(t)=\\dfrac{700}{1+4e^{-t/5}}$; $P(10)=\\dfrac{700}{1+4e^{-2}}\\approx454$.",
+          "worked": "$$\\begin{align*}\\frac{dt}{dP}&=\\frac{5}{P\\left(1-\\frac{P}{700}\\right)}\\\\\\frac{dt}{dP}&=\\frac{5\\cdot700}{P(700-P)}\\\\\\frac{dt}{dP}&=5\\left(\\frac{1}{P}+\\frac{1}{700-P}\\right)\\end{align*}$$\nIntegrating gives\n$$\\begin{align*}t&=5\\bigl(\\ln|P|-\\ln|700-P|\\bigr)+D\\\\\\ln\\left|\\frac{P}{700-P}\\right|&=\\frac{t-D}{5}\\\\\\frac{P}{700-P}&=Ae^{t/5}\\end{align*}$$\nUsing $P(0)=140$,\n$$\\begin{align*}\\frac{140}{560}&=A\\\\A&=\\frac14\\end{align*}$$\nHence\n$$\\begin{align*}\\frac{P}{700-P}&=\\frac14e^{t/5}\\\\4P&=(700-P)e^{t/5}\\\\P(4+e^{t/5})&=700e^{t/5}\\\\P(t)&=\\frac{700e^{t/5}}{4+e^{t/5}}\\\\P(t)&=\\frac{700}{1+4e^{-t/5}}\\end{align*}$$\n$$\\begin{align*}P(10)&=\\frac{700}{1+4e^{-2}}\\\\P(10)&\\approx454\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 103
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p70-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:03.099Z",
+  "updatedAt": "2026-11-12T05:39:03.099Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p70-q8",
+    "sectionRole": "exercise"
+  }
+}

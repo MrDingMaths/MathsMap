@@ -1,0 +1,60 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dbebc0b2-d193-4937-a05e-3a61e476ac0e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "integration-by-substitution",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied secant substitution, recognise tan²θ=sec²θ−1, back-substitute and determine the integration constant from f(3)=0.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:57:18.781Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d42af6eb7629a174cfac44e79616843e4e434538f709bc701bfe7d58aa6bf689",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/lean-review/calls/content-1793167007031-27/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p48-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Find the equation of $y=f(x)$ if $f'(x)=\\dfrac{\\sqrt{x^2-9}}x$ and $f(3)=0$. Use $x=3\\sec\\theta$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$f(x)=\\sqrt{x^2-9}-3\\sec^{-1}\\!\\left(\\dfrac x3\\right)$, on the branch $x\\geq3$.",
+      "worked": "We are trying to find $f(x)=\\displaystyle\\int f'(x)\\,dx=\\int\\dfrac{\\sqrt{x^2-9}}x\\,dx$.\n\nLet $x=3\\sec\\theta$, with $0\\leq\\theta<\\dfrac\\pi2$. Then $dx=3\\sec\\theta\\tan\\theta\\,d\\theta$.\n\n$$\\begin{aligned}\\sqrt{x^2-9}&=\\sqrt{9\\sec^2\\theta-9}\\\\&=\\sqrt{9\\tan^2\\theta}\\\\&=3\\tan\\theta.\\end{aligned}$$\n\nAlso simplify\n$$\\begin{aligned}f'(x)&=\\frac{\\sqrt{x^2-9}}x\\\\&=\\frac{3\\tan\\theta}{3\\sec\\theta}\\\\&=\\sin\\theta.\\end{aligned}$$\n\n$$\\begin{aligned}f(x)&=\\int\\frac{\\sqrt{x^2-9}}x\\,dx\\\\&=\\int\\sin\\theta\\cdot3\\sec\\theta\\tan\\theta\\,d\\theta\\\\&=3\\int\\tan^2\\theta\\,d\\theta\\\\&=3\\int(\\sec^2\\theta-1)\\,d\\theta\\\\&=3(\\tan\\theta-\\theta)+C.\\end{aligned}$$\n\nHere $\\tan\\theta=\\dfrac{\\sqrt{x^2-9}}3$ and $\\theta=\\sec^{-1}\\!\\left(\\dfrac x3\\right)$, where $\\sec^{-1}$ denotes inverse secant. Hence\n$$f(x)=\\sqrt{x^2-9}-3\\sec^{-1}\\!\\left(\\frac x3\\right)+C.$$\n\nSubstitute $f(3)=0$:\n$$\\begin{aligned}0&=0-3(0)+C\\\\C&=0.\\end{aligned}$$\n\nTherefore $f(x)=\\sqrt{x^2-9}-3\\sec^{-1}\\!\\left(\\dfrac x3\\right)$ on the branch $x\\geq3$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 84
+  },
+  "presentation": {
+    "ownerId": "p48-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:55.285Z",
+  "updatedAt": "2026-11-12T05:39:55.285Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-2-v1",
+    "blockId": "p48-q10",
+    "sectionRole": "exercise"
+  }
+}

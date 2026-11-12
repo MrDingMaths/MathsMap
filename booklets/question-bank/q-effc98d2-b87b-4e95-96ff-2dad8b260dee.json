@@ -1,0 +1,60 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-effc98d2-b87b-4e95-96ff-2dad8b260dee",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Solve a logistic initial-value problem using supplied partial fractions, then evaluate the solution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:22:55.428Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "709a61eea4e6d0d1f4540770be49b2f6fb6df11cc34e186c1b6b014ae2baf63e",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-f6b625991b72e98fe2db/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p66-q2-response",
+    "type": "question",
+    "label": "2",
+    "prompt": "Solve $\\dfrac{dP}{dt}=\\dfrac12P\\left(1-\\dfrac{P}{500}\\right)$, $P(0)=50$.\n\nFind $P(t)$ and $P(4)$. Give $P(4)$ to the nearest whole number. Use\n$$\\frac{500}{P(500-P)}=\\frac1P+\\frac1{500-P}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$P(t)=\\dfrac{500}{1+9e^{-t/2}}$, $P(4)\\approx225$.",
+      "worked": "$$\\begin{aligned}\n\\frac{dt}{dP}&=\\frac{1000}{P(500-P)}\\\\\n\\frac{dt}{dP}&=2\\left(\\frac1P+\\frac1{500-P}\\right)\\\\\nt&=2\\bigl(\\ln|P|-\\ln|500-P|\\bigr)+D\\\\\n\\ln\\left|\\frac{P}{500-P}\\right|&=\\frac t2-\\frac D2\\\\\n\\frac{P}{500-P}&=Ae^{t/2}\n\\end{aligned}$$\nUsing $P(0)=50$,\n$$\\begin{aligned}\n\\frac{50}{450}&=Ae^0\\\\\nA&=\\frac19.\n\\end{aligned}$$\nHence\n$$\\begin{aligned}\n\\frac{P}{500-P}&=\\frac19e^{t/2}\\\\\n9P&=(500-P)e^{t/2}\\\\\nP(9+e^{t/2})&=500e^{t/2}\\\\\nP(t)&=\\frac{500}{1+9e^{-t/2}}\\\\\nP(4)&=\\frac{500}{1+9e^{-2}}\\\\\nP(4)&\\approx225.\n\\end{aligned}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 69
+  },
+  "presentation": {
+    "ownerId": "p66-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:06.909Z",
+  "updatedAt": "2026-11-12T05:39:06.909Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p66-q2",
+    "sectionRole": "exercise"
+  }
+}

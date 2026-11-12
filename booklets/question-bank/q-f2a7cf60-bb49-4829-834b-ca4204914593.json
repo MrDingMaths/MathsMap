@@ -1,0 +1,135 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f2a7cf60-bb49-4829-834b-ca4204914593",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the changing upper boundary, split the shaded region at the intersection and add two definite integrals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T09:13:03.236Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f0a1e3c413f26562e488428e76eae1462ef54ccb7b390fb8b9d1403895db396b",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793178664670-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Find the areas of the shaded regions. You will need to find two areas and add.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p8-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p8-q3-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded region whose area is requested\"}],\"reference\":\"source page 8 p8-q3-a-diagram\"}\n\\begin{tikzpicture}[x=9mm,y=5mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] plot[domain=-2:0,samples=40] (\\x,{(\\x+2)^2}) -- plot[domain=0:2,samples=40] (\\x,{(\\x-2)^2}) -- (-2,0) -- cycle;\n\\draw[<->,line width=0.5pt] (-3.1,0)--(3.1,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-0.8)--(0,7) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-3.1:0.58,samples=60] (\\x,{(\\x+2)^2});\n\\draw[<->,line width=0.8pt] plot[domain=-0.58:3.1,samples=60] (\\x,{(\\x-2)^2});\n\\node[below] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=west] at (0.7,6.5) {$y=(x+2)^2$};\n\\draw[->,line width=0.4pt] (0.65,6.4)--(0.5,6.25);\n\\node[anchor=west] at (0.8,3.3) {$y=(x-2)^2$};\n\\draw[->,line width=0.4pt] (2.5,3.05) to[bend left=18] (3,1);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 8,
+              "sourceRegion": "Question 3(a), lower-left graph",
+              "description": "Two upward-opening parabolas with equation labels and arrowheads; the region above the x-axis and below their inner branches is shaded.",
+              "mathematics": "Vertices (-2,0) and (2,0); intersection (0,4). The upper boundary of the shaded region is (x+2)^2 on [-2,0] and (x-2)^2 on [0,2]. No grid or numerical y-axis ticks.",
+              "answerVisibility": "All curves, equation labels, axis labels, vertex labels and shading are permanent question givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{16}{3}\\text{ u}^2$",
+          "worked": "The curves intersect where\n$$\\begin{aligned}(x+2)^2&=(x-2)^2\\\\x^2+4x+4&=x^2-4x+4\\\\8x&=0\\\\x&=0.\\end{aligned}$$\nThe shaded region has upper boundary $y=(x+2)^2$ on $[-2,0]$ and $y=(x-2)^2$ on $[0,2]$.\n$$\\begin{aligned}A&=\\int_{-2}^{0}(x+2)^2\\,dx+\\int_{0}^{2}(x-2)^2\\,dx\\\\&=\\left[\\frac{(x+2)^3}{3}\\right]_{-2}^{0}+\\left[\\frac{(x-2)^3}{3}\\right]_{0}^{2}\\\\&=\\left(\\frac83-0\\right)+\\left(0-\\frac{-8}{3}\\right)\\\\&=\\frac{16}{3}\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 47,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p8-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p8-q3-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded region whose area is requested\"}],\"reference\":\"source page 8 p8-q3-b-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=7mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] plot[domain=0:1.5,samples=35] (\\x,{(\\x)^2}) -- plot[domain=1.5:3,samples=35] (\\x,{(\\x-3)^2}) -- (0,0) -- cycle;\n\\draw[<->,line width=0.5pt] (-1.5,0)--(4.6,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-0.7)--(0,5.5) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-1.1:2.2,samples=60] (\\x,{(\\x)^2});\n\\draw[<->,line width=0.8pt] plot[domain=0.8:4.1,samples=60] (\\x,{(\\x-3)^2});\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east] at (-0.2,3.1) {$\\left(\\frac32,\\frac94\\right)$};\n\\draw[->,line width=0.4pt] (-0.1,2.6) to[bend right=12] (1.5,2.25);\n\\node[anchor=west] at (2.5,4.2) {$y=x^2$};\n\\draw[->,line width=0.4pt] (2.7,3.9) to[bend left=22] (1.95,3.8025);\n\\node[anchor=west] at (2.5,2.9) {$y=(x-3)^2$};\n\\draw[->,line width=0.4pt] (3,2.65) to[bend left=25] (2.15,0.7225);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 8,
+              "sourceRegion": "Question 3(b), lower-right graph",
+              "description": "Two upward-opening parabolas, shaded inner region above the x-axis, equation labels with curved leaders and an intersection-coordinate label with a leader arrow.",
+              "mathematics": "Vertices (0,0) and (3,0); intersection (3/2,9/4). The shaded upper boundary is x^2 on [0,3/2] and (x-3)^2 on [3/2,3]. No grid.",
+              "answerVisibility": "The coordinate label, equation labels, leaders, shading and axis labels are permanent question givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac94\\text{ u}^2$",
+          "worked": "Split the region at the given intersection, $x=\\frac32$.\n$$\\begin{aligned}A&=\\int_0^{3/2}x^2\\,dx+\\int_{3/2}^{3}(x-3)^2\\,dx\\\\&=\\left[\\frac{x^3}{3}\\right]_0^{3/2}+\\left[\\frac{(x-3)^3}{3}\\right]_{3/2}^{3}\\\\&=\\left(\\frac98-0\\right)+\\left(0-\\frac{-9}{8}\\right)\\\\&=\\frac94\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:37.830Z",
+  "updatedAt": "2026-11-12T05:38:37.830Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p8-q3",
+    "sectionRole": "exercise"
+  }
+}

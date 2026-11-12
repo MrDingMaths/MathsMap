@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5305033f-41e4-4834-ba7f-c39b9a7d850d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Uses supplied partial fractions and a target solution form, fits the growth constant from doubling and solves a logarithmic target-time equation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:25:23.780Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "951bc7f71032adc9a9579ca4a27a462f7bc65a6a0a9ed2b354e2be94313c8b79",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-1102e8ff8216f55ad470/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p78-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "A lake is stocked with 600 fish; the carrying capacity is 12 000. The population $N$ satisfies\n$$\\frac{dN}{dt}=kN(12\\,000-N),$$\nwith $t$ in years. You may use\n$$\\frac{12\\,000}{N(12\\,000-N)}=\\frac1N+\\frac1{12\\,000-N}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p78-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $N=\\dfrac{12\\,000}{1+19e^{-12\\,000kt}}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$N=\\dfrac{12\\,000}{1+19e^{-12\\,000kt}}$.",
+          "worked": "The alternate notation gives the scaling\n$$\\begin{align*}\\frac{dt}{dN}&=\\frac1{kN(12\\,000-N)}\\\\\\frac{dt}{dN}&=\\frac1{12\\,000k}\\left(\\frac1N+\\frac1{12\\,000-N}\\right).\n\\end{align*}$$\nIntegrating gives\n$$\\begin{align*}t&=\\frac1{12\\,000k}\\left(\\ln|N|-\\ln|12\\,000-N|\\right)+D\\\\\\ln\\left|\\frac{N}{12\\,000-N}\\right|&=12\\,000kt+D_1\\\\\\frac{N}{12\\,000-N}&=Ae^{12\\,000kt}.\n\\end{align*}$$\nThus the exponent is $12\\,000kt$. Using $N(0)=600$,\n$$\\begin{align*}A&=\\frac{600}{11\\,400}\\\\A&=\\frac1{19}.\n\\end{align*}$$\nHence\n$$\\begin{align*}19N&=(12\\,000-N)e^{12\\,000kt}\\\\19N+Ne^{12\\,000kt}&=12\\,000e^{12\\,000kt}\\\\N(19+e^{12\\,000kt})&=12\\,000e^{12\\,000kt}\\\\N&=\\frac{12\\,000e^{12\\,000kt}}{19+e^{12\\,000kt}}\\\\N&=\\frac{12\\,000}{1+19e^{-12\\,000kt}}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p78-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The population doubled during the first year. Find $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\dfrac1{12\\,000}\\ln\\dfrac{19}{9}$.",
+          "worked": "Doubling gives $N(1)=1200$:\n$$\\begin{align*}1+19e^{-12\\,000k}&=\\frac{12\\,000}{1200}=10\\\\e^{-12\\,000k}&=\\frac9{19}\\\\-12\\,000k&=\\ln\\frac9{19}\\\\k&=\\frac1{12\\,000}\\ln\\frac{19}{9}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p78-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find, to the nearest month, how long it takes the population to reach 9000.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "65 months.",
+          "worked": "Set $N=9000$:\n$$\\begin{align*}1+19e^{-12\\,000kt}&=\\frac{12\\,000}{9000}=\\frac43\\\\e^{-12\\,000kt}&=\\frac1{57}\\\\12\\,000kt&=\\ln57.\n\\end{align*}$$\nSince $12\\,000k=\\ln\\dfrac{19}{9}$,\n$$\\begin{align*}t&=\\frac{\\ln57}{\\ln(19/9)}\\\\t&\\approx5.411\\text{ years}\\\\12t&\\approx65\\text{ months}.\n\\end{align*}$$\nThe population reaches 9000 after 65 months, to the nearest month.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p78-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:03.871Z",
+  "updatedAt": "2026-11-12T05:39:03.872Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p78-q16",
+    "sectionRole": "exercise"
+  }
+}

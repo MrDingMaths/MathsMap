@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f7cedcd3-3890-4a18-83d7-3892052dda6f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "find-angle-from-ratio"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Students transfer an exact height between two right triangles and explain the effect of premature rounding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:09:29.750Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "71e671883a4bd56526309d75fb5b43d8b94f577b649993a1e371c6f4b2275f79",
+      "evidence": "../../../full-imports/s6ext1-1-3d-trigonometry-20261027/lean-review/calls/content-1793160526575-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "For this 3D diagram, complete these steps.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q3-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 14 question 3\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (0,2.5);\\coordinate (L) at (-2.4,-1.25);\\coordinate (R) at (2,-0.55);\n\\draw (L)--(B)--(R)--(A)--(L);\\draw (A)--(B);\n\\draw[line width=0.4pt] ($(A)!0.12!(L)$)--($(A)!0.12!(L)+(0,0.28)$)--(0,0.28);\n\\draw[line width=0.4pt] ($(A)!0.14!(R)$)--($(A)!0.14!(R)+(0,0.28)$)--(0,0.28);\n\\node[below] at (A) {$A$};\\node[above] at (B) {$B$};\\path (L)--(A) node[midway,below=5mm] {$10\\text{ m}$};\\path (A)--(R) node[midway,below] {$8\\text{ m}$};\n\\pic[draw,line width=0.4pt,angle radius=8mm] {angle=A--L--B};\\pic[draw,line width=0.4pt,angle radius=6mm] {angle=B--R--A};\\node at ($(L)+(42.5:16mm)$) {$29^\\circ$};\\node at ($(R)+(144:13mm)$) {$\\theta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 3, left-hand diagram",
+          "description": "Two triangles share vertical AB. Only A and B are named. Both ground-side right-angle markers and both angle sectors are retained; ordinary blue strokes become black.",
+          "mathematics": "Ground lengths 10 m and 8 m; AB is perpendicular to each; left elevation angle 29 degrees and right elevation angle theta.",
+          "answerVisibility": "Height AB and theta remain unknown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p14-q3-calculations",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p14-q3-a-node",
+            "type": "part",
+            "label": "a",
+            "prompt": "Find $AB$ in exact form.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AB=10\\tan29^\\circ\\text{ m}$.",
+              "worked": "$$\\begin{aligned}\\tan29^\\circ&=\\frac{AB}{10}\\\\AB&=10\\tan29^\\circ\\text{ m}\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          },
+          {
+            "id": "p14-q3-b-node",
+            "type": "part",
+            "label": "b",
+            "prompt": "Find $\\theta$ to 1 d.p.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\theta=34.7^\\circ$.",
+              "worked": "$$\\begin{aligned}\\tan\\theta&=\\frac{AB}{8}\\\\\\theta&=\\tan^{-1}\\left(\\frac{10\\tan29^\\circ}{8}\\right)\\\\\\theta&\\approx34.7^\\circ\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 27
+          }
+        ]
+      },
+      {
+        "id": "p14-q3-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Why is it important to keep values in exact form and only round the final answer? Try finding $\\theta$ by rounding $AB$ to 1 d.p. and using the rounded result.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Rounding too early can change the final rounded answer. Using $AB\\approx5.5\\text{ m}$ gives $\\theta\\approx34.5^\\circ$, which is $0.2^\\circ$ below the answer without intermediate rounding.",
+          "worked": "Rounding an intermediate value introduces an error that can affect the final answer.\n$$\\begin{aligned}AB&=10\\tan29^\\circ\\\\AB&\\approx5.5\\text{ m}\\\\\\theta&=\\tan^{-1}\\left(\\frac{5.5}{8}\\right)\\\\\\theta&\\approx34.5^\\circ\\end{aligned}$$\nThis is $0.2^\\circ$ below $34.7^\\circ$, the answer obtained without rounding the intermediate height.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:41.824Z",
+  "updatedAt": "2026-11-12T05:37:41.824Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p14-q3-block",
+    "sectionRole": "exercise"
+  }
+}

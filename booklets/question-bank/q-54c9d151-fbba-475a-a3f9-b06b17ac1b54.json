@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-54c9d151-fbba-475a-a3f9-b06b17ac1b54",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "A scaffolded sequence connects intersections, a sketch and the definite integral for the enclosed area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T09:13:05.977Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "22c21f79d9b1a55cd05f2efade7d3dc42bf7947d90873845c5a064537deada98",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793178664721-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q6-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=3x-x^2=x(3-x)$ and $y=x$ intersect at $(0,0)$ and $(2,2)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3x-x^2=x$ gives $x=0$ or $x=2$, so the intersections are $(0,0)$ and $(2,2)$.",
+          "worked": "$$\\begin{aligned}3x-x^2&=x\\\\2x-x^2&=0\\\\x(2-x)&=0\\\\x&=0\\text{ or }x=2\\end{aligned}$$\nWhen $x=0$, $y=0$, giving $(0,0)$.\nWhen $x=2$, $y=2$, giving $(2,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p9-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch the parabola and line, shading the enclosed region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A downward-opening parabola $y=3x-x^2$ and the line $y=x$, with the region between them shaded for $0\\le x\\le2$.",
+          "worked": "The parabola has intercepts $(0,0)$ and $(3,0)$ and vertex $\\left(\\frac32,\\frac94\\right)$. The line passes through $(0,0)$ and $(2,2)$. Between the intersections, $y=3x-x^2$ is above $y=x$; shade the enclosed region.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q6-answer-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"enclosed region requested in part b\"}],\"reference\":\"source page 9 p9-q6-answer-sketch\"}\n\\begin{tikzpicture}[x=1.15cm,y=1.15cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\path[fill=regionBlue] plot[domain=0:2,samples=65] (\\x,{3*(\\x)-(\\x)^2}) -- (0,0) -- cycle;\n\\draw[<->,line width=0.5pt] (-1.15,0)--(3.65,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.75)--(0,3.75) node[above] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-0.48:3.48,samples=90] (\\x,{3*(\\x)-(\\x)^2});\n\\draw[<->,line width=0.8pt] (-1.05,-1.05)--(3.5,3.5);\n\\path[draw=black,line width=0.5pt] (0,-1.75)--(0,3.75);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 6 answer sketch at lower left",
+                "description": "Editable answer sketch with arrowed axes, a downward-opening parabola and increasing line. No numerical ticks or curve labels. The requested enclosed region is shaded.",
+                "mathematics": "The curves y=3x-x^2 and y=x intersect at (0,0) and (2,2). The parabola is above the line on 0<x<2.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p9-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $\\displaystyle\\int_0^2(3x-x^2-x)\\,dx=\\int_0^2(2x-x^2)\\,dx$, and evaluate.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac43\\text{ u}^2$.",
+          "worked": "$$\\begin{aligned}\\int_0^2(3x-x^2-x)\\,dx&=\\int_0^2(2x-x^2)\\,dx\\\\&=\\left[x^2-\\frac{x^3}{3}\\right]_0^2\\\\&=\\left(4-\\frac83\\right)-0\\\\&=\\frac43\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:37.010Z",
+  "updatedAt": "2026-11-12T05:38:37.010Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p9-q6",
+    "sectionRole": "exercise"
+  }
+}

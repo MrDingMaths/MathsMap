@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-11646f88-5118-4e19-a793-fc728b62b992",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "pythagoras-find-side",
+      "elevation-depression"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "The first two parts explicitly scaffold complementary-angle tangent expressions; combine the two perpendicular ground distances using Pythagoras.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:30:34.676Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d43efc8ca3ff330317c3a505a5bc5bcc9fde1a3129ec61c5b0521db1315af43f",
+      "evidence": "../../../full-imports/s6ext1-1-3d-trigonometry-20261027/lean-review/calls/content-1793161808005-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Two landmarks $P$ and $Q$ on level ground are observed from the top $T$ of a vertical tower $BT$ of height 30 m. Landmark $P$ is due south of the tower, while landmark $Q$ is due east of the tower. The angles of elevation of $T$ from $P$ and $Q$ are $15^\\circ$ and $18^\\circ$ respectively.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"angleBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the two given angles of elevation\"}],\"reference\":\"source page 15 p15-q6-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{angleBlue}{HTML}{D4E8FF}\n\\coordinate (P) at (-2,-2.3);\\coordinate (B) at (0,0);\\coordinate (Q) at (3,-0.15);\\coordinate (T) at (0,2.3);\n\\pic[draw,line width=0.4pt,fill=angleBlue,angle radius=10mm] {angle=B--P--T};\n\\pic[draw,line width=0.4pt,fill=angleBlue,angle radius=9mm] {angle=T--Q--B};\n\\draw (P)--(T)--(Q)--cycle;\n\\draw[dashed] (P)--(B)--(Q) (B)--(T);\n\\draw[line width=0.4pt] ($(B)!0.1!(P)$)--($(B)!0.1!(P)+(B)!0.1!(Q)-(B)$)--($(B)!0.1!(Q)$);\n\\draw[line width=0.4pt] ($(B)!0.1!(T)$)--($(B)!0.1!(T)+(B)!0.1!(Q)-(B)$)--($(B)!0.1!(Q)$);\n\\path (B)--(T) node[midway,right] {$30\\text{ m}$};\n\\path (P)--(B) coordinate[pos=0.27] (U);\\path (P)--(T) coordinate[pos=0.19] (V);\\node[anchor=east] (label15p) at ($(P)+(-0.4,0.9)$) {$15^\\circ$};\n\\draw[->,line width=0.4pt] (label15p.east)--($(P)+(58:10mm)$);\n\\path (Q)--(T) coordinate[pos=0.19] (UQ);\\path (Q)--(B) coordinate[pos=0.22] (VQ);\\node at ($(Q)+(159:15mm)$) {$18^\\circ$};\n\\node[below left] at (P) {$P$};\\node[above right] at ($(B)+(0.4,0.3)$) {$B$};\\node[right] at (Q) {$Q$};\\node[above] at (T) {$T$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 6 tower and landmarks",
+          "description": "Spatial tower diagram with solid PT, TQ and PQ, dashed PB, BQ and BT, perpendicular marks at B, and highlighted elevation angles.",
+          "mathematics": "BT is perpendicular to the horizontal plane and is 30 m. PB is perpendicular to BQ. Angle BPT is 15 degrees and angle BQT is 18 degrees.",
+          "answerVisibility": "Source givens only.",
+          "sizing": {
+            "exceptionReason": "The narrow elevation sectors require native 10 pt labels clear of both rays. The 65 mm figure preserves all givens and the viewing direction without reducing type size."
+          }
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $BP=30\\tan75^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$BP=30\\tan75^\\circ$.",
+          "worked": "$\\angle PTB=180^\\circ-90^\\circ-15^\\circ=75^\\circ$ (angle sum of a triangle).\n\n$$\\begin{aligned}\\tan75^\\circ&=\\frac{BP}{30}\\\\BP&=30\\tan75^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p15-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find a similar expression for $BQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$BQ=30\\tan72^\\circ$.",
+          "worked": "$\\angle BTQ=180^\\circ-90^\\circ-18^\\circ=72^\\circ$.\n\n$$\\begin{aligned}\\tan72^\\circ&=\\frac{BQ}{30}\\\\BQ&=30\\tan72^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p15-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find, correct to the nearest metre, the distance between the two landmarks.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$145\\text{ m}$.",
+          "worked": "$PB\\perp BQ$ because the landmarks are due south and due east of the tower.\n\n$$\\begin{aligned}PQ&=\\sqrt{BP^2+BQ^2}\\\\PQ&=\\sqrt{(30\\tan75^\\circ)^2+(30\\tan72^\\circ)^2}\\\\PQ&\\approx145\\text{ m}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:40.739Z",
+  "updatedAt": "2026-11-12T05:37:40.740Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p15-q6-block",
+    "sectionRole": "exercise"
+  }
+}

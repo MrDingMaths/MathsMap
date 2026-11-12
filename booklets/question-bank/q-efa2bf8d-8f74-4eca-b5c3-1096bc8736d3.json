@@ -1,0 +1,113 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-efa2bf8d-8f74-4eca-b5c3-1096bc8736d3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "vectors-in-geometric-figures",
+      "parallel-vectors-condition"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reuse the initial DB calculation with the midpoint relationship, construct NC, and compare the resulting vectors to prove collinearity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:26:35.674Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8b2bb68728c43d9bf0933388ffd91a7f936d736e3bb4324c489b261c036322b5",
+      "evidence": ".booklet-work/full-imports/s6ext1-1-vector-representation-notation-and-operations-20261027/semantic-packets/assignments/assignment-27c9470bfb55052f4255/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p69-q33-root",
+    "type": "question",
+    "label": "",
+    "prompt": "ABD is a triangle.\n\nN is a point on AD such that $AN:ND=2:1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p69-q33-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 69 p69-q33-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.3);\n\\coordinate (B) at (3,3.3);\n\\coordinate (C) at (5.8,3.3);\n\\coordinate (D) at (1.5,0);\n\\coordinate (N) at ($(A)!2/3!(D)$);\n\\coordinate (M) at ($(B)!1/2!(D)$);\n\\draw (A)--(C) (A)--(D)--(B);\n\\draw[->] ($(A)!0.35!(B)$)--($(A)!0.52!(B)$);\n\\draw[->] ($(A)!0.55!(N)$)--($(A)!0.72!(N)$);\n\\draw[->] ($(N)!0.3!(D)$)--($(N)!0.55!(D)$);\n\\node[above] at ($(A)!0.49!(B)$) {$\\underset{\\sim}{a}$};\n\\node[left] at ($(A)!0.58!(N)$) {$2\\underset{\\sim}{b}$};\n\\node[left] at ($(N)!0.48!(D)$) {$\\underset{\\sim}{b}$};\n\\fill (N) circle (1.3pt) (M) circle (1.3pt);\n\\node[above left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[left] at (N) {$N$};\n\\node[right] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 69,
+          "sourceRegion": "Question 33, lower-right shared diagram",
+          "description": "Triangle ABD with AB extended to C, N on AD and M on BD. Directed labels establish AB=a, AN=2b and ND=b. The proposed line NMC is absent. Decorative grey triangle fill is omitted under the house diagram policy.",
+          "mathematics": "AN:ND=2:1; AB=BC; BM=MD. Arrows on AB, AN and ND point respectively A to B, A to N and N to D.",
+          "answerVisibility": "All directed givens remain visible; no solution line or vector calculation is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p69-q33-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write $\\overrightarrow{DB}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{DB}=-3\\underset{\\sim}{b}+\\underset{\\sim}{a}$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{DB}&=\\overrightarrow{DA}+\\overrightarrow{AB}\\\\\\overrightarrow{DB}&=-(2\\underset{\\sim}{b}+\\underset{\\sim}{b})+\\underset{\\sim}{a}\\\\\\overrightarrow{DB}&=-3\\underset{\\sim}{b}+\\underset{\\sim}{a}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p69-q33-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "B is the midpoint of AC.\n\nM is the midpoint of BD.\n\nShow that NMC is a straight line.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{NM}=\\frac12(-\\underset{\\sim}{b}+\\underset{\\sim}{a})$ and $\\overrightarrow{NC}=2(-\\underset{\\sim}{b}+\\underset{\\sim}{a})=4\\overrightarrow{NM}$. The vectors are parallel and share N, so N, M and C are collinear.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{NM}&=\\overrightarrow{ND}+\\overrightarrow{DM}\\\\\\overrightarrow{NM}&=\\underset{\\sim}{b}+\\frac12\\overrightarrow{DB}\\\\\\overrightarrow{NM}&=\\underset{\\sim}{b}+\\frac12(-3\\underset{\\sim}{b}+\\underset{\\sim}{a})\\\\\\overrightarrow{NM}&=\\frac12(-\\underset{\\sim}{b}+\\underset{\\sim}{a})\\\\\\overrightarrow{NC}&=\\overrightarrow{NA}+\\overrightarrow{AC}\\\\\\overrightarrow{NC}&=-2\\underset{\\sim}{b}+2\\underset{\\sim}{a}\\\\\\overrightarrow{NC}&=2(-\\underset{\\sim}{b}+\\underset{\\sim}{a})\\\\\\overrightarrow{NC}&=4\\overrightarrow{NM}\\end{aligned}$$\nThe vectors $\\overrightarrow{NM}$ and $\\overrightarrow{NC}$ are parallel and share the common point N. Therefore N, M and C lie on a straight line.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p69-q33",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:10.744Z",
+  "updatedAt": "2026-11-12T05:38:10.744Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-vector-representation-notation-and-operations-2-v1",
+    "blockId": "p69-q33",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b3af42b3-d80c-4386-b937-090cabed94fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [
+      "area-between-curves"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the shaded area as a larger area with a curved region removed.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T09:55:11.939Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d4409c9bda6e680931aa79176d76d0f2fa474472344cdf241f55d4b3f4230c63",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793181284719-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q4-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Find the areas of the shaded regions. You will need to find two areas and subtract.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p9-q4-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"required shaded region\"}],\"reference\":\"source page 9 p9-q4-a-diagram\"}\n\\begin{tikzpicture}[x=0.72cm,y=0.72cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0) rectangle (6,3);\n\\fill[white] (2,0) plot[domain=2:4,samples=60] (\\x,{6*(\\x)-(\\x)^2-8}) -- (4,0) -- cycle;\n\\draw[line width=0.4pt] (0,0) rectangle (6,3);\n\\draw[line width=0.8pt] plot[domain=2:4,samples=60] (\\x,{6*(\\x)-(\\x)^2-8});\n\\draw[->,line width=0.5pt] (-1,0)--(7.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.7)--(0,6.2) node[left] {$y$};\n\\foreach \\v in {2,4,6} {\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[left] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node (curveLabel) at (3.7,4.35) {$y=6x-x^2-8$};\n\\draw[->,line width=0.4pt] (curveLabel.south) to[out=-90,in=135] (2.65,0.8775);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 9,
+              "sourceRegion": "Question 4(a)",
+              "description": "Rectangle above the x-axis with the small parabolic arch excluded; a curved pointer associates the equation with the arch.",
+              "mathematics": "Rectangle 0≤x≤6, 0≤y≤3, minus 0≤y≤6x−x²−8 for 2≤x≤4.",
+              "answerVisibility": "Supplied question diagram; no answer working.",
+              "shadingDecision": {
+                "sourceHash": "827f6728db1286d1d21bfc8f8b0e945422d001ba8d5d6b7423389fe19302d0f5",
+                "reason": "Shading defines the area being assessed.",
+                "houseOverride": "Use standard light blue for the shaded region and black for ordinary marks."
+              }
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$16\\frac{2}{3}\\text{ u}^2$",
+          "worked": "The arch meets the $x$-axis at $x=2$ and $x=4$.\n$$\\begin{aligned}A&=3(6)-\\int_2^4(6x-x^2-8)\\,dx\\\\&=18-\\left[3x^2-\\frac{x^3}{3}-8x\\right]_2^4\\\\&=18-\\left(-\\frac{16}{3}+\\frac{20}{3}\\right)\\\\&=18-\\frac43\\\\&=16\\frac23\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p9-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p9-q4-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"required shaded region\"}],\"reference\":\"source page 9 p9-q4-b-diagram\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-2,0) plot[domain=-2:2,samples=80] (\\x,{4-(\\x)^2}) -- cycle;\n\\fill[white] (-1,0) plot[domain=-1:1,samples=60] (\\x,{1-(\\x)^2}) -- cycle;\n\\draw[<->,line width=0.8pt] plot[domain=-3:3,samples=100] (\\x,{4-(\\x)^2});\n\\draw[<->,line width=0.8pt] plot[domain=-2.45:2.45,samples=100] (\\x,{1-(\\x)^2});\n\\draw[->,line width=0.5pt] (-3.7,0)--(4,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-5.6)--(0,5.3) node[left] {$y$};\n\\node[above left,xshift=-.6mm,yshift=.8mm] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[above right,xshift=.6mm,yshift=.8mm] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below right,xshift=.5mm,yshift=-.4mm] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[above right] at (0.45,4.15) {$y=4-x^2$};\n\\node[below right] at (0.4,-5.25) {$y=1-x^2$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 9,
+              "sourceRegion": "Question 4(b)",
+              "description": "Two downward parabolas with their four x-intercepts labelled. Shading lies above the x-axis except where the lower parabola bounds it.",
+              "mathematics": "Area under 4−x² on [−2,2], excluding the area under 1−x² on [−1,1].",
+              "answerVisibility": "Supplied question diagram; no answer working.",
+              "shadingDecision": {
+                "sourceHash": "827f6728db1286d1d21bfc8f8b0e945422d001ba8d5d6b7423389fe19302d0f5",
+                "reason": "Shading defines the assessed region and its piecewise lower boundary.",
+                "houseOverride": "Use standard light blue for the shaded region and black for ordinary marks."
+              }
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$9\\frac13\\text{ u}^2$",
+          "worked": "$$\\begin{aligned}A&=\\int_{-2}^{2}(4-x^2)\\,dx-\\int_{-1}^{1}(1-x^2)\\,dx\\\\&=\\left[4x-\\frac{x^3}{3}\\right]_{-2}^{2}-\\left[x-\\frac{x^3}{3}\\right]_{-1}^{1}\\\\&=\\left(\\frac{16}{3}+\\frac{16}{3}\\right)-\\left(\\frac23+\\frac23\\right)\\\\&=\\frac{32}{3}-\\frac43\\\\&=9\\frac13\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:38.277Z",
+  "updatedAt": "2026-11-12T05:38:38.277Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p9-q4",
+    "sectionRole": "exercise"
+  }
+}

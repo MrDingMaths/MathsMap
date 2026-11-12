@@ -1,0 +1,109 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2b5bc03b-4d57-40ae-923d-e5c9ddd519d8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Factor the curve difference to find three intersections, identify the upper curve on each interval, and integrate the two regions; symmetry is an optional shortcut.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:10:33.042Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fabe3205b5d1e2f1f5cb86545f1ef1b60ffabbe5bda0dc1c2e56508722125f71",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793171388478-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the points of intersection of $y=x^{2}(1-x)$ and $y=x(1-x)^{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(0,0)$, $\\left(\\frac12,\\frac18\\right)$, $(1,0)$.",
+          "worked": "$$\\begin{aligned}x^{2}(1-x)&=x(1-x)^{2}\\\\x^{2}(1-x)-x(1-x)^{2}&=0\\\\x(1-x)[x-(1-x)]&=0\\\\x(1-x)(2x-1)&=0\\\\x&=0,\\;1,\\;\\frac12\\end{aligned}$$\nFor $x=0$, $y=0$, giving $(0,0)$.\n\nFor $x=\\frac12$,\n$$y=\\left(\\frac12\\right)^{2}\\left(1-\\frac12\\right)=\\frac18,$$\ngiving $\\left(\\frac12,\\frac18\\right)$.\n\nFor $x=1$, $y=0$, giving $(1,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p15-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area bounded by the two curves.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p15-q15-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 p15-q15-graph\"}\n\\begin{tikzpicture}[x=2.5cm,y=3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,black,line width=0.5pt] (-1.05,0)--(2.12,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-1.08)--(0,1.09) node[above] {$y$};\n\\draw[<->,black,line width=0.8pt,domain=-0.75:1.45,samples=121,smooth] plot (\\x,{(\\x)^2*(1-(\\x))});\n\\draw[<->,black,line width=0.8pt,domain=-0.45:1.75,samples=121,smooth] plot (\\x,{(\\x)*(1-(\\x))^2});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 15,
+              "sourceRegion": "Graph below question 15 on the left",
+              "description": "Two unlabelled cubic curves with arrowheads at their outer ends, crossing at three points and enclosing two adjacent unshaded lobes above the x-axis. Both axes have arrowheads at both ends and x and y labels. No ticks, numeric labels or grid. Source blue strokes are rendered in house black because the common hue does not distinguish mathematical roles.",
+              "mathematics": "Plots of y=x^2(1-x) and y=x(1-x)^2, intersecting at (0,0), (1/2,1/8) and (1,0).",
+              "answerVisibility": "Supplied graph remains visible in the question; intersection coordinates and area are not labelled."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{16}\\text{ units}^{2}$.",
+          "worked": "Let $f(x)=x^{2}(1-x)$ and $g(x)=x(1-x)^{2}$.\n$$\\begin{aligned}f(x)-g(x)&=x(1-x)[x-(1-x)]\\\\f(x)-g(x)&=x(1-x)(2x-1).\\end{aligned}$$\nFor $0<x<\\frac12$, $f(x)<g(x)$, so the second curve is above the first.\n\nFor $\\frac12<x<1$, $f(x)>g(x)$, so the first curve is above the second.\n\nReflection in $x=\\frac12$ interchanges the curves, so the two regions have equal area.\n$$\\begin{aligned}A&=2\\int_{0}^{1/2}\\left[x(1-x)^{2}-x^{2}(1-x)\\right]\\,dx\\\\A&=2\\int_{0}^{1/2}x(1-x)(1-2x)\\,dx\\\\A&=2\\int_{0}^{1/2}(x-3x^{2}+2x^{3})\\,dx\\\\A&=2\\left[\\frac{x^{2}}2-x^{3}+\\frac{x^{4}}2\\right]_{0}^{1/2}\\\\A&=2\\left(\\frac18-\\frac18+\\frac1{32}\\right)\\\\A&=\\frac1{16}\\text{ units}^{2}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q15-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:39.260Z",
+  "updatedAt": "2026-11-12T05:38:39.260Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p15-q15-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9cc82b1f-2d25-4098-82c4-fd1414f9aeed",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Find the partial-fraction constants, follow the taught logistic solution procedure, substitute two times and read the limiting height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:24:20.031Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d7a80c2a7418cff445768ae5067a034cc4b5cb03a5ab4492383804c971f594e4",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-f893ed42f4f9005661b2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p74-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The height of a tree after $t$ years is given by $\\dfrac{dQ}{dt}=0.03Q(45-Q)$.\n\nThe tree is $0.3$ m high when it is planted.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p74-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Evaluate $a$ and $b$ if $\\dfrac{1}{Q(45-Q)}=\\dfrac{a}{Q}+\\dfrac{b}{45-Q}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=\\dfrac{1}{45},\\quad b=\\dfrac{1}{45}$.",
+          "worked": "Multiply both sides by $Q(45-Q)$:\n$$1=a(45-Q)+bQ.$$\nSubstitute $Q=0$:\n$$\\begin{aligned}1&=45a\\\\a&=\\frac{1}{45}.\\end{aligned}$$\nSubstitute $Q=45$:\n$$\\begin{aligned}1&=45b\\\\b&=\\frac{1}{45}.\\end{aligned}$$\nTherefore,\n$$\\frac{1}{Q(45-Q)}=\\frac{1}{45}\\left(\\frac{1}{Q}+\\frac{1}{45-Q}\\right).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p74-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Solve the differential equation to find the formula for the height of the tree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q=\\dfrac{45}{1+149e^{-1.35t}}$ metres, where $t\\geq0$.",
+          "worked": "Separate variables:\n$$\\frac{1}{Q(45-Q)}\\,dQ=0.03\\,dt.$$\nUsing partial fractions from (a):\n$$\\frac{1}{45}\\left(\\frac{1}{Q}+\\frac{1}{45-Q}\\right)\\,dQ=0.03\\,dt.$$\nIntegrate both sides and combine the logarithms:\n$$\\begin{aligned}\\frac{1}{45}\\left(\\ln|Q|-\\ln|45-Q|\\right)&=0.03t+C_1\\\\\\ln\\left|\\frac{Q}{45-Q}\\right|&=1.35t+C_2\\\\\\frac{Q}{45-Q}&=Ae^{1.35t}.\\end{aligned}$$\nSubstitute $Q=0.3$ when $t=0$:\n$$\\begin{aligned}\\frac{0.3}{44.7}&=A\\\\A&=\\frac{1}{149}.\\end{aligned}$$\nHence,\n$$\\begin{aligned}\\frac{Q}{45-Q}&=\\frac{1}{149}e^{1.35t}\\\\149Q&=(45-Q)e^{1.35t}\\\\149Q+Qe^{1.35t}&=45e^{1.35t}\\\\Q(149+e^{1.35t})&=45e^{1.35t}\\\\Q&=\\frac{45e^{1.35t}}{149+e^{1.35t}}.\\end{aligned}$$\nDivide the numerator and denominator by $e^{1.35t}$:\n$$Q=\\frac{45}{1+149e^{-1.35t}}\\text{ metres},\\qquad t\\geq0.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 101
+      },
+      {
+        "id": "p74-q12-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Find its height after the following times. Give your answers to 2 decimal places.",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p74-q12-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "2 years",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$4.09$ m.",
+              "worked": "Substitute $t=2$:\n$$\\begin{aligned}Q(2)&=\\frac{45}{1+149e^{-1.35(2)}}\\\\&=\\frac{45}{1+149e^{-2.7}}\\\\&\\approx4.09\\text{ m}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          },
+          {
+            "id": "p74-q12-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "8 years",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$44.86$ m.",
+              "worked": "Substitute $t=8$:\n$$\\begin{aligned}Q(8)&=\\frac{45}{1+149e^{-1.35(8)}}\\\\&=\\frac{45}{1+149e^{-10.8}}\\\\&\\approx44.86\\text{ m}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          }
+        ]
+      },
+      {
+        "id": "p74-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is its ultimate height?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$45$ m.",
+          "worked": "As $t\\to\\infty$, $e^{-1.35t}\\to0$, so\n$$Q\\to\\frac{45}{1+0}=45.$$\nThe ultimate height is $45$ m.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p74-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:05.664Z",
+  "updatedAt": "2026-11-12T05:39:05.666Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p74-q12",
+    "sectionRole": "exercise"
+  }
+}

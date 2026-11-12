@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-86a8b29d-3da7-486b-a95e-e5be7acdb944",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "elevation-depression"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects the angle sum in a spatial triangle with two vertical right triangles to determine height and depression.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:33:47.112Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "50f397b9db13a39f97c46a733d670e14ac4d81a489d849320a6ce79c98d79879",
+      "evidence": ".booklet-work/full-imports/s6ext1-1-3d-trigonometry-20261027/lean-review/calls/content-1793154792843-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Two monuments $A$ and $B$ are $400\\text{ m}$ apart on the horizontal plane. The angle of depression of $A$ from the top $T$ of a tall building is $18^\\circ$. $\\angle TAB=52^\\circ$ and $\\angle TBA=38^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q11-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 17 question 11\"}\n\\begin{tikzpicture}[line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.5,1.2);\\coordinate (C) at (1.7,2);\\coordinate (T) at (1.7,4.6);\\coordinate (H) at ($(T)+(A)-(C)$);\n\\draw (A)--(T)--(B)--cycle;\n\\draw[dashed,line width=0.4pt] (A)--(C)--(B) (C)--(T) (T)--(H);\n\\draw[line width=0.4pt] ($(C)!0.16!(T)$)--($(C)!0.16!(T)+(C)!0.14!(A)-(C)$)--($(C)!0.14!(A)$);\n\\draw[line width=0.4pt] ($(C)!0.16!(T)$)--($(C)!0.16!(T)+(C)!0.12!(B)-(C)$)--($(C)!0.12!(B)$);\n\\draw[->,line width=0.4pt] ($(T)!0.55!(H)$)--($(T)!0.72!(H)$);\n\\draw[->,line width=0.4pt] ($(C)!0.55!(A)$)--($(C)!0.72!(A)$);\n\\pic[draw,line width=0.4pt,angle radius=7mm,\"$52^\\circ$\"{fill=white,inner sep=1.5pt},angle eccentricity=1.45] {angle=B--A--T};\n\\pic[draw,line width=0.4pt,angle radius=7mm,\"$38^\\circ$\"{fill=white,inner sep=1.5pt},angle eccentricity=1.45] {angle=T--B--A};\n\\pic[draw,line width=0.4pt,angle radius=10mm,\"$18^\\circ$\",angle eccentricity=1.35] {angle=H--T--A};\n\\path (A)--(B) node[midway,below] {$400\\text{ m}$};\n\\path (C)--(T) node[midway,right] {$h$};\n\\node[below left] at (A) {$A$};\\node[right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[above] at (T) {$T$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 11, upper-right spatial diagram",
+          "description": "Building TC perpendicular to the ground plane, triangle TAB, dashed ground constructions and parallel horizontal depression reference. Source cyan angle fills are replaced by unfilled black angle marks.",
+          "mathematics": "AB=400 m; angle TAB=52 degrees; angle TBA=38 degrees; depression of A=18 degrees; TC=h.",
+          "answerVisibility": "All givens remain visible; no calculated answers are included."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q11-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $TA=400\\cos52^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle ATB=90^\\circ$, so $\\cos52^\\circ=\\dfrac{TA}{400}$ and $TA=400\\cos52^\\circ$.",
+          "worked": "$\\begin{aligned}\\angle ATB&=180^\\circ-52^\\circ-38^\\circ\\\\&=90^\\circ\\end{aligned}$\n\nThus $AB$ is the hypotenuse of $\\triangle ATB$.\n\n$\\begin{aligned}\\cos52^\\circ&=\\frac{TA}{400}\\\\TA&=400\\cos52^\\circ\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p17-q11-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the height $h$ of the building, correct to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$76\\text{ m}$",
+          "worked": "The angle of elevation $\\angle TAC$ equals the angle of depression, $18^\\circ$.\n\n$\\begin{aligned}\\sin18^\\circ&=\\frac{h}{TA}\\\\h&=TA\\sin18^\\circ\\\\&=400\\cos52^\\circ\\sin18^\\circ\\\\&\\approx76\\text{ m}\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p17-q11-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the angle of depression of $B$ from $T$, to the nearest degree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$14^\\circ$",
+          "worked": "Let the angle of depression be $\\beta$. It equals $\\angle TBC$.\n\n$\\begin{aligned}TB&=400\\sin52^\\circ\\\\\\sin\\beta&=\\frac{h}{TB}\\\\&=\\frac{400\\cos52^\\circ\\sin18^\\circ}{400\\sin52^\\circ}\\\\\\beta&=\\sin^{-1}\\left(\\frac{\\cos52^\\circ\\sin18^\\circ}{\\sin52^\\circ}\\right)\\\\&\\approx14^\\circ\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q11-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:45.639Z",
+  "updatedAt": "2026-11-12T05:37:45.640Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p17-q11-block",
+    "sectionRole": "challenge"
+  }
+}

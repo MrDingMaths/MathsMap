@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fa8ddac8-be39-45bb-9e34-e5477f5869bf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Solve a logistic initial-value problem using supplied partial fractions, then interpret an initial population above carrying capacity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:22:50.423Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "198428670034d7e523d8af75979d253cb3d46d5d9cf18a0b3b61224f6ace6b3c",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-9b771cffcbe5f1d7ade4/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p67-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A bacterial population $P$ satisfies\n$$\\frac{dP}{dt}=\\frac{P}{8}\\left(1-\\frac{P}{5000}\\right),\\qquad P(0)=1000,$$\nwith $t$ in hours. You may use $\\dfrac{Q}{P(Q-P)}=\\dfrac1P+\\dfrac1{Q-P}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p67-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $P=\\dfrac{5000}{1+4e^{-t/8}}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P=\\dfrac{5000}{1+4e^{-t/8}}$.",
+          "worked": "$$\\begin{align*}\\frac{dt}{dP}&=\\frac{8}{P\\left(1-\\frac{P}{5000}\\right)}\\\\\\frac{dt}{dP}&=\\frac{8\\cdot5000}{P(5000-P)}\\\\\\frac{dt}{dP}&=8\\left(\\frac1P+\\frac1{5000-P}\\right)\\\\t&=8\\left(\\ln|P|-\\ln|5000-P|\\right)+D\\\\t&=8\\ln\\left|\\frac{P}{5000-P}\\right|+D\\\\\\frac{P}{5000-P}&=Ae^{t/8}\\end{align*}$$\nUsing $P(0)=1000$,\n$$\\begin{align*}A&=\\frac{1000}{4000}\\\\A&=\\frac14.\\end{align*}$$\nHence\n$$\\begin{align*}4P&=(5000-P)e^{t/8}\\\\P(4+e^{t/8})&=5000e^{t/8}\\\\P&=\\frac{5000e^{t/8}}{4+e^{t/8}}\\\\P&=\\frac{5000}{1+4e^{-t/8}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 73
+      },
+      {
+        "id": "p67-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If instead $P(0)=6000$, describe what happens to the population as $t$ increases.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The population decreases and approaches the carrying capacity of 5000 from above.",
+          "worked": "For $P>5000$, $1-\\dfrac{P}{5000}<0$, so $\\dfrac{dP}{dt}<0$. Starting from $P(0)=6000$, the population decreases and approaches the carrying capacity of 5000 from above.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p67-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:10.860Z",
+  "updatedAt": "2026-11-12T05:39:10.860Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p67-q4",
+    "sectionRole": "exercise"
+  }
+}

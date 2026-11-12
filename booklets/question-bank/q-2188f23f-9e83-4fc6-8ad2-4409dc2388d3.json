@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2188f23f-9e83-4fc6-8ad2-4409dc2388d3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-revolution-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Rearrange the curve to obtain the squared radius and integrate with respect to y using a logarithmic antiderivative.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T09:55:28.400Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0f8c31d8e2b7ba3cf4937d0c47f8144b34062fe60a5ca18709cb0a2addef99d9",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793181284771-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The region between the curve $y=\\frac{1}{x^2}$ (a truncus) and the $y$-axis from $y=1$ to $y=6$ is rotated about the $y$-axis. Calculate the exact volume of the solid formed.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function graph\"}],\"reference\":\"source page 22 question 7\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,line width=0.5pt] (-3.6,0)--(3.6,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.35)--(0,7.15) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\n\\draw[line width=0.4pt] (\\v,-0.09)--(\\v,0.09);\n\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-1,1,2,3,4,5} {\n\\draw[line width=0.4pt] (-0.07,\\v)--(0.07,\\v);\n\\node[left=3pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[line width=0.4pt] (-0.07,6)--(0.07,6);\n\\node[left=1pt] at (0,6) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$6$\\special{dvisvgm:raw </g>}};\n\\draw[curveBlue,<->,line width=0.8pt,domain=-3.5:-0.38,samples=150] plot (\\x,{1/((\\x)^2)});\n\\draw[curveBlue,<->,line width=0.8pt,domain=0.38:3.5,samples=150] plot (\\x,{1/((\\x)^2)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 7 graph below the stem at left",
+          "description": "Two symmetric branches of the truncus, with arrowheads at all four ends, labelled axes and source numerical ticks. No region, bounds or solution marks are added.",
+          "mathematics": "y=1/x^2; x is nonzero; horizontal ticks at -3,-2,-1,1,2,3 and vertical ticks at -1,1,2,3,4,5,6.",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\pi\\ln 6\\text{ units}^3$",
+      "worked": "$$x^2=\\frac{1}{y}$$\n$$\\begin{align*}\nV&=\\pi\\int_1^6 x^2\\,dy\\\\\nV&=\\pi\\int_1^6\\frac{1}{y}\\,dy\\\\\nV&=\\pi[\\ln y]_1^6\\\\\nV&=\\pi(\\ln 6-\\ln 1)\\\\\nV&=\\pi\\ln 6\\text{ units}^3\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 29
+  },
+  "presentation": {
+    "ownerId": "p22-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:32.018Z",
+  "updatedAt": "2026-11-12T05:38:32.018Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1",
+    "blockId": "p22-q7-block",
+    "sectionRole": "exercise"
+  }
+}

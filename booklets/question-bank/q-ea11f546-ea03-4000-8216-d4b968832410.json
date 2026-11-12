@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ea11f546-ea03-4000-8216-d4b968832410",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "A scaffolded sequence connects intersections, a sketch and upper-minus-lower integration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:03:47.874Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e654e25a73b67694a5323c07062caf0b726fb16585d0be477d145b3937ee6412",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/semantic-packets/assignments/assignment-3f6d552afc7218b86915/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p9-q5-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=x^2+4$ and $y=x+6$ intersect at $(-1,5)$ and $(2,8)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The intersections are $(-1,5)$ and $(2,8)$.",
+          "worked": "$$\\begin{aligned}x^2+4&=x+6\\\\x^2-x-2&=0\\\\(x-2)(x+1)&=0\\\\x&=2\\text{ or }x=-1.\\end{aligned}$$\nFor $x=2$, $y=2+6=8$, giving $(2,8)$.\n\nFor $x=-1$, $y=-1+6=5$, giving $(-1,5)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p9-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch the parabola and line, shading the enclosed region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The enclosed region lies between $y=x+6$ above and $y=x^2+4$ below, for $-1\\le x\\le2$.",
+          "worked": "Sketch $y=x^2+4$ with vertex $(0,4)$ and the line $y=x+6$. Shade the region between their intersections $(-1,5)$ and $(2,8)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5-answer-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"enclosed region requested in part b\"}],\"reference\":\"source page 9 p9-q5-answer-sketch\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.38cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-1,5) plot[domain=-1:2,samples=60] (\\x,{(\\x)^2+4}) -- plot[domain=2:-1,samples=30] (\\x,{\\x+6}) -- cycle;\n\\draw[<->,line width=0.5pt] (-3.2,0)--(4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2)--(0,12.5) node[left] {$y$};\n\\draw[<->,line width=0.8pt] plot[domain=-2.7:2.7,samples=80] (\\x,{(\\x)^2+4});\n\\draw[<->,line width=0.8pt] (-3,3)--(3.4,9.4);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5(b), supplied answer sketch",
+                "description": "Equation-driven reconstruction of the supplied sketch, completed with the shading explicitly requested by the question. No numerical ticks or additional curve labels.",
+                "mathematics": "Parabola y=x²+4, line y=x+6, intersections at x=−1 and x=2; shade between the curves.",
+                "answerVisibility": "Answer only.",
+                "shadingDecision": {
+                  "sourceHash": "827f6728db1286d1d21bfc8f8b0e945422d001ba8d5d6b7423389fe19302d0f5",
+                  "reason": "The question explicitly requires shading, which is absent from the supplied answer sketch.",
+                  "houseOverride": "Complete the requested shading in standard light blue; use black for axes and curves."
+                }
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p9-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $\\displaystyle\\int_{-1}^{2}\\big((x+6)-(x^2+4)\\big)\\,dx=\\int_{-1}^{2}(x-x^2+2)\\,dx$, and evaluate.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac92\\text{ u}^2$",
+          "worked": "$$\\begin{aligned}\\int_{-1}^{2}\\big((x+6)-(x^2+4)\\big)\\,dx&=\\int_{-1}^{2}(x-x^2+2)\\,dx\\\\&=\\left[\\frac{x^2}{2}-\\frac{x^3}{3}+2x\\right]_{-1}^{2}\\\\&=\\frac{10}{3}-\\left(-\\frac76\\right)\\\\&=\\frac92\\text{ u}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:37.134Z",
+  "updatedAt": "2026-11-12T05:38:37.134Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p9-q5",
+    "sectionRole": "exercise"
+  }
+}

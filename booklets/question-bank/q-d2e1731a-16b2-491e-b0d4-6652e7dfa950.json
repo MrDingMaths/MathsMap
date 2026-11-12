@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d2e1731a-16b2-491e-b0d4-6652e7dfa950",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "bearings-problems",
+      "elevation-depression"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "The supplied bearing angle and part (a) scaffold the ground-distance calculation; transfer the resulting height to a second vertical triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:09:29.750Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a1763081a9737c171cd9931cef367b0da0041e8ca9b4be498d18fe7758fae3b2",
+      "evidence": "../../../full-imports/s6ext1-1-3d-trigonometry-20261027/lean-review/calls/content-1793160526575-0/last-message.txt",
+      "originalTaskHash": "503d205222ccd741bb5a48e68187243a4d7e62316d7b0254e81589eb8881b20b",
+      "diagramReuse": {
+        "kind": "diagram-only-v1",
+        "previousTaskHash": "503d205222ccd741bb5a48e68187243a4d7e62316d7b0254e81589eb8881b20b",
+        "diagramBlindHash": "2945fe56f26b15d976cafa876481e2944367642b786d2bbedf8ab8184b41242e",
+        "source": "booklets/projects/.revisions/s6ext1-1-3d-trigonometry-v1/12.json"
+      },
+      "diagramBlindHash": "2945fe56f26b15d976cafa876481e2944367642b786d2bbedf8ab8184b41242e"
+    }
+  },
+  "content": {
+    "id": "p15-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A tree $BT$ is due north of an observer at $P$ and due west of an observer at $Q$. The two observers are 50 m apart and the bearing of $Q$ from $P$ is $36^\\circ$. The angle of elevation of $T$ from $Q$ is $28^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"angleBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the two given angles in different triangles\"}],\"reference\":\"source page 15 p15-q5-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{angleBlue}{HTML}{D4E8FF}\n\\coordinate (P) at (-1.5,-2);\\coordinate (B) at (0,0);\\coordinate (Q) at (2.6,-0.1);\\coordinate (T) at (0,2.3);\n\\pic[draw,line width=0.4pt,fill=angleBlue,angle radius=9mm] {angle=Q--P--B};\n\\pic[draw,line width=0.4pt,fill=angleBlue,angle radius=9mm] {angle=T--Q--B};\n\\draw (P)--(T)--(Q)--cycle;\n\\draw[dashed] (P)--(B)--(Q) (B)--(T);\n\\draw[line width=0.4pt] ($(B)!0.1!(P)$)--($(B)!0.1!(P)+(B)!0.1!(Q)-(B)$)--($(B)!0.1!(Q)$);\n\\draw[line width=0.4pt] ($(B)!0.1!(T)$)--($(B)!0.1!(T)+(B)!0.1!(Q)-(B)$)--($(B)!0.1!(Q)$);\n\\path (P)--(Q) node[midway,below,yshift=-4pt] {$50\\text{ m}$};\n\\path (B)--(T) node[midway,right] {$h$};\n\\path (P)--(B) coordinate[pos=0.25] (U);\\path (P)--(Q) coordinate[pos=0.25] (V);\\node at ($(P)+(39:16mm)$) {$36^\\circ$};\n\\path (Q)--(T) coordinate[pos=0.2] (UQ);\\path (Q)--(B) coordinate[pos=0.2] (VQ);\\node at ($(Q)+(158:15mm)$) {$28^\\circ$};\n\\node[below left] at (P) {$P$};\\node[below right] at (B) {$B$};\\node[right] at (Q) {$Q$};\\node[above] at (T) {$T$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 5 tree and observers",
+          "description": "Ground triangle PBQ and vertical BT, with solid sight lines and PQ, dashed PB, BQ and BT, perpendicular marks at B and light blue angle sectors.",
+          "mathematics": "PB is north–south and BQ east–west. PQ is 50 m, angle BPQ is 36 degrees and angle BQT is 28 degrees. BT is h.",
+          "answerVisibility": "Source givens only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $BQ=50\\sin36^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$BQ=50\\sin36^\\circ$.",
+          "worked": "$$\\begin{aligned}\\sin36^\\circ&=\\frac{BQ}{50}\\\\BQ&=50\\sin36^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p15-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the height $h$ of the tree, correct to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$16\\text{ m}$.",
+          "worked": "$$\\begin{aligned}\\tan28^\\circ&=\\frac{h}{BQ}\\\\h&=50\\sin36^\\circ\\tan28^\\circ\\\\h&\\approx16\\text{ m}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p15-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the angle of elevation of $T$ from $P$, correct to the nearest degree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$21^\\circ$.",
+          "worked": "Let $\\alpha$ be the angle of elevation from $P$.\n\n$$\\begin{aligned}BP&=50\\cos36^\\circ\\\\\\tan\\alpha&=\\frac{h}{BP}\\\\\\alpha&=\\tan^{-1}\\left(\\frac{50\\sin36^\\circ\\tan28^\\circ}{50\\cos36^\\circ}\\right)\\\\\\alpha&\\approx21^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:42.049Z",
+  "updatedAt": "2026-11-12T05:37:42.050Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p15-q5-block",
+    "sectionRole": "exercise"
+  }
+}

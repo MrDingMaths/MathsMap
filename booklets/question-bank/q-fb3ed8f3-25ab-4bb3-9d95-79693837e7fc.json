@@ -1,0 +1,255 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fb3ed8f3-25ab-4bb3-9d95-79693837e7fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-revolution-between-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Read bounds and squared radii from supplied graphs, then apply the taught disc integral.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:23:40.581Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f1b936a7b574e76d56c92189fcc799a5a296059dd9d02765790120aa222962f3",
+      "evidence": "../../../full-imports/s6ext1-3-area-between-curves-and-volumes-of-revolution-20261027/lean-review/calls/content-1793175791955-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Calculate the volume generated when each shaded region is rotated about the $x$-axis.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q3-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region to be rotated\"}],\"reference\":\"source page 21 p21-q3-d-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=1.05cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (2,0)--plot[domain=2:4,samples=45](\\x,{sqrt(\\x)})--(4,0)--cycle;\n\\draw[line width=0.4pt] (2,0)--(2,{sqrt(2)}) (4,0)--(4,2);\n\\draw[->,line width=0.5pt] (-0.8,0)--(5.4,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.8)--(0,3.1) node[left] {$y$};\n\\draw[->,line width=0.8pt,domain=0:5,samples=70] plot(\\x,{sqrt(\\x)});\n\\fill (0,0) circle (1.5pt);\n\\node[above] at (3.3,2.2) {$y=\\sqrt{x}$};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Question 3 d",
+              "description": "Square-root graph with a filled origin, curve arrow, bounds 2 and 4, and shaded region above the x-axis.",
+              "mathematics": "y=sqrt(x), 2<=x<=4; shaded region 0<=y<=sqrt(x).",
+              "answerVisibility": "No answer is included in the question graph."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$6\\pi\\text{ u}^3$",
+          "worked": "$$\\begin{aligned}V&=\\pi\\int_2^4(\\sqrt{x})^2\\,dx\\\\&=\\pi\\left[\\frac{x^2}{2}\\right]_2^4\\\\&=\\pi(8-2)\\\\&=6\\pi\\text{ u}^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p21-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q3-e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region to be rotated\"}],\"reference\":\"source page 21 p21-q3-e-diagram\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0)--(2,0) arc[start angle=0,end angle=90,radius=2]--cycle;\n\\draw[->,line width=0.5pt] (-3,0)--(4.2,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.5)--(0,3.4) node[left] {$y$};\n\\draw[line width=0.8pt] (2,0) arc[start angle=0,end angle=180,radius=2];\n\\node[above right] at (0.2,2.35) {$y=\\sqrt{4-x^2}$};\n\\node[below] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Question 3 e",
+              "description": "Upper semicircle from -2 to 2 with maximum height 2; only its first-quadrant region is shaded.",
+              "mathematics": "y=sqrt(4-x^2); shaded bounds x=0 and x=2.",
+              "answerVisibility": "Question givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$\\dfrac{16\\pi}{3}\\text{ u}^3$",
+          "worked": "$$\\begin{aligned}V&=\\pi\\int_0^2(4-x^2)\\,dx\\\\&=\\pi\\left[4x-\\frac{x^3}{3}\\right]_0^2\\\\&=\\pi\\left(8-\\frac83\\right)\\\\&=\\frac{16\\pi}{3}\\text{ u}^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p21-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q3-f-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region to be rotated\"}],\"reference\":\"source page 21 p21-q3-f-diagram\"}\n\\begin{tikzpicture}[x=1.25cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-1,0)--plot[domain=-1:0,samples=45](\\x,{(\\x)^3})--cycle;\n\\draw[line width=0.4pt] (-1,0)--(-1,-1);\n\\draw[->,line width=0.5pt] (-2,0)--(2,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,2.2) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.25:1.25,samples=80] plot(\\x,{(\\x)^3});\n\\node[right] at (0.85,0.8) {$y=x^3$};\n\\node[above] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Question 3 f",
+              "description": "Cubic through the origin with arrows at both ends; shaded region below the x-axis between -1 and 0.",
+              "mathematics": "y=x^3, -1<=x<=0, x^3<=y<=0.",
+              "answerVisibility": "Question givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$\\dfrac{\\pi}{7}\\text{ u}^3$",
+          "worked": "$$\\begin{aligned}V&=\\pi\\int_{-1}^{0}(x^3)^2\\,dx\\\\&=\\pi\\left[\\frac{x^7}{7}\\right]_{-1}^{0}\\\\&=\\pi\\left(0+\\frac17\\right)\\\\&=\\frac{\\pi}{7}\\text{ u}^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p21-q3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q3-g-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region to be rotated\"}],\"reference\":\"source page 21 p21-q3-g-diagram\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-5,0)--(-2,0)--(-5,-3)--cycle;\n\\draw[line width=0.4pt] (-5,0)--(-5,-3);\n\\draw[->,line width=0.5pt] (-6.5,0)--(1.6,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-4)--(0,4.2) node[left] {$y$};\n\\draw[<->,line width=0.8pt] (-6,-4)--(1.5,3.5);\n\\node[below right] at (-4.5,-2.5) {$y=x+2$};\n\\node[above] at (-5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-5$\\special{dvisvgm:raw </g>}};\n\\node[above] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Question 3 g",
+              "description": "Rising line with arrows at both ends, intercept -2 and shaded triangle bounded by x=-5 and the x-axis.",
+              "mathematics": "y=x+2; -5<=x<=-2; x+2<=y<=0.",
+              "answerVisibility": "Question givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$9\\pi\\text{ u}^3$",
+          "worked": "$$\\begin{aligned}V&=\\pi\\int_{-5}^{-2}(x+2)^2\\,dx\\\\&=\\pi\\left[\\frac{(x+2)^3}{3}\\right]_{-5}^{-2}\\\\&=\\frac{\\pi}{3}\\left(0-(-3)^3\\right)\\\\&=9\\pi\\text{ u}^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p21-q3-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q3-h-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region to be rotated\"}],\"reference\":\"source page 21 p21-q3-h-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-3,0)--plot[domain=180:0,samples=85] ({3*cos(\\x)},{2*sin(\\x)})--cycle;\n\\draw[->,line width=0.5pt] (-4,0)--(4.3,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,4) node[left] {$y$};\n\\draw[line width=0.8pt,domain=0:180,samples=85] plot({3*cos(\\x)},{2*sin(\\x)});\n\\node[above left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[below] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below] (eq) at (0.6,-1.5) {$y^2=4-\\frac49x^2$};\n\\draw[->,line width=0.4pt] (1,-1.45) to[out=90,in=235] (1.928362829060,1.532088886238);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Question 3 h",
+              "description": "Shaded upper half-ellipse with intercepts -3 and 3, height 2, and equation below the axis with a curved leader to the boundary.",
+              "mathematics": "y^2=4-(4/9)x^2; -3<=x<=3; shaded upper half.",
+              "answerVisibility": "Question givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$16\\pi\\text{ u}^3$",
+          "worked": "$$\\begin{aligned}V&=\\pi\\int_{-3}^{3}\\left(4-\\frac49x^2\\right)\\,dx\\\\&=\\pi\\left[4x-\\frac{4x^3}{27}\\right]_{-3}^{3}\\\\&=\\pi\\bigl((12-4)-(-12+4)\\bigr)\\\\&=16\\pi\\text{ u}^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q3-cont",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:38:30.828Z",
+  "updatedAt": "2026-11-12T05:38:30.828Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-2-v1",
+    "blockId": "p21-q3-cont",
+    "sectionRole": "exercise"
+  }
+}

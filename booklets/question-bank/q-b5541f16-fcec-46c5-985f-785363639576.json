@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b5541f16-fcec-46c5-985f-785363639576",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "integrate-f-dash-over-f"
+    ],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires a partial-fraction demonstration, logarithmic solution with an initial condition, and interpretation of limiting area and maximum growth rate.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:24:07.579Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e0f599939b5a566621147edeb3e68edf04d98406bca5376dc23413703f76589b",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-adcc4967788da61f4b86/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p73-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "The area $S\\text{ cm}^2$ occupied by a mould satisfies\n$$\\frac{dS}{dt}=\\frac{1}{20}S(40-S),\\qquad S(0)=1,$$\nwith $t$ in days.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p73-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\displaystyle\\frac{1}{S(40-S)}=\\frac{1}{40}\\left(\\frac{1}{S}+\\frac{1}{40-S}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{1}{40}\\left(\\frac{1}{S}+\\frac{1}{40-S}\\right)=\\frac{(40-S)+S}{40S(40-S)}=\\frac{1}{S(40-S)}$.",
+          "worked": "$$\\begin{align*}\\frac{1}{40}\\left(\\frac{1}{S}+\\frac{1}{40-S}\\right)&=\\frac{1}{40}\\cdot\\frac{(40-S)+S}{S(40-S)}\\\\&=\\frac{1}{40}\\cdot\\frac{40}{S(40-S)}\\\\&=\\frac{1}{S(40-S)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p73-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $\\displaystyle S=\\frac{40}{1+39e^{-2t}}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle t=\\frac12\\ln\\left|\\frac{S}{40-S}\\right|+D$, so $\\displaystyle\\frac{S}{40-S}=Ae^{2t}$. Using $S(0)=1$ gives $A=\\frac1{39}$, hence $\\displaystyle S=\\frac{40}{1+39e^{-2t}}$.",
+          "worked": "$$\\begin{align*}\\frac{dt}{dS}&=\\frac{20}{S(40-S)}\\\\&=\\frac12\\left(\\frac1S+\\frac1{40-S}\\right)\\\\t&=\\frac12\\left(\\ln|S|-\\ln|40-S|\\right)+D\\\\&=\\frac12\\ln\\left|\\frac{S}{40-S}\\right|+D\\\\\\frac{S}{40-S}&=Ae^{2t}.\\end{align*}$$\nUsing $S(0)=1$:\n$$\\begin{align*}\\frac1{40-1}&=Ae^0\\\\A&=\\frac1{39}.\\end{align*}$$\nTherefore\n$$\\begin{align*}\\frac{S}{40-S}&=\\frac{e^{2t}}{39}\\\\39S&=(40-S)e^{2t}\\\\S(39+e^{2t})&=40e^{2t}\\\\S&=\\frac{40e^{2t}}{39+e^{2t}}\\\\&=\\frac{40}{1+39e^{-2t}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p73-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "State the limiting area.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$40\\text{ cm}^2$.",
+          "worked": "As $t\\to\\infty$, $e^{-2t}\\to0$, so $\\displaystyle S\\to\\frac{40}{1+0}=40$. The limiting area is $40\\text{ cm}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p73-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the time at which the area is increasing most rapidly. Give your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle t=\\frac12\\ln39\\approx1.83$ days.",
+          "worked": "The rate $\\displaystyle\\frac{dS}{dt}=\\frac1{20}S(40-S)$ is a quadratic in $S$ with its maximum at $S=20$, half the carrying capacity.\n$$\\begin{align*}20&=\\frac{40}{1+39e^{-2t}}\\\\1+39e^{-2t}&=2\\\\e^{2t}&=39\\\\t&=\\frac12\\ln39\\\\&\\approx1.83\\text{ days}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p73-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:41.079Z",
+  "updatedAt": "2026-11-12T05:39:41.079Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p73-q11",
+    "sectionRole": "challenge"
+  }
+}

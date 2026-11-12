@@ -1,0 +1,103 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b7f02e8a-b143-4465-bcfc-c6b215dfcc77",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "integration-by-substitution",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Carry out three specified substitutions, transform the limits and simplify the trigonometric integrand; agreement follows directly from the three evaluations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:57:18.781Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "138b4b1fe6f215a877f5d2bc6ca1047e2f7579d95ea2c9e9948624d4c8989cea",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/lean-review/calls/content-1793167007031-27/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p48-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Evaluate $\\displaystyle\\int_0^1\\frac{x}{\\sqrt{1+x^2}}\\,dx$ using three different methods and confirm you get the same answer.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p48-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Substitution $u=1+x^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt2-1$",
+          "worked": "Let $u=1+x^2$, so $du=2x\\,dx$ and $dx=\\dfrac{du}{2x}$.\n\nLimits: when $x=0$, $u=1$; when $x=1$, $u=2$.\n\n$$\\begin{aligned}\\int_0^1\\frac{x}{\\sqrt{1+x^2}}\\,dx&=\\frac12\\int_1^2u^{-1/2}\\,du\\\\&=\\frac12\\left[2\\sqrt u\\right]_1^2\\\\&=\\left[\\sqrt u\\right]_1^2\\\\&=\\sqrt2-1.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p48-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Substitution $x^2=t$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt2-1$",
+          "worked": "Let $x^2=t$, so $x=\\sqrt t$ and $dx=\\dfrac{dt}{2\\sqrt t}$.\n\nLimits: when $x=0$, $t=0$; when $x=1$, $t=1$.\n\n$$\\begin{aligned}\\int_0^1\\frac{x}{\\sqrt{1+x^2}}\\,dx&=\\int_0^1\\left(\\frac{\\sqrt t}{\\sqrt{1+t}}\\cdot\\frac1{2\\sqrt t}\\right)\\,dt\\\\&=\\frac12\\int_0^1(1+t)^{-1/2}\\,dt\\\\&=\\frac12\\left[2\\sqrt{1+t}\\right]_0^1\\\\&=\\left[\\sqrt{1+t}\\right]_0^1\\\\&=\\sqrt2-1.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p48-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Trigonometric substitution $x=\\tan\\theta$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt2-1$, agreeing with parts (a) and (b).",
+          "worked": "Let $x=\\tan\\theta$, so $dx=\\sec^2\\theta\\,d\\theta$ and $\\sqrt{1+x^2}=\\sec\\theta$ on $0\\leq\\theta\\leq\\dfrac\\pi4$.\n\nLimits: when $x=0$, $\\theta=0$; when $x=1$, $\\theta=\\dfrac\\pi4$.\n\n$$\\begin{aligned}\\int_0^1\\frac{x}{\\sqrt{1+x^2}}\\,dx&=\\int_0^{\\pi/4}\\frac{\\tan\\theta}{\\sec\\theta}\\sec^2\\theta\\,d\\theta\\\\&=\\int_0^{\\pi/4}\\frac{\\sin\\theta}{\\cos^2\\theta}\\,d\\theta\\\\&=\\int_0^{\\pi/4}\\sin\\theta(\\cos\\theta)^{-2}\\,d\\theta\\\\&=\\left[(\\cos\\theta)^{-1}\\right]_0^{\\pi/4}\\\\&=\\frac1{\\cos(\\pi/4)}-\\frac1{\\cos0}\\\\&=\\sqrt2-1.\\end{aligned}$$\n\nAll three methods give $\\sqrt2-1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p48-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:54.304Z",
+  "updatedAt": "2026-11-12T05:39:54.304Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-2-v1",
+    "blockId": "p48-q9",
+    "sectionRole": "exercise"
+  }
+}

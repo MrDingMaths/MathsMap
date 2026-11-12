@@ -1,0 +1,190 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-66f0a53a-8a5e-40ae-8a48-9c31524b99f1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "model-de-practical"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the taught partial-fraction integration sequence, use two population conditions to determine constants, and evaluate the resulting model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:23:41.563Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "672bb8617b89b3945205ca2a77f3dd20493d8b08a2949c7bd19662f0fdfe7e73",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-d48aacc023bd4427000d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p71-q9-response",
+    "type": "question",
+    "label": "9",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p71-q9-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "An island is stocked with 40 animals; the carrying capacity is 1000. The population ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "N",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " satisfies",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p71-q9-equation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\frac{dN}{dt}=kN(1000-N).",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p71-q9-partial-fractions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Use ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{1000}{N(1000-N)}=\\frac1N+\\frac1{1000-N}.",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p71-q9-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Given ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "N(0)=40",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "N(1)=80",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", find the general solution, then ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " (to 4 significant figures) and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "N(5)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " (to the nearest animal).",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$N(t)=\\dfrac{1000}{1+24e^{-1000kt}}$, where $k=\\dfrac1{1000}\\ln\\!\\left(\\dfrac{48}{23}\\right)\\approx7.357\\times10^{-4}$. $N(5)\\approx623$ animals.",
+      "worked": "$$\\begin{align*}\\frac{dt}{dN}&=\\frac1{kN(1000-N)}\\\\\\frac{dt}{dN}&=\\frac1{1000k}\\left(\\frac1N+\\frac1{1000-N}\\right)\\\\t&=\\frac1{1000k}\\left(\\ln|N|-\\ln|1000-N|\\right)+D\\\\\\ln\\left|\\frac{N}{1000-N}\\right|&=1000kt-1000kD\\\\\\frac{N}{1000-N}&=Ae^{1000kt}.\\end{align*}$$\nThe exponent is $1000kt$. Using $N(0)=40$,\n$$\\begin{align*}A&=\\frac{40}{960}\\\\A&=\\frac1{24}.\\end{align*}$$\nHence\n$$\\begin{align*}\\frac{N}{1000-N}&=\\frac1{24}e^{1000kt}\\\\24N&=(1000-N)e^{1000kt}\\\\N(24+e^{1000kt})&=1000e^{1000kt}\\\\N&=\\frac{1000}{1+24e^{-1000kt}}.\\end{align*}$$\nUsing $N(1)=80$,\n$$\\begin{align*}80&=\\frac{1000}{1+24e^{-1000k}}\\\\1+24e^{-1000k}&=12.5\\\\e^{-1000k}&=\\frac{11.5}{24}=\\frac{23}{48}\\\\k&=-\\frac1{1000}\\ln\\left(\\frac{23}{48}\\right)\\\\k&\\approx7.357\\times10^{-4}\\quad\\text{(4 significant figures)}.\\end{align*}$$\nRetaining the exact value of $k$,\n$$\\begin{align*}e^{-5000k}&=\\left(\\frac{23}{48}\\right)^5\\\\N(5)&=\\frac{1000}{1+24\\left(\\frac{23}{48}\\right)^5}\\\\N(5)&\\approx622.5721603.\\end{align*}$$\nThe population after 5 time units is approximately $623$ animals.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 103
+  },
+  "presentation": {
+    "ownerId": "p71-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:39:27.092Z",
+  "updatedAt": "2026-11-12T05:39:27.097Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p71-q9",
+    "sectionRole": "exercise"
+  }
+}

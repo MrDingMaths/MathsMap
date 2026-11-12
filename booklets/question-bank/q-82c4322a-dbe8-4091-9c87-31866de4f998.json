@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-82c4322a-dbe8-4091-9c87-31866de4f998",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context",
+      "pythagoras-3d"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use square-diagonal geometry to find MD, then recognise AM and DM as perpendicular to BC to identify the plane angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T01:58:09.868Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "12ae113915de8ba6059a60bb914797f8deeadbc1f964842f25f7c0ee5f2f2cd4",
+      "evidence": ".booklet-work/full-imports/s6ext1-1-3d-trigonometry-20261027/semantic-packets/assignments/assignment-54b76e0595d1a03279eb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q8-root",
+    "type": "question",
+    "label": "",
+    "prompt": "The diagram shows a square prism. The plane $ABC$ is inside the prism, and $M$ is the midpoint of the base diagonal $BC$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q8-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"planeRed\",\"hex\":\"EF6068\",\"reason\":\"source highlights plane ABC and midpoint M\"}],\"reference\":\"source page 12 p12-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{planeRed}{HTML}{EF6068}\n\\coordinate (B) at (0,0);\\coordinate (F) at (3,0);\\coordinate (C) at (4.3,1.5);\\coordinate (D) at (1.3,1.5);\\coordinate (U) at (0,1.7);\\coordinate (V) at (3,1.7);\\coordinate (W) at (4.3,3.2);\\coordinate (A) at (1.3,3.2);\\coordinate (M) at ($(B)!0.5!(C)$);\n\\draw[line width=0.8pt] (B)--(F)--(C)--(W)--(A)--(U)--(B) (U)--(V)--(W) (V)--(F);\n\\draw[dashed,line width=0.8pt] (A)--(D)--(B) (D)--(C);\n\\draw[planeRed,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\fill[planeRed] (M) circle[radius=1.5pt];\n\\foreach \\f in {0.25,0.75}{\\coordinate (K) at ($(B)!\\f!(C)$);\\draw[planeRed,line width=0.4pt] ($(K)+(-0.025,0.12)$)--($(K)+(0.025,-0.12)$);\\draw[planeRed,line width=0.4pt] ($(K)+(0.065,0.151)$)--($(K)+(0.115,-0.089)$);}\n\\node[above left,font=\\fontsize{10}{12}\\selectfont] at (A) {$A$};\\node[below left,font=\\fontsize{10}{12}\\selectfont] at (B) {$B$};\\node[right,font=\\fontsize{10}{12}\\selectfont] at (C) {$C$};\\node[below right,font=\\fontsize{10}{12}\\selectfont] at (D) {$D$};\\node[planeRed,below,font=\\fontsize{10}{12}\\selectfont] at (M) {$M$};\n\\path (B)--(F) node[midway,below=5pt,font=\\fontsize{10}{12}\\selectfont] {$6\\text{ cm}$};\\path (F)--(C) node[midway,below right,font=\\fontsize{10}{12}\\selectfont] {$6\\text{ cm}$};\\path (C)--(W) node[midway,right=5pt,font=\\fontsize{10}{12}\\selectfont] {$4\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 69,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 8 prism",
+          "description": "Square-based rectangular prism with red triangle ABC and red midpoint M on BC. AD, DB and DC are hidden dashed edges. MD is deliberately absent from the question diagram.",
+          "mathematics": "Square base side 6 cm, height AD=4 cm, BM=MC. A is directly above D.",
+          "answerVisibility": "Only source givens and highlighted plane appear; MD, AM and calculated values are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-q8-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the exact length of $MD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\sqrt{2}\\text{ cm}$",
+          "worked": "In the square base, $D$ and $M$ lie on the other diagonal, so $MD$ is half a base diagonal.\n$$\\begin{aligned}BC^2&=6^2+6^2\\\\BC&=6\\sqrt{2}\\text{ cm}\\\\MD&=\\frac{6\\sqrt{2}}{2}\\\\MD&=3\\sqrt{2}\\text{ cm}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p12-q8-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find, to the nearest degree, the angle that the plane $ABC$ makes with the base of the prism.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$43^\\circ$",
+          "worked": "The base diagonals are perpendicular, so $DM\\perp BC$. Also, $AB=AC$, so the median $AM$ is perpendicular to $BC$. The required angle is therefore $\\angle AMD$.\nIn right-angled triangle $ADM$:\n$$\\begin{aligned}\\tan\\angle AMD&=\\frac{AD}{MD}\\\\\\tan\\angle AMD&=\\frac{4}{3\\sqrt{2}}\\\\\\angle AMD&=\\tan^{-1}\\left(\\frac{4}{3\\sqrt{2}}\\right)\\\\\\angle AMD&\\approx43^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:37:38.109Z",
+  "updatedAt": "2026-11-12T05:37:38.109Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-1-3d-trigonometry-v1",
+    "blockId": "p12-q8-block",
+    "sectionRole": "exercise"
+  }
+}
