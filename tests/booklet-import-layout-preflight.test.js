@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers,questionReferenceBlockers} from '../scripts/booklet/import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers,questionReferenceBlockers,topicAnswerScope} from '../scripts/booklet/import-layout-preflight.mjs';
 import {finishImport,finishPreRenderGate,applyFinishPreflightFixes} from '../scripts/booklet/import-finish.mjs';
 import {contentHash,saveReviewed} from '../scripts/booklet/lean-review.mjs';
 import {reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -167,6 +167,20 @@ test('C8 flags a block holding numbered printed questions, not numbered parts; C
  p.sections[0].blocks[2].sourceReview.answerEvidence={questionId:'q3',teacherReference:[],answerKeyAbsence:{searchedTeacherPages:[11,12],reason:'unkeyed'}};
  assert.deepEqual(answerKeyCoverageBlockers(p,{teacherPages:[11,12]}).map(b=>b.blockId),['q2']);
  assert.deepEqual(structuralPreflightBlockers(p,{teacherPages:[11,12]}).map(b=>b.check),['C8-nested-questions','C9-answer-pages']);
+});
+
+test('C9 accepts an absence claim that searched exactly its topic answer pages from the run config',()=>{
+ const p=project(),q=p.sections[0].blocks[1];q.sourceRefs=[{pageNumber:22}];
+ const manifest={teacherPages:[28,29,30,31,32,33,34,35,36,37,38]},config={topics:[{id:'5a',start:6,end:10,teacherPages:[28,29,30,31,32]},{id:'5c',start:20,end:22,teacherPages:[36,37,38]}]};
+ q.sourceReview.answerEvidence={questionId:q.id,teacherReference:[],answerKeyAbsence:{searchedTeacherPages:[36,37,38],reason:'the key goes from 10 to 12'}};
+ assert.deepEqual(answerKeyCoverageBlockers(p,manifest,{config}).filter(b=>b.blockId===q.id),[]);
+ assert.equal(answerKeyCoverageBlockers(p,manifest).filter(b=>b.blockId===q.id).length,1,'without topics the whole answer book is required');
+ q.sourceReview.answerEvidence.answerKeyAbsence.searchedTeacherPages=[37,38];
+ assert.equal(answerKeyCoverageBlockers(p,manifest,{config}).filter(b=>b.blockId===q.id).length,1,'a partial topic search is still refused');
+ assert.deepEqual(topicAnswerScope(config,[22],manifest.teacherPages),[36,37,38]);
+ assert.equal(topicAnswerScope(config,[10,22],manifest.teacherPages),null,'a block spanning two topics has no single scope');
+ assert.equal(topicAnswerScope(config,[15],manifest.teacherPages),null,'a page outside every topic has no scope');
+ assert.equal(topicAnswerScope({topics:[{start:20,end:22,teacherPages:[99]}]},[22],manifest.teacherPages),null,'unprepared pages are never a scope');
 });
 
 test('C10 runs the bank dependency check before review: a reference by source number must be reworded or decided',()=>{

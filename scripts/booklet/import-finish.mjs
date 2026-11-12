@@ -16,7 +16,7 @@ import {repairRoute} from '../../polish/repair-routing.mjs';
 import {projectReviewHash} from './page-review.mjs';
 import {sampleSourceKey,reviewImportSample} from './import-sample-review.mjs';
 import {withRunLock,readRunEvents} from './run-observability.mjs';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,structuralPreflightBlockers} from './import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,structuralPreflightBlockers,readRunConfig} from './import-layout-preflight.mjs';
 import {effectiveInventory} from './workflow-review.mjs';
 import {importRunMetrics} from './import-run-metrics.mjs';
 
@@ -211,7 +211,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  // Import pipeline v2 (inefficiency 5): label collisions in new TikZ are found before any review call.
  if(importV2(manifest)&&!policy.direct){
   // Structural problems (C8 nested questions, C9 partial answer-page search) stop before any review call.
-  const structural=structuralPreflightBlockers(read(file),manifest);
+  const structural=structuralPreflightBlockers(read(file),manifest,{config:readRunConfig(runDir)});
   if(structural.length)return incomplete(assessCompletion({errors:structural.map(row=>row.message)}),{structural});
   const labels=await(deps.labels??diagramLabelCheck)({file,runDir,checked:state.steps.diagramLabels,log});
   state.steps.diagramLabels=labels.checked;persist();

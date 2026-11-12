@@ -526,6 +526,12 @@ Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one
 - **Tests:** `tests/booklet-import-sample-resolve.test.js`.
 - **Fixed alongside:** `targetedRenderCheck` now passes the run's `--visibility-reviews`. Without them, any run with a reviewed 2D curve failed the checker's 3D gate in every edition, which `finish`'s pre-render gate only logged as "skipped", so the gate checked nothing.
 
+**Topic-scoped answer-key absence (12 November 2026, Cambridge X11 Ch 5; James chose this fix).**
+- **Why:** content review accepted an absence claim only if it listed every prepared answer page, and then sent every one of those images, and C9 enforced the same rule. Ch 5's answer section has 24 pages against an 8-image limit, so no unkeyed question could be reviewed.
+- **The rule now:** a chapter answer book is ordered by exercise heading, so an answer can only appear on its own topic's answer pages. When the run config (`RUN/config.json`) gives the block's topic `teacherPages`, a claim that searched exactly those pages is complete. C9 (`answerKeyCoverageBlockers`) and content review (`practiceContentEvidence`) both accept it, and the reviewer receives only those images. Claims that search fewer pages are still refused.
+- **Code:** `topicAnswerScope` and `readRunConfig` in `import-layout-preflight.mjs`.
+- **Tests:** `tests/booklet-import-layout-preflight.test.js`.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):

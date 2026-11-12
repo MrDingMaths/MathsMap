@@ -155,7 +155,7 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
   const check=labels??(await import('./import-finish.mjs')).diagramLabelCheck;
   const result=await check({file:projectFile,runDir});labelCollisions=result.collisions??[];
   // C8/C9: nested printed questions and partial answer-page searches show in the sample too.
-  structural=structuralPreflightBlockers(project,read(manifestFile));
+  structural=structuralPreflightBlockers(project,read(manifestFile),{config:(await import('./import-layout-preflight.mjs')).readRunConfig(runDir)});
  }
  const sample=selectLayoutSample(project,{limit,all:v2});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
  const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];

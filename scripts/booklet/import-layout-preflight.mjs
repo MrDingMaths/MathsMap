@@ -125,12 +125,30 @@ export function nestedQuestionBlockers(project){
 // C9: an answer-key absence claim that searched only some of the prepared answer pages
 // usually means the topic's configured teacherPages missed the exercise (Ch 2 pilot: five
 // Exercise 2D blocks). Content review would refuse the claim; say why, before any call.
-export function answerKeyCoverageBlockers(project,manifest){
+// A chapter-sized answer book is ordered by exercise: an answer can only appear on its own
+// topic's answer pages (run config topics[].teacherPages, confirmed on the page images
+// before inventory). Cambridge X11 Ch 5 (12 November 2026, James): 24 answer pages; a claim
+// listing all of them exceeded the 8-image content-review limit, so absence claims were
+// unreviewable. A claim that searched exactly its topic's pages is complete.
+export function readRunConfig(runDir){
+ const file=runDir&&path.join(runDir,'config.json');
+ return file&&fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8')):null;
+}
+export function topicAnswerScope(config,ownPages,prepared=[]){
+ const topics=(config?.topics??[]).filter(t=>Number.isInteger(t.start)&&Number.isInteger(t.end)&&Array.isArray(t.teacherPages)&&t.teacherPages.length);
+ const owners=new Set(ownPages.map(page=>topics.find(t=>page>=t.start&&page<=t.end)));
+ if(!ownPages.length||owners.size!==1||owners.has(undefined))return null;
+ const pages=[...owners][0].teacherPages;
+ return pages.every(page=>prepared.includes(page))?[...new Set(pages)].sort((a,b)=>a-b):null;
+}
+export function answerKeyCoverageBlockers(project,manifest,{config}={}){
  const prepared=manifest?.teacherPages??[];if(!prepared.length)return [];
  const blockers=[];
  for(const {block} of practiceRows(project)){
   const absence=block.sourceReview?.answerEvidence?.answerKeyAbsence;if(!absence)continue;
   const searched=absence.searchedTeacherPages??[],missing=prepared.filter(page=>!searched.includes(page));
+  const scope=topicAnswerScope(config,(block.sourceRefs??[]).map(ref=>ref.pageNumber).filter(Number.isInteger),prepared);
+  if(scope&&scope.every(page=>searched.includes(page)))continue;
   if(missing.length)blockers.push({check:'C9-answer-pages',blockId:block.id,message:'Block '+block.id+' claims no answer-key entry after searching answer pages '+searched.join(', ')+' only (not '+missing.join(', ')+'): check the topic\'s teacherPages in the run config, then re-author or record the key reference'});
  }
  return blockers;
@@ -142,8 +160,8 @@ export function questionReferenceBlockers(project){
  return questionDependencyFindings(project).filter(f=>!f.reviewed).map(f=>({check:'C10-question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): reword it to be self-contained (booklet numbering differs from the source), or record sourceReview.bankDependencyReview'}));
 }
 // Structural checks to run before content review (C8, C9, C10).
-export function structuralPreflightBlockers(project,manifest){
- return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest),...questionReferenceBlockers(project)];
+export function structuralPreflightBlockers(project,manifest,options={}){
+ return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest,options),...questionReferenceBlockers(project)];
 }
 
 // C5 plus repaired blocks: what a targeted render must check before printing.

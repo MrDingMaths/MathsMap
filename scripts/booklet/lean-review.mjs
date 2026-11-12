@@ -30,6 +30,7 @@ import {DIAGRAM_SIZING_PROMPT,renderedDiagramSizingFindings} from '../../src/lib
 import {leanShadingIssues} from './lean-shading.mjs';
 import {writeNativeReviewDetails} from './native-review-details.mjs';
 import {assessCompletion,completionPolicy,SOURCE_VISUAL_PROFILE,completionHash,importV2,REVIEW_SPACING_FIELDS} from './import-completion.mjs';
+import {readRunConfig,topicAnswerScope} from './import-layout-preflight.mjs';
 import {FEEDBACK_CHECKS} from '../../polish/repair-routing.mjs';
 import {rasterEvidence,rasterEvidenceReader,retainPixelReviews,carryUnchangedBlockReviews,pageBlockStamp,pageBlockStampParts,explainVisualReuse,visualOutcomeReader,overlayVisualEvidence} from './lean-visual-evidence.mjs';
 
@@ -206,7 +207,7 @@ export function contentPrompt({project,batch,skills=[],reuse,evidence}){
 }
 export function practiceContentEvidence(project,batch,runDir){
  if(project.source?.contentScope!=='practice-only')return null;
- const manifest=read(path.join(runDir,'manifest.json')),artifacts=new Map(),questions=[];
+ const manifest=read(path.join(runDir,'manifest.json')),runConfig=readRunConfig(runDir),artifacts=new Map(),questions=[];
  const pin=(relative,kind,page)=>{
   const file=path.resolve(runDir,relative),expected=manifest.pins?.runFiles?.[relative];
   if(!expected||!fs.existsSync(file)||sha(fs.readFileSync(file))!==expected)throw Error('Original review evidence is missing or changed: '+relative);
@@ -241,7 +242,9 @@ export function practiceContentEvidence(project,batch,runDir){
   const absence=answerEvidence?.answerKeyAbsence;
   if(absence!==undefined){
    const pages=absence?.searchedTeacherPages,prepared=manifest.teacherPages??[];
-   if(!teacherPdf||refs.length||answerEvidence.questionId!==block.id||typeof absence?.reason!=='string'||!absence.reason.trim()||!Array.isArray(pages)||!pages.length||pages.some(p=>!Number.isInteger(p)||p<1)||new Set(pages).size!==pages.length||pages.length!==prepared.length||prepared.some(p=>!pages.includes(p)))throw Error('Invalid or incomplete original answer-key absence evidence: '+block.id);
+   // Complete means every prepared answer page, or exactly the block's topic answer pages (import-layout-preflight topicAnswerScope).
+   const scope=topicAnswerScope(runConfig,own,prepared),complete=Array.isArray(pages)&&pages.length===new Set(pages).size&&(pages.length===prepared.length&&prepared.every(p=>pages.includes(p))||!!scope&&pages.length===scope.length&&scope.every(p=>pages.includes(p)));
+   if(!teacherPdf||refs.length||answerEvidence.questionId!==block.id||typeof absence?.reason!=='string'||!absence.reason.trim()||!Array.isArray(pages)||!pages.length||pages.some(p=>!Number.isInteger(p)||p<1)||!complete)throw Error('Invalid or incomplete original answer-key absence evidence: '+block.id);
    // Full prepared answer-chapter coverage is an assertion to independently
    // verify, never acceptance. Pin and deliver every actual searched image.
    for(const page of pages)pin('evidence/teacher/pages/page-'+String(page).padStart(3,'0')+'.png','answer',page);
