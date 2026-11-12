@@ -200,3 +200,20 @@ test('the targeted render passes the run\'s visibility reviews, so reviewed 2D c
  await finishPreRenderGate({file,projectId:'p',state:{steps:{},exports:[]},stamps:null,workDir:dir,visibilityReviews:'v.json',render:async args=>{seen.push(args.visibilityReviews);return {issues:[],skipped:[],seconds:0,targets:args.targets};}});
  assert.deepEqual(seen,['v.json']);
 });
+
+test('C10 accepts a recorded follow-up whose printed question number matches an earlier linked question', async () => {
+ const {followUpReference} = await import('../scripts/booklet/import-layout-preflight.mjs');
+ const {dependencySignature} = await import('../src/lib/booklet-question-dependencies.js');
+ const q = (id, prompt) => ({id, type: 'question', content: {id: id + '-root', type: 'question', prompt}, sourceReview: {}});
+ const project = {id: 'p', sections: [{id: 's', phase: 'practice', blocks: [q('a', 'Find x.'), q('b', 'Find y.'), q('c', 'Check that the table agrees with your answers to Question 2.')]}]};
+ const c = project.sections[0].blocks[2];c.flow = {dependsOn: ['b']};
+ c.sourceReview.bankDependencyReview = {decision: 'follow-up', note: 'Source follow-up; Question 2 prints as 2 in this booklet.', signature: dependencySignature(c)};
+ assert.deepEqual(questionReferenceBlockers(project), []);
+ const finding = {blockId: 'c', external: [], references: [{reference: 'Question 2'}]};
+ assert.equal(followUpReference(project, finding), true);
+ assert.equal(followUpReference(project, {...finding, references: [{reference: 'Question 1'}]}), false, 'the printed number must be a linked question');
+ c.flow.dependsOn = ['a'];
+ assert.equal(followUpReference(project, finding), false);
+ c.flow.dependsOn = ['b'];c.content.prompt = 'Check against Question 2 again.';
+ assert.equal(followUpReference(project, finding), false, 'a content change invalidates the record');
+});

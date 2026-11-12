@@ -538,6 +538,16 @@ Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one
 - **Code:** `batchOversizeReason` in `lean-review.mjs`.
 - **Tests:** `tests/booklet-lean-review.test.js`.
 
+**Recorded follow-ups (12 November 2026, Cambridge X11 Ch 5; James decided).**
+- **Why:** the content reviewer twice restored a source follow-up ("your answers to Question 5") over a bank-ready restatement, and C10 then blocked `finish`.
+- **The rule now:** C10 accepts `sourceReview.bankDependencyReview {decision: "follow-up", note, signature}` when all of these hold:
+  - the signature is `dependencySignature(block)`, so any content change invalidates the record;
+  - the block's `flow.dependsOn` names only earlier questions in its own section;
+  - every printed "Question N" is one of them at the number this booklet prints.
+- **Unchanged:** the bank's own dependency check (`src/lib/booklet-question-dependencies.js`), so publication still treats such a block as a follow-up.
+- **Code:** `followUpReference` in `import-layout-preflight.mjs`.
+- **Tests:** `tests/booklet-import-layout-preflight.test.js`.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):

@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
-import {questionDependencyFindings} from '../../src/lib/booklet-question-dependencies.js';
+import {questionDependencyFindings,dependencySignature} from '../../src/lib/booklet-question-dependencies.js';
 
 const blocksOf=project=>(project.sections??[]).flatMap(section=>(section.blocks??[]).map(block=>({block,section})));
 const practiceRows=project=>blocksOf(project).filter(({section,block})=>section.phase==='practice'&&block.type==='question');
@@ -156,8 +156,25 @@ export function answerKeyCoverageBlockers(project,manifest,{config}={}){
 // C10: the bank's own dependency check (check-question-dependencies --strict), run before
 // content review instead of at publication. A reference by source number ("Question 6")
 // prints the wrong number once the booklet renumbers (Ch 2 pilot, p9-q8).
+// A genuine follow-up ("Check that the table agrees with your answers to Question 5") may keep
+// its source wording when it is recorded as one (Cambridge X11 Ch 5, 12 November 2026, James:
+// the content reviewer twice restored the source follow-up over a bank-ready restatement).
+// It is accepted only when sourceReview.bankDependencyReview is {decision:'follow-up', note,
+// signature: dependencySignature(block)}, the block's flow.dependsOn names only earlier questions
+// in its own section, and every printed "Question N" is one of them at the number this booklet
+// prints. The bank's own dependency check is unchanged, so publication still treats it as a follow-up.
+export function followUpReference(project,finding){
+ const section=(project.sections??[]).find(s=>(s.blocks??[]).some(b=>b.id===finding.blockId));
+ const questions=(section?.blocks??[]).filter(b=>b.type==='question'),index=questions.findIndex(b=>b.id===finding.blockId),block=questions[index];
+ const review=block?.sourceReview?.bankDependencyReview,targets=block?.flow?.dependsOn??[];
+ if(!block||review?.decision!=='follow-up'||typeof review.note!=='string'||review.note.trim().length<20||review.signature!==dependencySignature(block)||!targets.length)return false;
+ const printed=new Map();
+ for(const id of targets){const at=questions.findIndex(b=>b.id===id);if(at<0||at>=index)return false;printed.set(at+1,id);}
+ if(finding.external.some(id=>!targets.includes(id)))return false;
+ return finding.references.every(ref=>{const match=/^(?:questions?\s*|Q\s*)(\d+)$/i.exec(ref.reference.trim());return !!match&&printed.has(Number(match[1]));});
+}
 export function questionReferenceBlockers(project){
- return questionDependencyFindings(project).filter(f=>!f.reviewed).map(f=>({check:'C10-question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): reword it to be self-contained (booklet numbering differs from the source), or record sourceReview.bankDependencyReview'}));
+ return questionDependencyFindings(project).filter(f=>!f.reviewed&&!followUpReference(project,f)).map(f=>({check:'C10-question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): reword it to be self-contained (booklet numbering differs from the source), or record sourceReview.bankDependencyReview'}));
 }
 // Structural checks to run before content review (C8, C9, C10).
 export function structuralPreflightBlockers(project,manifest,options={}){
