@@ -1,6 +1,6 @@
 // Batch runner for the bank import pipeline (pipeline 4; docs/booklet-bank-import-pipeline.md). Commands:
 //   (node pedagogy/bank-run.mjs ...)
-//   run    --projects a,b [--until edits|assessments|stage] [--preview] [--stage-only]
+//   run    --projects a,b [--until edits|assessments|stage] [--preview] [--stage-only] [--scope-file FILE]
 //   save   --projects a,b --approved-by "QUOTE"
 //   report [--projects a,b]
 // `run` works one booklet at a time: plan (Stage 0), exam tags (2), follow-up judge, merges and re-rating (3, Sol low),
@@ -65,7 +65,19 @@ export async function bookletEdits(project,rows,{dir,root,preview,resolve=resolv
  return {candidate,edits,changed:JSON.stringify(candidate)!==JSON.stringify(project)};
 }
 
-export async function runBooklet(id,{root=ROOT,until='stage',preview=false,stageOnly=false,log=console.error,skills,dotpoints,resolve}={}){
+export function scopedRows(rows,onlyBlocks){
+ if(onlyBlocks===undefined)return rows;
+ const selected=new Set(onlyBlocks);
+ const allowed=new Set(['publish','link','link-master','hold','linked','leave-out','out-of-scope']);
+ for(const blockId of selected){
+  const row=rows.find(r=>r.blockId===blockId);
+  if(!row||!allowed.has(row.action))throw Error('Requested bank block requires review or is missing: '+blockId);
+ }
+ return rows.map(row=>selected.has(row.blockId)||row.action==='linked'?row:
+  {...row,examTag:undefined,action:'leave-out',reasons:row.reasons??[row.reason??'outside-approved-batch']});
+}
+
+export async function runBooklet(id,{root=ROOT,until='stage',preview=false,stageOnly=false,onlyBlocks,log=console.error,skills,dotpoints,resolve}={}){
  const dir=dirOf(id,root),state={projectId:id,startedAt:new Date().toISOString(),preview};
  let project=read(projectFile(id,root));
  let [plan]=await planBatch([project],{root});
@@ -73,7 +85,9 @@ export async function runBooklet(id,{root=ROOT,until='stage',preview=false,stage
  state.origin=plan.origin;state.plan={revision:plan.revision,counts:plan.counts,reasons:plan.reasons};
  // Stages 2-3: one save for exam tags, follow-up comments and merges.
  // Parallel staging may inspect these edits but must leave live files and model work to a serial run.
- const edits=await bookletEdits(project,plan.blocks,{dir,root,preview:preview||stageOnly,resolve});
+ const selected=onlyBlocks===undefined?null:new Set(onlyBlocks);
+ const rowsForEdits=scopedRows(plan.blocks,onlyBlocks).filter(row=>!selected||selected.has(row.blockId));
+ const edits=await bookletEdits(project,rowsForEdits,{dir,root,preview:preview||stageOnly,resolve});
  if(stageOnly&&(edits.edits.examTags.length||edits.edits.followUps.length||edits.edits.comments.some(comment=>!comment.exists))){
   throw Error(`[${id}] needs a serial run to review follow-ups or update booklet metadata`);
  }
@@ -87,7 +101,7 @@ export async function runBooklet(id,{root=ROOT,until='stage',preview=false,stage
  if(until==='edits'){state.status='edited';write(path.join(dir,'state.json'),state);return state;}
  // Stages 4-5: the left-out list and the assessments file.
  skills??=read(path.join(root,'data','skills.json'));dotpoints??=read(path.join(root,'data','dotpoints.json'));
- const rows=plan.blocks;
+ const rows=scopedRows(plan.blocks,onlyBlocks);
  const assessments=buildAssessments(project,rows,{root,skills,dotpoints});
  const revisionTag=`r${project.revision}${preview?'-preview':''}`;
  const tag=preview||fs.existsSync(path.join(dir,`stage.${revisionTag}`))?`${revisionTag}-${randomUUID()}`:revisionTag;
@@ -170,7 +184,14 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
  for(let i=0;i<rest.length;i++){const k=rest[i].replace(/^--/,'');args[k]=rest[i+1]&&!rest[i+1].startsWith('--')?rest[++i]:true;}
  const ids=String(args.projects??'').split(',').filter(Boolean);
  if(!['run','save','report'].includes(command)||!ids.length){console.error('Usage: node pedagogy/bank-run.mjs run|save|report --projects a,b [--until edits|assessments|stage] [--preview] [--stage-only] [--approved-by "QUOTE"]');process.exit(2);}
- if(command==='run')for(const id of ids){const s=await runBooklet(id,{until:args.until??'stage',preview:!!args.preview,stageOnly:!!args['stage-only']});console.log(JSON.stringify({projectId:id,status:s.status,publish:s.publish,outcomes:s.stage?.outcomes,allCarryOrigin:s.stage?.allCarryOrigin}));}
+ if(command==='run'){
+  const scope=args['scope-file']?read(args['scope-file']):null;
+  for(const id of ids){
+   if(scope&&!Array.isArray(scope[id]))throw Error('Project missing from scope file: '+id);
+   const s=await runBooklet(id,{until:args.until??'stage',preview:!!args.preview,stageOnly:!!args['stage-only'],onlyBlocks:scope?.[id]});
+   console.log(JSON.stringify({projectId:id,status:s.status,publish:s.publish,outcomes:s.stage?.outcomes,allCarryOrigin:s.stage?.allCarryOrigin}));
+  }
+ }
  if(command==='save')for(const id of ids){const s=await saveBooklet(id,{approvedBy:args['approved-by']});console.log(JSON.stringify({projectId:id,status:s.status,saved:s.saved}));}
  const report=batchReport(ids),file=path.join(ROOT,RUN_DIR,'report-'+new Date().toISOString().replace(/[:.]/g,'-')+'.md');
  write(file,report.markdown);console.log('Report: '+posix(file));

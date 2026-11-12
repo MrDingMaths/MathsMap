@@ -6,7 +6,7 @@ import {preservedProject} from '../scripts/booklet/import-project-bank.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
 import {mergedContent,resolveFollowUps,validJudgement} from '../pedagogy/bank-merges.mjs';
 import {buildAssessments,sourceScope} from '../pedagogy/bank-assessments.mjs';
-import {bookletEdits,printedMarks,hasBankWork} from '../pedagogy/bank-run.mjs';
+import {bookletEdits,printedMarks,hasBankWork,scopedRows} from '../pedagogy/bank-run.mjs';
 import {newRecordExclusions} from '../pedagogy/bank-batch.mjs';
 import {questionDependencyFindings} from '../src/lib/booklet-question-dependencies.js';
 import {verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -14,6 +14,18 @@ import {verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 const part=(id,label,prompt)=>({id,type:'part',label,prompt,answer:{short:'1',worked:'$$1$$'}});
 const question=(id,prompt,parts,extra={})=>({id,type:'question',pedagogyRole:'practice',classification:{primarySkillId:'factorise-quadratic',secondarySkillIds:[]},content:{id:id+'-root',type:'question',prompt,...(parts?{children:parts}:{answer:{short:'1',worked:'$$1$$'}})},...extra});
 const bankRecord=extra=>({...normaliseQuestion({id:'q-1',status:'approved',classification:{primarySkillId:'expand-brackets',reasoningScore:20,difficultyReason:'One step.'},content:{id:'r',type:'question',prompt:'Expand $2(x+1)$.',answer:{short:'$2x+2$',worked:'$$2x+2$$'}}}),...extra});
+
+test('scoped bank run defers other candidates and follow-ups while retaining existing links', ()=>{
+ const rows=[
+  {blockId:'ready',action:'publish'},
+  {blockId:'unapproved',action:'publish'},
+  {blockId:'follow-up',action:'follow-up-merge',examTag:'HSC'},
+  {blockId:'existing',action:'linked',bankId:'q-1'},
+ ];
+ assert.deepEqual(scopedRows(rows,['ready']).map(row=>row.action),['publish','leave-out','leave-out','linked']);
+ assert.throws(()=>scopedRows(rows,['follow-up']),/requires review/);
+ assert.throws(()=>scopedRows(rows,['missing']),/is missing/);
+});
 
 test('bank records carry their origin: master or textbook, with the owning booklet and section role', ()=>{
  const context={origin:'textbook',projectId:'cambridge-x11-ch01',blockId:'p3-q1-block',sectionRole:'exercise'};
