@@ -31,7 +31,7 @@ import {leanShadingIssues} from './lean-shading.mjs';
 import {writeNativeReviewDetails} from './native-review-details.mjs';
 import {assessCompletion,completionPolicy,SOURCE_VISUAL_PROFILE,completionHash,importV2,REVIEW_SPACING_FIELDS} from './import-completion.mjs';
 import {FEEDBACK_CHECKS} from '../../polish/repair-routing.mjs';
-import {rasterEvidence,rasterEvidenceReader,retainPixelReviews,carryUnchangedBlockReviews,pageBlockStamp,visualOutcomeReader,overlayVisualEvidence} from './lean-visual-evidence.mjs';
+import {rasterEvidence,rasterEvidenceReader,retainPixelReviews,carryUnchangedBlockReviews,pageBlockStamp,pageBlockStampParts,explainVisualReuse,visualOutcomeReader,overlayVisualEvidence} from './lean-visual-evidence.mjs';
 
 export const LEAN_REVIEW_ROUTE='lean-review-v1';
 export const PRACTICE_CONTENT_EVIDENCE_VERSION=1;
@@ -583,6 +583,7 @@ export function visualPlan({project,report,state,previousReport,manifest={}}){
   // Import v2: the generated cover has no source counterpart; DOM and PDF checks cover it.
   if(importV2(manifest))selected=selected.filter(page=>!entry.pageHashes[page-1]?.isCover||flagged.includes(page));
   const stamp=page=>importV2(manifest)?pageBlockStamp(project,entry.pageHashes,page-1,{renderer:entry.renderer??null}):null;
+  const stampParts=page=>importV2(manifest)?pageBlockStampParts(project,entry.pageHashes,page-1,{renderer:entry.renderer??null}):null;
   const pending=selected.filter(page=>{const row=state.pages[pageKey(edition,entry.pageHashes[page-1].hash)];return row?.outcome!=='accepted'||policy.enabled&&row.reviewProfile!==SOURCE_VISUAL_PROFILE;});
   const footerChecked=page=>{
    const printed=entry.printed?.[page-1];
@@ -590,7 +591,7 @@ export function visualPlan({project,report,state,previousReport,manifest={}}){
     printed.footerTotal===entry.printed.length&&printed.clearanceMm>=3&&!printed.issues?.length&&
     !entry.issues?.some(issue=>Number(issue.page)===page);
   };
-  plan[edition]={pdf:entry.pdf,total:entry.pageHashes.length,automatedIssues:entry.issues??[],sizingReviews,diagramFindings,selected:selected.length,pending:pending.map(page=>({...(policy.enabled?{reviewProfile:SOURCE_VISUAL_PROFILE}:{}),page,hash:entry.pageHashes[page-1].hash,...(footerChecked(page)?{footerChecked:true}:{}),blocks:entry.pageHashes[page-1].blocks??[],...(stamp(page)?{blockStamp:stamp(page)}:{}),sizingReviews:sizingReviews.filter(row=>row.page===page),diagramFindings:diagramFindings.filter(row=>row.page===page)}))};
+  plan[edition]={pdf:entry.pdf,total:entry.pageHashes.length,automatedIssues:entry.issues??[],sizingReviews,diagramFindings,selected:selected.length,pending:pending.map(page=>({...(policy.enabled?{reviewProfile:SOURCE_VISUAL_PROFILE}:{}),page,hash:entry.pageHashes[page-1].hash,...(footerChecked(page)?{footerChecked:true}:{}),blocks:entry.pageHashes[page-1].blocks??[],...(stamp(page)?{blockStamp:stamp(page),blockStampParts:stampParts(page)}:{}),sizingReviews:sizingReviews.filter(row=>row.page===page),diagramFindings:diagramFindings.filter(row=>row.page===page)}))};
  }
  return plan;
 }
@@ -639,7 +640,9 @@ export async function prepareExportVisualPlan({runDir,projectId,projectFile,out,
  const pagesRetained=retainPixelReviews(plan,loadReviewed(dir));
  const pagesCarried=importV2(fs.existsSync(path.join(runDir,'manifest.json'))?read(path.join(runDir,'manifest.json')):{})?carryUnchangedBlockReviews(plan,loadReviewed(dir)):0;
  const file=path.join(out,'visual-plan.json');fs.writeFileSync(file,JSON.stringify(plan,null,1)+'\n');
- return {file,pagesRetained,pagesCarried,automatedIssues:Object.fromEntries(Object.entries(plan).map(([edition,entry])=>[edition,entry.automatedIssues.length])),pagesToInspect:Object.fromEntries(Object.entries(plan).map(([edition,entry])=>[edition,entry.pending.length]))};
+ // Reuse diagnostics beside the plan, never in prompts (Ch 1 case study, decision 3).
+ const reuse=explainVisualReuse(plan,loadReviewed(dir));fs.writeFileSync(path.join(out,'visual-reuse.json'),JSON.stringify(reuse,null,1)+'\n');
+ return {file,pagesRetained,pagesCarried,reuse:reuse.counts,automatedIssues:Object.fromEntries(Object.entries(plan).map(([edition,entry])=>[edition,entry.automatedIssues.length])),pagesToInspect:Object.fromEntries(Object.entries(plan).map(([edition,entry])=>[edition,entry.pending.length]))};
 }
 export const VISUAL_PIXEL_GUIDANCE='Before reporting a missing thin line or glyph, inspect the full-resolution listed PNG or its verified pixel crop. Whole-page thumbnail downsampling can hide a continuous 0.5 pt axis. If the actual pixels show the continuous stroke, its thumbnail omission is not a defect. A genuinely absent or illegibly faint stroke remains a required defect; an SVG path or claimed pixel test alone does not grant acceptance.';
 export const VISUAL_CONTRACT='You are the independent MathsMap visual reviewer in a fresh context. Complete this inspection yourself; do not delegate. The first images are rendered booklet pages at final printed size, in the order of "pages"; subsequent detail and source images are labelled in the payload. Compare theory hierarchy, grouping, alignment, emphasis and figure/explanation relationships beside the source; retain house measurements and approved departures. Check practice for unnecessary cloze/fraction clutter while retaining intentional step scaffolds. Review page continuity across the supplied sequence: avoid preventable fragmentation and wasted space, preserving whole tasks, readable diagrams and working space. Do not seek the source page count or shrink content simply to save a page. Inspect each rendered page for typography, clipping, collisions, diagram visibility and label clearance, placement, usable handwriting space, page transitions and footer clearance. '+VISUAL_PIXEL_GUIDANCE+' '+BLANK_STYLE_REVIEW_GUIDANCE+' Source and mathematical content have already been reviewed; do not repeat that review. Optional wording and cosmetic preferences never fail a page. A sparse continuation with complete parts and adequate handwriting space is acceptable; do not request discretionary diagram, gap or response-space reductions merely to fill pages. Return one JSON object and nothing else: {"reviewer":"independent-visual-reviewer","note":"...","pages":[{"page":N,"outcome":"accepted|needs-change","finding":"precise page-specific defect, or empty"}]}. Return exactly one entry per rendered page.'+DIAGRAM_SIZING_PROMPT+' Diagram stroke-contact and overlap findings are advisory candidates: inspect their actual pixels and label-to-edge clearance before accepting or requiring a repair; intentional annotations and masking can be valid. When pages include sizingReviews, inspect each measured outlier in the same page review. For an accepted page return sizingDecisions:[{diagramId,reason}] covering every listed outlier once, with the concrete readability, task or source-relationship reason for retaining its size; otherwise report the required repair. A numerical trigger alone is not a defect.';
@@ -667,7 +670,7 @@ export function recordVisualResult({batch,result,state}){
   const answer=byPage.get(row.page);if(!answer)continue;
   if(row.raster&&!verify(row.raster))throw Error('Reviewed raster evidence changed');
   const outcome=answer.outcome==='accepted'&&!answer.unreliable&&!answer.findings?.length?'accepted':'needs-change';
-  state.pages[pageKey(batch.edition,row.hash)]={outcome,...(row.reviewProfile?{reviewProfile:row.reviewProfile}:{}),...(batch.reviewContractHash?{reviewContractHash:batch.reviewContractHash}:{}),finding:outcome==='accepted'?'':String(answer.finding??'').slice(0,800),details:answer.findings??[],...(row.sizingReviews?.length&&outcome==='accepted'?{sizingDecisions:answer.sizingDecisions}:{}),edition:batch.edition,page:row.page,blocks:row.blocks??[],...(row.blockStamp?{blockStamp:row.blockStamp}:{}),...(row.raster?{raster:row.raster}:{}),at:now()};
+  state.pages[pageKey(batch.edition,row.hash)]={outcome,...(row.reviewProfile?{reviewProfile:row.reviewProfile}:{}),...(batch.reviewContractHash?{reviewContractHash:batch.reviewContractHash}:{}),finding:outcome==='accepted'?'':String(answer.finding??'').slice(0,800),details:answer.findings??[],...(row.sizingReviews?.length&&outcome==='accepted'?{sizingDecisions:answer.sizingDecisions}:{}),edition:batch.edition,page:row.page,blocks:row.blocks??[],...(row.blockStamp?{blockStamp:row.blockStamp,...(row.blockStampParts?{blockStampParts:row.blockStampParts}:{})}:{}),...(row.raster?{raster:row.raster}:{}),at:now()};
   if(outcome!=='accepted')findings.push({edition:batch.edition,page:row.page,blocks:row.blocks,finding:String(answer.finding??'')});
  }
  return findings;

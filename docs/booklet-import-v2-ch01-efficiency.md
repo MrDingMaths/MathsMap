@@ -244,6 +244,23 @@ The layout preflight is in `import-layout-preflight.mjs` and `import-finish.mjs`
   - Full-block sampling covers student pages 2–13 (was 7 pages) and worked 1–10 (was 5).
 - **Cost:** with pairing, Ch 1's 24 sample pages would take about 12–13 calls per round instead of the 14–17 single-page calls made, running three at a time.
 
-**Also not implemented:** repair-tool fields for keep-together, part breaks and row spacing; reuse diagnostics (change 4).
+**Also not implemented:** repair-tool fields for keep-together, part breaks and row spacing (after the pilot, decision 7). Reuse diagnostics: see section 7.
 
 **Baseline test note:** `booklet-import-completion.test.js` "open requests do not accept whole blocks" fails before and after this change. It tests `polish/guards.mjs` `teacherBlocks`, unchanged since 1 November.
+
+## 7. Decisions (James, 12 November 2026) and pre-pilot work
+
+James accepted every recommendation:
+
+| # | Decision | Outcome |
+|---|---|---|
+| 1 | Re-review after presentation-only edits | **Keep the gate.** Measure the remaining re-reviews in the pilot, then revisit. |
+| 2 | Pilot | **The next Mastering Maths Advanced 11 chapter, now.** |
+| 3 | Reuse diagnostics | **Done.** Each review now records the parts of its block stamp (`pageBlockStampParts`: blocks, settings, presentation, renderer, page). The stamp value is unchanged: 153/153 Ch 1 export-8 stamps recompute identically. Each visual plan gets a `visual-reuse.json` beside it saying why each page was reused or not (`explainVisualReuse`). Replayed on Ch 1 exports 4–5 (approximate, against the final review table), stamp carry was refused mainly by the neighbour rule (83 pages) and by pages with no stamp, which start or end inside a split block (113). |
+| 4 | Cross-question references | **Keep the v2-only blocker; don't widen the shared bank checker.** A read-only report found that reading `flow.dependsOn` in `check-question-dependencies` would newly flag 97 questions in 55 projects (46 already in the bank, 83 in masters). Those are ordering links such as "hence" chains. No unreviewed block anywhere uses the cross-reference wording pattern. |
+| 5 | Maths cues (`x = ……`) | **Done.** `document-model.mjs` keeps an inline maths cue and its `joinPrevious` blank in one unbreakable run, and the preflight sets the join for a maths cue ending in `=`. Four existing blanks in two masters already asked for this join: `ratios-2-v1` renders clean; the `s6adv-working-with-functions-2-equations-v1` targeted check stopped on that master's existing 3D-visibility acceptance, so its one guided-practice block is unverified. |
+| 6 | Headings at the source | **Keep the preflight fix only.** |
+| 7 | Repair-tool fields | **After the pilot.** |
+| 8 | Export budget | **Keep logging the overage;** the completion metrics report it. |
+| — | Completion metrics | **Done.** `import-run-metrics.mjs` (CLI `--run-id`; `finish` writes `lean-review/finish/metrics.json` for v2 runs) counts every model call (`finish`'s own included), tokens, elapsed, active and worker time, exports and targeted renders, fresh inspections vs pixel-retained and stamp-carried rows, and scripts in the run root. On Ch 1 it reproduces the verified baseline (164.6 / 112.1 min, 333 calls, 534 fresh inspections, 868 retained). |
+| — | Old failing test | Left to its owner. Pre-existing failures seen while testing: `teacherBlocks` (guards), two `inactive-cloze-export` tests (the square-root branch hash pin fails at HEAD too) and `arrangement-print` (Git's Xpdf `pdftotext` first on PATH under Bash). |

@@ -221,7 +221,9 @@ const lines=n.lines??1, metadata=`${n.appearance==='blank'?'data-cloze-appearanc
   const renderInlines=(nodes,bold)=>nodes.map((n,index)=>{
     if(editable)return inline(n,bold);
     const previous=nodes[index-1],next=nodes[index+1];
-    if(n.type==='cloze'&&n.joinPrevious&&previous?.type==='text'&&/\S$/.test(previous.text))return '';
+    if(n.type==='cloze'&&n.joinPrevious&&(previous?.type==='text'&&/\S$/.test(previous.text)||previous?.type==='math'&&!previous.display))return '';
+    // An inline maths cue ("x =") stays on the line of the blank that joins it.
+    if(n.type==='math'&&!n.display&&next?.type==='cloze'&&next.joinPrevious)return '<span data-cloze-prefix style="white-space:nowrap">'+inline(n,bold)+inline(next,bold)+'</span>';
     if(n.type==='text'&&next?.type==='cloze'&&next.joinPrevious){
       const fragment=n.text.match(/\S+$/);
       if(fragment)return inline({...n,text:n.text.slice(0,-fragment[0].length)},bold)+'<span data-cloze-prefix style="white-space:nowrap">'+inline({...n,text:fragment[0]},bold)+inline(next,bold)+'</span>';

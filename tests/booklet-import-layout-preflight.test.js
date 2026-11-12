@@ -49,7 +49,7 @@ test('a heading already typed in the prompt is not repeated',()=>{
  assert.equal(after.sections[0].blocks[0].flow?.practiceCategoryHeading,undefined);
 });
 
-test('one-letter text cues are joined to their blank; other cues are left alone',()=>{
+test('one-letter text cues and maths cues ending in = are joined to their blank; other cues are left alone',()=>{
  const p=project(),part=p.sections[0].blocks[0].content.children[0];
  part.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'para',type:'paragraph',inlines:[
   {type:'text',text:'The sum of the roots is the s'},{type:'cloze',answer:'um',width:20},
@@ -57,8 +57,8 @@ test('one-letter text cues are joined to their blank; other cues are left alone'
   {type:'math',latex:'x='},{type:'cloze',answer:'1',width:20}]}]};
  const {project:after,changes}=applyLayoutPreflightFixes(p);
  const inl=after.sections[0].blocks[0].content.children[0].prompt.blocks[0].inlines;
- assert.equal(inl[1].joinPrevious,true);assert.equal(inl[3].joinPrevious,undefined);assert.equal(inl[5].joinPrevious,undefined,'maths cues need a judged break, not an automatic join');
- assert.equal(changes.filter(c=>c.check==='C2-cue-blank').length,1);
+ assert.equal(inl[1].joinPrevious,true);assert.equal(inl[3].joinPrevious,undefined);assert.equal(inl[5].joinPrevious,true,'an inline maths cue ending in = joins its blank');
+ assert.equal(changes.filter(c=>c.check==='C2-cue-blank').length,2);
 });
 
 test('a declared dependency whose wording points at another question needs a recorded decision',()=>{

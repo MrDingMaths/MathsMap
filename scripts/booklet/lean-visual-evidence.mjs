@@ -84,7 +84,18 @@ export function retainPixelReviews(plan,state){
 const OWNED_SETTINGS=[['layoutOverrides','blockLayouts'],['layoutOverrides','answerSpaces'],['layoutOverrides','diagramColourModes'],['compactAnswers','diagramWidths']];
 const blockIdOf=id=>typeof id==='string'?id:id?.id;
 const ownsKey=(key,id)=>key===id||key.startsWith(id+'-')||key.startsWith(id+':')||key.startsWith(id+'/');
-export function pageBlockStamp(project,pageHashes,index,{renderer=null}={}){
+export function pageBlockStamp(project,pageHashes,index,options={}){
+ const input=pageStampInput(project,pageHashes,index,options);
+ return input?digest(JSON.stringify(input)):null;
+}
+// The same inputs as separate digests, recorded so a refused carry can say which
+// part changed (reuse diagnostics, Ch 1 case study decision 3). The stamp itself is unchanged.
+export function pageBlockStampParts(project,pageHashes,index,options={}){
+ const input=pageStampInput(project,pageHashes,index,options);if(!input)return null;
+ const part=value=>digest(JSON.stringify(value)).slice(0,16);
+ return {blocks:part([input.ids,input.blocks]),settings:part(input.settings),presentation:part(input.presentation),renderer:part(input.renderer),page:part([input.mode,input.isAnswer,input.answerSectionStart])};
+}
+function pageStampInput(project,pageHashes,index,{renderer=null}={}){
  const row=pageHashes[index],ids=(row?.blocks??[]).map(blockIdOf).filter(Boolean);
  if(!ids.length||row.isCover)return null;
  const shared=(a,b)=>!!b&&(b.blocks??[]).map(blockIdOf).includes(a);
@@ -102,7 +113,36 @@ export function pageBlockStamp(project,pageHashes,index,{renderer=null}={}){
   }
  }
  const sectionMeta=({blocks,...meta})=>meta;
- return digest(JSON.stringify({ids,blocks:ids.map(id=>[found.get(id).block,owned[id]??null,sectionMeta(found.get(id).section)]),settings,presentation:project.presentation??null,renderer,mode:row.mode??null,isAnswer:row.isAnswer??false,answerSectionStart:row.answerSectionStart??false}));
+ return {ids,blocks:ids.map(id=>[found.get(id).block,owned[id]??null,sectionMeta(found.get(id).section)]),settings,presentation:project.presentation??null,renderer,mode:row.mode??null,isAnswer:row.isAnswer??false,answerSectionStart:row.answerSectionStart??false};
+}
+// Why each page to inspect was or was not covered by earlier evidence. Written
+// beside the plan (never into prompts). Decisions: pixel-retained, stamp-carried,
+// no-stamp, flagged, neighbour-of-inspected, contradictory, new-blocks, or
+// stamp-changed with the parts that differ from the latest review of the same blocks.
+export function explainVisualReuse(plan,state){
+ const rows=[],counts={};
+ const prior=new Map();
+ for(const review of Object.values(state.pages??{}))if(review.blockStamp){const key=review.edition+':'+blocksKey(review.blocks);const old=prior.get(key);if(!old||String(review.at??'')>String(old.at??''))prior.set(key,review);}
+ for(const [edition,entry]of Object.entries(plan)){
+  const issuePages=new Set((entry.automatedIssues??[]).map(issue=>Number(issue.page)));
+  for(const row of entry.pending??[]){
+   let decision,changed;
+   if(row.retainedReviewKey)decision='pixel-retained';
+   else if(row.carriedReviewKey)decision='stamp-carried';
+   else if(!row.blockStamp)decision='no-stamp';
+   else if(row.sizingReviews?.length||row.diagramFindings?.length||row.previousFindings?.length||issuePages.has(row.page))decision='flagged';
+   else{
+    const review=prior.get(edition+':'+blocksKey(row.blocks));
+    if(!review)decision='new-blocks';
+    else if(review.blockStamp===row.blockStamp)decision=review.outcome==='accepted'?'neighbour-of-inspected':'contradictory';
+    else{decision='stamp-changed';changed=review.blockStampParts&&row.blockStampParts?Object.keys(row.blockStampParts).filter(key=>row.blockStampParts[key]!==review.blockStampParts[key]):['unrecorded'];}
+   }
+   counts[decision]=(counts[decision]??0)+1;
+   if(changed)for(const key of changed)counts['changed:'+key]=(counts['changed:'+key]??0)+1;
+   rows.push({edition,page:row.page,decision,...(changed?{changed}:{})});
+  }
+ }
+ return {counts,rows};
 }
 // One stamp per block (its JSON, its own layout overrides and every other
 // setting), used by finish to tell which blocks a repair round changed.

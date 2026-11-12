@@ -55,14 +55,17 @@ export function applyLayoutPreflightFixes(input,{headings=[]}={}){
   block.flow={...block.flow,workedPageBreakBefore:true};
   changes.push({check:'C3-worked-exercise-start',blockId:block.id,field:'/flow/workedPageBreakBefore',value:true,evidence:{sectionId:section.id}});
  }
- // C2: a one-letter text cue stays on the line of its blank (document-model joinPrevious).
+ // C2: a one-letter text cue, or an inline maths cue ending in "=", stays on the line
+ // of its blank (document-model joinPrevious).
  for(const {block} of rows)visit(block.content,node=>{
   const paragraphs=typeof node.prompt==='object'?node.prompt?.blocks??[]:[];
   for(const paragraph of paragraphs)(paragraph.inlines??[]).forEach((inline,i)=>{
    const cue=paragraph.inlines[i-1];
-   if(inline.type!=='cloze'||inline.joinPrevious||cue?.type!=='text'||!/(?:^|\s)[A-Za-z]$/.test(cue.text??''))return;
+   if(inline.type!=='cloze'||inline.joinPrevious)return;
+   const textCue=cue?.type==='text'&&/(?:^|\s)[A-Za-z]$/.test(cue.text??''),mathsCue=cue?.type==='math'&&!cue.display&&/=\s*$/.test(cue.latex??'');
+   if(!textCue&&!mathsCue)return;
    inline.joinPrevious=true;
-   changes.push({check:'C2-cue-blank',blockId:block.id,field:'/joinPrevious',value:true,evidence:{nodeId:node.id,cue:cue.text.slice(-12)}});
+   changes.push({check:'C2-cue-blank',blockId:block.id,field:'/joinPrevious',value:true,evidence:{nodeId:node.id,cue:textCue?cue.text.slice(-12):cue.latex}});
   });
  });
  return {project,changes};

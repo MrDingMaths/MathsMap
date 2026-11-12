@@ -26,6 +26,14 @@ test('a supplied word initial stays attached to its completion blank in print an
  assert.match(renderDocument(doc,{editable:true}),/data-join-previous="true"/);
  assert.doesNotMatch(renderDocument(doc,{editable:true}),/data-cloze-prefix/);
 });
+test('an inline maths cue stays attached to the blank that joins it; an unjoined blank is unchanged',()=>{
+ const doc=normalizeDocument({blocks:[{id:'cue',type:'paragraph',inlines:[{type:'text',text:'so '},{type:'math',latex:'x='},{type:'cloze',answer:'3',width:20,joinPrevious:true},{type:'text',text:' and '},{type:'math',latex:'y='},{type:'cloze',answer:'4',width:20}]}]});
+ const html=renderDocument(doc);
+ assert.match(html,/<span data-cloze-prefix style="white-space:nowrap">[^]*?data-latex="x="[^]*?data-cloze="/);
+ assert.equal((html.match(/data-cloze="/g)??[]).length,2,'each blank is rendered once');
+ assert.equal((html.match(/data-cloze-prefix/g)??[]).length,1,'only the joined blank is wrapped');
+ assert.doesNotMatch(renderDocument(doc,{editable:true}),/data-cloze-prefix/);
+});
 test('numeric zero borders survive normalization, nested tables and editor/print rendering',()=>{
  const inner=table('equivalences',0),outer=table('panel',true);
  outer.rows[0][0].blocks=[inner];

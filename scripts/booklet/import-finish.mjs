@@ -18,6 +18,7 @@ import {sampleSourceKey,reviewImportSample} from './import-sample-review.mjs';
 import {withRunLock,readRunEvents} from './run-observability.mjs';
 import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck} from './import-layout-preflight.mjs';
 import {effectiveInventory} from './workflow-review.mjs';
+import {importRunMetrics} from './import-run-metrics.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
@@ -314,6 +315,8 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   (deps.writeHandoff??writeImportHandoff)(handoff,{root:path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..')});
  }
  state.completion=status.completion;persist();
+ // Completion-report metrics: every model call (finish's own included), time, exports and visual evidence.
+ if(importV2(manifest))try{write(path.join(workDir,'metrics.json'),(deps.metrics??importRunMetrics)(runDir));}catch(error){log('Run metrics not written: '+error.message);}
  return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),exportBudget:{used:state.exports.length,budget:FINISH_EXPORT_BUDGET},saved:status.deliverable||saveProgress,validation};
 }
 const FINISH_EXPORT_BUDGET=3;
