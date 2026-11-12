@@ -1,0 +1,699 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3df70dcd-c0de-4a9a-8dbf-32bcbb242967",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation",
+      "classify-stationary-first-derivative"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use triangular area to eliminate a variable, form the fencing function and classify its stationary point within the physical domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:08:06.234Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a557b36ec06b3d9c60e4e1b53deb785a659f60a306f28ab2445c762dee184824",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-86b9f0f716500c295a7d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "A farmer has a field of total area $1200\\text{ m}^2$.\n\nHe sets up his field with fences at $AC$, $CD$ and $BE$, as shown in the diagram.\n\nThe side $AD$ is beside a river, so no fence is needed there.\n\nThe point $B$ is the midpoint of $AC$, and $CD$ is twice the length of $BE$. Let $AB=x$ and $BE=y$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"riverFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the river beside the unfenced boundary AD\"}],\"reference\":\"source page 29 p29-q14-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{riverFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,3);\n\\coordinate (B) at (0,1.5);\n\\coordinate (C) at (0,0);\n\\coordinate (D) at (4,0);\n\\coordinate (E) at (2,1.5);\n\\fill[riverFill] (A)--(D)--(4.3,0.4)--(0.3,3.4)--cycle;\n\\draw (A)--(C)--(D);\n\\draw[line width=0.4pt] (A)--(D);\n\\draw (B)--(E);\n\\draw[line width=0.4pt] (0,1.76)--(0.26,1.76)--(0.26,1.5);\n\\draw[line width=0.4pt] (0,0.26)--(0.26,0.26)--(0.26,0);\n\\node[above left] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\node[above right] at (E) {$E$};\n\\path (A)--(B) node[midway,left] {$x$};\n\\path (B)--(C) node[midway,left] {$x$};\n\\path (B)--(E) node[midway,below] {$y$};\n\\path (C)--(D) node[midway,below] {$2y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 14, triangle below parts a–b",
+          "description": "Right triangle ACD with B the midpoint of AC and BE parallel to CD. A light blue strip outside AD identifies the river. All supplied vertices, dimensions and right-angle marks are retained.",
+          "mathematics": "AB=BC=x, BE=y, CD=2y; AC perpendicular to BE and CD; E lies on AD.",
+          "answerVisibility": "All diagram content is supplied and remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the total length of fencing is $L=2x+\\dfrac{1800}{x}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=\\dfrac{600}{x}$, so $L=2x+3y=2x+\\dfrac{1800}{x}$.",
+          "worked": "Using the area of $\\triangle ACD$:\n$$\\begin{align*}\\frac12(2y)(2x)&=1200\\\\2xy&=1200\\\\y&=\\frac{600}{x}.\\end{align*}$$\nThe fencing is along $AC$, $CD$ and $BE$:\n$$\\begin{align*}L&=2x+2y+y\\\\L&=2x+3y\\\\L&=2x+3\\left(\\frac{600}{x}\\right)\\\\L&=2x+\\frac{1800}{x},\\qquad x>0.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 57
+      },
+      {
+        "id": "p29-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the values of $x$ and $y$ that allow the farmer to use the least possible fencing.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=30\\text{ m}$ and $y=20\\text{ m}$. The least possible fencing is $120\\text{ m}$.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p29-q14-b-derivative",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}L'(x)&=2-1800x^{-2}\\\\L'(x)&=\\frac{2x^2-1800}{x^2}.\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p29-q14-b-stationary",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "For a stationary point, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "L'(x)=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ":",
+                    "marks": []
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}2x^2-1800&=0\\\\x^2&=900\\\\x&=30\\qquad(x>0).\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p29-q14-b-sign-table",
+                "type": "table",
+                "widthMm": 110,
+                "marginBefore": 2,
+                "marginAfter": 2,
+                "borderColour": "#cccccc",
+                "borderWidthMm": 0.26,
+                "rowHeights": [],
+                "annotations": [],
+                "border": false,
+                "padding": 1,
+                "widths": [
+                  1,
+                  2,
+                  1,
+                  2
+                ],
+                "rows": [
+                  [
+                    {
+                      "id": "p29-q14-b-sign-x-heading",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-sign-x-heading-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "x",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-sign-left",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-sign-left-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0<x<30",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-sign-middle",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-sign-middle-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "30",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-sign-right",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-sign-right-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "x>30",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p29-q14-b-deriv-heading",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-deriv-heading-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "L'",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-deriv-negative",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-deriv-negative-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-deriv-zero",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-deriv-zero-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-deriv-positive",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-deriv-positive-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "+",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p29-q14-b-slope-heading",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-slope-heading-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Slope",
+                              "marks": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-slope-falling",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-slope-falling-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\searrow",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-slope-horizontal",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-slope-horizontal-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p29-q14-b-slope-rising",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p29-q14-b-slope-rising-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\nearrow",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "id": "p29-q14-b-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The function decreases for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0<x<30",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and increases for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x>30",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", so the global minimum occurs at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=30",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}y&=\\frac{600}{30}=20\\text{ m}\\\\L(30)&=2(30)+\\frac{1800}{30}=120\\text{ m}.\\end{aligned}",
+                    "display": true
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "text",
+                    "text": "Thus ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=30\\text{ m}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y=20\\text{ m}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " give the least possible fencing.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:17.689Z",
+  "updatedAt": "2026-11-12T05:28:17.690Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p29-q14",
+    "sectionRole": "exercise"
+  }
+}

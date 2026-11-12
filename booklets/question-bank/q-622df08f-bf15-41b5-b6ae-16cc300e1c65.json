@@ -1,0 +1,587 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-622df08f-bf15-41b5-b6ae-16cc300e1c65",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiate-ax",
+    "secondarySkillIds": [],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Estimate gradients graphically, connect tangent gradients with exponential function values, and identify a common intercept relationship.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:19:09.086Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a460c949a35e9d1d0f49334800934bb430a88f50ff4fc1651fbdd1d40ca3f941",
+      "evidence": ".booklet-work/full-imports/s6adv-exponential-and-logarithmic-functions-1-exponential-functions-20261024/semantic-packets/assignments/assignment-d61863ccce6502eee07b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p15-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Consider the graph of $y=e^x$ shown below and its tangent line at $y=1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q4-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"supplied tangent line\"}],\"reference\":\"source page 15 question 4 graph\"}\n\\begin{tikzpicture}[x=2.6cm,y=2.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-3.22,-0.5) rectangle (2.3,3.55);\n\\draw[gridGrey,line width=0.15pt,step=0.1] (-3,-0.3) grid (2,3.3);\n\\draw[gridGrey,line width=0.25pt,step=1] (-3,-0.3) grid (2,3.3);\n\\draw[black,line width=0.5pt,<->] (-3.15,0)--(2.15,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-0.43)--(0,3.45) node[above] {$y$};\n\\foreach \\x in {-3,-2.9,...,2} {\\draw[black,line width=0.4pt] (\\x,-0.025)--(\\x,0.025);}\n\\foreach \\y in {-0.3,-0.2,...,3.3} {\\draw[black,line width=0.4pt] (-0.025,\\y)--(0.025,\\y);}\n\\foreach \\x in {-3,-2,-1,1,2} {\\draw[black,line width=0.4pt] (\\x,-0.045)--(\\x,0.045);\\node[below,yshift=-3pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,2,3} {\\draw[black,line width=0.4pt] (-0.045,\\y)--(0.045,\\y);\\node[left,xshift=-3pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,<->,domain=-3.14:1.23,samples=120] plot (\\x,{exp(\\x)});\n\\draw[tangentRed,line width=0.8pt,<->] (-1.43,-0.43)--(2.15,3.15);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 150,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 4, graph above parts a–d",
+          "description": "Drawable coordinate grid with tenth-unit subdivisions, unit grid lines, labelled integer ticks, arrowed axes, blue exponential curve and red tangent at (0,1). Increased house width preserves grid and drawing legibility.",
+          "mathematics": "y=e^x and tangent y=x+1; grid -3≤x≤2, -0.3≤y≤3.3, with step 0.1 on both axes.",
+          "answerVisibility": "The exponential curve and tangent at (0,1) are permanent student givens. Additional tangents appear only in solutions."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The tangent at $y=1$ is shown on the graph.\n\nBy inspecting the line, what is the gradient of the tangent at $y=1$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "The line passes through $(-1,0)$ and $(0,1)$.\n$$\\begin{align*}m&=\\frac{1-0}{0-(-1)}\\\\m&=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p15-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p15-q4-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "By drawing additional tangent lines at ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=\\frac12,\\ y=2,\\ y=3",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", complete the table:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p15-q4-b-table",
+              "type": "table",
+              "widthMm": 125,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                12,
+                14
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 2,
+              "widths": [
+                2,
+                1,
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p15-q4-b-h0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-h0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Function value ",
+                            "marks": [
+                              "bold"
+                            ]
+                          },
+                          {
+                            "type": "math",
+                            "latex": "y",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-h1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-h1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "\\frac12",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-h2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-h2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-h3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-h3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-h4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-h4-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p15-q4-b-r0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-r0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Gradient ",
+                            "marks": [
+                              "bold"
+                            ]
+                          },
+                          {
+                            "type": "math",
+                            "latex": "\\frac{dy}{dx}",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-r1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-r1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-r2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-r2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-r3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-r3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p15-q4-b-r4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p15-q4-b-r4-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Gradient row, in order: $\\frac12,\\ 1,\\ 2,\\ 3$.",
+          "worked": "Draw each tangent and estimate its rise divided by its run. At function values $\\frac12,1,2,3$, the respective gradients are $\\frac12,1,2,3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q4-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent lines\"}],\"reference\":\"source page 15 question 4b completed graph\"}\n\\begin{tikzpicture}[x=2.6cm,y=2.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-3.22,-0.5) rectangle (2.3,3.55);\n\\draw[gridGrey,line width=0.15pt,step=0.1] (-3,-0.3) grid (2,3.3);\n\\draw[gridGrey,line width=0.25pt,step=1] (-3,-0.3) grid (2,3.3);\n\\draw[black,line width=0.5pt,<->] (-3.15,0)--(2.15,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-0.43)--(0,3.45) node[above] {$y$};\n\\foreach \\x in {-3,-2.9,...,2} {\\draw[black,line width=0.4pt] (\\x,-0.025)--(\\x,0.025);}\n\\foreach \\y in {-0.3,-0.2,...,3.3} {\\draw[black,line width=0.4pt] (-0.025,\\y)--(0.025,\\y);}\n\\foreach \\x in {-3,-2,-1,1,2} {\\node[below,yshift=-3pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,2,3} {\\node[left,xshift=-3pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,<->,domain=-3.14:1.23,samples=120] plot (\\x,{exp(\\x)});\n\\draw[tangentRed,line width=0.8pt,<->] (-1.43,-0.43)--(2.15,3.15);\n\\begin{scope}\n\\clip (-3,-0.3) rectangle (2,3.3);\n\\foreach \\v in {0.5,2,3} {\\draw[tangentRed,line width=0.8pt,dashed,domain=-3:2,samples=2] plot (\\x,{\\v*(\\x-ln(\\v)+1)});\\fill[tangentRed] ({ln(\\v)},\\v) circle (0.025);}\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 4b using the shared graph",
+                "description": "Complete graph with the supplied solid tangent and additional dashed tangents at function values one-half, two and three.",
+                "mathematics": "At y=v the tangent is y=v(x-ln(v)+1), with gradient v, for v=1/2,2,3.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p15-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How is the gradient of the tangent related to the function value for $y=e^x$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dy}{dx}=y$, or $f(x)=f'(x)$.",
+          "worked": "The gradient equals the function value at the point of tangency. For $y=e^x$, $\\dfrac{dy}{dx}=e^x=y$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p15-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "On the same graph as above, sketch tangent lines at $x=-1$, $x=0$, $x=1$.\n\nWhat do you notice about the $x$-intercepts of the tangent lines?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The $x$-intercepts are always 1 unit to the left of the point of tangency.",
+          "worked": "The tangents at $x=-1,0,1$ cross the $x$-axis at $x=-2,-1,0$, respectively. Each intercept is 1 unit to the left of its point of tangency.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q4-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent lines\"}],\"reference\":\"source page 15 question 4d completed graph\"}\n\\begin{tikzpicture}[x=2.6cm,y=2.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-3.22,-0.5) rectangle (2.3,3.55);\n\\draw[gridGrey,line width=0.15pt,step=0.1] (-3,-0.3) grid (2,3.3);\n\\draw[gridGrey,line width=0.25pt,step=1] (-3,-0.3) grid (2,3.3);\n\\draw[black,line width=0.5pt,<->] (-3.15,0)--(2.15,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-0.43)--(0,3.45) node[above] {$y$};\n\\foreach \\x in {-3,-2.9,...,2} {\\draw[black,line width=0.4pt] (\\x,-0.025)--(\\x,0.025);}\n\\foreach \\y in {-0.3,-0.2,...,3.3} {\\draw[black,line width=0.4pt] (-0.025,\\y)--(0.025,\\y);}\n\\foreach \\x in {-3,-2,-1,1,2} {\\node[below,yshift=-3pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,2,3} {\\node[left,xshift=-3pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,<->,domain=-3.14:1.23,samples=120] plot (\\x,{exp(\\x)});\n\\draw[tangentRed,line width=0.8pt,<->] (-1.43,-0.43)--(2.15,3.15);\n\\begin{scope}\n\\clip (-3,-0.3) rectangle (2,3.3);\n\\foreach \\a in {-1,1} {\\draw[tangentRed,line width=0.8pt,dashed,domain=-3:2,samples=2] plot (\\x,{exp(\\a)*(\\x-\\a+1)});\\fill[tangentRed] (\\a,{exp(\\a)}) circle (0.025);}\n\\end{scope}\n\\fill[tangentRed] (0,1) circle (0.025);\n\\foreach \\x in {-2,-1,0} {\\fill[tangentRed] (\\x,0) circle (0.025);}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 4d using the shared graph",
+                "description": "Complete graph with tangents at x=-1,0,1 and marked points of tangency and x-intercepts. The original tangent remains solid; additional tangents are dashed.",
+                "mathematics": "Tangents y=e^(-1)(x+2), y=x+1 and y=ex have x-intercepts -2,-1,0 respectively.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:43.580Z",
+  "updatedAt": "2026-11-12T05:28:43.581Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-exponential-and-logarithmic-functions-1-exponential-functions-v1",
+    "blockId": "p15-q4",
+    "sectionRole": "exercise"
+  }
+}

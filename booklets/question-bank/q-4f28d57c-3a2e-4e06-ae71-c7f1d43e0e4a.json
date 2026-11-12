@@ -1,0 +1,149 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4f28d57c-3a2e-4e06-ae71-c7f1d43e0e4a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine circle geometry, a trigonometric area model, differentiation and a geometric proof of the maximising triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:14:51.271Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9813d750c3a9edb0a3effaa6fe98b897db749454a99b3ab7f22d81e804f2e319",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-30c7ec1840c437277325/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q36-root",
+    "type": "question",
+    "label": "36",
+    "prompt": "An isosceles triangle $PQR$ is inscribed in a circle with centre $O$ of radius 1 unit, as shown in the diagram. Let $\\angle QOR=2\\theta$, where $\\theta$ is acute.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p43-q36-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 43, p43-q36-diagram\"}\n\\begin{tikzpicture}[x=2.2cm,y=2.2cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (90:1);\n\\coordinate (Q) at (220:1);\n\\coordinate (R) at (320:1);\n\\draw[black,line width=0.8pt] (O) circle (1);\n\\draw[black,line width=0.8pt] (P)--(Q)--(R)--cycle;\n\\draw[black,dashed,line width=0.4pt] (Q)--(O)--(R);\n\\draw[black,line width=0.4pt] ($(P)!0.5!(Q)!2pt!90:(Q)$)--($(P)!0.5!(Q)!2pt!-90:(Q)$);\n\\draw[black,line width=0.4pt] ($(P)!0.5!(R)!2pt!90:(R)$)--($(P)!0.5!(R)!2pt!-90:(R)$);\n\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$2\\theta$\"] {angle=Q--O--R};\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\node[above] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 43,
+          "sourceRegion": "Question 36, shared circle diagram",
+          "description": "Unshaded circle with an inscribed isosceles triangle, matching single ticks on PQ and PR, dashed radii OQ and OR, and the central angle labelled 2θ. The construction through P and O and point M are absent.",
+          "mathematics": "OP=OQ=OR=1; PQ=PR; P lies on the perpendicular bisector of chord QR; angle QOR=2θ. Coordinates provide a schematic view and supply no numerical angle.",
+          "answerVisibility": "Only source givens are visible; M and the requested construction are reserved for the response."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p43-q36-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Join $PO$ and extend it to meet $QR$ at $M$. Then prove that $QM=\\sin\\theta$ and $OM=\\cos\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$QM=\\sin\\theta$ and $OM=\\cos\\theta$, using right triangle $OQM$ with hypotenuse $OQ=1$.",
+          "worked": "Since $PQ=PR$ and $OQ=OR$, both $P$ and $O$ lie on the perpendicular bisector of $QR$. Thus the line $PO$ meets $QR$ at its midpoint $M$ and $OM\\perp QR$. The congruent right triangles $OQM$ and $ORM$ give $\\angle QOM=\\theta$.\n\n$$\\begin{align*}\\sin\\theta&=\\frac{QM}{OQ}\\\\\\sin\\theta&=\\frac{QM}{1}\\\\\\sin\\theta&=QM,\\\\\\cos\\theta&=\\frac{OM}{OQ}\\\\\\cos\\theta&=\\frac{OM}{1}\\\\\\cos\\theta&=OM.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p43-q36-a-construction",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 43, p43-q36-a-construction\"}\n\\begin{tikzpicture}[x=2.2cm,y=2.2cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (90:1);\n\\coordinate (Q) at (220:1);\n\\coordinate (R) at (320:1);\n\\coordinate (M) at ($(Q)!0.5!(R)$);\n\\draw[black,line width=0.8pt] (O) circle (1);\n\\draw[black,line width=0.8pt] (P)--(Q)--(R)--cycle;\n\\draw[black,dashed,line width=0.4pt] (Q)--(O)--(R);\n\\draw[black,line width=0.4pt] (P)--(M);\n\\draw[black,line width=0.4pt] ($(P)!0.5!(Q)!2pt!90:(Q)$)--($(P)!0.5!(Q)!2pt!-90:(Q)$);\n\\draw[black,line width=0.4pt] ($(P)!0.5!(R)!2pt!90:(R)$)--($(P)!0.5!(R)!2pt!-90:(R)$);\n\\coordinate (U) at ($(M)!2mm!(O)$);\n\\coordinate (V) at ($(M)!2mm!(R)$);\n\\draw[black,line width=0.4pt] (U)--($(U)+(V)-(M)$)--(V);\n\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$\\theta$\"] {angle=Q--O--M};\n\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$\\theta$\"] {angle=M--O--R};\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\node[above right] at (O) {$O$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 58,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 43,
+                "sourceRegion": "Question 36(a), requested construction",
+                "description": "Complete solution figure adds PM through O, the midpoint M, a derived right-angle mark and the two equal central half-angles.",
+                "mathematics": "M is the midpoint of QR, PM is perpendicular to QR, and angle QOM=angle MOR=θ.",
+                "answerVisibility": "Solution-only construction and derived angle labels."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p43-q36-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area $A$ of $\\triangle PQR$ is $A=\\sin\\theta(\\cos\\theta+1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\frac12(2QM)(PO+OM)=\\sin\\theta(1+\\cos\\theta)$.",
+          "worked": "$QR=2QM$ and $PM=PO+OM$, with $PO=1$.\n\n$$\\begin{align*}A&=\\frac12 bh\\\\A&=\\frac12 QR\\times PM\\\\A&=\\frac12(2QM)(PO+OM)\\\\A&=\\frac12\\cdot2\\sin\\theta(1+\\cos\\theta)\\\\A&=\\sin\\theta(1+\\cos\\theta).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p43-q36-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence show that, as $\\theta$ varies, $\\triangle PQR$ has its maximum possible area when it is equilateral.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The maximum occurs at $\\theta=\\frac{\\pi}{3}$. Then $\\angle QOR=\\angle POQ=\\angle POR=\\frac{2\\pi}{3}$, so the equal chords $PQ$, $PR$ and $QR$ form an equilateral triangle.",
+          "worked": "For $0<\\theta<\\frac{\\pi}{2}$,\n\n$$\\begin{align*}A&=\\sin\\theta(1+\\cos\\theta)\\\\A&=\\sin\\theta+\\sin\\theta\\cos\\theta\\\\A&=\\sin\\theta+\\frac12\\sin2\\theta,\\\\\\frac{dA}{d\\theta}&=\\cos\\theta+\\cos2\\theta\\\\\\frac{dA}{d\\theta}&=\\cos\\theta+2\\cos^2\\theta-1\\\\\\frac{dA}{d\\theta}&=(2\\cos\\theta-1)(\\cos\\theta+1).\\end{align*}$$\n\nAt a stationary point,\n\n$$\\begin{align*}(2\\cos\\theta-1)(\\cos\\theta+1)&=0.\\end{align*}$$\n\nThus $2\\cos\\theta-1=0$ or $\\cos\\theta+1=0$. Since $\\theta$ is acute, $\\cos\\theta>0$, so $\\cos\\theta=-1$ is excluded.\n\n$$\\begin{align*}2\\cos\\theta-1&=0\\\\2\\cos\\theta&=1\\\\\\cos\\theta&=\\frac12\\\\\\theta&=\\frac{\\pi}{3}.\\end{align*}$$\n\nCheck the maximum:\n\n$$\\begin{align*}\\frac{d^2A}{d\\theta^2}&=-\\sin\\theta-2\\sin2\\theta\\\\\\left.\\frac{d^2A}{d\\theta^2}\\right|_{\\theta=\\pi/3}&=-\\frac{3\\sqrt3}{2}<0.\\end{align*}$$\n\nThis stationary point is a maximum. Moreover, $\\cos\\theta+1>0$, so $\\frac{dA}{d\\theta}>0$ before $\\frac{\\pi}{3}$ and $\\frac{dA}{d\\theta}<0$ after it throughout the acute domain. Hence it is the global maximum.\n\nTriangles $POQ$ and $POR$ are congruent by SSS: $PO$ is common, $OQ=OR$ and $PQ=PR$. Therefore $\\angle POQ=\\angle POR$. At the maximum,\n\n$$\\begin{align*}\\angle QOR&=2\\theta\\\\\\angle QOR&=\\frac{2\\pi}{3},\\\\\\angle POQ=\\angle POR&=\\frac12(2\\pi-\\angle QOR)\\\\\\angle POQ=\\angle POR&=\\frac12\\left(2\\pi-\\frac{2\\pi}{3}\\right)\\\\\\angle POQ=\\angle POR&=\\frac{2\\pi}{3}.\\end{align*}$$\n\nThe vertices are evenly spaced around the circle. Equal central angles subtend equal chords, so $PQ=PR=QR$ and the triangle is equilateral.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 98
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q36",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:20.551Z",
+  "updatedAt": "2026-11-12T05:28:20.551Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p43-q36",
+    "sectionRole": "challenge"
+  }
+}

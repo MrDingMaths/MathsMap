@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4e97b4fc-79e7-4ad4-8025-0e1a52646685",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the explicitly requested Pythagorean constraint, differentiate the supplied cubic model with a positive constant, test the maximum and recover the depth.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:10:45.073Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cfb6140000d564716818b527c03152a00a719cc1724ee3447f455a426e3c103e",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-886533c47d0193d3d45b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p35-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": "Engineers have determined that the strength $s$ of a rectangular beam varies as the product of the width $w$ and the square of the depth $d$ of the beam, that is, $s=kwd^2$ for some $k>0$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p35-q25-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 35 p35-q25-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-2,-1.2);\n\\coordinate (B) at (2,-1.2);\n\\coordinate (C) at (2,1.2);\n\\coordinate (D) at (-2,1.2);\n\\coordinate (O) at (0,0);\n\\draw (O) circle[radius=2.332380758cm];\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(C) node[pos=0.5,above,sloped] {$48\\text{ cm}$};\n\\fill (O) circle[radius=1.2pt];\n\\node[below] at ($(A)!0.5!(B)$) {$w$};\n\\node[left] at ($(B)!0.5!(C)$) {$d$};\n\\draw[line width=0.4pt] ($(B)!0.28cm!(A)$)--($($(B)!0.28cm!(A)$)+(0,0.28)$)--($(B)!0.28cm!(C)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 35,
+          "sourceRegion": "Question 25, circular log cross-section below the parts",
+          "description": "Unshaded circle containing an inscribed rectangle. Its bottom-left to top-right diagonal passes through the marked centre and is labelled 48 cm. The bottom side is labelled w, the right side d, and the bottom-right corner has an internal right-angle mark. Ordinary source grey outlines use house black.",
+          "mathematics": "The rectangle's diagonal is a diameter of the circle, so w²+d²=48². The schematic aspect ratio supplies no additional measurement.",
+          "answerVisibility": "Only source givens are visible; optimised dimensions are not shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p35-q25-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A particular cylindrical log has a diameter of 48 cm. Use Pythagoras' theorem to show that $s=kw(2304-w^2)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$d^2=2304-w^2$, hence $s=kw(2304-w^2)$.",
+          "worked": "By Pythagoras' theorem,\n$$\\begin{align*}w^2+d^2&=48^2\\\\d^2&=2304-w^2.\\end{align*}$$\nSubstitute into $s=kwd^2$, where $k>0$:\n$$s=kw(2304-w^2).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p35-q25-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the dimensions of the strongest rectangular beam that can be cut from the log.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Width $16\\sqrt3\\text{ cm}$ and depth $16\\sqrt6\\text{ cm}$.",
+          "worked": "For a non-degenerate beam, $0<w<48$.\n$$\\begin{align*}s&=2304kw-kw^3\\\\\\frac{ds}{dw}&=2304k-3kw^2.\\end{align*}$$\nAt a stationary point,\n$$\\begin{align*}2304k-3kw^2&=0\\\\w^2&=768\\\\w&=16\\sqrt3\\qquad(w>0).\\end{align*}$$\nAlso,\n$$\\frac{d^2s}{dw^2}=-6kw.$$\nSince $k>0$, $\\dfrac{d^2s}{dw^2}<0$ throughout $0<w<48$. Thus strength is maximised at $w=16\\sqrt3\\text{ cm}$.\n\nSubstitute into $d^2=2304-w^2$:\n$$\\begin{align*}d^2&=2304-(16\\sqrt3)^2\\\\d^2&=1536\\\\d&=16\\sqrt6\\qquad(d>0).\\end{align*}$$\nThe dimensions are width $16\\sqrt3\\text{ cm}$ and depth $16\\sqrt6\\text{ cm}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p35-q25",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:14.880Z",
+  "updatedAt": "2026-11-12T05:28:14.880Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p35-q25",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,714 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3c98ac0b-4302-4022-8926-81afcec9f3a8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation",
+      "classify-stationary-first-derivative"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the supplied volume target to form a cubic model, solves its derivative and selects and classifies the stationary point in the physical domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T03:41:04.086Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "562b667b5787db9abd7882645d51bd97d194f496e4372bd9e6812ca2f94cff59",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/lean-review/calls/content-1792986026983-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q8-a",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "a",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "  An open rectangular box is to be formed by cutting squares of side length ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " cm from the corners of a rectangular sheet of metal that has length 40 cm and width 15 cm.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the volume of the box is given by $V=600x-110x^2+4x^3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=x(40-2x)(15-2x)=600x-110x^2+4x^3$.",
+          "worked": "$$\\begin{aligned}V&=l\\times w\\times h\\\\V&=(40-2x)(15-2x)x\\\\V&=x(600-110x+4x^2)\\\\V&=600x-110x^2+4x^3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p26-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $\\dfrac{dV}{dx}$ and hence find the value of $x$ that maximises the volume of the box.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dV}{dx}=600-220x+12x^2$; the maximum occurs at $x=\\dfrac{10}{3}$ cm.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p26-q8-domain",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "For a non-degenerate box, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0<x<\\frac{15}{2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p26-q8-derivative",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}\\frac{dV}{dx}&=600-220x+12x^2\\\\\\frac{dV}{dx}&=4(150-55x+3x^2)\\\\\\frac{dV}{dx}&=4(3x-10)(x-15)\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p26-q8-stationary",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac{dV}{dx}=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " when ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "4(3x-10)(x-15)=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", giving ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=\\frac{10}{3}\\text{ or }15",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". Only ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\frac{10}{3}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is in the physical domain.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p26-q8-sign-table",
+                "type": "table",
+                "widthMm": null,
+                "marginBefore": 2,
+                "marginAfter": 2,
+                "borderColour": "#cccccc",
+                "borderWidthMm": 0.26,
+                "rowHeights": [],
+                "annotations": [],
+                "border": false,
+                "padding": 0,
+                "widths": [
+                  2,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "rows": [
+                  [
+                    {
+                      "id": "p26-q8-t11",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t11p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "x",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t12",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t12p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t13",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t13p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\frac{10}{3}",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t14",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t14p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "5",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t15",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t15p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "15",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t16",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t16p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "16",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p26-q8-t21",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t21p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\frac{dV}{dx}",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t22",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t22p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "+",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t23",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t23p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t24",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t24p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t25",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t25p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p26-q8-t26",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p26-q8-t26p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "+",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "id": "p26-q8-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The derivative changes from positive to negative at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=\\frac{10}{3}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The volume increases before this point and decreases afterwards throughout the physical domain, so the maximum occurs when the cut-out squares have side length ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\frac{10}{3}\\text{ cm}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The table entries at 15 and 16 describe the polynomial outside the physical domain.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:13.033Z",
+  "updatedAt": "2026-11-12T05:28:13.034Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p26-q8-block",
+    "sectionRole": "exercise"
+  }
+}

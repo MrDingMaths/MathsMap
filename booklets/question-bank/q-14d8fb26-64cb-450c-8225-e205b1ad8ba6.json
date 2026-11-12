@@ -1,0 +1,676 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-14d8fb26-64cb-450c-8225-e205b1ad8ba6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation",
+      "classify-stationary-first-derivative"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Forms a journey-time model using Pythagoras and two speeds, solves a stationary-point equation involving a square root, and verifies the minimum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:09:06.398Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d59b2caf57589be578f975b33226b8203ce2301e662b0665930de58d1b96faae",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-e0c535d8f527b619f8d8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p30-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "A man in a rowing boat is presently 6 km from the nearest point $A$ on the shore. He wants to reach, as soon as possible, a point $B$ that is a further 20 km along the shore from $A$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p30-q16-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q16-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2.5);\n\\coordinate (B) at (4,2.5);\n\\coordinate (M) at (0,0);\n\\coordinate (C) at (1.5,2.5);\n\\coordinate (R) at (4,0);\n\\draw[black,line width=0.8pt] (M)--(A)--(B)--(R)--cycle;\n\\draw[black,line width=0.8pt] (M)--(C);\n\\draw[black,line width=0.4pt] ($(A)!0.24cm!(B)$)--($(A)!0.24cm!(B)+(0,-0.24)$)--($(A)+(0,-0.24)$);\n\\fill[black] (M) circle (1.6pt);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below] at (M) {man};\n\\path (M)--(A) node[midway,left,rotate=90,anchor=south] {$6\\text{ km}$};\n\\path (A)--(C) node[midway,above] {$x\\text{ km}$};\n\\draw[black,<->,line width=0.5pt] ($(A)+(0,0.8)$)--($(B)+(0,0.8)$) node[midway,fill=white,inner sep=3pt] {$20\\text{ km}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 30,
+          "sourceRegion": "Question 16, journey diagram below part b at left",
+          "description": "Shore AB is horizontal. The man is directly below A, with a right-angle mark at A. A sloping rowing segment reaches an intermediate shore point. Thin bottom and right edges complete the rectangular outline. No landing-point name or additional dimensions are introduced.",
+          "mathematics": "The perpendicular distance to the shore is 6 km, the distance AB is 20 km, and the shore distance from A to the landing point is x km.",
+          "answerVisibility": "Permanent question diagram without supplied answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p30-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "He can row at 8 km/h and he can run at 10 km/h. He rows to a point on the shore $x$ km from $A$, and then he runs to $B$.\n\nShow that the time taken for the journey is $$T=\\frac{\\sqrt{36+x^2}}{8}+\\frac{20-x}{10}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$T=\\dfrac{\\sqrt{36+x^2}}{8}+\\dfrac{20-x}{10}$ hours, for $0\\le x\\le20$.",
+          "worked": "By Pythagoras, the distance rowed is $\\sqrt{6^2+x^2}=\\sqrt{36+x^2}$ km. The distance run is $20-x$ km.\n\nUsing $\\text{time}=\\dfrac{\\text{distance}}{\\text{speed}}$,\n$$\\begin{align*}T&=T_{\\text{row}}+T_{\\text{run}}\\\\T&=\\frac{\\sqrt{36+x^2}}{8}+\\frac{20-x}{10}.\\end{align*}$$\nHere $T$ is in hours and $0\\le x\\le20$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p30-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the time for the journey is minimised if he lands 8 km from $A$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The minimum occurs at $x=8$, so he should land 8 km from $A$.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p30-q16-b-derivative",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac{dT}{dx}=\\frac{x}{8\\sqrt{36+x^2}}-\\frac{1}{10}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p30-q16-b-stationary-intro",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "At a stationary point,",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p30-q16-b-stationary-working",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}\\frac{x}{8\\sqrt{36+x^2}}-\\frac{1}{10}&=0\\\\10x&=8\\sqrt{36+x^2}\\\\100x^2&=64(36+x^2)\\\\100x^2-64x^2&=64\\times36\\\\36x^2-64\\times36&=0\\\\36(x^2-64)&=0\\\\x&=8\\qquad(0\\le x\\le20).\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p30-q16-b-sign-table",
+                "type": "table",
+                "widthMm": 112,
+                "marginBefore": 2,
+                "marginAfter": 2,
+                "borderColour": "#cccccc",
+                "borderWidthMm": 0.26,
+                "rowHeights": [
+                  8,
+                  12,
+                  8
+                ],
+                "annotations": [],
+                "border": false,
+                "padding": 1,
+                "widths": [
+                  1.4,
+                  1,
+                  1,
+                  1
+                ],
+                "rows": [
+                  [
+                    {
+                      "id": "p30-q16-b-table-x",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-x-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "x",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-7",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-7-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "7",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-8",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-8-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "8",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-9",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-9-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "9",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p30-q16-b-table-derivative",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-derivative-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\frac{dT}{dx}",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-negative",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-negative-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-0.005\\ldots",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-zero",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-zero-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-positive",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-positive-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0.004\\ldots",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p30-q16-b-table-slope",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-slope-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Slope",
+                              "marks": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-descending",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-descending-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\searrow",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-horizontal",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-horizontal-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p30-q16-b-table-ascending",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p30-q16-b-table-ascending-p",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\nearrow",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "id": "p30-q16-b-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The derivative is continuous and has only one zero on the domain. Its sign is negative for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0\\le x<8",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and positive for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "8<x\\le20",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". Hence ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "T",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " has its global minimum at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=8",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". He should land 8 km from A.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 79
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:18.690Z",
+  "updatedAt": "2026-11-12T05:28:18.694Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p30-q16",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-064fdf78-cfb5-4b94-b052-a99df62c1254",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine a right-triangle relationship and two speeds to minimise a travel-time function with a radical.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:04:07.792Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "829dfb25a6a131317cd546358161596969c17866ce0451d4abca341d1716d020",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-2e0bb313cc53fb4b1912/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q3-root",
+    "type": "question",
+    "label": "",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p22-q3-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Sophie needs to get from point A to point B across a wide river.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "The river is 20 m wide, and B is 80 m horizontally from A.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "She swims across the river at a speed of 7 km/h and runs at 11 km/h.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "Find the swimming distance ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " that will minimise her total travel time. Give your answer to 1 decimal place.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p22-q3-hint-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Hint: ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t=\\frac{d}{s}",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q3-river",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 p22-q3-river\"}\n\\begin{tikzpicture}[>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2); \\coordinate (F) at (0,0); \\coordinate (L) at (2,0); \\coordinate (B) at (4.8,0);\n\\draw[black,line width=0.8pt] (-0.6,2)--(5.3,2);\n\\draw[black,line width=0.8pt] (-0.6,0)--(5.3,0);\n\\draw[black,line width=0.8pt] (A)--node[above right] {$x$} (L);\n\\node[above] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\draw[black,<->,line width=0.5pt] (F)--node[left,fill=white,inner sep=1pt] {$20\\text{ m}$} (A);\n\\draw[black,<->,line width=0.5pt] (0,-0.3)--node[fill=white,inner sep=1pt] {$80\\text{ m}$} (4.8,-0.3);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Third practice question, beneath hint",
+          "description": "Parallel banks, A on the upper bank, B farther right on the lower bank and a diagonal swimming segment x to a landing point before B. The vertical dimension is 20 m; the complete horizontal displacement from A to B is 80 m. Source blue lines are ordinary geometry and use house black.",
+          "mathematics": "Swimming distance is the hypotenuse of a right triangle of height 20 m; running distance is 80 m minus its horizontal leg.",
+          "answerVisibility": "Permanent question diagram; no landing distance or solution supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$x\\approx25.9\\text{ m}$.",
+      "worked": "Let $y$ m be the horizontal distance from directly opposite A to the landing point. Then $x^2=20^2+y^2$, so $y=\\sqrt{x^2-400}$ and the running distance is $80-\\sqrt{x^2-400}$ m. Using speeds $7000$ m/h and $11\\,000$ m/h,\n$$\\begin{aligned}T(x)&=\\frac{x}{7000}+\\frac{80-\\sqrt{x^2-400}}{11\\,000},\\qquad 20\\le x\\le20\\sqrt{17}\\\\T'(x)&=\\frac{1}{7000}-\\frac{x}{11\\,000\\sqrt{x^2-400}}.\\end{aligned}$$\nAt a stationary point,\n$$\\begin{aligned}\\frac{1}{7000}&=\\frac{x}{11\\,000\\sqrt{x^2-400}}\\\\11\\sqrt{x^2-400}&=7x\\\\121(x^2-400)&=49x^2\\\\72x^2&=48\\,400\\\\x^2&=\\frac{6050}{9}\\\\x&=\\frac{55\\sqrt2}{3}.\\end{aligned}$$\nFor $x>20$,\n$$T''(x)=\\frac{400}{11\\,000(x^2-400)^{3/2}}>0.$$\nThus $T'$ is increasing and changes from negative to positive at this stationary point, giving the global minimum on the domain. Sophie should swim $\\frac{55\\sqrt2}{3}\\text{ m}\\approx25.9\\text{ m}$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "ownerId": "p22-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:19.917Z",
+  "updatedAt": "2026-11-12T05:28:19.917Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p22-q3-block",
+    "sectionRole": "challenge"
+  }
+}

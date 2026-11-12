@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0352ff3e-c556-4cb1-97ac-6052b52d57df",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a trigonometric area model from a trapezium, solve the resulting stationary-point equation and verify the maximum in context.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:12:25.610Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ef8b96c4b298ea80085f56644000e35716155000c81bef415c2bb10c0b05c9ca",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-e29cc9eea00e2917cbaf/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q30-root",
+    "type": "question",
+    "label": "30",
+    "prompt": "A symmetrical gutter is made from a sheet of metal 30 cm wide by bending it twice as shown:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q30-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 p39-q30-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (-1,1.73205);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2,0);\n\\coordinate (R) at (3,1.73205);\n\\coordinate (U) at (0,1.73205);\n\\coordinate (V) at (2,1.73205);\n\\draw[black,line width=0.8pt] (L)--(B)--(C)--(R);\n\\draw[black,densely dotted,line width=0.4pt] (L)--(R);\n\\draw[black,densely dotted,line width=0.4pt] (B)--(U) (C)--(V);\n\\draw[black,line width=0.4pt] (-0.56062,0.83103)--(-0.43938,0.90103);\n\\draw[black,line width=0.4pt] (2.43938,0.90103)--(2.56062,0.83103);\n\\draw[black,line width=0.4pt] (1,-0.07)--(1,0.07);\n\\path (B) ++(105:0.58) node {$\\theta$};\n\\path (C) ++(75:0.58) node {$\\theta$};\n\\path (B)--node[midway,below=4pt] {$10\\,\\mathrm{cm}$}(C);\n\\path (L)--node[midway,above=3pt] {end view}(R);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 30, below the parts on the left",
+          "description": "Open symmetrical trapezoidal gutter with equal-length ticks on the bottom and both sloping sides. Dotted verticals rise from the bottom corners to the dotted horizontal joining the upper endpoints. Each theta lies between a side and its adjacent vertical. The diagram is unshaded, with ordinary marks in black.",
+          "mathematics": "The bottom is 10 cm. Matching ticks and the 30 cm total sheet width establish that both sloping sides are also 10 cm. Theta is measured from the vertical.",
+          "answerVisibility": "All measurements, equal-length marks, guides and angle labels are permanent givens; no calculated dimensions or optimum angle are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q30-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the cross-sectional area of the gutter is given by $A=100\\cos\\theta(1+\\sin\\theta)\\,\\mathrm{cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\frac12(10+10+20\\sin\\theta)(10\\cos\\theta)=100\\cos\\theta(1+\\sin\\theta)\\,\\mathrm{cm}^2$.",
+          "worked": "The total sheet width is 30 cm and the base is 10 cm. Each equal sloping side therefore has length 10 cm. Since $\\theta$ is measured from the vertical, the vertical height is $10\\cos\\theta$ cm and the horizontal projection of each side is $10\\sin\\theta$ cm.\n\nThe cross-section is a trapezium with lower base 10 cm, upper base $10+2(10\\sin\\theta)=10+20\\sin\\theta$ cm and height $10\\cos\\theta$ cm. Using $A=\\frac12(a+b)h$:\n$$\\begin{aligned}A&=\\frac12(10+10+20\\sin\\theta)(10\\cos\\theta)\\\\A&=\\frac12(20+20\\sin\\theta)(10\\cos\\theta)\\\\A&=100\\cos\\theta(1+\\sin\\theta)\\,\\mathrm{cm}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 47
+      },
+      {
+        "id": "p39-q30-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "For what value of $\\theta$ does the gutter have maximum carrying capacity?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta=\\frac{\\pi}{6}$ radians $(30^\\circ)$.",
+          "worked": "Use radians, with $0\\leq\\theta\\leq\\frac\\pi2$.\n$$\\begin{aligned}A&=100\\cos\\theta+100\\cos\\theta\\sin\\theta\\\\\\frac{dA}{d\\theta}&=-100\\sin\\theta+100(\\cos^2\\theta-\\sin^2\\theta).\\end{aligned}$$\nUsing $\\cos^2\\theta=1-\\sin^2\\theta$:\n$$\\begin{aligned}\\frac{dA}{d\\theta}&=100(-\\sin\\theta+1-2\\sin^2\\theta)\\\\\\frac{dA}{d\\theta}&=-100(2\\sin^2\\theta+\\sin\\theta-1).\\end{aligned}$$\nFor $\\frac{dA}{d\\theta}=0$:\n$$\\begin{aligned}2\\sin^2\\theta+\\sin\\theta-1&=0\\\\(2\\sin\\theta-1)(\\sin\\theta+1)&=0\\\\\\sin\\theta&=\\frac12\\quad\\text{or}\\quad\\sin\\theta=-1.\\end{aligned}$$\nThere is no solution to $\\sin\\theta=-1$ in the domain. Thus\n$$\\begin{aligned}\\sin\\theta&=\\frac12\\\\\\theta&=\\frac\\pi6.\\end{aligned}$$\nCheck the maximum:\n$$\\begin{aligned}\\frac{d^2A}{d\\theta^2}&=-100(4\\sin\\theta\\cos\\theta+\\cos\\theta)\\\\A''\\left(\\frac\\pi6\\right)&=-150\\sqrt3<0.\\end{aligned}$$\nThis is the only interior stationary point. Also, $A(0)=100$ and $A(\\frac\\pi2)=0$, whereas $A(\\frac\\pi6)=75\\sqrt3>100$. The maximum carrying capacity occurs at $\\theta=\\frac\\pi6$ radians $(30^\\circ)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p39-q30-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the cross-sectional area for this value of $\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$75\\sqrt3\\,\\mathrm{cm}^2$ (approximately $130\\,\\mathrm{cm}^2$, to the nearest square centimetre).",
+          "worked": "$$\\begin{aligned}A\\left(\\frac\\pi6\\right)&=100\\left(\\frac{\\sqrt3}{2}\\right)\\left(1+\\frac12\\right)\\\\A\\left(\\frac\\pi6\\right)&=100\\left(\\frac{\\sqrt3}{2}\\right)\\left(\\frac32\\right)\\\\A\\left(\\frac\\pi6\\right)&=75\\sqrt3\\,\\mathrm{cm}^2.\\end{aligned}$$\nThe cross-sectional area is $75\\sqrt3\\,\\mathrm{cm}^2$, approximately $130\\,\\mathrm{cm}^2$ to the nearest square centimetre.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q30",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:19.642Z",
+  "updatedAt": "2026-11-12T05:28:19.642Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p39-q30",
+    "sectionRole": "challenge"
+  }
+}

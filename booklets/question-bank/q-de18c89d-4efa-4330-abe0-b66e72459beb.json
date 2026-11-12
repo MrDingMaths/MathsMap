@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-de18c89d-4efa-4330-abe0-b66e72459beb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied volume and surface-area scaffolding, differentiate to establish a global minimum, and substitute to show that height equals diameter.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:09:54.175Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "437630cc02025e417d97c253cdc75ef905d97a94fcea3de354730cf9d9ae63a9",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-d2c492fb01dbb48968c0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "A certain cylindrical soft drink can is required to have a volume of $250\\text{ cm}^3$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q20-cylinder",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 32, p32-q20-cylinder\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (0,3.5) ellipse [x radius=1.1,y radius=0.28];\n\\draw[black] (-1.1,3.5)--(-1.1,0);\n\\draw[black] (1.1,3.5)--(1.1,0);\n\\draw[black] (-1.1,0) arc[start angle=180,end angle=360,x radius=1.1,y radius=0.28];\n\\draw[black,<->,line width=0.5pt] (0,3.5)--(1.1,3.5) node[midway,above] {$r$};\n\\draw[black,<->,line width=0.5pt] (1.45,0)--(1.45,3.5) node[midway,right] {$h$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Cylinder below question 20 on the left",
+          "description": "Upright closed cylinder with an elliptical top, visible curved lower rim, a centre-to-right-rim radius arrow labelled r and an external vertical height arrow labelled h. Non-mathematical grey shading is omitted.",
+          "mathematics": "Closed cylinder of radius r and height h; no numerical dimensions are supplied.",
+          "answerVisibility": "Permanent supplied figure; no solution information."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the height of the can is $\\frac{250}{\\pi r^2}$, where $r$ is the base radius.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=\\frac{250}{\\pi r^2}\\text{ cm}$.",
+          "worked": "Let the height of the can be $h$ cm. The volume is $\\pi r^2h$.\n$$\\begin{align*}250&=\\pi r^2h\\\\h&=\\frac{250}{\\pi r^2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p32-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the total surface area is $S=2\\pi r^2+\\frac{500}{r}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$S=2\\pi r^2+\\frac{500}{r}\\text{ cm}^2$, where $r>0$.",
+          "worked": "Each end has area $\\pi r^2$ and the curved side has area $2\\pi rh$.\n$$\\begin{align*}S&=2\\pi r^2+2\\pi rh\\\\S&=2\\pi r^2+2\\pi r\\times\\frac{250}{\\pi r^2}\\\\S&=2\\pi r^2+\\frac{500}{r},\\qquad r>0.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p32-q20-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $r=\\frac{5}{\\sqrt[3]{\\pi}}$ gives a global minimum of $S$ in the domain $r>0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$r=\\frac{5}{\\sqrt[3]{\\pi}}$ is stationary and $\\frac{d^2S}{dr^2}=4\\pi+\\frac{1000}{r^3}>0$ for every $r>0$, so it gives the global minimum.",
+          "worked": "$$\\begin{align*}\\frac{dS}{dr}&=4\\pi r-\\frac{500}{r^2}\\\\\\frac{dS}{dr}&=\\frac{4\\pi r^3-500}{r^2}.\\end{align*}$$\nAt a stationary point,\n$$\\begin{align*}\\frac{dS}{dr}&=0\\\\4\\pi r^3&=500\\\\r^3&=\\frac{125}{\\pi}\\\\r&=\\frac{5}{\\sqrt[3]{\\pi}}.\\end{align*}$$\nAlso,\n$$\\frac{d^2S}{dr^2}=4\\pi+\\frac{1000}{r^3}>0\\qquad\\text{for all }r>0.$$\nThus the derivative is strictly increasing throughout the domain, and the stationary point gives a global minimum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 79
+      },
+      {
+        "id": "p32-q20-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Show that to minimise the can’s surface area, the base diameter should equal its height.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=\\frac{10}{\\pi^{1/3}}=2r$, so the height equals the base diameter.",
+          "worked": "When $r=\\frac{5}{\\sqrt[3]{\\pi}}$,\n$$\\begin{align*}h&=\\frac{250}{\\pi r^2}\\\\h&=\\frac{250}{\\pi\\left(\\frac{5}{\\sqrt[3]{\\pi}}\\right)^2}\\\\h&=\\frac{250}{\\pi\\left(\\frac{25}{\\pi^{2/3}}\\right)}\\\\h&=\\frac{10}{\\pi^{1/3}}\\\\h&=2r.\\end{align*}$$\nHence the minimum surface area occurs when the base diameter equals the height.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:15.643Z",
+  "updatedAt": "2026-11-12T05:28:15.643Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p32-q20",
+    "sectionRole": "exercise"
+  }
+}

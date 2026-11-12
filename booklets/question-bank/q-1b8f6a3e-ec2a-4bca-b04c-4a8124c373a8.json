@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1b8f6a3e-ec2a-4bca-b04c-4a8124c373a8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Relate the rectangle width to a semicircular arc, model surface area, verify a maximum using the second derivative and interpret the radius as height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T05:17:22.857Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f903b0aee1e4b5071761c013aff0adfebfe67d4f9ab3c6fbeab7eee9df228366",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/lean-review/calls/content-1792991819613-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "A half-pipe is to be made from a rectangular piece of metal of length $x$ m.\nThe perimeter of the rectangle is $30$ m.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q19-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31, p31-q19-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2,-2) rectangle (53,31);\n\\coordinate (A) at (0,12);\n\\coordinate (B) at (24,12);\n\\coordinate (C) at (50,27);\n\\coordinate (D) at (26,27);\n\\draw[black,line width=0.8pt] (A)--(D);\n\\begin{scope}\n\\clip (-10,12)--(24,12)--(50,27)--(60,40)--(-10,40)--cycle;\n\\draw[black,line width=0.8pt] (D) .. controls (24,10) and (47,10) .. (C);\n\\end{scope}\n\\draw[black,line width=0.8pt] (A) .. controls (-2,-5) and (21,-5) .. (B);\n\\draw[black,line width=0.8pt] (B)--(C);\n\\coordinate (Tnear) at (16.727490991,1.057974415);\n\\coordinate (Tfar) at (42.727490991,16.057974415);\n\\draw[black,line width=0.8pt] (Tnear)--(Tfar);\n\\draw[black,line width=0.8pt] (Tfar) .. controls (46.186347779,18.053468715) and (49.064848925,21.700810577) .. (C);\n\n\\path (B)--(C) node[midway,below right] {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 19, diagram below the prompt on the left",
+          "description": "Open semicylindrical sheet in perspective, with two curved end profiles joined by two longitudinal rims. The length x labels the lower-right rim. No end plates, radius labels or numerical dimensions are added. The exposed rear-right curved rim joins the outer longitudinal silhouette; the occluded central rear arc remains omitted. The silhouette follows the tangent of the end profile parallel to the extrusion, preserving the open sheet rather than adding end plates.",
+          "mathematics": "The rectangle length is x; its other dimension becomes the semicircular arc length πr. The half-pipe height is r.",
+          "answerVisibility": "Only the supplied x label is visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the dimensions of the rectangle that will give the maximum surface area.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7.5\\text{ m}\\times7.5\\text{ m}$.",
+          "worked": "Let the semicircular cross-section have radius $r$ metres. The width of the rectangle is $\\pi r$ metres.\n$$\\begin{align*}30&=2x+2\\pi r\\\\15&=x+\\pi r\\\\x&=15-\\pi r\\end{align*}$$\nThe restrictions are $r>0$ and $x>0$, so $0<r<\\frac{15}{\\pi}$.\nThe surface area is\n$$\\begin{align*}S&=\\pi rx\\\\S&=\\pi r(15-\\pi r)\\\\S&=15\\pi r-\\pi^2r^2\\\\S'&=15\\pi-2\\pi^2r\\end{align*}$$\nAt a stationary point,\n$$\\begin{align*}0&=15\\pi-2\\pi^2r\\\\r&=\\frac{15}{2\\pi}.\\end{align*}$$\nSince $S''=-2\\pi^2<0$ throughout the domain, this gives the maximum surface area.\n$$\\begin{align*}x&=15-\\pi\\left(\\frac{15}{2\\pi}\\right)\\\\x&=7.5\\text{ m}\\\\\\pi r&=\\pi\\left(\\frac{15}{2\\pi}\\right)\\\\\\pi r&=7.5\\text{ m}.\\end{align*}$$\nThe rectangle must be $7.5$ m by $7.5$ m.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 73
+      },
+      {
+        "id": "p31-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the height from the ground up to the top of the half-pipe with this maximum area, correct to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2.4\\text{ m}$.",
+          "worked": "The cross-section is a semicircle, so the height is its radius.\n$$\\begin{align*}h&=r\\\\h&=\\frac{15}{2\\pi}\\text{ m}\\\\h&\\approx2.4\\text{ m}\\quad\\text{(1 decimal place).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q19",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:19.109Z",
+  "updatedAt": "2026-11-12T05:28:19.109Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p31-q19",
+    "sectionRole": "exercise"
+  }
+}

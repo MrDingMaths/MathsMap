@@ -1,0 +1,532 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fd50378a-3c97-460f-b136-52773e468e5d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation",
+      "classify-stationary-first-derivative"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret internal frame members to form a constraint, derive the area model and use derivative behaviour to maximise it.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:17:42.305Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "47ae9595cf24298fd4e40f6a02bd69042177d116cffa19670cc1ef16c87da497",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/lean-review/calls/content-1792829832705-19/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "A window frame consisting of six equal rectangles is shown. Only 12 metres of frame is available for its construction.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25 p25-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt] (0,0) rectangle (2.4,3);\n\\draw[black,line width=0.8pt] (1.2,0)--(1.2,3);\n\\draw[black,line width=0.8pt] (0,1)--(2.4,1);\n\\draw[black,line width=0.8pt] (0,2)--(2.4,2);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 36,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 7, lower-left window frame",
+          "description": "Unlabelled upright rectangular frame with two equal columns and three equal rows; all outer and internal members are retained.",
+          "mathematics": "Three full-height vertical members and four full-width horizontal members give total frame length 3h+4w.",
+          "answerVisibility": "All frame members are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p25-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If the entire frame has height $h$ metres and width $w$ metres, show that $w=\\dfrac{12-3h}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$w=\\dfrac{12-3h}{4}$.",
+          "worked": "There are three vertical members of length $h$ and four horizontal members of length $w$.\n$$\\begin{align*}3h+4w&=12\\\\4w&=12-3h\\\\w&=\\frac{12-3h}{4}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p25-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area of the window is $A=3h-\\dfrac34h^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=3h-\\dfrac34h^2$.",
+          "worked": "$$\\begin{align*}A&=hw\\\\A&=\\frac{h(12-3h)}{4}\\\\A&=3h-\\frac{3h^2}{4}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p25-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $\\dfrac{dA}{dh}$ and hence find the dimensions of the frame for which the area of the window is maximised.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dA}{dh}=3-\\dfrac{3h}{2}$; height $2$ m and width $1.5$ m.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p25-q7-c-derivative",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}\\frac{dA}{dh}&=3-\\frac{3h}{2}\\\\3-\\frac{3h}{2}&=0\\\\h&=2\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p25-q7-c-domain",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "For a non-degenerate frame, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0<h<4",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The derivative changes from positive to negative at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "h=2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ":",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p25-q7-c-sign-table",
+                "type": "table",
+                "widthMm": 80,
+                "marginBefore": 2,
+                "marginAfter": 2,
+                "borderColour": "#cccccc",
+                "borderWidthMm": 0.26,
+                "rowHeights": [],
+                "annotations": [],
+                "border": false,
+                "padding": 0,
+                "widths": [
+                  2,
+                  1,
+                  1,
+                  1
+                ],
+                "rows": [
+                  [
+                    {
+                      "id": "p25-q7-c-cell-h",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-h",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "h",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-0",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-0",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0<h<2",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-2",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-2",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-3",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-3",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "2<h<4",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "id": "p25-q7-c-cell-derivative",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-derivative",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "\\frac{dA}{dh}",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-rise",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-rise",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "+",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-stationary",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-stationary",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "0",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p25-q7-c-cell-fall",
+                      "type": "cell",
+                      "header": false,
+                      "align": "center",
+                      "verticalAlign": "middle",
+                      "background": "transparent",
+                      "colour": "inherit",
+                      "bold": false,
+                      "borderColour": null,
+                      "borderWidthMm": null,
+                      "border": null,
+                      "rotation": 0,
+                      "colspan": 1,
+                      "rowspan": 1,
+                      "blocks": [
+                        {
+                          "id": "p25-q7-c-table-fall",
+                          "type": "paragraph",
+                          "fontSize": null,
+                          "align": "left",
+                          "spaceBefore": 0,
+                          "spaceAfter": 2,
+                          "lineHeight": 1.4,
+                          "indent": 0,
+                          "inlines": [
+                            {
+                              "type": "math",
+                              "latex": "-",
+                              "display": false
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "id": "p25-q7-c-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The area is maximised at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "h=2\\text{ m}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "w(2)=\\frac{12-3(2)}4=1.5\\text{ m}",
+                    "display": true
+                  },
+                  {
+                    "type": "text",
+                    "text": "The frame should have height 2 m and width 1.5 m.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:28:14.462Z",
+  "updatedAt": "2026-11-12T05:28:14.463Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p25-q7",
+    "sectionRole": "exercise"
+  }
+}
