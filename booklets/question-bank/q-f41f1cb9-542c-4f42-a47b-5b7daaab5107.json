@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f41f1cb9-542c-4f42-a47b-5b7daaab5107",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [
+      "calculate-z-score"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Convert a contextual threshold to a z-score, identify the empirical-rule tail and calculate an expected number of refunds.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T00:30:46.667Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "414c52a6138ec353a93955fa05ac4525683606ce8e3d161cf3c42d0f75f80a9b",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792974618468-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Nathan sells a diet plan with a money-back guarantee if the customer does not lose 9 kg in the first three months. The weight loss after three months is normally distributed with a mean loss of 13.2 kg and a standard deviation of 1.4 kg.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the z-score corresponding to a weight loss of 9 kg?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-3$",
+          "worked": "$$\\begin{aligned}z&=\\frac{x-\\mu}{\\sigma}\\\\z&=\\frac{9-13.2}{1.4}\\\\z&=-3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p31-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What percentage of customers will not reach the 9 kg in three months?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p31-q7-tail-solution",
+        "answer": {
+          "short": "Approximately $0.15\\%$.",
+          "worked": "A loss of 9 kg is three standard deviations below the mean. By the empirical rule, approximately $99.7\\%$ of customers lose between 9 kg and 17.4 kg. The two tails are equal, so the percentage losing less than 9 kg is\n$$\\frac{100\\%-99.7\\%}{2}=0.15\\%.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p31-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Nathan has sold 2000 diet plans. How many refunds are expected?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "3 refunds.",
+          "worked": "$$\\begin{aligned}\\text{Expected refunds}&=2000\\times0.0015\\\\&=3\\end{aligned}$$\nApproximately 3 refunds are expected.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p31-q7-tail-solution",
+        "role": "solution",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1.25cm,y=2cm]\n\\definecolor{houseblue}{HTML}{268CFF}\n\\definecolor{lightblue}{HTML}{D4E8FF}\n\\fill[lightblue] (-3.8,0) -- plot[domain=-3.8:-3,samples=35] (\\x,{exp(-\\x*\\x/2)}) -- (-3,0) -- cycle;\n\\draw[->] (-3.9,0)--(3.9,0);\n\\draw[thick,domain=-3.8:3.8,samples=100] plot (\\x,{exp(-\\x*\\x/2)});\n\\foreach \\x/\\raw in {-3/9,-2/10.4,-1/11.8,0/13.2,1/14.6,2/16,3/17.4}{\\draw (\\x,0)--(\\x,-0.04);\\pgfmathsetmacro{\\tickY}{-0.08-0.38*mod(\\x+3,2)}\\draw[line width=0.25pt](\\x,-0.04)--(\\x,\\tickY);\\node[below,font=\\fontsize{10}{12}\\selectfont] at (\\x,\\tickY) {\\raw};}\n\\draw[dashed] (0,0)--(0,1);\n\\draw[dashed] (-3,0)--(-3,0.16);\n\\draw[->,houseblue] (-2.7,0.42)--(-3.35,0.025);\n\\node[houseblue,font=\\fontsize{10}{12}\\selectfont] at (-2.5,0.56) {$0.15\\%$};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (0,-0.95) {Weight loss (kg)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 7(b)",
+          "description": "Authored solution sketch following the normal-curve method taught on page 28; the lower tail below 9 kg is shaded.",
+          "mathematics": "Mean 13.2 kg, standard deviation 1.4 kg; 9 kg corresponds to z=-3. Empirical-rule lower-tail area is approximately 0.15%.",
+          "answerVisibility": "solution-only",
+          "sizing": {
+            "exceptionReason": "Seven decimal raw-score ticks need horizontal separation at their retained native label size."
+          }
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:34.839Z",
+  "updatedAt": "2026-11-12T08:02:34.839Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p31-q7",
+    "sectionRole": "exercise"
+  }
+}

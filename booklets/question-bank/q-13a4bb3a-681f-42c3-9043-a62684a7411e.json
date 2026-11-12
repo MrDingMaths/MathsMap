@@ -1,0 +1,784 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-13a4bb3a-681f-42c3-9043-a62684a7411e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "probability-density-function"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Connects a piecewise density graph, cumulative areas, a value table and a piecewise linear CDF.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T02:31:36.401Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f8fc1f2520a322437973469a81f71bb63d32dc1a380877a46d80e76ddb949fbd",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/lean-review/calls/content-1792981876834-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A piecewise function is graphed: $f(x)=0.125$ for $0\\le x<2$, $f(x)=0.25$ for $2\\le x\\le5$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q4-pdf",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q4-pdf\"}\n\\begin{tikzpicture}[x=0.85cm,y=10cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,->] (-0.55,0)--(5.7,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.05)--(0,0.35) node[right] {$y$};\n\\foreach \\x in {1,2,3,4,5}{\\draw[line width=0.4pt] (\\x,-0.004)--(\\x,0.004);\\node[below] at (\\x,-0.005) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {0.125/0.125,0.25/0.25}{\\draw[line width=0.4pt] (-0.06,\\y)--(0.06,\\y);\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.8pt] (0,0.125)--(2,0.125);\n\\draw[line width=0.8pt] (2,0.25)--(5,0.25);\n\\filldraw[fill=white,line width=0.4pt] (2,0.125) circle[radius=1.7pt];\n\\fill (2,0.25) circle[radius=1.7pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 4, upper-right PDF graph",
+          "description": "Two horizontal density segments, with an open lower endpoint and a closed upper endpoint at x=2. Ordinary graph marks use black.",
+          "mathematics": "f(x)=1/8 on [0,2); f(x)=1/4 on [2,5].",
+          "answerVisibility": "Always visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Verify it forms a valid PDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Valid PDF: $f(x)\\ge0$ and the total area is $1$.",
+          "worked": "$$\\begin{align*}\\text{Area}&=2(0.125)+3(0.25)\\\\\\text{Area}&=0.25+0.75\\\\\\text{Area}&=1\\end{align*}$$\nSince $f(x)\\ge0$ throughout its domain and the total area is $1$, it is a valid PDF.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p34-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p34-q4-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the cumulative probability table ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "P(X\\le x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " for ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x=0,1,2,3,4,5.",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p34-q4-b-table",
+              "type": "table",
+              "widthMm": 110,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                9,
+                13
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1,
+              "widths": [
+                3,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p34-q4-b-hx",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-hxp",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "x",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h0p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "0",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h1p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h2p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h3p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h4p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-h5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-h5p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "5",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p34-q4-b-probability-label",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p34-q4-b-probability-label-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "P(X\\le x)",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p34-q4-b-r0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p34-q4-b-r1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p34-q4-b-r2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p34-q4-b-r3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p34-q4-b-r4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p34-q4-b-r5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $x=0,1,2,3,4,5$, respectively: $0,\\frac18,\\frac14,\\frac12,\\frac34,1$.",
+          "worked": "$$\\begin{align*}F(0)&=0\\\\F(1)&=1\\left(\\frac18\\right)=\\frac18\\\\F(2)&=2\\left(\\frac18\\right)=\\frac14\\\\F(3)&=\\frac14+1\\left(\\frac14\\right)=\\frac12\\\\F(4)&=\\frac14+2\\left(\\frac14\\right)=\\frac34\\\\F(5)&=\\frac14+3\\left(\\frac14\\right)=1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p34-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Plot and graph the CDF and write the CDF in piecewise notation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$F(x)=\\begin{cases}\\dfrac{x}{8},&0\\le x<2,\\\\[2pt]\\dfrac{x}{4}-\\dfrac14,&2\\le x\\le5.\\end{cases}$$",
+          "worked": "For $0\\le x<2$:\n$$F(x)=\\frac18x.$$\nFor $2\\le x\\le5$:\n$$\\begin{align*}F(x)&=\\frac14+\\frac14(x-2)\\\\F(x)&=\\frac{x}{4}-\\frac14.\\end{align*}$$\nJoin the points $(0,0)$, $(1,\\frac18)$, $(2,\\frac14)$, $(3,\\frac12)$, $(4,\\frac34)$ and $(5,1)$ with straight segments. The graph is continuous at $x=2$.",
+          "solutionDiagrams": [
+            {
+              "id": "p34-q4-c-graph-answer",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cdfBlue\",\"hex\":\"268CFF\",\"reason\":\"CDF answer series\"}],\"reference\":\"source page 34 p34-q4-c-graph-answer\"}\n\\begin{tikzpicture}[x=0.8cm,y=3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cdfBlue}{HTML}{268CFF}\n\\draw[step=1,line width=0.25pt,color=black!20] (0,0) grid (5,1);\n\\foreach \\y in {0.25,0.5,0.75,1}{\\draw[line width=0.25pt,color=black!20] (0,\\y)--(5.5,\\y);}\n\\draw[line width=0.5pt,->] (-0.2,0)--(5.9,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.1)--(0,1.2) node[right] {$y$};\n\\foreach \\x in {2,4}{\\draw[line width=0.4pt] (\\x,-0.02)--(\\x,0.02);\\node[below] at (\\x,-0.02) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.5,1}{\\draw[line width=0.4pt] (-0.06,\\y)--(0.06,\\y);\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[cdfBlue,line width=0.8pt] (0,0)--(2,0.25)--(5,1);\n\\foreach \\x/\\y in {0/0,1/0.125,2/0.25,3/0.5,4/0.75,5/1}{\\filldraw[draw=cdfBlue,fill=white,line width=0.4pt] (\\x,\\y) circle[radius=1.8pt];}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 34,
+                "sourceRegion": "Question 4(c), answer graph",
+                "description": "Continuous piecewise linear CDF on [0,5], with unit horizontal and quarter-unit vertical grid spacing. Hollow sample markers reproduce the source plotting marks and do not represent holes in the function.",
+                "mathematics": "F(x)=x/8 for 0<=x<2 and F(x)=x/4-1/4 for 2<=x<=5.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 47
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p34-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q4-root/label",
+                  "type": "item",
+                  "ref": "p34-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p34-q4-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p34-q4-root/prompt",
+                      "type": "item",
+                      "ref": "p34-q4-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p34-q4-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p34-q4-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p34-q4-pdf",
+                              "type": "item",
+                              "ref": "p34-q4-pdf",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p34-q4-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p34-q4-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p34-q4-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p34-q4-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p34-q4-a/label",
+                                          "type": "item",
+                                          "ref": "p34-q4-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-a/prompt",
+                                          "type": "item",
+                                          "ref": "p34-q4-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-a/space",
+                                          "type": "item",
+                                          "ref": "p34-q4-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p34-q4-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p34-q4-b/label",
+                                          "type": "item",
+                                          "ref": "p34-q4-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-b/prompt#p34-q4-b-instruction",
+                                          "type": "item",
+                                          "ref": "p34-q4-b/prompt#p34-q4-b-instruction",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-b/prompt#p34-q4-b-table",
+                                          "type": "item",
+                                          "ref": "p34-q4-b/prompt#p34-q4-b-table",
+                                          "title": "table"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-b/space",
+                                          "type": "item",
+                                          "ref": "p34-q4-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p34-q4-root:row:2",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p34-q4-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p34-q4-c/label",
+                                          "type": "item",
+                                          "ref": "p34-q4-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-c/prompt",
+                                          "type": "item",
+                                          "ref": "p34-q4-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p34-q4-c/space",
+                                          "type": "item",
+                                          "ref": "p34-q4-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p34-q4-root:row:2:fill:1",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [],
+                                      "title": "Empty column",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:04.580Z",
+  "updatedAt": "2026-11-12T08:02:04.580Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p34-q4",
+    "sectionRole": "exercise"
+  }
+}

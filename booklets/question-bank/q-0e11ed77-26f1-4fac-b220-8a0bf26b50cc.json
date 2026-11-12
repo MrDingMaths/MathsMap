@@ -1,0 +1,107 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e11ed77-26f1-4fac-b220-8a0bf26b50cc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Derive individual normal-curve region percentages from the three supplied central percentages using symmetry and subtraction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T01:16:51.646Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "80fb952316378d1f874eb6e6af89c2582ff2fadf6a120df515212654e79360a4",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792977393765-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Using only the given information, fill in the missing percentages of the normal curve.\n\n(You will need to do this in an exam as the normal curve is not given to you.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q4-curve",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q4-diagram\"}\n\\begin{tikzpicture}[x=1.7cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-4,-2.5) rectangle (4,3.5);\n\\draw[<->,line width=0.5pt] (-3.75,0)--(3.75,0);\n\\foreach \\x in {-3,-2,-1,0,1,2,3}{\n\\draw[dashed,line width=0.4pt] (\\x,0)--(\\x,{3.2*exp(-\\x*\\x/2)});\n\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.12);\n\\node[below] at (\\x,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\draw[line width=0.8pt,domain=-3.45:3.45,samples=121,smooth] plot (\\x,{3.2*exp(-\\x*\\x/2)});\n\\node at (0,-0.85) {$z$-score};\n\\draw[<->,line width=0.5pt] (-1,-1.35)--(1,-1.35);\n\\node[fill=white,inner sep=2pt] at (0,-1.35) {$68\\%$};\n\\draw[<->,line width=0.5pt] (-2,-1.8)--(2,-1.8);\n\\node[fill=white,inner sep=2pt] at (0,-1.8) {$95\\%$};\n\\draw[<->,line width=0.5pt] (-3,-2.25)--(3,-2.25);\n\\node[fill=white,inner sep=2pt] at (0,-2.25) {$99.7\\%$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 150,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 4 normal-curve scaffold",
+          "description": "Unfilled normal curve with seven labelled ticks, dashed vertical guides and three aligned central-interval arrows. Decorative orange and green source strokes use house black; solid curve and dashed guides retain their distinct roles.",
+          "mathematics": "The central intervals from -1 to 1, -2 to 2 and -3 to 3 contain approximately 68%, 95% and 99.7%, respectively.",
+          "answerVisibility": "Only the three supplied central percentages are visible. Individual region percentages are left for student annotation."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "From left to right, the eight regions contain approximately $0.15\\%,\\ 2.35\\%,\\ 13.5\\%,\\ 34\\%,\\ 34\\%,\\ 13.5\\%,\\ 2.35\\%,\\ 0.15\\%$.",
+      "worked": "By symmetry, matching regions on either side of $z=0$ have equal percentages.\n\n$$\\begin{align*}\\text{Between }0\\text{ and }1&=\\frac{68\\%}{2}\\\\&=34\\%\\\\\\text{Between }1\\text{ and }2&=\\frac{95\\%-68\\%}{2}\\\\&=13.5\\%\\\\\\text{Between }2\\text{ and }3&=\\frac{99.7\\%-95\\%}{2}\\\\&=2.35\\%\\\\\\text{Beyond }3&=\\frac{100\\%-99.7\\%}{2}\\\\&=0.15\\%\\end{align*}$$\n\nReflect these percentages across $z=0$ to complete the left half. These are empirical-rule approximations.",
+      "solutionDiagrams": [
+        {
+          "id": "p26-q4-completed-curve",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q4-diagram completed answer\"}\n\\begin{tikzpicture}[x=1.7cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-4,-6.5) rectangle (4,5.1);\n\\draw[<->,line width=0.5pt] (-3.75,0)--(3.75,0);\n\\foreach \\x in {-3,-2,-1,0,1,2,3}{\n\\draw[dashed,line width=0.4pt] (\\x,0)--(\\x,{3.2*exp(-\\x*\\x/2)});\n\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.12);\n\\node[below] at (\\x,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\draw[line width=0.8pt,domain=-3.45:3.45,samples=121,smooth] plot (\\x,{3.2*exp(-\\x*\\x/2)});\n\\node[inner sep=1pt] at (-1,4.5) {$34\\%$};\n\\draw[->,line width=0.4pt] (-1,4.2)--(-0.6,4.2)--(-0.5,0.85);\n\\node[inner sep=1pt] at (1,4.5) {$34\\%$};\n\\draw[->,line width=0.4pt] (1,4.2)--(0.6,4.2)--(0.5,0.85);\n\\node[inner sep=1pt] at (-1.5,2.8) {$13.5\\%$};\n\\draw[->,line width=0.4pt] (-1.5,2.5)--(-1.5,0.35);\n\\node[inner sep=1pt] at (1.5,2.8) {$13.5\\%$};\n\\draw[->,line width=0.4pt] (1.5,2.5)--(1.5,0.35);\n\\node[inner sep=1pt] at (-2.45,1.5) {$2.35\\%$};\n\\draw[->,line width=0.4pt] (-2.45,1.22)--(-2.4,0.09);\n\\node[inner sep=1pt] at (2.45,1.5) {$2.35\\%$};\n\\draw[->,line width=0.4pt] (2.45,1.22)--(2.4,0.09);\n\\node[inner sep=1pt] at (-3.35,0.55) {$0.15\\%$};\n\\draw[->,line width=0.4pt] (-3.35,0.35)--(-3.25,0.025);\n\\node[inner sep=1pt] at (3.35,0.55) {$0.15\\%$};\n\\draw[->,line width=0.4pt] (3.35,0.35)--(3.25,0.025);\n\\node at (0,-1.4) {$z$-score};\n\\draw[<->,line width=0.5pt] (-1,-3)--(1,-3);\n\\node[inner sep=2pt] at (0,-2.4) {$68\\%$};\n\\draw[<->,line width=0.5pt] (-2,-4.5)--(2,-4.5);\n\\node[inner sep=2pt] at (0,-3.9) {$95\\%$};\n\\draw[<->,line width=0.5pt] (-3,-6)--(3,-6);\n\\node[inner sep=2pt] at (0,-5.4) {$99.7\\%$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 150,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 26,
+            "sourceRegion": "Question 4 completed scaffold",
+            "description": "Complete self-contained answer figure with all eight region percentages. Leader arrows identify narrow outer regions without crowding their labels.",
+            "mathematics": "Successive region percentages are 0.15, 2.35, 13.5, 34, 34, 13.5, 2.35 and 0.15.",
+            "answerVisibility": "Answer editions only.",
+            "sizing": {
+              "exceptionReason": "Eight native-size region percentages and three central-interval spans require distinct annotation rows; ordinary compact defaults caused real collisions."
+            }
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 0
+  },
+  "presentation": {
+    "ownerId": "p26-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:31.673Z",
+  "updatedAt": "2026-11-12T08:02:31.673Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p26-q4",
+    "sectionRole": "exercise"
+  }
+}

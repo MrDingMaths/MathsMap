@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-09125978-fa94-422a-b19b-234cc67ca8d5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "normal-mean-sd-from-probability",
+    "secondarySkillIds": [
+      "empirical-rule"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret an upper-tail percentage using the empirical rule, then work backwards by one standard deviation to find the mean.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:05:30.864Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2e44b9a24ff2b6aee0bdb9338d16eb265733b063a661fe091812b15abc164763",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/semantic-packets/assignments/assignment-f847886526cc59ae63aa/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "A normal distribution has a standard deviation of 3. If 16% of the scores are at least 29, find the mean.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\mu=26$",
+      "worked": "By the empirical rule, 16% of scores lie above one standard deviation above the mean. Thus 29 has $z=1$.\n\n$$\\begin{aligned}29&=\\mu+3\\\\\\mu&=29-3\\\\\\mu&=26\\end{aligned}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p32-q9-solution-curve",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1cm,y=1cm]\n\\fill[fill={rgb,255:red,212;green,232;blue,255}] (1,0) -- plot[domain=1:3.5,samples=60] (\\x,{1.8*exp(-\\x*\\x/2)}) -- (3.5,0) -- cycle;\n\\draw[->] (-3.6,0) -- (3.7,0);\n\\draw[black] plot[domain=-3.5:3.5,samples=100] (\\x,{1.8*exp(-\\x*\\x/2)});\n\\draw[dashed] (0,0) -- (0,1.8);\n\\draw[dashed] (1,0) -- (1,{1.8*exp(-0.5)});\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (0,0) {$26$};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (1,0) {$29$};\n\\node[above,font=\\fontsize{10}{12}\\selectfont] at (2,0.45) {$16\\%$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 32,
+            "sourceRegion": "Question 9",
+            "description": "Authored solution sketch following the page 28 instruction to sketch the normal curve with corresponding raw scores. The upper tail beyond 29 is shaded.",
+            "mathematics": "Mean 26, standard deviation 3; 29 is one standard deviation above the mean, with an empirical-rule upper-tail area of 16%.",
+            "answerVisibility": "answer-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 26
+  },
+  "presentation": {
+    "ownerId": "p32-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:35.859Z",
+  "updatedAt": "2026-11-12T08:02:35.859Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p32-q9",
+    "sectionRole": "exercise"
+  }
+}

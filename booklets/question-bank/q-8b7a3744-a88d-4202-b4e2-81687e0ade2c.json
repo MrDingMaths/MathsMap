@@ -1,0 +1,245 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8b7a3744-a88d-4202-b4e2-81687e0ade2c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-arrays-trees",
+    "secondarySkillIds": [
+      "complementary-multistage"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Read supplied tree probabilities, multiply along four paths and use a complementary event.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T12:28:18.817Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7f71de12553ab67fbf5f3cd1be0e649c4de1917b70b976a9b7a1efa56c395ec9",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/lean-review/calls/content-1792931271608-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Two light bulbs are selected at random from a large batch of bulbs in which 5% are defective.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q8-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "By multiplying along the branches of the tree, find:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q8-tree",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q8-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},every path/.style={draw=black,line width=0.8pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\n\\coordinate (D) at (2,1.35);\n\\coordinate (W) at (2,-1.35);\n\\coordinate (DD) at (4,2);\n\\coordinate (DW) at (4,0.7);\n\\coordinate (WD) at (4,-0.7);\n\\coordinate (WW) at (4,-2);\n\\node[left] at (S) {Start};\n\\node[align=center] at (2,3) {1st\\\\Bulb};\n\\node[align=center] at (4,3) {2nd\\\\Bulb};\n\\draw (S)--(D) node[midway,above left] {$0.05$};\n\\draw (S)--(W) node[midway,below left] {$0.95$};\n\\draw (D)--(DD) node[midway,above] {$0.05$};\n\\draw (D)--(DW) node[midway,below] {$0.95$};\n\\draw (W)--(WD) node[midway,above] {$0.05$};\n\\draw (W)--(WW) node[midway,below] {$0.95$};\n\\node[fill=white,inner sep=2pt] at (D) {D};\n\\node[fill=white,inner sep=2pt] at (W) {W};\n\\node[right] at (DD) {D};\n\\node[right] at (DW) {W};\n\\node[right] at (WD) {D};\n\\node[right] at (WW) {W};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 8, left-hand tree",
+              "description": "Two-stage tree with Start, stage headings 1st Bulb and 2nd Bulb, and D above W at every split. All six branch probabilities are supplied.",
+              "mathematics": "At each stage P(D)=0.05 and P(W)=0.95, independently of the preceding outcome.",
+              "answerVisibility": "Permanent supplied question diagram; all labels and probabilities remain visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p29-q8-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(\\text{both bulbs work})$,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.9025=90.25\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{both work})&=0.95\\times0.95\\\\&=0.9025\\\\&=90.25\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p29-q8-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p29-q8-a-ii-wrappable-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "P(",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": "the first works, but the second is defective",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": ")",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ",",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0475=4.75\\%$",
+              "worked": "$$\\begin{aligned}P(WD)&=0.95\\times0.05\\\\&=0.0475\\\\&=4.75\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p29-q8-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p29-q8-a-iii-wrappable-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "P(",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": "the first is defective, but the second works",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": ")",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ",",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0475=4.75\\%$",
+              "worked": "$$\\begin{aligned}P(DW)&=0.05\\times0.95\\\\&=0.0475\\\\&=4.75\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p29-q8-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$P(\\text{both bulbs are defective})$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0025=0.25\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{both defective})&=0.05\\times0.05\\\\&=0.0025\\\\&=0.25\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p29-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the probability that at least one bulb works.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.9975=99.75\\%$",
+          "worked": "The complement of at least one bulb working is both bulbs being defective.\n$$\\begin{aligned}P(\\text{at least one works})&=1-P(\\text{both defective})\\\\&=1-0.0025\\\\&=0.9975\\\\&=99.75\\%\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:33.338Z",
+  "updatedAt": "2026-11-12T08:01:33.338Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-v1",
+    "blockId": "p29-q8",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,521 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c411f70b-b1f7-4273-9f73-6eb0ff1e2b1a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "motion-displacement-velocity-acceleration",
+    "secondarySkillIds": [
+      "instantaneous-rate-tangent"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interprets displacement, compares tangent gradients and constructs a qualitative velocity graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:09:39.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9bbe5b0d55b125f8a1192a2ab4675569710a01e3084e2cbd57e35bdae9b76153",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-4-the-derivative-as-a-rate-of-change-20261024/lean-review/calls/content-1792822127011-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "A particle is moving vertically according to the graph shown, where upwards is positive.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-q15-position-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24 p24-q15-position-graph\"}\n\\begin{tikzpicture}[x=0.25cm,y=0.28cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3,0)--(24,0) node[below] {$t$};\n\\draw[->,line width=0.5pt] (0,-7.5)--(0,8.5) node[left] {$x$};\n\\draw[densely dashed,line width=0.4pt] (0,5)--(12,5)--(12,0);\n\\draw[densely dashed,line width=0.4pt] (0,-5)--(4,-5)--(4,0);\n\\draw[densely dashed,line width=0.4pt] (16,0)--(16,2.45);\n\\foreach \\t in {4,8,12,16}{\\draw[line width=0.4pt] (\\t,0.18)--(\\t,-0.18);}\n\\node[above] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\foreach \\t in {8,12,16}{\\node[below] at (\\t,-0.25) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-5,-3,5}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n% Matching tangent gradients at t=3, 13 and 20 are approximately -0.15.\n% The descending tail has a shallower gradient than the initial descent.\n\\draw[->,line width=0.8pt] (0,-3) .. controls ({4/3},-4.76) and ({8/3},-5) .. (4,-5) .. controls (6,-5) and (6.8,-2.4) .. (8,0) .. controls (9.2,2.4) and (10,5) .. (12,5) .. controls ({37/3},5) and ({38/3},4.975) .. (13,4.925) .. controls (14,4.775) and (15,3.55) .. (16,2.45) .. controls ({50/3},1.7166667) and ({52/3},0.9) .. (18,0.7) .. controls ({56/3},0.5) and ({58/3},0.4) .. (20,0.3) .. controls (21,0.15) and (22,0.1) .. (23,0.08);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Question 15, upper-left position–time graph",
+          "description": "Qualitative position graph with initial displacement −3, minimum (4, −5), zero at 8, maximum (12, 5), and a descending tail approaching the time axis. Dashed guides include the ordinate at 16.",
+          "mathematics": "Displacement is negative before 8; stationary times are 4 and 12. The increasing section is steepest near 8, and the descending tail flattens.",
+          "answerVisibility": "Permanent question givens only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p24-q15-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "At what times is this particle:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p24-q15-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "below the origin?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0\\le t<8$.",
+              "worked": "Below the origin means $x<0$. The displacement graph lies below the time axis for $0\\le t<8$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p24-q15-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "moving downwards?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0\\le t<4$ and $t>12$.",
+              "worked": "Moving downwards means $v<0$, so the displacement graph has negative gradient. This occurs for $0\\le t<4$ and $t>12$. At $t=4$ and $t=12$, the particle is stationary.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          }
+        ]
+      },
+      {
+        "id": "p24-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "At about what time is its speed greatest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t\\approx8$.",
+          "worked": "Speed is the magnitude of the displacement graph's gradient. The curve is steepest at about $t=8$, so its speed is greatest then.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p24-q15-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "At about what time is:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p24-q15-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the distance from the origin about the same as at $t=3$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$t\\approx5,\\ 11,\\ 13$.",
+              "worked": "Distance from the origin is $|x|$. Read the displacement at $t=3$, then find the other points with approximately that displacement or its opposite. These occur at $t\\approx5,\\ 11,\\ 13$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p24-q15-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the velocity about the same as at $t=3$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$t\\approx13$ and $t\\approx20$.",
+              "worked": "Velocity is the gradient of the displacement graph. Compare the tangent at $t=3$ with tangents elsewhere: approximately parallel tangents occur at $t\\approx13$ and $t\\approx20$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      },
+      {
+        "id": "p24-q15-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Draw an approximate sketch of the graph of $v$ as a function of time.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "See sketch.",
+          "worked": "The velocity is the gradient of the displacement graph. It starts negative, is zero at $t=4$, reaches a positive maximum near $t=8$, and is zero again at $t=12$. It then becomes negative, reaches a shallow minimum near $t=16$, and approaches zero from below.",
+          "solutionDiagrams": [
+            {
+              "id": "p24-q15-d-answer",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24 p24-q15-d-answer\"}\n\\begin{tikzpicture}[x=0.25cm,y=0.65cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3,0)--(21.5,0) node[below] {$t$};\n\\draw[->,line width=0.5pt] (0,-2.2)--(0,2.6) node[left] {$v$};\n\\foreach \\t in {4,8,12,16}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09);}\n\\node[above left] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\node[below] at (8,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$8$\\special{dvisvgm:raw </g>}};\n\\node[below] at (12,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$12$\\special{dvisvgm:raw </g>}};\n\\node[above] at (16,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$16$\\special{dvisvgm:raw </g>}};\n\\draw[->,line width=0.8pt] (0,-1.5) .. controls (1.8,-1.3) and (3,-0.7) .. (4,0) .. controls (5.3,1.1) and (6.7,2) .. (8,2) .. controls (9.4,2) and (10.5,0.5) .. (12,0) .. controls (13.5,-0.5) and (14.7,-0.65) .. (16,-0.65) .. controls (17.7,-0.65) and (19,-0.25) .. (20.5,-0.2);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 24,
+                "sourceRegion": "Question 15(d), supplied answer sketch",
+                "description": "Qualitative velocity graph, with zeros at 4 and 12, positive maximum near 8, shallow negative minimum near 16, and a tail approaching zero from below.",
+                "mathematics": "Velocity signs and stationary times agree with the displacement graph; no numerical velocity scale is specified.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p24-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p24-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p24-q15-root/label",
+                  "type": "item",
+                  "ref": "p24-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "p24-q15-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p24-q15-root/prompt",
+                      "type": "item",
+                      "ref": "p24-q15-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p24-q15-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p24-q15-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p24-q15-position-graph",
+                              "type": "item",
+                              "ref": "p24-q15-position-graph",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 1
+                        },
+                        {
+                          "id": "p24-q15-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p24-q15-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p24-q15-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p24-q15-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p24-q15-a/label",
+                                          "type": "item",
+                                          "ref": "p24-q15-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p24-q15-a/prompt",
+                                          "type": "item",
+                                          "ref": "p24-q15-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "p24-q15-a:parts",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "p24-q15-a-i:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p24-q15-a-i/label",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-i/label",
+                                                  "title": "Label i"
+                                                },
+                                                {
+                                                  "id": "layout:p24-q15-a-i/prompt",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-i/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p24-q15-a-i/space",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-i/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part i",
+                                              "gap": 1
+                                            },
+                                            {
+                                              "id": "p24-q15-a-ii:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p24-q15-a-ii/label",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-ii/label",
+                                                  "title": "Label ii"
+                                                },
+                                                {
+                                                  "id": "layout:p24-q15-a-ii/prompt",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-ii/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p24-q15-a-ii/space",
+                                                  "type": "item",
+                                                  "ref": "p24-q15-a-ii/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part ii",
+                                              "gap": 1
+                                            }
+                                          ],
+                                          "gap": 1
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p24-q15-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p24-q15-b/label",
+                                          "type": "item",
+                                          "ref": "p24-q15-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p24-q15-b/prompt",
+                                          "type": "item",
+                                          "ref": "p24-q15-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p24-q15-b/space",
+                                          "type": "item",
+                                          "ref": "p24-q15-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 1
+                },
+                {
+                  "id": "p24-q15-c:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p24-q15-c/label",
+                      "type": "item",
+                      "ref": "p24-q15-c/label",
+                      "title": "Label c"
+                    },
+                    {
+                      "id": "layout:p24-q15-c/prompt",
+                      "type": "item",
+                      "ref": "p24-q15-c/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p24-q15-c:parts",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p24-q15-c-i:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p24-q15-c-i/label",
+                              "type": "item",
+                              "ref": "p24-q15-c-i/label",
+                              "title": "Label i"
+                            },
+                            {
+                              "id": "layout:p24-q15-c-i/prompt",
+                              "type": "item",
+                              "ref": "p24-q15-c-i/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p24-q15-c-i/space",
+                              "type": "item",
+                              "ref": "p24-q15-c-i/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part i",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p24-q15-c-ii:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p24-q15-c-ii/label",
+                              "type": "item",
+                              "ref": "p24-q15-c-ii/label",
+                              "title": "Label ii"
+                            },
+                            {
+                              "id": "layout:p24-q15-c-ii/prompt",
+                              "type": "item",
+                              "ref": "p24-q15-c-ii/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p24-q15-c-ii/space",
+                              "type": "item",
+                              "ref": "p24-q15-c-ii/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part ii",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "title": "Part c",
+                  "gap": 1
+                },
+                {
+                  "id": "p24-q15-d:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p24-q15-d/label",
+                      "type": "item",
+                      "ref": "p24-q15-d/label",
+                      "title": "Label d"
+                    },
+                    {
+                      "id": "layout:p24-q15-d/prompt",
+                      "type": "item",
+                      "ref": "p24-q15-d/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "layout:p24-q15-d/space",
+                      "type": "item",
+                      "ref": "p24-q15-d/space",
+                      "title": "Answer space"
+                    }
+                  ],
+                  "title": "Part d",
+                  "gap": 1
+                }
+              ],
+              "title": "Question 15",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p24-q15"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:22.893Z",
+  "updatedAt": "2026-11-12T08:01:22.893Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-4-the-derivative-as-a-rate-of-change-v1",
+    "blockId": "p24-q15",
+    "sectionRole": "challenge"
+  }
+}

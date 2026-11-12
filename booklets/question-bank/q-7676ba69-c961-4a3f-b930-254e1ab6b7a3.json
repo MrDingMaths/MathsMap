@@ -1,0 +1,62 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7676ba69-c961-4a3f-b930-254e1ab6b7a3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "z-score-to-raw-score",
+    "secondarySkillIds": [
+      "z-table-probability"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the 95% exceedance requirement into a lower-tail cutoff, convert the quantile to a weight and round down to satisfy the whole-gram maximum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:24:26.606Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6dd1daf3d0dd1098b66bad0afa8aa62e7957120d52528bca81699ca2121101fa",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/semantic-packets/assignments/assignment-86b16954bfc411e5df0b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p63-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A machine fills cereal boxes with weights that are normally distributed with mean 500 g and standard deviation 2 g. To ensure boxes are above the advertised weight at least 95% of the time, what is the greatest whole-gram weight that should be printed on the box?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "496 g.",
+      "worked": "Let $w$ be the advertised weight. We require $P(X>w)\\geq0.95$, so $P(X\\leq w)\\leq0.05$.\n\nFrom the table, $P(Z\\leq1.6)=0.9452$ and $P(Z\\leq1.7)=0.9554$. Using the midpoint estimate and symmetry gives $z\\approx-1.65$ for the lower 5% cutoff.\n\n$$\\begin{aligned}w&\\approx500+(-1.65)(2)\\\\w&\\approx496.7\\text{ g}\\end{aligned}$$\n\nThe greatest whole-gram advertised weight below this cutoff is **496 g**. Checking this choice:\n\n$$\\begin{aligned}z&=\\frac{496-500}{2}\\\\z&=-2\\\\P(X>496)&=P(Z<2)\\\\P(X>496)&=0.9772\\end{aligned}$$\n\nThus about 97.72% of boxes exceed the advertised weight, satisfying the requirement.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 49
+  },
+  "presentation": {
+    "ownerId": "p63-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:20.542Z",
+  "updatedAt": "2026-11-12T08:02:20.542Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+    "blockId": "p63-q11",
+    "sectionRole": "exercise"
+  }
+}

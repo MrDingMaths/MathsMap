@@ -1,0 +1,164 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f4e6bf4d-39d8-45b4-ae57-78efbe1789ca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "median-quartiles-continuous"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Differentiate the supplied CDF, solve its median equation using logarithms, interpret half-life, and evaluate complementary probabilities; each connection is explicitly prompted.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:57:45.935Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6585037d0e3fd42ddf2d969a0ca6d2e1816ad2a7a4c61c4317282c309280b689",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-12cc73d73d428e8635f1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Let $f(x)$ and $F(x)=1-e^{-kx}$, where $k=\\frac18\\ln 2$, be the PDF and CDF respectively for the experiment of observing the time $x$ days that a radioactive nucleus survives before decaying.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the domain of possible values is the unbounded interval $[0,\\infty)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The survival time cannot be negative and has no finite upper bound.",
+          "worked": "The survival time is non-negative. Decay can theoretically occur at any later time, however large, so the possible survival times form $[0,\\infty)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p38-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the formula for the PDF, and sketch the CDF and PDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(x)=ke^{-kx}$ for $x\\ge0$. The PDF decreases from $(0,k)$ towards $0$; the CDF increases from $(0,0)$ towards $1$.",
+          "worked": "Differentiate the CDF:\n$$\\begin{align*}f(x)&=F'(x)\\\\f(x)&=ke^{-kx},\\qquad x\\ge0.\\end{align*}$$\nThe PDF approaches the horizontal asymptote $f(x)=0$. The CDF approaches the horizontal asymptote $F(x)=1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q11-pdf",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q11-pdf\"}\n\\begin{tikzpicture}[x=0.13cm,y=2cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2,0)--(39,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.2)--(0,1.65) node[above] {$f(x)$};\n\\node[left] at (0,1) {$k$};\n\\draw[->,line width=0.8pt,domain=0:34,samples=90] plot (\\x,{exp(-ln(2)*\\x/8)});\n\\fill (0,1) circle (1.7pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 11, upper supplied sketch on the left",
+                "description": "Exponential PDF with filled intercept, labelled k, and rightward continuation towards the horizontal axis. Axes and labels use house black.",
+                "mathematics": "f(x)=k exp(-kx), k=ln(2)/8, x>=0; vertical coordinates are expressed in units of k.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            },
+            {
+              "id": "p38-q11-cdf",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q11-cdf\"}\n\\begin{tikzpicture}[x=0.13cm,y=2cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2,0)--(39,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.2)--(0,1.5) node[above] {$F(x)$};\n\\draw[dashed,line width=0.4pt] (0,1)--(36,1);\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[->,line width=0.8pt,domain=0:34,samples=90] plot (\\x,{1-exp(-ln(2)*\\x/8)});\n\\fill (0,0) circle (1.7pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 11, lower supplied sketch on the left",
+                "description": "CDF with filled origin, increasing concave-down curve and dashed horizontal asymptote at 1. Axes and labels use house black.",
+                "mathematics": "F(x)=1-exp(-kx), k=ln(2)/8, x>=0.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 54
+      },
+      {
+        "id": "p38-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the median, and show it is the half-life.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8$ days. Half of the nuclei survive beyond this time, so it is the half-life.",
+          "worked": "Set $F(m)=\\frac12$:\n$$\\begin{align*}1-e^{-km}&=\\frac12\\\\e^{-km}&=\\frac12\\\\km&=\\ln 2\\\\m&=\\frac{\\ln 2}{k}\\\\m&=\\frac{\\ln 2}{\\frac18\\ln 2}\\\\m&=8\\text{ days}.\\end{align*}$$\nSince $P(X>8)=\\frac12$, half of the nuclei survive beyond 8 days. Thus the median is the half-life.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p38-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the probabilities that it decays on the first day and after the first day. Give probabilities to 3 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "On the first day: $0.083$. After the first day: $0.917$.",
+          "worked": "$$\\begin{align*}P(X\\le1)&=F(1)\\\\P(X\\le1)&=1-e^{-k}\\\\P(X\\le1)&=1-2^{-1/8}\\\\P(X\\le1)&\\approx0.083.\\end{align*}$$\n$$\\begin{align*}P(X>1)&=1-F(1)\\\\P(X>1)&=e^{-k}\\\\P(X>1)&=2^{-1/8}\\\\P(X>1)&\\approx0.917.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:05.054Z",
+  "updatedAt": "2026-11-12T08:02:05.054Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p38-q11",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e2657145-cff4-4517-b6d4-9dca850eda79",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [
+      "z-score-to-raw-score"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Uses standard-deviation intervals, symmetry and empirical-rule tails to identify raw blood-pressure values.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T22:39:24.643Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "192b8b9a7b076cef4a10eebb6e1b29568cff1c77c7dd57d3f8db5a58c35c2ff3",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792967937569-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "The blood pressure readings for seniors are normally distributed with a mean systolic blood pressure of 134 and a standard deviation of 20. Given this information it can be concluded that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the normal curve and answer these questions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q2-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q2-diagram\"}\n\\begin{tikzpicture}[x=0.95cm,y=0.95cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-3.6,0)--(3.6,0);\n\\draw[line width=0.8pt,domain=-3.45:3.45,samples=101] plot (\\x,{3*exp(-\\x*\\x/2)});\n\\foreach \\z in {-3,-2,-1,0,1,2,3}{\n\\draw[dashed,line width=0.4pt] (\\z,0)--(\\z,{3*exp(-\\z*\\z/2)});\n\\draw[line width=0.4pt] (\\z,-0.1)--(\\z,0.1);\n\\node[below] at (\\z,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\z$\\special{dvisvgm:raw </g>}};\n}\n\\node[right] at (3.6,-0.3) {$z$-score};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 90,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 2, part a",
+              "description": "Unshaded normal curve above a double-ended horizontal axis, with all seven z-score ticks and dashed vertical guides. Source orange curve and green guides become black because their hues do not encode a mathematical distinction.",
+              "mathematics": "Standard normal shape with ticks at z = -3, -2, -1, 0, 1, 2, 3.",
+              "answerVisibility": "The supplied curve, guides and z-score labels remain visible; corresponding raw values are solution-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Corresponding blood pressures, from left to right: 74, 94, 114, 134, 154, 174, 194.",
+          "worked": "Use $x=134+20z$. At $z=-3,-2,-1,0,1,2,3$, the corresponding blood pressures are $74,94,114,134,154,174,194$.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q2-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q2-a solution\"}\n\\begin{tikzpicture}[x=1.1cm,y=0.95cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-3.6,0)--(3.6,0);\n\\draw[line width=0.8pt,domain=-3.45:3.45,samples=101] plot (\\x,{3*exp(-\\x*\\x/2)});\n\\foreach \\z/\\raw in {-3/74,-2/94,-1/114,0/134,1/154,2/174,3/194}{\n\\draw[dashed,line width=0.4pt] (\\z,0)--(\\z,{3*exp(-\\z*\\z/2)});\n\\draw[line width=0.4pt] (\\z,-0.1)--(\\z,0.1);\n\\node[below] at (\\z,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\z$\\special{dvisvgm:raw </g>}};\n\\node[below] at (\\z,-0.65) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\raw$\\special{dvisvgm:raw </g>}};\n}\n\\node[right] at (3.6,-0.3) {$z$-score};\n\\node[below] at (0,-1.5) {Blood pressure};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 2, part a",
+                "description": "Complete supplied normal-curve scaffold with corresponding raw blood-pressure values underneath the z-score labels.",
+                "mathematics": "x = 134 + 20z gives 74, 94, 114, 134, 154, 174, 194.",
+                "answerVisibility": "Solution-only completed labelling."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p29-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-b-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "68% of the seniors have blood pressures between ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "114",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "154",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "114 and 154.",
+          "worked": "About 68% lie within one standard deviation of the mean: $134-20=114$ and $134+20=154$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-c-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "95% of the seniors have blood pressures between ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "94",
+                  "width": 11
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "174",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "94 and 174.",
+          "worked": "About 95% lie within two standard deviations of the mean: $134-2(20)=94$ and $134+2(20)=174$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-d-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "99.7% of the seniors have blood pressures between ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "74",
+                  "width": 11
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "194",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "74 and 194.",
+          "worked": "About 99.7% lie within three standard deviations of the mean: $134-3(20)=74$ and $134+3(20)=194$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-e",
+        "type": "part",
+        "label": "e",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-e-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "16% of the seniors have blood pressures above ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "154",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "154.",
+          "worked": "The upper tail beyond one standard deviation contains approximately $(100-68)\\div2=16\\%$. The blood pressure is $134+20=154$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-f",
+        "type": "part",
+        "label": "f",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-f-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "2.5% of the seniors have blood pressures below ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "94",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "94.",
+          "worked": "The lower tail beyond two standard deviations contains approximately $(100-95)\\div2=2.5\\%$. The blood pressure is $134-2(20)=94$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-g",
+        "type": "part",
+        "label": "g",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-g-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "0.15% of the seniors have blood pressures below ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "74",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "74.",
+          "worked": "The lower tail beyond three standard deviations contains approximately $(100-99.7)\\div2=0.15\\%$. The blood pressure is $134-3(20)=74$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q2-h",
+        "type": "part",
+        "label": "h",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-q2-h-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "50% of the seniors have blood pressures above ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "134",
+                  "width": 13
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "134.",
+          "worked": "The normal curve is symmetric about its mean, so 50% of readings are above $134$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:34.077Z",
+  "updatedAt": "2026-11-12T08:02:34.078Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p29-q2",
+    "sectionRole": "exercise"
+  }
+}

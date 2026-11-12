@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2b0e6481-f93c-405d-842c-80740c85a9fe",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "pdf-unknown-constant"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Normalise a two-level PDF, accumulate its areas into a continuous piecewise CDF and subtract endpoint values.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T03:51:54.959Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e6a25a95321d9aa0b62eb0531b417315a10f26285ec547699118d98cbf90ac66",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/lean-review/calls/content-1792986698876-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A PDF is defined by\n$$f(x)=\\begin{cases}c,&0\\le x\\le5,\\\\2c,&5<x\\le10.\\end{cases}$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the PDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Horizontal segments at $y=c$ for $0\\le x\\le5$ and $y=2c$ for $5<x\\le10$.",
+          "worked": "The density is constant at $c$ on $[0,5]$ and at $2c$ on $(5,10]$. At $x=5$, the point at height $c$ is closed and the point at height $2c$ is open.",
+          "solutionDiagrams": [
+            {
+              "id": "p34-q5-a-pdf",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q5-a-pdf\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.3,0)--(11.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.65)--(0,2.8) node[right] {$y$};\n\\foreach \\x in {2,4,6,8,10}{\\draw[line width=0.4pt] (\\x,-0.06)--(\\x,0.06);\\node[below] at (\\x,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-0.12,1)--(0.12,1);\n\\draw[line width=0.4pt] (-0.12,2)--(0.12,2);\n\\node[left] at (-0.12,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1c$\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.12,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2c$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.8pt] (0,1)--(5,1);\n\\draw[line width=0.8pt] (5,2)--(10,2);\n\\fill (0,1) circle (1.5pt);\n\\fill (5,1) circle (1.5pt);\n\\draw[fill=white,line width=0.8pt] (5,2) circle (1.5pt);\n\\fill (10,2) circle (1.5pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 34,
+                "sourceRegion": "Question 5(a), answer graph",
+                "description": "Two horizontal PDF segments with endpoint markers corrected to agree with the printed definition. Ordinary graph marks use black.",
+                "mathematics": "f(x)=c on [0,5] and f(x)=2c on (5,10]; x ticks 2,4,6,8,10; y levels c and 2c.",
+                "answerVisibility": "answer-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p34-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $c$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c=\\dfrac1{15}$",
+          "worked": "The total area under the PDF is $1$.\n$$\\begin{align*}5c+5(2c)&=1\\\\15c&=1\\\\c&=\\frac1{15}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p34-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$F(x)=\\begin{cases}0,&x<0,\\\\[4pt]\\dfrac{x}{15},&0\\le x<5,\\\\[4pt]\\dfrac{2x}{15}-\\dfrac13,&5\\le x\\le10,\\\\[4pt]1,&x>10.\\end{cases}$$",
+          "worked": "Accumulate the area from the left boundary. On the support,\n$$\\begin{aligned}F(x)&=\\begin{cases}cx=\\dfrac{x}{15},&0\\le x<5,\\\\[4pt]5c+2c(x-5)=2cx-5c=\\dfrac{2x}{15}-\\dfrac13,&5\\le x\\le10.\\end{cases}\\end{aligned}$$\nThus the complete CDF is\n$$F(x)=\\begin{cases}0,&x<0,\\\\[4pt]\\dfrac{x}{15},&0\\le x<5,\\\\[4pt]\\dfrac{2x}{15}-\\dfrac13,&5\\le x\\le10,\\\\[4pt]1,&x>10.\\end{cases}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p34-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the CDF to find $P(1<X<7)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac8{15}$",
+          "worked": "$$\\begin{align*}P(1<X<7)&=F(7)-F(1)\\\\P(1<X<7)&=\\left(\\frac{14}{15}-\\frac13\\right)-\\frac1{15}\\\\P(1<X<7)&=\\frac8{15}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:04.933Z",
+  "updatedAt": "2026-11-12T08:02:04.933Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p34-q5",
+    "sectionRole": "exercise"
+  }
+}

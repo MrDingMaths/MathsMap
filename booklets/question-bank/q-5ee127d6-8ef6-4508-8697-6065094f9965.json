@@ -1,0 +1,177 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5ee127d6-8ef6-4508-8697-6065094f9965",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "probability-density-function",
+      "integrate-power-rule"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate a power-rule improper integral, reuse its area to verify a PDF, and integrate to obtain and sketch the CDF; the sequence explicitly supplies the connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:58:54.683Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8539aa4d76e4142b9375e41a96b6ffa4b8ad0fdf0cb7bbee6d778dfe7b216747",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-dbc02cbf93890d87b2fb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area under the curve $y=\\dfrac{1}{x^2}$ over the interval $(1,\\infty)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$ square unit.",
+          "worked": "$$\\begin{align*}\\int_1^\\infty\\frac{1}{x^2}\\,dx&=\\lim_{b\\to\\infty}\\left[-\\frac1x\\right]_1^b\\\\&=\\lim_{b\\to\\infty}\\left(-\\frac1b+1\\right)\\\\&=0+1\\\\&=1.\\end{align*}$$\nThe limit of $-\\dfrac1b$ as $b\\to\\infty$ is $0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p38-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence show that $y=\\dfrac{1}{x^2}$ for $x\\ge1$ is a PDF, and find the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(x)\\ge0$ for $x\\ge1$ and its total area is $1$, so it is a PDF.\n$$F(x)=\\begin{cases}0,&x<1,\\\\1-\\dfrac1x,&x\\ge1.\\end{cases}$$",
+          "worked": "$f(x)=\\dfrac1{x^2}\\ge0$ for all $x\\ge1$, and part a shows that the integral over $[1,\\infty)$ is $1$. Therefore it is a PDF, taking $f(x)=0$ for $x<1$.\nFor $x\\ge1$:\n$$\\begin{align*}F(x)&=\\int_1^x\\frac1{t^2}\\,dt\\\\&=\\left[-\\frac1t\\right]_1^x\\\\&=-\\frac1x-(-1)\\\\&=1-\\frac1x.\\end{align*}$$\nFor $x<1$, $F(x)=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p38-q12-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Sketch the PDF and CDF on two separate sets of axes.",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p38-q12-c-pdf",
+            "type": "part",
+            "label": "",
+            "prompt": "PDF",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$f(x)=\\dfrac1{x^2}$ for $x\\ge1$: starts at $(1,1)$ and decreases towards $y=0$.",
+              "worked": "Plot the closed point $(1,1)$. Sketch $f(x)=\\dfrac1{x^2}$ decreasing and concave up for $x\\ge1$, approaching the horizontal asymptote $y=0$. The shaded area under this curve is $1$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p38-q12-pdf",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaFill\",\"hex\":\"D4E8FF\",\"reason\":\"area under the PDF over the requested interval\"}],\"reference\":\"source page 38 question 12 PDF\"}\n\\begin{tikzpicture}[x=0.85cm,y=2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaFill}{HTML}{D4E8FF}\n\\fill[areaFill] (1,0) -- plot[domain=1:5,samples=90] (\\x,{1/(\\x*\\x)}) -- (5,0) -- cycle;\n\\draw[->,line width=0.5pt] (-0.2,0)--(5.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.15)--(0,1.5) node[above] {$f(x)$};\n\\draw[dashed,line width=0.4pt] (0,1)--(1,1);\n\\draw[line width=0.4pt] (1,0)--(1,1);\n\\draw[->,line width=0.8pt] plot[domain=1:5,samples=90] (\\x,{1/(\\x*\\x)});\n\\fill (1,1) circle[radius=1.5pt];\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 65,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 38,
+                    "sourceRegion": "Question 12, upper answer graph",
+                    "description": "PDF sketch with a closed point at (1,1), horizontal guide, vertical boundary and the requested shaded area.",
+                    "mathematics": "f(x)=1/x^2 for x>=1; integral from 1 to infinity equals 1; horizontal asymptote y=0.",
+                    "answerVisibility": "solution-only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 39
+          },
+          {
+            "id": "p38-q12-c-cdf",
+            "type": "part",
+            "label": "",
+            "prompt": "CDF",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$F(x)=1-\\dfrac1x$ for $x\\ge1$: starts at $(1,0)$ and increases towards $y=1$.",
+              "worked": "Plot the closed point $(1,0)$. Sketch $F(x)=1-\\dfrac1x$ increasing and concave down for $x\\ge1$, approaching the horizontal asymptote $F(x)=1$. For $x<1$, $F(x)=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p38-q12-cdf",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 question 12 CDF\"}\n\\begin{tikzpicture}[x=0.85cm,y=2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.2,0)--(5.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.15)--(0,1.5) node[above] {$F(x)$};\n\\draw[dashed,line width=0.4pt] (0,1)--(5.2,1);\n\\draw[->,line width=0.8pt] plot[domain=1:5,samples=90] (\\x,{1-1/\\x});\n\\fill (1,0) circle[radius=1.5pt];\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 65,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 38,
+                    "sourceRegion": "Question 12, lower answer graph",
+                    "description": "CDF sketch with a closed point at (1,0), increasing concave-down curve and dashed horizontal asymptote at 1. The zero branch coincides with the horizontal axis.",
+                    "mathematics": "F(x)=0 for x<1 and F(x)=1-1/x for x>=1; limit at infinity is 1.",
+                    "answerVisibility": "solution-only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 39
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:05.439Z",
+  "updatedAt": "2026-11-12T08:02:05.439Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p38-q12",
+    "sectionRole": "exercise"
+  }
+}

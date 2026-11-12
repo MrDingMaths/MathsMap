@@ -1,0 +1,90 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3de61d1-2ea6-4ebd-a9fc-f7826973a615",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-discrete-distribution-problems",
+    "secondarySkillIds": [
+      "variance-discrete",
+      "expected-value-discrete"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct probability distributions for three draws with and without replacement, then calculate and compare their moments.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:35:58.537Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e1d5cb75f0cc0cc931c28f62d240f7138d9cb3a4651d89d39b94ef83e079147f",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-1-discrete-random-variables-20261024/semantic-packets/assignments/assignment-39a2cfe15dcdd29c300d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p27-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "A set of cards contains 5 blue and 7 white cards. 3 are drawn at random. Let $X$ be the number of blue cards drawn. Find the mean and variance of $X$ if the cards are drawn as follows. Give non-exact decimal answers to 2 decimal places.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p27-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "With replacement",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$E(X)=1.25$, $\\operatorname{Var}(X)=\\dfrac{35}{48}\\approx0.73$.",
+          "worked": "The probability of blue on each draw is $\\frac5{12}$ and of white is $\\frac7{12}$. Replacement makes the draws independent.\n\n$$\\begin{aligned}P(X=0)&=\\left(\\frac7{12}\\right)^3=\\frac{343}{1728}\\\\P(X=1)&=3\\left(\\frac5{12}\\right)\\left(\\frac7{12}\\right)^2=\\frac{735}{1728}\\\\P(X=2)&=3\\left(\\frac5{12}\\right)^2\\left(\\frac7{12}\\right)=\\frac{525}{1728}\\\\P(X=3)&=\\left(\\frac5{12}\\right)^3=\\frac{125}{1728}\\end{aligned}$$\n\nThe factor 3 counts the possible positions of the single blue card or the single white card.\n\n$$\\begin{aligned}E(X)&=\\frac{0(343)+1(735)+2(525)+3(125)}{1728}\\\\E(X)&=\\frac54=1.25\\\\E(X^2)&=\\frac{0^2(343)+1^2(735)+2^2(525)+3^2(125)}{1728}\\\\E(X^2)&=\\frac{55}{24}\\\\\\operatorname{Var}(X)&=E(X^2)-[E(X)]^2\\\\\\operatorname{Var}(X)&=\\frac{55}{24}-\\left(\\frac54\\right)^2\\\\\\operatorname{Var}(X)&=\\frac{35}{48}\\approx0.73\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p27-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Without replacement",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$E(X)=1.25$, $\\operatorname{Var}(X)=\\dfrac{105}{176}\\approx0.60$.",
+          "worked": "Without replacement, the numbers of cards available change after each draw.\n\n$$\\begin{aligned}P(X=0)&=\\frac7{12}\\times\\frac6{11}\\times\\frac5{10}=\\frac{35}{220}\\\\P(X=1)&=3\\times\\frac5{12}\\times\\frac7{11}\\times\\frac6{10}=\\frac{105}{220}\\\\P(X=2)&=3\\times\\frac5{12}\\times\\frac4{11}\\times\\frac7{10}=\\frac{70}{220}\\\\P(X=3)&=\\frac5{12}\\times\\frac4{11}\\times\\frac3{10}=\\frac{10}{220}\\end{aligned}$$\n\nFor one blue card there are three possible colour orders, each with the same probability. The same applies to two blue cards.\n\n$$\\begin{aligned}E(X)&=\\frac{0(35)+1(105)+2(70)+3(10)}{220}\\\\E(X)&=\\frac54=1.25\\\\E(X^2)&=\\frac{0^2(35)+1^2(105)+2^2(70)+3^2(10)}{220}\\\\E(X^2)&=\\frac{95}{44}\\\\\\operatorname{Var}(X)&=E(X^2)-[E(X)]^2\\\\\\operatorname{Var}(X)&=\\frac{95}{44}-\\left(\\frac54\\right)^2\\\\\\operatorname{Var}(X)&=\\frac{105}{176}\\approx0.60\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:52.047Z",
+  "updatedAt": "2026-11-12T08:01:52.048Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-1-discrete-random-variables-v1",
+    "blockId": "p27-q9",
+    "sectionRole": "exercise"
+  }
+}

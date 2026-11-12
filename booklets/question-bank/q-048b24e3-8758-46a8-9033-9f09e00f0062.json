@@ -1,0 +1,113 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-048b24e3-8758-46a8-9033-9f09e00f0062",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-graphically",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Same task as p21-q4 with cosine and -1/2: count the intersections on a given graph, then find four exact solutions across a two-period domain.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T21:31:02.564Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "40c714a28c35e5541e53c995398605aa97a7cf25fe6566284b2fc4f5d1eaf081",
+      "diagramBlindHash": "2ad70d9bd453b873f9e4a20a8136fb9c673fb7331b3767ac5d7831b970b4f6df",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-trigonometric-identities-and-equations-v1/20261110-211127/calls/15-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p21-q4",
+          "score": 36
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-b65bc-p20-practice-slot-11-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The graphs of $y=\\cos x$ and $y=-\\frac12$ have been sketched in the domain $-2\\pi\\le x\\le2\\pi$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-b65bc-p20-practice-slot-11-slot-11-q-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"cosine curve and its four intersections with the horizontal reference line\"}],\"reference\":\"slot-11 slot-11-q-graph\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.95cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-6.7,0)--(7.2,0) node[above] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.5)--(0,1.75) node[left] {$y$};\n\\foreach \\a/\\lab in {-6.283185/{-2\\pi},-3.141593/{-\\pi},3.141593/{\\pi},6.283185/{2\\pi}} {\\draw[line width=0.4pt] (\\a,0.06)--(\\a,-0.06) node[above=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\node[above right] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.12,-1)--(0.12,-1);\\node[left] at (-0.12,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.12,1)--(0.12,1);\\node[above left,inner sep=1pt] at (-0.12,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[dashed,line width=0.4pt] (-6.283185,-0.5)--(6.283185,-0.5) node[right] {$y=-\\frac12$};\n\\draw[seriesBlue,line width=0.8pt,domain=-6.283185:6.283185,samples=161] plot (\\x,{cos(\\x r)});\n\\foreach \\a in {-4.188790,-2.094395,2.094395,4.188790} {\\fill[seriesBlue] (\\a,-0.5) circle[radius=1.5pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-b65bc-p20-practice-slot-11-slot-11-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many solutions to $\\cos x=-\\frac12$ are there in this domain? Explain how you know from the graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4 solutions, because the graphs have 4 points of intersection.",
+          "worked": "Each intersection of $y=\\cos x$ and $y=-\\frac12$ gives a solution. There are four intersections in $-2\\pi\\le x\\le2\\pi$, so there are 4 solutions.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-b65bc-p20-practice-slot-11-slot-11-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the exact solutions of $x$ in this domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=-\\frac{4\\pi}{3},\\,-\\frac{2\\pi}{3},\\,\\frac{2\\pi}{3},\\,\\frac{4\\pi}{3}$",
+          "worked": "The reference angle is $\\frac{\\pi}{3}$. Cosine is negative in quadrants II and III.\n$$\\begin{align*}x&=\\frac{2\\pi}{3}\\quad\\text{or}\\quad\\frac{4\\pi}{3}\\qquad(0\\le x<2\\pi).\\end{align*}$$\nSubtract $2\\pi$ to obtain the two negative solutions:\n$$\\begin{align*}\\frac{2\\pi}{3}-2\\pi&=-\\frac{4\\pi}{3}\\\\\\frac{4\\pi}{3}-2\\pi&=-\\frac{2\\pi}{3}.\\end{align*}$$\nThus, in the given domain,\n$$x=-\\frac{4\\pi}{3},\\,-\\frac{2\\pi}{3},\\,\\frac{2\\pi}{3},\\,\\frac{4\\pi}{3}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-b65bc-p20-practice-slot-11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:03:15.673Z",
+  "updatedAt": "2026-11-12T08:03:15.673Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometric-identities-and-equations-v1",
+    "blockId": "v2-b65bc-p20-practice-slot-11",
+    "sectionRole": "exercise"
+  }
+}

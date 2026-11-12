@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-66c8291d-ebc9-4f0d-be14-16354d168bcd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate the lower three-standard-deviation boundary and interpret it against a manufacturer's minimum-weight guarantee.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T22:39:44.249Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f33f41e066720a25e8bf803bd12168230b5bfb41f5fedff970b0c4a0f18f8a5c",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792967965154-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p35-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "A canned fruit manufacturer guarantees minimum weight 250 g.\nThe cans have mean 252.5 g and standard deviation 0.4 g. Is the guarantee realistic? Why?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Yes, realistically: $\\mu-3\\sigma=251.3\\text{ g}>250\\text{ g}$, so almost all cans should exceed 250 g.",
+      "worked": "Using the empirical rule, approximately 99.7% of weights lie within three standard deviations of the mean.\n$$\\begin{aligned}\\mu-3\\sigma&=252.5-3(0.4)\\\\&=251.3\\text{ g}\\\\\\mu+3\\sigma&=252.5+3(0.4)\\\\&=253.7\\text{ g}\\end{aligned}$$\nSince the lower boundary, 251.3 g, exceeds 250 g, almost all cans should exceed the guaranteed weight. The guarantee is realistic in practice, although this does not establish an absolute minimum.",
+      "solutionDiagrams": [
+        {
+          "id": "p35-q19-solution-curve",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw[->] (-3.8,0)--(3.8,0);\n\\draw[domain=-3.5:3.5,samples=100,smooth] plot (\\x,{2*exp(-\\x*\\x/2)});\n\\foreach \\x/\\v in {-3/251.3,0/252.5,3/253.7}{\\draw[dashed] (\\x,0)--(\\x,{2*exp(-\\x*\\x/2)});\\draw (\\x,0)--(\\x,-0.08);\\node[below] at (\\x,-0.08) {$\\v$};}\n\\node[fill=white,inner sep=1pt] at (0,0.65) {$99.7\\%$};\n\\node[below] at (0,-0.65) {Weight (g)};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 35,
+            "sourceRegion": "Question 19 answer",
+            "description": "Authored normal-curve sketch following the page 28 taught method, with raw scores at the mean and three-standard-deviation boundaries.",
+            "mathematics": "Mean 252.5 g; standard deviation 0.4 g; central empirical-rule interval 251.3 to 253.7 g.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p35-q19-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:37.737Z",
+  "updatedAt": "2026-11-12T08:02:37.737Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p35-q19-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b38841f1-2b49-48aa-a7d7-9e794fa465d6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "median-quartiles-continuous",
+    "secondarySkillIds": [],
+    "reasoningScore": 41,
+    "difficulty": "Development",
+    "difficultyReason": "Read a linear PDF from a graph, then build the CDF from trapezoid, triangle and rectangle areas. Part b needs a piecewise CDF with carried-over area; there is no sketching or normalising.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T08:24:45.826Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5a084cff41a60344da55cd756099cbde4c9551b8794539fc96ac6464a53d44ac",
+      "diagramBlindHash": "53dc8d0ae2b283f9c192748fe1386e1a44088e0bca4e337293d549fc307b0aab",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-random-variables-2-continuous-random-variables-2-v1/20261111-081428/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p38-q12",
+          "score": 38
+        },
+        "easierThan": {
+          "ref": "p34-q5",
+          "score": 44
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-e2837-p32-practice-slot-2-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Each graph shows a PDF. Use area formulae to find the CDF.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-e2837-p32-practice-slot-2-slot-2-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f(x)$ for $0\\le x\\le4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-e2837-p32-practice-slot-2-slot-2-q-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-2 part a\"}\n\\begin{tikzpicture}[x=1.1cm,y=4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,->] (-0.3,0)--(4.8,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.05)--(0,0.65) node[above] {$f(x)$};\n\\foreach \\x in {1,2,3,4}{\\draw[line width=0.4pt] (\\x,-0.01)--(\\x,0.01);\\node[below] at (\\x,-0.012) {$\\x$};}\n\\draw[line width=0.4pt] (-0.08,0.5)--(0.08,0.5);\n\\node[left] at (-0.08,0.5) {$\\frac12$};\n\\draw[line width=0.8pt] (0,0.5)--(4,0);\n\\fill (0,0.5) circle[radius=1.7pt];\n\\fill (4,0) circle[radius=1.7pt];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=\\dfrac{x(8-x)}{16}$ for $0\\le x\\le4$.",
+          "worked": "The line has gradient $-\\frac18$, so $f(x)=\\dfrac{4-x}{8}$. The area from $0$ to $x$ is a trapezoid with parallel sides $\\frac12$ and $\\frac{4-x}{8}$ and width $x$.\n$$\\begin{align*}F(x)&=\\frac12\\left(\\frac12+\\frac{4-x}{8}\\right)x\\\\&=\\frac12\\cdot\\frac{8-x}{8}\\cdot x\\\\&=\\frac{x(8-x)}{16}\\end{align*}$$\nCheck: $F(4)=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "v2-e2837-p32-practice-slot-2-slot-2-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f(x)$ for $0\\le x\\le5$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-e2837-p32-practice-slot-2-slot-2-q-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-2 part b\"}\n\\begin{tikzpicture}[x=0.9cm,y=8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,->] (-0.3,0)--(5.8,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.03)--(0,0.34) node[above] {$f(x)$};\n\\foreach \\x in {1,2,3,4,5}{\\draw[line width=0.4pt] (\\x,-0.006)--(\\x,0.006);\\node[below] at (\\x,-0.008) {$\\x$};}\n\\draw[line width=0.4pt] (-0.08,0.25)--(0.08,0.25);\n\\node[left] at (-0.08,0.25) {$\\frac14$};\n\\draw[dashed,line width=0.4pt] (2,0.25)--(2,0);\n\\draw[line width=0.8pt] (0,0)--(2,0.25)--(5,0.25);\n\\fill (0,0) circle[radius=1.7pt];\n\\fill (2,0.25) circle[radius=1.7pt];\n\\fill (5,0.25) circle[radius=1.7pt];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$$F(x)=\\begin{cases}\\dfrac{x^2}{16},&0\\le x\\le2,\\\\[2pt]\\dfrac{x-1}{4},&2\\le x\\le5.\\end{cases}$$",
+          "worked": "For $0\\le x\\le2$, the line through the origin and $(2,\\frac14)$ is $f(x)=\\frac x8$. The area is a triangle with base $x$ and height $\\frac x8$.\n$$F(x)=\\frac12\\cdot x\\cdot\\frac x8=\\frac{x^2}{16}.$$\nSo $F(2)=\\frac14$. For $2\\le x\\le5$, add a rectangle of width $x-2$ and height $\\frac14$.\n$$\\begin{align*}F(x)&=\\frac14+\\frac14(x-2)\\\\&=\\frac{x-1}{4}\\end{align*}$$\nCheck: $F(5)=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-e2837-p32-practice-slot-2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:04.698Z",
+  "updatedAt": "2026-11-12T08:02:04.698Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "v2-e2837-p32-practice-slot-2",
+    "sectionRole": "exercise"
+  }
+}

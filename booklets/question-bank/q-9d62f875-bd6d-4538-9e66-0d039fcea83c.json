@@ -1,0 +1,157 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9d62f875-bd6d-4538-9e66-0d039fcea83c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "motion-displacement-velocity-acceleration",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Students connect successive derivatives to three motion graphs, distinguish speed from signed velocity, and explain non-zero acceleration at an instant of rest. The quadratic flight calculations and maximum-height method are already scaffolded by the teaching.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T15:42:39.950Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "390e4dae6d11d34d980d7f9f4213a79872eb9c221f95e8c5190394ee15664fe6",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-derivative-rate-r6/fresh-three-ratings/reply.json"
+    }
+  },
+  "content": {
+    "id": "p23-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "A cricket ball is thrown vertically upwards. Its height $x$ in metres at time $t$ seconds after it is thrown is given by $x=20t-5t^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $v$ and $a$ as functions of $t$, and show that the ball is always accelerating downwards. Then sketch graphs of $x$, $v$ and $a$ against $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=5t(4-t)$, $v=20-10t\\text{ m/s}$ and $a=-10\\text{ m/s}^2$. The acceleration is always downwards. Graphs are shown for $0\\le t\\le4$.",
+          "worked": "Taking upwards as positive,\n$$\\begin{align*}v(t)&=\\frac{dx}{dt}\\\\&=20-10t,\\\\a(t)&=\\frac{dv}{dt}\\\\&=-10.\\end{align*}$$\nThus the acceleration is $10\\text{ m/s}^2$ downwards throughout the flight.\n$$\\begin{align*}x(t)&=20t-5t^2\\\\&=5t(4-t).\\end{align*}$$\nThe height graph crosses the time axis at $t=0$ and $t=4$, with maximum $(2,20)$. The velocity graph joins $(0,20)$ to $(4,-20)$ and crosses the time axis at $t=2$. The acceleration graph is horizontal at $a=-10$.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q13-a-graphs",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"motionBlue\",\"hex\":\"268CFF\",\"reason\":\"motion function plots\"}],\"reference\":\"source page 23 p23-q13-a-graphs\"}\n\\begin{tikzpicture}[x=0.68cm,y=0.075cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{motionBlue}{HTML}{268CFF}\n\\begin{scope}\n\\draw[->,line width=0.5pt] (-0.35,0)--(4.7,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,-4)--(0,26) node[above] {$x$};\n\\draw[motionBlue,line width=0.8pt,domain=0:4,samples=81] plot (\\x,{20*\\x-5*\\x*\\x});\n\\draw[dashed,line width=0.4pt] (0,20)--(2,20)--(2,0);\n\\foreach \\t in {1,2,3,4}{\\draw[line width=0.4pt] (\\t,0)--(\\t,-0.8) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\node[left] at (0,20) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$20$\\special{dvisvgm:raw </g>}};\n\\end{scope}\n\\begin{scope}[yshift=-3.5cm]\n\\draw[->,line width=0.5pt] (-0.55,0)--(4.7,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,-24)--(0,26) node[above] {$v$};\n\\draw[motionBlue,line width=0.8pt,domain=0:4] plot (\\x,{20-10*\\x});\n\\draw[dashed,line width=0.4pt] (0,-20)--(4,-20)--(4,0);\n\\node[left] at (0,20) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$20$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,-20) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-20$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (2,0)--(2,-0.8) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[above] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{scope}\n\\begin{scope}[xshift=5.4cm,yshift=-3.5cm]\n\\draw[->,line width=0.5pt] (-0.55,0)--(4.7,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,-15)--(0,10) node[above] {$a$};\n\\draw[motionBlue,line width=0.8pt] (0,-10)--(4,-10);\n\\foreach \\t in {2,4}{\\draw[dashed,line width=0.4pt] (\\t,0)--(\\t,-10);\\node[above] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\node[left] at (0,-10) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-10$\\special{dvisvgm:raw </g>}};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 165,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 13(a), supplied answer graphs",
+                "description": "Three complete native solution graphs in reading order: height above, velocity then acceleration below; all original paths, values, guides and labels retained.",
+                "mathematics": "For 0≤t≤4: x=20t−5t², vertex (2,20); v=20−10t, intercepts (0,20), (2,0), endpoint (4,−20); a=−10.",
+                "answerVisibility": "Solution only; no supplied graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p23-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the speed at which the ball was thrown.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\text{ m/s}$",
+          "worked": "$$\\begin{align*}v(0)&=20-10(0)\\\\&=20\\text{ m/s}.\\end{align*}$$\nThe initial speed is $|v(0)|=20\\text{ m/s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p23-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find when it returns to the ground (that is, when $x=0$) and show that its speed then is equal to the initial speed.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "It returns after $4\\text{ s}$. Its speed then is $20\\text{ m/s}$, equal to its initial speed.",
+          "worked": "$$5t(4-t)=0\\quad\\Rightarrow\\quad t=0\\text{ or }4.$$\nThe return occurs at $t=4\\text{ s}$, since $t=0$ is the launch.\n$$v(4)=20-10(4)=-20\\text{ m/s},\\qquad |v(4)|=20\\text{ m/s}=|v(0)|.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p23-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find its maximum height above the ground and the time taken to reach this height.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\text{ m}$, reached after $2\\text{ s}$.",
+          "worked": "At the maximum height, $v=0$.\n$$20-10t=0\\quad\\Rightarrow\\quad t=2\\text{ s}.$$\n$$x(2)=20(2)-5(2)^2=20\\text{ m}.$$\nSince $a=-10<0$, this stationary height is a maximum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p23-q13-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the acceleration at the top of the flight, and explain why the acceleration can be non-zero when the ball is stationary.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-10\\text{ m/s}^2$. The velocity is zero for an instant but is still changing.",
+          "worked": "$a(2)=-10\\text{ m/s}^2$, or $10\\text{ m/s}^2$ downwards. At the top, $v(2)=0$, but the velocity continues to decrease from positive to negative. Acceleration measures the rate of change of velocity, so it remains non-zero at that instant.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:21.175Z",
+  "updatedAt": "2026-11-12T08:01:21.176Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-4-the-derivative-as-a-rate-of-change-v1",
+    "blockId": "p23-q13",
+    "sectionRole": "exercise"
+  }
+}

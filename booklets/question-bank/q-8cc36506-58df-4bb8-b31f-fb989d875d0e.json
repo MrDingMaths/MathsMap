@@ -1,0 +1,235 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8cc36506-58df-4bb8-b31f-fb989d875d0e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "normal-probabilities",
+    "secondarySkillIds": [
+      "empirical-rule",
+      "calculate-z-score"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Convert endpoints to standard-deviation positions and combine regions from the empirical rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:10:49.298Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "948fa28fa37fbed80abb41309c1616144de505e231cdff9000f3b5373b5a09e4",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/semantic-packets/assignments/assignment-7cb9b19729aad32e8e3b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "For a dataset that is normally distributed with a mean of 50 and a standard deviation of 6,",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 p39-q5-diagram\"}\n\\begin{tikzpicture}[x=0.85cm,y=2.6cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-3.7,0)--(3.7,0);\n\\foreach \\t in {-3,-2,-1,0,1,2,3} {\n\\draw[line width=0.4pt] (\\t,0)--(\\t,-0.04);\n\\draw[dashed,line width=0.4pt] (\\t,0)--(\\t,{exp(-\\t*\\t/2)});\n}\n\\draw[line width=0.8pt,domain=-3.4:3.4,samples=101,smooth] plot (\\x,{exp(-\\x*\\x/2)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 5, centred scaffold between the dataset statement and shared instruction",
+          "description": "Symmetric bell curve with a double-ended horizontal axis, seven unlabelled equally spaced ticks and corresponding dashed vertical guides. No shading or vertical axis. Decorative orange curve and green guides are rendered black under house style.",
+          "mathematics": "The seven positions represent the mean and one, two and three standard deviations on either side. No values are supplied on the student scaffold.",
+          "answerVisibility": "Permanent question scaffold without calculated values or answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q5-tasks",
+        "type": "group",
+        "label": "",
+        "prompt": "Find the probability, as a percentage, that a randomly chosen score is:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p39-q5-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "between 44 and 56",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$68\\%$",
+              "worked": "$$\\begin{aligned}z_{44}&=\\frac{44-50}{6}=-1\\\\z_{56}&=\\frac{56-50}{6}=1\\end{aligned}$$\nBy the empirical rule, $P(-1<z<1)\\approx68\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p39-q5-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "between 50 and 62",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$47.5\\%$",
+              "worked": "$$\\begin{aligned}z_{50}&=\\frac{50-50}{6}=0\\\\z_{62}&=\\frac{62-50}{6}=2\\end{aligned}$$\nBy symmetry and the empirical rule, $P(0<z<2)\\approx95\\%\\div2=47.5\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p39-q5-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "less than 56",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$84\\%$",
+              "worked": "$$z=\\frac{56-50}{6}=1$$\nBy the empirical rule, $P(z<1)\\approx50\\%+34\\%=84\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p39-q5-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "between 38 and 56",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$81.5\\%$",
+              "worked": "$$\\begin{aligned}z_{38}&=\\frac{38-50}{6}=-2\\\\z_{56}&=\\frac{56-50}{6}=1\\end{aligned}$$\nBy the empirical rule, $P(-2<z<1)\\approx13.5\\%+68\\%=81.5\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p39-q5-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "less than 38",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2.5\\%$",
+              "worked": "$$z=\\frac{38-50}{6}=-2$$\nBy symmetry and the empirical rule, $P(z<-2)\\approx(100\\%-95\\%)\\div2=2.5\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p39-q5-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "more than 44",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$84\\%$",
+              "worked": "$$z=\\frac{44-50}{6}=-1$$\nBy the empirical rule, $P(z>-1)\\approx34\\%+50\\%=84\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p39-q5-g",
+            "type": "part",
+            "label": "g",
+            "prompt": "between 56 and 62",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$13.5\\%$",
+              "worked": "$$\\begin{aligned}z_{56}&=\\frac{56-50}{6}=1\\\\z_{62}&=\\frac{62-50}{6}=2\\end{aligned}$$\nBy symmetry and the empirical rule, $P(1<z<2)\\approx(95\\%-68\\%)\\div2=13.5\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p39-q5-h",
+            "type": "part",
+            "label": "h",
+            "prompt": "between 32 and 44",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$15.85\\%$",
+              "worked": "$$\\begin{aligned}z_{32}&=\\frac{32-50}{6}=-3\\\\z_{44}&=\\frac{44-50}{6}=-1\\end{aligned}$$\nBy symmetry and the empirical rule, $P(-3<z<-1)\\approx(99.7\\%-68\\%)\\div2=15.85\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p39-q5-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "more than 68",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.15\\%$",
+              "worked": "$$z=\\frac{68-50}{6}=3$$\nBy symmetry and the empirical rule, $P(z>3)\\approx(100\\%-99.7\\%)\\div2=0.15\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:11.266Z",
+  "updatedAt": "2026-11-12T08:02:11.266Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+    "blockId": "p39-q5",
+    "sectionRole": "exercise"
+  }
+}

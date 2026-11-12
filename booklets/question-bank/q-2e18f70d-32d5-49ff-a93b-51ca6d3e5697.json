@@ -1,0 +1,247 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2e18f70d-32d5-49ff-a93b-51ca6d3e5697",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-graphically",
+    "secondarySkillIds": [
+      "solve-trig-equations-restricted"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret supplied intersections, then use an exact reference angle and periodicity to identify all four solutions on a domain containing negative angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:40:32.286Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aba8d400238ae2dc30205c858d5020b9e3d512383b2d4992afea53c00c90f210",
+      "evidence": ".booklet-work/full-imports/s6adv-trigonometric-identities-and-equations-20261024/semantic-packets/assignments/assignment-27fb126ef8c1aead4643/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p21-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "The graphs of $y=\\sin x$ and $y=\\frac{1}{\\sqrt2}$ have been sketched in the domain $-2\\pi\\le x\\le2\\pi$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q4-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"sine curve and its four intersections with the horizontal reference line\"}],\"reference\":\"page 21 p21-q4-graph\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.95cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-6.7,0)--(7.8,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.5)--(0,1.75) node[left] {$y$};\n\\foreach \\a/\\lab in {-6.283185/{-2\\pi},-3.141593/{-\\pi},3.141593/{\\pi},6.283185/{2\\pi}} {\\draw[line width=0.4pt] (\\a,0.06)--(\\a,-0.06) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\node[below right] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\a in {-1,1} {\\draw[line width=0.4pt] (-0.12,\\a)--(0.12,\\a);\\node[left] at (-0.12,\\a) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (-6.283185,{1/sqrt(2)})--(6.283185,{1/sqrt(2)}) node[right] {$y=\\frac{1}{\\sqrt2}$};\n\\draw[seriesBlue,line width=0.8pt,domain=-6.283185:6.283185,samples=161] plot (\\x,{sin(\\x r)});\n\\foreach \\a in {-5.497787,-3.926991,0.785398,2.356194} {\\fill[seriesBlue] (\\a,{1/sqrt(2)}) circle[radius=1.5pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 4, shared graph on the left",
+          "description": "Sine curve over two complete periods, black coordinate axes, a dashed horizontal reference line and four blue intersection markers. No grid. Numeric origin label retained.",
+          "mathematics": "y=sin x and y=1/sqrt(2), with -2pi<=x<=2pi. Intersections occur at -7pi/4, -5pi/4, pi/4 and 3pi/4; their coordinates are not labelled in the supplied graph.",
+          "answerVisibility": "The supplied graph and intersection markers remain visible; numerical solutions appear only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q4a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many solutions to $\\sin x=\\frac{1}{\\sqrt2}$ are there in this domain? Explain how you know from the graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4 solutions, because the graphs have 4 points of intersection.",
+          "worked": "Each intersection of $y=\\sin x$ and $y=\\frac{1}{\\sqrt2}$ gives a solution. There are four intersections in $-2\\pi\\le x\\le2\\pi$, so there are 4 solutions.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p21-q4b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the exact solutions of $x$ in this domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=-\\frac{7\\pi}{4},\\,-\\frac{5\\pi}{4},\\,\\frac{\\pi}{4},\\,\\frac{3\\pi}{4}$",
+          "worked": "The reference angle is $\\frac{\\pi}{4}$. Sine is positive in quadrants I and II.\n$$\\begin{align*}x&=\\frac{\\pi}{4}\\quad\\text{or}\\quad\\frac{3\\pi}{4}\\qquad(0\\le x<2\\pi).\\end{align*}$$\nSubtract $2\\pi$ to obtain the two negative solutions:\n$$\\begin{align*}\\frac{\\pi}{4}-2\\pi&=-\\frac{7\\pi}{4}\\\\\\frac{3\\pi}{4}-2\\pi&=-\\frac{5\\pi}{4}.\\end{align*}$$\nThus, in the given domain,\n$$x=-\\frac{7\\pi}{4},\\,-\\frac{5\\pi}{4},\\,\\frac{\\pi}{4},\\,\\frac{3\\pi}{4}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q4-root/label",
+                  "type": "item",
+                  "ref": "p21-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p21-q4-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p21-q4-root/prompt",
+                      "type": "item",
+                      "ref": "p21-q4-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p21-q4-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p21-q4-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p21-q4-graph",
+                              "type": "item",
+                              "ref": "p21-q4-graph",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p21-q4-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p21-q4-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p21-q4-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p21-q4a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4a/label",
+                                          "type": "item",
+                                          "ref": "p21-q4a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4a/prompt",
+                                          "type": "item",
+                                          "ref": "p21-q4a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4a/space",
+                                          "type": "item",
+                                          "ref": "p21-q4a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p21-q4b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4b/label",
+                                          "type": "item",
+                                          "ref": "p21-q4b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4b/prompt",
+                                          "type": "item",
+                                          "ref": "p21-q4b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4b/space",
+                                          "type": "item",
+                                          "ref": "p21-q4b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p21-q4"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:03:15.426Z",
+  "updatedAt": "2026-11-12T08:03:15.426Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometric-identities-and-equations-v1",
+    "blockId": "p21-q4",
+    "sectionRole": "exercise"
+  }
+}

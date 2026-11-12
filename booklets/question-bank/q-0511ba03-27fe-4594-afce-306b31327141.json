@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0511ba03-27fe-4594-afce-306b31327141",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Identify two symmetric boundaries at two standard deviations from the mean and use the complement of the central 95%.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T22:39:44.249Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ff99b8ef77074b1a0ab0557115104437ee69d7fa163f0648f0af08ff5cefe71f",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792967965154-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q22-root",
+    "type": "question",
+    "label": "22",
+    "prompt": "Apple diameters are normally distributed with mean 68 mm and standard deviation 2 mm.\nApples are discarded if diameter is more than 72 mm or less than 64 mm.\nWhat percentage are discarded?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Approximately $5\\%$.",
+      "worked": "$\\mu=68\\text{ mm}$ and $\\sigma=2\\text{ mm}$.\n$$\\begin{aligned}z(64)&=\\frac{64-68}{2}=-2\\\\z(72)&=\\frac{72-68}{2}=2\\end{aligned}$$\nBy the empirical rule, approximately $95\\%$ of diameters lie within $\\mu\\pm2\\sigma$, so these apples are accepted.\n$$\\text{Percentage discarded}=100\\%-95\\%=5\\%.$$",
+      "solutionDiagrams": [
+        {
+          "id": "p36-q22-solution-curve",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=0.9cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\definecolor{tailFill}{HTML}{D4E8FF}\n\\fill[tailFill] (-3.6,0) -- plot[domain=-3.6:-2,samples=35] (\\x,{exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\fill[tailFill] (2,0) -- plot[domain=2:3.6,samples=35] (\\x,{exp(-\\x*\\x/2)}) -- (3.6,0) -- cycle;\n\\draw[->] (-3.8,0)--(3.9,0);\n\\draw plot[domain=-3.6:3.6,samples=100] (\\x,{exp(-\\x*\\x/2)});\n\\foreach \\x/\\v in {-2/64,0/68,2/72}{\\draw (\\x,0)--(\\x,-0.04);\\node[below] at (\\x,-0.04) {$\\v$};}\n\\draw[dashed] (-2,0)--(-2,{exp(-2)});\n\\draw[dashed] (0,0)--(0,1);\n\\draw[dashed] (2,0)--(2,{exp(-2)});\n\\node[fill=white,inner sep=1pt] at (0,0.3) {$95\\%$};\n\\node[above] at (-2.9,0.2) {$2.5\\%$};\n\\node[above] at (2.9,0.2) {$2.5\\%$};\n\\node[below] at (0,-0.3) {Diameter (mm)};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 80,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 36,
+            "sourceRegion": "Question 22; authored solution sketch using page 28's taught method",
+            "description": "Normal curve centred at 68 mm, with boundaries 64 mm and 72 mm and both discarded tails shaded.",
+            "mathematics": "The boundaries are mu minus two sigma and mu plus two sigma. The empirical rule assigns approximately 95% to the central interval and 2.5% to each tail.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 29
+  },
+  "presentation": {
+    "ownerId": "p36-q22",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:33.833Z",
+  "updatedAt": "2026-11-12T08:02:33.833Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p36-q22",
+    "sectionRole": "exercise"
+  }
+}

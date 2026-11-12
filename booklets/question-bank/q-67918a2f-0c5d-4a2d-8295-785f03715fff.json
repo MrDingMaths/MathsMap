@@ -1,0 +1,146 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-67918a2f-0c5d-4a2d-8295-785f03715fff",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-absolute-value-equations",
+    "secondarySkillIds": [
+      "graph-absolute-value",
+      "express-abs-as-piecewise"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Connect an absolute-value graph and its branches to two intersections, then verify both solutions by substitution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T00:02:38.972Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b1e2752f62bdf820ea272f352ab28ace551e4f3d9a5ec4ba59c7d54a7014213f",
+      "evidence": ".booklet-work/full-imports/s6adv-working-with-functions-12-absolute-value-functions-20261024/lean-review/calls/content-1792972941277-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "On the same set of axes, sketch $y=|x-2|$ and $y=\\frac{x}{3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p24-q3-a-graph",
+        "answer": {
+          "short": "See the shared graph: $y=|x-2|$ has vertex $(2,0)$ and passes through $(0,2)$; $y=\\frac{x}{3}$ passes through $(0,0)$ and $(3,1)$.",
+          "worked": "Sketch the V-shaped graph with vertex $(2,0)$, passing through $(0,2)$ and $(4,2)$. On the same axes, draw the straight line through $(0,0)$ and $(3,1)$. The shared graph also includes the branch labels requested in part b.",
+          "solutionDiagrams": [
+            {
+              "id": "p24-q3-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"absBlue\",\"hex\":\"268CFF\",\"reason\":\"absolute-value function and its branch labels\"},{\"name\":\"lineOrange\",\"hex\":\"EF8B2C\",\"reason\":\"comparison line y=x/3\"}],\"reference\":\"source page 24 question 3 graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{absBlue}{HTML}{268CFF}\n\\definecolor{lineOrange}{HTML}{EF8B2C}\n\\draw[black,line width=0.5pt,->] (-0.75,0)--(4.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.7)--(0,3.7) node[above] {$y$};\n\\foreach \\v in {1,2,3,4} {\n\\draw[black,line width=0.4pt] (\\v,-0.08)--(\\v,0.08);\n\\node[below] at (\\v,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {1,2,3} {\n\\draw[black,line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\n\\node[left] at (-0.08,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[absBlue,line width=0.8pt,<->] (-0.5,2.5)--(2,0)--(4.5,2.5);\n\\draw[lineOrange,line width=0.8pt,<->,domain=-0.5:4.5] plot (\\x,{\\x/3});\n\\node[absBlue,anchor=south west] at (0.3,3.1) {$y=-x+2$};\n\\node[absBlue,anchor=south] at (3.8,2.65) {$y=x-2$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 24,
+                "sourceRegion": "Question 3, graph beneath part a",
+                "description": "Shared solution sketch with positive-direction axis arrows, source ticks, blue absolute-value graph and orange comparison line. Branch labels complete part b. No grid or origin label.",
+                "mathematics": "y=|x-2| has vertex (2,0); y=x/3 intersects it at (3/2,1/2) and (3,1). Left branch y=-x+2, x<=2; right branch y=x-2, x>=2.",
+                "answerVisibility": "Solution only; the coloured source curves are supplied answer evidence, not student givens."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 47
+      },
+      {
+        "id": "p24-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equations of each “branch” of $y=|x-2|$ and label them on your diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p24-q3-a-graph",
+        "answer": {
+          "short": "Left branch: $y=-x+2$ for $x\\leq2$. Right branch: $y=x-2$ for $x\\geq2$.",
+          "worked": "For $x\\leq2$:\n$$\\begin{align*}y&=-(x-2)\\\\y&=-x+2.\\end{align*}$$\nFor $x\\geq2$:\n$$y=x-2.$$\nLabel the left branch $y=-x+2$ and the right branch $y=x-2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p24-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Identify how the solutions of $|x-2|=\\frac{x}{3}$ are represented on your diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The solutions are the $x$ coordinates of the points of intersection.",
+          "worked": "At each intersection, the two graphs have the same $y$ value, so $|x-2|=\\frac{x}{3}$. Read the $x$ coordinates of these intersections.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p24-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, find the solutions of $|x-2|=\\frac{x}{3}$ and verify they work by substituting them back into the equation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\frac32$ or $x=3$.",
+          "worked": "The intersections have $x$ coordinates $\\frac32$ and $3$.\n\nFor $x=\\frac32$:\n$$\\begin{align*}\\mathrm{LHS}&=\\left|\\frac32-2\\right|\\\\&=\\left|-\\frac12\\right|\\\\&=\\frac12,\\\\\\mathrm{RHS}&=\\frac{\\frac32}{3}\\\\&=\\frac12.\\end{align*}$$\nFor $x=3$:\n$$\\begin{align*}\\mathrm{LHS}&=|3-2|\\\\&=1,\\\\\\mathrm{RHS}&=\\frac33\\\\&=1.\\end{align*}$$\nBoth values satisfy the equation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:04:22.167Z",
+  "updatedAt": "2026-11-12T08:04:22.167Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-working-with-functions-12-absolute-value-functions-v1",
+    "blockId": "p24-q3",
+    "sectionRole": "exercise"
+  }
+}

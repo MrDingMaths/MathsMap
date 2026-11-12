@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d539aad9-258c-4f11-91ac-e95883ace7b9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-density-function",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Four linked parts: z-score, finding the limits a and b, trapezoidal rule on three PDF values, then a complement-by-symmetry percentage and an expected count. Same structure as p67-q2. The student evaluates the density directly, but the limits are simpler.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T21:23:16.106Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "be3a43e917ac1e0dfa69c5232c539c6af7ce22b761252dfac3c33e4e3d9fcb58",
+      "diagramBlindHash": "be3a43e917ac1e0dfa69c5232c539c6af7ce22b761252dfac3c33e4e3d9fcb58",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-random-variables-3-the-normal-distribution-2-v1/20261110-211127/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p67-q2",
+          "score": 43
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-af11e-p66-practice-slot-12-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The time taken by a train to travel from Ipswich to Brisbane Central is normally distributed with a mean of 40 minutes and a standard deviation of 8 minutes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-af11e-p66-practice-slot-12-slot-12-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate the $z$-score for a trip time of 48 minutes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "$$\\begin{align*}z(48)&=\\frac{48-40}{8}\\\\z(48)&=1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-af11e-p66-practice-slot-12-slot-12-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The probability that a trip takes between 40 and 48 minutes can be found by evaluating $\\displaystyle\\int_a^b f(x)\\,dx$, where $a$ and $b$ are constants and $f(x)=\\dfrac{1}{\\sqrt{2\\pi}}e^{-x^2/2}$ is the standard normal PDF. By first finding $a$ and $b$, calculate an approximate value for this probability using the trapezoidal rule with 3 function values. Give the probability to 4 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=0$, $b=1$; probability $\\approx0.3363$.",
+          "worked": "Convert 40 and 48 to $z$-scores: $a=\\frac{40-40}{8}=0,\\qquad b=\\frac{48-40}{8}=1$\n\nTrapezoidal rule with $h=\\frac{1-0}{2}=0.5$:\n\n$$\\begin{align*}f(0)&\\approx0.3989\\\\f(0.5)&\\approx0.3521\\\\f(1)&\\approx0.2420\\end{align*}$$\n$$\\begin{align*}P(40\\le X\\le48)&\\approx\\frac{0.5}{2}\\left(0.3989+2\\times0.3521+0.2420\\right)\\\\P(40\\le X\\le48)&\\approx0.3363\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "v2-af11e-p66-practice-slot-12-slot-12-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the approximate probability that a trip takes more than 48 minutes. Give your answer as a percentage to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately $16.4\\%$.",
+          "worked": "The mean is 40 minutes, so $P(X>40)=0.5$.\n$$\\begin{align*}P(X>48)&=P(X>40)-P(40\\le X\\le48)\\\\P(X>48)&\\approx0.5-0.3363\\\\P(X>48)&\\approx0.1637=16.4\\%\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "v2-af11e-p66-practice-slot-12-slot-12-q-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Out of 500 trips, approximately how many are expected to take more than 48 minutes?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 82 trips.",
+          "worked": "$$\\begin{align*}500\\times0.1637&=81.85\\\\&\\approx82\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-af11e-p66-practice-slot-12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:22.106Z",
+  "updatedAt": "2026-11-12T08:02:22.106Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+    "blockId": "v2-af11e-p66-practice-slot-12",
+    "sectionRole": "exercise"
+  }
+}

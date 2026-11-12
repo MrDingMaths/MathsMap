@@ -1,0 +1,177 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8f5dad27-a5b4-48df-8062-cc53a3e4746f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Identify standard-deviation intervals and combine or halve empirical-rule percentages, including asymmetric intervals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T00:46:43.641Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a531a50d7d91282f5818d04b3c5b657964a37eb17edad8bf33f33b1bc7e64590",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/lean-review/calls/content-1792975591907-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A set of data is normally distributed with mean 18 and standard deviation 2.\n\nFind the percentage of data between:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "16 and 20",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$68\\%$",
+          "worked": "$16=18-2$ and $20=18+2$, so the interval is $-1\\le z\\le1$.\n\nBy the empirical rule, approximately $68\\%$ of the data lies in this interval.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p32-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "14 and 22",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$95\\%$",
+          "worked": "$14=18-2(2)$ and $22=18+2(2)$, so the interval is $-2\\le z\\le2$.\n\nBy the empirical rule, approximately $95\\%$ of the data lies in this interval.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p32-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "12 and 24",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$99.7\\%$",
+          "worked": "$12=18-3(2)$ and $24=18+3(2)$, so the interval is $-3\\le z\\le3$.\n\nBy the empirical rule, approximately $99.7\\%$ of the data lies in this interval.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p32-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "16 and 18",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$34\\%$",
+          "worked": "$16=18-2$, so the interval is $-1\\le z\\le0$.\n\nBy symmetry, the percentage is approximately $68\\%\\div2=34\\%$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p32-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "18 and 24",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$49.85\\%$",
+          "worked": "$24=18+3(2)$, so the interval is $0\\le z\\le3$.\n\nBy symmetry, the percentage is approximately $99.7\\%\\div2=49.85\\%$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p32-q11-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "12 and 22",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$97.35\\%$",
+          "worked": "$12=18-3(2)$ and $22=18+2(2)$, so the interval is $-3\\le z\\le2$.\n\nThe percentage is approximately\n$$\\begin{aligned}\\frac{99.7\\%}{2}+\\frac{95\\%}{2}&=49.85\\%+47.5\\%\\\\&=97.35\\%.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p32-q11-solution-curve",
+        "role": "solution",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1.35cm,y=2.5cm]\n\\draw[->] (-3.6,0)--(3.6,0);\n\\draw[domain=-3.4:3.4,samples=100,smooth] plot (\\x,{exp(-\\x*\\x/2)});\n\\foreach \\x/\\v in {-3/12,-2/14,-1/16,0/18,1/20,2/22,3/24}{\\draw (\\x,0)--(\\x,-0.035);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.035) {$\\v$};\\draw[dashed] (\\x,0)--(\\x,{exp(-\\x*\\x/2)});}\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (leftCenter) at (-0.8,1.8) {$34\\%$};\n\\draw[->,thin] (leftCenter.south)--(-0.5,0.37);\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (rightCenter) at (0.8,1.8) {$34\\%$};\n\\draw[->,thin] (rightCenter.south)--(0.5,0.37);\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (leftInner) at (-1.5,0.85) {$13.5\\%$};\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (rightInner) at (1.5,0.85) {$13.5\\%$};\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (leftOuter) at (-2.6,1.25) {$2.35\\%$};\n\\node[font=\\fontsize{10}{12}\\selectfont,inner sep=1pt] (rightOuter) at (2.6,1.25) {$2.35\\%$};\n\\draw[->,thin] (leftInner.south)--(-1.5,0.12);\n\\draw[->,thin] (rightInner.south)--(1.5,0.12);\n\\draw[->,thin] (leftOuter.south)--(-2.5,0.02);\n\\draw[->,thin] (rightOuter.south)--(2.5,0.02);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Question 11",
+          "description": "Authored shared solution sketch following the raw-score normal-curve method demonstrated on page 28; not a supplied question figure.",
+          "mathematics": "Mean 18, standard deviation 2; raw-score ticks from 12 to 24 at intervals of 2, with empirical-rule segment percentages.",
+          "answerVisibility": "Answer editions only.",
+          "sizing": {
+            "exceptionReason": "Restore native percentage labels and keep visible gaps between the two central labels and dashed region dividers."
+          }
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:34.331Z",
+  "updatedAt": "2026-11-12T08:02:34.331Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p32-q11",
+    "sectionRole": "exercise"
+  }
+}

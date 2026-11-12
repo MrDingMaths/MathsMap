@@ -1,0 +1,103 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-91cfb216-5d53-489b-b977-1651ecede536",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-trig-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 15,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read the time for one complete cycle directly from a supplied periodic graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T07:12:14.970Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2b5b127a2295566840de2c9e74cd6f4fdc946f4e4557e7274c7ef3412a8ab104",
+      "evidence": ".booklet-work/full-imports/s6adv-trigonometry-and-measure-of-angles-2-trigonometry-with-angles-of-any-magnitude-20261024/lean-review/calls/content-1792998404924-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p50-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The diagram shows the motion of a swinging pendulum and its graph.\n\nWhat is the period of this graph?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p50-q7-pendulum",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 50 p50-q7-pendulum\"}\n\\begin{tikzpicture}[x=10mm,y=10mm]\n\\draw[black,line width=0.8pt] (-0.28,0) rectangle (0.28,0.22);\n\\foreach \\a in {-30,-20,-10,0,10,20,30}{\n\\draw[black,line width=0.8pt] (0,0)--({2*sin(\\a)},{-2*cos(\\a)});\n\\draw[black,line width=0.8pt,fill=white] ({2*sin(\\a)},{-2*cos(\\a)}) circle (0.12);\n}\n\\draw[black,line width=0.5pt,<->] (-1.35,-1.72) .. controls (-0.75,-2.42) and (0.75,-2.42) .. (1.35,-1.72);\n\\node[align=center,anchor=east] at (-1.65,-2.10) {Left (negative)\\\\displacement};\n\\node[align=center,anchor=north] at (0,-2.35) {Zero position};\n\\node[align=center,anchor=west] at (1.65,-2.10) {Right (positive)\\\\displacement};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 76,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "Question 7, upper-right pendulum illustration.",
+          "description": "Seven equal-length pendulum positions share one pivot. Left, central and right positions indicate negative, zero and positive displacement; a curved double-headed arrow shows swinging motion. Illustrative angles are unlabelled and do not supply numerical givens.",
+          "mathematics": "Displacement is negative to the left of equilibrium and positive to the right.",
+          "answerVisibility": "All editions."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p50-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curvePurple\",\"hex\":\"8B5CC7\",\"reason\":\"periodic position series\"}],\"reference\":\"page 50 p50-q7-graph\"}\n\\begin{tikzpicture}[x=4.6mm,y=9.2mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curvePurple}{HTML}{8B5CC7}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,line width=0.15pt,xstep=1,ystep=0.5] (0,-1.5) grid (30,1.5);\n\\draw[black,line width=0.5pt,<->] (0,-1.5)--(0,1.5);\n\\draw[black,line width=0.5pt,->] (0,0)--(30,0);\n\\draw[curvePurple,line width=0.8pt,domain=0:30,samples=601] plot (\\x,{sin(72*\\x)});\n\\foreach \\t in {2,4,...,28}{\n\\draw[black,line width=0.4pt] (\\t,0)--(\\t,-0.10);\n\\node[below=3pt,fill=white] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\node[rotate=90,anchor=center] at (-0.8,0) {Position (m)};\n\\node[anchor=south east] at (30,1.70) {Time (s)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 155,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "Question 7, full-width position–time graph.",
+          "description": "Periodic curve starts at zero rising and completes six cycles over 30 seconds. Grid columns represent 1 second; vertical values are unnumbered. Time ticks are labelled every 2 seconds from 2 to 28. Vertical axis has two arrowheads and horizontal axis points right.",
+          "mathematics": "Curve represented by y=sin(72t degrees), 0<=t<=30. The vertical amplitude is an illustrative coordinate unit; no numerical displacement scale is given.",
+          "answerVisibility": "All editions; no period annotation is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "5 seconds.",
+      "worked": "The curve repeats from the upward zero crossing at $t=0$ to the next upward zero crossing at $t=5$ seconds.\n\n$T=5-0=5\\text{ seconds}$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 10
+  },
+  "presentation": {
+    "ownerId": "p50-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:03:47.815Z",
+  "updatedAt": "2026-11-12T08:03:47.815Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometry-and-measure-of-angles-2-trigonometry-with-angles-of-any-magnitude-2-v1",
+    "blockId": "p50-q7",
+    "sectionRole": "exercise"
+  }
+}

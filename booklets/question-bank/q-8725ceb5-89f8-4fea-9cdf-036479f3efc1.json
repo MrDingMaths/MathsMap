@@ -1,0 +1,300 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8725ceb5-89f8-4fea-9cdf-036479f3efc1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "median-quartiles-continuous",
+    "secondarySkillIds": [
+      "cumulative-distribution-function",
+      "probability-density-function",
+      "mode-continuous-distribution"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follow explicit prompts to integrate the quadratic PDF, interpret symmetry and complements, evaluate CDF differences, sketch the CDF and solve specified quartile equations numerically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:02:35.884Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2918bd47a887c3a158d52bbd4930645e195ab5e3707274f1abaa8e6c07e57b6d",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-116a6d01750ed2c262e5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p44-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Define $f(x)=\\dfrac{3}{32}x(4-x)$, $0\\le x\\le4$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the mode.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2$.",
+          "worked": "The graph is a concave-down parabola, symmetric about $x=2$, with its maximum at $x=2$. The mode is $2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p44-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Confirm $\\displaystyle\\int_0^4 f(x)\\,dx=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\int_0^4 f(x)\\,dx=1$.",
+          "worked": "$$\\begin{aligned}\\int_0^4 f(x)\\,dx&=\\frac{3}{32}\\int_0^4x(4-x)\\,dx\\\\&=\\frac{3}{32}\\left[2x^2-\\frac{x^3}{3}\\right]_0^4\\\\&=\\frac{3}{32}\\left(32-\\frac{64}{3}\\right)\\\\&=1.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p44-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write down $P(X\\le2)$. What property of the curve allows this without integration?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(X\\le2)=\\dfrac12$, by symmetry about $x=2$.",
+          "worked": "The PDF is symmetric about $x=2$, so half its total area lies to the left of $2$. Thus $P(X\\le2)=\\dfrac12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p44-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Evaluate $P(X\\le1)$ and $P(X>1)$. Explain why they add to $1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(X\\le1)=\\dfrac5{32}$ and $P(X>1)=\\dfrac{27}{32}$. These complementary events cover all possible values of $X$.",
+          "worked": "$$\\begin{aligned}P(X\\le1)&=\\frac{3}{32}\\left[2x^2-\\frac{x^3}{3}\\right]_0^1\\\\&=\\frac{3}{32}\\left(2-\\frac13\\right)\\\\&=\\frac5{32}.\\end{aligned}$$\n$$\\begin{aligned}P(X>1)&=1-\\frac5{32}\\\\&=\\frac{27}{32}.\\end{aligned}$$\nThe events are complementary, so their probabilities add to the total probability, $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p44-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Evaluate $P(X\\le0.5)$ and $P(X\\ge3.5)$. What do you notice?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(X\\le0.5)=P(X\\ge3.5)=\\dfrac{11}{256}$. They are equal.",
+          "worked": "$$\\begin{aligned}P(X\\le0.5)&=\\frac{3}{32}\\left[2x^2-\\frac{x^3}{3}\\right]_0^{1/2}\\\\&=\\frac{3}{32}\\left(\\frac12-\\frac1{24}\\right)\\\\&=\\frac{3}{32}\\cdot\\frac{11}{24}\\\\&=\\frac{11}{256}.\\end{aligned}$$\nBy symmetry about $x=2$, $P(X\\ge3.5)=\\dfrac{11}{256}$. The probabilities are equal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p44-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find the CDF using $F(x)=\\displaystyle\\int_0^x f(t)\\,dt$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac{x^2(6-x)}{32},&0\\le x\\le4,\\\\1,&x>4.\\end{cases}$$",
+          "worked": "For $0\\le x\\le4$,\n$$\\begin{aligned}F(x)&=\\int_0^x\\frac{3}{32}t(4-t)\\,dt\\\\&=\\frac{3}{32}\\left[2t^2-\\frac{t^3}{3}\\right]_0^x\\\\&=\\frac{x^2(6-x)}{32}.\\end{aligned}$$\nThere is no probability below $0$, and all probability lies at or below $4$. Hence\n$$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac{x^2(6-x)}{32},&0\\le x\\le4,\\\\1,&x>4.\\end{cases}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p44-q6-g",
+        "type": "group",
+        "label": "g",
+        "prompt": "Use the CDF to evaluate:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p44-q6-g-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(X<1.5)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{81}{256}$.",
+              "worked": "$$\\begin{aligned}P(X<1.5)&=F(1.5)\\\\&=\\frac{(3/2)^2(6-3/2)}{32}\\\\&=\\frac{81}{256}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          },
+          {
+            "id": "p44-q6-g-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$P(1<X<1.5)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{41}{256}$.",
+              "worked": "$$\\begin{aligned}P(1<X<1.5)&=F(1.5)-F(1)\\\\&=\\frac{81}{256}-\\frac{40}{256}\\\\&=\\frac{41}{256}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          },
+          {
+            "id": "p44-q6-g-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "$P(3<X<3.5)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{29}{256}$.",
+              "worked": "By symmetry about $x=2$,\n$$\\begin{aligned}P(3<X<3.5)&=P(0.5<X<1)\\\\&=F(1)-F(0.5)\\\\&=\\frac{40}{256}-\\frac{11}{256}\\\\&=\\frac{29}{256}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 21
+          },
+          {
+            "id": "p44-q6-g-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$P(2<X<2.5)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{47}{256}$.",
+              "worked": "$$\\begin{aligned}P(2<X<2.5)&=F(2.5)-F(2)\\\\&=\\frac{(5/2)^2(6-5/2)}{32}-\\frac12\\\\&=\\frac{175}{256}-\\frac{128}{256}\\\\&=\\frac{47}{256}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          }
+        ]
+      },
+      {
+        "id": "p45-q6-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Graph the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=0$ for $x<0$; an increasing curve from $(0,0)$ through $(2,\\tfrac12)$ to $(4,1)$; $F(x)=1$ for $x>4$.",
+          "worked": "Plot $F(x)=\\dfrac{x^2(6-x)}{32}$ on $[0,4]$. It increases through $(0,0)$, $(2,\\tfrac12)$ and $(4,1)$, with horizontal tangents at $0$ and $4$. Complete the CDF with horizontal tails $F(x)=0$ for $x<0$ and $F(x)=1$ for $x>4$.",
+          "solutionDiagrams": [
+            {
+              "id": "p45-q6-h-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cdfBlue\",\"hex\":\"268CFF\",\"reason\":\"CDF curve\"}],\"reference\":\"page 45 p45-q6-h-graph\"}\n\\begin{tikzpicture}[x=9mm,y=34mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cdfBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-1,0)--(7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.15)--(0,1.2) node[above] {$y$};\n\\foreach \\x in {2,4,6}{\\draw[line width=0.4pt] (\\x,-0.02)--(\\x,0.02);\\node[below] at (\\x,-0.02) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.5,1}{\\draw[line width=0.4pt] (-0.1,\\y)--(0.1,\\y);\\node[left] at (-0.1,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[cdfBlue,line width=0.8pt,<-] (-1,0)--(0,0);\n\\draw[cdfBlue,line width=0.8pt,domain=0:4,samples=81] plot (\\x,{\\x*\\x*(6-\\x)/32});\n\\draw[cdfBlue,line width=0.8pt,->] (4,1)--(7,1);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 45,
+                "sourceRegion": "Question 6(h), upper-left answer graph",
+                "description": "Editable CDF graph with corrected constant tails, original labelled tick values and no origin label.",
+                "mathematics": "F(x)=0 for x<0; F(x)=x^2(6-x)/32 for 0<=x<=4; F(x)=1 for x>4.",
+                "answerVisibility": "Answer only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p45-q6-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "Confirm $P(X<2)=0.5$ using the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(X<2)=F(2)=\\dfrac12=0.5$.",
+          "worked": "$$\\begin{aligned}P(X<2)&=F(2)\\\\&=\\frac{2^2(6-2)}{32}\\\\&=\\frac{16}{32}\\\\&=\\frac12=0.5.\\end{aligned}$$\nThus $50\\%$ of the distribution lies to the left of $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p45-q6-j",
+        "type": "part",
+        "label": "j",
+        "prompt": "Find $Q_1$ and $Q_3$ by solving $F(x)=0.25$ and $F(x)=0.75$. Give answers to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1\\approx1.3$, $Q_3\\approx2.7$.",
+          "worked": "$$\\begin{aligned}\\frac{Q_1^2(6-Q_1)}{32}&=\\frac14\\\\Q_1^2(6-Q_1)&=8.\\end{aligned}$$\nSolving numerically on $[0,4]$ gives $Q_1\\approx1.3054$, so $Q_1\\approx1.3$.\n$$\\begin{aligned}\\frac{Q_3^2(6-Q_3)}{32}&=\\frac34\\\\Q_3^2(6-Q_3)&=24.\\end{aligned}$$\nSolving numerically on $[0,4]$ gives $Q_3\\approx2.6946$, so $Q_3\\approx2.7$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p44-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:06.824Z",
+  "updatedAt": "2026-11-12T08:02:06.824Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p44-q6",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d3eca614-e124-42f6-b05a-93201536cff5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-arrays-trees",
+    "secondarySkillIds": [
+      "complementary-multistage"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a two-stage probability tree, multiply along paths, add mutually exclusive outcomes and use a complement.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T10:07:58.736Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "723ca81a8ee4b50105eda459640b527df295c95e067294c6c19e9c0565e352e9",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/lean-review/calls/content-1792922852271-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "There is an 80% chance that Garry will pass his driving test and a 90% chance that Emma will pass hers.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q12-draw",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a probability tree diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "P = pass; F = fail. See tree diagram.",
+          "worked": "Garry: $P(P)=0.8$, $P(F)=1-0.8=0.2$. Emma: $P(P)=0.9$, $P(F)=1-0.9=0.1$ on each second-stage pair of branches.",
+          "solutionDiagrams": [
+            {
+              "id": "p31-q12-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 p31-q12-tree\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node at (2,2.65) {Garry};\n\\node at (4.3,2.65) {Emma};\n\\coordinate (S) at (0,0);\n\\coordinate (GP) at (2,1.2);\n\\coordinate (GF) at (2,-1.2);\n\\coordinate (PP) at (4.3,1.8);\n\\coordinate (PF) at (4.3,0.6);\n\\coordinate (FP) at (4.3,-0.6);\n\\coordinate (FF) at (4.3,-1.8);\n\\node[left] at (S) {Start};\n\\draw[line width=0.8pt] (S)--(GP) node[midway,above left] {$0.8$};\n\\draw[line width=0.8pt] (S)--(GF) node[midway,below left] {$0.2$};\n\\node[fill=white,inner sep=2pt] at (GP) {P};\n\\node[fill=white,inner sep=2pt] at (GF) {F};\n\\draw[line width=0.8pt] (2.25,1.2)--(PP) node[midway,above] {$0.9$};\n\\draw[line width=0.8pt] (2.25,1.2)--(PF) node[midway,below] {$0.1$};\n\\draw[line width=0.8pt] (2.25,-1.2)--(FP) node[midway,above] {$0.9$};\n\\draw[line width=0.8pt] (2.25,-1.2)--(FF) node[midway,below] {$0.1$};\n\\node[right] at (PP) {P};\n\\node[right] at (PF) {F};\n\\node[right] at (FP) {P};\n\\node[right] at (FF) {F};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "Question 12 answer tree",
+                "description": "Two stages labelled Garry and Emma, with pass and fail branches. Ordinary diagram marks use house black.",
+                "mathematics": "First-stage probabilities 0.8 and 0.2; second-stage probabilities 0.9 and 0.1 after either first-stage outcome.",
+                "answerVisibility": "Answer only; omitted from the student question."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p31-q12-events",
+        "type": "group",
+        "label": "",
+        "prompt": "Find the chance that:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p31-q12-a",
+            "type": "part",
+            "label": "b",
+            "prompt": "Garry passes and Emma fails",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$8\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{Garry passes and Emma fails})&=0.8\\times0.1\\\\&=0.08=8\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p31-q12-b",
+            "type": "part",
+            "label": "c",
+            "prompt": "Garry fails and Emma passes",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$18\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{Garry fails and Emma passes})&=0.2\\times0.9\\\\&=0.18=18\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p31-q12-c",
+            "type": "part",
+            "label": "d",
+            "prompt": "Only one of Garry and Emma passes",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$26\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{only one passes})&=8\\%+18\\%\\\\&=26\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p31-q12-d",
+            "type": "part",
+            "label": "e",
+            "prompt": "At least one fails",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$28\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{at least one fails})&=1-P(\\text{both pass})\\\\&=1-(0.8)(0.9)\\\\&=0.28=28\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:34.762Z",
+  "updatedAt": "2026-11-12T08:01:34.762Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-v1",
+    "blockId": "p31-q12",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ea2863f0-4c0f-4deb-bcac-a59026879333",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "pdf-unknown-constant",
+      "probability-density-function",
+      "median-quartiles-continuous",
+      "mode-continuous-distribution"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Link normalisation, branch integration and symmetry, then accumulate the second CDF branch from F(0)=1/2; the requested intervals scaffold these routine procedures.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:57:46.562Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d46c28881aa6eb172125c542bf441dc1a1d705a78bfa108ea62e8cf678f6d50a",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-c95258e57b07c24bdf99/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A probability density function is defined piecewise by\n$$f(x)=\\begin{cases}k(4+x)&-4\\le x\\le0,\\\\k(4-x)&0\\le x\\le4.\\end{cases}$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the value of the constant $k$. Hence write the equation of $f(x)$ and sketch it.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\frac1{16}$;\n$$f(x)=\\begin{cases}\\frac{4+x}{16}&-4\\le x\\le0,\\\\\\frac{4-x}{16}&0\\le x\\le4.\\end{cases}$$\nThe sketch joins $(-4,0)$, $(0,\\frac14)$ and $(4,0)$ with straight segments.",
+          "worked": "Split the integral at the change in the piecewise definition.\n$$\\begin{align*}\\int_{-4}^{4}f(x)\\,dx&=1\\\\\\int_{-4}^{0}k(4+x)\\,dx+\\int_{0}^{4}k(4-x)\\,dx&=1\\\\k\\left[4x+\\frac{x^2}{2}\\right]_{-4}^{0}+k\\left[4x-\\frac{x^2}{2}\\right]_{0}^{4}&=1\\\\k\\big((0+0)-(-16+8)\\big)+k\\big((16-8)-(0-0)\\big)&=1\\\\8k+8k&=1\\\\16k&=1\\\\k&=\\frac1{16}.\\end{align*}$$\nHence\n$$f(x)=\\begin{cases}\\frac1{16}(4+x)&-4\\le x\\le0,\\\\\\frac1{16}(4-x)&0\\le x\\le4.\\end{cases}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p37-q10-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q10-a-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-5,0)--(5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.08)--(0,0.36) node[above] {$f(x)$};\n\\draw[line width=0.8pt] (-4,0)--(0,0.25)--(4,0);\n\\foreach \\x in {-4,4}{\\draw[line width=0.4pt] (\\x,-0.006)--(\\x,0.006);\\node[below] at (\\x,-0.006) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-0.12,0.25)--(0.12,0.25);\n\\node[left] at (-0.12,0.25) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac14$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 37,
+                "sourceRegion": "Question 10(a), supplied answer graph",
+                "description": "Unshaded triangular density with labelled intercepts and peak; ordinary source blue marks use house black.",
+                "mathematics": "Straight segments from (-4,0) to (0,1/4) to (4,0).",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 73
+      },
+      {
+        "id": "p37-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability that $0\\le X\\le2$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac38$",
+          "worked": "$$\\begin{align*}P(0\\le X\\le2)&=\\int_0^2\\frac1{16}(4-x)\\,dx\\\\&=\\frac1{16}\\left[4x-\\frac{x^2}{2}\\right]_0^2\\\\&=\\frac1{16}\\big((8-2)-0\\big)\\\\&=\\frac38.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p37-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Why is the median zero, and what is the mode?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The density is symmetric about $x=0$, with half the probability on either side, so the median is $0$. The mode is $0$.",
+          "worked": "The density is symmetric about $x=0$, so equal areas lie on either side and $P(X\\le0)=\\frac12$. Hence the median is $0$. The density has its global maximum at $x=0$, so the mode is $0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p37-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the CDF for $-4\\le x\\le0$, and the CDF for $0\\le x\\le4$. Then sketch the whole CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$F(x)=\\begin{cases}\\frac{(4+x)^2}{32}&-4\\le x\\le0,\\\\1-\\frac{(4-x)^2}{32}&0\\le x\\le4.\\end{cases}$$\nThe curve increases through $(-4,0)$, $(0,\\frac12)$ and $(4,1)$, changing from concave up to concave down at $x=0$.",
+          "worked": "For $-4\\le x\\le0$:\n$$\\begin{align*}F(x)&=\\int_{-4}^{x}\\frac1{16}(4+t)\\,dt\\\\&=\\frac1{32}\\left[(4+t)^2\\right]_{-4}^{x}\\\\&=\\frac1{32}\\big((4+x)^2-0\\big)\\\\&=\\frac{(4+x)^2}{32}.\\end{align*}$$\nFor $0\\le x\\le4$, note that $F(0)=\\frac12$:\n$$\\begin{align*}F(x)&=\\frac12+\\int_0^x\\frac1{16}(4-t)\\,dt\\\\&=\\frac12-\\frac1{32}\\left[(4-t)^2\\right]_0^x\\\\&=\\frac12-\\frac1{32}\\big((4-x)^2-16\\big)\\\\&=1-\\frac{(4-x)^2}{32}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p37-q10-d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q10-d-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=3.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-5,0)--(5.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.25)--(0,1.3) node[above] {$F(x)$};\n\\draw[dashed,line width=0.4pt] (0,1)--(4,1)--(4,0);\n\\draw[line width=0.8pt,domain=-4:0,samples=65] plot (\\x,{(4+\\x)^2/32});\n\\draw[line width=0.8pt,domain=0:4,samples=65] plot (\\x,{1-(4-\\x)^2/32});\n\\fill (-4,0) circle[radius=1.2pt];\n\\fill (4,1) circle[radius=1.2pt];\n\\foreach \\x in {-4,4}{\\draw[line width=0.4pt] (\\x,-0.025)--(\\x,0.025);\\node[below] at (\\x,-0.025) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.25,0.5,0.75,1}{\\draw[line width=0.4pt] (-0.12,\\y)--(0.12,\\y);}\n\\node[left] at (-0.12,0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.12,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 37,
+                "sourceRegion": "Question 10(d), supplied answer graph",
+                "description": "Two equation-driven curved branches with filled endpoints, unlabelled quarter ticks and dashed endpoint guides. Exterior constant branches are not drawn, following the source.",
+                "mathematics": "F(x)=(4+x)^2/32 on [-4,0] and F(x)=1-(4-x)^2/32 on [0,4]; F(0)=1/2.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 77
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:05.176Z",
+  "updatedAt": "2026-11-12T08:02:05.176Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p37-q10",
+    "sectionRole": "exercise"
+  }
+}

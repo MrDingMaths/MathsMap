@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4137a8b9-257b-4d05-b224-5c9ad2063376",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [
+      "mode-continuous-distribution"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Integrate a cubic PDF, apply cumulative and complementary probabilities, and compare stationary and endpoint density values.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:58:32.766Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "72371e7357e23e30060a8358265a4615df4498437da1678952715736c632422c",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-3334db51f32d7b8f0882/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "Athletes' finishing times varied between 3 and 7 minutes, represented by the continuous PDF $f(x)=\\frac{1}{116}(x^3-9x^2+24x+1)$ on $[3,7]$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p39-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=\\begin{cases}0,&x<3,\\\\\\dfrac{x^4-12x^3+48x^2+4x-201}{464},&3\\le x\\le7,\\\\1,&x>7.\\end{cases}$",
+          "worked": "$$\\begin{align*}F(x)&=\\int_3^x\\frac{1}{116}(t^3-9t^2+24t+1)\\,dt\\\\&=\\frac{1}{116}\\left[\\frac{t^4}{4}-3t^3+12t^2+t\\right]_3^x\\\\&=\\frac{x^4-12x^3+48x^2+4x-201}{464},\\qquad 3\\le x\\le7.\\end{align*}$$\nThus $F(x)=0$ for $x<3$ and $F(x)=1$ for $x>7$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p39-q20-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the probability that an athlete finishes:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p39-q20-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "in less than 5 minutes",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{9}{29}$",
+              "worked": "$$\\begin{align*}P(X<5)&=F(5)\\\\&=\\frac{625-1500+1200+20-201}{464}\\\\&=\\frac{144}{464}\\\\&=\\frac{9}{29}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          },
+          {
+            "id": "p39-q20-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "in 4 minutes or more",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{393}{464}$",
+              "worked": "$$\\begin{align*}P(X\\ge4)&=1-F(4)\\\\&=1-\\frac{256-768+768+16-201}{464}\\\\&=1-\\frac{71}{464}\\\\&=\\frac{393}{464}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          },
+          {
+            "id": "p39-q20-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "in between 4 and 5 minutes",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{73}{464}$",
+              "worked": "$$\\begin{align*}P(4\\le X\\le5)&=F(5)-F(4)\\\\&=\\frac{144}{464}-\\frac{71}{464}\\\\&=\\frac{73}{464}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          }
+        ]
+      },
+      {
+        "id": "p39-q20-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the most likely finishing time?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "7 minutes.",
+          "worked": "$$\\begin{align*}f'(x)&=\\frac{1}{116}(3x^2-18x+24).\\end{align*}$$\n$f'(x)=0\\;\\rightarrow\\;x^2-6x+8=0\\;\\rightarrow\\;x=2\\text{ or }x=4$.\nOnly $x=4$ is in $[3,7]$.\nCheck the endpoints and stationary point:\n$$f(3)=\\frac{19}{116},\\qquad f(4)=\\frac{17}{116},\\qquad f(7)=\\frac{71}{116}.$$\nThe maximum density occurs at $x=7$, so the mode is 7 minutes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:05.703Z",
+  "updatedAt": "2026-11-12T08:02:05.703Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p39-q20",
+    "sectionRole": "exercise"
+  }
+}

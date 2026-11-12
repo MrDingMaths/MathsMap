@@ -1,0 +1,304 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73bf879c-e2e0-46a0-894d-bd4126023f54",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-arrays-trees",
+    "secondarySkillIds": [],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Complete an independent-event probability tree, multiply along four paths and add matching outcomes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T12:28:18.817Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9e84ddaafc6d5e348ce376e7755102351959a393ae3c726905e1b1bb2ca8e564",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/lean-review/calls/content-1792931271608-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "One bag contains three red and two blue balls and another bag contains two red and three blue balls. A ball is drawn at random from each bag.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Complete the tree diagram by writing the probabilities on the branches.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q9-tree",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q9-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.9,-2.15) rectangle (6.2,2.85);\n\\node at (2,2.5) {Bag 1}; \\node at (5.6,2.5) {Bag 2};\n\\node[left] at (0,0) {Start};\n\\draw[black,line width=0.8pt] (0,0)--(2,1.2) (0,0)--(2,-1.2);\n\\node[fill=white,inner sep=2pt] at (2,1.2) {R}; \\node[fill=white,inner sep=2pt] at (2,-1.2) {B};\n\\draw[black,line width=0.8pt] (2.2,1.2)--(5.4,1.9) (2.2,1.2)--(5.4,0.5) (2.2,-1.2)--(5.4,-0.5) (2.2,-1.2)--(5.4,-1.9);\n\\node[right] at (5.4,1.9) {R}; \\node[right] at (5.4,0.5) {B}; \\node[right] at (5.4,-0.5) {R}; \\node[right] at (5.4,-1.9) {B};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 90,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 9 tree",
+              "description": "Two-stage tree with Start, Bag 1 and Bag 2 headings, and R above B at every split. Space beside all six branches is reserved for handwritten probabilities.",
+              "mathematics": "Bag 1 has probabilities 3/5 and 2/5; Bag 2 has probabilities 2/5 and 3/5 independently of Bag 1.",
+              "answerVisibility": "Outcome labels and branches are permanent; all six probability answers are omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p29-q9-a-short-bag1",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 3,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Bag 1: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "R=\\frac35,\\ B=\\frac25",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p29-q9-a-short-bag2",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 3,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Bag 2 after either outcome:",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p29-q9-a-short-bag2-values",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "R=\\frac25,\\ B=\\frac35",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Each bag contains five balls. For Bag 1, $P(R)=\\frac35$ and $P(B)=\\frac25$. For Bag 2, $P(R)=\\frac25$ and $P(B)=\\frac35$ on both second-stage splits, because drawing from Bag 1 does not change Bag 2.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q9-tree-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q9-tree-solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.9,-2.15) rectangle (6.2,2.85);\n\\node at (2,2.5) {Bag 1}; \\node at (5.6,2.5) {Bag 2};\n\\node[left] at (0,0) {Start};\n\\draw[black,line width=0.8pt] (0,0)--node[midway,above left] {$\\frac35$}(2,1.2) (0,0)--node[midway,below left] {$\\frac25$}(2,-1.2);\n\\node[fill=white,inner sep=2pt] at (2,1.2) {R}; \\node[fill=white,inner sep=2pt] at (2,-1.2) {B};\n\\draw[black,line width=0.8pt] (2.2,1.2)--node[midway,above] {$\\frac25$}(5.4,1.9) (2.2,1.2)--node[pos=0.75,above] {$\\frac35$}(5.4,0.5) (2.2,-1.2)--node[pos=0.75,below] {$\\frac25$}(5.4,-0.5) (2.2,-1.2)--node[midway,below] {$\\frac35$}(5.4,-1.9);\n\\node[right] at (5.4,1.9) {R}; \\node[right] at (5.4,0.5) {B}; \\node[right] at (5.4,-0.5) {R}; \\node[right] at (5.4,-1.9) {B};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 9 completed tree",
+                "description": "Complete tree with all six branch probabilities.",
+                "mathematics": "First split 3/5, 2/5; each second split 2/5, 3/5.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p29-q9-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "By multiplying along the branches of the tree, find:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p29-q9-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(RR)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac6{25}$",
+              "worked": "$\\begin{aligned}P(RR)&=\\frac35\\times\\frac25\\\\&=\\frac6{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          },
+          {
+            "id": "p29-q9-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$P(RB)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac9{25}$",
+              "worked": "$\\begin{aligned}P(RB)&=\\frac35\\times\\frac35\\\\&=\\frac9{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          },
+          {
+            "id": "p29-q9-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "$P(BR)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac4{25}$",
+              "worked": "$\\begin{aligned}P(BR)&=\\frac25\\times\\frac25\\\\&=\\frac4{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          },
+          {
+            "id": "p29-q9-b-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$P(BB)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac6{25}$",
+              "worked": "$\\begin{aligned}P(BB)&=\\frac25\\times\\frac35\\\\&=\\frac6{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          }
+        ]
+      },
+      {
+        "id": "p29-q9-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Hence, by adding, find the probability that:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p29-q9-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the balls have the same colour,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{12}{25}$",
+              "worked": "$\\begin{aligned}P(\\text{same colour})&=P(RR)+P(BB)\\\\&=\\frac6{25}+\\frac6{25}\\\\&=\\frac{12}{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p29-q9-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the balls have different colours.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{13}{25}$",
+              "worked": "$\\begin{aligned}P(\\text{different colours})&=P(RB)+P(BR)\\\\&=\\frac9{25}+\\frac4{25}\\\\&=\\frac{13}{25}\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:33.564Z",
+  "updatedAt": "2026-11-12T08:01:33.564Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-v1",
+    "blockId": "p29-q9",
+    "sectionRole": "exercise"
+  }
+}

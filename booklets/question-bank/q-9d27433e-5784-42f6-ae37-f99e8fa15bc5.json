@@ -1,0 +1,393 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9d27433e-5784-42f6-ae37-f99e8fa15bc5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "empirical-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Identify intervals and a one-sided tail in standard-deviation units, then convert their empirical-rule percentages to expected counts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T10:05:12.160Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "83dd13d63e7cd4830a0e78dc930c99e88d614e577ff45ab419adf4087da54984",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-3-the-normal-distribution-20261024/semantic-packets/assignments/assignment-94ea07b3ae423ca8c926/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p30-q5",
+    "type": "question",
+    "label": "5",
+    "prompt": "The distribution of heights of 19-year-old women is approximately normal, with a mean of 170 cm and a standard deviation of 5 cm.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q5-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "What percentage of these women have heights:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q5-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q5-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-3.65,0)--(3.65,0);\n\\draw[line width=0.8pt,domain=-3.4:3.4,samples=101] plot (\\x,{exp(-\\x*\\x/2)});\n\\foreach \\x in {-3,-2,-1,0,1,2,3}{\n\\draw[dashed,line width=0.4pt] (\\x,0)--(\\x,{exp(-\\x*\\x/2)});\n\\draw[line width=0.4pt] (\\x,-0.035)--(\\x,0.035);\n}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 5, curve to the left of part a",
+              "description": "Symmetric bell curve above a horizontal axis with arrowheads at both ends, seven equally spaced unlabelled ticks and dashed vertical guides to the curve.",
+              "mathematics": "Normal curve with seven ticks corresponding to the mean and one, two and three standard deviations either side; all tick values remain blank.",
+              "answerVisibility": "Permanent supplied unlabelled diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p30-q5-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-a-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "between 155 and 185 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$99.7\\%$",
+                      "width": 20
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "$99.7\\%$",
+              "worked": "$155=170-3(5)$ and $185=170+3(5)$. These heights are within three standard deviations of the mean, so approximately $99.7\\%$ of the women are in this interval.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p30-q5-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-a-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "greater than 180 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$2.5\\%$",
+                      "width": 18
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "$2.5\\%$",
+              "worked": "$180=170+2(5)$, so 180 cm is two standard deviations above the mean. By symmetry, the percentage above this height is approximately $\\dfrac{100\\%-95\\%}{2}=2.5\\%$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p30-q5-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-a-iii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "between 160 and 180 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$95\\%$",
+                      "width": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "$95\\%$",
+              "worked": "$160=170-2(5)$ and $180=170+2(5)$. These heights are within two standard deviations of the mean, so approximately $95\\%$ of the women are in this interval.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p30-q5-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "In a sample of 5000 of these women, how many have heights:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p30-q5-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-b-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "between 155 and 185 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "4985",
+                      "width": 18
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "Approximately 4985 women.",
+              "worked": "From part a(i), approximately $99.7\\%$ lie in this interval. The expected number is $0.997\\times5000=4985$ women.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p30-q5-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-b-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "greater than 180 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "125",
+                      "width": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "Approximately 125 women.",
+              "worked": "From part a(ii), approximately $2.5\\%$ are taller than 180 cm. The expected number is $0.025\\times5000=125$ women.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p30-q5-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p30-q5-b-iii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "between 160 and 180 cm? ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "4750",
+                      "width": 18
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "sharedSolutionDiagramId": "p30-q5-solution-curve",
+            "answer": {
+              "short": "Approximately 4750 women.",
+              "worked": "From part a(iii), approximately $95\\%$ lie in this interval. The expected number is $0.95\\times5000=4750$ women.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p30-q5-solution-curve",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q5-solution-curve\"}\n\\begin{tikzpicture}[x=1.2cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-3.65,0)--(3.65,0);\n\\draw[line width=0.8pt,domain=-3.4:3.4,samples=101] plot (\\x,{exp(-\\x*\\x/2)});\n\\foreach \\x/\\v in {-3/155,-2/160,-1/165,0/170,1/175,2/180,3/185}{\n\\draw[dashed,line width=0.4pt] (\\x,0)--(\\x,{exp(-\\x*\\x/2)});\n\\draw[line width=0.4pt] (\\x,-0.035)--(\\x,0.035);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.04) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below] at (0,-0.28) {Height (cm)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 30,
+          "sourceRegion": "Question 5 normal curve",
+          "description": "Completed common sketch with raw-score labels from 155 to 185 cm at one-standard-deviation intervals.",
+          "mathematics": "Mean 170 cm; standard deviation 5 cm; ticks represent the mean and one, two and three standard deviations either side.",
+          "answerVisibility": "Solution only; raw-score labels are not supplied in the student figure."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:34.582Z",
+  "updatedAt": "2026-11-12T08:02:34.582Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-v1",
+    "blockId": "p30-q5-block",
+    "sectionRole": "exercise"
+  }
+}

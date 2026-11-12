@@ -1,0 +1,182 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c5f18ebf-3ec6-4af3-a985-0a7255b85065",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "median-quartiles-continuous",
+    "secondarySkillIds": [
+      "cumulative-distribution-function",
+      "probability-density-function"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Connects geometric area and integration to a CDF, then solves for three quartiles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:55:51.469Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5ff325c636fb68597025b7d935a7af6debd9f5346c320c99bff4cb9181303928",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-000a7b676fe4d06c02ea/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p33-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The function $y=2x$, $0\\le x\\le1$, is a PDF.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph and verify $f(x)\\ge0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A line segment from $(0,0)$ to $(1,2)$. Since $2x\\ge0$ for $0\\le x\\le1$, $f(x)\\ge0$ throughout its domain.",
+          "worked": "The graph is the line segment joining $(0,0)$ and $(1,2)$. For $x\\ge0$, $f(x)=2x\\ge0$, so $f(x)\\ge0$ on $[0,1]$.",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q3-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 33 p33-q3-a-graph\"}\n\\begin{tikzpicture}[x=2.5cm,y=1.25cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,black,line width=0.5pt] (-0.35,0)--(1.6,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.4)--(0,2.75) node[right] {$y$};\n\\draw[black,line width=0.4pt] (1,-0.06)--(1,0.06) node[below=4pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.03,2)--(0.03,2) node[left=4pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.8pt] (0,0)--(1,2);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Part a solution graph",
+                "description": "Unfilled Cartesian graph with labelled axes, ticks at x=1 and y=2, and the line segment from (0,0) to (1,2). Ordinary graph marks use house black.",
+                "mathematics": "y=2x for 0<=x<=1.",
+                "answerVisibility": "Solution only; absent from the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p33-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show the area bounded by the function and the $x$-axis is 1; confirm by integration.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Triangle area $=\\frac12(1)(2)=1$; $\\displaystyle\\int_0^1 2x\\,dx=1$.",
+          "worked": "The triangle has base 1 and height 2.\n$$\\begin{aligned}A&=\\frac12(1)(2)\\\\&=1\\end{aligned}$$\n$$\\begin{aligned}\\int_0^1 2x\\,dx&=[x^2]_0^1\\\\&=1^2-0^2\\\\&=1\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p33-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use area formulae to show the CDF is $P(X\\le x)=x^2$ for $0\\le x\\le1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(X\\le x)=\\frac12\\times x\\times2x=x^2$ for $0\\le x\\le1$.",
+          "worked": "The area from 0 to $x$ is a triangle with base $x$ and height $2x$.\n$$\\begin{aligned}P(X\\le x)&=\\frac12\\times x\\times2x\\\\&=x^2,\\qquad 0\\le x\\le1.\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q3-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"triangular cumulative probability from 0 to x\"}],\"reference\":\"source page 33 p33-q3-c-graph\"}\n\\begin{tikzpicture}[x=3cm,y=1.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\fill[areaBlue] (0,0)--(0.45,0)--(0.45,0.9)--cycle;\n\\draw[->,black,line width=0.5pt] (-0.3,0)--(1.65,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.4)--(0,2.75) node[right] {$y$};\n\\draw[black,line width=0.4pt] (1,-0.05)--(1,0.05) node[below=4pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.025,2)--(0.025,2) node[left=4pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.8pt] (0,0)--(1,2) node[pos=0.8,right] {$y=2x$};\n\\draw[black,line width=0.4pt] (0.45,0)--(0.45,0.9);\n\\node[below] at (0.45,0) {$x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Part c solution graph",
+                "description": "The density line and an intermediate vertical boundary form a shaded triangle. The symbolic x position lies strictly between 0 and 1; its drawing position is illustrative, not an additional given.",
+                "mathematics": "For 0<=x<=1, the shaded triangle has base x, height 2x and area x^2.",
+                "answerVisibility": "Solution only; absent from the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p33-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Confirm by calculating $\\displaystyle\\int_0^x2t\\,dt$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\int_0^x2t\\,dt=x^2$.",
+          "worked": "$$\\begin{aligned}\\int_0^x2t\\,dt&=[t^2]_0^x\\\\&=x^2-0^2\\\\&=x^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p33-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use the CDF to find $Q_1$, $Q_2$ and $Q_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=\\frac12$, $Q_2=\\frac1{\\sqrt2}$, $Q_3=\\frac{\\sqrt3}{2}$.",
+          "worked": "Use $F(x)=x^2$ and take the non-negative roots because $0\\le x\\le1$.\n$$\\begin{aligned}F(Q_1)&=\\frac14\\\\Q_1^2&=\\frac14\\\\Q_1&=\\frac12\\end{aligned}$$\n$$\\begin{aligned}F(Q_2)&=\\frac12\\\\Q_2^2&=\\frac12\\\\Q_2&=\\frac1{\\sqrt2}\\end{aligned}$$\n$$\\begin{aligned}F(Q_3)&=\\frac34\\\\Q_3^2&=\\frac34\\\\Q_3&=\\frac{\\sqrt3}{2}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:04.814Z",
+  "updatedAt": "2026-11-12T08:02:04.814Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p33-q3",
+    "sectionRole": "exercise"
+  }
+}

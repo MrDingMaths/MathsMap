@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b39541bb-3427-4bbc-af41-5bff4f2bb88c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "theoretical-probability",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Count the two requested colour categories among equal sectors, then apply f = np.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:13:02.927Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e5831069f96c62a44f3bb2030c4a4411ee43c1f5949466f0734bc3970b57ee79",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-2-probability-20261024/semantic-packets/assignments/assignment-ac76c2b92dc183278b4e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p5-practice-spinner-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Consider the spinner.\nHow many times would you expect it to land on green or red in 200 spins?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p5-practice-spinner-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"spinnerGreen\",\"hex\":\"DCEBE0\",\"reason\":\"green outcomes\"},{\"name\":\"spinnerRed\",\"hex\":\"FCDFE1\",\"reason\":\"red outcomes\"},{\"name\":\"spinnerBlue\",\"hex\":\"D4E8FF\",\"reason\":\"blue outcomes\"}],\"reference\":\"source page 5 p5-practice-spinner-diagram\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{spinnerGreen}{HTML}{DCEBE0}\n\\definecolor{spinnerRed}{HTML}{FCDFE1}\n\\definecolor{spinnerBlue}{HTML}{D4E8FF}\n\\foreach \\i/\\shade/\\lab in {0/spinnerGreen/G,1/spinnerRed/R,2/spinnerBlue/B,3/spinnerGreen/G,4/spinnerRed/R,5/spinnerBlue/B,6/spinnerGreen/G,7/spinnerRed/R,8/spinnerBlue/B,9/spinnerBlue/B}{\n\\pgfmathsetmacro{\\start}{90-36*\\i}\n\\pgfmathsetmacro{\\finish}{\\start-36}\n\\pgfmathsetmacro{\\middle}{\\start-18}\n\\path[fill=\\shade] (0,0)--(\\start:1.8) arc[start angle=\\start,end angle=\\finish,radius=1.8]--cycle;\n\\draw[black,line width=0.8pt] (0,0)--(\\start:1.8);\n\\node at (\\middle:1.23) {\\lab};\n}\n\\draw[black,line width=0.8pt] (0,0) circle[radius=1.8];\n\\draw[black,->,>=stealth,line width=0.8pt] (0,0)--(90:1.72);\n\\fill[black] (0,0) circle[radius=0.14];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Right practice cell",
+          "description": "Ten equal sectors, clockwise from the top boundary: G, R, B, G, R, B, G, R, B, B. Black boundaries, central pivot and upward pointer. Labelled multicolour sectors require TikZ rather than the fraction-circle template.",
+          "mathematics": "Three green, three red and four blue equal sectors; six of ten sectors are green or red.",
+          "answerVisibility": "Spinner and all labels remain visible in the question; no calculated probability or expected frequency is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "120 times",
+      "worked": "There are 3 green and 3 red sectors out of 10 equal sectors.\n$P(\\text{green or red})=\\frac{3+3}{10}=\\frac{3}{5}$.\n$$\\begin{align*}f&=np\\\\&=200\\times\\frac{3}{5}\\\\&=120\\text{ times}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 25
+  },
+  "presentation": {
+    "ownerId": "p5-practice-spinner",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:01:26.222Z",
+  "updatedAt": "2026-11-12T08:01:26.222Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-probability-and-data-2-probability-v1",
+    "blockId": "p5-practice-spinner",
+    "sectionRole": "exercise"
+  }
+}

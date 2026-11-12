@@ -1,0 +1,153 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-54bed6cb-f289-47f6-a355-547ad9151545",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "z-table-probability",
+    "secondarySkillIds": [
+      "calculate-z-score",
+      "z-score-to-raw-score"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Every part is a standard z-score and table routine with the method signposted. The hardest part is a. It is a between-probability with z = -1 and 1.14, where the student must use symmetry for the negative z (1 - P(Z ≤ 1)) and subtract table values. Parts b to d are single-tail or between lookups with rounded z. Part e scales a probability by 1000. This is slightly above p48-q8, which has only positive z-scores and a count, and below p56-q21, which adds contextual reasoning about 'early' and 'late'. There is no interpretation or judgement task.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T21:23:36.957Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1c0feb468adb2a80ae32197a2bffa46f38da551ec2582131e975ce7b7affb744",
+      "diagramBlindHash": "1c0feb468adb2a80ae32197a2bffa46f38da551ec2582131e975ce7b7affb744",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-random-variables-3-the-normal-distribution-2-v1/20261110-211127/auto-apply/calls/01-rating-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p48-q8",
+          "score": 36
+        },
+        "easierThan": {
+          "ref": "p56-q21",
+          "score": 43
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "p55-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "The heights of 1000 Year 12 males are found to be approximately normally distributed with a mean of 168 cm and standard deviation of 9 cm. Use the standard normal distribution table. Round calculated z-scores to 2 decimal places and give probabilities to 4 decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p55-q20-bradley",
+        "type": "part",
+        "label": "a",
+        "prompt": "The time taken by a bus to travel from Penrith to Parramatta is normally distributed with a mean of 52 minutes and a standard deviation of 7 minutes. What is the probability that a randomly chosen trip takes between 45 and 60 minutes? Use the standard normal table, rounding z-scores to 2 decimal places. Give the probability to 4 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.7142$",
+          "worked": "Let $X$ be the trip time in minutes.\n$$\\begin{align*}z_1&=\\frac{45-52}{7}=-1\\\\z_2&=\\frac{60-52}{7}=\\frac87\\approx1.14\\end{align*}$$\nBy symmetry and the standard normal table,\n$$\\begin{align*}P(45<X<60)&\\approx P(-1<Z<1.14)\\\\&=P(Z\\le1.14)-P(Z\\le-1)\\\\&=P(Z\\le1.14)-\\left(1-P(Z\\le1)\\right)\\\\&\\approx0.8729-(1-0.8413)\\\\&\\approx0.7142\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p55-q20-a",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the probability that a randomly chosen Year 12 male is taller than 175 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.2177$",
+          "worked": "$$\\begin{aligned}z&=\\frac{175-168}{9}\\\\z&=\\frac79\\\\z&\\approx0.78\\end{aligned}$$\n$$\\begin{aligned}P(X>175)&\\approx P(Z>0.78)\\\\P(X>175)&\\approx1-P(Z\\le0.78)\\\\P(X>175)&\\approx1-0.7823\\\\P(X>175)&\\approx0.2177\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p55-q20-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the probability that a randomly chosen Year 12 male has a height less than 165 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.3707$",
+          "worked": "$$\\begin{aligned}z&=\\frac{165-168}{9}\\\\z&=-\\frac13\\\\z&\\approx-0.33\\end{aligned}$$\nBy symmetry,\n$$\\begin{aligned}P(X<165)&\\approx P(Z<-0.33)\\\\P(X<165)&\\approx1-P(Z\\le0.33)\\\\P(X<165)&\\approx1-0.6293\\\\P(X<165)&\\approx0.3707\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p55-q20-c",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the probability that a randomly chosen Year 12 male has a height between 170 cm and 175 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.1952$",
+          "worked": "$$\\begin{aligned}z_{170}&=\\frac{170-168}{9}\\\\z_{170}&=\\frac29\\approx0.22\\\\z_{175}&=\\frac{175-168}{9}\\\\z_{175}&=\\frac79\\approx0.78\\end{aligned}$$\n$$\\begin{aligned}P(170<X<175)&\\approx P(0.22<Z<0.78)\\\\P(170<X<175)&\\approx P(Z\\le0.78)-P(Z\\le0.22)\\\\P(170<X<175)&\\approx0.7823-0.5871\\\\P(170<X<175)&\\approx0.1952\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p55-q20-d",
+        "type": "part",
+        "label": "e",
+        "prompt": "How many Year 12 males in the sample are expected to have a height between 170 cm and 175 cm?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 195 Year 12 males.",
+          "worked": "$$\\begin{aligned}\\text{Expected number}&=np\\\\\\text{Expected number}&\\approx1000\\times0.1952\\\\\\text{Expected number}&=195.2\\\\\\text{Expected number}&\\approx195\\end{aligned}$$\nApproximately 195 Year 12 males.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p55-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:16.935Z",
+  "updatedAt": "2026-11-12T08:02:16.935Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+    "blockId": "p55-q20",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d8ad45a5-c204-4b5a-9128-3173bb88e1de",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "mean-variance-continuous",
+    "secondarySkillIds": [
+      "probability-density-function"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Applies the preceding question's procedure to calculate moments and probability bounds, using symmetry or splitting the absolute-value density at zero.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:03:15.169Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ae23533a5e99a32d3feff31255218491d294142f7b84509622c6709665c68319",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-0c61b25418587d80e3f6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p49-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Find the percentage of the population within one standard deviation of the mean, to 2 s.f.:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p49-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f(x)=2x$, domain $[0,1]$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$63\\%$",
+          "worked": "$$\\begin{align*}E(X)&=\\int_0^1 x(2x)\\,dx\\\\E(X)&=\\left[\\frac{2x^3}{3}\\right]_0^1=\\frac23\\\\E(X^2)&=\\int_0^1 x^2(2x)\\,dx\\\\E(X^2)&=\\left[\\frac{x^4}{2}\\right]_0^1=\\frac12\\\\\\operatorname{Var}(X)&=\\frac12-\\left(\\frac23\\right)^2=\\frac1{18}\\\\\\sigma&=\\frac{\\sqrt2}{6}\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\int_{(4-\\sqrt2)/6}^{(4+\\sqrt2)/6}2x\\,dx\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\left[x^2\\right]_{(4-\\sqrt2)/6}^{(4+\\sqrt2)/6}\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\frac{4\\sqrt2}{9}\\end{align*}$$\nPercentage $=\\dfrac{4\\sqrt2}{9}\\times100\\%\\approx63\\%$ (2 s.f.).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p49-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f(x)=|x|$, domain $[-1,1]$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$50\\%$",
+          "worked": "The density is symmetric about $0$, so $\\mu=0$.\n$$\\begin{align*}E(X^2)&=\\int_{-1}^1 x^2|x|\\,dx\\\\E(X^2)&=2\\int_0^1 x^3\\,dx\\\\E(X^2)&=2\\left[\\frac{x^4}{4}\\right]_0^1=\\frac12\\\\\\operatorname{Var}(X)&=\\frac12-0^2=\\frac12\\\\\\sigma&=\\frac1{\\sqrt2}\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\int_{-1/\\sqrt2}^{1/\\sqrt2}|x|\\,dx\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=2\\int_0^{1/\\sqrt2}x\\,dx\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\left[x^2\\right]_0^{1/\\sqrt2}=\\frac12\\end{align*}$$\nPercentage $=\\dfrac12\\times100\\%=50\\%$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53
+      },
+      {
+        "id": "p49-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$f(x)=\\dfrac{3}{64}x^2$, domain $[0,4]$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$67\\%$",
+          "worked": "$$\\begin{align*}E(X)&=\\int_0^4 x\\left(\\frac{3x^2}{64}\\right)\\,dx\\\\E(X)&=\\left[\\frac{3x^4}{256}\\right]_0^4=3\\\\E(X^2)&=\\int_0^4 x^2\\left(\\frac{3x^2}{64}\\right)\\,dx\\\\E(X^2)&=\\left[\\frac{3x^5}{320}\\right]_0^4=\\frac{48}{5}\\\\\\operatorname{Var}(X)&=\\frac{48}{5}-3^2=\\frac35\\\\\\sigma&=\\sqrt{\\frac35}\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\int_{3-\\sqrt{3/5}}^{3+\\sqrt{3/5}}\\frac{3x^2}{64}\\,dx\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\left[\\frac{x^3}{64}\\right]_{3-\\sqrt{3/5}}^{3+\\sqrt{3/5}}\\\\P(\\mu-\\sigma\\le X\\le\\mu+\\sigma)&=\\frac{69}{80}\\sqrt{\\frac35}\\end{align*}$$\nPercentage $=\\dfrac{69}{80}\\sqrt{\\dfrac35}\\times100\\%\\approx67\\%$ (2 s.f.).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p49-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:07.731Z",
+  "updatedAt": "2026-11-12T08:02:07.731Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p49-q3",
+    "sectionRole": "exercise"
+  }
+}

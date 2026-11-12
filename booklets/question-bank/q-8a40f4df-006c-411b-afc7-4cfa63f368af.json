@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8a40f4df-006c-411b-afc7-4cfa63f368af",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "ambiguous-case-sine-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the sine rule and its supplementary-angle solution to two supplied triangle configurations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:59:31.044Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e6762ae9c5a044802b2ff31bb4275ca81a285e1b07ddbd9e75eee9397820bbcd",
+      "evidence": ".booklet-work/full-imports/s6adv-trigonometry-and-measure-of-angles-2-trigonometry-with-angles-of-any-magnitude-20261024/semantic-packets/assignments/assignment-6ab29a2da503a408cf74/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p71-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "There are two triangles that have sides 9 cm and 5 cm. The angle opposite the 5 cm side is $22^{\\circ}$. Find, in each case, the size of the angle opposite the 9 cm side, correct to the nearest degree.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p71-q1-diagrams",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 71 question 1 paired triangles\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\tx}{9*cos(22)}\n\\pgfmathsetmacro{\\ty}{9*sin(22)}\n\\pgfmathsetmacro{\\dx}{sqrt(25-\\ty*\\ty)}\n\\coordinate (A) at (0,0);\n\\coordinate (T) at (\\tx,\\ty);\n\\coordinate (B) at ({\\tx-\\dx},0);\n\\draw[black] (A)--(T) node[midway,above] {$9\\text{ cm}$} --(B) node[midway,below right] {$5\\text{ cm}$} --cycle;\n\\node[anchor=west] at (1.8,0.45) {$22^{\\circ}$};\n\\begin{scope}[xshift=6.3cm]\n\\coordinate (C) at (0,0);\n\\coordinate (U) at (\\tx,\\ty);\n\\coordinate (D) at ({\\tx+\\dx},0);\n\\draw[black] (C)--(U) node[midway,above] {$9\\text{ cm}$} --(D) node[midway,above right] {$5\\text{ cm}$} --cycle;\n\\node[anchor=west] at (1.8,0.45) {$22^{\\circ}$};\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 130,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 71,
+          "sourceRegion": "Question 1, paired triangles beneath the stem",
+          "description": "Two triangles side by side, with horizontal bases and the same 22-degree left angle. Each upper-left side is labelled 9 cm and its opposite right side 5 cm. The left lower-right angle is obtuse; the right lower-right angle is acute. Ordinary source outlines and labels use house black.",
+          "mathematics": "The shared upper vertex is (9 cos 22°, 9 sin 22°). The two lower-right vertices are the intersections of the horizontal baseline with the circle of radius 5 centred at that upper vertex.",
+          "answerVisibility": "Only supplied side lengths and the 22-degree angles are visible; required angles are unlabelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Left triangle: $138^{\\circ}$. Right triangle: $42^{\\circ}$.",
+      "worked": "Let $\\theta$ be the angle opposite the 9 cm side.\n$$\\begin{align*}\n\\frac{\\sin\\theta}{9}&=\\frac{\\sin22^{\\circ}}{5}\\\\\n\\sin\\theta&=\\frac{9\\sin22^{\\circ}}{5}\\\\\n\\theta_1&=\\sin^{-1}\\left(\\frac{9\\sin22^{\\circ}}{5}\\right)\\\\\n\\theta_1&\\approx42.3992^{\\circ}\\\\\n\\theta_2&=180^{\\circ}-\\theta_1\\\\\n\\theta_2&\\approx137.6008^{\\circ}\n\\end{align*}$$\nBoth are valid because $22^{\\circ}+137.6008^{\\circ}<180^{\\circ}$. To the nearest degree, the left triangle has angle $138^{\\circ}$ and the right triangle has angle $42^{\\circ}$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 33
+  },
+  "presentation": {
+    "ownerId": "p71-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:03:58.080Z",
+  "updatedAt": "2026-11-12T08:03:58.081Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-trigonometry-and-measure-of-angles-2-trigonometry-with-angles-of-any-magnitude-2-v1",
+    "blockId": "p71-q1",
+    "sectionRole": "exercise"
+  }
+}

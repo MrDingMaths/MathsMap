@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3c4643e0-3e5b-4270-843e-629ce3c35b73",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cumulative-distribution-function",
+    "secondarySkillIds": [],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "The task is a heavily scaffolded piecewise CDF. Parts a and b are direct integration and substitution, and part c states the method (add F(2) to the integral from 2 to x), so no insight is needed. The main demands are keeping the constant of integration through the second piece, with a little algebraic simplification, and in part d choosing the correct CDF piece for F(3) and F(1) before subtracting. That is a routine linked procedure, slightly above the single-piece CDF and probability tasks in p35-q7 and p38-q12. It is below p34-q5, where the student must find c and build the piecewise CDF unaided, and below p42-q3, which needs a median found by solving an equation after setting up the CDF.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T08:26:09.643Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c9659b63f32420147d7cdbd518cb7ddabb5d8f9ddfcd2372ca9ff42f6a45e7ed",
+      "diagramBlindHash": "c9659b63f32420147d7cdbd518cb7ddabb5d8f9ddfcd2372ca9ff42f6a45e7ed",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-random-variables-2-continuous-random-variables-2-v1/20261111-081428/auto-apply/calls/01-rating-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p35-q7",
+          "score": 38
+        },
+        "easierThan": {
+          "ref": "p42-q3",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-e2837-p32-practice-j3-081428-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A continuous random variable $X$ has PDF\n$$f(x)=\\begin{cases}\\dfrac{x}{8},&0\\le x\\le2,\\\\[4pt]\\dfrac{6-x}{8},&2<x\\le4.\\end{cases}$$",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-e2837-p32-practice-j3-081428-bridge-piecewise-cdf-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $F(x)$ for $0\\le x\\le2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=\\dfrac{x^2}{16}$",
+          "worked": "$$\\begin{align*}F(x)&=\\int_0^x\\frac{t}{8}\\,dt\\\\&=\\left[\\frac{t^2}{16}\\right]_0^x\\\\&=\\frac{x^2}{16}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-e2837-p32-practice-j3-081428-bridge-piecewise-cdf-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $F(2)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(2)=\\dfrac14$",
+          "worked": "$$\\begin{align*}F(2)&=\\frac{2^2}{16}\\\\&=\\frac14.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-e2837-p32-practice-j3-081428-bridge-piecewise-cdf-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $F(x)$ for $2<x\\le4$ by adding $F(2)$ to $\\displaystyle\\int_2^x f(t)\\,dt$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=-\\dfrac{x^2}{16}+\\dfrac{3x}{4}-1$",
+          "worked": "$$\\begin{align*}F(x)&=F(2)+\\int_2^x\\frac{6-t}{8}\\,dt\\\\&=\\frac14+\\frac18\\left[6t-\\frac{t^2}{2}\\right]_2^x\\\\&=\\frac14+\\frac18\\left(6x-\\frac{x^2}{2}-10\\right)\\\\&=-\\frac{x^2}{16}+\\frac{3x}{4}-1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-e2837-p32-practice-j3-081428-bridge-piecewise-cdf-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the CDF to find $P(1<X<3)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac58$",
+          "worked": "$$\\begin{align*}P(1<X<3)&=F(3)-F(1)\\\\&=\\left(-\\frac9{16}+\\frac94-1\\right)-\\frac1{16}\\\\&=\\frac{11}{16}-\\frac1{16}\\\\&=\\frac58.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-e2837-p32-practice-j3-081428",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:02:04.146Z",
+  "updatedAt": "2026-11-12T08:02:04.146Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "v2-e2837-p32-practice-j3-081428",
+    "sectionRole": "exercise"
+  }
+}
