@@ -201,6 +201,45 @@ Savings are for a Ch 5-sized chapter and are estimates from the measurements abo
 - **2 hours** therefore needs item 2 to work, and one more cut in model time. The candidates are content-review batching (2.2 blocks per call against 4; cause not yet established) and inventory cost (109 worker-min).
 - **Half the cost** is reachable on output tokens with item 2. Input tokens need the content-review prompt trimmed as well (cache-friendly order, four blocks per call).
 
+## Is about an hour right for `finish`? (13 November 2026)
+
+**Short answer: no.** About an hour is what today's tooling needs for a Ch 5-sized chapter even with no stops. That floor is inflated by slow exports. A clean `finish` for 165 graph-heavy blocks should take about 30–40 minutes.
+
+**Measured (from `finish` logs, call folders and export reports):**
+
+| | Ch 2 (97 blocks, 247 export pages) | Ch 5 (165 blocks, 574 export pages) |
+|---|---|---|
+| `finish` wall clock | 52 min to deliverable | 147 min (22:47–01:14), **not deliverable**: export budget used, export 3 died in with-worked ("Mathematics failed to render") |
+| Model time | 20 min (content 12, visual 7, shading 1) | 33 min (content 25 incl. 25 re-review calls, visual 8) |
+| Exports | 4 × 1.5–2 min | 8.0, 11.9, 12.7 min (32.6 in all) |
+| Stops, coordination, waiting | about 25 min | about 81 min: pre-review stops 26, post-review stops 25 (items 3–5 now remove most of both), repair writing 12, the rest between attempts |
+
+**Where a clean Ch 5 `finish` goes with today's tooling:**
+
+| Step | Minutes |
+|---|---|
+| Content review | 15 |
+| Export 1 | 8–12 |
+| Visual review | 8 |
+| One repair round (coordinator) | about 10 |
+| Re-review | 3 |
+| Export 2 | 8–12 |
+| Visual review of changed pages | 2 |
+| **Total** | **55–65** |
+
+Content and visual review are model time under fixed settings (Sol low, three workers) and look right: 0.08–0.09 min of first-pass content wall time per block on both chapters.
+
+**Why Ch 5's exports are 6–8× Ch 2's for 2.3× the pages:**
+
+| Cause | Measured | Proposed cut | Expected export time |
+|---|---|---|---|
+| Cold TikZ compiles in the frozen export runtime | Export 1: short compiled 205 diagrams (134 s). Export 2: with-worked compiled 368 (251 s). The runtime reads only the shared `.booklet-work/render-cache` (69 entries), never the SVGs Studio's label check and placement have just compiled. | Publish the label check's compiled SVGs to the shared render cache (`publishBrowserDiagrams` in `render-cache-server.mjs`). | −2 to −4 min per export |
+| Pagination per page | short 106–218 s for 40 pages (2.6–5.4 s/page); worked 134 s for 139 pages. Ch 2: 0.3–0.4 s/page. | Profile `paginate/compose.mjs` on Ch 5's short edition (graph-heavy answers, many measured diagrams per exercise). Not yet diagnosed. | −3 to −4 min per export if it reaches Ch 2's rate |
+| Exports printed with known DOM failures | Export 1's 216 mm footer overflow on `p51-q10` (and column overflows on `p56-q1`, `p61-q18`) printed again in export 2. The pre-render gate had crashed on the 3D audit and passed. | Done on the branch: the gate fails closed (item 3). | one fewer export (12 min) |
+| A block over the prompt limit stops every re-review | Q20 (`p61-q20`) needed a manual `content --oversize-reason` run before `finish` twice (23:45, 00:26). | Let `finish` take `--oversize-reason --oversize-blocks` and keep them in its state (small), or plan item 7. | one stop per re-review |
+
+**With those cuts:** content 15 + export 4 + visual 8 + one repair round about 15 (coordinator, re-review, export 4, changed pages) = **about 40 minutes**. About 30 when the fail-closed gate and placement remove the repair round.
+
 ## Decisions for James
 
 1. ~~Approve items 1 and 3–5 for implementation first?~~ **Approved and implemented (James, 13 November 2026).**
