@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3641265-e832-46ad-aa13-6c5e61fa2506",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logistic-equation",
+    "secondarySkillIds": [
+      "separation-of-variables",
+      "model-de-practical"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follows explicit stages to integrate the logistic equation, determine two constants from population data and evaluate the resulting model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:24:48.540Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "429260208a49feeca323d9bbddf8550dea066148273de9b8dad0eeed7ef0e686",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-19850e8047fc56ec8acb/1/generation.json",
+      "originalTaskHash": "f58fbf20b86da4e1b1574341d291df794095b9ed7868f90c6dffaeca50232aa8"
+    }
+  },
+  "content": {
+    "id": "p76-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "40 animals are released on an island with carrying capacity 1000. The population $N$ satisfies:\n$$\\frac{dN}{dt}=kN(1000-N),$$\nfor some constant $k$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p76-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\displaystyle\\frac{1000}{N(1000-N)}=\\frac1N+\\frac1{1000-N}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac1N+\\frac1{1000-N}=\\frac{1000-N+N}{N(1000-N)}=\\frac{1000}{N(1000-N)}$.",
+          "worked": "$$\\begin{align*}\\frac1N+\\frac1{1000-N}&=\\frac{1000-N+N}{N(1000-N)}\\\\&=\\frac{1000}{N(1000-N)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p76-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use part a to find the general solution.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle N=\\frac{1000}{1+Be^{-1000kt}}$, where $B$ is an arbitrary constant. Also $N=0$ is a constant solution.",
+          "worked": "$$\\begin{align*}\\frac{dN}{N(1000-N)}&=k\\,dt\\\\\\frac1{1000}\\left(\\frac1N+\\frac1{1000-N}\\right)dN&=k\\,dt.\\end{align*}$$\nIntegrate:\n$$\\begin{align*}\\frac1{1000}\\bigl(\\ln|N|-\\ln|1000-N|\\bigr)&=kt+C\\\\\\ln\\left|\\frac{N}{1000-N}\\right|&=1000kt+C_1\\\\\\frac{N}{1000-N}&=Ae^{1000kt}.\\end{align*}$$\nRearranging:\n$$\\begin{align*}N&=1000Ae^{1000kt}-NAe^{1000kt}\\\\N(1+Ae^{1000kt})&=1000Ae^{1000kt}\\\\N&=\\frac{1000}{1+Be^{-1000kt}},\\end{align*}$$\nwhere $B=\\frac{1}{A}$. The constant solutions are $N=0$ and $N=1000$; the latter is included by taking $B=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p76-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Determine the arbitrary constant using $N(0)=40$, then simplify.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$B=24$; $\\displaystyle N=\\frac{1000}{1+24e^{-1000kt}}$.",
+          "worked": "Using $N(0)=40$:\n$$\\begin{align*}40&=\\frac{1000}{1+B}\\\\1+B&=25\\\\B&=24\\\\N&=\\frac{1000}{1+24e^{-1000kt}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      },
+      {
+        "id": "p76-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Given the population after 1 year was 80, find $k$ correct to four significant figures.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k\\approx7.357\\times10^{-4}$.",
+          "worked": "Using $N(1)=80$:\n$$\\begin{align*}\\frac{1000}{1+24e^{-1000k}}&=80\\\\1+24e^{-1000k}&=12.5\\\\e^{-1000k}&=\\frac{11.5}{24}\\\\-1000k&=\\ln\\left(\\frac{11.5}{24}\\right)\\\\k&=-\\frac1{1000}\\ln\\left(\\frac{11.5}{24}\\right)\\\\&\\approx7.357\\times10^{-4}\\quad\\text{(4 significant figures).}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p76-q14-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What will the population be after 5 years, to the nearest whole number?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "623 animals.",
+          "worked": "Using the unrounded value of $k$:\n$$\\begin{align*}N(5)&=\\frac{1000}{1+24e^{-5000k}}\\\\&=\\frac{1000}{1+24\\left(\\frac{11.5}{24}\\right)^5}\\\\&\\approx623.\\end{align*}$$\nThe population will be approximately 623 animals.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p76-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:03:20.787Z",
+  "updatedAt": "2026-11-12T21:03:20.787Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-2-v1",
+    "blockId": "p76-q14",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1d891dd2-487a-4652-a939-03a362456866",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the supplied fields to explicitly identified hyperbolas, verify them by separation and differentiation, and explain perpendicularity using the product of their gradients.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:33:45.616Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "52617f199d9c6207131f8b389e306d197dfbc22ff7f0243b3fadf4ffef2e8919",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793172787070-0/last-message.txt",
+      "originalTaskHash": "08c4e835d35ca4e792cd6dba1c135c1548de7a1937197e1375b92aba53619f8d",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "e54d020a461408305c67e966be1013528268e57cadece73f67c3292b6b57057e"
+      }
+    }
+  },
+  "content": {
+    "id": "p30-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q14-pair",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p30-q14-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Consider the slope field for $y'=-\\dfrac{y}{x}$. Add solution curves through $(2,2)$ and $(-2,-2)$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [
+              {
+                "id": "p30-q14-a-field",
+                "role": "question",
+                "format": "tikz",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q14-a-field\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.2);\n\\draw[<->,line width=0.5pt] (-4.9,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.9)--(0,5) node[above left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.12)--(\\t,0.12);\\node[below] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.12,\\t)--(0.12,\\t);\\node[left] at (-0.12,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\foreach \\u in {-4,-3,-2,-1,1,2,3,4}{\\foreach \\v in {-4,-3,-2,-1,0,1,2,3,4}{\\pgfmathsetmacro{\\m}{-\\v/\\u}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});}}\n\\end{tikzpicture}",
+                "src": null,
+                "widthMm": 72,
+                "alt": "Mathematical diagram",
+                "overlayOf": null,
+                "transparent": false,
+                "axes": null,
+                "spec": {
+                  "sourcePage": 30,
+                  "sourceRegion": "part a, upper left graph",
+                  "description": "Integer slope elements with no grid; axes and ticks from −4 to 4, omitting the zero label. Source blue is graph styling; ordinary axes, labels and field elements use black.",
+                  "mathematics": "y'=-y/x; integer field points with x nonzero; two solution branches belong only in answers.",
+                  "answerVisibility": "Slope field visible; answer curves hidden."
+                },
+                "derived": false,
+                "reviewStatus": "needs-review"
+              }
+            ],
+            "children": [],
+            "answer": {
+              "short": "$xy=4$: draw the branches in quadrants I and III.",
+              "worked": "$$\\begin{aligned}\\frac{dy}{y}&=-\\frac{dx}{x}\\\\\\ln|y|&=-\\ln|x|+C\\\\\\ln|xy|&=C\\\\xy&=k\\end{aligned}$$\nAt $(2,2)$, $k=4$; at $(-2,-2)$, $k=4$. Draw $y=\\frac{4}{x}$ for $x>0$ through $(2,2)$ and for $x<0$ through $(-2,-2)$, following the field.",
+              "solutionDiagrams": [
+                {
+                  "id": "p30-q14-a-curves",
+                  "role": "solution-overlay",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves distinguished from supplied field\"}],\"reference\":\"source page 30 p30-q14-a-curves\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.2);\n\\draw[solutionBlue,<->,line width=0.8pt,domain=0.84:4.8,samples=100] plot (\\x,{4/(\\x)});\n\\draw[solutionBlue,<->,line width=0.8pt,domain=-4.8:-0.84,samples=100] plot (\\x,{4/(\\x)});\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 72,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": "p30-q14-a-field",
+                  "transparent": true,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 30,
+                    "sourceRegion": "part a supplied answer curves",
+                    "description": "Overlay shares the base bounding box and coordinate units; first- and third-quadrant branches have outward arrowheads.",
+                    "mathematics": "xy=4",
+                    "answerVisibility": "Answers only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 0
+          },
+          {
+            "id": "p30-q14-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Consider the slope field for $y'=\\dfrac{x}{y}$. Add curves through $(2,0)$ and $(-2,0)$ that follow the slope field wherever the differential equation is defined.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [
+              {
+                "id": "p30-q14-b-field",
+                "role": "question",
+                "format": "tikz",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q14-b-field\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.2);\n\\draw[<->,line width=0.5pt] (-4.9,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.9)--(0,5) node[above left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.12)--(\\t,0.12);\\ifnum\\t=-2\\relax\\node[above right] at (-1.85,0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\ifnum\\t=2\\relax\\node[above left] at (1.85,0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\node[below] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\fi\\fi\\draw[line width=0.4pt] (-0.12,\\t)--(0.12,\\t);\\node[left] at (-0.12,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\foreach \\u in {-4,-3,-2,-1,0,1,2,3,4}{\\foreach \\v in {-4,-3,-2,-1,1,2,3,4}{\\pgfmathsetmacro{\\m}{\\u/\\v}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});}}\n\\foreach \\u in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.8pt] (\\u,-0.23)--(\\u,0.23);}\n\\end{tikzpicture}",
+                "src": null,
+                "widthMm": 72,
+                "alt": "Mathematical diagram",
+                "overlayOf": null,
+                "transparent": false,
+                "axes": null,
+                "spec": {
+                  "sourcePage": 30,
+                  "sourceRegion": "part b, upper right graph",
+                  "description": "No grid. Integer labels −4 to 4, omitting zero. Vertical marks on y=0 reproduce the source's limiting directions, not defined derivative values. Ordinary field and axes use black.",
+                  "mathematics": "y'=x/y for y nonzero; vertical limiting directions at nonzero x on y=0.",
+                  "answerVisibility": "Field visible; hyperbola hidden."
+                },
+                "derived": false,
+                "reviewStatus": "needs-review"
+              }
+            ],
+            "children": [],
+            "answer": {
+              "short": "The intended curves are the left and right branches of $x^2-y^2=4$. The DE is undefined at their vertices $(\\pm2,0)$.",
+              "worked": "$$\\begin{aligned}y\\,dy&=x\\,dx\\\\\\frac{y^2}{2}&=\\frac{x^2}{2}+C\\\\x^2-y^2&=K\\end{aligned}$$\nEach given point gives $K=4$. Draw the two branches $x=\\pm\\sqrt{y^2+4}$, with vertices $(\\pm2,0)$. Away from $y=0$, their gradients agree with the field. At the vertices the tangents are vertical and $\\frac{x}{y}$ is undefined, so these are not classical solutions of an IVP at those points.",
+              "solutionDiagrams": [
+                {
+                  "id": "p30-q14-b-curves",
+                  "role": "solution-overlay",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"answer curves distinguished from supplied field\"}],\"reference\":\"source page 30 p30-q14-b-curves\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.2);\n\\draw[solutionBlue,<->,line width=0.8pt,domain=-4.4:4.4,samples=101] plot ({sqrt((\\x)^2+4)},\\x);\n\\draw[solutionBlue,<->,line width=0.8pt,domain=-4.4:4.4,samples=101] plot ({-sqrt((\\x)^2+4)},\\x);\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 72,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": "p30-q14-b-field",
+                  "transparent": true,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 30,
+                    "sourceRegion": "part b supplied answer curves",
+                    "description": "Exact base frame; left and right branches with vertices (−2,0) and (2,0) and outward arrowheads.",
+                    "mathematics": "x^2-y^2=4",
+                    "answerVisibility": "Answers only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 0
+          }
+        ]
+      },
+      {
+        "id": "p30-q14-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p30-q14-ci",
+            "type": "part",
+            "label": "i",
+            "prompt": "Show that the hyperbola $xy=4$ gives the solution curves through both points in part a.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Separation gives $xy=k$; both $(2,2)$ and $(-2,-2)$ give $k=4$.",
+              "worked": "$$\\begin{aligned}\\frac{dy}{y}&=-\\frac{dx}{x}\\\\\\ln|y|&=-\\ln|x|+C\\\\\\ln|xy|&=C\\\\xy&=k\\end{aligned}$$\nAt $(2,2)$, $k=(2)(2)=4$. At $(-2,-2)$, $k=(-2)(-2)=4$. Hence $xy=4$, with the respective solution branches on $x>0$ and $x<0$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 33
+          },
+          {
+            "id": "p30-q14-cii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Show that $x^2-y^2=4$ passes through both points in part b and satisfies its differential equation wherever $y\\ne0$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Both points give $x^2-y^2=4$, and implicit differentiation gives $y'=\\frac{x}{y}$ for $y\\ne0$.",
+              "worked": "$$\\begin{aligned}y\\,dy&=x\\,dx\\\\\\frac{y^2}{2}&=\\frac{x^2}{2}+C\\\\x^2-y^2&=K\\end{aligned}$$\nAt either $(2,0)$ or $(-2,0)$, $K=4$. To check the differential equation:\n$$\\begin{aligned}2x-2y\\frac{dy}{dx}&=0\\\\\\frac{dy}{dx}&=\\frac{x}{y}\\qquad(y\\ne0).\\end{aligned}$$\nThe DE is undefined at $(\\pm2,0)$; the hyperbola has vertical tangents there.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          }
+        ]
+      },
+      {
+        "id": "p30-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Both hyperbolas are graphed below. The tangents to the hyperbolas at their points of intersection are perpendicular. Why?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q14-d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes xy=4\"},{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes x squared minus y squared equals 4\"}],\"reference\":\"source page 30 p30-q14-d-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveRed}{HTML}{EF6068}\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.2);\n\\draw[<->,line width=0.5pt] (-4.9,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.9)--(0,5) node[above left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.1)--(\\t,0.1);\\ifnum\\t=-2\\relax\\node[above right] at (-1.85,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\ifnum\\t=2\\relax\\node[above left] at (1.85,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\node[below] at (\\t,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\fi\\fi\\draw[line width=0.4pt] (-0.1,\\t)--(0.1,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveRed,<->,line width=0.8pt,domain=0.87:4.6,samples=100] plot (\\x,{4/(\\x)});\n\\draw[curveRed,<->,line width=0.8pt,domain=-4.6:-0.87,samples=100] plot (\\x,{4/(\\x)});\n\\draw[curveBlue,<->,line width=0.8pt,domain=-4.1:4.1,samples=101] plot ({sqrt((\\x)^2+4)},\\x);\n\\draw[curveBlue,<->,line width=0.8pt,domain=-4.1:4.1,samples=101] plot ({-sqrt((\\x)^2+4)},\\x);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "part d lower left combined graph",
+              "description": "Black axes with integer labels −4 to 4 and no zero label or grid. Red xy=4 and blue x²−y²=4; two intersections visible; outward curve arrowheads. No tangent lines supplied.",
+              "mathematics": "xy=4 and x^2-y^2=4",
+              "answerVisibility": "Both curves are permanent givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "beside-prompt",
+        "answer": {
+          "short": "At either intersection, $m_1m_2=(-\\frac{y}{x})(\\frac{x}{y})=-1$, so the tangents are perpendicular.",
+          "worked": "For $xy=4$:\n$$\\begin{aligned}x\\frac{dy}{dx}+y&=0\\\\m_1&=-\\frac{y}{x}.\\end{aligned}$$\nFor $x^2-y^2=4$:\n$$\\begin{aligned}2x-2y\\frac{dy}{dx}&=0\\\\m_2&=\\frac{x}{y}.\\end{aligned}$$\nAt either intersection, $xy=4$, so $x$ and $y$ are nonzero. Thus\n$$m_1m_2=\\left(-\\frac{y}{x}\\right)\\left(\\frac{x}{y}\\right)=-1.$$\nTherefore the tangents are perpendicular.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:03:23.763Z",
+  "updatedAt": "2026-11-12T21:03:23.763Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p30-q14",
+    "sectionRole": "challenge"
+  }
+}

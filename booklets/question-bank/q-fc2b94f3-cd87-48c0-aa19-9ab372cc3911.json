@@ -1,0 +1,150 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fc2b94f3-cd87-48c0-aa19-9ab372cc3911",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "double-angle-identities",
+    "secondarySkillIds": [
+      "prove-trig-identities"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Transform a cosine graph and use the paired curves to explain the Pythagorean identity graphically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T06:41:16.858Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bb692105dfd2f16b08c13bfac3f86bd38539358e2916c055b07ab837891bddfb",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/lean-review/calls/content-1793169657195-1/last-message.txt",
+      "originalTaskHash": "c821b41995e3161f0c6c7e0a582d74052f733222635f95a45db7ef57fa1b25df"
+    }
+  },
+  "content": {
+    "id": "p52-q5-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p52-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $y=\\cos2x$, for $0\\leq x\\leq2\\pi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cosine curve with maxima $(0,1)$, $(\\pi,1)$ and $(2\\pi,1)$, and minima $(\\frac{\\pi}{2},-1)$ and $(\\frac{3\\pi}{2},-1)$.",
+          "worked": "The amplitude is $1$ and the period is $\\pi$. Plot the maxima at $x=0,\\pi,2\\pi$, the minima at $x=\\frac{\\pi}{2},\\frac{3\\pi}{2}$, and the zeros at $x=\\frac{\\pi}{4},\\frac{3\\pi}{4},\\frac{5\\pi}{4},\\frac{7\\pi}{4}$. Join these points with a smooth cosine curve.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q5-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"answer function curve\"}],\"reference\":\"page 52 p52-q5-a-graph\"}\n\\begin{tikzpicture}[x=1.1cm,y=1.15cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,line width=0.5pt] (-0.08,0)--(6.55,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.18)--(0,1.2) node[above] {$y$};\n\\foreach \\t in {0.785398,1.570796,2.356194,3.141593,3.926991,4.712389,5.497787,6.283185}{\\draw[line width=0.4pt] (\\t,-0.045)--(\\t,0.045);}\n\\foreach \\t/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below=3pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\t in {-1,1}{\\draw[line width=0.4pt] (-0.045,\\t)--(0.045,\\t);\\node[left=3pt] at (0,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,->] plot[domain=0:6.283185,samples=181] (\\x,{cos(2*\\x r)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 5(a), graph below instruction",
+                "description": "Complete answer graph with labelled quarter-period axes, unlabelled intermediate ticks and a bounded cosine curve. Ordinary axes and labels are black; the answer curve is house blue.",
+                "mathematics": "y=cos(2x), 0<=x<=2pi; amplitude 1, period pi.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p52-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Using transformations, sketch on the same axis below, $y=\\dfrac12(1+\\cos2x)$ and $y=\\dfrac12(1-\\cos2x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both curves have period $\\pi$ and range $[0,1]$. The first has maxima at $x=0,\\pi,2\\pi$; the second has maxima at $x=\\frac{\\pi}{2},\\frac{3\\pi}{2}$.",
+          "worked": "For $y=\\frac12(1+\\cos2x)$, halve the vertical distances of $y=\\cos2x$, then translate upwards by $\\frac12$. For $y=\\frac12(1-\\cos2x)$, reflect $y=\\cos2x$ in the $x$-axis, halve its vertical distances, then translate upwards by $\\frac12$. Sketch both curves on shared axes for $0\\leq x\\leq2\\pi$.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q5-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"plusBlue\",\"hex\":\"268CFF\",\"reason\":\"positive cosine transformed curve and its formula\"},{\"name\":\"minusPurple\",\"hex\":\"8B5CC7\",\"reason\":\"negative cosine transformed curve and its formula\"}],\"reference\":\"page 52 p52-q5-b-graph\"}\n\\begin{tikzpicture}[x=1.3cm,y=1.4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{plusBlue}{HTML}{268CFF}\n\\definecolor{minusPurple}{HTML}{8B5CC7}\n\\draw[->,line width=0.5pt] (-0.5,0)--(6.65,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.6)--(0,1.85) node[above] {$y$};\n\\foreach \\t in {0.785398,1.570796,2.356194,3.141593,3.926991,4.712389,5.497787,6.283185}{\\draw[line width=0.4pt] (\\t,-0.04)--(\\t,0.04);}\n\\foreach \\t/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}}{\\node[below=3pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-0.045,0.5)--(0.045,0.5);\n\\draw[line width=0.4pt] (-0.045,1)--(0.045,1);\n\\node[left=3pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[plusBlue,line width=0.8pt] plot[domain=0:6.283185,samples=181] (\\x,{(1+cos(2*\\x r))/2});\n\\draw[minusPurple,dashed,line width=0.8pt] plot[domain=0:6.283185,samples=181] (\\x,{(1-cos(2*\\x r))/2});\n\\node[plusBlue,anchor=west] (pluslabel) at (0.5,2.35) {$y=\\frac12(1+\\cos2x)$};\n\\node[minusPurple,anchor=east] (minuslabel) at (6.3,1.65) {$y=\\frac12(1-\\cos2x)$};\n\\draw[plusBlue,->,line width=0.4pt] (pluslabel.south west) to[out=-90,in=90] (0.4,{(1+cos(0.8 r))/2});\n\\draw[minusPurple,->,line width=0.4pt] (minuslabel.south) to[out=-90,in=110] (4.1,{(1-cos(8.2 r))/2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 120,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 5(b), shared answer graph",
+                "description": "Two transformed cosine curves share one coordinate system. Formula annotations and curved arrows identify the curves. Blue and dashed purple distinguish the series; ordinary axes and ticks are black. No grid or origin label.",
+                "mathematics": "y=(1+cos(2x))/2 and y=(1-cos(2x))/2 on [0,2pi]; both have range [0,1] and period pi.",
+                "answerVisibility": "Answer curves, axes and annotations belong in answer editions."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p52-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Deduce graphically that $\\cos^2x+\\sin^2x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curves $y=\\cos^2x$ and $y=\\sin^2x$ are reflections in $y=\\frac12$, so their heights add to $1$ at every $x$. Hence $\\cos^2x+\\sin^2x=1$.",
+          "worked": "Using the double-angle identities, $y=\\frac12(1+\\cos2x)=\\cos^2x$ and $y=\\frac12(1-\\cos2x)=\\sin^2x$. The two graphs are reflections of each other in $y=\\frac12$: their vertical distances above and below this line are equal. Their heights therefore sum to $1$ at every $x$, giving $\\cos^2x+\\sin^2x=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p52-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:04:00.827Z",
+  "updatedAt": "2026-11-12T21:04:00.829Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-2-v1",
+    "blockId": "p52-q5",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,398 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-407a1cee-bf80-4d43-b682-9a786cf8549b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Choose favourable card combinations, then use independent replacement draws with order multiplicities and disjoint diamond cases.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:16:08.125Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3487720fdbb5543a6dab6c7a46323a8da757cf3cd36c21708038bd3b3db6a543",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/lean-review/calls/content-1793175330638-38/last-message.txt",
+      "originalTaskHash": "a508431e31111296cf941ba9d00f04eb57c0804b63a21a63b6befd8ab56f8bc7"
+    }
+  },
+  "content": {
+    "id": "p74-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "From a standard pack of 52 cards, three are selected at random. Find the probability that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p74-q14-without-replacement",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p74-q14-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "they are the jack of spades, the two of clubs and the seven of diamonds,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{1}{\\binom{52}{3}}=\\dfrac{1}{22100}$",
+              "worked": "There is one favourable three-card selection.\n$$\\begin{aligned}P&=\\frac{1}{\\binom{52}{3}}\\\\&=\\frac{1}{22100}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q14-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "all three are aces,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{4}{3}}{\\binom{52}{3}}=\\dfrac{1}{5525}$",
+              "worked": "Choose three of the four aces.\n$$\\begin{aligned}P&=\\frac{\\binom{4}{3}}{\\binom{52}{3}}\\\\&=\\frac{4}{22100}\\\\&=\\frac{1}{5525}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q14-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "they are all diamonds,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{13}{3}}{\\binom{52}{3}}=\\dfrac{11}{850}$",
+              "worked": "Choose three of the thirteen diamonds.\n$$\\begin{aligned}P&=\\frac{\\binom{13}{3}}{\\binom{52}{3}}\\\\&=\\frac{286}{22100}\\\\&=\\frac{11}{850}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q14-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "they are all of the same suit,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{4\\binom{13}{3}}{\\binom{52}{3}}=\\dfrac{22}{425}$",
+              "worked": "Choose one of four suits, then three cards of that suit.\n$$\\begin{aligned}P&=\\frac{4\\binom{13}{3}}{\\binom{52}{3}}\\\\&=\\frac{1144}{22100}\\\\&=\\frac{22}{425}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q14-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "they are all picture cards,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{12}{3}}{\\binom{52}{3}}=\\dfrac{11}{1105}$",
+              "worked": "There are twelve picture cards: four jacks, four queens and four kings.\n$$\\begin{aligned}P&=\\frac{\\binom{12}{3}}{\\binom{52}{3}}\\\\&=\\frac{220}{22100}\\\\&=\\frac{11}{1105}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q14-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "two are red and one is black,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{26}{2}\\binom{26}{1}}{\\binom{52}{3}}=\\dfrac{13}{34}$",
+              "worked": "Choose two of the twenty-six red cards and one of the twenty-six black cards.\n$$\\begin{aligned}P&=\\frac{\\binom{26}{2}\\binom{26}{1}}{\\binom{52}{3}}\\\\&=\\frac{8450}{22100}\\\\&=\\frac{13}{34}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q14-g",
+            "type": "part",
+            "label": "g",
+            "prompt": "one is a seven, one is an eight and one is a nine,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{4}{1}\\binom{4}{1}\\binom{4}{1}}{\\binom{52}{3}}=\\dfrac{16}{5525}$",
+              "worked": "Choose one card from each of the three ranks; each rank has four cards.\n$$\\begin{aligned}P&=\\frac{\\binom{4}{1}\\binom{4}{1}\\binom{4}{1}}{\\binom{52}{3}}\\\\&=\\frac{64}{22100}\\\\&=\\frac{16}{5525}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q14-h",
+            "type": "part",
+            "label": "h",
+            "prompt": "two are sevens and one is a six,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{4}{2}\\binom{4}{1}}{\\binom{52}{3}}=\\dfrac{6}{5525}$",
+              "worked": "Choose two of the four sevens and one of the four sixes.\n$$\\begin{aligned}P&=\\frac{\\binom{4}{2}\\binom{4}{1}}{\\binom{52}{3}}\\\\&=\\frac{24}{22100}\\\\&=\\frac{6}{5525}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q14-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "exactly one is a diamond,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{13}{1}\\binom{39}{2}}{\\binom{52}{3}}=\\dfrac{741}{1700}$",
+              "worked": "Choose one diamond and two of the thirty-nine non-diamonds.\n$$\\begin{aligned}P&=\\frac{\\binom{13}{1}\\binom{39}{2}}{\\binom{52}{3}}\\\\&=\\frac{9633}{22100}\\\\&=\\frac{741}{1700}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q14-j",
+            "type": "part",
+            "label": "j",
+            "prompt": "at least two of them are diamonds.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\binom{13}{2}\\binom{39}{1}+\\binom{13}{3}}{\\binom{52}{3}}=\\dfrac{64}{425}$",
+              "worked": "The disjoint cases are two diamonds and one non-diamond, or three diamonds.\n$$\\begin{aligned}P&=\\frac{\\binom{13}{2}\\binom{39}{1}+\\binom{13}{3}}{\\binom{52}{3}}\\\\&=\\frac{3042+286}{22100}\\\\&=\\frac{64}{425}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          }
+        ]
+      },
+      {
+        "id": "p74-q15",
+        "type": "group",
+        "label": "",
+        "prompt": "Now the three cards are selected from the same pack one at a time, and each card is replaced before the next one is drawn. Find the probability that:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p74-q15-a",
+            "type": "part",
+            "label": "k",
+            "prompt": "they are the jack of spades, the two of clubs and the seven of diamonds,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3!\\left(\\dfrac{1}{52}\\right)^3=\\dfrac{3}{70304}$",
+              "worked": "The three specified cards can occur in $3!$ different orders. Each order has probability $(\\frac{1}{52})^3$, since each card is replaced before the next draw.\n$$\\begin{aligned}P&=3!\\left(\\frac{1}{52}\\right)^3\\\\&=\\frac{3}{70304}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 21
+          },
+          {
+            "id": "p74-q15-b",
+            "type": "part",
+            "label": "l",
+            "prompt": "all three are aces,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\left(\\dfrac{4}{52}\\right)^3=\\dfrac{1}{2197}$",
+              "worked": "Replacement makes the draws independent, with four aces available on every draw.\n$$\\begin{aligned}P&=\\left(\\frac{4}{52}\\right)^3\\\\&=\\frac{1}{2197}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q15-c",
+            "type": "part",
+            "label": "m",
+            "prompt": "they are all diamonds,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\left(\\dfrac{13}{52}\\right)^3=\\dfrac{1}{64}$",
+              "worked": "Each independent draw has probability $\\frac{13}{52}$ of being a diamond.\n$$\\begin{aligned}P&=\\left(\\frac{13}{52}\\right)^3\\\\&=\\frac{1}{64}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q15-d",
+            "type": "part",
+            "label": "n",
+            "prompt": "they are all of the same suit,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$4\\left(\\dfrac{13}{52}\\right)^3=\\dfrac{1}{16}$",
+              "worked": "All three cards can belong to any one of four suits; these cases are disjoint.\n$$\\begin{aligned}P&=4\\left(\\frac{13}{52}\\right)^3\\\\&=\\frac{1}{16}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p74-q15-e",
+            "type": "part",
+            "label": "o",
+            "prompt": "they are all picture cards,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\left(\\dfrac{12}{52}\\right)^3=\\dfrac{27}{2197}$",
+              "worked": "There are twelve picture cards available on every independent draw.\n$$\\begin{aligned}P&=\\left(\\frac{12}{52}\\right)^3\\\\&=\\frac{27}{2197}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p74-q15-f",
+            "type": "part",
+            "label": "p",
+            "prompt": "two are red and one is black,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3\\left(\\dfrac{26}{52}\\right)^2\\left(\\dfrac{26}{52}\\right)=\\dfrac{3}{8}$",
+              "worked": "The black card can occur in any of three draw positions.\n$$\\begin{aligned}P&=3\\left(\\frac{26}{52}\\right)^2\\left(\\frac{26}{52}\\right)\\\\&=\\frac{3}{8}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q15-g",
+            "type": "part",
+            "label": "q",
+            "prompt": "one is a seven, one is an eight and one is a nine,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3!\\left(\\dfrac{4}{52}\\right)^3=\\dfrac{6}{2197}$",
+              "worked": "The three distinct ranks can occur in $3!$ orders. Each required rank has probability $\\frac{4}{52}$ on its draw.\n$$\\begin{aligned}P&=3!\\left(\\frac{4}{52}\\right)^3\\\\&=\\frac{6}{2197}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q15-h",
+            "type": "part",
+            "label": "r",
+            "prompt": "two are sevens and one is a six,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3\\left(\\dfrac{4}{52}\\right)^2\\left(\\dfrac{4}{52}\\right)=\\dfrac{3}{2197}$",
+              "worked": "The six can occur in any of three draw positions. Each required rank has probability $\\frac{4}{52}$.\n$$\\begin{aligned}P&=3\\left(\\frac{4}{52}\\right)^2\\left(\\frac{4}{52}\\right)\\\\&=\\frac{3}{2197}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q15-i",
+            "type": "part",
+            "label": "s",
+            "prompt": "exactly one is a diamond,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3\\left(\\dfrac{13}{52}\\right)\\left(\\dfrac{39}{52}\\right)^2=\\dfrac{27}{64}$",
+              "worked": "The diamond can occur in any of three draw positions; the other two draws must be non-diamonds.\n$$\\begin{aligned}P&=3\\left(\\frac{13}{52}\\right)\\left(\\frac{39}{52}\\right)^2\\\\&=\\frac{27}{64}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p74-q15-j",
+            "type": "part",
+            "label": "t",
+            "prompt": "at least two of them are diamonds.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$3\\left(\\dfrac{13}{52}\\right)^2\\left(\\dfrac{39}{52}\\right)+\\left(\\dfrac{13}{52}\\right)^3=\\dfrac{5}{32}$",
+              "worked": "Add the disjoint cases of exactly two diamonds and three diamonds. For exactly two, the non-diamond has three possible positions.\n$$\\begin{aligned}P&=3\\left(\\frac{13}{52}\\right)^2\\left(\\frac{39}{52}\\right)+\\left(\\frac{13}{52}\\right)^3\\\\&=\\frac{9}{64}+\\frac{1}{64}\\\\&=\\frac{5}{32}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p74-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:04:08.448Z",
+  "updatedAt": "2026-11-12T21:04:08.449Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p74-q14",
+    "sectionRole": "exercise"
+  }
+}
