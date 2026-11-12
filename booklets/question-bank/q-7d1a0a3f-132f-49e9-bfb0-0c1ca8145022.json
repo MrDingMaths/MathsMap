@@ -1,0 +1,321 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7d1a0a3f-132f-49e9-bfb0-0c1ca8145022",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimal-connector",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret connecting every suburb to the node as a minimum spanning tree, select cheap edges without cycles, and total their costs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:43.774Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0e25eea57ca2ef215fd40fe58eefaeeda773ff7d3fc76d1a7aaa719a7b86f59a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/00365bb331c81eefacc2f755918bd6034cb44eccc34a1694d4750a0612b89611-1793876666297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p34-q2-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The diagram shows the cost, in dollars, to lay NBN cables to connect suburbs to the node. What is the minimum cost required to ensure each suburb is connected to the node?",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p34-q2-option-a",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A.",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "  $10 200",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p34-q2-option-b",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "B.",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "  $10 500",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p34-q2-option-c",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "C.",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "  $10 800",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p34-q2-option-d",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "D. ",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " $11 000",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p34-q2-option-e",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "E.",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": "  $11 500",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q2-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q2-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (N) at (0,0);\n\\coordinate (A) at (3,0);\n\\coordinate (B) at (4.85,0);\n\\coordinate (C) at (3.9,1.65);\n\\coordinate (D) at (6.35,1.65);\n\\coordinate (E) at (3.9,-2.05);\n\\coordinate (F) at (6.85,-1.55);\n\\coordinate (G) at (8.35,0);\n\\draw (N)--node[midway,below=3pt] {1100}(A);\n\\draw (A)--node[midway,below=3pt] {1200}(B);\n\\draw (N)--node[midway,above=3pt] {1700}(C);\n\\draw (C)--node[midway,above=3pt] {1200}(D);\n\\draw (C)--node[midway,left=4pt] {1900}(B);\n\\draw (B)--node[midway,below right=3pt] {1700}(D);\n\\draw (B)--node[midway,below left=3pt] {1500}(F);\n\\draw (D)--node[midway,right=4pt] {2000}(F);\n\\draw (D)--node[midway,above right=3pt] {2000}(G);\n\\draw (F)--node[midway,below right=3pt] {2400}(G);\n\\draw (E)--node[midway,below=3pt] {1800}(F);\n\\draw (N)--node[midway,below left=3pt] {3100}(E);\n\\foreach \\v in {N,A,B,C,D,E,F,G}{\\fill (\\v) circle (2pt);}\n\\node[left=5pt] at (N) {node};\n\\node[below=5pt] at (A) {$A$};\n\\node[below=5pt] at (B) {$B$};\n\\node[above left=4pt] at (C) {$C$};\n\\node[above right=4pt] at (D) {$D$};\n\\node[below=5pt] at (E) {$E$};\n\\node[below=5pt] at (F) {$F$};\n\\node[right=5pt] at (G) {$G$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 112,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 2 network",
+          "description": "Eight marked vertices and twelve undirected weighted edges. The node is at the left, A and B across the middle, C and D above, E and F below, and G at the right.",
+          "mathematics": "node–A 1100; A–B 1200; node–C 1700; C–D 1200; C–B 1900; B–D 1700; B–F 1500; D–F 2000; D–G 2000; F–G 2400; E–F 1800; node–E 3100. All weights are dollar costs.",
+          "answerVisibility": "All vertices, edges and costs are permanent givens; no selected spanning tree is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\$10\\,500$. Correct answer: B.",
+      "worked": "Choose edges in increasing cost order, omitting any edge that creates a cycle. One minimum spanning tree uses node–A, A–B, C–D, B–F, node–C, E–F and D–G. These seven edges connect all eight vertices without a cycle.\n$$\\begin{aligned}\\text{Minimum cost}&=1100+1200+1200+1500+1700+1800+2000\\\\&=\\$10\\,500\\end{aligned}$$\nCorrect answer: B.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 24
+  },
+  "presentation": {
+    "ownerId": "p34-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q2-root/label",
+                  "type": "item",
+                  "ref": "p34-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "p34-q2-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p34-q2-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-stem",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-option-a",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-option-a",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-option-b",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-option-b",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-option-c",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-option-c",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-option-d",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-option-d",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-root/prompt#p34-q2-option-e",
+                          "type": "item",
+                          "ref": "p34-q2-root/prompt#p34-q2-option-e",
+                          "title": "Text"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p34-q2-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-network",
+                          "type": "item",
+                          "ref": "p34-q2-network",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "layout:p34-q2-root/space",
+                  "type": "item",
+                  "ref": "p34-q2-root/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 2",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p34-q2-root": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:36.745Z",
+  "updatedAt": "2026-11-12T07:48:36.745Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p34-q2",
+    "sectionRole": "exercise"
+  }
+}

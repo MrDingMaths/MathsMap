@@ -1,0 +1,163 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1a78aace-93b9-4472-9af2-0bd75d861da9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "domain-range-inverse",
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Preserve the inverse's restricted branch, solve the prompted intersection with y=x, and explain through reflection why that fixed point also belongs to the inverse before sketching both.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:27:13.744Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c1220cfc71fcb8eccf026910c8c926673a809cbdcc623b3f9a99e6872d7f993f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/inverse-functions-v1/7df796e4e1681738f90f31d54275f93739846ea94ebcc08ff481ee4b402ce373-1792560388431/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Consider the function $y=\\sqrt{2x-1}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the domain and range of this function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Domain: $x\\ge\\frac12$. Range: $y\\ge0$.",
+          "worked": "The radicand must be non-negative:\n$$\\begin{align*}2x-1&\\ge0\\\\x&\\ge\\frac12\\end{align*}$$\nThe square root takes every non-negative value. Domain: $x\\ge\\frac12$. Range: $y\\ge0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p12-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the inverse and state the domain and range.\n\nYou must consider the restrictions on the original function, not just the equation of the inverse.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=\\frac{x^2+1}{2}$, with domain $x\\ge0$ and range $y\\ge\\frac12$.",
+          "worked": "Interchange $x$ and $y$:\n$$\\begin{align*}x&=\\sqrt{2y-1}\\\\x^2&=2y-1\\\\x^2+1&=2y\\\\y&=\\frac{x^2+1}{2}\\end{align*}$$\nThe domain and range swap. The original range gives the inverse domain $x\\ge0$; the original domain gives the inverse range $y\\ge\\frac12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p12-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the coordinates of the point where the original function intersects $y=x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(1,1)$.",
+          "worked": "At the intersection, $y=x$:\n$$\\begin{align*}x&=\\sqrt{2x-1}\\\\x^2&=2x-1\\\\x^2-2x+1&=0\\\\(x-1)^2&=0\\\\x&=1\\end{align*}$$\nSince $\\sqrt{2(1)-1}=1$, the point is $(1,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p12-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why this point also represents where the original function intersects with the inverse.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs are reflections across $y=x$. The point $(1,1)$ stays fixed under this reflection, so it lies on both graphs.",
+          "worked": "Reflecting in $y=x$ swaps the coordinates. The point $(1,1)$ reflects to itself, so its reflection also lies on the inverse graph. Thus $(1,1)$ is an intersection of the function and its inverse.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p12-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence, draw $y=\\sqrt{2x-1}$ and its inverse on the same set of axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "See the sketch: $f(x)=\\sqrt{2x-1}$ for $x\\ge\\frac12$ and $g(x)=\\frac{x^2+1}{2}$ for $x\\ge0$, meeting at $(1,1)$.",
+          "worked": "Sketch $f(x)=\\sqrt{2x-1}$ from $(\\frac12,0)$ through $(1,1)$. Reflect it across $y=x$ to obtain $g(x)=\\frac{x^2+1}{2}$ for $x\\ge0$, starting at $(0,\\frac12)$ and passing through $(1,1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q11-e-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function f(x)\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function g(x)\"},{\"name\":\"reflectionGuide\",\"hex\":\"777777\",\"reason\":\"dashed reflection line and intersection guides\"}],\"reference\":\"source page 12, p12-q11-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\definecolor{reflectionGuide}{HTML}{777777}\n\\path[use as bounding box] (-0.75,-0.75) rectangle (5.25,5.25);\n\\draw[black,line width=0.5pt,->] (-0.65,0)--(5,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.65)--(0,5) node[right] {$y$};\n\\draw[reflectionGuide,line width=0.4pt,dashed] (-0.65,-0.65)--(5,5);\n\\draw[reflectionGuide,line width=0.4pt,dashed] (0,1)--(1,1)--(1,0);\n\\draw[black,line width=0.4pt] (1,-0.07)--(1,0.07);\n\\draw[black,line width=0.4pt] (-0.07,1)--(0.07,1);\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt,->] plot[domain=0:2.95,samples=100,variable=\\t] ({(\\t*\\t+1)/2},{\\t});\n\\draw[inverseRed,line width=0.8pt,->] plot[domain=0:2.95,samples=100,variable=\\t] ({\\t},{(\\t*\\t+1)/2});\n\\node[functionBlue,below right] at (3.1,{sqrt(5.2)}) {$f(x)$};\n\\node[inverseRed,above left] at (2.1,{(2.1*2.1+1)/2}) {$g(x)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Question 11e supplied answer sketch beneath the instruction",
+                "description": "One shared coordinate figure with positive axis arrowheads, blue f(x), red g(x), a dashed reflection line and dashed guides to (1,1). There is no full grid or endpoint marker.",
+                "mathematics": "f(x)=sqrt(2x-1), x>=1/2; g(x)=(x^2+1)/2, x>=0. The graphs are reflections across y=x and meet at (1,1). Plot bounds are schematic display bounds, not additional domain restrictions.",
+                "answerVisibility": "Solution only; the unsolved prompt contains no supplied graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {
+        "p12-q11-c": 15.2
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:47:17.742Z",
+  "updatedAt": "2026-11-12T07:47:17.742Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "inverse-functions-v1",
+    "blockId": "p12-q11",
+    "sectionRole": "exercise"
+  }
+}

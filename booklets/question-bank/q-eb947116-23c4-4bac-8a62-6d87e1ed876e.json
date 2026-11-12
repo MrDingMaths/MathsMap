@@ -1,0 +1,147 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-eb947116-23c4-4bac-8a62-6d87e1ed876e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimal-connector",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the cable requirement into a minimum spanning tree, select connections while avoiding cycles, and sum their lengths; naming the graph adds only recall.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:43.774Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3ff8824f6aa8dd3962f1d246be91e7983671a96957f97cd4994dc4b575144d39",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/00365bb331c81eefacc2f755918bd6034cb44eccc34a1694d4750a0612b89611-1793876666297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Stacey and Julia are building a house. There will be 9 power points throughout the house. The positions of the power points and the main power source are indicated by the vertices. The numbers on the edges represent the distances, in centimetres, between the power points.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q6-draw",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw how to connect all power points to the main with the shortest length of cable.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p36-q6-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q6-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},every path/.style={line width=0.8pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,4);\\coordinate (B) at (0,2);\\coordinate (C) at (0,0);\\coordinate (D) at (2.45,4);\\coordinate (E) at (1.97,3);\\coordinate (F) at (2.45,1.5);\\coordinate (G) at (5,4);\\coordinate (H) at (5,2.47);\\coordinate (I) at (5,0.98);\\coordinate (J) at (7.2,0.37);\n\\draw[dashed] (A)--node[above,fill=white,inner sep=1pt]{24}(D);\n\\draw[dashed] (D)--node[above,fill=white,inner sep=1pt]{31}(G);\n\\draw[dashed] (A)--node[left,fill=white,inner sep=1pt]{24}(B);\n\\draw[dashed] (B)--node[left,fill=white,inner sep=1pt]{25}(C);\n\\draw[dashed] (A)--node[below,fill=white,inner sep=1pt]{24}(E);\n\\draw[dashed] (B)--node[below,fill=white,inner sep=1pt]{25}(E);\n\\draw[dashed] (D)--node[right,fill=white,inner sep=1pt]{13}(E);\n\\draw[dashed] (E)--node[right,fill=white,inner sep=1pt]{22}(F);\n\\draw[dashed] (B)--node[below,fill=white,inner sep=1pt]{26}(F);\n\\draw[dashed] (C)--node[above,fill=white,inner sep=1pt]{29}(F);\n\\draw[dashed] (F)--node[above left,fill=white,inner sep=1pt]{60}(G);\n\\draw[dashed] (F)--node[above,fill=white,inner sep=1pt]{26}(I);\n\\draw[dashed] (C)--node[above,fill=white,inner sep=1pt]{50}(I);\n\\draw[dashed] (C)--node[below,fill=white,inner sep=1pt]{72}(J);\n\\draw[dashed] (G)--node[left,fill=white,inner sep=1pt]{21}(H);\n\\draw[dashed] (H)--node[left,fill=white,inner sep=1pt]{22}(I);\n\\draw[dashed] (G)--node[right,fill=white,inner sep=1pt]{62}(J);\n\\draw[dashed] (I)--node[above,fill=white,inner sep=1pt]{22}(J);\n\\foreach \\v in {A,B,C,D,E,F,G,H,I,J}{\\fill (\\v) circle (2pt);}\n\\node[right=4pt] at (J) {main};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 95,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 36,
+              "sourceRegion": "Question 6 weighted network",
+              "description": "Ten visible vertex markers with all eighteen dashed edges and weights. Only main is a printed vertex label. The intermediate vertex on the right vertical connection is retained. Decorative green is replaced by ordinary black.",
+              "mathematics": "Undirected edges AD24, DG31, AB24, BC25, AE24, BE25, DE13, EF22, BF26, CF29, FG60, FI26, CI50, CJ72, GH21, HI22, GJ62, IJ22. Coordinate identifiers are internal only.",
+              "answerVisibility": "All supplied edges and weights are visible; no selected minimum spanning tree is supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "One minimum spanning tree is shown.",
+          "worked": "Choose the smallest available connections without creating a cycle until all ten vertices are connected. The tree has nine edges.",
+          "solutionDiagrams": [
+            {
+              "id": "p36-q6-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q6-tree\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},every path/.style={line width=0.8pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,4);\\coordinate (B) at (0,2);\\coordinate (C) at (0,0);\\coordinate (D) at (2.45,4);\\coordinate (E) at (1.97,3);\\coordinate (F) at (2.45,1.5);\\coordinate (G) at (5,4);\\coordinate (H) at (5,2.47);\\coordinate (I) at (5,0.98);\\coordinate (J) at (7.2,0.37);\n\\draw (A)--node[left,fill=white,inner sep=1pt]{24}(B);\n\\draw (B)--node[left,fill=white,inner sep=1pt]{25}(C);\n\\draw (A)--node[below,fill=white,inner sep=1pt]{24}(E);\n\\draw (D)--node[right,fill=white,inner sep=1pt]{13}(E);\n\\draw (E)--node[right,fill=white,inner sep=1pt]{22}(F);\n\\draw (F)--node[above,fill=white,inner sep=1pt]{26}(I);\n\\draw (G)--node[left,fill=white,inner sep=1pt]{21}(H);\n\\draw (H)--node[left,fill=white,inner sep=1pt]{22}(I);\n\\draw (I)--node[above,fill=white,inner sep=1pt]{22}(J);\n\\foreach \\v in {A,B,C,D,E,F,G,H,I,J}{\\fill (\\v) circle (2pt);}\n\\node[right=4pt] at (J) {main};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 105,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 36,
+                "sourceRegion": "Question 6 solution",
+                "description": "A complete minimum spanning tree using the source vertex positions, with all ten markers visible and only the main vertex labelled.",
+                "mathematics": "Selected edges DE13, GH21, EF22, HI22, IJ22, AB24, AE24, BC25, FI26 total 199. AD24 may replace AE24.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p36-q6-a",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the mathematical name of the graph you have drawn?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A minimum spanning tree.",
+          "worked": "A minimum spanning tree: it connects every vertex without cycles and has the least possible total edge weight.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p36-q6-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the shortest length of cable needed?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$199\\text{ cm}$.",
+          "worked": "$$\\begin{aligned}\\text{Minimum length}&=13+21+22+22+22+24+24+25+26\\\\&=199\\text{ cm}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p36-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:37.116Z",
+  "updatedAt": "2026-11-12T07:48:37.116Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p36-q6-block",
+    "sectionRole": "exercise"
+  }
+}

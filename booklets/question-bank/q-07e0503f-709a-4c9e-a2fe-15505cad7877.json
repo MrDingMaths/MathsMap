@@ -1,0 +1,568 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-07e0503f-709a-4c9e-a2fe-15505cad7877",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "describe-networks",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret cities and flights as vertices and edges, count incident connections, and transfer the same city pairs to rearranged labelled vertices while preserving connectivity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:44.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "89d60339177e315c57d34636d028e802a689c5d7099b2dc6b7e82e176113a73b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/440118ec23040f8fbe923fc5b9fd53ce2364eccb749f05c32b1b4c61086acca7-1793876666257/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "This diagram shows the flight paths between capital cities in Australia.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p6-q2-main-group",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p6-q2-flight-network",
+            "role": "question",
+            "format": "image",
+            "code": null,
+            "src": "/booklet-assets/projects/network-concepts-v1/source-flight-network.png",
+            "widthMm": 85,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "retentionReason": "Original source image retained at the user’s explicit request, 24 October 2026; local exception to native diagram and palette defaults.",
+            "spec": {
+              "sourcePage": 6,
+              "sourceRegion": "Question 2, geographical flight network",
+              "description": "Unmodified original Word image18.png: Australian capital-city flight network, including all source labels and connections.",
+              "mathematics": "Edges: Darwin–Perth, Darwin–Brisbane, Brisbane–Sydney, Perth–Sydney, Perth–Adelaide, Adelaide–Sydney, Adelaide–Melbourne, Sydney–Melbourne, Sydney–Canberra, Canberra–Melbourne, Melbourne–Hobart. Crossings without marked vertices are not connections.",
+              "answerVisibility": "Permanent supplied network; no answers added."
+            },
+            "derived": false,
+            "reviewStatus": "reviewed"
+          }
+        ],
+        "children": [
+          {
+            "id": "p6-q2-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "What do vertices represent?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Capital cities in Australia.",
+              "worked": "Each labelled vertex represents an Australian capital city.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 8
+          },
+          {
+            "id": "p6-q2-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "What do edges represent?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Flight paths between capital cities.",
+              "worked": "An edge joins two cities that have a direct flight path between them.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 8
+          },
+          {
+            "id": "p6-q2-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "What is the total number of flight paths?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$11$ flight paths.",
+              "worked": "Count each edge once. There are $11$ edges, so there are $11$ flight paths.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 8
+          },
+          {
+            "id": "p6-q2-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "How many flights are available from Sydney?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$5$.",
+              "worked": "Sydney is connected to Brisbane, Perth, Adelaide, Melbourne and Canberra, giving $5$ flights.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 8
+          },
+          {
+            "id": "p6-q2-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "What does the degree of a vertex represent?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The number of direct flight paths connected to that city.",
+              "worked": "The degree counts the edges incident to the vertex, so it gives the number of direct flight paths available from that city.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p6-q2-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "Determine the sum of the degrees of the vertices.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$22$.",
+              "worked": "The degrees of Darwin, Brisbane, Sydney, Canberra, Melbourne, Hobart, Adelaide and Perth are $2,2,5,2,4,1,3,3$ respectively.\n$$2+2+5+2+4+1+3+3=22.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p6-q2-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "In a million years, the capital cities would have moved due to plate tectonics.\nDraw the same flight paths onto these vertices.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p6-q2-g-scaffold",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 6 p6-q2-g-scaffold\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.9,-0.35) rectangle (7,4.6);\n\\coordinate (Canberra) at (2.6,4.25);\n\\coordinate (Brisbane) at (5.45,3.8);\n\\coordinate (Sydney) at (1.5,2.65);\n\\coordinate (Darwin) at (3.5,2.15);\n\\coordinate (Hobart) at (-0.55,1.6);\n\\coordinate (Melbourne) at (5.6,0.4);\n\\coordinate (Adelaide) at (0.55,-0.25);\n\\coordinate (Perth) at (3.5,-0.3);\n\\foreach \\v in {Canberra,Brisbane,Sydney,Darwin,Hobart,Melbourne,Adelaide,Perth}{\\fill (\\v) circle (1.7pt);}\n\\node[right] at (Canberra) {Canberra};\n\\node[right] at (Brisbane) {Brisbane};\n\\node[left] at (Sydney) {Sydney};\n\\node[right] at (Darwin) {Darwin};\n\\node[right] at (Hobart) {Hobart};\n\\node[right] at (Melbourne) {Melbourne};\n\\node[right] at (Adelaide) {Adelaide};\n\\node[right] at (Perth) {Perth};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 75,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 6,
+              "sourceRegion": "Question 2(g), rearranged vertices",
+              "description": "Eight city vertices with no edges, preserving the source rearrangement and clear drawing space. Canberra is highest, Brisbane upper right, Sydney upper left, Darwin central, Hobart farther left, Melbourne lower right, Adelaide bottom left and Perth bottom centre.",
+              "mathematics": "Students must copy all eleven connections from the geographical network without changing adjacency. Unmarked edge crossings do not create vertices.",
+              "answerVisibility": "Vertices and labels only; all response edges are hidden."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "The same eleven flight connections, as shown.",
+          "worked": "Keep the same pairs of connected cities and draw each flight path once. Moving the vertices changes the drawing but preserves every city's connections and degree.",
+          "solutionDiagrams": [
+            {
+              "id": "p6-q2-g-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 6 p6-q2-g-solution\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.9,-0.35) rectangle (7,4.6);\n\\coordinate (Canberra) at (2.6,4.25);\n\\coordinate (Brisbane) at (5.45,3.8);\n\\coordinate (Sydney) at (1.5,2.65);\n\\coordinate (Darwin) at (3.5,2.15);\n\\coordinate (Hobart) at (-0.55,1.6);\n\\coordinate (Melbourne) at (5.6,0.4);\n\\coordinate (Adelaide) at (0.55,-0.25);\n\\coordinate (Perth) at (3.5,-0.3);\n\\draw[line width=0.8pt] (Darwin)--(Perth) (Darwin)--(Brisbane) (Brisbane)--(Sydney) (Perth)--(Sydney) (Perth)--(Adelaide) (Adelaide)--(Sydney) (Adelaide)--(Melbourne) (Sydney)--(Melbourne) (Sydney)--(Canberra) (Canberra)--(Melbourne) (Melbourne)--(Hobart);\n\\foreach \\v in {Canberra,Brisbane,Sydney,Darwin,Hobart,Melbourne,Adelaide,Perth}{\\fill (\\v) circle (2.4pt);}\n\\node[above right=3pt,fill=white,inner sep=1pt] at (Canberra) {Canberra};\n\\node[right=3pt,fill=white,inner sep=1pt] at (Brisbane) {Brisbane};\n\\node[above left=3pt,fill=white,inner sep=1pt] at (Sydney) {Sydney};\n\\node[below right=3pt,fill=white,inner sep=1pt] at (Darwin) {Darwin};\n\\node[left=3pt,fill=white,inner sep=1pt] at (Hobart) {Hobart};\n\\node[right=3pt,fill=white,inner sep=1pt] at (Melbourne) {Melbourne};\n\\node[below left=3pt,fill=white,inner sep=1pt] at (Adelaide) {Adelaide};\n\\node[below=3pt,fill=white,inner sep=1pt] at (Perth) {Perth};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 6,
+                "sourceRegion": "Question 2(g), completed response",
+                "description": "Complete self-contained solution using the same vertex coordinates and bounding frame as the supplied rearranged scaffold. Labels use white clearance masks where edges pass nearby.",
+                "mathematics": "All eleven original edges are drawn: Darwin–Perth, Darwin–Brisbane, Brisbane–Sydney, Perth–Sydney, Perth–Adelaide, Adelaide–Sydney, Adelaide–Melbourne, Sydney–Melbourne, Sydney–Canberra, Canberra–Melbourne and Melbourne–Hobart.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p6-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p6-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p6-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p6-q2-root/label",
+                  "type": "item",
+                  "ref": "p6-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p6-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p6-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p6-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p6-q2-main-group:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p6-q2-main-group:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p6-q2-main-group:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p6-q2-main-group:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p6-q2-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-a/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-a/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-a/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-a/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p6-q2-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-b/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-b/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-b/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-b/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p6-q2-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-c/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-c/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-c/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-c/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p6-q2-d:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-d/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-d/label",
+                                          "title": "Label d"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-d/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-d/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-d/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-d/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part d",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p6-q2-e:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-e/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-e/label",
+                                          "title": "Label e"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-e/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-e/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-e/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-e/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part e",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p6-q2-f:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p6-q2-f/label",
+                                          "type": "item",
+                                          "ref": "p6-q2-f/label",
+                                          "title": "Label f"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-f/prompt",
+                                          "type": "item",
+                                          "ref": "p6-q2-f/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p6-q2-f/space",
+                                          "type": "item",
+                                          "ref": "p6-q2-f/space",
+                                          "title": "Answer space",
+                                          "height": 8
+                                        }
+                                      ],
+                                      "title": "Part f",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2,
+                              "weight": 1.137029024684573
+                            },
+                            {
+                              "id": "p6-q2-main-group:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p6-q2-flight-network",
+                                  "type": "item",
+                                  "ref": "p6-q2-flight-network",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 2,
+                              "weight": 0.8629709753154271
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p6-q2-g:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p6-q2-g/label",
+                          "type": "item",
+                          "ref": "p6-q2-g/label",
+                          "title": "Label g"
+                        },
+                        {
+                          "id": "p6-q2-g:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p6-q2-g:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p6-q2-g/prompt",
+                                  "type": "item",
+                                  "ref": "p6-q2-g/prompt",
+                                  "title": "Text"
+                                }
+                              ],
+                              "gap": 2,
+                              "weight": 1.0229507951132184
+                            },
+                            {
+                              "id": "p6-q2-g:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p6-q2-g-scaffold",
+                                  "type": "item",
+                                  "ref": "p6-q2-g-scaffold",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 2,
+                              "weight": 0.9770492048867816
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "layout:p6-q2-g/space",
+                          "type": "item",
+                          "ref": "p6-q2-g/space",
+                          "title": "Answer space",
+                          "height": 8
+                        }
+                      ],
+                      "title": "Part g",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p6-q2-a": 8,
+        "p6-q2-b": 8,
+        "p6-q2-c": 8,
+        "p6-q2-d": 8,
+        "p6-q2-e": 8,
+        "p6-q2-f": 8,
+        "p6-q2-g": 8
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:22.798Z",
+  "updatedAt": "2026-11-12T07:48:22.798Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p6-q2",
+    "sectionRole": "exercise"
+  }
+}

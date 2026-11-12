@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3a689f44-aa56-4122-9f6d-4fb24de53acb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-network-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Find a path satisfying prescribed endpoints and visiting every town once, then add its edge weights.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:09:00.962Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "faf72f3af730b1263abc43171a8f60dbbb0ca0a7b756be0a58001d7821b61f32",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/semantic-packets/assignments/assignment-eb648bc37b23964b03d6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p20-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Bailey is on holiday in Timboon and wants to visit a few nearby towns.\n\nIf the numbers represent the distance between towns in kilometres, what is the distance of the path that starts at Timboon, travels through each town once and ends at Kennedy’s Creek?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q6-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 20 p20-q6-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (1.8,4.0);\n\\coordinate (P) at (0,1.8);\n\\coordinate (C) at (2.2,1.25);\n\\coordinate (S) at (5.1,3.3);\n\\coordinate (K) at (5.5,1.45);\n\\coordinate (R) at (4.6,0);\n\\draw (T)--node[midway,above left=2pt] {$23$} (P);\n\\draw (P)--node[midway,above=3pt] {$21$} (C);\n\\draw (T)--node[midway,right=3pt] {$21$} (C);\n\\draw (T)--node[midway,above=3pt] {$25$} (S);\n\\draw (C)--node[midway,below left=2pt] {$22$} (R);\n\\draw (S)--node[midway,left=3pt] {$26$} (R);\n\\draw (S)--node[midway,right=3pt] {$18$} (K);\n\\draw (R)--node[midway,right=3pt] {$17$} (K);\n\\foreach \\v in {T,P,C,S,K,R} {\\fill (\\v) circle (2pt);}\n\\node[above left=4pt] at (T) {Timboon};\n\\node[below=5pt] at (P) {Peterborough};\n\\node[below left=5pt] at (C) {Port Campbell};\n\\node[above=5pt] at (S) {Simpson};\n\\node[right=5pt,align=left] at (K) {Kennedy's\\\\Creek};\n\\node[below=5pt] at (R) {Princetown};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 6 town network beneath the prompt",
+          "description": "Six town vertices and all eight undirected weighted edges. Ordinary source green edges and markers use house black. Town labels have explicit clearance from vertex markers.",
+          "mathematics": "Timboon–Peterborough 23; Peterborough–Port Campbell 21; Timboon–Port Campbell 21; Timboon–Simpson 25; Port Campbell–Princetown 22; Simpson–Princetown 26; Simpson–Kennedy’s Creek 18; Princetown–Kennedy’s Creek 17. All weights are kilometres.",
+          "answerVisibility": "All supplied towns and weights remain visible; no solution route is highlighted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$110\\text{ km}$",
+      "worked": "The path is Timboon → Peterborough → Port Campbell → Princetown → Simpson → Kennedy’s Creek. It visits each town once.\n\n$$\\begin{aligned}\\text{Distance}&=23+21+22+26+18\\\\&=110\\text{ km}\\end{aligned}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "ownerId": "p20-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q6-root/label",
+                  "type": "item",
+                  "ref": "p20-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p20-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q6-network",
+                  "type": "item",
+                  "ref": "p20-q6-network",
+                  "title": "Diagram",
+                  "width": 95
+                },
+                {
+                  "id": "layout:p20-q6-root/space",
+                  "type": "item",
+                  "ref": "p20-q6-root/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 6",
+              "gap": 2
+            }
+          }
+        },
+        "p20-q6-network": {
+          "diagramWidthMm": 95
+        }
+      },
+      "answerSpaces": {
+        "p20-q6-root": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:30.396Z",
+  "updatedAt": "2026-11-12T07:48:30.396Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p20-q6",
+    "sectionRole": "exercise"
+  }
+}

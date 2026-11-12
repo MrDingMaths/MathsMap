@@ -1,0 +1,811 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0f21be7d-baa5-4e77-9c46-2e2a2fb2a0e8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimum-spanning-tree",
+    "secondarySkillIds": [],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Apply Prim’s algorithm to small weighted networks, distinguishing parallel edges and excluding a loop.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:03:39.313Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5741b1c8fd865039eb00308c3f01c898d675df922a05a50c462da1bff5774651",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/lean-review/calls/content-1792821792014-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Construct the minimum spanning tree and calculate their weights.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q2-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.2);\\coordinate (B) at (0,0);\\coordinate (C) at (2,1.6);\\coordinate (D) at (4,3.05);\\coordinate (E) at (4,0.05);\n\\draw (A)--node[above=3pt]{$9$}(D);\n\\draw (A)--node[left=3pt]{$6$}(B);\n\\draw (A)--node[above right=2pt]{$2$}(C);\n\\draw (B)--node[above left=2pt]{$3$}(C);\n\\draw (C)--node[above right=2pt]{$4$}(E);\n\\draw (D)--node[right=3pt]{$8$}(E);\n\\draw (B)--node[above=3pt]{$5$}(E);\n\\draw (B) to[bend right=15] node[below=3pt]{$7$}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A){$A$};\\node[below left=3pt] at (B){$B$};\\node[above right=3pt] at (C){$C$};\\node[above right=3pt] at (D){$D$};\\node[below right=3pt] at (E){$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 2(a)",
+              "description": "Five-vertex network with two distinct B–E edges; the weight-7 edge curves below the weight-5 edge. Ordinary source colours are normalised to black.",
+              "mathematics": "AD=9, AB=6, AC=2, BC=3, CE=4, DE=8, BE=5 and BE=7.",
+              "answerVisibility": "All original edges and weights are givens; no spanning tree is highlighted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Edges $AC, BC, CE, DE$; weight $17$.",
+          "worked": "Starting at $A$, use Prim’s algorithm to select $AC$ (2), $CB$ (3), $CE$ (4), then $ED$ (8). Each edge joins the existing tree to a new vertex.\n$$\\begin{aligned}\\text{Total weight}&=2+3+4+8\\\\&=17\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p30-q2-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-a solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.2);\\coordinate (B) at (0,0);\\coordinate (C) at (2,1.6);\\coordinate (D) at (4,3.05);\\coordinate (E) at (4,0.05);\n\\draw (A)--node[above right=2pt]{$2$}(C);\\draw (B)--node[above left=2pt]{$3$}(C);\\draw (C)--node[above right=2pt]{$4$}(E);\\draw (D)--node[right=3pt]{$8$}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A){$A$};\\node[below left=3pt] at (B){$B$};\\node[above right=3pt] at (C){$C$};\\node[above right=3pt] at (D){$D$};\\node[below right=3pt] at (E){$E$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Question 2(a)",
+                "description": "Complete minimum spanning tree retaining the original vertex arrangement.",
+                "mathematics": "AC=2, BC=3, CE=4, DE=8; total 17.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p30-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q2-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1.7,2);\\coordinate (B) at (0,0.2);\\coordinate (C) at (3.8,0);\\coordinate (D) at (5.2,2);\n\\draw (A)--node[above left=3pt]{$3$}(B);\\draw (A)--node[above=3pt]{$5$}(D);\\draw (B)--node[above=3pt]{$4$}(D);\\draw (B)--node[below=3pt]{$1$}(C);\\draw (C)--node[right=3pt]{$2$}(D);\n\\draw (C) .. controls +(0.85,-0.55) and +(0.85,-1.05) .. (3.65,-0.8) .. controls (2.65,-0.8) and (2.85,-0.25) .. (C);\n\\node[right=3pt] at (4.15,-0.7){$6$};\n\\foreach \\v in {A,B,C,D}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A){$A$};\\node[left=4pt] at (B){$B$};\\node[below=4pt] at (C){$C$};\\node[above right=3pt] at (D){$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 2(b)",
+              "description": "Four-vertex network with a loop below C carrying weight 6. Ordinary source colours are normalised to black.",
+              "mathematics": "AB=3, AD=5, BD=4, BC=1, CD=2; loop CC=6.",
+              "answerVisibility": "The loop weight is a given, distinct from the supplied answer 6."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Edges $AB, BC, CD$; weight $6$.",
+          "worked": "Starting at $A$, select $AB$ (3), $BC$ (1), then $CD$ (2). The loop at $C$ cannot join a new vertex and is excluded.\n$$\\begin{aligned}\\text{Total weight}&=3+1+2\\\\&=6\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p30-q2-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-b solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1.7,2);\\coordinate (B) at (0,0.2);\\coordinate (C) at (3.8,0);\\coordinate (D) at (5.2,2);\n\\draw (A)--node[above left=3pt]{$3$}(B);\\draw (B)--node[below=3pt]{$1$}(C);\\draw (C)--node[right=3pt]{$2$}(D);\n\\foreach \\v in {A,B,C,D}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A){$A$};\\node[left=4pt] at (B){$B$};\\node[below right=3pt] at (C){$C$};\\node[above right=3pt] at (D){$D$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Question 2(b)",
+                "description": "Complete minimum spanning tree with the loop removed.",
+                "mathematics": "AB=3, BC=1, CD=2; total 6.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 35,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p30-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p30-q2-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-c-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (R) at (0,3);\\coordinate (T) at (4.3,3);\\coordinate (M) at (0,0);\\coordinate (S) at (4.3,0);\\coordinate (P) at (2.15,1.5);\n\\draw (R)--node[above=3pt]{$15$}(T);\\draw (R)--node[left=3pt]{$14$}(M);\\draw (M)--node[below=3pt]{$12$}(S);\\draw (T)--node[right=3pt]{$45$}(S);\n\\draw (R)--node[below left=2pt]{$15$}(P);\\draw (P)--node[above right=2pt]{$9$}(S);\\draw (M)--node[above left=2pt]{$30$}(P);\\draw (P)--node[above left=2pt]{$10$}(T);\n\\foreach \\v in {R,T,M,S,P}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (R){$R$};\\node[above right=3pt] at (T){$T$};\\node[below left=3pt] at (M){$M$};\\node[below right=3pt] at (S){$S$};\\node[above=5pt] at (P){$P$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 30,
+              "sourceRegion": "Question 2(c)",
+              "description": "Rectangular network with both diagonals meeting at the explicit central vertex P. Ordinary source colours are normalised to black.",
+              "mathematics": "RT=15, RM=14, MS=12, TS=45, RP=15, PS=9, MP=30, PT=10.",
+              "answerVisibility": "All original edges and weights are givens; no spanning tree is highlighted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Edges $RM, MS, SP, PT$; weight $45$.",
+          "worked": "Starting at $R$, select $RM$ (14), $MS$ (12), $SP$ (9), then $PT$ (10). At each step, choose the lowest-weight edge joining the existing tree to a new vertex.\n$$\\begin{aligned}\\text{Total weight}&=14+12+9+10\\\\&=45\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p30-q2-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q2-c solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (R) at (0,3);\\coordinate (T) at (4.3,3);\\coordinate (M) at (0,0);\\coordinate (S) at (4.3,0);\\coordinate (P) at (2.15,1.5);\n\\draw (R)--node[left=3pt]{$14$}(M);\\draw (M)--node[below=3pt]{$12$}(S);\\draw (P)--node[above right=2pt]{$9$}(S);\\draw (P)--node[above left=2pt]{$10$}(T);\n\\foreach \\v in {R,T,M,S,P}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (R){$R$};\\node[above right=3pt] at (T){$T$};\\node[below left=3pt] at (M){$M$};\\node[below right=3pt] at (S){$S$};\\node[above=5pt] at (P){$P$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Question 2(c)",
+                "description": "Complete minimum spanning tree retaining all five vertices.",
+                "mathematics": "RM=14, MS=12, SP=9, PT=10; total 45.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p31-mst-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-mst-d-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 diagram d\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-1.7,2.35);\\coordinate (B) at (0,2);\\coordinate (C) at (0,0);\\coordinate (D) at (2.1,0);\\coordinate (E) at (2.1,2);\\coordinate (F) at (3.8,1);\n\\draw (A)--node[above=3pt] {$2$}(B);\n\\draw (A)--node[left=3pt] {$6$}(C);\n\\draw (B)--node[left=3pt] {$2$}(C);\n\\draw (B)--node[above=3pt] {$2$}(E);\n\\draw (B)--node[below left=3pt] {$3$}(D);\n\\draw (C)--node[below=3pt] {$1$}(D);\n\\draw (D)--node[left=3pt] {$2$}(E);\n\\draw (E)--node[above right=3pt] {$3$}(F);\n\\draw (D)--node[below right=3pt] {$5$}(F);\n\\foreach \\v in {A,B,C,D,E,F}{\\fill (\\v) circle (2pt);}\n\\node[left=5pt] at (A) {$A$};\\node[above=5pt] at (B) {$B$};\\node[below=5pt] at (C) {$C$};\\node[below=5pt] at (D) {$D$};\\node[above=5pt] at (E) {$E$};\\node[right=5pt] at (F) {$F$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "part d, upper network",
+              "description": "Six-vertex undirected weighted network. Ordinary source blue edges and red vertex markers use house black; every vertex retains a visible marker.",
+              "mathematics": "AB=2, AC=6, BC=2, BE=2, BD=3, CD=1, DE=2, EF=3, DF=5.",
+              "answerVisibility": "All edges and weights are student-visible givens; no selected tree is shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "One minimum spanning tree has edges $AB,BC,CD,DE,EF$. Total weight: $10$.",
+          "worked": "Using Prim’s algorithm, start at $A$ and select $AB$, $BC$, $CD$, $DE$, then $EF$. At each step, choose a lowest-weight edge joining the existing tree to a new vertex. All six vertices are connected with five edges and no cycle.\n$$\\begin{aligned}\\text{Total weight}&=2+2+1+2+3\\\\&=10\\end{aligned}$$\nThe edge $BE$ may replace $BC$ or $DE$ to give another minimum spanning tree.",
+          "solutionDiagrams": [
+            {
+              "id": "p31-mst-d-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 diagram d minimum spanning tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-1.7,2.35);\\coordinate (B) at (0,2);\\coordinate (C) at (0,0);\\coordinate (D) at (2.1,0);\\coordinate (E) at (2.1,2);\\coordinate (F) at (3.8,1);\n\\draw (A)--node[above=3pt] {$2$}(B);\n\\draw (B)--node[left=3pt] {$2$}(C);\n\\draw (C)--node[below=3pt] {$1$}(D);\n\\draw (D)--node[left=3pt] {$2$}(E);\n\\draw (E)--node[above right=3pt] {$3$}(F);\n\\foreach \\v in {A,B,C,D,E,F}{\\fill (\\v) circle (2pt);}\n\\node[left=5pt] at (A) {$A$};\\node[above=5pt] at (B) {$B$};\\node[below=5pt] at (C) {$C$};\\node[below=5pt] at (D) {$D$};\\node[above=5pt] at (E) {$E$};\\node[right=5pt] at (F) {$F$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "part d",
+                "description": "Complete solution tree retaining the source vertex arrangement and showing only its five selected edges.",
+                "mathematics": "AB=2, BC=2, CD=1, DE=2, EF=3; total 10.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p31-mst-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-mst-e-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 diagram e\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2.6); \\coordinate (B) at (1.65,1.15); \\coordinate (C) at (0.2,-0.15); \\coordinate (D) at (-1.25,0.5); \\coordinate (E) at (-1.6,1.5);\n\\draw (E) to[out=100,in=160] node[pos=0.52,above=3pt] {$1$} (A);\n\\draw (E)--node[pos=0.5,above left=2pt] {$2$}(A);\n\\draw (A) to[out=20,in=55] node[pos=0.5,above right=2pt] {$2$}(B);\n\\draw (A)--node[pos=0.52,above right=2pt] {$3$}(B);\n\\draw (E)--node[pos=0.4,above=3pt] {$3$}(B);\n\\draw (A)--node[pos=0.7,right=3pt] {$4$}(C);\n\\draw (B)--node[midway,right=3pt] {$9$}(C);\n\\draw (C)--node[midway,below=3pt] {$2$}(D);\n\\draw (D)--node[midway,left=3pt] {$5$}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill[black] (\\v) circle (1.6pt);}\n\\node[above=5pt] at (A) {$A$}; \\node[right=5pt] at (B) {$B$}; \\node[below=5pt] at (C) {$C$}; \\node[below left=4pt] at (D) {$D$}; \\node[left=5pt] at (E) {$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "part e",
+              "description": "Five-vertex weighted multigraph. Curved and straight AE and AB edges remain distinct; AC crosses EB without a vertex. Ordinary source blue edges and red vertex markers use house black.",
+              "mathematics": "AE weights 1 and 2; AB weights 2 and 3; EB=3, AC=4, BC=9, CD=2, DE=5.",
+              "answerVisibility": "All source givens visible; no selected tree edges or total supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "AE (weight 1), AB (weight 2), AC and CD; total weight $9$.",
+          "worked": "Using Prim’s algorithm, start at A. Connect AE using the curved edge of weight 1, then AB using the curved edge of weight 2. Connect AC with weight 4, then CD with weight 2. All five vertices are connected without a cycle.\n\n$$\\begin{aligned}\\text{Total weight}&=1+2+4+2\\\\&=9\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p31-mst-e-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part e minimum spanning tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2.6); \\coordinate (B) at (1.65,1.15); \\coordinate (C) at (0.2,-0.15); \\coordinate (D) at (-1.25,0.5); \\coordinate (E) at (-1.6,1.5);\n\\draw (E) to[out=100,in=160] node[pos=0.52,above=3pt] {$1$}(A);\n\\draw (A) to[out=20,in=55] node[pos=0.5,above right=2pt] {$2$}(B);\n\\draw (A)--node[pos=0.65,right=3pt] {$4$}(C);\n\\draw (C)--node[midway,below=3pt] {$2$}(D);\n\\foreach \\v in {A,B,C,D,E}{\\fill[black] (\\v) circle (1.6pt);}\n\\node[above=5pt] at (A) {$A$}; \\node[right=5pt] at (B) {$B$}; \\node[below=5pt] at (C) {$C$}; \\node[below left=4pt] at (D) {$D$}; \\node[left=5pt] at (E) {$E$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "part e",
+                "description": "Complete minimum spanning tree retaining the two selected outer curved edges.",
+                "mathematics": "AE=1, AB=2, AC=4, CD=2; total 9.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p31-mst-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-mst-f-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part f\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (M) at (0,2.4); \\coordinate (L) at (3,2.4); \\coordinate (K) at (5.4,2.4);\n\\coordinate (E) at (0,0); \\coordinate (G) at (3,0); \\coordinate (H) at (5.4,0);\n\\draw (M)--node[above]{12}(L);\n\\draw (M)--node[left]{15}(E);\n\\draw (E)--node[pos=.46,above left]{20}(L);\n\\draw (E)--node[below]{24}(G);\n\\draw (L)--node[left]{8}(G);\n\\draw (L)--node[pos=.28,right]{21}(H);\n\\draw (G)--node[pos=.73,above left]{17}(K);\n\\draw (G)--node[below]{14}(H);\n\\draw (K)--node[right]{16}(H);\n\\foreach \\v in {M,L,K,E,G,H}{\\fill (\\v) circle[radius=2pt];}\n\\node[above=4pt] at (M){$M$}; \\node[above=4pt] at (L){$L$}; \\node[above=4pt] at (K){$K$};\n\\node[below left=3pt] at (E){$E$}; \\node[below=4pt] at (G){$G$}; \\node[below right=3pt] at (H){$H$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "part f",
+              "description": "Six-vertex weighted network. LH and GK cross without a vertex. Ordinary source blue edges and markers use house black.",
+              "mathematics": "ML=12, ME=15, EL=20, EG=24, LG=8, LH=21, GK=17, GH=14, KH=16.",
+              "answerVisibility": "All given edges and weights visible; no selected tree."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Edges $ML,LG,GH,ME,HK$; total weight $65$.",
+          "worked": "Starting at $M$, use Prim’s algorithm to select $ML=12$, $LG=8$, $GH=14$, $ME=15$ and $HK=16$, each time joining a new vertex by the lowest-weight available edge. These five edges connect all six vertices without a cycle.\n$$\\begin{aligned}\\text{Total weight}&=12+8+14+15+16\\\\&=65\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p31-mst-f-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part f solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (M) at (0,2.4); \\coordinate (L) at (3,2.4); \\coordinate (K) at (5.4,2.4);\n\\coordinate (E) at (0,0); \\coordinate (G) at (3,0); \\coordinate (H) at (5.4,0);\n\\draw (M)--node[above]{12}(L);\n\\draw (M)--node[left]{15}(E);\n\\draw (L)--node[left]{8}(G);\n\\draw (G)--node[below]{14}(H);\n\\draw (K)--node[right]{16}(H);\n\\foreach \\v in {M,L,K,E,G,H}{\\fill (\\v) circle[radius=2pt];}\n\\node[above=4pt] at (M){$M$}; \\node[above=4pt] at (L){$L$}; \\node[above=4pt] at (K){$K$};\n\\node[below left=3pt] at (E){$E$}; \\node[below=4pt] at (G){$G$}; \\node[below right=3pt] at (H){$H$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "part f",
+                "description": "Complete minimum spanning tree retaining the original vertex positions.",
+                "mathematics": "Tree edges ML=12, LG=8, GH=14, ME=15, HK=16; total 65.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 35,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p31-mst-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-mst-g-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part g\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0.7);\n\\coordinate (B) at (2.2,2.1);\n\\coordinate (C) at (1.6,1.08);\n\\coordinate (D) at (3.75,1.08);\n\\coordinate (E) at (3.1,0);\n\\draw (A)--node[midway,above left]{20}(B);\n\\draw (A)--node[midway,below]{35}(E);\n\\draw (B)--node[midway,right=2pt]{10}(C);\n\\draw (B)--node[midway,above right]{15}(D);\n\\draw (C)--node[midway,above]{20}(D);\n\\draw (C)--node[midway,below left]{15}(E);\n\\draw (D)--node[midway,right]{25}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill[black] (\\v) circle (1.6pt);}\n\\node[left=4pt] at (A){$A$};\n\\node[above=4pt] at (B){$B$};\n\\node[left=4pt] at (C){$C$};\n\\node[right=4pt] at (D){$D$};\n\\node[below=4pt] at (E){$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Part g",
+              "description": "Five-vertex undirected weighted network. A is left, B top, C interior left, D right and E bottom right. Ordinary source blue edges and red vertex markers use house black.",
+              "mathematics": "AB=20, AE=35, BC=10, BD=15, CD=20, CE=15, DE=25. No other edges.",
+              "answerVisibility": "All given vertices, edges and weights are visible; no tree is highlighted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Edges $AB$, $BC$, $BD$ and $CE$; total weight $60$.",
+          "worked": "Using Prim’s algorithm, start at $A$. Select $AB$ (20), then $BC$ (10). Select $BD$ (15) and $CE$ (15), in either order. All five vertices are connected without a cycle.\n$$20+10+15+15=60$$",
+          "solutionDiagrams": [
+            {
+              "id": "p31-mst-g-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part g minimum spanning tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0.7);\n\\coordinate (B) at (2.2,2.1);\n\\coordinate (C) at (1.6,1.08);\n\\coordinate (D) at (3.75,1.08);\n\\coordinate (E) at (3.1,0);\n\\draw (A)--node[midway,above left]{20}(B);\n\\draw (B)--node[midway,right=2pt]{10}(C);\n\\draw (B)--node[midway,above right]{15}(D);\n\\draw (C)--node[midway,below left]{15}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill[black] (\\v) circle (1.6pt);}\n\\node[left=4pt] at (A){$A$};\n\\node[above=4pt] at (B){$B$};\n\\node[left=4pt] at (C){$C$};\n\\node[right=4pt] at (D){$D$};\n\\node[below=4pt] at (E){$E$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "Part g",
+                "description": "Complete minimum spanning tree, retaining the source vertex positions.",
+                "mathematics": "Edges AB=20, BC=10, BD=15 and CE=15 connect all five vertices without cycles; total 60.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 40,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p31-mst-part-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-mst-h-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part h\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-2,0); \\coordinate (B) at (-1,1.73); \\coordinate (C) at (1,1.73); \\coordinate (D) at (2,0); \\coordinate (E) at (1,-1.73); \\coordinate (F) at (-1,-1.73); \\coordinate (G) at (0,0);\n\\draw (A)--node[midway,above left] {$5$}(B);\n\\draw (B)--node[midway,above] {$6$}(C);\n\\draw (C)--node[midway,above right] {$6$}(D);\n\\draw (D)--node[midway,below right] {$5$}(E);\n\\draw (E)--node[midway,below] {$3$}(F);\n\\draw (F)--node[midway,below left] {$3$}(A);\n\\draw (A)--node[midway,below] {$2$}(G);\n\\draw (B)--node[midway,below left] {$3$}(G);\n\\draw (C)--node[midway,above left] {$4$}(G);\n\\draw (D)--node[midway,above] {$7$}(G);\n\\draw (E)--node[midway,above right] {$4$}(G);\n\\draw (F)--node[midway,below right] {$5$}(G);\n\\foreach \\v in {A,B,C,D,E,F,G} \\fill (\\v) circle (1.5pt);\n\\node[left=4pt] at (A) {$A$}; \\node[above left=4pt] at (B) {$B$}; \\node[above right=4pt] at (C) {$C$}; \\node[right=4pt] at (D) {$D$}; \\node[below right=4pt] at (E) {$E$}; \\node[below left=4pt] at (F) {$F$}; \\node[above=7pt] at (G) {$G$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Part h, bottom network",
+              "description": "Hexagonal network with central vertex G. Ordinary source blue edges and red vertex markers are rendered black under house style.",
+              "mathematics": "Outer edges AB=5, BC=6, CD=6, DE=5, EF=3, FA=3; spokes AG=2, BG=3, CG=4, DG=7, EG=4, FG=5. All spokes meet at vertex G.",
+              "answerVisibility": "All supplied vertices, edges and weights remain visible; no minimum spanning tree is indicated."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "One minimum spanning tree: $AG, BG, AF, FE, GC, ED$. Total weight: $20$.",
+          "worked": "Using Prim’s algorithm, start at $A$ and add $AG(2)$, $GB(3)$, $AF(3)$, $FE(3)$, $GC(4)$ and $ED(5)$. Each edge joins a new vertex without forming a cycle.\n\n$$\\text{Total weight}=2+3+3+3+4+5=20.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p31-mst-h-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 part h minimum spanning tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-2,0); \\coordinate (B) at (-1,1.73); \\coordinate (C) at (1,1.73); \\coordinate (D) at (2,0); \\coordinate (E) at (1,-1.73); \\coordinate (F) at (-1,-1.73); \\coordinate (G) at (0,0);\n\\draw (A)--node[midway,below] {$2$}(G);\n\\draw (G)--node[midway,below left] {$3$}(B);\n\\draw (A)--node[midway,below left] {$3$}(F);\n\\draw (F)--node[midway,below] {$3$}(E);\n\\draw (G)--node[midway,above left] {$4$}(C);\n\\draw (E)--node[midway,below right] {$5$}(D);\n\\foreach \\v in {A,B,C,D,E,F,G} \\fill (\\v) circle (1.5pt);\n\\node[left=4pt] at (A) {$A$}; \\node[above left=4pt] at (B) {$B$}; \\node[above right=4pt] at (C) {$C$}; \\node[right=4pt] at (D) {$D$}; \\node[below right=4pt] at (E) {$E$}; \\node[below left=4pt] at (F) {$F$}; \\node[above=7pt] at (G) {$G$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 31,
+                "sourceRegion": "Part h",
+                "description": "Complete minimum spanning tree using the source vertex arrangement.",
+                "mathematics": "Edges AG=2, BG=3, AF=3, FE=3, GC=4 and ED=5 connect all seven vertices with six edges and total weight 20.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q2-root/label",
+                  "type": "item",
+                  "ref": "p30-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p30-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p30-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q2-a/label",
+                          "type": "item",
+                          "ref": "p30-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q2-a-diagram",
+                          "type": "item",
+                          "ref": "p30-q2-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p30-q2-a/space",
+                          "type": "item",
+                          "ref": "p30-q2-a/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p30-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q2-b/label",
+                          "type": "item",
+                          "ref": "p30-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q2-b-diagram",
+                          "type": "item",
+                          "ref": "p30-q2-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p30-q2-b/space",
+                          "type": "item",
+                          "ref": "p30-q2-b/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p30-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q2-c/label",
+                          "type": "item",
+                          "ref": "p30-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p30-q2-c-diagram",
+                          "type": "item",
+                          "ref": "p30-q2-c-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p30-q2-c/space",
+                          "type": "item",
+                          "ref": "p30-q2-c/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-mst-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-mst-d/label",
+                          "type": "item",
+                          "ref": "p31-mst-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p31-mst-d-network",
+                          "type": "item",
+                          "ref": "p31-mst-d-network",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p31-mst-d/space",
+                          "type": "item",
+                          "ref": "p31-mst-d/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-mst-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-mst-e/label",
+                          "type": "item",
+                          "ref": "p31-mst-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p31-mst-e-network",
+                          "type": "item",
+                          "ref": "p31-mst-e-network",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p31-mst-e/space",
+                          "type": "item",
+                          "ref": "p31-mst-e/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-mst-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-mst-f/label",
+                          "type": "item",
+                          "ref": "p31-mst-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p31-mst-f-network",
+                          "type": "item",
+                          "ref": "p31-mst-f-network",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p31-mst-f/space",
+                          "type": "item",
+                          "ref": "p31-mst-f/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-mst-g:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-mst-g/label",
+                          "type": "item",
+                          "ref": "p31-mst-g/label",
+                          "title": "Label g"
+                        },
+                        {
+                          "id": "layout:p31-mst-g-network",
+                          "type": "item",
+                          "ref": "p31-mst-g-network",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p31-mst-g/space",
+                          "type": "item",
+                          "ref": "p31-mst-g/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part g",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-mst-part-h:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-mst-part-h/label",
+                          "type": "item",
+                          "ref": "p31-mst-part-h/label",
+                          "title": "Label h"
+                        },
+                        {
+                          "id": "layout:p31-mst-h-network",
+                          "type": "item",
+                          "ref": "p31-mst-h-network",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p31-mst-part-h/space",
+                          "type": "item",
+                          "ref": "p31-mst-part-h/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part h",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 2",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p30-q2-a": 0,
+        "p30-q2-b": 0,
+        "p30-q2-c": 0,
+        "p31-mst-d": 0,
+        "p31-mst-e": 0,
+        "p31-mst-f": 0,
+        "p31-mst-g": 0,
+        "p31-mst-part-h": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:34.976Z",
+  "updatedAt": "2026-11-12T07:48:34.976Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p30-q2",
+    "sectionRole": "exercise"
+  }
+}

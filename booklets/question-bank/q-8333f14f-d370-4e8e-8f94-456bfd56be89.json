@@ -1,0 +1,1349 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8333f14f-d370-4e8e-8f94-456bfd56be89",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimum-spanning-tree",
+    "secondarySkillIds": [
+      "construct-network-diagram",
+      "shortest-path"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Convert the triangular travel-time table into a weighted graph, construct its minimum spanning tree, then independently find a shortest route and check whether its edges occur in the tree.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:43.774Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9cddc48c202bfc3e5a1131686c88ee40ac99920726cc6a09eb8f04aeed2c1c70",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/00365bb331c81eefacc2f755918bd6034cb44eccc34a1694d4750a0612b89611-1793876666297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p42-q5-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The table shows the travelling times between 6 locations.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p42-q5-table",
+          "type": "table",
+          "widthMm": 91,
+          "marginBefore": 2,
+          "marginAfter": 2,
+          "borderColour": "#cccccc",
+          "borderWidthMm": 0.26,
+          "rowHeights": [],
+          "annotations": [],
+          "border": true,
+          "padding": 1,
+          "widths": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "rows": [
+            [
+              {
+                "id": "p42-q5-t00",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": false,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": []
+              },
+              {
+                "id": "p42-q5-t01",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t01-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Cron",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t02",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t02-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Cam",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t03",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t03-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Liv",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t04",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t04-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Par",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t05",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t05-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Horn",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p42-q5-t10",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t10-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Syd",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t11",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t11-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "38",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t12",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t12-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t13",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t13-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "38",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t14",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t14-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "39",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t15",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t15-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "41",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p42-q5-t20",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": false,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": []
+              },
+              {
+                "id": "p42-q5-t21",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t21-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Cron",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t22",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t22-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t23",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t23-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "47",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t24",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t24-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "59",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t25",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t25-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p42-q5-t30",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": false,
+                "rotation": 0,
+                "colspan": 2,
+                "rowspan": 1,
+                "blocks": []
+              },
+              {
+                "id": "p42-q5-t32",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t32-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Cam",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t33",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t33-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "26",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t34",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t34-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t35",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t35-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p42-q5-t40",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": false,
+                "rotation": 0,
+                "colspan": 3,
+                "rowspan": 1,
+                "blocks": []
+              },
+              {
+                "id": "p42-q5-t43",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t43-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Liv",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t44",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t44-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "31",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t45",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t45-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "–",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p42-q5-t50",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": false,
+                "rotation": 0,
+                "colspan": 4,
+                "rowspan": 1,
+                "blocks": []
+              },
+              {
+                "id": "p42-q5-t54",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t54-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Par",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p42-q5-t55",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p42-q5-t55-p",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "34",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q5-map",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q5-map\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Horn) at (3.4,5.0);\\coordinate (Par) at (2.6,3.2);\\coordinate (Syd) at (5,2.4);\\coordinate (Liv) at (1.7,1.9);\\coordinate (Cam) at (-0.6,0.7);\\coordinate (Cron) at (4.3,0.2);\n\\foreach \\v in {Horn,Par,Syd,Liv,Cam,Cron}{\\fill (\\v) circle (1.7pt);}\n\\node[below=4pt] at (Horn) {Hornsby};\\node[below=4pt] at (Par) {Parramatta};\\node[above left=4pt] at (Syd) {Sydney};\\node[left=4pt] at (Liv) {Liverpool};\\node[right=4pt] at (Cam) {Campbelltown};\\node[right=4pt] at (Cron) {Cronulla};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 5 location map",
+          "description": "Editable location schematic retaining all six names and their relative geographical positions. Decorative land fill and coastline are omitted.",
+          "mathematics": "Six locations, with no supplied network connections or weights on the map.",
+          "answerVisibility": "Permanent location givens only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q5-construction",
+        "type": "part",
+        "label": "a",
+        "prompt": "Construct a graph based on the information in the table.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The weighted network is shown.",
+          "worked": "Use one vertex for each location. Join each pair with a listed travelling time and label that edge with its weight. A dash gives no direct edge.",
+          "solutionDiagrams": [
+            {
+              "id": "p42-q5-network-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q5-network-solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Cam) at (0,0);\\coordinate (Liv) at (2,1);\\coordinate (Par) at (2,3.5);\\coordinate (Horn) at (5,3.5);\\coordinate (Syd) at (5,1);\\coordinate (Cron) at (3,-1.5);\n\\draw[line width=0.8pt] (Cam)--node[below=4pt,pos=0.45] {26}(Liv);\n\\draw[line width=0.8pt] (Liv)--node[left] {31}(Par);\n\\draw[line width=0.8pt] (Par)--node[above] {34}(Horn);\n\\draw[line width=0.8pt] (Horn)--node[right] {41}(Syd);\n\\draw[line width=0.8pt] (Liv)--node[above] {38}(Syd);\n\\draw[line width=0.8pt] (Par)--node[above right,pos=0.56] {39}(Syd);\n\\draw[line width=0.8pt] (Syd)--node[below right] {38}(Cron);\n\\draw[line width=0.8pt] (Liv)--node[left] {47}(Cron);\n\\draw[line width=0.8pt] (Par) to[bend right=55] node[left=4pt,pos=0.28] {59}(Cron);\n\\foreach \\v in {Cam,Liv,Par,Horn,Syd,Cron}{\\fill (\\v) circle (1.8pt);}\n\\node[left=4pt] at (Cam) {Cam};\\node[above right=4pt] at (Liv) {Liv};\\node[above=4pt] at (Par) {Par};\\node[above=4pt] at (Horn) {Horn};\\node[right=4pt] at (Syd) {Syd};\\node[below=4pt] at (Cron) {Cron};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 42,
+                "sourceRegion": "Question 5 table",
+                "description": "Complete undirected weighted network using the source abbreviations. Crossings without marked dots are not vertices.",
+                "mathematics": "Edges: Syd–Cron 38, Syd–Liv 38, Syd–Par 39, Syd–Horn 41, Cron–Liv 47, Cron–Par 59, Cam–Liv 26, Liv–Par 31, Par–Horn 34.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p42-q5-a",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw the minimum spanning tree for the network. What is the sum of the edge weights?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cam–Liv, Liv–Par, Par–Horn, Liv–Syd and Syd–Cron; total weight $167$.",
+          "worked": "Select the smallest edges without forming a cycle: Cam–Liv ($26$), Liv–Par ($31$), Par–Horn ($34$), Liv–Syd ($38$) and Syd–Cron ($38$). These five edges connect all six vertices.\n$$26+31+34+38+38=167.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p42-q5-mst-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q5-mst-solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Cam) at (0,0);\\coordinate (Liv) at (2,1);\\coordinate (Par) at (2,3.5);\\coordinate (Horn) at (5,3.5);\\coordinate (Syd) at (5,1);\\coordinate (Cron) at (3,-1.5);\n\\draw[line width=0.8pt] (Cam)--node[above left] {26}(Liv)--node[left] {31}(Par)--node[above] {34}(Horn);\n\\draw[line width=0.8pt] (Liv)--node[above] {38}(Syd)--node[below right] {38}(Cron);\n\\foreach \\v in {Cam,Liv,Par,Horn,Syd,Cron}{\\fill (\\v) circle (1.8pt);}\n\\node[left=4pt] at (Cam) {Cam};\\node[left=4pt] at (Liv) {Liv};\\node[above=4pt] at (Par) {Par};\\node[above=4pt] at (Horn) {Horn};\\node[right=4pt] at (Syd) {Syd};\\node[below=4pt] at (Cron) {Cron};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 42,
+                "sourceRegion": "Question 5(a)",
+                "description": "Completed minimum spanning tree, with all six vertices and five weighted edges.",
+                "mathematics": "Cam–Liv 26, Liv–Par 31, Par–Horn 34, Liv–Syd 38, Syd–Cron 38; total 167.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p42-q5-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "Describe the shortest path between Cronulla and Hornsby. Is it contained on the minimum spanning tree?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cronulla–Sydney–Hornsby. No.",
+          "worked": "From Cronulla, the lowest accumulated weights are Sydney $38$, Liverpool $47$, Campbelltown $73$, Parramatta $59$ and Hornsby $79$. Trace back from Hornsby through Sydney to Cronulla.\n$$38+41=79.$$\nThe shortest path is Cronulla–Sydney–Hornsby. It is not contained in the minimum spanning tree because Sydney–Hornsby is not a tree edge. The tree route is Cronulla–Sydney–Liverpool–Parramatta–Hornsby, with weight $38+38+31+34=141$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p42-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q5-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "feedback:p42-q5-block",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "feedback:p42-q5-root/label",
+                  "type": "item",
+                  "ref": "p42-q5-root/label"
+                },
+                {
+                  "id": "feedback:p42-q5-root/prompt#p42-q5-stem",
+                  "type": "item",
+                  "ref": "p42-q5-root/prompt#p42-q5-stem"
+                },
+                {
+                  "id": "feedback:p42-map-table",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "feedback:p42-q5-map",
+                      "type": "item",
+                      "ref": "p42-q5-map",
+                      "width": 70
+                    },
+                    {
+                      "id": "feedback:p42-q5-root/prompt#p42-q5-table",
+                      "type": "item",
+                      "ref": "p42-q5-root/prompt#p42-q5-table"
+                    }
+                  ],
+                  "gap": 4
+                },
+                {
+                  "id": "p42-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p42-q5-construction:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-construction/label",
+                          "type": "item",
+                          "ref": "p42-q5-construction/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p42-q5-construction/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-construction/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-construction/space",
+                          "type": "item",
+                          "ref": "p42-q5-construction/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p42-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-a/label",
+                          "type": "item",
+                          "ref": "p42-q5-a/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p42-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-a/space",
+                          "type": "item",
+                          "ref": "p42-q5-a/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p42-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-b/label",
+                          "type": "item",
+                          "ref": "p42-q5-b/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p42-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-b/space",
+                          "type": "item",
+                          "ref": "p42-q5-b/space",
+                          "title": "Answer space",
+                          "height": 10
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p42-q5-a": 30,
+        "p42-q5-construction": 30,
+        "p42-q5-b": 10
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:41.159Z",
+  "updatedAt": "2026-11-12T07:48:41.163Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p42-q5-block",
+    "sectionRole": "exercise"
+  }
+}

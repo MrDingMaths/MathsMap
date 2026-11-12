@@ -1,0 +1,231 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-945f2796-8a17-4388-95b4-bc569bd7f08b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimal-connector",
+    "secondarySkillIds": [
+      "minimum-spanning-tree"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a minimum spanning tree from a specified starting vertex and interpret its total weight as pipe length.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:48:08.312Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "418be78ce50598998bbe9657ed617fa6b53df1865cfc047de2ec09f604111ce2",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/lean-review/calls/content-1792820857423-20/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Water is to be piped from a water tank to seven outlets.\nThe possible pipe connections are shown. The distances, in km, are shown as edge weights.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q1-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q1-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.2);\\coordinate (B) at (4.8,3.3);\\coordinate (C) at (3.6,2.2);\\coordinate (T) at (2.15,2.05);\\coordinate (D) at (2.75,-0.1);\\coordinate (E) at (-0.2,-0.1);\\coordinate (F) at (-2.35,1.4);\\coordinate (G) at (0.25,1.95);\n\\draw (A)--node[above]{13}(B);\n\\draw (A)--node[above right]{11}(T);\n\\draw (A)--node[left]{6}(G);\n\\draw (A)--node[above left]{12}(F);\n\\draw (G)--node[left]{10}(E);\n\\draw (F)--node[below left]{7}(E);\n\\draw (E)--node[below right]{8}(T);\n\\draw (E)--node[below]{9}(D);\n\\draw (T)--node[right]{5}(D);\n\\draw (T)--node[below]{2}(C);\n\\draw (C)--node[above left]{6}(B);\n\\draw (B)--node[right]{11}(D);\n\\foreach \\v in {A,B,C,T,D,E,F,G}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A){Outlet $A$};\\node[above=3pt] at (B){Outlet $B$};\\node[above left=3pt] at (C){Outlet $C$};\\node[left=4pt] at (T){Tank};\\node[below=3pt] at (D){Outlet $D$};\\node[below=3pt] at (E){Outlet $E$};\\node[left=3pt] at (F){Outlet $F$};\\node[left=4pt] at (G){Outlet $G$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 105,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 1 shared network",
+          "description": "Eight marked vertices and twelve weighted undirected edges. Outlet G subdivides the A-to-E route; Outlet C subdivides the Tank-to-B route. Ordinary edges, markers and labels use black.",
+          "mathematics": "AB=13, A–Tank=11, AG=6, AF=12, GE=10, FE=7, E–Tank=8, ED=9, Tank–D=5, Tank–C=2, CB=6, BD=11; weights are kilometres.",
+          "answerVisibility": "All network givens remain visible; no selected spanning-tree edges are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Starting at the tank, construct the minimum spanning tree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tank–C, Tank–D, C–B, Tank–E, E–F, E–G and G–A.",
+          "worked": "Starting at the tank, successively select the least-weight edge connecting the current tree to a new vertex: Tank–C (2), Tank–D (5), C–B (6), Tank–E (8), E–F (7), E–G (10), G–A (6). All eight vertices are connected by seven edges with no cycle.",
+          "solutionDiagrams": [
+            {
+              "id": "p34-q1-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q1-a-tree\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.2);\\coordinate (B) at (4.8,3.3);\\coordinate (C) at (3.6,2.2);\\coordinate (T) at (2.15,2.05);\\coordinate (D) at (2.75,-0.1);\\coordinate (E) at (-0.2,-0.1);\\coordinate (F) at (-2.35,1.4);\\coordinate (G) at (0.25,1.95);\n\\draw (T)--node[below]{2}(C);\n\\draw (T)--node[right]{5}(D);\n\\draw (C)--node[above left]{6}(B);\n\\draw (T)--node[below right]{8}(E);\n\\draw (E)--node[below left]{7}(F);\n\\draw (E)--node[left]{10}(G);\n\\draw (G)--node[left]{6}(A);\n\\foreach \\v in {A,B,C,T,D,E,F,G}{\\fill (\\v) circle (2pt);}\n\\node[above left=5pt] at (A){Outlet $A$};\\node[above=5pt] at (B){Outlet $B$};\\node[right=5pt] at (C){Outlet $C$};\\node[above left=5pt] at (T){Tank};\\node[below right=6pt] at (D){Outlet $D$};\\node[below left=6pt] at (E){Outlet $E$};\\node[left=5pt] at (F){Outlet $F$};\\node[left=5pt] at (G){Outlet $G$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 105,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 34,
+                "sourceRegion": "Question 1a",
+                "description": "Complete minimum spanning tree retaining the source vertex positions, outlet labels and selected edge weights.",
+                "mathematics": "Selected edges: Tank–C 2, Tank–D 5, C–B 6, Tank–E 8, E–F 7, E–G 10, G–A 6.",
+                "answerVisibility": "Answer-only figure."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p34-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the minimum length of pipe required?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$44\\text{ km}$",
+          "worked": "$$\\begin{aligned}\\text{Minimum pipe length}&=2+5+6+8+7+10+6\\\\&=44\\text{ km}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q1-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q1-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q1-root/label",
+                  "type": "item",
+                  "ref": "p34-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p34-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p34-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p34-q1-network",
+                  "type": "item",
+                  "ref": "p34-q1-network",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p34-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q1-a/label",
+                          "type": "item",
+                          "ref": "p34-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p34-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p34-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q1-a/space",
+                          "type": "item",
+                          "ref": "p34-q1-a/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p34-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q1-b/label",
+                          "type": "item",
+                          "ref": "p34-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p34-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p34-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q1-b/space",
+                          "type": "item",
+                          "ref": "p34-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p34-q1-a": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:37.836Z",
+  "updatedAt": "2026-11-12T07:48:37.836Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p34-q1-block",
+    "sectionRole": "exercise"
+  }
+}

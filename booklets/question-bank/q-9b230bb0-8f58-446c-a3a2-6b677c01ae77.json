@@ -1,0 +1,292 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9b230bb0-8f58-446c-a3a2-6b677c01ae77",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-network-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read the edge weights along each supplied route and compare their sums with 20.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:35:57.286Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "abd020f72cb240a3d35f29cb63466c4116c095fa6604330b89d35d2829180c93",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/lean-review/calls/content-1792816533477-19/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A route through the following weighted graph has a total weight of 20. What could the route be?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\normalsize,text=black},weight/.style={fill=white,inner sep=1.5pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1,-1.4);\n\\coordinate (C) at (1.5,1.5);\n\\coordinate (D) at (2.5,0);\n\\coordinate (E) at (3.5,-1.4);\n\\coordinate (G) at (3.5,1.5);\n\\coordinate (F) at (6,0.05);\n\\draw (A)--node[weight,above left] {4}(C);\n\\draw (A)--node[weight,below left] {3}(B);\n\\draw (B)--node[weight,below right] {4}(D);\n\\draw (C)--node[weight,left] {3}(D);\n\\draw (C)--node[weight,above] {4}(G);\n\\draw (G)--node[weight,above right] {5}(F);\n\\draw (D)--node[weight,above] {6}(F);\n\\draw (D)--node[weight,left] {3}(E);\n\\draw (E)--node[weight,below right] {5}(F);\n\\foreach \\v in {A,B,C,D,E,F,G}{\\fill[black] (\\v) circle (2pt);}\n\\node[above left=4pt] at (A) {$A$};\n\\node[below=4pt] at (B) {$B$};\n\\node[above=4pt] at (C) {$C$};\n\\node[above right=4pt] at (D) {$D$};\n\\node[below=4pt] at (E) {$E$};\n\\node[right=4pt] at (F) {$F$};\n\\node[above=4pt] at (G) {$G$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 3 weighted network",
+          "description": "Undirected seven-vertex network. C–G is horizontal and D–F is approximately horizontal. All endpoints have visible markers and offset labels. Source green edges and markers become ordinary black marks under house style.",
+          "mathematics": "AC=4, AB=3, BD=4, CD=3, CG=4, GF=5, DF=6, DE=3, EF=5. No additional edges, arrows or crossing vertices.",
+          "answerVisibility": "All vertices, edges and weights are permanent student givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q3-response",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p19-q3-options",
+              "type": "layout",
+              "arrangement": "parallel",
+              "title": "",
+              "border": false,
+              "padding": 3,
+              "margin": 3,
+              "gap": 3,
+              "columns": 4,
+              "slots": [
+                {
+                  "id": "p19-q3-option-slot-a",
+                  "blocks": [
+                    {
+                      "id": "p19-q3-choice-a",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "a",
+                          "marks": [
+                            "bold"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": "  A B D C G F",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p19-q3-option-slot-b",
+                  "blocks": [
+                    {
+                      "id": "p19-q3-choice-b",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "b",
+                          "marks": [
+                            "bold"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": "  A C D E F G",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p19-q3-option-slot-c",
+                  "blocks": [
+                    {
+                      "id": "p19-q3-choice-c",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "c",
+                          "marks": [
+                            "bold"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": "  B D F E D",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p19-q3-option-slot-d",
+                  "blocks": [
+                    {
+                      "id": "p19-q3-choice-d",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "d",
+                          "marks": [
+                            "bold"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": "  G F D E F",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A–C–D–E–F–G. Correct answer: b.",
+          "worked": "Add the weights of the edges travelled in each route.\n\n$$\\begin{aligned}\\text{a: }3+4+3+4+5&=19\\\\\\text{b: }4+3+3+5+5&=20\\\\\\text{c: }4+6+5+3&=18\\\\\\text{d: }5+6+3+5&=19\\end{aligned}$$\n\nThe route A–C–D–E–F–G has total weight 20. Correct answer: b.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q3-root/label",
+                  "type": "item",
+                  "ref": "p19-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p19-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p19-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q3-diagram",
+                  "type": "item",
+                  "ref": "p19-q3-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p19-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p19-q3-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q3-response/prompt#p19-q3-options",
+                          "type": "item",
+                          "ref": "p19-q3-response/prompt#p19-q3-options",
+                          "title": "layout"
+                        },
+                        {
+                          "id": "layout:p19-q3-response/space",
+                          "type": "item",
+                          "ref": "p19-q3-response/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p19-q3-response": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:28.309Z",
+  "updatedAt": "2026-11-12T07:48:28.310Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p19-q3",
+    "sectionRole": "exercise"
+  }
+}

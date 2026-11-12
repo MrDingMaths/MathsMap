@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f4fda4dc-690f-49e5-81ab-bd2fe951ebed",
+  "status": "approved",
+  "title": "2014 VCE Band 4",
+  "classification": {
+    "primarySkillId": "shortest-path",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Compare alternative routes through a seven-vertex weighted road network.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:24:43.166Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "923df094d3982bd93ae36e1473cd895db9d8abd82dc8058494b844c2423acf74",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/semantic-packets/assignments/assignment-6a2af370aaf4233d36b5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The diagram shows the roads that Stephanie can use to travel between home and school.\n\nWhat is the shortest time that it will take her to ride her bike from school to home?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p43-q7-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 43 p43-q7-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (home) at (0,0);\n\\coordinate (lowerleft) at (1.15,-0.55);\n\\coordinate (middleleft) at (1.45,0.85);\n\\coordinate (upper) at (2.45,2.1);\n\\coordinate (centre) at (3.65,0.68);\n\\coordinate (lowerright) at (5.6,0.02);\n\\coordinate (school) at (6.55,1.28);\n\\draw (home) .. controls (-0.12,0.45) and (-0.33,0.8) .. (0.18,1.04) .. controls (0.53,1.18) and (0.55,1.78) .. (0.78,1.69) .. controls (1.12,1.54) and (0.98,0.69) .. (middleleft);\n\\node at (0.12,1.5) {$6$};\n\\draw (home) to[bend right=14] node[midway,below=3pt] {$3$} (lowerleft);\n\\draw (lowerleft)--node[midway,left=4pt] {$2$} (middleleft);\n\\draw (middleleft) .. controls (1.42,1.8) and (1.43,2.27) .. (upper);\n\\node at (1.52,2.22) {$2$};\n\\draw (middleleft) to[bend left=17] node[midway,above=3pt] {$3$} (centre);\n\\draw (upper) to[bend left=10] node[midway,above right=2pt] {$2$} (centre);\n\\draw (upper) to[bend left=18] node[midway,above=3pt] {$8$} (school);\n\\draw (centre) to[bend left=27] node[midway,above=3pt] {$7$} (school);\n\\draw (centre) .. controls (3.83,0.15) and (4.17,0.63) .. (4.42,0.18) .. controls (4.58,-0.16) and (4.85,0.32) .. (5.08,0.32) .. controls (5.7,0.7) and (5.62,0.18) .. (lowerright);\n\\node at (4.85,0.36) {$4$};\n\\draw (lowerright) to[bend right=10] node[midway,right=3pt] {$2$} (school);\n\\draw (lowerleft) .. controls (1.52,-1.25) and (1.82,-0.63) .. (2.11,-0.98) .. controls (2.38,-1.19) and (2.67,-0.7) .. (3.14,-0.96) .. controls (3.82,-1.09) and (3.23,-0.47) .. (3.82,-0.27) .. controls (4.64,0.04) and (3.11,0.31) .. (2.82,0.4) .. controls (2.6,0.48) and (3.35,0.58) .. (centre);\n\\node at (3.02,-0.83) {$8$};\n\\draw (lowerleft) .. controls (2.03,-2.2) and (4.97,-1.45) .. (lowerright);\n\\node at (4.32,-1.62) {$13$};\n\\foreach \\v in {home,lowerleft,middleleft,upper,centre,lowerright,school}{\\fill (\\v) circle (2.6pt);}\n\\node[left=5pt] at (home) {home};\n\\node[right=5pt] at (school) {school};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 112,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 43,
+          "sourceRegion": "Question 7 road network",
+          "description": "Seven filled vertices with twelve distinct undirected curved roads. Only home and school are labelled. Retains the winding lower-left–centre road and the outer lower-left–lower-right road.",
+          "mathematics": "Edges: home–middle-left 6; home–lower-left 3; lower-left–middle-left 2; middle-left–upper 2; middle-left–centre 3; upper–centre 2; upper–school 8; centre–school 7; centre–lower-right 4; lower-right–school 2; lower-left–centre 8; lower-left–lower-right 13. Internal positional names are not printed.",
+          "answerVisibility": "All roads and weights are permanent givens; no shortest route is highlighted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "14 minutes.",
+      "worked": "The shortest route goes from school through the lower-right vertex, centre vertex, middle-left vertex and lower-left vertex to home.\n\n$$\\begin{aligned}\\text{Time}&=2+4+3+2+3\\\\&=14\\text{ minutes}.\\end{aligned}$$\n\nChecking the lowest accumulated times from school gives 2 at the lower-right vertex, 6 at the centre, 8 at the upper vertex, 9 at the middle-left vertex, 11 at the lower-left vertex and 14 at home.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 20
+  },
+  "presentation": {
+    "ownerId": "p43-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p43-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p43-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p43-q7-root/label",
+                  "type": "item",
+                  "ref": "p43-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p43-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p43-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p43-q7-network",
+                  "type": "item",
+                  "ref": "p43-q7-network",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p43-q7-root/space",
+                  "type": "item",
+                  "ref": "p43-q7-root/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p43-q7-root": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:42.019Z",
+  "updatedAt": "2026-11-12T07:48:42.019Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p43-q7",
+    "sectionRole": "exercise"
+  }
+}

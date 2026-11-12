@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-976cc69f-6957-4424-a043-8aed2d9a3288",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "shortest-path",
+    "secondarySkillIds": [],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Apply Dijkstra's algorithm on two small 5-vertex graphs. The method is named, and each graph needs a few label updates and a traceback.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T03:27:06.469Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e137f4f3de3be6d8dd11eac4d1163359be7844db916a76caf17260544d349215",
+      "diagramBlindHash": "96c232aa30af0af1e55a71e650a81f89533978e335630460e862ed9c6f7baf26",
+      "evidence": ".booklet-work/pedagogy-audit-v2/network-concepts-v1/20261111-030350/calls/15-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p41-q2",
+          "score": 30
+        },
+        "easierThan": {
+          "ref": "p42-q5-block",
+          "score": 39
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-d4eb3-p41-practice-slot-20-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Using Dijkstra’s Algorithm, find the shortest path between the given vertices and its length.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-d4eb3-p41-practice-slot-20-slot-20-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$S$ to $F$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-d4eb3-p41-practice-slot-20-slot-20-q-a-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont,weight/.style={fill=white,inner sep=1.5pt}]\n\\coordinate (S) at (0,1.2);\n\\coordinate (A) at (2,2.4);\n\\coordinate (B) at (2,0);\n\\coordinate (C) at (4.2,2.4);\n\\coordinate (F) at (6.2,1.2);\n\\draw (S)--node[weight,midway] {$4$} (A);\n\\draw (S)--node[weight,midway] {$2$} (B);\n\\draw (A)--node[weight,midway] {$1$} (B);\n\\draw (A)--node[weight,midway] {$5$} (C);\n\\draw (B)--node[weight,midway] {$8$} (C);\n\\draw (B)--node[weight,midway] {$10$} (F);\n\\draw (C)--node[weight,midway] {$3$} (F);\n\\foreach \\v in {S,A,B,C,F} {\\fill (\\v) circle (2pt);}\n\\node[left=4pt] at (S) {$S$};\n\\node[above=4pt] at (A) {$A$};\n\\node[below=4pt] at (B) {$B$};\n\\node[above=4pt] at (C) {$C$};\n\\node[right=4pt] at (F) {$F$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Path: $S–B–A–C–F$; length: $11$.",
+          "worked": "Write $0$ at $S$ and mark the unmarked vertex with the lowest total at each step.\n\n- From $S$: $B=2$, $A=4$.\n- Mark $B$ at $2$: $A=\\min(4,2+1)=3$, $C=2+8=10$, $F=2+10=12$.\n- Mark $A$ at $3$: $C=\\min(10,3+5)=8$.\n- Mark $C$ at $8$: $F=\\min(12,8+3)=11$.\n- Mark $F$ at $11$.\n\nTracing back gives $F–C–A–B–S$.\n$$\\begin{align*}\\text{Length}&=2+1+5+3\\\\&=11\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-d4eb3-p41-practice-slot-20-slot-20-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$P$ to $T$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-d4eb3-p41-practice-slot-20-slot-20-q-b-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont,weight/.style={fill=white,inner sep=1.5pt}]\n\\coordinate (P) at (0,1.2);\n\\coordinate (Q) at (2,2.4);\n\\coordinate (R) at (2,0);\n\\coordinate (U) at (4.2,1.2);\n\\coordinate (T) at (6.4,1.2);\n\\draw (P)--node[weight,midway] {$6$} (Q);\n\\draw (P)--node[weight,midway] {$3$} (R);\n\\draw (Q)--node[weight,midway] {$2$} (R);\n\\draw (Q)--node[weight,midway] {$4$} (U);\n\\draw (R)--node[weight,midway] {$7$} (U);\n\\draw (U)--node[weight,midway] {$3$} (T);\n\\draw (Q)--node[weight,midway] {$8$} (T);\n\\foreach \\v in {P,Q,R,U,T} {\\fill (\\v) circle (2pt);}\n\\node[left=4pt] at (P) {$P$};\n\\node[above=4pt] at (Q) {$Q$};\n\\node[below=4pt] at (R) {$R$};\n\\node[below=4pt] at (U) {$U$};\n\\node[right=4pt] at (T) {$T$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Path: $P–R–Q–U–T$; length: $12$.",
+          "worked": "Write $0$ at $P$ and mark the unmarked vertex with the lowest total at each step.\n\n- From $P$: $R=3$, $Q=6$.\n- Mark $R$ at $3$: $Q=\\min(6,3+2)=5$, $U=3+7=10$.\n- Mark $Q$ at $5$: $U=\\min(10,5+4)=9$, $T=5+8=13$.\n- Mark $U$ at $9$: $T=\\min(13,9+3)=12$.\n- Mark $T$ at $12$.\n\nTracing back gives $T–U–Q–R–P$.\n$$\\begin{align*}\\text{Length}&=3+2+4+3\\\\&=12\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-d4eb3-p41-practice-slot-20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:40.747Z",
+  "updatedAt": "2026-11-12T07:48:40.747Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "v2-d4eb3-p41-practice-slot-20",
+    "sectionRole": "exercise"
+  }
+}

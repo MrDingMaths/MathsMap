@@ -1,0 +1,293 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-04252aed-65a5-42a3-912e-2534cdcf87cf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-network-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 18,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read an edge weight and add the relevant weights in two practical networks.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:08:22.449Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5f7ef720a68ba4d4b30e298b74e1876fb17882f3e39a62f82572c3dc6d67a9a3",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/semantic-packets/assignments/assignment-e477371551f2c8db4bac/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p19-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "The graphs below show details about air travel between Australian cities.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q2-flights",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q2-flights\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0); \\coordinate (S) at (48,30); \\coordinate (M) at (64,12); \\coordinate (A) at (36,-6);\n\\node[align=center,text width=78mm] at (32,43) {Number of flights per day};\n\\draw (P)--node[midway,above left,inner sep=2pt]{5}(S);\n\\draw (P)--node[pos=0.40,above,inner sep=2pt]{5}(M);\n\\draw (P)--node[midway,below,inner sep=2pt]{3}(A);\n\\draw (S)--node[pos=0.37,left,inner sep=2pt]{9}(A);\n\\draw (S)--node[midway,above right,inner sep=2pt]{27}(M);\n\\draw (A)--node[midway,below right,inner sep=2pt]{9}(M);\n\\foreach \\v in {P,S,M,A} {\\fill (\\v) circle (0.65mm);}\n\\node[below left,inner sep=2pt] at (P) {Perth};\n\\node[above right,inner sep=2pt] at (S) {Sydney};\n\\node[below right,inner sep=2pt] at (M) {Melbourne};\n\\node[below right,inner sep=2pt] at (A) {Adelaide};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 2, left network",
+          "description": "Four-city undirected network. Ordinary source blue edges and red vertex markers are rendered black under house style. The Perth–Melbourne and Sydney–Adelaide edges cross without a vertex.",
+          "mathematics": "Perth–Sydney 5; Perth–Melbourne 5; Perth–Adelaide 3; Sydney–Adelaide 9; Sydney–Melbourne 27; Adelaide–Melbourne 9. Weights are flights per day.",
+          "answerVisibility": "All vertices, city names and weights are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p19-q2-passengers",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q2-passengers\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0); \\coordinate (S) at (48,30); \\coordinate (M) at (64,12); \\coordinate (A) at (36,-6);\n\\node[align=center,text width=78mm] at (32,43) {Maximum number of passengers per day};\n\\draw (P)--node[midway,above left,inner sep=2pt]{640}(S);\n\\draw (P)--node[pos=0.40,above,inner sep=2pt]{720}(M);\n\\draw (P)--node[midway,below,inner sep=2pt]{320}(A);\n\\draw (S)--node[pos=0.37,left,inner sep=2pt]{950}(A);\n\\draw (S)--node[midway,above right,inner sep=2pt]{5040}(M);\n\\draw (A)--node[midway,below right,inner sep=2pt]{950}(M);\n\\foreach \\v in {P,S,M,A} {\\fill (\\v) circle (0.65mm);}\n\\node[below left,inner sep=2pt] at (P) {Perth};\n\\node[above right,inner sep=2pt] at (S) {Sydney};\n\\node[below right,inner sep=2pt] at (M) {Melbourne};\n\\node[below right,inner sep=2pt] at (A) {Adelaide};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 2, right network",
+          "description": "Same city positions and connectivity as the flights network, preserving the paired comparison. Ordinary source blue edges and red markers are rendered black. Crossing edges have no vertex.",
+          "mathematics": "Perth–Sydney 640; Perth–Melbourne 720; Perth–Adelaide 320; Sydney–Adelaide 950; Sydney–Melbourne 5040; Adelaide–Melbourne 950. Weights are maximum passengers per day.",
+          "answerVisibility": "All vertices, city names and weights are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many flights are available per day between Sydney and Adelaide?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "9 flights per day.",
+          "worked": "The Sydney–Adelaide edge in the flights network has weight 9, so there are 9 flights per day.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p19-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many total flights are available between all these cities?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "58 flights per day.",
+          "worked": "Add each edge weight in the flights network once.\n\n$$5+5+3+9+27+9=58$$\n\nThere are 58 flights per day in total.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p19-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the maximum number of passengers per day that can fly out of Sydney?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "6630 passengers per day.",
+          "worked": "Add the capacities of the three edges connected to Sydney.\n\n$$640+950+5040=6630$$\n\nThe maximum is 6630 passengers per day.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q2-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p19-q2-opening",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q2-number",
+                      "type": "item",
+                      "ref": "p19-q2-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p19-q2-stem",
+                      "type": "item",
+                      "ref": "p19-q2-root/prompt"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p19-q2-networks",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q2-left",
+                      "type": "item",
+                      "ref": "p19-q2-flights",
+                      "width": 80
+                    },
+                    {
+                      "id": "p19-q2-right",
+                      "type": "item",
+                      "ref": "p19-q2-passengers",
+                      "width": 80
+                    }
+                  ],
+                  "gap": 6,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p19-q2-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q2-a-label",
+                      "type": "item",
+                      "ref": "p19-q2-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p19-q2-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p19-q2-a-text",
+                          "type": "item",
+                          "ref": "p19-q2-a/prompt"
+                        },
+                        {
+                          "id": "p19-q2-a-writing",
+                          "type": "item",
+                          "ref": "p19-q2-a/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p19-q2-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q2-b-label",
+                      "type": "item",
+                      "ref": "p19-q2-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p19-q2-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p19-q2-b-text",
+                          "type": "item",
+                          "ref": "p19-q2-b/prompt"
+                        },
+                        {
+                          "id": "p19-q2-b-writing",
+                          "type": "item",
+                          "ref": "p19-q2-b/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p19-q2-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q2-c-label",
+                      "type": "item",
+                      "ref": "p19-q2-c/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p19-q2-c-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p19-q2-c-text",
+                          "type": "item",
+                          "ref": "p19-q2-c/prompt"
+                        },
+                        {
+                          "id": "p19-q2-c-writing",
+                          "type": "item",
+                          "ref": "p19-q2-c/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p19-q2"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:27.962Z",
+  "updatedAt": "2026-11-12T07:48:27.962Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p19-q2",
+    "sectionRole": "exercise"
+  }
+}

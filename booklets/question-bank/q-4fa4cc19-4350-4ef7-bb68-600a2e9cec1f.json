@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4fa4cc19-4350-4ef7-bb68-600a2e9cec1f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimum-spanning-tree",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Routine MST by Kruskal or Prim on small graphs of 5 and 6 vertices. The only extra decision is skipping one cycle-forming edge in part b.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T03:27:06.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "173d62587f25a405067a42a5384ea36c366c698ab7cde871de8e2097f202574c",
+      "diagramBlindHash": "0a9a579fbb1c17288ce90cfdfc6aa110c3a072b8e4939ff5ca9a7dcf5f0e96d8",
+      "evidence": ".booklet-work/pedagogy-audit-v2/network-concepts-v1/20261111-030350/calls/15-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p9-q11",
+          "score": 24
+        },
+        "easierThan": {
+          "ref": "p34-q2",
+          "score": 29
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-facae-p34-practice-slot-17-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Name the edges of the minimum spanning tree for each network.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-facae-p34-practice-slot-17-s17-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-facae-p34-practice-slot-17-s17-q-a-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-17 s17-q-a-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2.6,2);\n\\coordinate (C) at (0,0);\n\\coordinate (D) at (2.6,0);\n\\coordinate (E) at (1.3,-1.4);\n\\draw (A)--node[midway,above=3pt] {$4$}(B);\n\\draw (A)--node[midway,left=3pt] {$7$}(C);\n\\draw (B)--node[midway,above left=1pt] {$3$}(C);\n\\draw (B)--node[midway,right=3pt] {$6$}(D);\n\\draw (C)--node[midway,above=3pt] {$5$}(D);\n\\draw (C)--node[midway,below left=2pt] {$8$}(E);\n\\draw (D)--node[midway,below right=2pt] {$2$}(E);\n\\foreach \\v in {A,B,C,D,E}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A) {$A$};\n\\node[above right=3pt] at (B) {$B$};\n\\node[left=5pt] at (C) {$C$};\n\\node[right=5pt] at (D) {$D$};\n\\node[below=4pt] at (E) {$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 40,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$AB$, $BC$, $CD$ and $DE$",
+          "worked": "Choose edges in increasing weight order, omitting any edge that creates a cycle.\n$$\\begin{align*}DE&=2\\\\BC&=3\\\\AB&=4\\\\CD&=5\\end{align*}$$\nThese four edges connect all five vertices without a cycle. The tree is $AB$, $BC$, $CD$ and $DE$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "v2-facae-p34-practice-slot-17-s17-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-facae-p34-practice-slot-17-s17-q-b-network",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-17 s17-q-b-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2.2,2);\n\\coordinate (C) at (4.4,2);\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (2.2,0);\n\\coordinate (F) at (4.4,0);\n\\draw (A)--node[midway,above=3pt] {$7$}(B);\n\\draw (B)--node[midway,above=3pt] {$5$}(C);\n\\draw (D)--node[midway,below=3pt] {$8$}(E);\n\\draw (E)--node[midway,below=3pt] {$2$}(F);\n\\draw (A)--node[midway,left=3pt] {$4$}(D);\n\\draw (B)--node[midway,right=2pt] {$3$}(E);\n\\draw (C)--node[midway,right=3pt] {$6$}(F);\n\\draw (A)--node[midway,above right=1pt] {$9$}(E);\n\\draw (C)--node[midway,below right=1pt] {$10$}(E);\n\\foreach \\v in {A,B,C,D,E,F}{\\fill (\\v) circle (2pt);}\n\\node[above left=3pt] at (A) {$A$};\n\\node[above=4pt] at (B) {$B$};\n\\node[above right=3pt] at (C) {$C$};\n\\node[below left=3pt] at (D) {$D$};\n\\node[below=4pt] at (E) {$E$};\n\\node[below right=3pt] at (F) {$F$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$AB$, $AD$, $BC$, $BE$ and $EF$",
+          "worked": "Choose edges in increasing weight order, omitting any edge that creates a cycle.\n$$\\begin{align*}EF&=2\\\\BE&=3\\\\AD&=4\\\\BC&=5\\end{align*}$$\nThe edge $CF=6$ would create a cycle, so omit it. The edge $AB=7$ joins $A$ and $D$ to the rest. These five edges connect all six vertices without a cycle. The tree is $AB$, $AD$, $BC$, $BE$ and $EF$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-facae-p34-practice-slot-17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:36.373Z",
+  "updatedAt": "2026-11-12T07:48:36.374Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "v2-facae-p34-practice-slot-17",
+    "sectionRole": "exercise"
+  }
+}

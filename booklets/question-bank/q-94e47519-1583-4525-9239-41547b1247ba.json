@@ -1,0 +1,535 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-94e47519-1583-4525-9239-41547b1247ba",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-network-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 17,
+    "difficulty": "Foundation",
+    "difficultyReason": "Follow each supplied vertex sequence, add its edge times, and compare the totals to identify the longest and shortest listed journeys.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:44.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "24936945070bb183090d8edce4876ad689671176663f15cd5064eb031ee238d7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/440118ec23040f8fbe923fc5b9fd53ce2364eccb749f05c32b1b4c61086acca7-1793876666257/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "This network diagram represents several streets for travel between home and school. The numbers indicate travel time in minutes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q1-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (4.2,3.2);\n\\coordinate (C) at (4.2,1.6);\n\\coordinate (D) at (4.2,0);\n\\coordinate (E) at (1.6,0);\n\\coordinate (F) at (0,1.55);\n\\draw[black] (A)--node[above=2pt]{3}(B);\n\\draw[black] (B)--node[right=3pt]{2}(C);\n\\draw[black] (C)--node[right=3pt]{6}(D);\n\\draw[black] (E)--node[below=3pt]{3}(D);\n\\draw[black] (F)--node[below left=1pt]{2}(E);\n\\draw[black] (F)--node[above left=1pt]{4}(A);\n\\draw[black] (A)--node[below left=2pt]{4}(C);\n\\draw[black] (E)--node[below right=2pt]{4}(C);\n\\foreach \\v in {A,B,C,D,E,F}{\\fill[black] (\\v) circle (1.5pt);}\n\\node[above left=3pt] at (A){$A$};\n\\node[right=4pt] at (B){$B$};\n\\node[right=4pt] at (C){$C$};\n\\node[right=4pt] at (D){$D$};\n\\node[below left=3pt] at (E){$E$};\n\\node[left=4pt] at (F){$F$};\n\\node[above=15pt] at (A){Home};\n\\node[below=15pt] at (D){School};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "align": "right",
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 1, upper-right network",
+          "description": "Undirected street network with Home at A and School at D. All eight edges, weights and six marked vertices are retained. Ordinary source blue edges and red vertex dots use house black.",
+          "mathematics": "AB=3, BC=2, CD=6, DE=3, EF=2, FA=4, AC=4, CE=4; weights are travel times in minutes.",
+          "answerVisibility": "All network information is permanently visible; no answers are embedded."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q1-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "How long does it take to travel to school using these paths?",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p19-q1-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "A F E D",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "9 minutes",
+              "worked": "$4+2+3=9$ minutes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p19-q1-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "A F E C D",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "16 minutes",
+              "worked": "$4+2+4+6=16$ minutes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p19-q1-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "A C D",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "10 minutes",
+              "worked": "$4+6=10$ minutes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p19-q1-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "A B C D",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "11 minutes",
+              "worked": "$3+2+6=11$ minutes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p19-q1-a-v",
+            "type": "part",
+            "label": "v",
+            "prompt": "A C E D",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "11 minutes",
+              "worked": "$4+4+3=11$ minutes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          }
+        ]
+      },
+      {
+        "id": "p19-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Which of the above walks is the longest journey?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A F E C D (ii), 16 minutes.",
+          "worked": "The five travel times are 9, 16, 10, 11 and 11 minutes. The greatest is 16 minutes, so A F E C D (ii) is the longest journey.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p19-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Which of the above walks is the shortest journey?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A F E D (i), 9 minutes.",
+          "worked": "The least of the five travel times is 9 minutes, so A F E D (i) is the shortest journey.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p19-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q1-root/label",
+                  "type": "item",
+                  "ref": "p19-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "p19-q1-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q1-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q1-root/prompt",
+                          "type": "item",
+                          "ref": "p19-q1-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p19-q1-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p19-q1-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q1-a/label",
+                                  "type": "item",
+                                  "ref": "p19-q1-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p19-q1-a/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q1-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p19-q1-a:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p19-q1-a:row:0",
+                                      "type": "group",
+                                      "direction": "row",
+                                      "children": [
+                                        {
+                                          "id": "p19-q1-a-i:question",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "layout:p19-q1-a-i/label",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-i/label",
+                                              "title": "Label i"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-i/prompt",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-i/prompt",
+                                              "title": "Text"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-i/space",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-i/space",
+                                              "title": "Answer space",
+                                              "height": 8
+                                            }
+                                          ],
+                                          "title": "Part i",
+                                          "gap": 1
+                                        },
+                                        {
+                                          "id": "p19-q1-a-ii:question",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "layout:p19-q1-a-ii/label",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-ii/label",
+                                              "title": "Label ii"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-ii/prompt",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-ii/prompt",
+                                              "title": "Text"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-ii/space",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-ii/space",
+                                              "title": "Answer space",
+                                              "height": 8
+                                            }
+                                          ],
+                                          "title": "Part ii",
+                                          "gap": 1
+                                        }
+                                      ],
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p19-q1-a:row:2",
+                                      "type": "group",
+                                      "direction": "row",
+                                      "children": [
+                                        {
+                                          "id": "p19-q1-a-iii:question",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "layout:p19-q1-a-iii/label",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iii/label",
+                                              "title": "Label iii"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-iii/prompt",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iii/prompt",
+                                              "title": "Text"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-iii/space",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iii/space",
+                                              "title": "Answer space",
+                                              "height": 8
+                                            }
+                                          ],
+                                          "title": "Part iii",
+                                          "gap": 1
+                                        },
+                                        {
+                                          "id": "p19-q1-a-iv:question",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "layout:p19-q1-a-iv/label",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iv/label",
+                                              "title": "Label iv"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-iv/prompt",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iv/prompt",
+                                              "title": "Text"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-iv/space",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-iv/space",
+                                              "title": "Answer space",
+                                              "height": 8
+                                            }
+                                          ],
+                                          "title": "Part iv",
+                                          "gap": 1
+                                        }
+                                      ],
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p19-q1-a:row:4",
+                                      "type": "group",
+                                      "direction": "row",
+                                      "children": [
+                                        {
+                                          "id": "p19-q1-a-v:question",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "layout:p19-q1-a-v/label",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-v/label",
+                                              "title": "Label v"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-v/prompt",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-v/prompt",
+                                              "title": "Text"
+                                            },
+                                            {
+                                              "id": "layout:p19-q1-a-v/space",
+                                              "type": "item",
+                                              "ref": "p19-q1-a-v/space",
+                                              "title": "Answer space",
+                                              "height": 8
+                                            }
+                                          ],
+                                          "title": "Part v",
+                                          "gap": 1
+                                        },
+                                        {
+                                          "id": "p19-q1-a:row:4:fill:1",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [],
+                                          "title": "Empty column",
+                                          "gap": 2
+                                        }
+                                      ],
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p19-q1-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q1-b/label",
+                                  "type": "item",
+                                  "ref": "p19-q1-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p19-q1-b/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q1-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p19-q1-b/space",
+                                  "type": "item",
+                                  "ref": "p19-q1-b/space",
+                                  "title": "Answer space",
+                                  "height": 8
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p19-q1-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q1-c/label",
+                                  "type": "item",
+                                  "ref": "p19-q1-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p19-q1-c/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q1-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p19-q1-c/space",
+                                  "type": "item",
+                                  "ref": "p19-q1-c/space",
+                                  "title": "Answer space",
+                                  "height": 8
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 1.1688396473547122
+                    },
+                    {
+                      "id": "p19-q1-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q1-diagram",
+                          "type": "item",
+                          "ref": "p19-q1-diagram",
+                          "title": "Diagram",
+                          "align": "right"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 0.8311603526452878
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p19-q1-a-i": 8,
+        "p19-q1-a-ii": 8,
+        "p19-q1-a-iii": 8,
+        "p19-q1-a-iv": 8,
+        "p19-q1-a-v": 8,
+        "p19-q1-b": 8,
+        "p19-q1-c": 8
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:27.627Z",
+  "updatedAt": "2026-11-12T07:48:27.627Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p19-q1",
+    "sectionRole": "exercise"
+  }
+}

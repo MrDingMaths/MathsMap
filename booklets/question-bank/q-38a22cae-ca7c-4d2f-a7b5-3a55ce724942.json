@@ -1,0 +1,258 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-38a22cae-ca7c-4d2f-a7b5-3a55ce724942",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "shortest-path",
+    "secondarySkillIds": [
+      "minimum-spanning-tree"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Find a shortest path and a minimum spanning tree using different selection rules, then compare their edges; equal-weight choices can change whether the tree contains that path.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:43.774Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ca5e60c196f22d5b2578d81e717931698e64df86501b6eede457eaddf697915",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/00365bb331c81eefacc2f755918bd6034cb44eccc34a1694d4750a0612b89611-1793876666297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Consider the graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q4-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q4-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},vertex/.style={circle,draw=black,fill=white,minimum size=6mm,inner sep=0pt,line width=0.8pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[vertex] (A) at (2,4.4) {};\n\\node[vertex] (B) at (0,3) {};\n\\node[vertex] (C) at (2,3) {};\n\\node[vertex] (D) at (4.4,3.4) {};\n\\node[vertex] (H) at (3.9,1.9) {};\n\\node[vertex] (I) at (2.4,0.9) {};\n\\node[vertex] (E) at (4.4,-0.1) {};\n\\node[vertex] (F) at (6.4,1.4) {};\n\\node[vertex] (G) at (6.4,4.4) {};\n\\draw[line width=0.8pt] (A)--node[above left] {$2$}(B);\n\\draw[line width=0.8pt] (A)--node[right] {$3$}(C);\n\\draw[line width=0.8pt] (A)--node[above] {$4$}(D);\n\\draw[line width=0.8pt] (B)--node[below] {$2$}(C);\n\\draw[line width=0.8pt] (B) to[bend right=20] node[below left] {$3$}(I);\n\\draw[line width=0.8pt] (C)--node[above] {$3$}(D);\n\\draw[line width=0.8pt] (C) to[bend right=23] node[below left] {$4$}(H);\n\\draw[line width=0.8pt] (D)--node[left] {$2$}(H);\n\\draw[line width=0.8pt] (D)--node[above left] {$2$}(G);\n\\draw[line width=0.8pt] (D)--node[above right] {$4$}(F);\n\\draw[line width=0.8pt] (G)--node[right] {$5$}(F);\n\\draw[line width=0.8pt] (H)--node[above] {$5$}(F);\n\\draw[line width=0.8pt] (H)--node[above left] {$3$}(I);\n\\draw[line width=0.8pt] (I) to[bend left=22] node[above right] {$2$}(E);\n\\draw[line width=0.8pt] (E)--node[below right] {$3$}(F);\n\\node[above=2mm] at (A.north) {$A$};\n\\node[left=2mm] at (B.west) {$B$};\n\\node[below=2mm] at (C.south) {$C$};\n\\node[above=2mm] at (D.north) {$D$};\n\\node[below=2mm] at (H.south) {$H$};\n\\node[below left=2mm] at (I.south west) {$I$};\n\\node[left=2mm] at (E.west) {$E$};\n\\node[right=2mm] at (F.east) {$F$};\n\\node[above right=2mm] at (G.north east) {$G$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 4 shared network",
+          "description": "Nine unfilled circular vertices with fifteen undirected weighted edges. BI, CH and IE are curved. All vertex labels are offset from the circles and incident edges.",
+          "mathematics": "AB=2, AC=3, AD=4, BC=2, BI=3, CD=3, CH=4, DH=2, DG=2, DF=4, GF=5, HF=5, HI=3, IE=2, EF=3.",
+          "answerVisibility": "Permanent givens only; no route, distance labels or spanning tree is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use Dijkstra’s algorithm to find the shortest path from A to E.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A-B-I-E$, total weight $7$.",
+          "worked": "Start with $A=0$. Update neighbouring vertices whenever a shorter total is found.\n\n$\\begin{aligned}B&=2\\\\C&=3\\\\D&=4\\\\I&=2+3=5\\\\H&=4+2=6\\\\G&=4+2=6\\\\E&=5+2=7\\end{aligned}$\n\nMark vertices in increasing order of their totals; H and G may be taken in either order. Stop when E is marked. Trace back $E-I-B-A$.\n\nThe shortest path is $A-B-I-E$, with total weight $2+3+2=7$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p42-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Construct the minimum spanning tree.\n\nIs the shortest path between A and E on the minimum spanning tree?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "One minimum spanning tree has edges $AB,BC,BI,CD,DH,DG,IE,EF$, with total weight $19$. The shortest path $A-B-I-E$ is contained in this tree. Other minimum spanning trees do not contain it.",
+          "worked": "Choose edges of lowest weight without forming a cycle. One valid selection is\n\n$AB,BC,DH,DG,IE$ of weight $2$ each, followed by $BI,CD,EF$ of weight $3$ each.\n\n$\\begin{aligned}\\text{Total weight}&=5\\times2+3\\times3\\\\&=19.\\end{aligned}$\n\nThese eight edges connect all nine vertices without a cycle, so they form a minimum spanning tree. This tree contains the shortest path $A-B-I-E$.\n\nReplacing BI by HI gives another minimum spanning tree of the same weight. That tree does not contain $A-B-I-E$. Therefore the answer depends on which minimum spanning tree is constructed.",
+          "solutionDiagrams": [
+            {
+              "id": "p42-q4-b-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42 p42-q4-b-tree\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},vertex/.style={circle,draw=black,fill=white,minimum size=6mm,inner sep=0pt,line width=0.8pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[vertex] (A) at (2,4.4) {};\n\\node[vertex] (B) at (0,3) {};\n\\node[vertex] (C) at (2,3) {};\n\\node[vertex] (D) at (4.4,3.4) {};\n\\node[vertex] (H) at (3.9,1.9) {};\n\\node[vertex] (I) at (2.4,0.9) {};\n\\node[vertex] (E) at (4.4,-0.1) {};\n\\node[vertex] (F) at (6.4,1.4) {};\n\\node[vertex] (G) at (6.4,4.4) {};\n\\draw[line width=0.8pt] (A)--node[above left] {$2$}(B);\n\\draw[line width=0.8pt] (B)--node[below] {$2$}(C);\n\\draw[line width=0.8pt] (B) to[bend right=20] node[below left] {$3$}(I);\n\\draw[line width=0.8pt] (C)--node[above] {$3$}(D);\n\\draw[line width=0.8pt] (D)--node[left] {$2$}(H);\n\\draw[line width=0.8pt] (D)--node[above left] {$2$}(G);\n\\draw[line width=0.8pt] (I) to[bend left=22] node[below,pos=0.45] {$2$}(E);\n\\draw[line width=0.8pt] (E)--node[below right] {$3$}(F);\n\\node[above=2mm] at (A.north) {$A$};\n\\node[left=2mm] at (B.west) {$B$};\n\\node[below=2mm] at (C.south) {$C$};\n\\node[above=2mm] at (D.north) {$D$};\n\\node[below=2mm] at (H.south) {$H$};\n\\node[below left=2mm] at (I.south west) {$I$};\n\\node[below=2mm] at (E.south) {$E$};\n\\node[right=2mm] at (F.east) {$F$};\n\\node[above right=2mm] at (G.north east) {$G$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 42,
+                "sourceRegion": "Authored answer to Question 4b",
+                "description": "One complete minimum spanning tree using the source network’s vertex positions and curved BI and IE edges.",
+                "mathematics": "Tree edges AB, BC, BI, CD, DH, DG, IE, EF have total weight 19 and contain shortest path A-B-I-E.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 52
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p42-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q4-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q4-root/label",
+                  "type": "item",
+                  "ref": "p42-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p42-q4-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p42-q4-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q4-root/prompt",
+                          "type": "item",
+                          "ref": "p42-q4-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p42-q4-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p42-q4-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q4-a/label",
+                                  "type": "item",
+                                  "ref": "p42-q4-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p42-q4-a/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q4-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q4-a/space",
+                                  "type": "item",
+                                  "ref": "p42-q4-a/space",
+                                  "title": "Answer space",
+                                  "height": 10
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p42-q4-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q4-b/label",
+                                  "type": "item",
+                                  "ref": "p42-q4-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p42-q4-b/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q4-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q4-b/space",
+                                  "type": "item",
+                                  "ref": "p42-q4-b/space",
+                                  "title": "Answer space",
+                                  "height": 30
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p42-q4-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q4-network",
+                          "type": "item",
+                          "ref": "p42-q4-network",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p42-q4-a": 10,
+        "p42-q4-b": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:41.576Z",
+  "updatedAt": "2026-11-12T07:48:41.576Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p42-q4-block",
+    "sectionRole": "exercise"
+  }
+}

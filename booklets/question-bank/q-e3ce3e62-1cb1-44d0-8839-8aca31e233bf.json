@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e3ce3e62-1cb1-44d0-8839-8aca31e233bf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "shortest-path",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the specified Dijkstra procedure, revise tentative distances when better routes appear, and trace predecessors to recover the shortest path.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:43.774Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "08257aeeb9f4b9f6346f53fb21ee88b3760f20406a051d25116730ee1991ea91",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/00365bb331c81eefacc2f755918bd6034cb44eccc34a1694d4750a0612b89611-1793876666297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Using Dijkstra’s Algorithm, find the shortest path from $S$ to $F$ and its length.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p41-q3-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 p41-q3-network\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\n\\coordinate (A) at (1.35,1.65);\n\\coordinate (B) at (3.8,1.65);\n\\coordinate (C) at (2.2,0);\n\\coordinate (D) at (1.85,-1.55);\n\\coordinate (E) at (3.55,-1.55);\n\\coordinate (F) at (6,0);\n\\draw (S)--node[above left] {$9$} (A);\n\\draw (S)--node[above] {$15$} (C);\n\\draw (S)--node[below left] {$7$} (D);\n\\draw (A)--node[above] {$9$} (B);\n\\draw (A)--node[right] {$3$} (C);\n\\draw (B)--node[above right] {$10$} (F);\n\\draw (C)--node[left] {$7$} (D);\n\\draw (C)--node[above right] {$5$} (E);\n\\draw (C)--node[above] {$15$} (F);\n\\draw (D)--node[below] {$11$} (E);\n\\draw (E)--node[below right] {$5$} (F);\n\\foreach \\v in {A,B,C,D,E,F}{\\draw[fill=white] (\\v) circle[radius=1.8mm];}\n\\fill (S) circle[radius=0.75mm];\n\\node[left=2mm] at (S) {$S$};\n\\node[above=2.3mm] at (A) {$A$};\n\\node[above right=1.8mm] at (B) {$B$};\n\\node[above right=1.8mm] at (C) {$C$};\n\\node[below left=1.8mm] at (D) {$D$};\n\\node[below right=1.8mm] at (E) {$E$};\n\\node[right=2.3mm] at (F) {$F$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 41,
+          "sourceRegion": "Question 3 network",
+          "description": "Seven-vertex undirected weighted network. S is a small filled marker; other vertices are empty circles suitable for distance labels. Ordinary source blue strokes are rendered black under house style.",
+          "mathematics": "SA=9, SC=15, SD=7, AB=9, AC=3, BF=10, CD=7, CE=5, CF=15, DE=11, EF=5. No additional edges or vertices.",
+          "answerVisibility": "Only source vertex labels, edge weights and empty distance circles are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p41-q3-response",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p41-q3-response-fields",
+              "type": "table",
+              "widthMm": 165,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [],
+              "annotations": [],
+              "border": false,
+              "padding": 0,
+              "widths": [
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p41-q3-path-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q3-path-paragraph",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Path: ",
+                            "marks": []
+                          },
+                          {
+                            "type": "cloze",
+                            "answer": "$S–A–C–E–F$",
+                            "width": 26
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p41-q3-length-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q3-length-paragraph",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Length: ",
+                            "marks": []
+                          },
+                          {
+                            "type": "cloze",
+                            "answer": "$22$",
+                            "width": 11
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Path: $S–A–C–E–F$; length: $22$.",
+          "worked": "Write $0$ at $S$ and leave the other circles empty. At each step, mark the unmarked vertex with the lowest total weight.\n\n- From $S$: $D=7$, $A=9$, $C=15$.\n- Mark $D$ at $7$: $C=\\min(15,7+7)=14$ and $E=7+11=18$.\n- Mark $A$ at $9$: $C=\\min(14,9+3)=12$ and $B=9+9=18$.\n- Mark $C$ at $12$: $E=\\min(18,12+5)=17$ and $F=12+15=27$.\n- Mark $E$ at $17$: $F=\\min(27,17+5)=22$.\n- Mark $B$ at $18$: $F=\\min(22,18+10)=22$.\n- Mark $F$ at $22$.\n\nTracing back through the connected totals gives $F–E–C–A–S$, so the shortest path is $S–A–C–E–F$.\n$$\\begin{aligned}\\text{Length}&=9+3+5+5\\\\&=22.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p41-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:39.868Z",
+  "updatedAt": "2026-11-12T07:48:39.869Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p41-q3",
+    "sectionRole": "exercise"
+  }
+}

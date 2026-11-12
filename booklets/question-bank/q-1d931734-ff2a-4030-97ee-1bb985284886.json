@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1d931734-ff2a-4030-97ee-1bb985284886",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-rule-triangle",
+    "secondarySkillIds": [],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Side is given, not the radius: find central angle, derive the height or radius by trig, then ten triangles.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T04:01:06.972Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a3e6bcf1e80eaf5c1d9cdae5e17d81ecd57dc077afb83330655f7a7c258a41b8",
+      "diagramBlindHash": "1a503c197611f1bf28a35c8cbb60c48eed084684c6db1cc53e324c55acea8241",
+      "evidence": ".booklet-work/pedagogy-audit-v2/non-right-angled-trigonometry-2-v1/20261110-033644/calls/17-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "nr-p48-q16-block",
+          "score": 43
+        },
+        "easierThan": {
+          "ref": "nr-p48-q15-block",
+          "score": 55
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-nr-p48-s1-slot-28-upper-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Calculate the area of the regular decagon with centre $O$. Answer to 1 d.p.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-nr-p48-s1-slot-28-upper-slot-28-upper-d1",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\usetikzlibrary{calc}\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\foreach \\i in {0,...,9}{\\coordinate (P\\i) at ({90+36*\\i}:2);}\n\\draw[line width=0.8pt] (P0)--(P1)--(P2)--(P3)--(P4)--(P5)--(P6)--(P7)--(P8)--(P9)--cycle;\n\\draw[line width=0.8pt] (O)--(P0);\n\\draw[line width=0.8pt] (O)--(P1);\n\\path (P1)--(P0) node[midway,above,sloped] {$4\\text{ cm}$};\n\\node[above right] at (P0) {$A$};\n\\node[above left] at (P1) {$B$};\n\\node[below right] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$123.1\\text{ cm}^2$",
+      "worked": "$$\\begin{align*}\\angle AOB&=\\frac{360^\\circ}{10}=36^\\circ\\\\4^2&=r^2+r^2-2r^2\\cos36^\\circ\\\\r^2&=\\frac{16}{2-2\\cos36^\\circ}\\\\\\operatorname{Area}(\\triangle OAB)&=\\frac12r^2\\sin36^\\circ=\\frac{8\\sin36^\\circ}{2-2\\cos36^\\circ}\\\\\\operatorname{Area}(\\text{decagon})&=10\\times\\frac{8\\sin36^\\circ}{2-2\\cos36^\\circ}\\\\&\\approx123.1\\text{ cm}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
+  },
+  "presentation": {
+    "ownerId": "v2-nr-p48-s1-slot-28-upper",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:54.175Z",
+  "updatedAt": "2026-11-12T07:48:54.175Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "non-right-angled-trigonometry-2-v1",
+    "blockId": "v2-nr-p48-s1-slot-28-upper",
+    "sectionRole": "exercise"
+  }
+}

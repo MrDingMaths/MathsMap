@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fbdec55d-6e54-494f-a8d9-eec45d3cfc32",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [],
+    "reasoningScore": 31,
+    "difficulty": "Development",
+    "difficultyReason": "Students fill in a supplied two-way outcome table: colour probabilities from two bags of different sizes, then the four independent joint products. Part b adds two cells. Part c uses the complement (1 − P(BB)) or three cells. Mostly routine independent-event work with a table as scaffold, so it sits below the without-replacement tree question.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T10:58:27.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "499ada2ae4d2fab324db5538bb376076b0bca6309ee35b4e726e6c6784831429",
+      "diagramBlindHash": "6ed1648b217305535eacae4e46d97d0fb934ba278ee1ab5afe4788f31cbae639",
+      "evidence": ".booklet-work/pedagogy-audit-v2/multistage-probability-2-v1/20261109-104829/calls/10-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p32-q7",
+          "score": 27
+        },
+        "easierThan": {
+          "ref": "p43-q4-block",
+          "score": 32
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-3d06b-p41-practice-slot-3-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Bag 1 contains 2 red (R) and 3 blue (B) counters.\nBag 2 contains 5 red (R) and 3 blue (B) counters.\nOne counter is picked from each bag.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-3d06b-p41-practice-slot-3-slot-3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Complete the table by writing the probability of each colour for each bag and the probability of each pair of outcomes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-3d06b-p41-practice-slot-3-slot-3-a-table",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"slot-3 outcome table\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-9,-2) rectangle (97,57);\n\\draw (0,0) rectangle (95,48);\n\\draw (20,0)--(20,48) (45,0)--(45,48) (70,0)--(70,48);\n\\draw (0,12)--(95,12) (0,24)--(95,24) (0,36)--(95,36);\n\\node at (57.5,53) {\\textbf{Bag 2}};\n\\node[rotate=90] at (-5,30) {\\textbf{Bag 1}};\n\\node at (32.5,42) {R};\\node at (57.5,42) {B};\\node at (82.5,42) {Probability};\n\\node at (10,30) {R};\\node at (10,18) {B};\\node at (10,6) {Probability};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 100,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Bag 1: $P(R)=\\frac25$, $P(B)=\\frac35$. Bag 2: $P(R)=\\frac58$, $P(B)=\\frac38$. Cells: $RR=\\frac14$, $RB=\\frac{3}{20}$, $BR=\\frac38$, $BB=\\frac{9}{40}$.",
+          "worked": "$$\\begin{align*}P(RR)&=\\frac25\\times\\frac58=\\frac{10}{40}=\\frac14\\\\P(RB)&=\\frac25\\times\\frac38=\\frac{6}{40}=\\frac{3}{20}\\\\P(BR)&=\\frac35\\times\\frac58=\\frac{15}{40}=\\frac38\\\\P(BB)&=\\frac35\\times\\frac38=\\frac{9}{40}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "v2-3d06b-p41-practice-slot-3-slot-3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the probability of picking counters of different colours.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{21}{40}$",
+          "worked": "$$\\begin{align*}P(\\text{different colours})&=P(RB)+P(BR)\\\\&=\\frac{6}{40}+\\frac{15}{40}\\\\&=\\frac{21}{40}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-3d06b-p41-practice-slot-3-slot-3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the probability of picking at least one red counter.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{31}{40}$",
+          "worked": "The complementary event is two blue counters.\n$$\\begin{align*}P(\\text{at least one R})&=1-P(BB)\\\\&=1-\\frac{9}{40}\\\\&=\\frac{31}{40}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-3d06b-p41-practice-slot-3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:07.968Z",
+  "updatedAt": "2026-11-12T07:48:07.968Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "multistage-probability-2-v1",
+    "blockId": "v2-3d06b-p41-practice-slot-3",
+    "sectionRole": "exercise"
+  }
+}

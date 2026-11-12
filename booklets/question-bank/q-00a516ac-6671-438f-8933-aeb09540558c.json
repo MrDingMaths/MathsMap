@@ -1,0 +1,360 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-00a516ac-6671-438f-8933-aeb09540558c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-network-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 12,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read the weights along explicitly specified paths and add the distances of their consecutive edges.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:04:44.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3b49265335d2d0ef36027849d238b4978d2eaddc5c4cbd3a197f18635fd00fa3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/network-concepts-v1/440118ec23040f8fbe923fc5b9fd53ce2364eccb749f05c32b1b4c61086acca7-1793876666257/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "The following graph shows the distance between five country towns in kilometres.\nWhat are the distances of the paths between:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q4-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 20 p20-q4-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (1.1,3.6);\n\\coordinate (A) at (3.1,0.45);\n\\coordinate (D) at (5.1,3.85);\n\\coordinate (E) at (6.25,1.65);\n\\draw (B)--node[midway,left=3pt] {$22$} (C);\n\\draw (C)--node[midway,above=3pt] {$18$} (D);\n\\draw (C)--node[midway,right=3pt] {$21$} (A);\n\\draw (B)--node[midway,below=3pt] {$15$} (A);\n\\draw (A)--node[midway,below=3pt] {$19$} (E);\n\\foreach \\v in {A,B,C,D,E} {\\fill (\\v) circle (2pt);}\n\\node[below=4pt] at (A) {$A$};\n\\node[left=4pt] at (B) {$B$};\n\\node[above=4pt] at (C) {$C$};\n\\node[right=4pt] at (D) {$D$};\n\\node[right=4pt] at (E) {$E$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 4, network left of parts a–c",
+          "description": "Five marked vertices with undirected straight edges BC, CD, CA, BA and AE. Ordinary source-green edges and markers are rendered black under house style.",
+          "mathematics": "BC=22, CD=18, CA=21, BA=15 and AE=19, all in kilometres.",
+          "answerVisibility": "Only supplied vertices, edges and weights are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-q4-a-line",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "C to D ",
+                  "marks": []
+                },
+                {
+                  "type": "break"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$18\\text{ km}$",
+          "worked": "The path uses edge $CD$, whose distance is $18\\text{ km}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p20-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-q4-b-line",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "E to A to C ",
+                  "marks": []
+                },
+                {
+                  "type": "break"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$40\\text{ km}$",
+          "worked": "$$\\begin{aligned}\\text{Distance}&=19+21\\\\&=40\\text{ km}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p20-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-q4-c-line",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "B to C to A to E ",
+                  "marks": []
+                },
+                {
+                  "type": "break"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$62\\text{ km}$",
+          "worked": "$$\\begin{aligned}\\text{Distance}&=22+21+19\\\\&=62\\text{ km}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q4-root/label",
+                  "type": "item",
+                  "ref": "p20-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p20-q4-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p20-q4-root/prompt",
+                      "type": "item",
+                      "ref": "p20-q4-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p20-q4-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p20-q4-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q4-network",
+                              "type": "item",
+                              "ref": "p20-q4-network",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2,
+                          "weight": 0.8800995567291149
+                        },
+                        {
+                          "id": "p20-q4-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p20-q4-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p20-q4-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p20-q4-a/label",
+                                      "type": "item",
+                                      "ref": "p20-q4-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-a/prompt#p20-q4-a-line",
+                                      "type": "item",
+                                      "ref": "p20-q4-a/prompt#p20-q4-a-line",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-a/space",
+                                      "type": "item",
+                                      "ref": "p20-q4-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p20-q4-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p20-q4-b/label",
+                                      "type": "item",
+                                      "ref": "p20-q4-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-b/prompt#p20-q4-b-line",
+                                      "type": "item",
+                                      "ref": "p20-q4-b/prompt#p20-q4-b-line",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-b/space",
+                                      "type": "item",
+                                      "ref": "p20-q4-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p20-q4-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p20-q4-c/label",
+                                      "type": "item",
+                                      "ref": "p20-q4-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-c/prompt#p20-q4-c-line",
+                                      "type": "item",
+                                      "ref": "p20-q4-c/prompt#p20-q4-c-line",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p20-q4-c/space",
+                                      "type": "item",
+                                      "ref": "p20-q4-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2,
+                          "weight": 1.1199004432708852
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p20-q4"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:28.650Z",
+  "updatedAt": "2026-11-12T07:48:28.650Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p20-q4",
+    "sectionRole": "exercise"
+  }
+}

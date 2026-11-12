@@ -1,0 +1,516 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1edf9339-e0a2-4ab2-9631-55fed177b72e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pattern-to-equation",
+    "secondarySkillIds": [],
+    "reasoningScore": 31,
+    "difficulty": "Development",
+    "difficultyReason": "The student counts matches in a pattern, builds the table, finds a linear rule with a constant term (3x+1), then substitutes x=20. There is no graphing, unlike page-45-q1, but the constant term and the prediction make it harder than the y=5x pattern in page-45-q2.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-08T06:00:35.195Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "403315af5f5413e8e0dc3e19a13eff2617d7b641b44b16c59c0b8c1a4f429b52",
+      "diagramBlindHash": "0f8058f8ebb1008ab73776712fcc56dedf2799f4561a731feb3f515d79fb2f0b",
+      "evidence": ".booklet-work/pedagogy-audit-v2/linear-relationships-v1/20261108-054226/calls/18-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "page-45-q2",
+          "score": 26
+        },
+        "easierThan": {
+          "ref": "page-45-q1",
+          "score": 32
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-flow-section-23-slot-17-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Matches are used to build a pattern of squares.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-flow-section-23-slot-17-slot-17-diag-squares",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\definecolor{ink}{HTML}{24282D}\n\\definecolor{blue}{HTML}{268CFF}\n\\begin{tikzpicture}[line width=1.4pt,line cap=round]\n\\foreach \\x/\\cnt/\\k in {0/1/1,1.9/2/2,4.3/3/3,7.2/4/4}{\n\\foreach \\i in {1,...,\\cnt}{\n\\draw[blue] ({\\x+\\i*0.5-0.5},0)--({\\x+\\i*0.5},0);\n\\draw[blue] ({\\x+\\i*0.5-0.5},0.5)--({\\x+\\i*0.5},0.5);\n}\n\\foreach \\i in {0,...,\\cnt}{\\draw[blue] ({\\x+\\i*0.5},0)--({\\x+\\i*0.5},0.5);}\n\\node[font=\\small,text=ink] at ({\\x+\\cnt*0.25},-0.45) {Shape \\k};\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 92,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-flow-section-23-slot-17-slot-17-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "v2-flow-section-23-slot-17-slot-17-q-a-d1",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the table of values.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "v2-flow-section-23-slot-17-slot-17-q-a-d2",
+              "type": "table",
+              "widthMm": 85,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [],
+              "annotations": [],
+              "border": true,
+              "padding": 2,
+              "widths": [
+                45,
+                10,
+                10,
+                10,
+                10
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d3",
+                    "type": "cell",
+                    "header": true,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": true,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d4",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Number of shapes ",
+                            "marks": []
+                          },
+                          {
+                            "type": "math",
+                            "latex": "x",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d6",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d7",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d8",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d9",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d10",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d11",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d12",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d13",
+                    "type": "cell",
+                    "header": true,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": true,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d14",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Number of matches ",
+                            "marks": []
+                          },
+                          {
+                            "type": "math",
+                            "latex": "y",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d15",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d16",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d17",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d18",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d19",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d20",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "v2-flow-section-23-slot-17-slot-17-q-a-d21",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "v2-flow-section-23-slot-17-slot-17-q-a-d22",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4, 7, 10, 13$",
+          "worked": "Shape 1 uses 4 matches. Each extra square shares a side and adds 3 matches:\nFor $x = 1$, $y = 4$.\nFor $x = 2$, $y = 4 + 3 = 7$.\nFor $x = 3$, $y = 7 + 3 = 10$.\nFor $x = 4$, $y = 10 + 3 = 13$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-flow-section-23-slot-17-slot-17-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Determine an equation that relates the two quantities.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y = 3x + 1$",
+          "worked": "The rate of change is $m = 3$ matches per shape.\nWhen $x = 0$, $c = 4 - 3(1) = 1$.\nTherefore, the linear equation is $y = 3x + 1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "v2-flow-section-23-slot-17-slot-17-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use your equation to determine the number of matches in shape 20.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$61$",
+          "worked": "$$\\begin{align*}y&=3x+1\\\\&=3(20)+1\\\\&=61\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-flow-section-23-slot-17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:47:56.148Z",
+  "updatedAt": "2026-11-12T07:47:56.149Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "linear-relationships-v1",
+    "blockId": "v2-flow-section-23-slot-17",
+    "sectionRole": "exercise"
+  }
+}

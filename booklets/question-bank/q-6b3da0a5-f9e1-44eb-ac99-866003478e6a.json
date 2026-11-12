@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6b3da0a5-f9e1-44eb-ac99-866003478e6a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "minimal-connector",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Select a minimum spanning tree from a seven-house weighted network and sum its six cable lengths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:18:59.832Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "00bee5928e0211c7b711ebf430f655fcc826d41dd834e8c93dcfee0fd5d6d240",
+      "evidence": ".booklet-work/full-imports/network-concepts-20261024/semantic-packets/assignments/assignment-7ef4e048805e857c3fc1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p34-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "What is the minimum amount of cable needed to connect these houses? (All units are in metres.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q3-network",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q3-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},house/.style={inner sep=0pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,3.5);\n\\coordinate (LL) at (0,0.8);\n\\coordinate (M) at (2.1,3);\n\\coordinate (T) at (3.8,5);\n\\coordinate (R) at (5.4,2.7);\n\\coordinate (LR) at (4.8,0.5);\n\\coordinate (B) at (2.6,0);\n\\draw[line width=0.8pt] (L)--node[above,sloped]{15}(T);\n\\draw[line width=0.8pt] (L)--node[above]{8.8}(M);\n\\draw[line width=0.8pt] (M)--node[above left]{9.2}(T);\n\\draw[line width=0.8pt] (T)--node[above right]{10.4}(R);\n\\draw[line width=0.8pt] (T)--node[right,pos=0.55]{22}(B);\n\\draw[line width=0.8pt] (L)--node[left]{10}(LL);\n\\draw[line width=0.8pt] (L)--node[left,pos=0.56]{14.5}(B);\n\\draw[line width=0.8pt] (M)--node[left,pos=0.6]{11}(B);\n\\draw[line width=0.8pt] (LL)--node[below]{9}(B);\n\\draw[line width=0.8pt] (B)--node[above left,pos=0.62]{15.6}(R);\n\\draw[line width=0.8pt] (B)--node[below]{8.5}(LR);\n\\draw[line width=0.8pt] (R)--node[right]{8}(LR);\n\\foreach \\v in {L,LL,M,T,R,LR,B}{\n\\begin{scope}[shift={(\\v)}]\n\\fill[white] (-0.2,-0.16) rectangle (0.2,0.18);\n\\draw[black,fill=white,line width=0.8pt] (-0.16,-0.15)--(-0.16,0.1)--(-0.23,0.1)--(0,0.3)--(0.23,0.1)--(0.16,0.1)--(0.16,-0.15)--(0.05,-0.15)--(0.05,-0.01)--(-0.05,-0.01)--(-0.05,-0.15)--cycle;\n\\end{scope}}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 3 house network",
+          "description": "Seven recognisable house markers retain their relative positions and all twelve weighted connections. Position identifiers are internal and are not printed. Ordinary edges and house outlines use house-style black.",
+          "mathematics": "Undirected network: upper-left–top 15; upper-left–interior 8.8; interior–top 9.2; top–right-middle 10.4; top–bottom-central 22; upper-left–lower-left 10; upper-left–bottom-central 14.5; interior–bottom-central 11; lower-left–bottom-central 9; bottom-central–right-middle 15.6; bottom-central–lower-right 8.5; right-middle–lower-right 8.",
+          "answerVisibility": "All weights and houses are permanent givens; no selected spanning-tree edges or answer appear in the student diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$53.5\\text{ m}$",
+      "worked": "Choose the edges of lengths $8$, $8.5$, $8.8$, $9$ and $9.2$ metres, then the $10$ metre edge joining the upper-left and lower-left houses. These six edges connect all seven houses without a cycle, forming a minimum spanning tree.\n$$8+8.5+8.8+9+9.2+10=53.5$$\nThe minimum cable length is $53.5\\text{ m}$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 20
+  },
+  "presentation": {
+    "ownerId": "p34-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q3-network": {
+          "diagramWidthMm": 70
+        },
+        "p34-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q3-root/label",
+                  "type": "item",
+                  "ref": "p34-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p34-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p34-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p34-q3-network",
+                  "type": "item",
+                  "ref": "p34-q3-network",
+                  "title": "Diagram",
+                  "width": 70
+                },
+                {
+                  "id": "layout:p34-q3-root/space",
+                  "type": "item",
+                  "ref": "p34-q3-root/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p34-q3-root": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:48:37.487Z",
+  "updatedAt": "2026-11-12T07:48:37.487Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "network-concepts-v1",
+    "blockId": "p34-q3-block",
+    "sectionRole": "exercise"
+  }
+}
