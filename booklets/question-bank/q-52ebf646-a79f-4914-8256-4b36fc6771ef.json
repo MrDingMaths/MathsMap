@@ -1,0 +1,330 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-52ebf646-a79f-4914-8256-4b36fc6771ef",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-with-y-axis",
+    "secondarySkillIds": [
+      "area-under-curve"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Find intercepts, use them as bounds and calculate the same first-quadrant area in two explicitly requested representations. Rearranging for x and integrating the supplied square-root expression link familiar algebra and integration procedures.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:09:26.856Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "99c41566666b3013b5632230a317cfe50ae5aee85384f59ac16723a2e44b84e0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-integral-calculus-3-further-areas-under-curves-v1/56789d20eb764a8713824f976104c723aa1d941a78ab7cf8f22fe21d58600ece-1793876948963/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The diagram shows the parabola $y^2=16(2-x)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the region whose area is requested\"}],\"reference\":\"page 19 p19-q5-diagram\"}\n\\begin{tikzpicture}[x=1.8cm,y=0.45cm]\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.05,-7.8) rectangle (2.95,8.25);\n\\fill[regionBlue] (0,0)--(2,0) -- plot[domain=0:5.656854249,samples=81,variable=\\t] ({2-\\t*\\t/16},{\\t})--cycle;\n\\draw[->,line width=0.5pt] (-0.9,0)--(2.8,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-7.2)--(0,7.8) node[left] {$y$};\n\\draw[<->,line width=0.8pt,domain=-6.7:6.7,samples=121,variable=\\t] plot ({2-\\t*\\t/16},{\\t});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 5, upper-right graph",
+          "description": "Left-opening parabola with both branch continuation arrows, positive-axis arrows and no numerical tick labels. The first-quadrant region between the axes and upper branch is shaded.",
+          "mathematics": "x=2-y^2/16; vertex (2,0); y-intercepts ±4√2. Shaded region: 0≤y≤4√2 and 0≤x≤2-y^2/16.",
+          "answerVisibility": "The graph and shading are permanent student givens; intercept coordinates are not printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the $x$-intercept and the $y$-intercepts.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercept: $(2,0)$. $y$-intercepts: $(0,4\\sqrt2)$ and $(0,-4\\sqrt2)$.",
+          "worked": "For the $x$-intercept, set $y=0$:\n$$\\begin{aligned}0&=16(2-x)\\\\x&=2.\\end{aligned}$$\nThe $x$-intercept is $(2,0)$.\n\nFor the $y$-intercepts, set $x=0$:\n$$\\begin{aligned}y^2&=32\\\\y&=\\pm4\\sqrt2.\\end{aligned}$$\nThe $y$-intercepts are $(0,4\\sqrt2)$ and $(0,-4\\sqrt2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p19-q5-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the exact area of the shaded region:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p19-q5-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "by integrating $y=4\\sqrt{2-x}$ with respect to $x$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{16\\sqrt2}{3}\\text{ units}^2$.",
+              "worked": "$$\\begin{aligned}A&=\\int_0^2 4\\sqrt{2-x}\\,dx\\\\A&=4\\left[-\\frac{2(2-x)^{3/2}}{3}\\right]_0^2\\\\A&=4\\left[0+\\frac{2(2\\sqrt2)}{3}\\right]\\\\A&=\\frac{16\\sqrt2}{3}\\text{ units}^2.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 33
+          },
+          {
+            "id": "p19-q5-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "by integrating with respect to $y$. (You will need to make $x$ the subject of the equation.)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{16\\sqrt2}{3}\\text{ units}^2$.",
+              "worked": "$$x=2-\\frac{y^2}{16}$$\n$$\\begin{aligned}A&=\\int_0^{4\\sqrt2}\\left(2-\\frac{y^2}{16}\\right)\\,dy\\\\A&=\\left[2y-\\frac{y^3}{48}\\right]_0^{4\\sqrt2}\\\\A&=8\\sqrt2-\\frac{128\\sqrt2}{48}\\\\A&=\\frac{16\\sqrt2}{3}\\text{ units}^2.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 40
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p19-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q5-root/label",
+                  "type": "item",
+                  "ref": "p19-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p19-q5-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p19-q5-root/prompt",
+                      "type": "item",
+                      "ref": "p19-q5-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p19-q5-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p19-q5-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q5-diagram",
+                              "type": "item",
+                              "ref": "p19-q5-diagram",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p19-q5-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p19-q5-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p19-q5-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p19-q5-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p19-q5-a/label",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-a/prompt",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-a/space",
+                                          "type": "item",
+                                          "ref": "p19-q5-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p19-q5-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p19-q5-b/label",
+                                          "type": "item",
+                                          "ref": "p19-q5-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p19-q5-b/prompt",
+                                          "type": "item",
+                                          "ref": "p19-q5-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "p19-q5-b:parts",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "p19-q5-b-i:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p19-q5-b-i/label",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-i/label",
+                                                  "title": "Label i"
+                                                },
+                                                {
+                                                  "id": "layout:p19-q5-b-i/prompt",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-i/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p19-q5-b-i/space",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-i/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part i",
+                                              "gap": 2
+                                            },
+                                            {
+                                              "id": "p19-q5-b-ii:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p19-q5-b-ii/label",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-ii/label",
+                                                  "title": "Label ii"
+                                                },
+                                                {
+                                                  "id": "layout:p19-q5-b-ii/prompt",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-ii/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p19-q5-b-ii/space",
+                                                  "type": "item",
+                                                  "ref": "p19-q5-b-ii/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part ii",
+                                              "gap": 2
+                                            }
+                                          ],
+                                          "gap": 2
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:58.594Z",
+  "updatedAt": "2026-11-12T07:57:58.594Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-v1",
+    "blockId": "p19-q5",
+    "sectionRole": "exercise"
+  }
+}

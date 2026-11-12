@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2eed9eee-a7ec-4acf-b4f5-7af75916395e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "continuity-discontinuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Directly substitute the specified value into the two piecewise expressions and compare, then check that the rational denominator is nonzero.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:30:49.880Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3651a648b010da81f3addd31fada5b9652647eb8f5bccbd46f8edcbe41522055",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/lean-review/calls/content-1792816230932-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p4-practice-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Decide whether these functions are continuous at $x=3$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p4-practice-left",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}2^x,&x<3\\\\x^2,&x\\ge3\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p4-practice-left-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential branch for x<3\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"quadratic branch for x>=3\"}],\"reference\":\"source page 4 p4-practice-left-graph\"}\n\\begin{tikzpicture}[x=0.72cm,y=0.18cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,<->] (-1.5,0)--(5.5,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-2)--(0,17) node[above] {$y$};\n\\draw[seriesBlue,line width=0.8pt,<-,domain=-1.4:3,samples=65] plot (\\x,{pow(2,\\x)});\n\\draw[seriesRed,line width=0.8pt,->,domain=3:4.1,samples=40] plot (\\x,{\\x*\\x});\n\\draw[seriesBlue,line width=0.8pt,fill=white] (3,8) circle[radius=1.4mm];\n\\fill[seriesRed] (3,9) circle[radius=1.4mm];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 4,
+              "sourceRegion": "Practice, left column",
+              "description": "Unnumbered axes; blue exponential branch ends open at x=3, red quadratic branch starts closed directly above it.",
+              "mathematics": "For x<3, y=2^x approaches 8; at x=3, y=x^2 equals 9.",
+              "answerVisibility": "Supplied question diagram; no answer text."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Discontinuous at $x=3$.",
+          "worked": "Let $g(x)=2^x$ and $h(x)=x^2$.\n$$\\begin{align*}g(3)&=2^3\\\\g(3)&=8\\\\h(3)&=3^2\\\\h(3)&=9.\\end{align*}$$\nThe graphs do not join at $x=3$, so $f$ is discontinuous there.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p4-practice-right",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f(x)=\\frac{5}{x^2-4}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p4-practice-right-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"rational function and its asymptote guides\"}],\"reference\":\"source page 4 p4-practice-right-graph; branch signs corrected to agree with printed equation\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.55cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,<->] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-4)--(0,4) node[above] {$y$};\n\\draw[seriesBlue,dashed,line width=0.4pt] (-2,-3.8)--(-2,3.8);\n\\draw[seriesBlue,dashed,line width=0.4pt] (2,-3.8)--(2,3.8);\n\\draw[seriesBlue,line width=0.8pt,<->,domain=-4.4:-2.32,samples=75] plot (\\x,{5/(\\x*\\x-4)});\n\\draw[seriesBlue,line width=0.8pt,<->,domain=-1.64:1.64,samples=100] plot (\\x,{5/(\\x*\\x-4)});\n\\draw[seriesBlue,line width=0.8pt,<->,domain=2.32:4.4,samples=75] plot (\\x,{5/(\\x*\\x-4)});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 4,
+              "sourceRegion": "Practice, right column",
+              "description": "Unnumbered axes and two dashed vertical asymptotes. Branch signs corrected: outer branches above the x-axis and central branch below it.",
+              "mathematics": "y=5/(x^2-4), vertical asymptotes x=-2 and x=2, horizontal asymptote y=0.",
+              "answerVisibility": "Supplied question diagram reconstructed with a recorded source-error correction; no answer text."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Continuous at $x=3$.",
+          "worked": "$$\\begin{align*}3^2-4&=5\\ne0\\\\f(3)&=\\frac{5}{3^2-4}\\\\f(3)&=1.\\end{align*}$$\nThe denominator is nonzero at $x=3$, so $f$ is continuous there.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p4-practice",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:46.070Z",
+  "updatedAt": "2026-11-12T07:56:46.070Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "p4-practice",
+    "sectionRole": "exercise"
+  }
+}

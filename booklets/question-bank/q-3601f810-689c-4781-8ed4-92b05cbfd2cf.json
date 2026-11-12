@@ -1,0 +1,161 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3601f810-689c-4781-8ed4-92b05cbfd2cf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "curve-sketching-calculus",
+    "secondarySkillIds": [
+      "second-derivative",
+      "points-of-inflection",
+      "classify-stationary-first-derivative"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Differentiate the squared logarithm, verify a concavity change at e, and combine the minimum with logarithmic limits to identify the vertical asymptote, sketch and range.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:07:48.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "55cf0d35a6784f15cd0a73b824bb64e6d3a5ec6e5aae5309e1b157782c643472",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-applications-of-calculus-1-curve-sketching-v1/19e117a3b61b2e84bca22fa101528d19ab5c9cb302fba2944c99d17a117dbe1e-1793876832794/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p54-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p54-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the domain of $y=(\\ln x)^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x>0$.",
+          "worked": "The logarithm $\\ln x$ is defined for $x>0$, so the domain is $(0,\\infty)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p54-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find where the function is zero, and explain what its sign is otherwise.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zero at $x=1$; positive for every other $x$ in its domain.",
+          "worked": "$$\\begin{aligned}(\\ln x)^2&=0\\\\\\ln x&=0\\\\x&=1\\end{aligned}$$\n\nFor $x>0$ with $x\\ne1$, $\\ln x\\ne0$, so its square is positive.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p54-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $y'$ and show that $y''=\\dfrac{2(1-\\ln x)}{x^2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=\\dfrac{2\\ln x}{x}$ and $y''=\\dfrac{2(1-\\ln x)}{x^2}$.",
+          "worked": "$$\\begin{aligned}y'&=2\\ln x\\cdot\\frac1x\\\\&=\\frac{2\\ln x}{x}\\\\y''&=\\frac{x(2/x)-2\\ln x}{x^2}\\\\&=\\frac{2(1-\\ln x)}{x^2}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p54-q23-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence show that the curve has an inflection at $x=e$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y''(e)=0$, with concavity changing from up to down at $x=e$; the inflection point is $(e,1)$.",
+          "worked": "Since $x^2>0$ in the domain,\n$$\\begin{aligned}y''&=0\\\\1-\\ln x&=0\\\\\\ln x&=1\\\\x&=e.\\end{aligned}$$\nThe supplied numerical checks give\n$$\\begin{aligned}y''(2)&=\\frac{2-2\\ln2}{4}\\\\&=0.1534\\ldots>0,\\\\y''(3)&=\\frac{2-2\\ln3}{9}\\\\&=-0.0219\\ldots<0.\\end{aligned}$$\nFor $0<x<e$, $1-\\ln x>0$; for $x>e$, $1-\\ln x<0$. Thus $y''$ changes from positive to negative at $e$, so the curve changes from concave up to concave down. As $(\\ln e)^2=1$, the inflection point is $(e,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p54-q23-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Classify the stationary point at $x=1$, sketch the curve, and write down the range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Minimum at $(1,0)$; range $y\\ge0$. The sketch has vertical asymptote $x=0$ and inflection point $(e,1)$.",
+          "worked": "$$\\begin{aligned}y'(1)&=\\frac{2\\ln1}{1}\\\\&=0,\\\\y(1)&=(\\ln1)^2\\\\&=0.\\end{aligned}$$\nFor $0<x<1$, $y'<0$; for $x>1$, $y'>0$. The curve changes from decreasing to increasing, so $(1,0)$ is a minimum.\n\nAs $x\\to0^+$, $(\\ln x)^2\\to\\infty$, giving the vertical asymptote $x=0$. As $x\\to\\infty$, $(\\ln x)^2\\to\\infty$. The curve is concave up for $0<x<e$ and concave down for $x>e$, passing through $(e,1)$.\n\nThe minimum value is $0$ and the function is unbounded above, so the range is $[0,\\infty)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p54-q23-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 54 question 23 answer graph\"}\n\\begin{tikzpicture}[x=1.4cm,y=1.4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.45,0)--(3.65,0) node[below,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.35)--(0,3.5) node[left,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,1)--(2.7182818,1)--(2.7182818,0);\n\\draw[black,line width=0.4pt] (1,-0.045)--(1,0.045);\n\\draw[black,line width=0.4pt] (2.7182818,-0.045)--(2.7182818,0.045);\n\\draw[black,line width=0.4pt] (-0.045,1)--(0.045,1);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (1,-0.045) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (2.7182818,-0.045) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.045,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[black,<->,line width=0.8pt,samples=180,domain=0.16:3.55] plot (\\x,{ln(\\x)^2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 54,
+                "sourceRegion": "Question 23 supplied answer sketch",
+                "description": "Equation-driven sketch entirely to the right of the y-axis, touching the x-axis at 1. Dashed guides mark (e,1); both curve ends continue with arrows. Source answer-blue styling is rendered in ordinary black under house style.",
+                "mathematics": "y=(ln x)^2, x>0; minimum (1,0); inflection (e,1); vertical asymptote x=0; positive-direction axis arrows; no grid.",
+                "answerVisibility": "Solution only; no supplied graph appears in the student question."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 59
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p54-q23",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:40.857Z",
+  "updatedAt": "2026-11-12T07:56:40.858Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p54-q23",
+    "sectionRole": "exercise"
+  }
+}

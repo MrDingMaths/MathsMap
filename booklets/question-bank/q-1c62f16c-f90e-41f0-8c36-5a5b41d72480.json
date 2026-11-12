@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1c62f16c-f90e-41f0-8c36-5a5b41d72480",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-optimisation",
+    "secondarySkillIds": [],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect sector arc length to cone circumference, then use Pythagoras to express the volume in one variable.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:02:25.828Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f6544d27dbc4e382f1b50462dbbade14f8bbf9d586e476140596504a18364779",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-1e94dead320b9019f4f1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p20-q26-root",
+    "type": "question",
+    "label": "26",
+    "prompt": "A sector with angle $\\theta$ radians is cut from a circle of radius 12 cm and formed into a cone by joining the straight edges so that the arc length becomes the circumference of the base.\n\nShow that the volume $V$ of the cone is $$V=\\frac{12\\theta^2}{\\pi}\\sqrt{144-\\frac{36\\theta^2}{\\pi^2}}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q26-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"joinRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the joined straight edges forming the cone seam\"}],\"reference\":\"source page 20 p20-q26-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{joinRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at (-160:1.65);\n\\coordinate (R) at (-20:1.65);\n\\draw[line width=0.8pt] (O)--(R) arc[start angle=-20,end angle=200,radius=1.65]--cycle;\n\\node at (0,1.02) {sector};\n\\draw[->,line width=0.4pt] (-160:0.37) arc[start angle=200,end angle=-20,radius=0.37];\n\\node[above] at (0,0.43) {$\\theta$};\n\\path (O)--(L) node[midway,below] {$r$};\n\\node at (2.65,0.45) {becomes};\n\\coordinate (C) at (4.8,1.15);\n\\coordinate (A) at (4.8,-0.55);\n\\coordinate (CL) at (4.05,1.15);\n\\coordinate (CR) at (5.55,1.15);\n\\draw[line width=0.8pt] (CL)--(A)--(CR);\n\\draw[line width=0.8pt,fill=white] (C) ellipse[x radius=0.75,y radius=0.24];\n\\draw[densely dotted,line width=0.4pt] (4.8,0.91)--(A);\n\\draw[<->,line width=0.4pt] (3.9,1.06)--(4.64,-0.62) node[midway,left] {$r$};\n\\draw[->,joinRed,line width=0.4pt] (5.5,0.35)--(4.8,0.35);\n\\node[right] at (5.5,0.35) {join};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 105,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 26 sector-to-cone diagram",
+          "description": "Major sector with downward-facing wedge removed, sector label, curved angle arrow labelled theta and radius labelled r; becomes separates it from a downward-pointing open cone with dotted interior seam, slant-length dimension r and red join arrow. Decorative pink face shading is omitted under house style.",
+          "mathematics": "The sector radius and cone slant height are both 12 cm. The sector arc becomes the cone base circumference. The diagram's r denotes the slant length, not the base radius.",
+          "answerVisibility": "Permanent question diagram; no calculated dimensions or volume working supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$V=\\dfrac{12\\theta^2}{\\pi}\\sqrt{144-\\dfrac{36\\theta^2}{\\pi^2}}\\text{ cm}^3$.",
+      "worked": "Let $R$ be the cone's base radius and $h$ its perpendicular height, both in centimetres. The sector radius $r$ shown in the diagram is the cone's slant height, 12 cm.\n\nThe sector arc length equals the base circumference:\n$$\\begin{align*}2\\pi R&=12\\theta\\\\R&=\\frac{6\\theta}{\\pi}.\\end{align*}$$\nBy Pythagoras,\n$$\\begin{align*}h^2&=12^2-R^2\\\\h^2&=144-\\frac{36\\theta^2}{\\pi^2}\\\\h&=\\sqrt{144-\\frac{36\\theta^2}{\\pi^2}}.\\end{align*}$$\nHence\n$$\\begin{align*}V&=\\frac13\\pi R^2h\\\\V&=\\frac13\\pi\\left(\\frac{6\\theta}{\\pi}\\right)^2\\sqrt{144-\\frac{36\\theta^2}{\\pi^2}}\\\\V&=\\frac{12\\theta^2}{\\pi}\\sqrt{144-\\frac{36\\theta^2}{\\pi^2}}\\text{ cm}^3.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 48
+  },
+  "presentation": {
+    "ownerId": "p20-q26-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:10.804Z",
+  "updatedAt": "2026-11-12T07:57:10.804Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-v1",
+    "blockId": "p20-q26-block",
+    "sectionRole": "challenge"
+  }
+}

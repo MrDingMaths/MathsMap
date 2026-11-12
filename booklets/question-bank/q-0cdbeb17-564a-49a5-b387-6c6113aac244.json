@@ -1,0 +1,362 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0cdbeb17-564a-49a5-b387-6c6113aac244",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangents-normals-advanced",
+    "secondarySkillIds": [
+      "differentiate-exponential",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Connect exponential differentiation, a perpendicular gradient, intercept calculations and exact triangle area through five dependent parts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:41:30.527Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "55e14a08f9528c425cdbbb6edf37906ebbf964aba5b375d7fa143d098560a960",
+      "evidence": ".booklet-work/full-imports/s6adv-differential-calculus-1-differentiation-with-exponential-functions-20261024/semantic-packets/assignments/assignment-2306c55410e6dfe033bc/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p10-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p10-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"normalRed\",\"hex\":\"EF6068\",\"reason\":\"normal distinguished from the curve\"}],\"reference\":\"source page 10 p10-q8-diagram\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.48cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{normalRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-9.3,0)--(2.6,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.5)--(0,10.5) node[above] {$y$};\n\\draw[<->,normalRed,line width=0.8pt,domain=-9.1:2.5,samples=2] plot (\\x,{\\x/exp(1)+1/exp(1)+exp(1)});\n\\draw[<->,curveBlue,line width=0.8pt,domain=-2.3:2.5,samples=100] plot (\\x,{exp(-\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 8, graph below the parts on the left",
+          "description": "Unscaled coordinate sketch with arrowheads at both ends of both axes, a blue decreasing exponential and a red rising normal. No ticks, numerical labels, point labels or shading.",
+          "mathematics": "The curve is y=e^{-x}; its normal at (-1,e) is y=x/e+1/e+e. The normal crosses the negative x-axis and positive y-axis and meets the curve left of the y-axis.",
+          "answerVisibility": "The complete unlabelled source sketch remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the gradient of the tangent to $y=e^{-x}$ at the point $P(-1,e)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-e$",
+          "worked": "$$\\begin{align*}\\frac{dy}{dx}&=-e^{-x}\\\\m_{\\mathrm{tangent}}&=-e^{-(-1)}\\\\&=-e^1\\\\&=-e\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p10-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Thus write down the gradient of the normal at this point.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{e}$",
+          "worked": "The normal is perpendicular to the tangent.\n$$m_{\\mathrm{normal}}=-\\frac{1}{-e}=\\frac{1}{e}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p10-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence determine the equation of this normal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=\\dfrac{x}{e}+\\dfrac{1}{e}+e$",
+          "worked": "$$\\begin{align*}y-e&=\\frac{1}{e}(x+1)\\\\y&=\\frac{x}{e}+\\frac{1}{e}+e\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p10-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the $x$- and $y$-intercepts of the normal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercept: $(-1-e^2,0)$; $y$-intercept: $\\left(0,\\dfrac{1}{e}+e\\right)$.",
+          "worked": "At the $x$-intercept, $y=0$:\n$$\\begin{align*}0&=\\frac{x}{e}+\\frac{1}{e}+e\\\\0&=x+1+e^2\\\\x&=-1-e^2.\\end{align*}$$\nAt the $y$-intercept, $x=0$:\n$$y=\\frac{1}{e}+e.$$\nThe intercepts are $(-1-e^2,0)$ and $\\left(0,\\frac{1}{e}+e\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p10-q8-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the area of the triangle whose vertices lie at the intercepts and the origin.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{(1+e^2)^2}{2e}$ square units.",
+          "worked": "The perpendicular sides lie along the coordinate axes.\n$$\\begin{align*}A&=\\frac12\\times|1+e^2|\\times\\left|\\frac1e+e\\right|\\\\&=\\frac12(1+e^2)\\frac{1+e^2}{e}\\\\&=\\frac{(1+e^2)^2}{2e}\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p10-q8-root/label",
+                  "type": "item",
+                  "ref": "p10-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p10-q8-diagram",
+                  "type": "item",
+                  "ref": "p10-q8-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p10-q8-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p10-q8-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q8-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q8-a/label",
+                              "type": "item",
+                              "ref": "p10-q8-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p10-q8-a/prompt",
+                              "type": "item",
+                              "ref": "p10-q8-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q8-a/space",
+                              "type": "item",
+                              "ref": "p10-q8-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q8-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q8-b/label",
+                              "type": "item",
+                              "ref": "p10-q8-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p10-q8-b/prompt",
+                              "type": "item",
+                              "ref": "p10-q8-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q8-b/space",
+                              "type": "item",
+                              "ref": "p10-q8-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p10-q8-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q8-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q8-c/label",
+                              "type": "item",
+                              "ref": "p10-q8-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p10-q8-c/prompt",
+                              "type": "item",
+                              "ref": "p10-q8-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q8-c/space",
+                              "type": "item",
+                              "ref": "p10-q8-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q8-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q8-d/label",
+                              "type": "item",
+                              "ref": "p10-q8-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p10-q8-d/prompt",
+                              "type": "item",
+                              "ref": "p10-q8-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q8-d/space",
+                              "type": "item",
+                              "ref": "p10-q8-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 7
+                    },
+                    {
+                      "id": "p10-q8-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q8-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q8-e/label",
+                              "type": "item",
+                              "ref": "p10-q8-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p10-q8-e/prompt",
+                              "type": "item",
+                              "ref": "p10-q8-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q8-e/space",
+                              "type": "item",
+                              "ref": "p10-q8-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q8-root:row:4:fill:1",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [],
+                          "title": "Empty column",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 8",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:21.551Z",
+  "updatedAt": "2026-11-12T07:57:21.551Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-differential-calculus-1-differentiation-with-exponential-functions-v1",
+    "blockId": "p10-q8",
+    "sectionRole": "exercise"
+  }
+}

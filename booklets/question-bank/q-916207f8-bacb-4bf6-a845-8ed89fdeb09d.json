@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-916207f8-bacb-4bf6-a845-8ed89fdeb09d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiability-continuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Test continuity, then compare derivative values of both pieces; one part passes and one fails. Same as p7-q2.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T03:41:06.577Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "35998d810d7c9bbc0cc1bfa32e615e68b9f0578dda10e5125c0b31383e7b555f",
+      "diagramBlindHash": "de5ff60e9d1a42cce20776aa1211f7a2c738c4dd4501913c75b57d7aab6a2908",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-applications-of-calculus-1-curve-sketching-v1/20261111-032010/calls/17-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p7-q2",
+          "score": 35
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-eb1a35-p7-practice-slot-6-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Decide whether these functions are differentiable at $x=2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-eb1a35-p7-practice-slot-6-slot-6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}x^2+3,&x<2\\\\4x-1,&x\\geq2\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-eb1a35-p7-practice-slot-6-slot-6-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"branchBlue\",\"hex\":\"268CFF\",\"reason\":\"quadratic left piece\"},{\"name\":\"branchRed\",\"hex\":\"EF6068\",\"reason\":\"linear right piece and joining point\"}],\"reference\":\"slot-6 part a\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.35cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{branchBlue}{HTML}{268CFF}\n\\definecolor{branchRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-3,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1)--(0,11) node[above] {$y$};\n\\foreach \\t in {-2,-1,1,2,3}{\n\\draw[line width=0.4pt] (\\t,-0.08)--(\\t,0.08) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {2,4,6,8,10}{\n\\draw[line width=0.4pt] (-0.08,\\t)--(0.08,\\t) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[<-,branchBlue,line width=0.8pt,domain=-2.2:2,samples=60] plot (\\x,{\\x*\\x+3});\n\\draw[->,branchRed,line width=0.8pt] (2,7)--(2.8,10.2);\n\\fill[branchRed] (2,7) circle[radius=2pt];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 56,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Yes. The branches join at $(2,7)$ and both have gradient $4$ there.",
+          "worked": "Let $g(x)=x^2+3$ and $h(x)=4x-1$.\nFirst test continuity:\n$$\\begin{align*}g(2)&=2^2+3=7\\\\h(2)&=4(2)-1=7\\end{align*}$$\nThe branches join at $x=2$, so $f$ is continuous there.\nDifferentiate and compare the branch gradients:\n$$\\begin{align*}g'(x)&=2x\\\\h'(x)&=4\\\\g'(2)&=4\\\\h'(2)&=4\\end{align*}$$\nThe gradients agree, so $f$ is differentiable at $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "v2-eb1a35-p7-practice-slot-6-slot-6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f(x)=\\begin{cases}x^3,&x<2\\\\6x-4,&x\\geq2\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-eb1a35-p7-practice-slot-6-slot-6-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"branchBlue\",\"hex\":\"268CFF\",\"reason\":\"cubic left piece\"},{\"name\":\"branchRed\",\"hex\":\"EF6068\",\"reason\":\"linear right piece and joining point\"}],\"reference\":\"slot-6 part b\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{branchBlue}{HTML}{268CFF}\n\\definecolor{branchRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-3)--(0,12.5) node[above] {$y$};\n\\foreach \\t in {-1,1,2,3}{\n\\draw[line width=0.4pt] (\\t,-0.08)--(\\t,0.08) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {-2,2,4,6,8,10,12}{\n\\draw[line width=0.4pt] (-0.08,\\t)--(0.08,\\t) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[<-,branchBlue,line width=0.8pt,domain=-1.3:2,samples=60] plot (\\x,{\\x*\\x*\\x});\n\\draw[->,branchRed,line width=0.8pt] (2,8)--(2.6,11.6);\n\\fill[branchRed] (2,8) circle[radius=2pt];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 46,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "No. The branches join at $(2,8)$, but the gradients are $12$ and $6$.",
+          "worked": "Let $g(x)=x^3$ and $h(x)=6x-4$.\nFirst test continuity:\n$$\\begin{align*}g(2)&=2^3=8\\\\h(2)&=6(2)-4=8\\end{align*}$$\nThe branches join at $x=2$, so $f$ is continuous there.\nDifferentiate and compare the branch gradients:\n$$\\begin{align*}g'(x)&=3x^2\\\\h'(x)&=6\\\\g'(2)&=12\\\\h'(2)&=6\\end{align*}$$\nThe gradients differ, so $f$ is not differentiable at $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-eb1a35-p7-practice-slot-6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:47.654Z",
+  "updatedAt": "2026-11-12T07:56:47.654Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "v2-eb1a35-p7-practice-slot-6",
+    "sectionRole": "exercise"
+  }
+}

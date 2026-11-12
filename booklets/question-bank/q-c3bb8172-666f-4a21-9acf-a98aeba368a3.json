@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c3bb8172-666f-4a21-9acf-a98aeba368a3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "curve-sketching-calculus",
+    "secondarySkillIds": [
+      "second-derivative",
+      "classify-stationary-second-derivative",
+      "points-of-inflection"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Solve derivative trigonometric equations with the correct quadrants, use the second derivative to classify extrema, and combine inflections and endpoints into the sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:07:48.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2717ad72cfe5b6c38685499859ef8c97c2e7b36a2ccd8abbcec2ea5fd5c7c4f3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-applications-of-calculus-1-curve-sketching-v1/19e117a3b61b2e84bca22fa101528d19ab5c9cb302fba2944c99d17a117dbe1e-1793876832794/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p56-q27-root",
+    "type": "question",
+    "label": "27",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p56-q27-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the first and second derivatives of $y=\\cos x+\\sqrt3\\sin x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=-\\sin x+\\sqrt3\\cos x$, $y''=-\\cos x-\\sqrt3\\sin x$.",
+          "worked": "$$\\begin{align*}y'&=-\\sin x+\\sqrt3\\cos x\\\\y''&=-\\cos x-\\sqrt3\\sin x.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p56-q27-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the stationary points in the domain $0\\le x\\le2\\pi$, and use the second derivative to determine their nature.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Maximum at $\\left(\\frac{\\pi}{3},2\\right)$; minimum at $\\left(\\frac{4\\pi}{3},-2\\right)$.",
+          "worked": "$$\\begin{align*}-\\sin x+\\sqrt3\\cos x&=0\\\\\\tan x&=\\sqrt3\\\\x&=\\frac{\\pi}{3},\\frac{4\\pi}{3}\\\\y\\left(\\frac{\\pi}{3}\\right)&=\\frac12+\\sqrt3\\left(\\frac{\\sqrt3}{2}\\right)\\\\&=2\\\\y\\left(\\frac{4\\pi}{3}\\right)&=-\\frac12+\\sqrt3\\left(-\\frac{\\sqrt3}{2}\\right)\\\\&=-2\\\\y''\\left(\\frac{\\pi}{3}\\right)&=-2<0\\\\y''\\left(\\frac{4\\pi}{3}\\right)&=2>0.\\end{align*}$$\nThus $\\left(\\frac{\\pi}{3},2\\right)$ is a maximum and $\\left(\\frac{4\\pi}{3},-2\\right)$ is a minimum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p56-q27-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the points of inflection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\frac{5\\pi}{6},0\\right)$ and $\\left(\\frac{11\\pi}{6},0\\right)$.",
+          "worked": "$$\\begin{align*}-\\cos x-\\sqrt3\\sin x&=0\\\\\\tan x&=-\\frac{1}{\\sqrt3}\\\\x&=\\frac{5\\pi}{6},\\frac{11\\pi}{6}.\\end{align*}$$\nHere $y''=-y$, so $y=0$ at both candidates. The concavity is down on $\\left(0,\\frac{5\\pi}{6}\\right)$, up on $\\left(\\frac{5\\pi}{6},\\frac{11\\pi}{6}\\right)$ and down on $\\left(\\frac{11\\pi}{6},2\\pi\\right)$. Both candidates are points of inflection.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p56-q27-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence sketch the curve, for $0\\le x\\le2\\pi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Sketch through $(0,1)$ and $(2\\pi,1)$, with the maximum, minimum and inflection points from parts b–c.",
+          "worked": "$$\\begin{align*}y(0)&=1\\\\y(2\\pi)&=1.\\end{align*}$$\nThe curve increases to $\\left(\\frac{\\pi}{3},2\\right)$, decreases through $\\left(\\frac{5\\pi}{6},0\\right)$ to $\\left(\\frac{4\\pi}{3},-2\\right)$, then increases through $\\left(\\frac{11\\pi}{6},0\\right)$ to $(2\\pi,1)$. Apply the concavity found in part c.",
+          "solutionDiagrams": [
+            {
+              "id": "p56-q27-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"}],\"reference\":\"page 56 question 27\"}\n\\begin{tikzpicture}[x=1.6cm,y=0.9cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-0.3,0)--(6.85,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.6)--(0,2.65) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,2)--(1.047198,2)--(1.047198,0);\n\\foreach \\x/\\lab in {1.047198/\\frac{\\pi}{3},1.570796/\\frac{\\pi}{2},2.617994/\\frac{5\\pi}{6},3.141593/\\pi,4.188790/\\frac{4\\pi}{3},4.712389/\\frac{3\\pi}{2},5.759587/\\frac{11\\pi}{6},6.283185/2\\pi}{\\draw[line width=0.4pt] (\\x,0.06)--(\\x,-0.06);\\pgfmathsetmacro{\\labeldrop}{ifthenelse(abs(\\x-5.759587)<0.0001,-0.65,-0.07)}\\node[below] at (\\x,\\labeldrop) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {2/2,-2/-2}{\\draw[line width=0.4pt] (-0.04,\\y)--(0.04,\\y);\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:6.283185,samples=160] plot (\\x,{cos(\\x r)+sqrt(3)*sin(\\x r)});\n\\fill[curveBlue] (0,1) circle (1.4pt) (6.283185,1) circle (1.4pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 120,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 56,
+                "sourceRegion": "Question 27 answer sketch",
+                "description": "Equation-driven closed-domain sketch with corrected numerical tick order and a labelled minimum abscissa.",
+                "mathematics": "y=cos(x)+sqrt3 sin(x); endpoints (0,1),(2pi,1); max (pi/3,2), min (4pi/3,-2); inflections (5pi/6,0),(11pi/6,0).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 47
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p56-q27",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:42.034Z",
+  "updatedAt": "2026-11-12T07:56:42.034Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p56-q27",
+    "sectionRole": "exercise"
+  }
+}

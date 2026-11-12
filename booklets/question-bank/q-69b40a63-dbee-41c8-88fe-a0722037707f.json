@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-69b40a63-dbee-41c8-88fe-a0722037707f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-first-second-derivative",
+    "secondarySkillIds": [
+      "curve-sketching-calculus"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret three related graphs using derivative signs, stationary points and changes in concavity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:12:26.490Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "614d094be0981729d1954b944a27ad5a216eb6bbef1571c866c85c1d3c9fc602",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/semantic-packets/assignments/assignment-e1a84ea2b6ed328b76b2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p48-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The graphs of $f(x)$, $f'(x)$ and $f''(x)$ have been sketched below. Describe your observations.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p48-q12-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the function curve\"},{\"name\":\"derivativeRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the first derivative curve\"},{\"name\":\"secondGreen\",\"hex\":\"4F9B63\",\"reason\":\"distinguishes the second derivative curve\"}],\"reference\":\"source page 48 question 12\"}\n\\begin{tikzpicture}[x=2.7cm,y=2.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{derivativeRed}{HTML}{EF6068}\n\\definecolor{secondGreen}{HTML}{4F9B63}\n\\draw[black,line width=0.5pt,<->] (-0.68,0)--(2.18,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-1.12)--(0,0.62) node[above] {$y$};\n\\foreach \\x in {-0.5,-0.25,0.25,0.5,0.75,1,1.25,1.5,1.75,2} {\\draw[black,line width=0.4pt] (\\x,-0.026)--(\\x,0.026);}\n\\foreach \\x/\\lab in {-0.5/-0.5,0.5/0.5,1/1,1.5/1.5,2/2} {\\node[below=3pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {-1/-1,-0.75/-0.75,-0.5/-0.5,-0.25/-0.25,0.25/0.25,0.5/0.5} {\\draw[black,line width=0.4pt] (-0.027,\\y)--(0.027,\\y);\\node[left=3pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[functionBlue,line width=0.8pt,<->,domain=-0.27:1.70,samples=180] plot (\\x,{\\x*(\\x-1)*(\\x-1)*(\\x-1)});\n\\draw[derivativeRed,line width=0.8pt,<->,domain=-0.02:1.38,samples=160] plot (\\x,{(\\x-1)*(\\x-1)*(4*\\x-1)});\n\\draw[secondGreen,line width=0.8pt,<->,domain=0.415:1.085,samples=100] plot (\\x,{12*\\x*\\x-18*\\x+6});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 48,
+          "sourceRegion": "Question 12, lower-left shared coordinate diagram",
+          "description": "Three unlabelled curves on shared black axes, without a grid or legend. Preserve blue, red and green series, labelled and intermediate ticks, and arrowheads. Polynomial reconstruction matches the displayed derivative relationships and key coordinates.",
+          "mathematics": "Blue: y=x(x-1)^3. Red: y=(x-1)^2(4x-1), the derivative of blue. Green: y=12x^2-18x+6, the derivative of red. These equations construct the supplied visual and are not printed givens.",
+          "answerVisibility": "All three curves are permanent student-visible givens; curve identities and observations appear only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Blue represents $f$, red represents $f'$ and green represents $f''$. Zeros of $f'$ give stationary points of $f$; sign changes of $f''$ give points of inflection of $f$ and turning points of $f'$. The signs of $f'$ and $f''$ determine increasing/decreasing behaviour and concavity respectively. Here $f$ has a minimum at $x=\\tfrac14$ and points of inflection at $x=\\tfrac12$ and $x=1$; the latter is stationary.",
+      "worked": "The red curve gives the gradient of the blue curve, and the green curve gives the gradient of the red curve. Thus blue is $f$, red is $f'$ and green is $f''$.\n\nWhere $f'(x)=0$, $f$ has a stationary point. At $x=\\tfrac14$, $f'$ changes from negative to positive, so $f$ has a local minimum. At $x=1$, $f'=0$ but remains positive on both sides, so this stationary point is not a turning point.\n\nThe sign of $f'$ shows that $f$ decreases for $x<\\tfrac14$ and increases for $x>\\tfrac14$, with a horizontal tangent at $x=1$.\n\nThe sign of $f''$ shows that $f$ is concave up for $x<\\tfrac12$, concave down for $\\tfrac12<x<1$, and concave up for $x>1$. Therefore $f$ has points of inflection at $x=\\tfrac12$ and $x=1$. At these values, $f'$ has turning points.\n\nAt $x=1$, both $f'(1)=0$ and the concavity changes, so $f$ has a stationary point of inflection.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 53
+  },
+  "presentation": {
+    "ownerId": "p48-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p48-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p48-observation-pair",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p48-q12-root/label",
+                  "type": "item",
+                  "ref": "p48-q12-root/label"
+                },
+                {
+                  "id": "layout:p48-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p48-q12-root/prompt"
+                },
+                {
+                  "id": "p48-figure-response",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p48-q12-graph",
+                      "type": "item",
+                      "ref": "p48-q12-graph",
+                      "width": 85,
+                      "weight": 85
+                    },
+                    {
+                      "id": "layout:p48-q12-root/space",
+                      "type": "item",
+                      "ref": "p48-q12-root/space",
+                      "weight": 80
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:39.004Z",
+  "updatedAt": "2026-11-12T07:56:39.004Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p48-q12",
+    "sectionRole": "exercise"
+  }
+}

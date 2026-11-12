@@ -1,0 +1,165 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7402db8f-54a6-48e9-b226-22de310c6894",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "coordinate-geometry-problems"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a tangent with symbolic parameters and prove that its axis-intercept triangle has constant area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T02:16:07.639Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7596a4b1a99835f2f0f67a6c5813c9b8857a16da878584ede2e89015ef6c4456",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-20261024/lean-review/calls/content-1792980946792-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p75-q24-root",
+    "type": "question",
+    "label": "24",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p75-q24-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $P\\left(cp,\\dfrac{c}{p}\\right)$, where $c\\ne0$ is a constant and $p\\ne0$, lies on the hyperbola $xy=c^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$cp\\times\\dfrac{c}{p}=c^2$, so $P$ lies on the hyperbola.",
+          "worked": "$$\\begin{aligned}xy&=(cp)\\left(\\frac{c}{p}\\right)\\\\&=c^2\\end{aligned}$$\nThus the coordinates of $P$ satisfy $xy=c^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p75-q24-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a sketch of the hyperbola and label any point $P$ on the curve.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A rectangular hyperbola with branches in quadrants I and III, asymptotic to both coordinate axes, with $P\\left(cp,\\dfrac{c}{p}\\right)$ labelled.",
+          "worked": "Write $y=\\dfrac{c^2}{x}$. Since $c^2>0$, the branches lie in quadrants I and III. The coordinate axes are asymptotes. Label a point $P\\left(cp,\\dfrac{c}{p}\\right)$ on either branch. The sketch shows a representative point on the positive branch.",
+          "solutionDiagrams": [
+            {
+              "id": "p75-q24-b-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 75 question 24b\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(3.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.3)--(0,3.4) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0.32:3.15,samples=100] plot (\\x,{1/\\x});\n\\draw[line width=0.8pt,domain=-3.15:-0.32,samples=100] plot (\\x,{1/\\x});\n\\fill (1,1) circle (1.5pt) node[above right] {$P(cp,c/p)$};\n\\node[left] at (-0.3,2) {$xy=c^2$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 75,
+                "sourceRegion": "Question 24(b)",
+                "description": "Authored schematic solution sketch with both hyperbola branches, coordinate axes and a representative point P. No numerical scale is asserted.",
+                "mathematics": "xy=c^2 with c nonzero; both axes are asymptotes. The positive-branch representative is drawn in normalized coordinates.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p75-q24-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the tangent at $P$ has equation $x+p^2y=2cp$. Draw the tangent on your sketch.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x+p^2y=2cp$.",
+          "worked": "$$\\begin{aligned}y&=\\frac{c^2}{x}\\\\y'&=-\\frac{c^2}{x^2}\\\\m_{\\text{tangent}}&=-\\frac{c^2}{(cp)^2}\\\\&=-\\frac{1}{p^2}\\end{aligned}$$\nUsing $P\\left(cp,\\dfrac{c}{p}\\right)$:\n$$\\begin{aligned}y-\\frac{c}{p}&=-\\frac{1}{p^2}(x-cp)\\\\p^2y-cp&=-x+cp\\\\x+p^2y&=2cp\\end{aligned}$$\nDraw this line through $P$ on the sketch.",
+          "solutionDiagrams": [
+            {
+              "id": "p75-q24-c-tangent-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 75 question 24c\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.3)--(0,3.5) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0.32:3.15,samples=100] plot (\\x,{1/\\x});\n\\draw[line width=0.8pt,domain=-3.15:-0.32,samples=100] plot (\\x,{1/\\x});\n\\draw[dashed,line width=0.8pt] (-0.6,2.6)--(2.7,-0.7);\n\\fill (1,1) circle (1.5pt) node[above right] {$P(cp,c/p)$};\n\\fill (2,0) circle (1.2pt) node[below,yshift=-6mm] {$A(2cp,0)$};\n\\fill (0,2) circle (1.2pt) node[left] {$B(0,2c/p)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 75,
+                "sourceRegion": "Question 24(c)–(d)",
+                "description": "Complete solution sketch extending part b with the tangent and its intercepts. A dashed line distinguishes the tangent from the hyperbola. Representative positive-branch configuration.",
+                "mathematics": "In normalized coordinates the representative curve is XY=1, P=(1,1), and its tangent X+Y=2. Symbolic intercept labels are A=(2cp,0), B=(0,2c/p).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p75-q24-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "The tangent intersects the $x$ and $y$ axes at $A$ and $B$ respectively. Show that the area of $\\triangle OAB$ will always be the same, regardless of where the tangent was drawn.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The area is always $2c^2$ square units, independent of $p$.",
+          "worked": "At the $x$-intercept, $y=0$:\n$$\\begin{aligned}x&=2cp\\end{aligned}$$\nAt the $y$-intercept, $x=0$:\n$$\\begin{aligned}p^2y&=2cp\\\\y&=\\frac{2c}{p}\\end{aligned}$$\nThe perpendicular side lengths are $|2cp|$ and $\\left|\\dfrac{2c}{p}\\right|$.\n$$\\begin{aligned}\\text{Area of }\\triangle OAB&=\\frac12|2cp|\\left|\\frac{2c}{p}\\right|\\\\&=2c^2\\end{aligned}$$\nSince $c$ is constant and the result does not depend on $p$, the area is always the same.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p75-q24",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:58:26.903Z",
+  "updatedAt": "2026-11-12T07:58:26.904Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1",
+    "blockId": "p75-q24",
+    "sectionRole": "challenge"
+  }
+}

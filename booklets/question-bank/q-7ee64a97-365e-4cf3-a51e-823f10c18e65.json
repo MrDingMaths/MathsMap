@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7ee64a97-365e-4cf3-a51e-823f10c18e65",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiability-continuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Establish continuity and compare derivatives of the constant and quadratic pieces at their join.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:46:04.700Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e9345531ef1309f9eb247b4a9b8af29e4a4edadb32e54ae888130a34de296da8",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/semantic-packets/assignments/assignment-8f1babd22dbb53eb1a35/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p7-q2-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Decide whether $f(x)$ is differentiable at $x=4$.\n$$f(x)=\\begin{cases}-1,&x<4\\\\x^2-8x+15,&x\\geq4\\end{cases}$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q2-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"branchBlue\",\"hex\":\"268CFF\",\"reason\":\"constant left piece\"},{\"name\":\"branchRed\",\"hex\":\"EF6068\",\"reason\":\"quadratic right piece\"}],\"reference\":\"source page 7 p7-q2-graph\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{branchBlue}{HTML}{268CFF}\n\\definecolor{branchRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-1.35,0)--(6.4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.35)--(0,3.45) node[above] {$y$};\n\\foreach \\v in {-1,1,2,3,4,5,6} {\n\\draw[line width=0.4pt] (\\v,-0.07)--(\\v,0.07) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-4,-3,-2,-1,1,2,3} {\n\\draw[line width=0.4pt] (-0.07,\\v)--(0.07,\\v) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[branchBlue,line width=0.8pt,<-] (-1.35,-1)--(4,-1);\n\\draw[branchRed,line width=0.8pt,->,domain=4:6.1,samples=70] plot (\\x,{(\\x-4)*(\\x-4)-1});\n\\fill[branchRed] (4,-1) circle[radius=2pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "middle-right graph",
+          "description": "Blue horizontal left ray meets the red quadratic right branch at the filled point (4,-1). Integer ticks and source axis ranges are retained.",
+          "mathematics": "y=-1 for x<4 and y=(x-4)^2-1 for x>=4.",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "Yes. The branches join at $(4,-1)$ and both have gradient $0$ there.",
+      "worked": "Let $g(x)=-1$ and $h(x)=x^2-8x+15$.\nFirst test continuity:\n$$\\begin{aligned}g(4)&=-1\\\\h(4)&=4^2-8(4)+15\\\\h(4)&=-1\\end{aligned}$$\nThe branches join at $x=4$, so $f$ is continuous there.\nDifferentiate and compare the branch gradients:\n$$\\begin{aligned}g'(x)&=0\\\\h'(x)&=2x-8\\\\g'(4)&=0\\\\h'(4)&=2(4)-8=0\\end{aligned}$$\nThe gradients agree, so $f$ is differentiable at $x=4$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 52
+  },
+  "presentation": {
+    "ownerId": "p7-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q2-source-response-pair",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q2-root/label",
+                  "type": "item",
+                  "ref": "p7-q2-root/label"
+                },
+                {
+                  "id": "p7-q2-writing-and-graph",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p7-q2-writing",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q2-root/prompt",
+                          "type": "item",
+                          "ref": "p7-q2-root/prompt"
+                        },
+                        {
+                          "id": "layout:p7-q2-root/space",
+                          "type": "item",
+                          "ref": "p7-q2-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 100
+                    },
+                    {
+                      "id": "layout:p7-q2-graph",
+                      "type": "item",
+                      "ref": "p7-q2-graph",
+                      "width": 60,
+                      "weight": 60
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:47.440Z",
+  "updatedAt": "2026-11-12T07:56:47.440Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "p7-q2",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,420 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-72591e80-cba7-4bc2-aa37-b5054789091d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-under-curve",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Scaffolded integration of a cubic over positive and negative regions, followed by an explanation distinguishing signed integral from total area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:29:37.894Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4d2e11070510db4f737bff97876f1d021442cd0c7de30c4d481bddb7b020e10f",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-e1387ce39b5fac540ddd/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p9-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The curve $y=x(x+1)(x-2)=x^3-x^2-2x$ is graphed.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p9-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 9 p9-q5-graph\"}\n\\begin{tikzpicture}[x=1.05cm,y=0.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.15,-4.9) rectangle (3.55,5.2);\n\\draw[->,line width=0.5pt] (-2.05,0)--(3.25,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.6)--(0,4.9) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.75:2.5,samples=151] plot (\\x,{\\x*(\\x+1)*(\\x-2)});\n\\node[above left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 9,
+          "sourceRegion": "Question 5, right-hand graph",
+          "description": "Unshaded cubic shading scaffold, with positive-direction axis arrows and arrowheads on both curve ends. Only the nonzero intercepts are labelled; no grid or tick marks.",
+          "mathematics": "y=x(x+1)(x-2), with roots -1, 0 and 2; positive on (-1,0) and negative on (0,2).",
+          "answerVisibility": "The unshaded graph is permanently visible; shading appears only in the solution."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p9-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Shade the region bounded by the curve and the $x$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Shade both bounded regions: above the $x$-axis for $-1\\le x\\le0$, and below it for $0\\le x\\le2$.",
+          "worked": "The $x$-intercepts are $-1$, $0$ and $2$. Shade between the curve and the $x$-axis on $[-1,0]$ and $[0,2]$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"the two bounded regions requested for shading\"}],\"reference\":\"source page 9 p9-q5-a solution\"}\n\\begin{tikzpicture}[x=1.05cm,y=0.48cm]\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.15,-4.9) rectangle (3.55,5.2);\n\\fill[regionGreen] (-1,0)--plot[domain=-1:0,samples=61] (\\x,{\\x*(\\x+1)*(\\x-2)})--cycle;\n\\fill[regionGreen] (0,0)--plot[domain=0:2,samples=101] (\\x,{\\x*(\\x+1)*(\\x-2)})--cycle;\n\\draw[->,line width=0.5pt] (-2.05,0)--(3.25,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.6)--(0,4.9) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.75:2.5,samples=151] plot (\\x,{\\x*(\\x+1)*(\\x-2)});\n\\node[above left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5(a), completed graph",
+                "description": "Complete solution graph showing both bounded lobes shaded in light green.",
+                "mathematics": "Shade between y=x(x+1)(x-2) and y=0 from x=-1 to x=2, splitting at x=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p9-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By evaluating $\\displaystyle\\int_0^2(x^3-x^2-2x)\\,dx$, find the area of the shaded region below the $x$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\dfrac23\\ \\text{u}^2$",
+          "worked": "$$\\begin{aligned}\n\\int_0^2(x^3-x^2-2x)\\,dx&=\\left[\\frac{x^4}{4}-\\frac{x^3}{3}-x^2\\right]_0^2\\\\\n&=\\left(4-\\frac83-4\\right)-0\\\\\n&=-\\frac83.\n\\end{aligned}$$\nThe region is below the $x$-axis, so its area is $\\left|-\\dfrac83\\right|=2\\dfrac23\\ \\text{u}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p9-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By evaluating $\\displaystyle\\int_{-1}^0(x^3-x^2-2x)\\,dx$, find the area of the shaded region above the $x$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac5{12}\\ \\text{u}^2$",
+          "worked": "$$\\begin{aligned}\nA_{\\text{above}}&=\\int_{-1}^0(x^3-x^2-2x)\\,dx\\\\\n&=\\left[\\frac{x^4}{4}-\\frac{x^3}{3}-x^2\\right]_{-1}^0\\\\\n&=0-\\left(\\frac14+\\frac13-1\\right)\\\\\n&=\\frac5{12}\\ \\text{u}^2.\n\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p9-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence find the area of the entire region you have shaded.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\dfrac1{12}\\ \\text{u}^2$",
+          "worked": "$$\\begin{aligned}\nA_{\\text{total}}&=\\frac83+\\frac5{12}\\\\\n&=\\frac{37}{12}\\\\\n&=3\\frac1{12}\\ \\text{u}^2.\n\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p9-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find $\\displaystyle\\int_{-1}^2(x^3-x^2-2x)\\,dx$, and explain why this integral does not give the area of the shaded region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-2\\dfrac14\\ \\text{u}^2$. This is the area above the $x$-axis minus the area below it, not the total area.",
+          "worked": "$$\\begin{aligned}\n\\int_{-1}^2(x^3-x^2-2x)\\,dx&=\\left[\\frac{x^4}{4}-\\frac{x^3}{3}-x^2\\right]_{-1}^2\\\\\n&=\\left(4-\\frac83-4\\right)-\\left(\\frac14+\\frac13-1\\right)\\\\\n&=-\\frac83+\\frac5{12}\\\\\n&=-\\frac94=-2\\frac14\\ \\text{u}^2.\n\\end{aligned}$$\nThe integral counts the region below the $x$-axis negatively. It gives the area above the axis minus the area below it, whereas total area adds both positive areas.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p9-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p9-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p9-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p9-q5-root/label",
+                  "type": "item",
+                  "ref": "p9-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p9-q5-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p9-q5-root/prompt",
+                      "type": "item",
+                      "ref": "p9-q5-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p9-q5-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p9-q5-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5-graph",
+                              "type": "item",
+                              "ref": "p9-q5-graph",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p9-q5-root:text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p9-q5-root:parts",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p9-q5-root:row:0",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p9-q5-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p9-q5-a/label",
+                                          "type": "item",
+                                          "ref": "p9-q5-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-a/prompt",
+                                          "type": "item",
+                                          "ref": "p9-q5-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-a/space",
+                                          "type": "item",
+                                          "ref": "p9-q5-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p9-q5-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p9-q5-b/label",
+                                          "type": "item",
+                                          "ref": "p9-q5-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-b/prompt",
+                                          "type": "item",
+                                          "ref": "p9-q5-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-b/space",
+                                          "type": "item",
+                                          "ref": "p9-q5-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p9-q5-root:row:2",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p9-q5-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p9-q5-c/label",
+                                          "type": "item",
+                                          "ref": "p9-q5-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-c/prompt",
+                                          "type": "item",
+                                          "ref": "p9-q5-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-c/space",
+                                          "type": "item",
+                                          "ref": "p9-q5-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p9-q5-d:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p9-q5-d/label",
+                                          "type": "item",
+                                          "ref": "p9-q5-d/label",
+                                          "title": "Label d"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-d/prompt",
+                                          "type": "item",
+                                          "ref": "p9-q5-d/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-d/space",
+                                          "type": "item",
+                                          "ref": "p9-q5-d/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part d",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p9-q5-root:row:4",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p9-q5-e:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p9-q5-e/label",
+                                          "type": "item",
+                                          "ref": "p9-q5-e/label",
+                                          "title": "Label e"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-e/prompt",
+                                          "type": "item",
+                                          "ref": "p9-q5-e/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p9-q5-e/space",
+                                          "type": "item",
+                                          "ref": "p9-q5-e/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part e",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p9-q5-root:row:4:fill:1",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [],
+                                      "title": "Empty column",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:57.806Z",
+  "updatedAt": "2026-11-12T07:57:57.806Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-v1",
+    "blockId": "p9-q5",
+    "sectionRole": "exercise"
+  }
+}

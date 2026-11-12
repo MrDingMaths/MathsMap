@@ -1,0 +1,268 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a1277ddd-491b-40c1-9298-f9af3afbd292",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "derivative-sum-multiple"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Find a tangent by differentiation and verify that the same equation is tangent at a second specified point.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-25T23:16:40.452Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "679b423d9cf9f9d153171ced90af307d51ad953731047cadaed14eda16fdff34",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-20261024/lean-review/calls/content-1792970175222-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p68-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Find the tangent to the curve $y=x^4-4x^3+4x^2+x$ at the origin, and show that this line is also the tangent to the curve at the point $(2,2)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p68-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"quartic curve distinguished from its common tangent\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"common tangent distinguished from the quartic curve\"}],\"reference\":\"source page 68 question 6\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.3,-3.6) rectangle (3.4,6.7);\n\\draw[<->,black,line width=0.5pt] (-3.1,0)--(3.1,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-3.3)--(0,6.3) node[above] {$y$};\n\\draw[<->,tangentRed,line width=0.8pt] (-3,-3)--(3,3);\n\\draw[<->,curveBlue,line width=0.8pt,samples=180,domain=-0.87:2.7] plot (\\x,{\\x*\\x*\\x*\\x-4*\\x*\\x*\\x+4*\\x*\\x+\\x});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 6 graph, upper left",
+          "description": "Equation-driven quartic and common tangent on arrowed coordinate axes, without numerical ticks or point labels. Blue and red distinguish the two plotted functions; axes and labels are black.",
+          "mathematics": "Quartic y=x^4-4x^3+4x^2+x and line y=x, tangent at (0,0) and (2,2). The quartic has a shallow minimum just left of the origin, an intervening maximum and another minimum before x=2.",
+          "answerVisibility": "Both curves are supplied in the student question; their equations and contact-point labels are not added to the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The tangent at both $(0,0)$ and $(2,2)$ is $y=x$.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p68-q6-worked-derivative",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "y'=4x^3-12x^2+8x+1",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-origin",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "At ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y'=1",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-origin-equation",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "y-0=1(x-0)",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-origin-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The tangent at the origin is ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y=x",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-second-gradient",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "At ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=2",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y'=4(2)^3-12(2)^2+8(2)+1=1",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-second-equation",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{aligned}y-2&=1(x-2)\\\\y&=x\\end{aligned}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p68-q6-worked-conclusion",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Hence the tangent at ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "(2,2)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " is also ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y=x",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 39
+  },
+  "presentation": {
+    "ownerId": "p68-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:58:20.484Z",
+  "updatedAt": "2026-11-12T07:58:20.484Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1",
+    "blockId": "p68-q6",
+    "sectionRole": "exercise"
+  }
+}

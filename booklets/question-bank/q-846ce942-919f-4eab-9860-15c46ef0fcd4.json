@@ -1,0 +1,182 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-846ce942-919f-4eab-9860-15c46ef0fcd4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangents-normals-advanced",
+    "secondarySkillIds": [
+      "graph-exponential-features",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Connect differentiation, perpendicular gradients, an exponential asymptote and intersection coordinates to calculate a triangle's area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:41:52.224Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f87ab2cbc344ffda16f20d061db499f8203b4f4a32f7f30cc61d6a969438b485",
+      "evidence": ".booklet-work/full-imports/s6adv-differential-calculus-1-differentiation-with-exponential-functions-20261024/semantic-packets/assignments/assignment-8421ea3879315e8560c2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p11-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p11-q10-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"lineRed\",\"hex\":\"EF6068\",\"reason\":\"tangent, normal and asymptote distinguished from the curve\"}],\"reference\":\"source page 11 question 10 supplied graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{lineRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.2,-3.2) rectangle (3.5,3.5);\n\\draw[black,line width=0.5pt,<->] (-3,0)--(3.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-3)--(0,3.2) node[above] {$y$};\n\\draw[lineRed,line width=0.4pt,dashed] (-3,1)--(3.1,1);\n\\draw[lineRed,line width=0.8pt,<->] (-2.9,-2.9)--(2.9,2.9);\n\\draw[lineRed,line width=0.8pt,<->] (-2.9,2.9)--(2.9,-2.9);\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.35:3.1,samples=100] plot (\\x,{1-exp(-\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Below question 10 parts a–e, left side",
+          "description": "Supplied unlabelled sketch retained with black axes, blue curve, red diagonal tangent and normal, and red dashed horizontal asymptote. No numerical ticks or point labels.",
+          "mathematics": "y=1-exp(-x), y=x, y=-x and y=1.",
+          "answerVisibility": "Visible in the supplied source beneath the student question; retained as a question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p11-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the equation of the tangent to $y=1-e^{-x}$ at the origin is $y=x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dy}{dx}=e^{-x}$, so the gradient at the origin is $1$. Hence the tangent is $y=x$.",
+          "worked": "$$\\begin{align*}\\frac{dy}{dx}&=e^{-x}\\\\m_{\\mathrm{tangent}}&=e^0\\\\&=1\\end{align*}$$\nAt $(0,0)$:\n$$\\begin{align*}y-0&=1(x-0)\\\\y&=x\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p11-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Deduce the equation of the normal at the origin without further use of calculus.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-x$.",
+          "worked": "The normal is perpendicular to the tangent, so its gradient is $-1$.\n$$\\begin{align*}y-0&=-1(x-0)\\\\y&=-x\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p11-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the equation of the asymptote of this curve?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=1$.",
+          "worked": "As $x\\to\\infty$, $e^{-x}\\to0$, so $y\\to1$. The horizontal asymptote is $y=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p11-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Sketch the curve, showing the points $T$ and $N$ where the tangent and normal respectively cut the asymptote.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$T(1,1)$ and $N(-1,1)$; see sketch.",
+          "worked": "At $T$, the tangent $y=x$ meets $y=1$:\n$$\\begin{align*}x&=1\\\\T&=(1,1)\\end{align*}$$\nAt $N$, the normal $y=-x$ meets $y=1$:\n$$\\begin{align*}-x&=1\\\\x&=-1\\\\N&=(-1,1)\\end{align*}$$\nThe curve passes through the origin and approaches $y=1$ from below as $x$ increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q10-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"lineRed\",\"hex\":\"EF6068\",\"reason\":\"tangent, normal and horizontal asymptote distinguished from the curve\"}],\"reference\":\"source page 11 question 10 solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{lineRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.2,-3.2) rectangle (3.7,3.5);\n\\draw[black,line width=0.5pt,<->] (-3,0)--(3.3,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-3)--(0,3.2) node[above] {$y$};\n\\draw[lineRed,line width=0.4pt,dashed] (-3,1)--(3.2,1) node[right,black] {$y=1$};\n\\draw[lineRed,line width=0.8pt,<->] (-2.8,-2.8)--(2.8,2.8);\n\\draw[lineRed,line width=0.8pt,<->] (-2.8,2.8)--(2.8,-2.8);\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.35:3.1,samples=100] plot (\\x,{1-exp(-\\x)});\n\\fill[black] (1,1) circle (1.2pt) (-1,1) circle (1.2pt);\n\\node[black,above right] at (1,1) {$T(1,1)$};\n\\node[black,above left] at (-1,1) {$N(-1,1)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Question 10 graph and answer d",
+                "description": "Complete solution sketch with the source curve, tangent, normal and dashed asymptote, adding the requested T and N labels.",
+                "mathematics": "Curve y=1-exp(-x); tangent y=x; normal y=-x; asymptote y=1; T=(1,1), N=(-1,1).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p11-q10-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the area of $\\triangle OTN$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$ square unit.",
+          "worked": "$TN=1-(-1)=2$ and the perpendicular height from the origin to $TN$ is $1$.\n$$\\begin{align*}\\text{Area of }\\triangle OTN&=\\frac12\\times2\\times1\\\\&=1\\text{ square unit}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:21.837Z",
+  "updatedAt": "2026-11-12T07:57:21.837Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-differential-calculus-1-differentiation-with-exponential-functions-v1",
+    "blockId": "p11-q10",
+    "sectionRole": "exercise"
+  }
+}

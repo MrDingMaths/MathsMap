@@ -1,0 +1,160 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-63c0c151-d028-4e3f-ad12-9bd875b39de2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "curve-sketching-calculus",
+    "secondarySkillIds": [
+      "second-derivative",
+      "concavity-second-derivative"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Use the scaffolded domain, intercept and derivative results to reject an out-of-domain inflection candidate and combine increasing behaviour, concavity and a vertical asymptote in a sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:17:15.642Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0205b7e468e378f8675a47aa07a11adf4743ffdfc6a4fbecb2013c2937ebab01",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/semantic-packets/assignments/assignment-ed3933d2ffb6ab40b0fe/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p55-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p55-q25-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the natural domain of $y=\\ln(\\ln x)$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x>1$.",
+          "worked": "The argument of the outer logarithm must be positive:\n$$\\begin{align*}\\ln x&>0\\\\x&>1.\\end{align*}$$\nThus the natural domain is $(1,\\infty)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p55-q25-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the $x$-intercept?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(e,0)$.",
+          "worked": "At the $x$-intercept, $y=0$:\n$$\\begin{align*}\\ln(\\ln x)&=0\\\\\\ln x&=1\\\\x&=e.\\end{align*}$$\nThe intercept is $(e,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 11
+      },
+      {
+        "id": "p55-q25-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $y'$ and $y''$, and explain why there are no stationary points.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=\\dfrac{1}{x\\ln x}$ and $y''=-\\dfrac{1+\\ln x}{(x\\ln x)^2}$. Since $y'>0$ for $x>1$, there are no stationary points.",
+          "worked": "$$\\begin{align*}y'&=\\frac{1}{\\ln x}\\cdot\\frac{1}{x}\\\\y'&=\\frac{1}{x\\ln x}\\\\y''&=-\\frac{\\ln x+x(1/x)}{(x\\ln x)^2}\\\\y''&=-\\frac{1+\\ln x}{(x\\ln x)^2}.\\end{align*}$$\nFor $x>1$, both $x$ and $\\ln x$ are positive. Hence $y'>0$ throughout the domain, so the curve is always increasing and has no stationary points.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p55-q25-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why there is no inflection at $x=e^{-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$e^{-1}<1$, so this value is outside the domain.",
+          "worked": "Although the numerator of the second-derivative expression is zero when $\\ln x=-1$, the value $x=e^{-1}$ is outside the domain $x>1$. There is no point on the curve there, so it cannot be a point of inflection.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p55-q25-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Sketch the curve.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing and concave down for $x>1$, with vertical asymptote $x=1$, crossing $(e,0)$ and passing through $(e^e,1)$.",
+          "worked": "For $x>1$, $y'>0$ and $y''<0$, so the curve is increasing and concave down throughout its domain.\n\nAs $x\\to1^+$, $\\ln x\\to0^+$ and $y\\to-\\infty$, giving the vertical asymptote $x=1$. As $x\\to\\infty$, $y\\to\\infty$.\n\nThe curve crosses the $x$-axis at $(e,0)$. Also,\n$$\\begin{align*}\\ln(\\ln x)&=1\\\\\\ln x&=e\\\\x&=e^e,\\end{align*}$$\nso it passes through $(e^e,1)$. Draw a smooth increasing, concave-down curve with these features.",
+          "solutionDiagrams": [
+            {
+              "id": "p55-q25-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 55 question 25 answer graph\"}\n\\begin{tikzpicture}[x=0.42cm,y=1.2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.4,-2.4) rectangle (18,1.9);\n\\draw[black,line width=0.5pt,->] (-1,0)--(17.5,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.2)--(0,1.65) node[above] {$y$};\n\\draw[black,line width=0.4pt,dashed] (1,-2.2)--(1,1.55);\n\\draw[black,line width=0.4pt,dashed] (0,1)--({exp(exp(1))},1)--({exp(exp(1))},0);\n\\draw[black,line width=0.4pt] (0.86,0)--(1.14,0);\n\\draw[black,line width=0.4pt] ({exp(1)},-0.045)--({exp(1)},0.045);\n\\draw[black,line width=0.4pt] (-0.14,1)--(0.14,1);\n\\node[below right] at (1,-0.03) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at ({exp(1)},-0.03) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\node[below] at ({exp(exp(1))},-0.03) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e^e$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.8pt,<->,samples=180,domain=-2.1:1.04,variable=\\t] plot ({exp(exp(\\t))},{\\t});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 55,
+                "sourceRegion": "Question 25 supplied answer graph, lower left.",
+                "description": "Equation-driven increasing concave-down logarithmic curve, positive axis arrowheads, vertical asymptote at x=1, intercept e, and dashed guides through (e^e,1). Source blue ordinary strokes are rendered black under house style. No grid is supplied.",
+                "mathematics": "y=ln(ln x), x>1; vertical asymptote x=1; intercept (e,0); reference point (e^e,1); y'>0 and y''<0 throughout the domain.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 52
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p55-q25",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:41.471Z",
+  "updatedAt": "2026-11-12T07:56:41.471Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p55-q25",
+    "sectionRole": "exercise"
+  }
+}

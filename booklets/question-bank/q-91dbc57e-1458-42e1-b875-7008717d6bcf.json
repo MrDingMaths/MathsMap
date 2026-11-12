@@ -1,0 +1,211 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-91dbc57e-1458-42e1-b875-7008717d6bcf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-with-y-axis",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Read the shaded limits from each graph and account for curves lying to the left of the y-axis when evaluating definite integrals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:33:18.967Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "53f75100ad46c96ab9ae8777761d5735d37418271d3611e31677997ded781b9e",
+      "evidence": ".booklet-work/full-imports/s6adv-integral-calculus-3-further-areas-under-curves-20261024/semantic-packets/assignments/assignment-46c54e05bd537f21401e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Find the area of each shaded region below by evaluating the appropriate integral.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q2-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is requested\"}],\"reference\":\"source page 17 p17-q2-a-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,1)--(0,4)--(-3,4)--cycle;\n\\draw[black,line width=0.4pt] (-3,4)--(0,4);\n\\draw[black,->,line width=0.5pt] (-5,0)--(3.2,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2)--(0,6.1) node[left] {$y$};\n\\draw[black,<->,line width=0.8pt] (-4.8,5.8)--(2.8,-1.8);\n\\node[left] at (-1.5,1.5) {$x=1-y$};\n\\node[right] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0,4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 66.9,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 2(a), upper left",
+              "description": "Descending straight line with a triangular shaded region to the left of the y-axis between y=1 and y=4. Source blue shading uses the house light blue.",
+              "mathematics": "x=1-y; vertices of the shaded triangle are (0,1), (0,4) and (-3,4).",
+              "answerVisibility": "Only source givens and the requested shaded region are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{9}{2}\\text{ u}^2$",
+          "worked": "The region lies to the left of the $y$-axis.\n$$\\begin{align*}A&=-\\int_1^4(1-y)\\,dy\\\\A&=-\\left[y-\\frac{y^2}{2}\\right]_1^4\\\\A&=-\\left[(4-8)-\\left(1-\\frac12\\right)\\right]\\\\A&=\\frac92\\text{ u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p17-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q2-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is requested\"}],\"reference\":\"source page 17 p17-q2-b-diagram\"}\n\\begin{tikzpicture}[x=0.36cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,2)--plot[domain=2:4,samples=60,variable=\\t] ({\\t*\\t-6*\\t+8},{\\t})--cycle;\n\\draw[black,->,line width=0.5pt] (-2,0)--(12,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.6)--(0,4.7) node[left] {$y$};\n\\draw[black,<->,line width=0.8pt] plot[domain=-0.35:4.55,samples=100,variable=\\t] ({\\t*\\t-6*\\t+8},{\\t});\n\\node[right] at (1.2,1.8) {$x=y^2-6y+8$};\n\\draw[black,line width=0.4pt] (8,-0.08)--(8,0.08);\n\\node[below] at (8,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$8$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 63.2,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 2(b), upper right",
+              "description": "Right-opening parabola with its shaded lobe between the curve and the y-axis. Both y-intercepts and the x-intercept are labelled.",
+              "mathematics": "x=(y-3)^2-1=y^2-6y+8; y-intercepts 2 and 4; x-intercept 8; shaded interval 2≤y≤4.",
+              "answerVisibility": "Only source givens and shading are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac43\\text{ u}^2$",
+          "worked": "Between $y=2$ and $y=4$, the curve lies to the left of the $y$-axis.\n$$\\begin{align*}A&=-\\int_2^4(y^2-6y+8)\\,dy\\\\A&=-\\left[\\frac{y^3}{3}-3y^2+8y\\right]_2^4\\\\A&=-\\left[\\left(\\frac{64}{3}-48+32\\right)-\\left(\\frac83-12+16\\right)\\right]\\\\A&=-\\left(\\frac{16}{3}-\\frac{20}{3}\\right)\\\\A&=\\frac43\\text{ u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p17-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q2-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is requested\"}],\"reference\":\"source page 17 p17-q2-c-diagram\"}\n\\begin{tikzpicture}[x=1.1cm,y=0.22cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,-8)--(-2,-8)--plot[domain=-2:-1,samples=60,variable=\\t] ({\\t},{\\t*\\t*\\t})--(0,-1)--cycle;\n\\draw[black,line width=0.4pt] (-2,-8)--(0,-8) (-1,-1)--(0,-1);\n\\draw[black,->,line width=0.5pt] (-2.8,0)--(3,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-10.5)--(0,10.5) node[left] {$y$};\n\\draw[black,<->,line width=0.8pt] plot[domain=-2.15:2.15,samples=100,variable=\\t] ({\\t},{\\t*\\t*\\t});\n\\node[left] at (1.5,5.8) {$x=\\sqrt[3]{y}$};\n\\node[right] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0,-8) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-8$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 2(c), lower left",
+              "description": "Increasing cubic-shaped curve through the origin with a shaded region to the left of the y-axis between the labelled negative y-values.",
+              "mathematics": "x=∛y, equivalently y=x^3; shaded interval -8≤y≤-1 with endpoints on the curve (-2,-8) and (-1,-1).",
+              "answerVisibility": "Only source givens and shading are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{45}{4}\\text{ u}^2$",
+          "worked": "The region lies to the left of the $y$-axis. Using real cube roots:\n$$\\begin{align*}A&=-\\int_{-8}^{-1}\\sqrt[3]{y}\\,dy\\\\A&=-\\left[\\frac34\\left(\\sqrt[3]{y}\\right)^4\\right]_{-8}^{-1}\\\\A&=-\\frac34\\left[(-1)^4-(-2)^4\\right]\\\\A&=-\\frac34(1-16)\\\\A&=\\frac{45}{4}\\text{ u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p17-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q2-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"region whose area is requested\"}],\"reference\":\"source page 17 p17-q2-d-diagram\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0)--plot[domain=0:3,samples=60,variable=\\t] ({-\\t*\\t},{\\t})--(0,3)--cycle;\n\\draw[black,line width=0.4pt] (-9,3)--(0,3);\n\\draw[black,->,line width=0.5pt] (-12,0)--(4,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-4)--(0,4.2) node[left] {$y$};\n\\draw[black,<->,line width=0.8pt] plot[domain=-3.4:3.4,samples=100,variable=\\t] ({-\\t*\\t},{\\t});\n\\node[below] at (-5,-0.6) {$x=-y^2$};\n\\node[right] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 2(d), lower right",
+              "description": "Left-opening parabola with the upper region bounded by the curve, y-axis and horizontal line y=3 shaded.",
+              "mathematics": "x=-y^2; vertex (0,0); shaded interval 0≤y≤3.",
+              "answerVisibility": "Only source givens and shading are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$9\\text{ u}^2$",
+          "worked": "The region lies to the left of the $y$-axis.\n$$\\begin{align*}A&=-\\int_0^3(-y^2)\\,dy\\\\A&=\\left[\\frac{y^3}{3}\\right]_0^3\\\\A&=\\frac{27}{3}-0\\\\A&=9\\text{ u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:59.039Z",
+  "updatedAt": "2026-11-12T07:57:59.039Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-3-further-areas-under-curves-v1",
+    "blockId": "p17-q2",
+    "sectionRole": "exercise"
+  }
+}

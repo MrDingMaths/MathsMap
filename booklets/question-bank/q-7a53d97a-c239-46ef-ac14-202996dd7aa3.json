@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7a53d97a-c239-46ef-ac14-202996dd7aa3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "definite-integral-geometric",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Midpoint Riemann sums need the widths and sample points chosen, then three or four function evaluations added. Part c uses a square-root function and rounding. The diagram in part b supplies the heights. It is routine linked procedure, but heavier than recognising an area shape.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:38:33.559Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1610ca81358360d8a8970ba2e8390948bc67056071e854eb5213f00f8b25c8a4",
+      "diagramBlindHash": "e09186f97d61feceb0360bd7301f5112448605594ae0373d77444a30e9abab86",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-1-the-fundamental-theorem-of-calculus-v1/20261111-042605/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p21-q3",
+          "score": 33
+        },
+        "easierThan": {
+          "ref": "p21-q2",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-54480-p21-practice-slot-3-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Use a Riemann sum with rectangles of equal width to estimate each area.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-54480-p21-practice-slot-3-slot-3-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The area under $y=x^2+1$ between $x=0$ and $x=4$, using $4$ rectangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$25$",
+          "worked": "Width $\\Delta x=1$, midpoints $0.5,\\,1.5,\\,2.5,\\,3.5$.\n$$\\begin{align*}A&\\approx\\left[f(0.5)+f(1.5)+f(2.5)+f(3.5)\\right]\\Delta x\\\\&=(1.25+3.25+7.25+13.25)(1)\\\\&=25\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-54480-p21-practice-slot-3-slot-3-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The area under $y=\\dfrac{x^2}{2}$ between $x=0$ and $x=6$, using the $3$ rectangles shown.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-54480-p21-practice-slot-3-slot-3-q-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaFill\",\"hex\":\"D4E8FF\",\"reason\":\"rectangles of the Riemann sum\"}],\"reference\":\"slot-3 part b\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaFill}{HTML}{D4E8FF}\n\\fill[areaFill] (0,0) rectangle (2,0.5) (2,0) rectangle (4,4.5) (4,0) rectangle (6,12.5);\n\\draw[black,line width=0.4pt] (0,0) rectangle (2,0.5) (2,0) rectangle (4,4.5) (4,0) rectangle (6,12.5);\n\\draw[black,line width=0.5pt,->] (-0.3,0)--(6.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,20) node[above] {$y$};\n\\draw[black,line width=0.8pt] plot[domain=0:6,samples=40] (\\x,{\\x*\\x/2});\n\\foreach \\v in {2,4,6}{\\draw[black,line width=0.4pt] (\\v,-0.4)--(\\v,0.4);\\node[below] at (\\v,-0.4) {$\\v$};}\n\\foreach \\v in {5,10,15}{\\draw[black,line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\\node[left] at (-0.08,\\v) {$\\v$};}\n\\node[left] at (5.2,16.5) {$y=\\frac{x^2}{2}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$35$",
+          "worked": "Width $\\Delta x=2$, midpoints $1,\\,3,\\,5$.\n$$\\begin{align*}A&\\approx\\left[f(1)+f(3)+f(5)\\right]\\Delta x\\\\&=\\left(\\frac12+\\frac92+\\frac{25}{2}\\right)(2)\\\\&=35\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-54480-p21-practice-slot-3-slot-3-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\displaystyle\\int_0^3\\sqrt{9-x^2}\\,dx$, using $3$ rectangles, correct to $2$ decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7.21$",
+          "worked": "Width $\\Delta x=1$, midpoints $0.5,\\,1.5,\\,2.5$.\n$$\\begin{align*}A&\\approx\\left[f(0.5)+f(1.5)+f(2.5)\\right]\\Delta x\\\\&=\\left(\\sqrt{8.75}+\\sqrt{6.75}+\\sqrt{2.75}\\right)(1)\\\\&=2.958+2.598+1.658\\\\&\\approx7.21\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-54480-p21-practice-slot-3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:50.647Z",
+  "updatedAt": "2026-11-12T07:57:50.647Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-1-the-fundamental-theorem-of-calculus-v1",
+    "blockId": "v2-54480-p21-practice-slot-3",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-239d1850-3c52-489a-89d4-9316aae3855a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiability-continuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Detect a jump discontinuity or an undefined point, so differentiability fails. Same reasoning as p7-q1.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T03:41:06.569Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d734e160cd6f78baba10e86b7e8954adce2244c188f9d6c6d568a5384672ee70",
+      "diagramBlindHash": "266ce4c338acb46744d344d227144f8b5644f802e6d069e4f6440bdb1016d031",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-applications-of-calculus-1-curve-sketching-v1/20261111-032010/calls/17-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p7-q1",
+          "score": 22
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-eb1a35-p7-practice-slot-4-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Decide whether these functions are differentiable at $x=2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-eb1a35-p7-practice-slot-4-slot-4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}x+3,&x<2\\\\x^2-1,&x\\geq2\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-eb1a35-p7-practice-slot-4-slot-4-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"branchBlue\",\"hex\":\"268CFF\",\"reason\":\"left piece\"},{\"name\":\"branchRed\",\"hex\":\"EF6068\",\"reason\":\"right piece\"}],\"reference\":\"slot-4 part a\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{branchBlue}{HTML}{268CFF}\n\\definecolor{branchRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.5)--(0,8.7) node[above] {$y$};\n\\foreach \\t in {-3,-2,-1,1,2,3}{\n\\draw[line width=0.4pt] (\\t,-0.08)--(\\t,0.08) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {2,4,6,8}{\n\\draw[line width=0.4pt] (-0.08,\\t)--(0.08,\\t) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[<-,branchBlue,line width=0.8pt] (-3.3,-0.3)--(2,5);\n\\draw[->,branchRed,line width=0.8pt,domain=2:2.9,samples=40] plot (\\x,{\\x*\\x-1});\n\\draw[branchBlue,fill=white,line width=0.8pt] (2,5) circle[radius=2pt];\n\\fill[branchRed] (2,3) circle[radius=2pt];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 54,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "No. The function is not continuous at $x=2$, so it is not differentiable there.",
+          "worked": "Let $g(x)=x+3$ and $h(x)=x^2-1$.\n$$\\begin{align*}g(2)&=2+3=5\\\\h(2)&=2^2-1=3\\end{align*}$$\nThe branches do not join at $x=2$. Therefore $f$ is not continuous at $x=2$ and hence is not differentiable there.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-eb1a35-p7-practice-slot-4-slot-4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f(x)=\\frac{3}{x-2}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-eb1a35-p7-practice-slot-4-slot-4-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied function graph and asymptote guide\"}],\"reference\":\"slot-4 part b\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,line width=0.5pt] (-2,0)--(5.7,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-7.3)--(0,7.3) node[above] {$y$};\n\\foreach \\t in {-1,1,2,3,4,5}{\n\\draw[line width=0.4pt] (\\t,-0.08)--(\\t,0.08) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {-6,-4,-2,2,4,6}{\n\\draw[line width=0.4pt] (-0.08,\\t)--(0.08,\\t) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveBlue,dashed,line width=0.4pt] (2,-7)--(2,7);\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.4:1.5,samples=60] plot (\\x,{3/(\\x-2)});\n\\draw[curveBlue,line width=0.8pt,<->,domain=2.5:5.4,samples=60] plot (\\x,{3/(\\x-2)});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 57,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "No. $f(2)$ is undefined, so the function is not continuous at $x=2$ and not differentiable there.",
+          "worked": "$$f(2)=\\frac{3}{2-2}$$\nThe denominator is zero, so $f(2)$ is undefined. Therefore $f$ is not continuous at $x=2$ and hence is not differentiable there.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-eb1a35-p7-practice-slot-4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:46.877Z",
+  "updatedAt": "2026-11-12T07:56:46.877Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "v2-eb1a35-p7-practice-slot-4",
+    "sectionRole": "exercise"
+  }
+}

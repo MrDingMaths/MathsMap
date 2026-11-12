@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-742c25fa-37a9-4183-ac1b-bc012098c42b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-sinusoidal-model",
+    "secondarySkillIds": [
+      "model-periodic-phenomena"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Infer a full period from the stated maximum and minimum, construct the cosine model, sketch it and interpret a calendar date.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:58:21.192Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c5fef316d03023c52e77cac04aaee1ac2e49472e139984bd137385050413c791",
+      "evidence": ".booklet-work/full-imports/s6adv-further-graph-transformations-and-modelling-2-modelling-with-functions-20261024/semantic-packets/assignments/assignment-26fcba1d02d8c75e15c4/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p11-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Scientists monitoring a population of penguins on Heard Island found that the number of penguins varies between a high of 900 at the start of the year and a low of 700 on 30 June and is approximated by the cosine function $P(t)=k\\cos at+c$, where $t$ is the number of months since the start of the year, and $k$, $a$ and $c$ are constants.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch a graph of the penguin population over a whole year.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cosine curve through $(0,900)$, $(3,800)$, $(6,700)$, $(9,800)$ and $(12,900)$.",
+          "worked": "The maximum is 900 at $t=0$ and the minimum is 700 at $t=6$, so the half-period is 6 months and the period is 12 months. The mean population is $\\frac{900+700}{2}=800$. Sketch one cosine cycle, starting and ending at 900, with its minimum at $(6,700)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q8-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"populationBlue\",\"hex\":\"268CFF\",\"reason\":\"population function\"}],\"reference\":\"source page 11 p11-q8-a-graph\"}\n\\begin{tikzpicture}[x=0.52cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{populationBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(12.5,0) node[right] {$t$};\n\\draw[line width=0.5pt] (0,0)--(0,0.15);\n\\draw[->,line width=0.5pt] (0,0.35)--(0,4.8) node[above] {$P$};\n\\draw[line width=0.4pt] (-0.10,0.14)--(0.10,0.26) (-0.10,0.27)--(0.10,0.39);\n\\foreach \\m in {1,...,12} {\n\\draw[line width=0.4pt] (\\m,-0.08)--(\\m,0.08);\n\\node[below] at (\\m,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\m$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v/\\h in {600/0.5,700/1.5,800/2.5,900/3.5,1000/4.5} {\n\\draw[line width=0.4pt] (-0.08,\\h)--(0.08,\\h);\n\\node[left] at (-0.08,\\h) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[populationBlue,line width=0.8pt,->] plot[domain=0:12,samples=121] (\\x,{2.5+cos(30*\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Question 8(a), supplied answer graph",
+                "description": "One cosine cycle with monthly ticks 1–12, vertical ticks 600–1000, an axis break below 600 and an arrow at the curve endpoint. Axes and labels use house black; the population curve uses standard blue.",
+                "mathematics": "P(t)=100 cos(pi t/6)+800 for 0<=t<=12. Drawing coordinates use y=(P-600)/100+0.5 above the vertical-axis break.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p11-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the values of $k$, $a$ and $c$ for the function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=100$, $a=\\frac{\\pi}{6}$, $c=800$.",
+          "worked": "$$\\begin{align*}k&=\\frac{900-700}{2}\\\\k&=100\\\\c&=\\frac{900+700}{2}\\\\c&=800\\end{align*}$$\nHalf-period $=6$ months, so period $=12$ months.\n$$\\begin{align*}a&=\\frac{2\\pi}{12}\\\\a&=\\frac{\\pi}{6}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p11-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "According to the population function, how many penguins will there be on the island on 31 March?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "800 penguins.",
+          "worked": "On 31 March, $t=3$.\n$$\\begin{align*}P(3)&=100\\cos\\left(\\frac{\\pi(3)}{6}\\right)+800\\\\P(3)&=100\\cos\\left(\\frac{\\pi}{2}\\right)+800\\\\P(3)&=800\\end{align*}$$\nThere will be 800 penguins.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:42.886Z",
+  "updatedAt": "2026-11-12T07:57:42.886Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-further-graph-transformations-and-modelling-2-modelling-with-functions-v1",
+    "blockId": "p11-q8",
+    "sectionRole": "exercise"
+  }
+}

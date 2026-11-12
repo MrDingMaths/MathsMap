@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-db633f41-752d-4471-9f0c-0a0a95983519",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "curve-sketching-calculus",
+    "secondarySkillIds": [
+      "graph-polynomial-with-calculus",
+      "classify-stationary-second-derivative",
+      "points-of-inflection"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Use supplied derivative forms and explicitly directed stationary-point and concavity tests, then combine the resulting features into a cubic sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T06:38:40.234Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "06a5f0b057f734911bb802df6da40aa1b9ef9633edbba1bc610226713a665c44",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/lean-review/calls/content-1792823849737-49/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p45-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p45-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If $f(x)=2x^3-3x^2+5$, show that $f'(x)=6x(x-1)$ and $f''(x)=6(2x-1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=6x(x-1)$ and $f''(x)=6(2x-1)$.",
+          "worked": "$$\\begin{align*}f'(x)&=6x^2-6x\\\\&=6x(x-1)\\\\f''(x)&=12x-6\\\\&=6(2x-1)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p45-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the coordinates of the stationary points. Then determine their nature, either by examining the sign of $f''(0)$ and $f''(1)$ or by means of a table of test values of $f'$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Local maximum at $(0,5)$; local minimum at $(1,4)$.",
+          "worked": "$$\\begin{align*}6x(x-1)&=0\\\\x&=0\\text{ or }1\\\\f(0)&=5\\\\f(1)&=2-3+5\\\\&=4\\\\f''(0)&=-6<0\\\\f''(1)&=6>0\\end{align*}$$\nThus $(0,5)$ is a local maximum and $(1,4)$ is a local minimum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p45-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why there is a point of inflection at $x=\\frac12$, and find the gradient there.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f''$ changes from negative to positive at $x=\\frac12$, so there is a point of inflection there. The gradient is $-\\frac32$.",
+          "worked": "$$\\begin{align*}f''\\left(\\frac12\\right)&=6\\left(2\\times\\frac12-1\\right)\\\\&=0\\end{align*}$$\nFor $x<\\frac12$, $f''(x)<0$; for $x>\\frac12$, $f''(x)>0$. The curve changes from concave down to concave up, so $x=\\frac12$ gives a point of inflection.\n$$\\begin{align*}f'\\left(\\frac12\\right)&=6\\times\\frac12\\left(\\frac12-1\\right)\\\\&=-\\frac32\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p45-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Sketch the graph of $f(x)$, indicating all important features.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cubic with $x$-intercept $(-1,0)$, local maximum and $y$-intercept $(0,5)$, point of inflection $\\left(\\frac12,\\frac92\\right)$ and local minimum $(1,4)$. The curve falls to the left and rises to the right.",
+          "worked": "$$\\begin{align*}f(0)&=5\\\\f\\left(\\frac12\\right)&=2\\left(\\frac12\\right)^3-3\\left(\\frac12\\right)^2+5\\\\&=\\frac92\\\\f(-1)&=-2-3+5\\\\&=0\\end{align*}$$\nThus the $x$-intercept is $(-1,0)$. There are no other $x$-intercepts because both turning points lie above the $x$-axis.\n\nThe curve increases for $x<0$, decreases for $0<x<1$, then increases for $x>1$. It is concave down for $x<\\frac12$ and concave up for $x>\\frac12$.\n\nAs $x\\to-\\infty$, $f(x)\\to-\\infty$; as $x\\to\\infty$, $f(x)\\to\\infty$. Mark the intercepts, both stationary points and the point of inflection on the sketch.",
+          "solutionDiagrams": [
+            {
+              "id": "p45-q4-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 45 question 4 answer graph\"}\n\\begin{tikzpicture}[x=1.55cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,line width=0.5pt] (-1.65,0)--(2.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2.5)--(0,8.5) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.25:1.9,samples=120] plot (\\x,{2*\\x*\\x*\\x-3*\\x*\\x+5});\n\\fill (-1,0) circle (1.4pt);\n\\fill (0,5) circle (1.4pt);\n\\fill (0.5,4.5) circle (1.4pt);\n\\fill (1,4) circle (1.4pt);\n\\node[below left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (0,5) {$(0,5)$};\n\\draw[line width=0.4pt] (0.5,4.5)--(0.8,6.2);\n\\node[above right] at (0.8,6.2) {$\\left(\\frac12,\\frac92\\right)$};\n\\node[below right] at (1,4) {$(1,4)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 45,
+                "sourceRegion": "Question 4 answer sketch below part d",
+                "description": "Equation-driven cubic sketch with arrowed axes, marked intercept and stationary and inflection points. Ordinary axes, curve and labels use black. The inaccurate source intercept label is corrected.",
+                "mathematics": "y=2x^3-3x^2+5; local maximum (0,5), local minimum (1,4), inflection (1/2,9/2), unique real zero approximately -1.078616889.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:36.857Z",
+  "updatedAt": "2026-11-12T07:56:36.857Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p45-q4",
+    "sectionRole": "exercise"
+  }
+}

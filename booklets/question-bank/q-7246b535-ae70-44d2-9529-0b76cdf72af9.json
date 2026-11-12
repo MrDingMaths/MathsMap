@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7246b535-ae70-44d2-9529-0b76cdf72af9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combine-differentiation-rules",
+    "secondarySkillIds": [
+      "domain-range-interval-notation",
+      "points-given-gradient",
+      "tangent-normal-equations"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Combine product and chain rules, simplify a fractional derivative, and use it to determine horizontal tangents and tangent and normal equations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:07:40.561Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9c3e6e8aa03f7aea7e3447c65afbdebf4da0306878c4a97f65d3e82efe110c1f",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-20261024/semantic-packets/assignments/assignment-eacc777a35b7a9b15840/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p73-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p73-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent at the origin\"},{\"name\":\"normalGreen\",\"hex\":\"4F9B63\",\"reason\":\"normal at the origin\"}],\"reference\":\"source page 73 question 18\"}\n\\begin{tikzpicture}[x=1.35cm,y=1.35cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{normalGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-2.45,-2.35) rectangle (2.55,2.5);\n\\draw[black,line width=0.5pt,<->] (-2.25,0)--(2.25,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-2.2)--(0,2.2) node[above] {$y$};\n\\draw[tangentRed,line width=0.8pt,<->] (-2.2,-2.2)--(2.2,2.2);\n\\draw[normalGreen,line width=0.8pt,<->] (-2.2,2.2)--(2.2,-2.2);\n\\draw[curveBlue,line width=0.8pt,domain=-90:90,samples=181] plot ({sin(\\x)},{sin(\\x)*cos(\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 73,
+          "sourceRegion": "Question 18, diagram below parts a–d",
+          "description": "Unticked, ungridded coordinate axes with arrows at both ends; blue function curve, red rising tangent and green falling normal through the origin. No numerical or line labels.",
+          "mathematics": "Curve y=x sqrt(1-x^2), -1<=x<=1; tangent y=x and normal y=-x.",
+          "answerVisibility": "Retained as the supplied figure beneath the question; separate blue written answers are excluded from student prompts."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p73-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the domain of $y=x\\sqrt{1-x^2}$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-1\\le x\\le1$.",
+          "worked": "$\\begin{aligned}1-x^2&\\ge0\\\\x^2&\\le1\\end{aligned}$\nTherefore the domain is $-1\\le x\\le1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p73-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Differentiate $y=x\\sqrt{1-x^2}$ and combine terms using a common denominator.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{dy}{dx}=\\frac{1-2x^2}{\\sqrt{1-x^2}}$, for $-1<x<1$.",
+          "worked": "Using the product and chain rules,\n$$\\begin{aligned}\\frac{dy}{dx}&=\\sqrt{1-x^2}+x\\left[\\frac12(1-x^2)^{-1/2}(-2x)\\right]\\\\&=\\sqrt{1-x^2}-\\frac{x^2}{\\sqrt{1-x^2}}\\\\&=\\frac{1-x^2-x^2}{\\sqrt{1-x^2}}\\\\&=\\frac{1-2x^2}{\\sqrt{1-x^2}}.\\end{aligned}$$\nThis derivative applies for $-1<x<1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p73-q18-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find points on the curve where the tangent is horizontal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\frac1{\\sqrt2},\\frac12\\right)$ and $\\left(-\\frac1{\\sqrt2},-\\frac12\\right)$.",
+          "worked": "A horizontal tangent has $\\frac{dy}{dx}=0$.\n$$\\begin{aligned}1-2x^2&=0\\\\x^2&=\\frac12\\\\x&=\\pm\\frac1{\\sqrt2}.\\end{aligned}$$\nAt these values, $\\sqrt{1-x^2}=\\frac1{\\sqrt2}$, so $y=\\pm\\frac12$, with the same sign as $x$.\nThe points are $\\left(\\frac1{\\sqrt2},\\frac12\\right)$ and $\\left(-\\frac1{\\sqrt2},-\\frac12\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p73-q18-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the tangent and normal at the origin.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $y=x$. Normal: $y=-x$.",
+          "worked": "$$\\begin{aligned}m_{\\text{tangent}}&=\\frac{1-2(0)^2}{\\sqrt{1-(0)^2}}\\\\&=1.\\end{aligned}$$\nThe tangent passes through $(0,0)$, so its equation is $y=x$.\nThe normal gradient is $-\\frac11=-1$, so its equation is $y=-x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p73-q18",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:58:24.987Z",
+  "updatedAt": "2026-11-12T07:58:24.987Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1",
+    "blockId": "p73-q18",
+    "sectionRole": "exercise"
+  }
+}

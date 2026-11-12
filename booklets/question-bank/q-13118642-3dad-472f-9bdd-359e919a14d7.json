@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-13118642-3dad-472f-9bdd-359e919a14d7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "rates-of-change-derivatives",
+    "secondarySkillIds": [
+      "concavity-second-derivative"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Combine a negative population derivative with a positive second derivative to explain a slowing decline, then sketch a decreasing, concave-up curve through the initial population.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:07:48.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4ce5ebaf59d978b736660f45c5005879498ba39056c66b7ba6715ccac3d2dc7d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-applications-of-calculus-1-curve-sketching-v1/19e117a3b61b2e84bca22fa101528d19ab5c9cb302fba2944c99d17a117dbe1e-1793876832794/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "The population $P$ of fish in a certain lake was studied over time. At the start of the study the number of fish was 2500.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "During the study, $\\dfrac{dP}{dt}<0$. What does this say about the number of fish during the study?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The number of fish is decreasing.",
+          "worked": "Since $\\dfrac{dP}{dt}<0$, the population decreases as time increases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p38-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If at the same time, $\\dfrac{d^2P}{dt^2}>0$, what can you say about the population rate of change?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "dependsOn": [
+          "p38-q8-a"
+        ],
+        "answer": {
+          "short": "The rate of change is increasing (becoming less negative), so the decline is slowing.",
+          "worked": "Since $\\dfrac{d^2P}{dt^2}>0$, the rate of change $\\dfrac{dP}{dt}$ is increasing. It is negative, so it is becoming less negative: the population is decreasing more slowly.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p38-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch a possible graph of the population $P$ against $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "dependsOn": [
+          "p38-q8-a",
+          "p38-q8-b"
+        ],
+        "answer": {
+          "short": "A decreasing, concave-up curve starting at $(0,2500)$ and remaining above the $t$-axis.",
+          "worked": "The graph starts at $(0,2500)$. Since $\\dfrac{dP}{dt}<0$, it slopes downwards. Since $\\dfrac{d^2P}{dt^2}>0$, it is concave up and becomes less steep as time increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q8-c-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"populationBlue\",\"hex\":\"268CFF\",\"reason\":\"population graph\"}],\"reference\":\"source page 38 p38-q8-c-answer-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{populationBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(4.5,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,0)--(0,3.5) node[above] {$P$};\n\\draw[line width=0.4pt] (-0.09,2.5)--(0.09,2.5);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.09,2.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2500$\\special{dvisvgm:raw </g>}};\n\\draw[populationBlue,line width=0.8pt,->] plot[domain=0:4.2,samples=80] (\\x,{2.5/(1+0.8*\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 8(c), supplied answer graph",
+                "description": "Positive population curve beginning at the labelled vertical intercept 2500, decreasing and flattening to the right. Axes have arrowheads and labels P and t; there is no grid.",
+                "mathematics": "A possible qualitative graph has P(0)=2500, P>0, P'<0 and P''>0. The plotted representative curve expresses these conditions without supplying an equation to students.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 34
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:34.318Z",
+  "updatedAt": "2026-11-12T07:56:34.318Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p38-q8-block",
+    "sectionRole": "exercise"
+  }
+}

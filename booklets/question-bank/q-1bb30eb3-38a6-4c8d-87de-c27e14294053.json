@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1bb30eb3-38a6-4c8d-87de-c27e14294053",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "define-derivative-tangent",
+    "secondarySkillIds": [
+      "chain-rule",
+      "differentiate-sin-cos"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the explicit derivative-to-gradient-to-line scaffold, select the stated intercepts, and convert the negative tangent y-intercept into a positive triangle height. These are routine linked procedures; the supplied derivative and area constrain the work.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-30T00:37:39.735Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "64e20b1558e4bb3a8cf977796368d13f676a36c0b152927877de2f11f57396ec",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-using-derivatives-r5/phase5-r8-area/corrected-two-independent-review.json"
+    }
+  },
+  "content": {
+    "id": "routine-using-r8-area-1-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "routine-using-r8-area-1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=2\\sin^2 x$ has derivative $y'=4\\sin x\\cos x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=4\\sin x\\cos x$.",
+          "worked": "$$\\begin{align*}y'&=2\\times2\\sin x\\times\\cos x\\\\&=4\\sin x\\cos x.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "routine-using-r8-area-1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the gradients of the tangent and normal to $y=2\\sin^2 x$ at the point where $x=\\frac{\\pi}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $2$. Normal: $-\\frac12$.",
+          "worked": "At $x=\\frac{\\pi}{4}$:\n$$\\begin{align*}y'&=4\\sin\\left(\\frac{\\pi}{4}\\right)\\cos\\left(\\frac{\\pi}{4}\\right)\\\\&=4\\left(\\frac{\\sqrt2}{2}\\right)\\left(\\frac{\\sqrt2}{2}\\right)\\\\&=2.\\end{align*}$$\nGradient of tangent $=2$.\n\nGradient of normal $=-\\frac{1}{2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "routine-using-r8-area-1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the equations of the tangent and normal to $y=2\\sin^2 x$ at the point where $x=\\frac{\\pi}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $2x-y=\\frac{\\pi}{2}-1$. Normal: $x+2y=\\frac{\\pi}{4}+2$.",
+          "worked": "At $x=\\frac{\\pi}{4}$:\n$$y=2\\sin^2\\left(\\frac{\\pi}{4}\\right)=1.$$\nTangent:\n$$\\begin{align*}y-1&=2\\left(x-\\frac{\\pi}{4}\\right)\\\\2x-y&=\\frac{\\pi}{2}-1.\\end{align*}$$\nNormal:\n$$\\begin{align*}y-1&=-\\frac12\\left(x-\\frac{\\pi}{4}\\right)\\\\x+2y&=\\frac{\\pi}{4}+2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "routine-using-r8-area-1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Suppose that the normal meets the $x$-axis at $P$, the tangent meets the $y$-axis at $Q$ and $O$ is the origin. Show that $\\triangle OPQ$ has area $\\frac{(\\pi+8)(\\pi-2)}{16}$ units$^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "routine-using-r8-area-1-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent distinguished from curve and normal\"},{\"name\":\"normalGreen\",\"hex\":\"4F9B63\",\"reason\":\"normal distinguished from curve and tangent\"}],\"reference\":\"routine-using-r8-area-1-d-diagram\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{normalGreen}{HTML}{4F9B63}\n\\draw[black,line width=0.5pt,<->] (-1.1,0)--(3.5,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-1.3)--(0,2.8) node[above] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-0.9:3.2,samples=120] plot (\\x,{2*sin(\\x r)^2});\n\\draw[tangentRed,line width=0.8pt,<->] (-0.3,{-0.6-pi/2+1})--(1.5,{3-pi/2+1});\n\\draw[normalGreen,line width=0.8pt,<->] (-0.8,{0.4+pi/8+1})--(3.2,{-1.6+pi/8+1});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 95,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 12,
+              "sourceRegion": "Style reference only: Question 12d sketch layout (curve, tangent, normal, unlabelled axes)",
+              "description": "Unscaled coordinate sketch of the blue curve y=2sin²x, red tangent and green normal at x=π/4, arrowheads at both ends. Axes are black with no ticks, grid, origin label or intercept labels. Palette and 10pt label convention follow house style.",
+              "mathematics": "UNPRINTED reviewer inventory. Curve y=2sin²x, plotted with radian conversion (\\x r), domain x∈[-0.9,3.2]. Tangency point (π/4,1) (inflection point of the curve, so the tangent crosses the curve there). Tangent: gradient 2, y=2x-π/2+1, drawn x∈[-0.3,1.5]; y-intercept 1-π/2≈-0.571 (below the origin); x-intercept π/4-1/2. Normal: gradient -1/2, y=-x/2+π/8+1, drawn x∈[-0.8,3.2]; x-intercept π/4+2≈2.785 (inside the drawn axis x≤3.5); y-intercept π/8+1. Triangle OPQ: P=(π/4+2,0), Q=(0,1-π/2), area (π+8)(π-2)/16≈0.795. No coordinates or equations are printed in the figure.",
+              "answerVisibility": "Question diagram visible in student and answer editions; the spec is not printed."
+            },
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{Area}(\\triangle OPQ)=\\frac{(\\pi+8)(\\pi-2)}{16}$ units$^2$.",
+          "worked": "The normal $x+2y=\\frac{\\pi}{4}+2$ meets the $x$-axis where $y=0$:\n$$\\begin{align*}x&=\\frac{\\pi}{4}+2,\\\\P&=\\left(\\frac{\\pi}{4}+2,0\\right).\\end{align*}$$\nThe tangent $2x-y=\\frac{\\pi}{2}-1$ meets the $y$-axis where $x=0$:\n$$\\begin{align*}y&=1-\\frac{\\pi}{2},\\\\Q&=\\left(0,1-\\frac{\\pi}{2}\\right).\\end{align*}$$\nSince the coordinate axes are perpendicular and $\\pi>2$,\n$$\\begin{align*}\\operatorname{Area}(\\triangle OPQ)&=\\frac12|OP||OQ|\\\\&=\\frac12\\left(\\frac{\\pi}{4}+2\\right)\\left(\\frac{\\pi}{2}-1\\right)\\\\&=\\frac12\\left(\\frac{\\pi+8}{4}\\right)\\left(\\frac{\\pi-2}{2}\\right)\\\\&=\\frac{(\\pi+8)(\\pi-2)}{16}\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "routine-using-r8-area-1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:28.603Z",
+  "updatedAt": "2026-11-12T07:57:28.603Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-differential-calculus-4-using-derivatives-v1",
+    "blockId": "routine-using-r8-area-1",
+    "sectionRole": "exercise"
+  }
+}

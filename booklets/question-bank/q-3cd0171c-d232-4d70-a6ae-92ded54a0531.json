@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3cd0171c-d232-4d70-a6ae-92ded54a0531",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiability-continuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise that the continuous power curve has a cusp and no finite tangent gradient at the origin.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:46:04.700Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c14ab53ba1a6decffc8876d846def0bb9158f89ba6d38cac2a108a56da8daece",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/semantic-packets/assignments/assignment-8f1babd22dbb53eb1a35/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p7-q3-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Decide whether $f(x)$ is differentiable at $x=0$.\n$$f(x)=\\sqrt[3]{x^2}$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied function curve\"}],\"reference\":\"source page 7 p7-q3-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=1.1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,line width=0.5pt] (-5.65,0)--(5.65,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-1.25)--(0,4.25) node[above] {$y$};\n\\foreach \\v in {-5,-4,-3,-2,-1,1,2,3,4,5} {\n\\draw[line width=0.4pt] (\\v,-0.045)--(\\v,0.045) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-1,1,2,3,4} {\n\\draw[line width=0.4pt] (-0.08,\\v)--(0.08,\\v) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveBlue,line width=0.8pt,->,domain=0:1.77,samples=100,variable=\\t] plot ({-\\t*\\t*\\t},{\\t*\\t});\n\\draw[curveBlue,line width=0.8pt,->,domain=0:1.77,samples=100,variable=\\t] plot ({\\t*\\t*\\t},{\\t*\\t});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "lower-right graph",
+          "description": "Blue curve symmetric about the y-axis with a cusp at the origin, arrows on both upper ends, integer ticks and no grid.",
+          "mathematics": "y=|x|^(2/3); parametrised branches x=±t^3, y=t^2 retain the vertical cusp exactly.",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "No. The graph has a cusp at $x=0$, so there is no finite tangent gradient there.",
+      "worked": "The graph is continuous at $x=0$, but has a sharp cusp there. Its tangent at the origin is vertical, so $f'(0)$ is undefined. Therefore $f$ is not differentiable at $x=0$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p7-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q3-source-response-pair",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q3-root/label",
+                  "type": "item",
+                  "ref": "p7-q3-root/label"
+                },
+                {
+                  "id": "p7-q3-writing-and-graph",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p7-q3-writing",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q3-root/prompt",
+                          "type": "item",
+                          "ref": "p7-q3-root/prompt"
+                        },
+                        {
+                          "id": "layout:p7-q3-root/space",
+                          "type": "item",
+                          "ref": "p7-q3-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 100
+                    },
+                    {
+                      "id": "layout:p7-q3-graph",
+                      "type": "item",
+                      "ref": "p7-q3-graph",
+                      "width": 60,
+                      "weight": 60
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:47.058Z",
+  "updatedAt": "2026-11-12T07:56:47.058Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "p7-q3",
+    "sectionRole": "exercise"
+  }
+}

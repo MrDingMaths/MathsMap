@@ -1,0 +1,98 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-39f0588d-ad66-4554-87fe-dee6bc73a02e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "definite-integral-geometric",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise the square-root graph as an upper semicircle, sketch it, select the quarter indicated by the bounds and apply the circle-area formula.",
+    "assessment": {
+      "model": "gpt-6.1-terra",
+      "assessedAt": "2026-10-30T14:31:57.187Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fad3e5258f33c3cfa6108cf43161b9c099513177ea74bb6d190d11716f653f7d",
+      "evidence": ".booklet-work/end-goal-20261028/phase5-ftc-remaining-r8/independent-review.json"
+    }
+  },
+  "content": {
+    "id": "ftc-remaining-r8-1-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Sketch a graph of the definite integral, then use an area formula to calculate it.\n$$\\int_{0}^{6}\\sqrt{36-x^2}\\,dx$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "ftc-remaining-r8-1-question-axes",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"ftc-remaining-r8-1 blank sketch axes\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-7.6,-1) rectangle (7.9,7.6);\n\\draw[black,line width=0.5pt,->] (-7.2,0)--(7.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.6)--(0,7.2) node[above] {$y$};\n\\foreach \\v in {-6,-4,-2,2,4,6}{\\draw[black,line width=0.4pt] (\\v,-0.1)--(\\v,0.1);\\node[below] at (\\v,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {2,4,6}{\\draw[black,line width=0.4pt] (-0.1,\\v)--(0.1,\\v);\\node[left] at (-0.1,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Blank coordinate axes with labelled tick marks and an empty drawing area for the student's own sketch.",
+          "mathematics": "x-axis ticks labelled -6, -4, -2, 2, 4, 6; y-axis ticks labelled 2, 4, 6. No curve or shading is drawn.",
+          "answerVisibility": "Student and answer editions; contains no answer."
+        },
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$9\\pi$",
+      "worked": "The graph $y=\\sqrt{36-x^2}$ is the upper semicircle of $x^2+y^2=36$, with radius $6$. The interval $[0,6]$ selects a quarter-circle above the $x$-axis, to the right of the $y$-axis.\n$$\\begin{align*}\\int_{0}^{6}\\sqrt{36-x^2}\\,dx&=\\frac14\\pi(6)^2\\\\&=9\\pi\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "ftc-remaining-r8-1-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"quarter-circle region represented by the definite integral\"}],\"reference\":\"ftc-remaining-r8-1 authored solution graph\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-7.6,-1) rectangle (7.9,7.6);\n\\fill[areaBlue] (0,0)--(6,0) arc[start angle=0,end angle=90,radius=6]--cycle;\n\\draw[black,line width=0.5pt,->] (-7.2,0)--(7.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.6)--(0,7.2) node[above] {$y$};\n\\draw[black,line width=0.8pt] (-6,0) arc[start angle=180,end angle=0,radius=6];\n\\foreach \\v in {-6,6}{\\draw[black,line width=0.4pt] (\\v,-0.1)--(\\v,0.1);\\node[below] at (\\v,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[above left] at (0,6) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$6$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "description": "Solution sketch of the upper semicircle of radius 6, with only the quarter-circle over [0,6] shaded pale blue.",
+            "mathematics": "x^2+y^2=36, y>=0; integration interval [0,6]; shaded area (1/4)pi(6)^2 = 9pi. Labels -6, 6 on the x-axis and 6 on the y-axis.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false
+        }
+      ]
+    },
+    "answerSpaceMm": 35
+  },
+  "presentation": {
+    "ownerId": "ftc-remaining-r8-1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:50.079Z",
+  "updatedAt": "2026-11-12T07:57:50.079Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-1-the-fundamental-theorem-of-calculus-v1",
+    "blockId": "ftc-remaining-r8-1",
+    "sectionRole": "exercise"
+  }
+}

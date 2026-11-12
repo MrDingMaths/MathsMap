@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2e7e7ba1-78be-4fa4-b3ad-4befb374d080",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "chain-rule",
+    "secondarySkillIds": [
+      "define-derivative-tangent"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Connects differentiation of a square-root composite with a reciprocal identity, limiting tangent behaviour and graphical verification.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:08:46.826Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0fd06cd3047e6e5e124d5ee97440044d539aaaa6649db62c8c71225a8880b9b2",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-20261024/semantic-packets/assignments/assignment-38511bee6f862c80066c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p74-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p74-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Differentiate $y=\\sqrt{2x+1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=\\dfrac{1}{\\sqrt{2x+1}}$, for $x>-\\tfrac12$.",
+          "worked": "$$\\begin{align*}y&=(2x+1)^{1/2}\\\\y'&=\\tfrac12(2x+1)^{-1/2}\\times2\\\\y'&=\\frac{1}{\\sqrt{2x+1}}\\end{align*}$$The derivative is defined for $x>-\\tfrac12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p74-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $y\\times y'=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\times y'=\\sqrt{2x+1}\\times\\dfrac{1}{\\sqrt{2x+1}}=1$, for $x>-\\tfrac12$.",
+          "worked": "$$\\begin{align*}y\\times y'&=\\sqrt{2x+1}\\times\\frac{1}{\\sqrt{2x+1}}\\\\y\\times y'&=1\\end{align*}$$This holds for $x>-\\tfrac12$, where $y'$ is defined.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p74-q21-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "When $y\\to\\infty$, what happens to the value of $y'$? What does this mean geometrically?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'\\to0$. As the curve’s $y$-value increases, the tangent becomes more horizontal.",
+          "worked": "From part b, $y'=\\dfrac1y$. As $y\\to\\infty$, $y'\\to0$ from above. The tangent has a positive gradient that approaches zero, so it becomes more horizontal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p74-q21-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Verify this by sketching $y=\\sqrt{2x+1}$ using Desmos.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph starts at $(-\\tfrac12,0)$, rises and becomes flatter as $x$ increases.",
+          "worked": "Enter $y=\\sqrt{2x+1}$ in Desmos. The curve passes through $(-\\tfrac12,0)$, $(0,1)$ and $(\\tfrac32,2)$. It rises with decreasing steepness, confirming that its tangent gradient approaches zero.",
+          "solutionDiagrams": [
+            {
+              "id": "p74-q21-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from axes\"}],\"reference\":\"page 74 question 21d\"}\n\\begin{tikzpicture}[x=0.8cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.25,-0.65) rectangle (8.2,4.5);\n\\draw[->,line width=0.5pt] (-1,0)--(8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.4)--(0,4.3) node[above] {$y$};\n\\foreach \\x in {2,4,6} {\\draw[line width=0.4pt] (\\x,0.06)--(\\x,-0.06) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,2,3,4} {\\draw[line width=0.4pt] (0.06,\\y)--(-0.06,\\y) node[left] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:4,samples=100,variable=\\t] plot ({(\\t*\\t-1)/2},{\\t});\n\\fill[black] (-0.5,0) circle (1.3pt);\n\\node[below left] at (-0.5,0) {$-\\tfrac12$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 74,
+                "sourceRegion": "Question 21d",
+                "description": "Authored solution sketch for the requested Desmos verification; the source supplies no sketch.",
+                "mathematics": "Parametric plot x=(t^2-1)/2, y=t for 0≤t≤4 reproduces y=√(2x+1), including its endpoint and decreasing positive gradient.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 34
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p74-q21",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:58:23.445Z",
+  "updatedAt": "2026-11-12T07:58:23.446Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1",
+    "blockId": "p74-q21",
+    "sectionRole": "exercise"
+  }
+}

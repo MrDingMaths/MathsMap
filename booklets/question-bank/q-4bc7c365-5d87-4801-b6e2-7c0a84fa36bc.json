@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4bc7c365-5d87-4801-b6e2-7c0a84fa36bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "define-derivative-tangent",
+    "secondarySkillIds": [
+      "chain-rule",
+      "differentiate-sin-cos"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied progression from derivative to gradients and line equations, then find axis intercepts and apply the right-triangle area formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:32:58.094Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "afdb9fee799c6726ab21b05f3f47cb9f6e545d152b2faf406b9ab8cf8e2c65c9",
+      "evidence": ".booklet-work/full-imports/s6adv-differential-calculus-4-using-derivatives-20261024/semantic-packets/assignments/assignment-bd8251659439f7af757a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=\\sin^2 x$ has derivative $y'=2\\sin x\\cos x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=2\\sin x\\cos x$.",
+          "worked": "$$\\begin{align*}y'&=2\\sin x\\times\\cos x\\\\&=2\\sin x\\cos x.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p12-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the gradients of the tangent and normal to $y=\\sin^2 x$ at the point where $x=\\frac{\\pi}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $1$. Normal: $-1$.",
+          "worked": "At $x=\\frac{\\pi}{4}$:\n$$\\begin{align*}y'&=2\\sin\\left(\\frac{\\pi}{4}\\right)\\cos\\left(\\frac{\\pi}{4}\\right)\\\\&=2\\left(\\frac{\\sqrt2}{2}\\right)\\left(\\frac{\\sqrt2}{2}\\right)\\\\&=1.\\end{align*}$$\nGradient of tangent $=1$.\n\nGradient of normal $=-\\frac{1}{1}=-1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p12-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the equations of the tangent and normal to $y=\\sin^2 x$ at the point where $x=\\frac{\\pi}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $x-y=\\frac{\\pi}{4}-\\frac12$. Normal: $x+y=\\frac{\\pi}{4}+\\frac12$.",
+          "worked": "At $x=\\frac{\\pi}{4}$:\n$$y=\\sin^2\\left(\\frac{\\pi}{4}\\right)=\\frac12.$$\nTangent:\n$$\\begin{align*}y-\\frac12&=1\\left(x-\\frac{\\pi}{4}\\right)\\\\x-y&=\\frac{\\pi}{4}-\\frac12.\\end{align*}$$\nNormal:\n$$\\begin{align*}y-\\frac12&=-1\\left(x-\\frac{\\pi}{4}\\right)\\\\x+y&=\\frac{\\pi}{4}+\\frac12.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p12-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Suppose that the tangent meets the $x$-axis at $P$, the normal meets the $y$-axis at $Q$ and $O$ is the origin. Show that $\\triangle OPQ$ has area $\\frac{\\pi^2-4}{32}$ units$^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p12-q12-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent distinguished from curve and normal\"},{\"name\":\"normalGreen\",\"hex\":\"4F9B63\",\"reason\":\"normal distinguished from curve and tangent\"}],\"reference\":\"source page 12 p12-q12-d-diagram\"}\n\\begin{tikzpicture}[x=16mm,y=16mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{normalGreen}{HTML}{4F9B63}\n\\draw[black,line width=0.5pt,<->] (-1.15,0)--(3.25,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-1.15)--(0,3.1) node[above] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.12:3.12,samples=120] plot (\\x,{sin(\\x r)^2});\n\\draw[tangentRed,line width=0.8pt,<->] (-0.8,{-0.8-pi/4+0.5})--(3.12,{3.12-pi/4+0.5});\n\\draw[normalGreen,line width=0.8pt,<->] (-1.12,{pi/4+0.5+1.12})--(2.42,{pi/4+0.5-2.42});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 68,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 12,
+              "sourceRegion": "Question 12d, lower-left sketch",
+              "description": "Unscaled coordinate sketch of the blue curve, red tangent and green normal, with arrowheads at both ends. Axes have no ticks, grid or origin label. Ordinary axes are black under house style.",
+              "mathematics": "Curve y=sin²x; tangent y=x−π/4+1/2 and normal y=−x+π/4+1/2 meet at (π/4,1/2).",
+              "answerVisibility": "Supplied question diagram, visible in student and answer editions."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{Area}(\\triangle OPQ)=\\frac{\\pi^2-4}{32}$ units$^2$.",
+          "worked": "The tangent $x-y=\\frac{\\pi}{4}-\\frac12$ meets the $x$-axis where $y=0$:\n$$\\begin{align*}x&=\\frac{\\pi}{4}-\\frac12,\\\\P&=\\left(\\frac{\\pi}{4}-\\frac12,0\\right).\\end{align*}$$\nThe normal $x+y=\\frac{\\pi}{4}+\\frac12$ meets the $y$-axis where $x=0$:\n$$\\begin{align*}y&=\\frac{\\pi}{4}+\\frac12,\\\\Q&=\\left(0,\\frac{\\pi}{4}+\\frac12\\right).\\end{align*}$$\nSince the coordinate axes are perpendicular,\n$$\\begin{align*}\\operatorname{Area}(\\triangle OPQ)&=\\frac12|OP||OQ|\\\\&=\\frac12\\left(\\frac{\\pi}{4}-\\frac12\\right)\\left(\\frac{\\pi}{4}+\\frac12\\right)\\\\&=\\frac12\\left[\\left(\\frac{\\pi}{4}\\right)^2-\\left(\\frac12\\right)^2\\right]\\\\&=\\frac12\\left(\\frac{\\pi^2}{16}-\\frac14\\right)\\\\&=\\frac1{32}(\\pi^2-4)\\\\&=\\frac{\\pi^2-4}{32}\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:28.960Z",
+  "updatedAt": "2026-11-12T07:57:28.961Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-differential-calculus-4-using-derivatives-v1",
+    "blockId": "p12-q12",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5bda80da-9e69-4d2d-a18c-839a257a4ba9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiability-continuity",
+    "secondarySkillIds": [],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Check the two branch values and use discontinuity to rule out differentiability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T04:46:04.700Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "82382e400e0d8ceb2eb5797e3a144bfeb1059212e1dc4266376e954df04de181",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-1-curve-sketching-20261024/semantic-packets/assignments/assignment-8f1babd22dbb53eb1a35/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p7-q1-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Decide whether $f(x)$ is differentiable at $x=0$.\n$$f(x)=\\begin{cases}x^2-1,&x\\leq0\\\\x^2+1,&x>0\\end{cases}$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q1-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"branchBlue\",\"hex\":\"268CFF\",\"reason\":\"left piece of the function\"},{\"name\":\"branchRed\",\"hex\":\"EF6068\",\"reason\":\"right piece of the function\"}],\"reference\":\"source page 7 p7-q1-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{branchBlue}{HTML}{268CFF}\n\\definecolor{branchRed}{HTML}{EF6068}\n\\draw[<->,line width=0.5pt] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-3.3)--(0,3.4) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\n\\draw[line width=0.4pt] (\\v,-0.07)--(\\v,0.07) node[below=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.07,\\v)--(0.07,\\v) node[left=3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[branchBlue,line width=0.8pt,<-,domain=-2.08:0,samples=70] plot (\\x,{\\x*\\x-1});\n\\draw[branchRed,line width=0.8pt,->,domain=0:1.53,samples=60] plot (\\x,{\\x*\\x+1});\n\\fill[branchBlue] (0,-1) circle[radius=2pt];\n\\draw[branchRed,fill=white,line width=0.8pt] (0,1) circle[radius=2pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "upper-right graph",
+          "description": "Integer-labelled axes with no grid; blue closed left branch and red open right branch distinguish the two pieces.",
+          "mathematics": "y=x^2-1 for x<=0 and y=x^2+1 for x>0; endpoints (0,-1) closed and (0,1) open.",
+          "answerVisibility": "Supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "No. The function is not continuous at $x=0$, so it is not differentiable there.",
+      "worked": "Let $g(x)=x^2-1$ and $h(x)=x^2+1$.\n$$\\begin{aligned}g(0)&=0^2-1=-1\\\\h(0)&=0^2+1=1\\end{aligned}$$\nThe branches do not join at $x=0$. Therefore $f$ is not continuous at $x=0$ and hence is not differentiable there.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 32
+  },
+  "presentation": {
+    "ownerId": "p7-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q1-source-response-pair",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q1-root/label",
+                  "type": "item",
+                  "ref": "p7-q1-root/label"
+                },
+                {
+                  "id": "p7-q1-writing-and-graph",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p7-q1-writing",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q1-root/prompt",
+                          "type": "item",
+                          "ref": "p7-q1-root/prompt"
+                        },
+                        {
+                          "id": "layout:p7-q1-root/space",
+                          "type": "item",
+                          "ref": "p7-q1-root/space"
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 100
+                    },
+                    {
+                      "id": "layout:p7-q1-graph",
+                      "type": "item",
+                      "ref": "p7-q1-graph",
+                      "width": 60,
+                      "weight": 60
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:56:46.668Z",
+  "updatedAt": "2026-11-12T07:56:46.668Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-v1",
+    "blockId": "p7-q1",
+    "sectionRole": "exercise"
+  }
+}

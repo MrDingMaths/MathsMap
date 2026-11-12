@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-129f8409-eb73-4713-9753-65d6d8f36560",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "definite-integral-geometric",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Read a piecewise-linear graph and find where it crosses the axis. Then compute signed areas with a negative part and combine them for c. No integration is needed, but signed area and sub-interval splitting add decisions.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T04:38:33.567Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9d46779edfb910ec4e03cab165d53c1f9c2d9ca4582082a5227f42666aa09045",
+      "diagramBlindHash": "f9017b8b4d8b7c03a6cf4f2f499b7171365e0d413c7135eefc05b302bb97c1eb",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-integral-calculus-1-the-fundamental-theorem-of-calculus-v1/20261111-042605/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p32-q8",
+          "score": 25
+        },
+        "easierThan": {
+          "ref": "p33-q12",
+          "score": 33
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-14b8f-p29-practice-slot-6-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The graph of $y=f(x)$ is shown. Evaluate each integral.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "v2-14b8f-p29-practice-slot-6-slot-6-q-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-6 question graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (-0.4,0)--(6.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.8)--(0,2.8) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (2,0)--(2,2) (4,0)--(4,-2) (0,-2)--(4,-2);\n\\draw[black,line width=0.8pt] (0,2)--(2,2)--(4,-2)--(6,-2);\n\\foreach \\v in {1,2,3,4,5,6}{\\draw[black,line width=0.4pt] (\\v,-0.07)--(\\v,0.07);\\node[below,fill=white,inner sep=1pt] at (\\v,-0.07) {$\\v$};}\n\\foreach \\v in {-2,2}{\\draw[black,line width=0.4pt] (-0.07,\\v)--(0.07,\\v);\\node[left] at (-0.07,\\v) {$\\v$};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 62,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-14b8f-p29-practice-slot-6-slot-6-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\displaystyle\\int_0^3 f(x)\\,dx$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5$",
+          "worked": "The line crosses the $x$-axis at $x=3$. The region is a rectangle plus a triangle, both above the axis.\n$$\\begin{align*}\\int_0^3 f(x)\\,dx&=2\\times2+\\frac12\\times1\\times2\\\\&=5\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-14b8f-p29-practice-slot-6-slot-6-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\displaystyle\\int_3^6 f(x)\\,dx$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-5$",
+          "worked": "The whole region is below the $x$-axis, so its signed area is negative: a triangle plus a rectangle.\n$$\\begin{align*}\\int_3^6 f(x)\\,dx&=-\\left(\\frac12\\times1\\times2+2\\times2\\right)\\\\&=-5\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-14b8f-p29-practice-slot-6-slot-6-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\displaystyle\\int_1^6 f(x)\\,dx$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-2$",
+          "worked": "Regions above the axis count positive and regions below count negative.\n$$\\begin{align*}\\int_1^6 f(x)\\,dx&=(1\\times2)+\\frac12(1)(2)-\\frac12(1)(2)-(2\\times2)\\\\&=2+1-1-4\\\\&=-2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-14b8f-p29-practice-slot-6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:52.720Z",
+  "updatedAt": "2026-11-12T07:57:52.721Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-integral-calculus-1-the-fundamental-theorem-of-calculus-v1",
+    "blockId": "v2-14b8f-p29-practice-slot-6",
+    "sectionRole": "exercise"
+  }
+}

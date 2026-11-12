@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ddba02cb-4f4f-4cda-b9df-c69234d2b937",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "define-derivative-tangent",
+    "secondarySkillIds": [],
+    "reasoningScore": 41,
+    "difficulty": "Development",
+    "difficultyReason": "Product rule, evaluate at x=e using ln e=1, then tangent and normal lines, intercepts and an exact triangle area. Same four-step chain as the reference tasks, with a cleaner final area.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T03:56:18.328Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d4c21c6efef180530f6a1094d80991b29ad4df41a7b05cc20f6b609ccc9045c3",
+      "diagramBlindHash": "483fa1ba31adf23cda740ff5ff113cde47168d76a7f45e0f4d2694b51d43e1eb",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6adv-differential-calculus-4-using-derivatives-v1/20261111-034812/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "routine-using-r8-area-2",
+          "score": 37
+        },
+        "easierThan": {
+          "ref": "p12-q12",
+          "score": 44
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-47966955a96ba42-p4-slot-5-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-47966955a96ba42-p4-slot-5-slot-5-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $y=x\\ln x$ has derivative $y'=\\ln x+1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=\\ln x+1$.",
+          "worked": "$$\\begin{align*}y'&=1\\times\\ln x+x\\times\\frac1x\\\\&=\\ln x+1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-47966955a96ba42-p4-slot-5-slot-5-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the gradients of the tangent and normal to $y=x\\ln x$ at the point where $x=e$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $2$. Normal: $-\\frac12$.",
+          "worked": "At $x=e$:\n$$\\begin{align*}y'&=\\ln e+1\\\\&=2.\\end{align*}$$\nGradient of tangent $=2$.\n\nGradient of normal $=-\\frac12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-47966955a96ba42-p4-slot-5-slot-5-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the equations of the tangent and normal to $y=x\\ln x$ at the point where $x=e$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangent: $2x-y=e$. Normal: $x+2y=3e$.",
+          "worked": "At $x=e$:\n$$y=e\\ln e=e.$$\nTangent:\n$$\\begin{align*}y-e&=2(x-e)\\\\2x-y&=e.\\end{align*}$$\nNormal:\n$$\\begin{align*}y-e&=-\\frac12(x-e)\\\\x+2y&=3e.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-47966955a96ba42-p4-slot-5-slot-5-q-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Suppose that the tangent meets the $x$-axis at $P$, the normal meets the $y$-axis at $Q$ and $O$ is the origin. Show that $\\triangle OPQ$ has area $\\frac{3e^2}{8}$ units$^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-47966955a96ba42-p4-slot-5-slot-5-q-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent distinguished from curve and normal\"},{\"name\":\"normalGreen\",\"hex\":\"4F9B63\",\"reason\":\"normal distinguished from curve and tangent\"}],\"reference\":\"slot-5-q-d-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=8mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{normalGreen}{HTML}{4F9B63}\n\\draw[black,line width=0.5pt,<->] (-1,0)--(5,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-3.6)--(0,5.4) node[above] {$y$};\n\\draw[curveBlue,line width=0.8pt,->,domain=0.02:3.6,samples=100] plot (\\x,{\\x*ln(\\x)});\n\\draw[tangentRed,line width=0.8pt,<->] (-0.3,{-0.6-exp(1)})--(3.5,{7-exp(1)});\n\\draw[normalGreen,line width=0.8pt,<->] (-0.6,{0.3+1.5*exp(1)})--(4.2,{-2.1+1.5*exp(1)});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 64,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{Area}(\\triangle OPQ)=\\frac{3e^2}{8}$ units$^2$.",
+          "worked": "The tangent $2x-y=e$ meets the $x$-axis where $y=0$:\n$$\\begin{align*}x&=\\frac e2,\\\\P&=\\left(\\frac e2,0\\right).\\end{align*}$$\nThe normal $x+2y=3e$ meets the $y$-axis where $x=0$:\n$$\\begin{align*}y&=\\frac{3e}{2},\\\\Q&=\\left(0,\\frac{3e}{2}\\right).\\end{align*}$$\nSince the coordinate axes are perpendicular,\n$$\\begin{align*}\\operatorname{Area}(\\triangle OPQ)&=\\frac12|OP||OQ|\\\\&=\\frac12\\left(\\frac e2\\right)\\left(\\frac{3e}{2}\\right)\\\\&=\\frac{3e^2}{8}\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-47966955a96ba42-p4-slot-5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:57:28.719Z",
+  "updatedAt": "2026-11-12T07:57:28.719Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-differential-calculus-4-using-derivatives-v1",
+    "blockId": "v2-47966955a96ba42-p4-slot-5",
+    "sectionRole": "exercise"
+  }
+}
