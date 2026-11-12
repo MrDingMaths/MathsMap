@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0bed5d70-7062-4a87-adfb-33123b0bcba5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadratic-word-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Build the model from the intercepts and maximum, set H=15, solve a factorable quadratic, and choose the falling-side root. There is no unit conversion and the numbers are friendly.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T03:09:32.626Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a3d95cd0b62f87f3adabd0e1530093055e9275ee0a9f420b17910adc29be72e7",
+      "diagramBlindHash": "c9c0485ad2e913a7be6b2b852404c77cb2e7fbf192f9a63d1fc99b96c54fed42",
+      "evidence": ".booklet-work/pedagogy-audit-v2/further-parabolas-2-v1/20261110-025907/calls/13-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p56-q6",
+          "score": 43
+        },
+        "easierThan": {
+          "ref": "p61-q14",
+          "score": 48
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-c-p54-applications-slot-11-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A golf ball is hit from ground level and lands 80 m away. It reaches a maximum height of 20 m.\n\nAs the ball is falling, it just clears the top of a 15 m tree.\n\nHow far is the tree from where the ball was hit?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-c-p54-applications-slot-11-slot-11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.08cm,y=0.15cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,black,line width=0.5pt] (-2,0)--(86,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,25) node[left] {$H$};\n\\draw[black,line width=0.8pt,domain=0:80,samples=101] plot (\\x,{-\\x*(\\x-80)/80});\n\\draw[dashed,line width=0.4pt] (40,0)--(40,20);\n\\draw[<->,line width=0.4pt] (40,0)--(40,20) node[midway,right] {$20\\text{ m}$};\n\\draw[<->,line width=0.4pt] (0,-4)--(80,-4) node[midway,below] {$80\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$60\\text{ m}$",
+      "worked": "Let $x$ be the horizontal distance in metres and $H$ the height in metres. The ground intercepts are $0$ and $80$, so $H=cx(x-80)$. By symmetry, the maximum occurs at $x=40$.\n$$\\begin{align*}20&=c(40)(40-80)\\\\c&=-\\frac{1}{80}\\\\H&=-\\frac{1}{80}x(x-80)\\end{align*}$$\nLet $H=15$.\n$$\\begin{align*}15&=-\\frac{1}{80}x(x-80)\\\\1200&=-x^2+80x\\\\x^2-80x+1200&=0\\\\(x-20)(x-60)&=0\\\\x&=20\\text{ or }60\\end{align*}$$\nThe ball is falling when $x>40$, so the tree is $60\\text{ m}$ from where the ball was hit.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
+  },
+  "presentation": {
+    "ownerId": "v2-c-p54-applications-slot-11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:40:14.759Z",
+  "updatedAt": "2026-11-12T07:40:14.760Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "further-parabolas-2-v1",
+    "blockId": "v2-c-p54-applications-slot-11",
+    "sectionRole": "exercise"
+  }
+}

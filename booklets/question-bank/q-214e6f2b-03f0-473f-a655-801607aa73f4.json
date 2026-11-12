@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-214e6f2b-03f0-473f-a655-801607aa73f4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expansion-factorisation-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Multi-part area context: build 2x+6, expand (2x+6)^2, get the path area by subtraction, then form and solve a linear equation. It needs several linked decisions but each is signposted.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T02:30:14.886Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51abeb8ef8b3a2e1a162f3a4dc8e3400c6f474a1df5c189106c380d286cfcff8",
+      "diagramBlindHash": "0534df8b39d12e50762c4d45a7be94dced18ee5fa49fc9da9e240673dc937b85",
+      "evidence": ".booklet-work/pedagogy-audit-v2/further-expansion-factorisation-v1/20261110-021008/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p68-q12",
+          "score": 44
+        },
+        "easierThan": {
+          "ref": "p62-q1-block",
+          "score": 53
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-25aca0-p6-practice-slot-2-upper-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A square swimming pool of side length $2x$ m is surrounded by a path 3 m wide.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-25aca0-p6-practice-slot-2-upper-s2u-q-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{pathFill}{HTML}{D4E8FF}\n\\fill[pathFill] (0,0) rectangle (5.4,5.4);\n\\fill[white] (1.2,1.2) rectangle (4.2,4.2);\n\\draw[black,line width=0.8pt] (0,0) rectangle (5.4,5.4);\n\\draw[black,line width=0.8pt] (1.2,1.2) rectangle (4.2,4.2);\n\\node at (2.7,2.5) {Pool};\n\\draw[black,<->,>=latex,line width=0.5pt] (1.2,3.7)--(4.2,3.7) node[midway,fill=white,inner sep=2pt] {$2x\\text{ m}$};\n\\draw[black,<->,>=latex,line width=0.5pt] (0,0.8)--(1.2,0.8) node[midway,below,inner sep=1pt] {\\footnotesize $3\\text{ m}$};\n\\node at (4.8,2.7) {\\footnotesize Path};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-25aca0-p6-practice-slot-2-upper-s2u-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write an expression for the side length of the pool and path together.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2x+6)\\text{ m}$",
+          "worked": "The path adds 3 m on each side of the pool.\n$$\\begin{align*}s&=3+2x+3\\\\s&=2x+6\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-25aca0-p6-practice-slot-2-upper-s2u-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write an expression for the area of the pool and path together. Expand your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2x+6)^2=4x^2+24x+36\\text{ m}^2$",
+          "worked": "For the perfect square, $a=2x$ and $b=6$.\n$$\\begin{align*}A&=(2x+6)^2\\\\A&=(2x)^2+2(2x)(6)+6^2\\\\A&=4x^2+24x+36\\text{ m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-25aca0-p6-practice-slot-2-upper-s2u-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write an expression for the area of the path.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$24x+36\\text{ m}^2$",
+          "worked": "Subtract the area of the pool, $(2x)^2=4x^2$.\n$$\\begin{align*}A_{\\text{path}}&=4x^2+24x+36-4x^2\\\\A_{\\text{path}}&=24x+36\\text{ m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-25aca0-p6-practice-slot-2-upper-s2u-q-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "The area of the path is $132\\text{ m}^2$. Find $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=4$",
+          "worked": "$$\\begin{align*}24x+36&=132\\\\24x&=96\\\\x&=4\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-25aca0-p6-practice-slot-2-upper",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:39:53.586Z",
+  "updatedAt": "2026-11-12T07:39:53.586Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "further-expansion-factorisation-v1",
+    "blockId": "v2-25aca0-p6-practice-slot-2-upper",
+    "sectionRole": "exercise"
+  }
+}
