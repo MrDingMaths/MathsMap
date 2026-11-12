@@ -1,0 +1,165 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-36ff483f-4b15-45d0-99ca-3c3afb5613c6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "even-odd-functions",
+    "secondarySkillIds": [
+      "evaluate-function-algebraic-argument"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the supplied decomposition to an exponential, interpret two graphical symmetries, and select new neither-even-nor-odd functions to decompose using the established method.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T05:52:19.859Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7ed8df15fd5b71179fa43cf76d489aa4a18b39afe81166ab3dc67b083766b2a8",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch02/lean-review/calls/content-1794462713739-0/last-message.txt",
+      "originalTaskHash": "fd1c0cb88cda299f3e74f93bbed2e202b27376d3d7fcb60e77084787f8abd8a3"
+    }
+  },
+  "content": {
+    "id": "p23-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Let $f(x)=2^x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(x)$ is neither even nor odd.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(-1)=\\tfrac12$, whereas $f(1)=2$ and $-f(1)=-2$. Thus $f$ is neither even nor odd.",
+          "worked": "$$\\begin{align*}f(-x)&=2^{-x},\\\\f(-1)&=\\frac12,\\\\f(1)&=2,\\\\-f(1)&=-2.\\end{align*}$$ Since $f(-1)$ equals neither $f(1)$ nor $-f(1)$, neither parity identity holds for every real $x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p23-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Express $f(x)$ as the sum of an even and odd function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^x=\\underbrace{\\dfrac{2^x+2^{-x}}{2}}_{\\text{even}}+\\underbrace{\\dfrac{2^x-2^{-x}}{2}}_{\\text{odd}}$.",
+          "worked": "Substitute $f(x)=2^x$ and $f(-x)=2^{-x}$ into the supplied definitions:\n\n$$\\begin{align*}E(x)&=\\frac{2^x+2^{-x}}{2},\\\\O(x)&=\\frac{2^x-2^{-x}}{2},\\\\E(x)+O(x)&=\\frac{2(2^x)}{2},\\\\E(x)+O(x)&=2^x.\\end{align*}$$ By Question 1(a), these components are even and odd respectively.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p23-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use graphing software to sketch $E(x)$ and $O(x)$ and verify graphically that they are even and odd respectively.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$E$ has symmetry about the $y$-axis, so it is even. $O$ has rotational symmetry through $180^\\circ$ about the origin, so it is odd.",
+          "worked": "Plot $y=\\frac{(2^x+2^{-x})}{2}$ and $y=\\frac{(2^x-2^{-x})}{2}$.\n\nThe graph of $E$ passes through $(0,1)$ and has mirror-image branches on opposite sides of the $y$-axis. The graph of $O$ passes through $(0,0)$ and maps onto itself under a half-turn about the origin. These symmetries verify that $E$ is even and $O$ is odd.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q2-c-even-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 Question 2(c), even component\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.7,-0.8) rectangle (3.9,5.3);\n\\draw[->,line width=0.5pt] (-3.4,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.4)--(0,4.7) node[above] {$y$};\n\\foreach \\t in {-3,-2,-1,1,2,3}{\\draw[line width=0.4pt] (\\t,-0.07)--(\\t,0.07);\\node[below] at (\\t,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-0.07,1)--(0.07,1);\\node[below left] at (-0.1,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\foreach \\t in {2,3,4}{\\draw[line width=0.4pt] (-0.07,\\t)--(0.07,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt,domain=-3:3,samples=121] plot (\\x,{(pow(2,(\\x))+pow(2,-(\\x)))/2});\n\\node[anchor=east] at (-0.3,5.05) {$E(x)=\\dfrac{2^x+2^{-x}}{2}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 2(c)",
+                "description": "Authored solution graph of the even component; the source supplies no graph. Window −3 to 3 in x, −0.5 to 4.6 in y; unit ticks.",
+                "mathematics": "E(x)=(2^x+2^(-x))/2; E(0)=1; y-axis symmetry.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            },
+            {
+              "id": "p23-q2-c-odd-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 Question 2(c), odd component\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.7,-4.8) rectangle (3.9,5.6);\n\\draw[->,line width=0.5pt] (-3.4,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.4)--(0,4.6) node[above] {$y$};\n\\foreach \\t in {-3,-2,1,2,3}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09);\\node[below] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-1,-0.09)--(-1,0.09);\\node[above left] at (-1,0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (-0.07,\\t)--(0.07,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt,domain=-3:3,samples=121] plot (\\x,{(pow(2,(\\x))-pow(2,-(\\x)))/2});\n\\node[anchor=east] at (-0.3,5.15) {$O(x)=\\dfrac{2^x-2^{-x}}{2}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 2(c)",
+                "description": "Authored solution graph of the odd component; the source supplies no graph. Window −3 to 3 in x, −4.5 to 4.5 in y; unit ticks.",
+                "mathematics": "O(x)=(2^x−2^(-x))/2; O(0)=0; half-turn symmetry about the origin.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 54
+      },
+      {
+        "id": "p23-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Ask a friend to provide you with some new functions $f(x)$ that are neither even nor odd. Repeat part (b) for these new functions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Answers vary. For example, $x^2+x=x^2+x$, with even component $x^2$ and odd component $x$; $x^3+2=2+x^3$, with even component $2$ and odd component $x^3$.",
+          "worked": "Answers vary. Two possible examples are $f(x)=x^2+x$ and $f(x)=x^3+2$, each defined on $\\mathbb R$ and neither even nor odd.\n\nFor $f(x)=x^2+x$:\n$$\\begin{align*}f(-x)&=x^2-x,\\\\E(x)&=\\frac{x^2+x+x^2-x}{2},\\\\E(x)&=x^2,\\\\O(x)&=\\frac{x^2+x-(x^2-x)}{2},\\\\O(x)&=x.\\end{align*}$$\nFor $f(x)=x^3+2$:\n$$\\begin{align*}f(-x)&=-x^3+2,\\\\E(x)&=\\frac{x^3+2-x^3+2}{2},\\\\E(x)&=2,\\\\O(x)&=\\frac{x^3+2-(-x^3+2)}{2},\\\\O(x)&=x^3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:32:06.493Z",
+  "updatedAt": "2026-11-12T21:32:06.494Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch02",
+    "blockId": "p23-q2",
+    "sectionRole": "exercise"
+  }
+}
