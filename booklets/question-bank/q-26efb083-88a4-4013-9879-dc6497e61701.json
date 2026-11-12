@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-26efb083-88a4-4013-9879-dc6497e61701",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Read two five-number summaries from parallel box plots, compute range and IQR for each, then judge consistency by comparing IQRs. Three short parts with direct reading and subtraction, plus one comparison.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T21:02:27.505Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ddad879665e225501d03d0ac1954e62a85485ad590060a06eb50a0180a6d0605",
+      "diagramBlindHash": "1fb9ec6aa52fc38ff850e0323af7856073c07cf07c999c4e49f9a5ce9cd0a07c",
+      "evidence": ".booklet-work/pedagogy-audit-v2/quartiles-and-box-plots-v1/20261109-204418/calls/14-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p21-q3",
+          "score": 25
+        },
+        "easierThan": {
+          "ref": "p20-q2",
+          "score": 30
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-4dd12-p20-practice-slot-5-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The parallel box plots show the number of coffees two cafes, Rosie's and Ned's, sold each day over a summer.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-4dd12-p20-practice-slot-5-s5-q-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.12cm,y=1cm]\n\\path[use as bounding box] (23,-1.1) rectangle (107,4.3);\n\\foreach \\x in {30,35,...,100}{\\draw[black,densely dotted,line width=0.15pt] (\\x,0)--(\\x,4);}\n\\draw[black,line width=0.5pt,<->] (25,0)--(105,0);\n\\foreach \\x in {30,35,...,100}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.1);}\n\\foreach \\x in {30,40,...,100}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.1) {$\\x$};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (65,-0.6) {Coffees sold};\n\\node[anchor=south west,font=\\fontsize{10}{12}\\selectfont] at (30,3.5) {Rosie's};\n\\node[anchor=south west,font=\\fontsize{10}{12}\\selectfont] at (30,1.6) {Ned's};\n\\draw[black,line width=0.8pt] (40,2.9)--(55,2.9) (70,2.9)--(85,2.9);\n\\draw[black,line width=0.8pt] (40,2.65)--(40,3.15) (85,2.65)--(85,3.15);\n\\draw[black,line width=0.8pt] (55,2.4) rectangle (70,3.4);\n\\fill[black] (59.75,2.4) rectangle (60.25,3.4);\n\\draw[black,line width=0.8pt] (30,1)--(50,1) (85,1)--(100,1);\n\\draw[black,line width=0.8pt] (30,0.75)--(30,1.25) (100,0.75)--(100,1.25);\n\\draw[black,line width=0.8pt] (50,0.5) rectangle (85,1.5);\n\\fill[black] (64.75,0.5) rectangle (65.25,1.5);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-4dd12-p20-practice-slot-5-s5-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What was the range of coffees sold by each cafe?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Rosie's: $45$ coffees; Ned's: $70$ coffees.",
+          "worked": "Range = maximum − minimum.\n$$\\begin{align*}\\text{Rosie's}&=85-40=45\\\\\\text{Ned's}&=100-30=70\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-4dd12-p20-practice-slot-5-s5-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was the interquartile range for each cafe?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Rosie's: $15$ coffees; Ned's: $35$ coffees.",
+          "worked": "$\\mathrm{IQR}=Q_3-Q_1$.\n$$\\begin{align*}\\text{Rosie's}&=70-55=15\\\\\\text{Ned's}&=85-50=35\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "v2-4dd12-p20-practice-slot-5-s5-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Which cafe had more consistent daily sales?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Rosie's; it has a smaller range and IQR.",
+          "worked": "Rosie's sales were more consistent: its IQR is $15$ coffees compared with Ned's $35$, and its range is $45$ coffees compared with Ned's $70$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-4dd12-p20-practice-slot-5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:52:43.437Z",
+  "updatedAt": "2026-11-12T07:52:43.437Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "quartiles-and-box-plots-v1",
+    "blockId": "v2-4dd12-p20-practice-slot-5",
+    "sectionRole": "exercise"
+  }
+}

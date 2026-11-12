@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bd53bacb-60f8-4054-9374-d113674929c7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exterior-angle-triangle",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Each part needs three or four chained angle facts, including vertically opposite angles in part a. The student must also choose which angles to find and then state the isosceles or equilateral conclusion. There is no explicit scaffolding, but each step is routine, so about 44.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T22:54:26.935Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "763aa4cd9d933afa25bb1c78f1ba493c8e8fe9f36de87014c6e0e044f7660eac",
+      "diagramBlindHash": "ff36087218b6b9122f43460b8e9e53e1c7f48f710708f6922cd89d7664e95c36",
+      "evidence": ".booklet-work/pedagogy-audit-v2/properties-of-geometrical-figures-v1/20261110-224814/calls/07-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p13-q10-block",
+          "score": 40
+        },
+        "easierThan": {
+          "ref": "p14-q13",
+          "score": 45
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-de2f7-p10-practice-retro-slot-2-224814-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Show these properties, using full reasoning.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-de2f7-p10-practice-retro-slot-2-224814-retro-slot-2-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that triangle $BXD$ is isosceles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-de2f7-p10-practice-retro-slot-2-224814-retro-slot-2-q-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\coordinate (X) at (0,0);\n\\coordinate (A) at (-0.926,1.103);\n\\coordinate (C) at (-1.414,-1.685);\n\\coordinate (B) at (1.028,-1.226);\n\\coordinate (D) at (1.028,1.226);\n\\draw[black,line width=0.8pt] (A)--(B) (C)--(D) (A)--(C) (B)--(D);\n\\pic[draw=black,line width=0.4pt,angle radius=5mm] {angle=C--A--X};\n\\pic[draw=black,line width=0.4pt,angle radius=10mm] {angle=X--C--A};\n\\pic[draw=black,line width=0.4pt,angle radius=8mm] {angle=D--B--X};\n\\node[above left] at (A) {$A$};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (D) {$D$};\n\\node[above right,inner sep=1pt] at (X) {$X$};\n\\node at ($(A)+(285:0.95)$) {$50^{\\circ}$};\n\\node at ($(C)+(65:1.6)$) {$30^{\\circ}$};\n\\node at ($(B)+(110:1.25)$) {$40^{\\circ}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 40,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\angle BXD=100^{\\circ}$ and $\\angle XDB=40^{\\circ}=\\angle XBD$, so $XB=XD$ and $\\triangle BXD$ is isosceles.",
+          "worked": "Angle sum of a triangle:\n$$\\begin{align*}\\angle AXC&=180^{\\circ}-50^{\\circ}-30^{\\circ}\\\\\\angle AXC&=100^{\\circ}\\end{align*}$$\n$\\angle BXD=100^{\\circ}$ (vertically opposite angles).\n$$\\begin{align*}\\angle XDB&=180^{\\circ}-100^{\\circ}-40^{\\circ}\\\\\\angle XDB&=40^{\\circ}\\end{align*}$$\nAngle sum of a triangle. Then $\\angle XDB=\\angle XBD$, so the sides opposite them are equal: $XB=XD$. Therefore $\\triangle BXD$ is isosceles.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "v2-de2f7-p10-practice-retro-slot-2-224814-retro-slot-2-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that triangle $ABC$ is equilateral.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-de2f7-p10-practice-retro-slot-2-224814-retro-slot-2-q-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.6,0);\n\\coordinate (A) at (1.8,3.118);\n\\coordinate (D) at (1.527,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (A)--(D);\n\\pic[draw=black,line width=0.4pt,angle radius=15mm] {angle=B--A--D};\n\\pic[draw=black,line width=0.4pt,angle radius=15mm] {angle=D--A--C};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm] {angle=C--D--A};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node at ($(A)+(252.5:2.0)$) {$25^{\\circ}$};\n\\node at ($(A)+(282.5:2.0)$) {$35^{\\circ}$};\n\\node at ($(D)+(42.5:0.9)$) {$85^{\\circ}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 42,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\angle ABC=\\angle ACB=\\angle BAC=60^{\\circ}$, so $\\triangle ABC$ is equilateral.",
+          "worked": "Angles on a straight line sum to $180^{\\circ}$:\n$$\\begin{align*}\\angle ADB&=180^{\\circ}-85^{\\circ}\\\\\\angle ADB&=95^{\\circ}\\end{align*}$$\nAngle sum of $\\triangle ABD$:\n$$\\begin{align*}\\angle ABC&=180^{\\circ}-25^{\\circ}-95^{\\circ}\\\\\\angle ABC&=60^{\\circ}\\end{align*}$$\nAngle sum of $\\triangle ADC$:\n$$\\begin{align*}\\angle ACB&=180^{\\circ}-85^{\\circ}-35^{\\circ}\\\\\\angle ACB&=60^{\\circ}\\end{align*}$$\nAdding the angles at $A$:\n$$\\begin{align*}\\angle BAC&=25^{\\circ}+35^{\\circ}\\\\\\angle BAC&=60^{\\circ}\\end{align*}$$\nAll three angles are equal, so their opposite sides are equal. Therefore $\\triangle ABC$ is equilateral.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-de2f7-p10-practice-retro-slot-2-224814",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:52:20.527Z",
+  "updatedAt": "2026-11-12T07:52:20.527Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "properties-of-geometrical-figures-v1",
+    "blockId": "v2-de2f7-p10-practice-retro-slot-2-224814",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f5bf8c4a-2f18-488a-b5e3-1e1cda6309b3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Identify that 70 is Q3 for one class and the median for the other, convert to 25% and 50% of 24, then compare. Needs reading the right quartile marker per class, but the arithmetic is simple.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T21:02:27.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "25f3aab4d29a27e00fe59299cfd75f1c59a0f6676107ad3ea98fa4dfcd6bff00",
+      "diagramBlindHash": "36527d91ad2c94a2af229b3716491e55b207d5b2b81d4036ee9be4a289b96b21",
+      "evidence": ".booklet-work/pedagogy-audit-v2/quartiles-and-box-plots-v1/20261109-204418/calls/14-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p21-q3",
+          "score": 25
+        },
+        "easierThan": {
+          "ref": "p20-q2",
+          "score": 30
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-4dd12-p20-practice-slot-6-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The parallel box plots show the marks of two classes on a test. Each class has 24 students.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-4dd12-p20-practice-slot-6-slot-6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.1cm,y=0.8cm]\n\\definecolor{classA}{HTML}{EF8B2C}\n\\definecolor{classB}{HTML}{4F9B63}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[xstep=5,ystep=0.5,gridBlue,line width=0.15pt] (30,0) grid (100,3.5);\n\\draw[<->,black,line width=0.5pt] (28,0)--(102,0);\n\\foreach \\v in {30,40,50,60,70,80,90,100} {\n\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.12);\n\\node[below] at (\\v,-0.12) {$\\v$};\n}\n\\node[below] at (65,-0.63) {Marks};\n\\node[anchor=west] at (31,3.25) {Class A};\n\\node[anchor=west] at (31,1.75) {Class B};\n\\draw[classA,line width=0.8pt] (35,2.5)--(50,2.5) (70,2.5)--(90,2.5) (50,2) rectangle (70,3) (60,2)--(60,3);\n\\draw[classA,line width=0.4pt] (35,2.38)--(35,2.62) (90,2.38)--(90,2.62);\n\\draw[classB,line width=0.8pt] (40,1)--(55,1) (80,1)--(95,1) (55,0.5) rectangle (80,1.5) (70,0.5)--(70,1.5);\n\\draw[classB,line width=0.4pt] (40,0.88)--(40,1.12) (95,0.88)--(95,1.12);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-4dd12-p20-practice-slot-6-slot-6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many students in Class A scored more than 70 marks?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6$ students",
+          "worked": "$70$ is the upper quartile of Class A, so $25\\%$ of the class scored more than $70$.\n$$\\begin{align*}25\\%\\times24&=6\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-4dd12-p20-practice-slot-6-slot-6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many students in Class B scored more than 70 marks?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$12$ students",
+          "worked": "$70$ is the median of Class B, so $50\\%$ of the class scored more than $70$.\n$$\\begin{align*}50\\%\\times24&=12\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-4dd12-p20-practice-slot-6-slot-6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Which class had more students scoring more than 70 marks?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Class B.",
+          "worked": "Class B had $12$ students above $70$ marks, compared with $6$ students in Class A. Class B had more.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-4dd12-p20-practice-slot-6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:52:42.925Z",
+  "updatedAt": "2026-11-12T07:52:42.925Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "quartiles-and-box-plots-v1",
+    "blockId": "v2-4dd12-p20-practice-slot-6",
+    "sectionRole": "exercise"
+  }
+}
