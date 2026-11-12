@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3f04cc05-d714-4c61-a1a1-463e5e3b3b1a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "rate-proportional-difference",
+    "secondarySkillIds": [
+      "solve-de-growth-decay"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the scaffolded parts to interpret the limit, verify the supplied model, establish the given parameter and solve a threshold equation with a whole-year interpretation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:11:29.507Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "46870541b378c64e9659cfb9d3e0d5456a6e39f6ed108c7618c3c7b94050b9d4",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/semantic-packets/assignments/assignment-3cf02ad205d48c59bbfd/1/generation.json",
+      "originalTaskHash": "09a1f24f86b960bab02f1327c7e7f2abbfb402219f2da47f2f198a236045e151"
+    }
+  },
+  "content": {
+    "id": "p40-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "The population $P$ of a bird species is modelled by the differential equation $\\dfrac{dP}{dt}=-k(P-Q)$, where $t$ is time in years and $k>0$ and $Q$ are fixed constants.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p40-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the significance of the value of $Q$ with respect to the population of an animal species in this model?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q$ is the limiting population of the species.",
+          "worked": "Since $k>0$, $e^{-kt}\\to0$ as $t\\to\\infty$. Hence $P\\to Q$, so $Q$ is the limiting population of the species.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p40-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the equation $P=Q+Ae^{-kt}$ satisfies the differential equation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dP}{dt}=-Ake^{-kt}=-k(P-Q)$.",
+          "worked": "Differentiating $P=Q+Ae^{-kt}$ gives\n$$\\begin{align*}\\frac{dP}{dt}&=-Ake^{-kt}.\\end{align*}$$\nSeparately,\n$$\\begin{align*}-k(P-Q)&=-k(Q+Ae^{-kt}-Q)\\\\&=-k(Ae^{-kt})\\\\&=-Ake^{-kt}.\\end{align*}$$\nBoth sides are equal, so the equation satisfies the differential equation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p40-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Initially, there are 1000 birds. After ten years the population has doubled. After an extended period of time, the population of the bird species plateaus at 8000.\n\nShow that $k=\\dfrac{1}{10}\\ln\\left(\\dfrac{7}{6}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\dfrac{1}{10}\\ln\\left(\\dfrac{7}{6}\\right)$.",
+          "worked": "As $t\\to\\infty$, $P\\to Q=8000$.\n\nAt $t=0$,\n$$\\begin{align*}1000&=8000+A\\\\A&=-7000.\\end{align*}$$\nThus $P=8000-7000e^{-kt}$. At $t=10$,\n$$\\begin{align*}2000&=8000-7000e^{-10k}\\\\-6000&=-7000e^{-10k}\\\\e^{-10k}&=\\frac67\\\\-10k&=\\ln\\left(\\frac67\\right)\\\\k&=\\frac1{10}\\ln\\left(\\frac76\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p40-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, find the first whole number of years after which the population exceeds half of its limiting population.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "37 years.",
+          "worked": "Half the limiting population is $4000$ birds. First find when the population reaches this value:\n$$\\begin{align*}4000&=8000-7000e^{-kt}\\\\-4000&=-7000e^{-kt}\\\\e^{-kt}&=\\frac47\\\\-kt&=\\ln\\left(\\frac47\\right)\\\\t&=\\frac{\\ln(4/7)}{-k}\\\\&=\\frac{10\\ln(7/4)}{\\ln(7/6)}\\\\&\\approx36.30\\text{ years}.\\end{align*}$$\nThe population is increasing, so it exceeds $4000$ for $t>\\dfrac{10\\ln(\\frac{7}{4})}{\\ln(\\frac{7}{6})}$. The first whole number of years is therefore $37$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p40-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:59:53.954Z",
+  "updatedAt": "2026-11-12T20:59:53.955Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p40-q13",
+    "sectionRole": "exercise"
+  }
+}

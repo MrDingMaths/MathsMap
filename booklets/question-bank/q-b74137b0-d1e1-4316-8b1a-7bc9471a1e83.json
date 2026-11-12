@@ -1,0 +1,162 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b74137b0-d1e1-4316-8b1a-7bc9471a1e83",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "median-quartiles-continuous",
+    "secondarySkillIds": [
+      "pdf-unknown-constant",
+      "cumulative-distribution-function",
+      "integrate-exponential"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Use scaffolded normalisation and exponential integration, rearrange the CDF with a logarithm to obtain a general quantile formula, then substitute the three quartile probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:01:40.581Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4d742bf6e6cda17b1681ab2f56601dc760a72bf5130f026fa69738c3bbb270e3",
+      "evidence": ".booklet-work/full-imports/s6adv-random-variables-2-continuous-random-variables-20261024/semantic-packets/assignments/assignment-8a23764b2b3832b59f9f/1/generation.json",
+      "originalTaskHash": "17533e9754a44bcc55c53519ba64cc1dbf4afee3f4d353de4ed4eb57ea3a2a82"
+    }
+  },
+  "content": {
+    "id": "p45-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Define $f(x)=ce^{-x}$, $0\\le x\\le1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p45-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Decreasing, concave-up exponential curve from $(0,c)$ to $(1,\\frac{c}{e})$, restricted to $0\\le x\\le1$.",
+          "worked": "For $c>0$, $f'(x)=-ce^{-x}<0$ and $f''(x)=ce^{-x}>0$. The curve decreases and is concave up, with $f(0)=c$ and $f(1)=\\frac{c}{e}$.",
+          "solutionDiagrams": [
+            {
+              "id": "p45-q7-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 45 p45-q7-a-graph\"}\n\\begin{tikzpicture}[x=4cm,y=3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.22,0)--(1.48,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.2)--(0,1.42) node[right] {$y$};\n\\draw[line width=0.4pt] (1,-0.035)--(1,0.035);\n\\node[below] at (1,-0.035) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.035,1)--(0.035,1);\n\\node[left] at (-0.035,1) {$c$};\n\\draw[line width=0.8pt,domain=0:1,samples=70] plot (\\x,{exp(-\\x)});\n\\node[above right] at (0.55,{exp(-0.55)}) {$y=ce^{-x}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 45,
+                "sourceRegion": "Question 7(a), supplied answer graph",
+                "description": "Restricted decreasing exponential curve, with axes, y-intercept c, x-axis tick 1 and curve label. Ordinary graph marks use black under house style.",
+                "mathematics": "The vertical coordinate is expressed in units of c: y/c=exp(-x), 0<=x<=1, c>0.",
+                "answerVisibility": "Answer-only; no graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p45-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $c$, given $f(x)$ is a PDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c=\\dfrac{e}{e-1}$.",
+          "worked": "$$\\begin{aligned}\\int_0^1 ce^{-x}\\,dx&=1\\\\c[-e^{-x}]_0^1&=1\\\\c(1-e^{-1})&=1\\\\\\frac{c(e-1)}{e}&=1\\\\c&=\\frac{e}{e-1}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p45-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the CDF.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac{e}{e-1}(1-e^{-x}),&0\\le x\\le1,\\\\1,&x>1.\\end{cases}$",
+          "worked": "For $0\\le x\\le1$,\n$$\\begin{aligned}F(x)&=\\frac{e}{e-1}\\int_0^x e^{-t}\\,dt\\\\F(x)&=\\frac{e}{e-1}[-e^{-t}]_0^x\\\\F(x)&=\\frac{e}{e-1}(1-e^{-x}).\\end{aligned}$$\nThus\n$$F(x)=\\begin{cases}0,&x<0,\\\\\\dfrac{e}{e-1}(1-e^{-x}),&0\\le x\\le1,\\\\1,&x>1.\\end{cases}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p45-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find a general equation for finding any percentile by setting $F(x)=p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\ln\\!\\left(\\dfrac{e}{e-p(e-1)}\\right)$, where $0\\le p\\le1$.",
+          "worked": "Set $F(x)=p$:\n$$\\begin{aligned}\\frac{e}{e-1}(1-e^{-x})&=p\\\\e^{-x}&=1-\\frac{p(e-1)}{e}\\\\-x&=\\ln\\!\\left(\\frac{e-p(e-1)}{e}\\right)\\\\x&=\\ln\\!\\left(\\frac{e}{e-p(e-1)}\\right).\\end{aligned}$$\nHere $p$ is the cumulative probability, with $0\\le p\\le1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p45-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence find $Q_1$, $Q_2$ and $Q_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=\\ln\\!\\left(\\dfrac{4e}{3e+1}\\right)$,\n$Q_2=\\ln\\!\\left(\\dfrac{2e}{e+1}\\right)$,\n$Q_3=\\ln\\!\\left(\\dfrac{4e}{e+3}\\right)$.",
+          "worked": "Substitute $p=\\tfrac14$, $\\tfrac12$ and $\\tfrac34$ into the equation from part d:\n$$\\begin{aligned}Q_1&=\\ln\\!\\left(\\frac{e}{e-\\frac14(e-1)}\\right)=\\ln\\!\\left(\\frac{4e}{3e+1}\\right),\\\\Q_2&=\\ln\\!\\left(\\frac{e}{e-\\frac12(e-1)}\\right)=\\ln\\!\\left(\\frac{2e}{e+1}\\right),\\\\Q_3&=\\ln\\!\\left(\\frac{e}{e-\\frac34(e-1)}\\right)=\\ln\\!\\left(\\frac{4e}{e+3}\\right).\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:57:52.737Z",
+  "updatedAt": "2026-11-12T20:57:52.738Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+    "blockId": "p45-q7",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dc295418-3464-4ec0-85d4-3d04a6d591ba",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "rate-proportional-difference",
+    "secondarySkillIds": [
+      "rates-of-change-derivatives"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the taught limiting-value model, calibrate its constant, solve for a target content and evaluate the derivative using that same model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:07:52.744Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6a79f27850121236a84859cd8eaf169dc6f0aea4c919a4662c7aa3385fcb4cd0",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/semantic-packets/assignments/assignment-f580ec6b7fc6b59b537c/1/generation.json",
+      "originalTaskHash": "13b2c8e7510a0e86203b63ab260f45b27e8baddcaa4e72f21220061d77bde2c6"
+    }
+  },
+  "content": {
+    "id": "p32-q2-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A sponge has a water content of 800 mL when fully saturated.\n\nWhen the sponge is dried out and then placed back in water, it absorbs water at a rate proportional to how much water it still needs to reach full saturation.\n\nA squeezed sponge has 200 mL of water.\n\nAfter being placed back into the water, it has water content of 440 mL after 3 seconds.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find when the water content rises to 790 mL. Give your answer to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$24.0\\text{ s}$ after being placed back in water.",
+          "worked": "Let $W$ be the water content in millilitres and $t$ the time in seconds after the sponge is placed back in water.\n\n$$\\begin{align*}\n\\frac{dW}{dt}&=k(W-800),\\qquad k<0\\\\\nW&=800+Ae^{kt}\\\\\n200&=800+A\\\\\nA&=-600\n\\end{align*}$$\n\nUsing $W(3)=440$:\n\n$$\\begin{align*}\n440&=800-600e^{3k}\\\\\n600e^{3k}&=360\\\\\ne^{3k}&=\\frac35\\\\\n3k&=\\ln\\left(\\frac35\\right)\\\\\nk&=\\frac{\\ln(3/5)}3\n\\end{align*}$$\n\nThus $W=800-600e^{[\\ln(3/5)/3]t}$. For $W=790$:\n\n$$\\begin{align*}\n790&=800-600e^{kt}\\\\\n600e^{kt}&=10\\\\\ne^{kt}&=\\frac1{60}\\\\\nkt&=\\ln\\left(\\frac1{60}\\right)\\\\\nt&=\\frac{\\ln(1/60)}k\\\\\nt&=\\frac{3\\ln(1/60)}{\\ln(3/5)}\\\\\nt&\\approx24.0\\text{ s}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 69
+      },
+      {
+        "id": "p32-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the rate of absorption after 3 seconds. Give your answer to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$61.3\\text{ mL/s}$.",
+          "worked": "Using $W=800-600e^{kt}$ and $k=\\dfrac{\\ln(\\frac{3}{5})}3$ from part a:\n\n$$\\begin{align*}\n\\frac{dW}{dt}&=-600ke^{kt}\\\\\n\\left.\\frac{dW}{dt}\\right|_{t=3}&=-600k\\left(\\frac35\\right)\\\\\n\\left.\\frac{dW}{dt}\\right|_{t=3}&=-360\\left(\\frac{\\ln(3/5)}3\\right)\\\\\n\\left.\\frac{dW}{dt}\\right|_{t=3}&=-120\\ln\\left(\\frac35\\right)\\\\\n\\left.\\frac{dW}{dt}\\right|_{t=3}&\\approx61.3\\text{ mL/s}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:59:54.494Z",
+  "updatedAt": "2026-11-12T20:59:54.494Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p32-q2",
+    "sectionRole": "exercise"
+  }
+}

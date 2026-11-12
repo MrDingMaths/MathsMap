@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5207ae07-d5cc-49fd-9059-6c64e4e9284e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "power-rule"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Differentiate a reciprocal function, compare tangent gradients, find two tangent equations and their intersection, and sketch the configuration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:06:21.139Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b6428129b1c05be8515c8df4a8e2529e7ac2a1bd4e47a7bda93d94a8fe663b4f",
+      "evidence": ".booklet-work/full-imports/s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-20261024/semantic-packets/assignments/assignment-f7bacc889998549d1948/1/generation.json",
+      "originalTaskHash": "d907575aaf2f22ed6666595a0de327ad11cfdf5a259436060f2a842a2a5e8d9f"
+    }
+  },
+  "content": {
+    "id": "p70-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p70-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the tangents to $f(x)=\\dfrac{12}{x}$ at $M(2,6)$ and $T(-2,-6)$ are parallel.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(2)=f'(-2)=-3$, so the tangents are parallel.",
+          "worked": "$$\\begin{align*}f'(x)&=-\\frac{12}{x^2}\\\\f'(2)&=-\\frac{12}{2^2}=-3\\\\f'(-2)&=-\\frac{12}{(-2)^2}=-3\\end{align*}$$\nBoth tangents have gradient $-3$, so they are parallel.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p70-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the tangents at $M(2,6)$ and $N(6,2)$ and their point of intersection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At $M$: $y=-3x+12$. At $N$: $y=-\\dfrac13x+4$. Intersection: $(3,3)$.",
+          "worked": "At $M$, the gradient is $-3$:\n$$\\begin{align*}y-6&=-3(x-2)\\\\y&=-3x+12\\end{align*}$$\nAt $N$:\n$$\\begin{align*}f'(6)&=-\\frac{12}{6^2}=-\\frac13\\\\y-2&=-\\frac13(x-6)\\\\y&=-\\frac13x+4\\end{align*}$$\nAt the intersection:\n$$\\begin{align*}-3x+12&=-\\frac13x+4\\\\-9x+36&=-x+12\\\\8x&=24\\\\x&=3\\\\y&=-3(3)+12=3\\end{align*}$$\nThe tangents intersect at $(3,3)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p70-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch the situation in part b.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The sketch shows $y=\\frac{12}{x}$ and its tangents at $M$ and $N$.",
+          "worked": "Sketch the reciprocal curve in quadrants I and III. Mark $M(2,6)$ and $N(6,2)$ on the positive branch. Draw $y=-3x+12$ through $M$ and $y=-\\tfrac13x+4$ through $N$; the tangents intersect at $(3,3)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p70-q13-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"reciprocal curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent at M\"},{\"name\":\"tangentOrange\",\"hex\":\"EF8B2C\",\"reason\":\"tangent at N\"}],\"reference\":\"source page 70, question 13 solution sketch\"}\n\\begin{tikzpicture}[x=0.42cm,y=0.42cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\definecolor{tangentOrange}{HTML}{EF8B2C}\n\\draw[<->,line width=0.5pt] (-6,0)--(8.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-7)--(0,9) node[above] {$y$};\n\\draw[<->,curveBlue,line width=0.8pt,domain=1.38:8,samples=100] plot (\\x,{12/\\x});\n\\draw[<->,curveBlue,line width=0.8pt,domain=-6:-1.8,samples=100] plot (\\x,{12/\\x});\n\\draw[<->,tangentRed,line width=0.8pt] (1.1,8.7)--(6.2,-6.6);\n\\draw[<->,tangentOrange,line width=0.8pt] (-6,6)--(8,1.333333);\n\\fill[black] (2,6) circle (1.3pt) node[right] {$M$};\n\\fill[black] (6,2) circle (1.3pt) node[above right] {$N$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 70,
+                "sourceRegion": "Question 13 solution sketch, lower left",
+                "description": "Editable equation-driven reciprocal graph with two tangent lines, labelled M and N, double-ended axes and continuation arrows; no numerical ticks. Source series colours distinguish the curve and the two tangents.",
+                "mathematics": "Curve y=12/x; M=(2,6), N=(6,2); tangents y=-3x+12 and y=-x/3+4 intersect at (3,3).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p70-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:57:57.624Z",
+  "updatedAt": "2026-11-12T20:57:57.624Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1",
+    "blockId": "p70-q13",
+    "sectionRole": "exercise"
+  }
+}
