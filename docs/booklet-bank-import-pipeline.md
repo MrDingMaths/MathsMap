@@ -171,6 +171,37 @@ Each run also records the section role, origin and exam tag. A booklet that anot
 
 **Built since: see [Built, 12 November 2026](#built-12-november-2026).**
 
+## Rollout reconciliation, 13 November 2026
+
+Counts exclude the pilot and pre-existing links. The live receipts and bank records confirm the origin of every new record. Published textbook chapters have library category `textbook`. All 17 approved secondary skill additions and their prior bank revisions are in Git.
+
+| Origin | Published | Exact links | Decision 6 links to a master |
+|---|---:|---:|---:|
+| Master | 4,458 | 27 | 0 |
+| Textbook | 9,747 | 6 | 55 |
+| Total | 14,205 | 33 | 55 |
+
+| Other outcomes | Questions |
+|---|---:|
+| Held for a duplicate decision | 95 |
+| Left out, unique questions | 2,786 |
+| ↳ `bank-validation` | 593 |
+| ↳ `no-teaching-context` | 1,045 |
+| ↳ `review-stale` | 852 |
+| ↳ `no-recorded-review` | 254 |
+| ↳ `rating-not-current` | 220 |
+| ↳ `no-known-skill` | 70 |
+| ↳ `open-finding` | 24 |
+| Follow-up: independent | 38 |
+| Follow-up: merged | 7 |
+| Follow-up: embedded | 2 |
+| Follow-up: manual | 11 |
+| Exam tags added | 1 |
+
+Exclusion reasons overlap. All 574 questions on the documented slash-fraction list were kept out: 570 still fail bank validation, and four are excluded for stale review and rating. The bank-validation count also includes 23 questions outside that list.
+
+The final plans showed no busy booklets and no remaining master publication or link rows. One textbook chapter remains staged: `iceem-8-ch04-20261015` (77 new records, one exact link and one Decision 6 link). The exact link would add `order-of-operations-integers` to `q-93fd9f74-6da6-487a-8103-907daff24e93`, which ICE-EM 7 Chapter 11 owns. That change is outside the 17 approved additions, so the chapter was not saved.
+
 ## Open points
 
 - Whether the 8,919 unpublished master questions include ones the audit added and still flags as comments-only. These would be left out until resolved.
