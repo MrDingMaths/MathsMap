@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6c9ca3fa-9bb7-4c67-a91e-8ecaa7383971",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "irregular-land-area",
+    "secondarySkillIds": [
+      "pythagoras-find-side",
+      "cosine-rule-angles",
+      "area-rule-triangle"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the prompted chain from Pythagoras to a cosine-rule angle, then recognise that the block's area is the sum of a right triangle and a triangle requiring the sine area rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T09:04:12.522Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fb220921ba7054016f52ff069b484dd4eb7581edd9d34bb7fc7db83b833d66aa",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-10-ch12-20261015/b4692e6e8181eac2615e9309093d5e112997ce7c6902678f379b76610a2d37c3-1792573423853/last-message.txt",
+      "originalTaskHash": "130c0ef6bcc25780f736aecb0928fe3f640ad75feaefe1610265d59c621c87c2"
+    }
+  },
+  "content": {
+    "id": "p31-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "An irregular block of land, $ABCD$, has dimensions shown opposite. Calculate, correct to one decimal place:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 p31-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (D) at (3.2,0);\n\\coordinate (C) at (3.2,5.2);\n\\coordinate (B) at (0.790680781,2.476051032);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[line width=0.4pt] (3.0,0)--(3.0,0.2)--(3.2,0.2);\n\\path (A)--node[left] {$65\\text{ m}$} (B);\n\\path (B)--node[above left] {$90\\text{ m}$} (C);\n\\path (C)--node[right] {$130\\text{ m}$} (D);\n\\path (D)--node[below] {$80\\text{ m}$} (A);\n\\node[below left] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 33.1,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Exercise 12H question 8, upper-right land diagram",
+          "description": "Unshaded quadrilateral ABCD with A lower left, B above and slightly right of A, C upper right and D directly below C. No diagonal is supplied. Ordinary blue source strokes become house black.",
+          "mathematics": "AB=65 m, BC=90 m, CD=130 m, DA=80 m; angle ADC=90 degrees. Coordinates derive from the given lengths and preserve the convex source topology; no coordinate values print.",
+          "answerVisibility": "Only the four given side lengths, vertex names and right-angle marker are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the length $AC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$152.6\\text{ m}$",
+          "worked": "In right-angled triangle $ADC$, by Pythagoras’ theorem:\n$$\\begin{align*}AC^2&=80^2+130^2\\\\AC^2&=23300\\\\AC&=\\sqrt{23300}\\\\AC&\\approx152.6\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p31-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\angle ABC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$159.7^\\circ$",
+          "worked": "Apply the cosine rule in triangle $ABC$, retaining $AC^2=23300$:\n$$\\begin{align*}\\cos\\angle ABC&=\\frac{65^2+90^2-23300}{2(65)(90)}\\\\\\cos\\angle ABC&=-\\frac{439}{468}\\\\\\angle ABC&=\\cos^{-1}\\left(-\\frac{439}{468}\\right)\\\\\\angle ABC&\\approx159.7^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p31-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the area of the block",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6213.6\\text{ m}^2$.\n\nSplit along $AC$ and add the areas of triangles $ADC$ and $ABC$.",
+          "worked": "Split the block along $AC$. Let $\\theta=\\cos^{-1}(-\\frac{439}{468})$, the unrounded angle from part b.\n$$\\begin{align*}A_{ADC}&=\\frac12(80)(130)\\\\A_{ADC}&=5200\\text{ m}^2\\\\A_{ABC}&=\\frac12(65)(90)\\sin\\theta\\\\A_{ABCD}&=5200+\\frac12(65)(90)\\sin\\left(\\cos^{-1}\\left(-\\frac{439}{468}\\right)\\right)\\\\A_{ABCD}&\\approx6213.6\\text{ m}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p31-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:49:38.856Z",
+  "updatedAt": "2026-11-12T21:49:38.857Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch12-20261015",
+    "blockId": "p31-q8",
+    "sectionRole": "exercise"
+  }
+}

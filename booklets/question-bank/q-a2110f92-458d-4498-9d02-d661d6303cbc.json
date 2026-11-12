@@ -1,0 +1,190 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a2110f92-458d-4498-9d02-d661d6303cbc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "quadratic-formula",
+      "complementary-trig-relationships",
+      "simplify-surds-operations"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infer equal lengths and corresponding-side ratios to establish the supplied quadratic, then connect the requested altitude to exact cosine and complementary-angle values. The staged prompts supply the route, but substantial geometric and algebraic connections remain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T08:20:22.060Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bda296689a402d8686cec35f07232f4b5f363a055513d46f485b2704280c7aa7",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch05-20261015/background-repair-1792570701629/worker-3/last-message.txt",
+      "originalTaskHash": "3dc36506ad719181dbf8111a7326daad6cee69a7c1c968f44db1878a1228c816"
+    }
+  },
+  "content": {
+    "id": "p28-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Take an isosceles triangle $ABC$ with a base angle of $72^\\circ$ and $AB=AC=1$. Bisect one of the base angles, for example, $C$ (as shown in the diagram) and join $CD$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 28 p28-q8-diagram\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (2,{2*tan(72)});\n\\coordinate (D) at ($(B)!{(3-sqrt(5))/2}!(A)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (C)--(D);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(B)+(-0.12,0.04)$)--($(A)!0.5!(B)+(0.12,-0.04)$);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(C)+(-0.12,-0.04)$)--($(A)!0.5!(C)+(0.12,0.04)$);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\path (A)--node[right] {$1$} (C);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.5,\"$72^\\circ$\"] {angle=C--B--A};\n\\fill[black] ($(C)+(126:0.55)$) circle (1.1pt);\n\\fill[black] ($(C)+(162:0.55)$) circle (1.1pt);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Challenge question 8 triangle",
+          "description": "Isosceles triangle with A above horizontal BC, D on AB, and CD bisecting angle C. Matching side ticks, AC labelled 1, angle B labelled 72 degrees, and matching dot markers inside the two angles at C. Decorative blue strokes and red equality dots are rendered in house black.",
+          "mathematics": "AB=AC=1; angle ABC=angle ACB=72 degrees; angle BCD=angle DCA=36 degrees; D lies on AB.",
+          "answerVisibility": "Only supplied givens and marks; no altitude or derived values."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that triangle $ABC$ is similar to triangle $CDB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABC\\sim\\triangle CDB$ by AA: $\\angle BAC=\\angle DCB=36^\\circ$ and $\\angle ABC=\\angle CDB=72^\\circ$.",
+          "worked": "Since $AB=AC$, the base angles at $B$ and $C$ are both $72^\\circ$.\n$$\\begin{align*}\\angle BAC&=180^\\circ-72^\\circ-72^\\circ\\\\\\angle BAC&=36^\\circ\\\\\\angle DCB&=72^\\circ\\div2\\\\\\angle DCB&=36^\\circ\\\\\\angle CDB&=180^\\circ-72^\\circ-36^\\circ\\\\\\angle CDB&=72^\\circ.\\end{align*}$$\nThus $\\angle BAC=\\angle DCB$ and $\\angle ABC=\\angle CDB$, so $\\triangle ABC\\sim\\triangle CDB$ by AA.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p28-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $BC=x$. Prove that $x^2+x-1=0$ and hence solve for $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x^2+x-1=0$, so $x=\\dfrac{\\sqrt5-1}{2}$.\n\nUse corresponding sides of the similar triangles and reject the negative root because $x$ is a length.",
+          "worked": "In $\\triangle ACD$, $\\angle CAD=\\angle ACD=36^\\circ$, so $AD=CD$. From $\\triangle ABC\\sim\\triangle CDB$,\n$$\\begin{align*}\\frac{AC}{CB}&=\\frac{AB}{CD}\\\\\\frac1x&=\\frac1{CD}\\\\CD&=x.\\end{align*}$$\nHence $AD=x$ and $BD=1-x$. Using corresponding sides again,\n$$\\begin{align*}\\frac{BC}{DB}&=\\frac{AC}{CB}\\\\\\frac{x}{1-x}&=\\frac1x\\\\x^2&=1-x\\\\x^2+x-1&=0\\\\x&=\\frac{-1\\pm\\sqrt{1^2-4(1)(-1)}}2\\\\x&=\\frac{-1\\pm\\sqrt5}{2}.\\end{align*}$$\nSince $x>0$, $x=\\dfrac{\\sqrt5-1}{2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p28-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Drop a perpendicular from $A$ to $BC$ and show that $\\cos72^\\circ=\\dfrac{\\sqrt5-1}{4}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q8-c-construction",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 28 p28-q8-c construction copy\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (B) at (0,0);\\coordinate (C) at (4,0);\\coordinate (A) at (2,{2*tan(72)});\\coordinate (D) at ($(B)!{(3-sqrt(5))/2}!(A)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (C)--(D);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(B)+(-0.12,0.04)$)--($(A)!0.5!(B)+(0.12,-0.04)$);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(C)+(-0.12,-0.04)$)--($(A)!0.5!(C)+(0.12,0.04)$);\n\\node[above] at (A) {$A$};\\node[below left] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[left] at (D) {$D$};\\path (A)--node[right] {$1$} (C);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.5,\"$72^\\circ$\"] {angle=C--B--A};\n\\fill[black] ($(C)+(126:0.55)$) circle (1.1pt);\\fill[black] ($(C)+(162:0.55)$) circle (1.1pt);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "Question 8 supplied triangle, repeated for part c",
+              "description": "Usable copy of the supplied triangle on which the student can construct the perpendicular; no altitude supplied.",
+              "mathematics": "Same triangle, incidence, side equality and angle-bisector givens as the parent figure.",
+              "answerVisibility": "Construction remains for the student."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\cos72^\\circ=\\dfrac{\\frac{BC}{2}}{AB}=\\dfrac{\\sqrt5-1}{4}$.",
+          "worked": "Let $M$ be the foot of the perpendicular from $A$ to $BC$. In the isosceles triangle, this perpendicular bisects $BC$, so $BM=\\frac{x}{2}$.\n$$\\begin{align*}\\cos72^\\circ&=\\frac{BM}{AB}\\\\\\cos72^\\circ&=\\frac{x/2}{1}\\\\\\cos72^\\circ&=\\frac{\\sqrt5-1}{4}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q8-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 28 p28-q8-c solution\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (B) at (0,0);\\coordinate (C) at (4,0);\\coordinate (A) at (2,{2*tan(72)});\\coordinate (D) at ($(B)!{(3-sqrt(5))/2}!(A)$);\\coordinate (M) at ($(B)!0.5!(C)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (C)--(D) (A)--(M);\n\\draw[black,line width=0.4pt] ($(M)+(0,0.25)$)--($(M)+(0.25,0.25)$)--($(M)+(0.25,0)$);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(B)+(-0.12,0.04)$)--($(A)!0.5!(B)+(0.12,-0.04)$);\n\\draw[black,line width=0.4pt] ($(A)!0.5!(C)+(-0.12,-0.04)$)--($(A)!0.5!(C)+(0.12,0.04)$);\n\\node[above] at (A) {$A$};\\node[below left] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[left] at (D) {$D$};\\node[below] at (M) {$M$};\n\\path (A)--node[right] {$1$} (C);\\path (B)--node[below] {$x/2$} (M);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.5,\"$72^\\circ$\"] {angle=C--B--A};\n\\fill[black] ($(C)+(126:0.55)$) circle (1.1pt);\\fill[black] ($(C)+(162:0.55)$) circle (1.1pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 8c requested perpendicular construction",
+                "description": "Complete solution figure adds AM perpendicular to BC, names its foot M and labels BM=x/2.",
+                "mathematics": "AM is the altitude and median of isosceles triangle ABC; angle AMB=90 degrees.",
+                "answerVisibility": "Solution-only construction and derived half-base label."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p28-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the cosine of $18^\\circ$ in simplest surd form.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\cos18^\\circ=\\dfrac{\\sqrt{2(5+\\sqrt5)}}4$.\n\nUse $\\cos18^\\circ=\\sin72^\\circ$ and Pythagoras in the right triangle.",
+          "worked": "Since $18^\\circ+72^\\circ=90^\\circ$, $\\cos18^\\circ=\\sin72^\\circ$. In right triangle $ABM$, $AB=1$ and $BM=\\dfrac{\\sqrt5-1}{4}$.\n$$\\begin{align*}AM^2&=1^2-\\left(\\frac{\\sqrt5-1}{4}\\right)^2\\\\AM^2&=1-\\frac{6-2\\sqrt5}{16}\\\\AM^2&=\\frac{10+2\\sqrt5}{16}\\\\AM&=\\frac{\\sqrt{10+2\\sqrt5}}4\\\\\\cos18^\\circ&=\\frac{AM}{AB}\\\\\\cos18^\\circ&=\\frac{\\sqrt{2(5+\\sqrt5)}}4.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 47
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:49:07.225Z",
+  "updatedAt": "2026-11-12T21:49:07.226Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch05-20261015",
+    "blockId": "p28-q8",
+    "sectionRole": "exercise"
+  }
+}
