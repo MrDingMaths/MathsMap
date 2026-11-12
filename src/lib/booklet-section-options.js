@@ -7,8 +7,17 @@ export const sectionShowsWorkingSpace = (section, options = {}) => section?.work
 // Pagination measures the rendered page, so the gap is counted there too. The first
 // question in the section has none.
 export const EXAM_QUESTION_GAP_MM = 10;
-const spacedSection = section => section?.role === 'exam' || (section?.role === 'challenge' && section?.phase === 'practice');
+// The bank-drawn Mixed practice section has no working space and a 5 mm gap
+// (James, 13 November 2026; docs/booklet-bank-draw.md). It is keyed on the
+// pipeline's own marker, so source-authored review sections keep their layout.
+export const MIXED_REVIEW_QUESTION_GAP_MM = 5;
+const sectionGapMm = section => {
+  if (section?.role === 'exam' || (section?.role === 'challenge' && section?.phase === 'practice')) return EXAM_QUESTION_GAP_MM;
+  if (section?.bankDraw?.command === 'mixed') return MIXED_REVIEW_QUESTION_GAP_MM;
+  return 0;
+};
 export const examQuestionGapMm = (section, blocks, block) => {
-  if (!spacedSection(section) || block?.type !== 'question') return 0;
-  return blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) > 0 ? EXAM_QUESTION_GAP_MM : 0;
+  const gap = sectionGapMm(section);
+  if (!gap || block?.type !== 'question') return 0;
+  return blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) > 0 ? gap : 0;
 };

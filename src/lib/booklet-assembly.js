@@ -69,7 +69,8 @@ function promptSignature(question) {
 }
 // Compare table exercises across the bank's TeX arrays and imported Markdown.
 // Keep this deliberately narrow: a graph or recognition task is a different task.
-function exerciseSignatures(question) {
+// Also used by pedagogy/bank-draw.mjs to keep bank draws from repeating a booklet's own questions.
+export function exerciseSignatures(question) {
   const keys=[promptSignature(question)];
   const visit=(node,context='')=>{
     const text=contentSource(node.prompt),combined=context+'\n'+text;
