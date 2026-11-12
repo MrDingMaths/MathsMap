@@ -1,0 +1,305 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-51dbb817-f3fe-4f76-8f6a-24adc12ebb80",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-restrictions",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Separate rank choices from suit choices, avoid ordering the two pair ranks and exclude matching ranks from the fifth card so the hand has exactly two pairs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2721755dfb4368fc70a0b83c4af4da7873c6df3d0fa44c09d999e931b6b97fe6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt",
+      "originalTaskHash": "d95340c7e3261a74304c62b365343dc3c2b015d4da95916798cf53233f58b5ee",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "c028a37584d2c38e1d4c3e3eeea58453a0e5e390509cbc7ab4d0c3df5df1f31a"
+      }
+    }
+  },
+  "content": {
+    "id": "p20-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p20-q16-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A player is dealt five cards from a standard deck of 52 playing cards. How many hands are there with",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "exactly four of the same number e.g. 7777Q?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$624$",
+          "worked": "Choose the rank of the four matching cards; all four suits are then fixed. Choose the fifth card from the other 48 cards.\n$$N=\\binom{13}{1}\\binom{48}{1}=624.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p20-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "all cards being from the same suit?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5148$",
+          "worked": "Choose the suit, then choose five of its 13 cards.\n$$N=\\binom{4}{1}\\binom{13}{5}=5148.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p20-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "a triplet and a pair e.g. 99955?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3744$\n\nChoose the triplet rank and suits, then a different pair rank and its suits.",
+          "worked": "Choose one of 13 ranks and three of its four suits for the triplet. Choose one of the remaining 12 ranks and two of its four suits for the pair.\n$$N=\\binom{13}{1}\\binom{4}{3}\\binom{12}{1}\\binom{4}{2}=3744.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p20-q16-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "exactly two pairs e.g. 44JJ6?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$123\\,552$\n\nChoose two pair ranks without ordering them, their suits, and a fifth card of another rank.",
+          "worked": "Choose two distinct ranks for the pairs and two suits for each rank. The fifth card has one of the other 11 ranks and any of four suits.\n$$N=\\binom{13}{2}\\binom{4}{2}\\binom{4}{2}\\binom{11}{1}\\binom{4}{1}=123\\,552.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q16-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p20-q16-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q16-label-item",
+                      "type": "item",
+                      "ref": "p20-q16-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p20-q16-stem-item",
+                      "type": "item",
+                      "ref": "p20-q16-root/prompt#p20-q16-stem"
+                    }
+                  ],
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p20-q16-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q16-a-label-item",
+                      "type": "item",
+                      "ref": "p20-q16-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p20-q16-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p20-q16-a-prompt-item",
+                          "type": "item",
+                          "ref": "p20-q16-a/prompt"
+                        },
+                        {
+                          "id": "p20-q16-a-space-item",
+                          "type": "item",
+                          "ref": "p20-q16-a/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p20-q16-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q16-b-label-item",
+                      "type": "item",
+                      "ref": "p20-q16-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p20-q16-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p20-q16-b-prompt-item",
+                          "type": "item",
+                          "ref": "p20-q16-b/prompt"
+                        },
+                        {
+                          "id": "p20-q16-b-space-item",
+                          "type": "item",
+                          "ref": "p20-q16-b/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p20-q16-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q16-c-label-item",
+                      "type": "item",
+                      "ref": "p20-q16-c/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p20-q16-c-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p20-q16-c-prompt-item",
+                          "type": "item",
+                          "ref": "p20-q16-c/prompt"
+                        },
+                        {
+                          "id": "p20-q16-c-space-item",
+                          "type": "item",
+                          "ref": "p20-q16-c/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p20-q16-d-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q16-d-label-item",
+                      "type": "item",
+                      "ref": "p20-q16-d/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p20-q16-d-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p20-q16-d-prompt-item",
+                          "type": "item",
+                          "ref": "p20-q16-d/prompt"
+                        },
+                        {
+                          "id": "p20-q16-d-space-item",
+                          "type": "item",
+                          "ref": "p20-q16-d/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "verticalAlign": "top"
+                }
+              ],
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p20-q16"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:32.826Z",
+  "updatedAt": "2026-11-12T11:07:32.826Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p20-q16",
+    "sectionRole": "exercise"
+  }
+}

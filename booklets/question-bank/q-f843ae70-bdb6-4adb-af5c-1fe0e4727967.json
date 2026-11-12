@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f843ae70-bdb6-4adb-af5c-1fe0e4727967",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Identify midpoint and diagonal cross-sections, calculate their missing lengths, and use pyramid symmetry to convert half-angles into the requested apex angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dcf9a38a62ef712ea172185ea2bc2b299828f86655adcc758e9b4a33eff69adc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A right, square-based pyramid is shown below. The side lengths of the square base is $20\\text{ cm}$ and the length of $AH$ is $26\\text{ cm}$.\n\nThe point $P$ and $Q$ are midpoints on $AD$ and $BC$ respectively. Find the following. Give your answers correct to one decimal place.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p13-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 p13-q11-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},geometry/.style={black,line width=0.8pt},construction/.style={black,line width=0.4pt,dash pattern=on 3pt off 3pt},tick/.style={black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,-0.8);\n\\coordinate (C) at (6.3,0.55);\n\\coordinate (D) at (2.3,1.35);\n\\coordinate (O) at (3.15,0.275);\n\\coordinate (H) at (3.15,4.8);\n\\coordinate (P) at ($(A)!0.5!(D)$);\n\\coordinate (Q) at ($(B)!0.5!(C)$);\n\\draw[geometry] (A)--(H)--(B)--(A) (H)--(C)--(B);\n\\draw[geometry,dash pattern=on 3pt off 3pt] (A)--(D)--(C) (D)--(H);\n\\draw[construction] (H)--(P) (H)--(Q) (H)--(O);\n\\foreach \\U/\\V in {A/P,P/D,B/Q,Q/C}{\\draw[tick] ($ (\\U)!0.5!(\\V) ! 0.075cm ! 90:(\\V) $)--($ (\\U)!0.5!(\\V) ! 0.075cm ! -90:(\\V) $);}\n\\foreach \\U/\\V in {A/B,D/C}{\\foreach \\t in {0.485,0.515}{\\draw[tick] ($ (\\U)!\\t!(\\V) ! 0.075cm ! 90:(\\V) $)--($ (\\U)!\\t!(\\V) ! 0.075cm ! -90:(\\V) $);}}\n\\path (A)--(H) node[midway,left=3pt] {$26\\text{ cm}$};\n\\path (A)--(B) node[midway,below=5pt] {$20\\text{ cm}$};\n\\foreach \\V in {A,B,C,D,H,O,P,Q}{\\fill[black] (\\V) circle (1.2pt);}\n\\node[below left=2pt] at (A) {$A$};\n\\node[below=3pt] at (B) {$B$};\n\\node[right=3pt] at (C) {$C$};\n\\node[below=3pt] at (D) {$D$};\n\\node[above=3pt] at (H) {$H$};\n\\node[below=3pt] at (O) {$O$};\n\\node[below right=4pt] at (P) {$P$};\n\\node[below right=2pt] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 44.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 11, upper right column",
+          "description": "Unshaded right square-based pyramid with apex H above centre O, midpoints P on AD and Q on BC, and dashed midpoint and altitude construction segments.",
+          "mathematics": "Model vertices A=(-10,-10,0), B=(10,-10,0), C=(10,10,0), D=(-10,10,0), H=(0,0,sqrt(476)), O=(0,0,0), P=(-10,0,0), Q=(10,0,0). Faces ABCD, HAB, HBC, HCD and HDA. Projection uses x=(0.2,-0.04), y=(0.115,0.0675), z=(0,4.525/sqrt(476)); viewing direction is proportional to (0.0675,0.04,-0.0181*sqrt(476)/4.525) towards the object. Faces HAB and HBC are visible; AD, DC and HD are obscured. HP, HQ and HO retain separate construction strokes. AP=PD=BQ=QC; AB=DC. AH=26 cm and AB=20 cm.",
+          "answerVisibility": "Only supplied dimensions, point labels, equality marks and construction lines are visible; no calculated lengths or angles."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\angle PHQ$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$49.2^\\circ$\n\nUse the midpoint cross-section $PHQ$ and $HP=24\\text{ cm}$.",
+          "worked": "Since $HAP$ is right-angled at $P$, and $AP=10\\text{ cm}$,\n$$\\begin{align*}HP^2&=26^2-10^2\\\\HP^2&=576\\\\HP&=24\\text{ cm}.\\end{align*}$$\nThe centre $O$ is the midpoint of $PQ$, so $OP=10\\text{ cm}$ and $HO$ bisects $\\angle PHQ$.\n$$\\begin{align*}\\sin\\angle PHO&=\\frac{10}{24}\\\\\\angle PHO&=\\sin^{-1}\\left(\\frac{10}{24}\\right)\\\\\\angle PHQ&=2\\sin^{-1}\\left(\\frac{10}{24}\\right)\\approx49.2^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 86
+      },
+      {
+        "id": "p13-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\angle PQH$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$65.4^\\circ$",
+          "worked": "Using $QH=HP=24\\text{ cm}$ from part (a), $QO=10\\text{ cm}$ and $\\angle PQH=\\angle OQH$,\n$$\\begin{align*}\\cos\\angle OQH&=\\frac{10}{24}\\\\\\angle OQH&=\\cos^{-1}\\left(\\frac{10}{24}\\right)\\\\\\angle PQH&\\approx65.4^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p13-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\angle AHC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$65.9^\\circ$\n\nFind the base diagonal $AC=20\\sqrt2\\text{ cm}$, then use the diagonal cross-section $AHC$.",
+          "worked": "In the square base,\n$$\\begin{align*}AC&=\\sqrt{20^2+20^2}\\\\AC&=20\\sqrt2\\text{ cm}\\\\AO&=\\frac{AC}{2}=10\\sqrt2\\text{ cm}.\\end{align*}$$\nSince $AH=CH$ and $HO\\perp AC$, $HO$ bisects $\\angle AHC$.\n$$\\begin{align*}\\sin\\angle AHO&=\\frac{10\\sqrt2}{26}\\\\\\angle AHO&=\\sin^{-1}\\left(\\frac{10\\sqrt2}{26}\\right)\\\\\\angle AHC&=2\\sin^{-1}\\left(\\frac{10\\sqrt2}{26}\\right)\\approx65.9^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:01.543Z",
+  "updatedAt": "2026-11-12T11:06:01.543Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p13-q11",
+    "sectionRole": "exercise"
+  }
+}

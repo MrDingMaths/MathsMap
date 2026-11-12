@@ -1,0 +1,251 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-493559e0-36a9-4c03-96c2-b46f56d90446",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-identities",
+    "secondarySkillIds": [
+      "factorial-notation"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Proves a combination identity algebraically and uses it to establish a general finite-sum identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T12:22:47.677Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b1b07b8eb28ae529af21fd26d01e3117af134aedbb0785a95859e98079264684",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch04-20261002-practice/semantic-packets/assignments/assignment-740f0c623e1ab7dd2615/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p40-q46-root",
+    "type": "question",
+    "label": "46",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p40-q46-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\displaystyle \\binom{n}{k}=\\binom{n+1}{k+1}-\\binom{n}{k+1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p40-q46-a-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\binom{n+1}{k+1}-\\binom{n}{k+1}=\\binom{n}{k}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p40-q46-a-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Write the right-hand side in factorial form and combine over a common denominator.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "For $0\\leq k<n$,\n$$\\begin{align*}\\binom{n+1}{k+1}-\\binom{n}{k+1}&=\\frac{(n+1)!}{(k+1)!(n-k)!}-\\frac{n!}{(k+1)!(n-k-1)!}\\\\\\binom{n+1}{k+1}-\\binom{n}{k+1}&=\\frac{(n+1)n!-(n-k)n!}{(k+1)!(n-k)!}\\\\\\binom{n+1}{k+1}-\\binom{n}{k+1}&=\\frac{(k+1)n!}{(k+1)!(n-k)!}\\\\\\binom{n+1}{k+1}-\\binom{n}{k+1}&=\\frac{n!}{k!(n-k)!}\\\\\\binom{n+1}{k+1}-\\binom{n}{k+1}&=\\binom{n}{k}.\\end{align*}$$\nFor $k=n$, the right-hand side is $1-0=1=\\binom{n}{n}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p40-q46-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that\n$$\\binom{k}{k}+\\binom{k+1}{k}+\\binom{k+2}{k}+\\cdots+\\binom{n}{k}=\\binom{n+1}{k+1}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p40-q46-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\displaystyle\\sum_{r=k}^{n}\\binom{r}{k}=\\binom{n+1}{k+1}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p40-q46-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use part (a); successive combination terms cancel.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Using part (a),\n$$\\begin{align*}\\sum_{r=k}^{n}\\binom{r}{k}&=1+\\sum_{r=k+1}^{n}\\left[\\binom{r+1}{k+1}-\\binom{r}{k+1}\\right]\\\\\\sum_{r=k}^{n}\\binom{r}{k}&=1+\\binom{n+1}{k+1}-\\binom{k+1}{k+1}\\\\\\sum_{r=k}^{n}\\binom{r}{k}&=\\binom{n+1}{k+1}.\\end{align*}$$\nThe intermediate terms cancel. When $n=k$, both sides equal $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p40-q46",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q46": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q46-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q46-root/label",
+                  "type": "item",
+                  "ref": "p40-q46-root/label",
+                  "title": "Label 46"
+                },
+                {
+                  "id": "p40-q46-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p40-q46-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q46-a/label",
+                          "type": "item",
+                          "ref": "p40-q46-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p40-q46-a/prompt",
+                          "type": "item",
+                          "ref": "p40-q46-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q46-a/space",
+                          "type": "item",
+                          "ref": "p40-q46-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p40-q46-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q46-b/label",
+                          "type": "item",
+                          "ref": "p40-q46-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p40-q46-b/prompt",
+                          "type": "item",
+                          "ref": "p40-q46-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p40-q46-b/space",
+                          "type": "item",
+                          "ref": "p40-q46-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 46",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:12.290Z",
+  "updatedAt": "2026-11-12T11:08:12.290Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p40-q46",
+    "sectionRole": "exercise"
+  }
+}

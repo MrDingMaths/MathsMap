@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-784ac052-433a-4e22-8016-e2403ff8eee3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-pyramid-cone",
+    "secondarySkillIds": [
+      "pythagoras-3d"
+    ],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied enclosing-cube hint to identify four removable triangular corner pyramids, determine their bases and heights, and subtract their volumes symbolically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:37.471Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2b03a7612ff63017c97e32077b4ae7d25fed53ec4f050d2080ea8e8dad8fd840",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/1e2c1b1e9283324335ea3fe5a7c1d51c0c8d9305c59b3bb4c3b9ea998fcbe4e0-1792558183587/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A regular tetrahedron is a pyramid whose base and faces are all equilateral triangles. Find the volume of a regular tetrahedron if each edge has length $a$. Hint: The tetrahedron can be inscribed within a cube of edge length $\\frac{a}{\\sqrt{2}}$, as shown in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"tetraBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the inscribed tetrahedron from the enclosing cube\"}],\"reference\":\"source page 38 p38-q8-diagram\"}\n\\begin{tikzpicture}[line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{tetraBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2.4,0); \\coordinate (C) at (3.35,0.55); \\coordinate (D) at (0.95,0.55);\n\\coordinate (E) at (0,2.4); \\coordinate (F) at (2.4,2.4); \\coordinate (G) at (3.35,2.95); \\coordinate (H) at (0.95,2.95);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(G)--(H)--(E)--cycle (E)--(F)--(G) (B)--(F);\n\\draw[black,dashed,line width=0.4pt] (A)--(D)--(C) (D)--(H);\n\\draw[tetraBlue,line width=0.8pt] (A)--(C)--(F)--(H)--cycle (A)--(F);\n\\draw[tetraBlue,dashed,line width=0.8pt] (C)--(H);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 46.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 8, lower-left figure",
+          "description": "Regular tetrahedron formed by four alternating vertices of an obliquely viewed cube. All six tetrahedron edges are retained; hidden edges use dashes.",
+          "mathematics": "Cube vertices A=(0,0,0), C=(s,s,0), F=(s,0,s), H=(0,s,s) form a regular tetrahedron with edge s√2=a.",
+          "answerVisibility": "No answer or additional measurements appear in the question figure."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\displaystyle \\frac{\\sqrt{2}}{12}a^3$ cubic units.\n\nSubtract the four corner pyramids from the enclosing cube.",
+      "worked": "Let the cube edge be $s=\\frac{a}{\\sqrt{2}}$. Each of the four corner pyramids has a right-triangular base of area $\\frac12s^2$ and perpendicular height $s$.\n$$\\begin{align*}V_{\\text{corner}}&=\\frac13\\left(\\frac12s^2\\right)s\\\\V_{\\text{corner}}&=\\frac16s^3\\\\V_{\\text{tetrahedron}}&=s^3-4\\left(\\frac16s^3\\right)\\\\V_{\\text{tetrahedron}}&=\\frac13s^3\\\\V_{\\text{tetrahedron}}&=\\frac13\\left(\\frac{a}{\\sqrt2}\\right)^3\\\\V_{\\text{tetrahedron}}&=\\frac{\\sqrt2}{12}a^3.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 76
+  },
+  "presentation": {
+    "ownerId": "p38-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q8-root/label",
+                  "type": "item",
+                  "ref": "p38-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p38-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q8-diagram",
+                  "type": "item",
+                  "ref": "p38-q8-diagram",
+                  "title": "Diagram",
+                  "width": 46.9
+                },
+                {
+                  "id": "layout:p38-q8-root/space",
+                  "type": "item",
+                  "ref": "p38-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:07.947Z",
+  "updatedAt": "2026-11-12T13:10:07.947Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p38-q8",
+    "sectionRole": "exercise"
+  }
+}

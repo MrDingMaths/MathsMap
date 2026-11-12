@@ -1,0 +1,171 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b8eeaaa1-cbda-4fb7-8994-39e90af67249",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "counting-complement-principle",
+    "secondarySkillIds": [
+      "permutations-restrictions",
+      "inclusion-exclusion-rule"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Identify valid arrangements omitted by sequential gap insertion and count two overlapping adjacency restrictions by correcting double subtraction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2d31cc491bb026804c54698d92acd923bf6b852e79f405d289ba3f826e870b96",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-q9-root",
+    "type": "question",
+    "label": "4",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p7-q9-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "How many arrangements are there of the letters of ABCDEFG so that A and B are not adjacent, and C and D are not adjacent? (Letters from different pairs may be adjacent.)",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p7-q9-proposal",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Jane proposes: first arrange EFG in ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "3!",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " ways. Then, choose gaps for A and B in ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "4\\times3",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " ways, then choose gaps for C and D in ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "6\\times5",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " ways. Is this correct?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "No; $2640$ arrangements.\n\nJane misses arrangements such as EACBFDG, where C later separates A and B in the same original gap. Subtract each forbidden adjacent-pair count and add back their overlap.",
+      "worked": "No. For example, EACBFDG satisfies both restrictions, but A and B occupy the same original E–F gap, separated by C. Jane's method never produces it.\n\nThere are $7!$ unrestricted arrangements. Treating A and B as one block gives $2!\\times6!$ arrangements; the same count applies to C and D. Arrangements with both pairs adjacent are subtracted twice, so add back $2!\\times2!\\times5!$.\n\n$$\\begin{align*}N&=7!-2!\\times6!-2!\\times6!+2!\\times2!\\times5!\\\\N&=5040-1440-1440+480\\\\N&=2640\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 48
+  },
+  "presentation": {
+    "ownerId": "p7-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q9-root/label",
+                  "type": "item",
+                  "ref": "p7-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p7-q9-root/prompt#p7-q9-stem",
+                  "type": "item",
+                  "ref": "p7-q9-root/prompt#p7-q9-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p7-q9-root/prompt#p7-q9-proposal",
+                  "type": "item",
+                  "ref": "p7-q9-root/prompt#p7-q9-proposal",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p7-q9-root/space",
+                  "type": "item",
+                  "ref": "p7-q9-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:16.784Z",
+  "updatedAt": "2026-11-12T11:07:16.785Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p7-q9",
+    "sectionRole": "exercise"
+  }
+}

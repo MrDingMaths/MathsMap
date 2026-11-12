@@ -1,0 +1,325 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3ecd5272-6e94-4e69-8cbf-55e18e82c16e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "counting-complement-principle",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "permutations-restrictions"
+    ],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Diagnose the distinction between an EE block and a single E, recognise the triple-E overlap, and execute the supplied complement strategy using identical-letter gap placement.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1ddcc288ec042bf14c358310cf44a2f59c01dc4d3e9a50e72cfd9986c2e92e1c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q6-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "How many ways can the letters of the word MENDELEV be arranged so that at least two of the E’s are together?",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q6a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p13-q6a-proposal",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Bob proposes that grouping two of the E’s means you can treat the word like MENDELV.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p13-q6a-count",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Therefore, there are ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\dfrac{7!}{2!}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " ways.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p13-q6a-response",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Is this correct, and why?",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. The EE block and the single E are different elements, so division by $2!$ is invalid.",
+          "worked": "The EE block and the single E are distinct elements, so swapping them can change the arrangement. They cannot be treated as two identical E’s. Also, treating EE as a block counts arrangements with EEE together twice, so simply removing the division by $2!$ does not give the required count.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p13-q6b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Mary suggests to find the number of ways to arrange the letters without restriction, then subtract the number of ways the E’s are all separate.\n\nIs this correct?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. Subtracting arrangements with all E’s separate leaves exactly those with at least two E’s together.",
+          "worked": "Every arrangement either has all three E’s separate or has at least two E’s together. Subtracting the first group from the unrestricted total gives the required count.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p13-q6c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the number of arrangements.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4320$ arrangements.\n\nSubtract the arrangements with all E’s separate from $8!/3!$.",
+          "worked": "There are eight letters, with three identical E’s.\n\n$$\\begin{align*}N_{\\text{total}}&=\\frac{8!}{3!}\\\\N_{\\text{total}}&=6720\\end{align*}$$\n\nArrange M, N, D, L and V in $5!$ ways. They create six gaps. Place the three E’s in distinct gaps, dividing by $3!$ because the E’s are identical.\n\n$$\\begin{align*}N_{\\text{separate}}&=\\frac{5!\\times6\\times5\\times4}{3!}\\\\N_{\\text{separate}}&=2400\\\\N_{\\text{required}}&=6720-2400\\\\N_{\\text{required}}&=4320\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q6-root/label",
+                  "type": "item",
+                  "ref": "p13-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p13-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q6-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p13-q6a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q6a/label",
+                              "type": "item",
+                              "ref": "p13-q6a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p13-q6a/prompt#p13-q6a-proposal",
+                              "type": "item",
+                              "ref": "p13-q6a/prompt#p13-q6a-proposal",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q6a/prompt#p13-q6a-count",
+                              "type": "item",
+                              "ref": "p13-q6a/prompt#p13-q6a-count",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q6a/prompt#p13-q6a-response",
+                              "type": "item",
+                              "ref": "p13-q6a/prompt#p13-q6a-response",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q6a/space",
+                              "type": "item",
+                              "ref": "p13-q6a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q6-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p13-q6b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q6b/label",
+                              "type": "item",
+                              "ref": "p13-q6b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p13-q6b/prompt",
+                              "type": "item",
+                              "ref": "p13-q6b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q6b/space",
+                              "type": "item",
+                              "ref": "p13-q6b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q6-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p13-q6c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q6c/label",
+                              "type": "item",
+                              "ref": "p13-q6c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p13-q6c/prompt",
+                              "type": "item",
+                              "ref": "p13-q6c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q6c/space",
+                              "type": "item",
+                              "ref": "p13-q6c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 6",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:23.225Z",
+  "updatedAt": "2026-11-12T11:07:23.225Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p13-q6",
+    "sectionRole": "exercise"
+  }
+}

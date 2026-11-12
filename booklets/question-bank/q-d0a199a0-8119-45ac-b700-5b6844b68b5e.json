@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d0a199a0-8119-45ac-b700-5b6844b68b5e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-specific-term",
+    "secondarySkillIds": [
+      "simplify-binomial-coefficient-expressions"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine symbolic coefficients across a sum of expansions and account for the permitted cases with no contributing terms.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T11:51:50.463Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8fcc36a06e4a270c9925f439420d0d8ab79855f4d0afd4d39d3fe6b979d14ace",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch05-20261002/semantic-packets/assignments/assignment-fa0fd1796a442e248256/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-q61-root",
+    "type": "question",
+    "label": "61",
+    "prompt": "Find the coefficient of $x^m$ from the expansion of $$\\frac{1+(1+x)+(1+x)^2+\\cdots+(1+x)^n}{x^2},$$ where $1\\le m\\le n$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p13-q61-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{cases}\\displaystyle\\sum_{j=m+2}^{n}\\binom{j}{m+2},&1\\le m\\le n-2,\\\\0,&m=n-1\\text{ or }m=n.\\end{cases}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p13-q61-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Add the coefficients of ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x^{m+2}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " in the numerator.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Division by $x^2$ means that the required coefficient is the coefficient of $x^{m+2}$ in the numerator. In $(1+x)^j$, the general term is\n$$\\begin{align*}T_k&=\\binom{j}{k}x^k.\\end{align*}$$\nThe $x^{m+2}$ term has $k=m+2$ and occurs only when $j\\ge m+2$. Thus, for $1\\le m\\le n-2$, the coefficient is\n$$\\begin{align*}C&=\\sum_{j=m+2}^{n}\\binom{j}{m+2}\\\\C&=\\binom{m+2}{m+2}+\\binom{m+3}{m+2}+\\cdots+\\binom{n}{m+2}.\\end{align*}$$\nIf $m=n-1$ or $m=n$, then $m+2>n$, so no expansion contributes and the coefficient is $0$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 68
+  },
+  "presentation": {
+    "ownerId": "p13-q61",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:48.003Z",
+  "updatedAt": "2026-11-12T11:08:48.003Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p13-q61",
+    "sectionRole": "exercise"
+  }
+}

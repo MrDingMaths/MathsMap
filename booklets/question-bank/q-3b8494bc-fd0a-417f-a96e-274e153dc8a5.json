@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3b8494bc-fd0a-417f-a96e-274e153dc8a5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Convert bearings to a ground angle and find base separation, then reframe the requested sight-line angle using the height difference to calculate the separation between the tops.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d0d5456b224a2128ca52ce7752df6482f3fa93f9af91335e95ba324e699e34b0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "On horizontal ground, Bob can see a wind turbine $230\\text{ m}$ tall on a bearing of $125^\\circ$, and has an angle of elevation of $20^\\circ$. On a bearing of $210^\\circ$ from Bob, a tower $140\\text{ m}$ tall has angle of elevation $35^\\circ$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p16-q23-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 16, p16-q23-diagram\"}\n\\begin{tikzpicture}[x={(0.00958569cm,0.000979365cm)},y={(0.00486109cm,0.00636482cm)},z={(0cm,0.006cm)},font=\\fontsize{10}{12}\\selectfont,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\pgfmathsetmacro{\\towerGround}{140/tan(35)}\n\\pgfmathsetmacro{\\turbineGround}{230/tan(20)}\n\\coordinate (B) at (0,0,0);\n\\coordinate (T) at ({\\towerGround*sin(210)},{\\towerGround*cos(210)},0);\n\\coordinate (W) at ({\\turbineGround*sin(125)},{\\turbineGround*cos(125)},0);\n\\coordinate (U) at ({\\towerGround*sin(210)},{\\towerGround*cos(210)},140);\n\\coordinate (V) at ({\\turbineGround*sin(125)},{\\turbineGround*cos(125)},230);\n\\draw[black,line width=0.8pt] (T)--(U)--(B)--(V)--(W)--(T);\n\\draw[black,line width=0.8pt] (U)--(V);\n\\draw[black,dashed,line width=0.4pt] (B)--(T) (B)--(W);\n\\draw[black,line width=0.4pt] ($(T)!0.10!(B)$)--($($(T)!0.10!(B)$)+(0,0,18)$)--($(T)+(0,0,18)$);\n\\draw[black,line width=0.4pt] ($(W)!0.04!(B)$)--($($(W)!0.04!(B)$)+(0,0,18)$)--($(W)+(0,0,18)$);\n\\pic[draw=black,line width=0.4pt,angle radius=8mm,angle eccentricity=1.3,\"$35^\\circ$\"{xshift=-3pt,yshift=-15pt}] {angle=U--B--T};\n\\pic[draw=black,line width=0.4pt,angle radius=10mm,angle eccentricity=1.2,\"$20^\\circ$\"{xshift=3pt,yshift=-15pt}] {angle=W--B--V};\n\\path (B) node[above] {Bob} (T) node[below] {$T$} (W) node[below] {$W$};\n\\path (T)--(U) node[midway,left] {$140\\text{ m}$};\n\\path (W)--(V) node[midway,right] {$230\\text{ m}$};\n\\foreach \\p in {B,T,W,U,V} \\fill[black] (\\p) circle[radius=1.2pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 16,
+          "sourceRegion": "Left column, question 23 figure",
+          "description": "Bob behind the two structures; tower at left and turbine at right. Solid vertical structures and sight lines, dashed horizontal construction lines, joined bases and joined tops, elevation arcs and right-angle marks.",
+          "mathematics": "Ground endpoints derive from the stated bearings and horizontal distances 140/tan(35°) and 230/tan(20°). An oblique projection preserves the source left/right arrangement. Dashed ground lines are construction lines, not hidden solid edges.",
+          "answerVisibility": "Only source givens and source labels are visible; calculated distances and the requested angle are omitted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the distance $WT$. Give your answer in metres, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$645.97\\text{ m}$\n\nUse tangent to find the horizontal distances, then the cosine rule with included angle $85^\\circ$.",
+          "worked": "Let $B$ denote Bob's position, $d_T=BT$ and $d_W=BW$. The angle between the ground directions is $210^\\circ-125^\\circ=85^\\circ$.\n\n$$\\begin{align*}\\tan35^\\circ&=\\frac{140}{d_T}\\\\d_T&=\\frac{140}{\\tan35^\\circ}\\\\\\tan20^\\circ&=\\frac{230}{d_W}\\\\d_W&=\\frac{230}{\\tan20^\\circ}\\\\WT^2&=d_T^2+d_W^2-2d_Td_W\\cos85^\\circ\\\\WT^2&=\\left(\\frac{140}{\\tan35^\\circ}\\right)^2+\\left(\\frac{230}{\\tan20^\\circ}\\right)^2-2\\left(\\frac{140}{\\tan35^\\circ}\\right)\\left(\\frac{230}{\\tan20^\\circ}\\right)\\cos85^\\circ\\\\WT&\\approx645.97\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p16-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the angle between the top of the wind turbine, Bob, and the top of the tower. Give your answer correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$74.74^\\circ$\n\nFind the two sight-line lengths and the distance between the tops, then apply the cosine rule.",
+          "worked": "Let $U$ be the top of the tower, $V$ the top of the wind turbine and $B$ Bob's position. The tops differ in height by $230-140=90\\text{ m}$. Use the unrounded value of $WT$ from part (a).\n\n$$\\begin{align*}\\sin35^\\circ&=\\frac{140}{BU}\\\\BU&=\\frac{140}{\\sin35^\\circ}\\\\\\sin20^\\circ&=\\frac{230}{BV}\\\\BV&=\\frac{230}{\\sin20^\\circ}\\\\UV^2&=WT^2+90^2\\\\\\cos\\angle UBV&=\\frac{BU^2+BV^2-UV^2}{2(BU)(BV)}\\\\\\cos\\angle UBV&=\\frac{\\left(\\frac{140}{\\sin35^\\circ}\\right)^2+\\left(\\frac{230}{\\sin20^\\circ}\\right)^2-(WT^2+90^2)}{2\\left(\\frac{140}{\\sin35^\\circ}\\right)\\left(\\frac{230}{\\sin20^\\circ}\\right)}\\\\\\angle UBV&\\approx74.74^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q23",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:04.361Z",
+  "updatedAt": "2026-11-12T11:06:04.361Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p16-q23",
+    "sectionRole": "exercise"
+  }
+}

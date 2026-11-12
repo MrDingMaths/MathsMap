@@ -1,0 +1,1057 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ebea6ce2-96b0-4dbb-87eb-7d129e95b35a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "permutations-restrictions",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "inclusion-exclusion-rule"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "Devise a bond-based count for three identical pens per colour, handle overlapping bonds and the relative order of unequal blocks, then combine intersection types without overcounting.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "680a1e8d0b199edbca7f2405e6ad88e2fef3aa506aa27bfe4f1a4d9aa643ca78",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p14-q20-givens",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Bob has three black pens, three blue pens, three red pens and three green pens.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q20-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "How many ways can he arrange his pens in a row so that no two adjacent pens are the same colour?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p14-q20-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "41\\,304",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " arrangements.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Use inclusion–exclusion, grouping adjacent identical pens into blocks and correcting for overlapping groups.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p14-q20-worked-total",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Pens of the same colour are identical. Without restrictions, the number of arrangements is ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\frac{12!}{(3!)^4}=369\\,600",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-worked-bonds",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For each colour, consider its three occurrences in left-to-right order. There are two possible adjacency bonds: between the first and second occurrences, and between the second and third. Select bonds and merge the joined pens into single blocks. Inclusion–exclusion subtracts selections of one bond, adds selections of two bonds, and continues with alternating signs.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-worked-cases",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Let a colours have one selected bond, b colours have both bonds selected, and c colours have none. Then ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "a+b+c=4,\\qquad j=a+2b",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". There are ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\frac{4!}{a!b!c!}2^a",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " bond selections of this type. After merging, there are ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "12-j",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " blocks. Each colour with no selected bond contributes three identical singleton blocks. For a colour with one selected bond, the pair-block must precede the singleton when the first bond is selected, and must follow it when the second bond is selected. Only one of their two possible orders is allowed for each selection, so divide by 2! for each of these a colours.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-worked-term-definition",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Let ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "T_j",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " be the total count over all selections of j bonds. Thus",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "T_j=\\sum_{\\substack{a,b,c\\geq0\\\\a+b+c=4\\\\a+2b=j}}\\frac{4!\\,2^a(12-j)!}{a!b!c!(2!)^a(3!)^c}.",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-worked-first-term",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For example, choosing one of the eight bonds gives",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "T_1=8\\times\\frac{11!}{2!(3!)^3}=739\\,200.",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p14-q20-worked-count-table",
+            "type": "table",
+            "widthMm": 65,
+            "marginBefore": 2,
+            "marginAfter": 2,
+            "borderColour": "#cccccc",
+            "borderWidthMm": 0.26,
+            "rowHeights": [],
+            "annotations": [],
+            "border": true,
+            "padding": 1,
+            "widths": [
+              1,
+              2
+            ],
+            "rows": [
+              [
+                {
+                  "id": "p14-q20-table-head-j",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-head-j-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "j",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-head-t",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-head-t-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "T_j",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j0",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j0-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "0",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t0",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t0-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "369\\,600",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j1",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j1-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "1",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t1",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t1-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "739\\,200",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j2",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j2-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "2",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t2",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t2-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "672\\,000",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j3",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j3-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "3",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t3",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t3-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "362\\,880",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j4",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j4-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "4",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t4",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t4-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "127\\,680",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j5",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j5-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "5",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t5",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t5-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "30\\,240",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j6",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j6-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "6",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t6",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t6-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "4\\,800",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j7",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j7-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "7",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t7",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t7-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "480",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              [
+                {
+                  "id": "p14-q20-table-j8",
+                  "type": "cell",
+                  "header": false,
+                  "align": "center",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-j8-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "center",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "8",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p14-q20-table-t8",
+                  "type": "cell",
+                  "header": false,
+                  "align": "right",
+                  "verticalAlign": "middle",
+                  "background": "transparent",
+                  "colour": "inherit",
+                  "bold": false,
+                  "borderColour": null,
+                  "borderWidthMm": null,
+                  "border": null,
+                  "rotation": 0,
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "blocks": [
+                    {
+                      "id": "p14-q20-table-t8-text",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "right",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "math",
+                          "latex": "24",
+                          "display": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "id": "p14-q20-worked-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Hence, the required number of arrangements is",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\begin{align*}N&=T_0-T_1+T_2-T_3+T_4-T_5+T_6-T_7+T_8\\\\N&=369\\,600-739\\,200+672\\,000-362\\,880\\\\&\\quad+127\\,680-30\\,240+4\\,800-480+24\\\\N&=41\\,304.\\end{align*}",
+                "display": true
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 135
+  },
+  "presentation": {
+    "ownerId": "p14-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:27.790Z",
+  "updatedAt": "2026-11-12T11:07:27.791Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p14-q20",
+    "sectionRole": "exercise"
+  }
+}

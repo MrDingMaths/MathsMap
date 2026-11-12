@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77811726-b4f9-411e-9e3a-70a82935a580",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "permutations-restrictions",
+      "combinations-restrictions"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infers row occupancies of 4,3,3, separates column allocation from student ordering and reframes nonadjacent seat selections by reserving mandatory gaps.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:56.049Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "290d87dd0eb66594484f00d90335120583b6760f41bea5a5281e9566addec6e5",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/c51c8a711856d9188a89f902a2f295d52a49c2dffa4502ed294ae6a6f64c1658-1792557494348/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q34-root",
+    "type": "question",
+    "label": "34",
+    "prompt": "A theatre has three rows of 12 seats in each row arranged in twelve aligned columns. Ten students sit down in the theatre. How many seating arrangements are there if",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q34-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "there are no restrictions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{36}{10}\\times10!$",
+          "worked": "Choose ten of the 36 seats, then arrange the ten students in those seats.\n\n$$N=\\binom{36}{10}\\times10!.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p36-q34-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "exactly three students sit in the front row, three in the middle row and four in the back row?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{12}{3}\\binom{12}{3}\\binom{12}{4}\\times10!$",
+          "worked": "Choose three seats in the front row, three in the middle row and four in the back row. Arrange the ten students in the chosen seats.\n\n$$N=\\binom{12}{3}\\binom{12}{3}\\binom{12}{4}\\times10!.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p36-q34-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "if no two students sit in the same column and each row has at least three students?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{12}{10}\\times3\\binom{10}{4}\\binom{6}{3}\\times10!$\n\nThe row occupancies must be 4, 3 and 3. Choose the occupied columns and allocate their seats to rows, then arrange the students.",
+          "worked": "The row occupancies must be 4, 3 and 3. Choose ten occupied columns and choose which row contains four students. Choose four of those columns for that row, then three of the remaining six for one of the other rows. The last three columns belong to the final row. Arrange the ten students in the selected seats.\n\n$$\\begin{align*}N&=\\binom{12}{10}\\binom{3}{1}\\binom{10}{4}\\binom{6}{3}\\binom{3}{3}\\times10!\\\\N&=\\binom{12}{10}\\times3\\binom{10}{4}\\binom{6}{3}\\times10!.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p36-q34-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "if each row has at least three students and no two occupied seats are adjacent within the same row?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\binom{10}{3}^{2}\\binom{9}{4}\\times10!$\n\nUse row occupancies 4, 3 and 3. Choosing $k$ non-adjacent seats from 12 gives $\\binom{13-k}{k}$ choices.",
+          "worked": "The row occupancies must be 4, 3 and 3. Choose the row containing four students in three ways.\n\nFor $k$ occupied seats in a row, reserve one empty seat in each of the $k-1$ internal gaps. This reduces the seat selection to choosing $k$ positions from $12-(k-1)$ positions. Thus a three-student row has $\\binom{10}{3}$ seat selections and a four-student row has $\\binom{9}{4}$.\n\nArrange the ten students in the chosen seats.\n\n$$\\begin{align*}N&=\\binom{3}{1}\\binom{10}{3}\\binom{10}{3}\\binom{9}{4}\\times10!\\\\N&=3\\binom{10}{3}^{2}\\binom{9}{4}\\times10!.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p36-q34",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:58.589Z",
+  "updatedAt": "2026-11-12T11:07:58.590Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p36-q34",
+    "sectionRole": "exercise"
+  }
+}

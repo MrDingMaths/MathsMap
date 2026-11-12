@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c512b040-b885-49ab-9a79-79d3b32d4669",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "perm-comb-cases",
+      "combinations-restrictions",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Builds conditional sample spaces with repeated physical letters and coordinates overlapping at-least restrictions through disjoint multiplicity cases or complements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:56.049Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ee165bf68192c106d7d61dc787d28e69d1d3e3eb4c9cf6a0af8a9cb57da5b51d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/c51c8a711856d9188a89f902a2f295d52a49c2dffa4502ed294ae6a6f64c1658-1792557494348/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p35-q33-root",
+    "type": "question",
+    "label": "33",
+    "prompt": "From the letters of the word PARALLELOGRAM, four letters are chosen at random (without replacement). Find the probability that",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p35-q33-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "no A’s are chosen if it is known that at least two L’s have been chosen.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{14}{29}$.\n\nCount the two-L and three-L cases within the conditional sample space.",
+          "worked": "There are three L’s, three A’s, two R’s and five other letters. Given at least two L’s, the selection has either two L’s or three L’s. There are ten non-L letters, of which seven are not A.\n\n$$\\begin{align*}N(\\text{at least two L's})&=\\binom{3}{2}\\binom{10}{2}+\\binom{3}{3}\\binom{10}{1}\\\\N(\\text{at least two L's})&=145.\\end{align*}$$\n\n$$\\begin{align*}N(\\text{no A, at least two L's})&=\\binom{3}{2}\\binom{7}{2}+\\binom{3}{3}\\binom{7}{1}\\\\N(\\text{no A, at least two L's})&=70.\\end{align*}$$\n\n$$P(\\text{no A}\\mid\\text{at least two L's})=\\frac{70}{145}=\\frac{14}{29}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p35-q33-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the P and exactly one L are chosen if it is known that at least one L has been chosen.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{108}{505}$.\n\nUse all selections containing an L as the denominator; fix P and choose exactly one L in the numerator.",
+          "worked": "Subtract selections with no L to obtain the conditional sample space. For the favourable selections, include P, choose one of the three L’s and choose two of the nine remaining non-L letters.\n\n$$\\begin{align*}N(\\text{at least one L})&=\\binom{13}{4}-\\binom{10}{4}\\\\N(\\text{at least one L})&=505.\\end{align*}$$\n\n$$\\begin{align*}N(\\text{P and exactly one L})&=\\binom{3}{1}\\binom{9}{2}\\\\N(\\text{P and exactly one L})&=108.\\end{align*}$$\n\n$$P(\\text{P and exactly one L}\\mid\\text{at least one L})=\\frac{108}{505}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p35-q33-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "not more than one A is chosen if it is known that the P and at least one R have been chosen.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{47}{50}$.\n\nSplit the conditional selections into exactly one R and exactly two R’s; exclude the two-A case.",
+          "worked": "Include P. If exactly one R is selected, choose it in two ways and choose two of the ten non-P, non-R letters. If both R’s are selected, choose one of those ten letters.\n\n$$\\begin{align*}N(\\text{P and at least one R})&=\\binom{2}{1}\\binom{10}{2}+\\binom{2}{2}\\binom{10}{1}\\\\N(\\text{P and at least one R})&=100.\\end{align*}$$\n\nThe only excluded selections contain P, one R and two A’s.\n\n$$\\begin{align*}N(\\text{at most one A, P, at least one R})&=\\binom{2}{1}\\left(\\binom{10}{2}-\\binom{3}{2}\\right)+\\binom{2}{2}\\binom{10}{1}\\\\N(\\text{at most one A, P, at least one R})&=94.\\end{align*}$$\n\n$$P(\\text{at most one A}\\mid\\text{P and at least one R})=\\frac{94}{100}=\\frac{47}{50}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p35-q33-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "at least one A is chosen if it is known that at least two L’s have been chosen.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{15}{29}$.\n\nUse the complement of part (a) within the same conditional sample space.",
+          "worked": "Use the complement of part (a).\n\n$$\\begin{align*}P(\\text{at least one A}\\mid\\text{at least two L's})&=1-\\frac{14}{29}\\\\P(\\text{at least one A}\\mid\\text{at least two L's})&=\\frac{15}{29}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p35-q33-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "at least one A and at least one L are chosen if it is known that an R has been chosen.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{27}{77}$.\n\nCount the four cases: one each of A, L and R plus another letter, or double R, double L or double A.",
+          "worked": "The conditional sample space contains every selection with at least one of the two R’s.\n\n$$\\begin{align*}N(\\text{at least one R})&=\\binom{13}{4}-\\binom{11}{4}\\\\N(\\text{at least one R})&=385.\\end{align*}$$\n\nA favourable selection contains A, L and R. Its fourth letter is either one of the five other letters, another R, another L or another A. Let $N_1,N_2,N_3,N_4$ count these four cases respectively.\n\n$$\\begin{align*}N_1&=\\binom{5}{1}\\binom{2}{1}\\binom{3}{1}\\binom{3}{1}=90\\\\N_2&=\\binom{2}{2}\\binom{3}{1}\\binom{3}{1}=9\\\\N_3&=\\binom{2}{1}\\binom{3}{2}\\binom{3}{1}=18\\\\N_4&=\\binom{2}{1}\\binom{3}{1}\\binom{3}{2}=18.\\end{align*}$$\n\n$$\\begin{align*}P(\\text{at least one A and one L}\\mid\\text{at least one R})&=\\frac{90+9+18+18}{385}\\\\P(\\text{at least one A and one L}\\mid\\text{at least one R})&=\\frac{135}{385}\\\\P(\\text{at least one A and one L}\\mid\\text{at least one R})&=\\frac{27}{77}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p35-q33",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:58.162Z",
+  "updatedAt": "2026-11-12T11:07:58.162Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p35-q33",
+    "sectionRole": "exercise"
+  }
+}

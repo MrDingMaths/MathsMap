@@ -1,0 +1,123 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-85d06c50-601e-4336-a433-20117a156231",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-volume-similar-figures",
+    "secondarySkillIds": [
+      "area-using-pythagoras"
+    ],
+    "reasoningScore": 67,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose a useful regular-hexagon decomposition and connect the midpoint construction to triangle heights or corner areas to obtain an exact area fraction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:45.030Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cf1eb20102d82343720c5be525ffa0df55a2efd25873f17354e620285b14f66d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/b26a12d63c3bc7ef5914dc0ddaedb8e12e1d5dd1e9b2de5487983e236732e371-1792558182774/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q22-root",
+    "type": "question",
+    "label": "22",
+    "prompt": "In the regular hexagon pictured below, the midpoints of adjacent sides are joined to form a smaller regular hexagon (shaded below). What fraction of the larger hexagon is shaded?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q22-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"shadedRegion\",\"hex\":\"FCDFE1\",\"reason\":\"identifies the smaller hexagon whose area fraction is requested\"}],\"reference\":\"source page 12 p12-q22-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc}\n\\definecolor{shadedRegion}{HTML}{FCDFE1}\n\\coordinate (A) at (-2,0);\n\\coordinate (B) at (-1,1.732050808);\n\\coordinate (C) at (1,1.732050808);\n\\coordinate (D) at (2,0);\n\\coordinate (E) at (1,-1.732050808);\n\\coordinate (F) at (-1,-1.732050808);\n\\coordinate (M1) at ($(A)!0.5!(B)$);\n\\coordinate (M2) at ($(B)!0.5!(C)$);\n\\coordinate (M3) at ($(C)!0.5!(D)$);\n\\coordinate (M4) at ($(D)!0.5!(E)$);\n\\coordinate (M5) at ($(E)!0.5!(F)$);\n\\coordinate (M6) at ($(F)!0.5!(A)$);\n\\fill[shadedRegion] (M1)--(M2)--(M3)--(M4)--(M5)--(M6)--cycle;\n\\draw[black] (A)--(B)--(C)--(D)--(E)--(F)--cycle;\n\\draw[black] (M1)--(M2)--(M3)--(M4)--(M5)--(M6)--cycle;\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 42,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Left column, question 22",
+          "description": "Outer regular hexagon with horizontal top and bottom sides; the shaded inner hexagon joins consecutive side midpoints and has vertical left and right sides. The six corner triangles remain unshaded.",
+          "mathematics": "The smaller hexagon consists exactly of the six consecutive midpoint segments.",
+          "answerVisibility": "The requested region is shaded; no area fraction is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac34$.\n\nPartition each hexagon into six equilateral triangles and compare their areas.",
+      "worked": "Let the smaller and larger hexagons have side lengths $x$ and $y$. Each splits into six equilateral triangles, so\n$$\\begin{align*}A_{\\text{small}}&=6\\left(\\frac{\\sqrt3x^2}{4}\\right)\\\\A_{\\text{small}}&=\\frac{3\\sqrt3x^2}{2},\\\\A_{\\text{large}}&=6\\left(\\frac{\\sqrt3y^2}{4}\\right)\\\\A_{\\text{large}}&=\\frac{3\\sqrt3y^2}{2}.\\end{align*}$$\nA side of the smaller hexagon equals the perpendicular height of one of the larger hexagon's equilateral triangles. Hence\n$$\\begin{align*}x^2&=y^2-\\left(\\frac y2\\right)^2\\\\x^2&=\\frac{3y^2}{4}\\\\\\frac{A_{\\text{small}}}{A_{\\text{large}}}&=\\frac{x^2}{y^2}\\\\\\frac{A_{\\text{small}}}{A_{\\text{large}}}&=\\frac34.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p12-q22",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q22": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q22-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q22-root/label",
+                  "type": "item",
+                  "ref": "p12-q22-root/label",
+                  "title": "Label 22"
+                },
+                {
+                  "id": "layout:p12-q22-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q22-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q22-diagram",
+                  "type": "item",
+                  "ref": "p12-q22-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p12-q22-root/space",
+                  "type": "item",
+                  "ref": "p12-q22-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 22",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:03.963Z",
+  "updatedAt": "2026-11-12T13:09:03.963Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p12-q22",
+    "sectionRole": "exercise"
+  }
+}

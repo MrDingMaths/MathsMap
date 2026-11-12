@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d289c36b-ef17-4679-9863-039ee2a9e2f7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [
+      "solve-cubic-inequalities"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reverse the graphical inequality method to construct quartics with prescribed crossings, touches and sign intervals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T12:24:24.897Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ef37bb49de1066ff5d5dde452aca493916c3d42c6d632a11fa2de86dbe7fe90",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch02-20261002/semantic-packets/assignments/assignment-d528d14315fdd92c099b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p23-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Let $P(x)$ be a polynomial of degree 4.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If the solution to $P(x)<0$ is $-1<x<2$ or $2<x<4$, state a possible equation of $P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x+1)(x-2)^2(x-4)$.",
+          "worked": "The roots are $-1$, $2$ and $4$. The sign changes at $-1$ and $4$, so these can be simple roots. The graph remains below the $x$-axis on both sides of $2$, so $2$ is a double root. These multiplicities give degree $1+2+1=4$.\n\nChoose a positive leading coefficient:\n$$P(x)=(x+1)(x-2)^2(x-4).$$\nThe squared factor is positive away from $2$, and $(x+1)(x-4)$ is negative for $-1<x<4$. Thus $P(x)<0$ exactly on the two required intervals.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p23-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If the solution to $P(x)\\leq 0$ is $x=-1$ or $x=1$, state a possible equation of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=P(x)=(x+1)^2(x-1)^2$.",
+          "worked": "The graph must be above the $x$-axis except where it touches at $-1$ and $1$. Both roots therefore have even multiplicity. Taking each as a double root gives degree $2+2=4$.\n\nChoose a positive leading coefficient:\n$$y=P(x)=(x+1)^2(x-1)^2.$$\nBoth squared factors are nonnegative, so $P(x)\\leq0$ only when $x=-1$ or $x=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p23-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "If the solution to $P(x)\\geq0$ is $1\\leq x\\leq3$ or $x=5$, draw a possible graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A quartic with both ends down, crossing at $1$ and $3$ and touching the $x$-axis from below at $5$.\n\nIt lies above the axis for $1<x<3$ and below it elsewhere, except at the three roots.",
+          "worked": "The graph crosses the $x$-axis at $1$ and $3$ because its sign changes there. At $5$ it touches from below, giving a double root. The multiplicities give degree $1+1+2=4$.\n\nThe polynomial is negative outside the stated interval, so choose a negative leading coefficient. One suitable polynomial is\n$$P(x)=-(x-1)(x-3)(x-5)^2.$$\nSketch both ends down, crossing at $1$ and $3$ and touching at $5$.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q7-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial curve\"}],\"reference\":\"teacher PDF page 20, printed page 324, 2C Concept Check 7(c)\"}\n\\begin{tikzpicture}[x=0.75cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.5,-1.9) rectangle (6.4,2.4);\n\\draw[black,line width=0.5pt,->] (-0.4,0)--(6.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.8)--(0,2.2) node[above] {$y$};\n\\foreach \\t in {1,3,5} {\n\\draw[black,line width=0.4pt] (\\t,0.05)--(\\t,-0.05);\n\\node[below] at (\\t,-0.05) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveBlue,line width=0.8pt,<->] plot[domain=0.75:5.85,samples=160] (\\x,{-(\\x-1)*(\\x-3)*(\\x-5)^2/6});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Teacher PDF page 20, upper-left answer to 7(c)",
+                "description": "Both tails point down; the curve crosses at 1 and 3 and touches the axis from below at 5. The positive region is between 1 and 3.",
+                "mathematics": "Equation-driven sketch of P(x)=-(x-1)(x-3)(x-5)^2 with a vertically compressed drawing coordinate. Only the source-required roots are numerically labelled.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:19.938Z",
+  "updatedAt": "2026-11-12T11:05:19.938Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch02",
+    "blockId": "p23-q7",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d0bc00e2-d3a0-48e3-a8fa-b2f13e5326a6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pascals-triangle",
+    "secondarySkillIds": [],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect triangular dot growth with Pascal's recurrence to justify continuation, then interpret the next column as cumulative triangular totals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:38.806Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "76aa85bf3b04e49e54af6df474d355c6f9d403a646d1b103ce67eb552e0dae3f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/45ced9d1bedf452d33e9a903fe742b776cff9ef12ab69c488555046976ffc641-1792557536185/last-message.txt",
+      "originalTaskHash": "4638b19139637779eb42cb796aa28486db7bf578d44f27898aeec56d47beafcf",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "8fa300c06881cd92e44c2150a92d37bfbab0d55c39dbf93869d9e24fabcfd379"
+      }
+    }
+  },
+  "content": {
+    "id": "p5-q48-root",
+    "type": "question",
+    "label": "48",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p5-q48-title",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Triangular numbers",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p5-q48-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "triangular numbers",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " are the number of dots at each step of the following pattern.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p5-q48-dots",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 5, p5-q48-dots\"}\n\\begin{tikzpicture}[x=5mm,y=5mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.35,-0.35) rectangle (12.35,3.35);\n\\fill[black] (0,0) circle (0.65mm);\n\\foreach \\p in {(2,0),(3,0),(3,1)} {\\fill[black] \\p circle (0.65mm);}\n\\foreach \\p in {(5,0),(6,0),(7,0),(6,1),(7,1),(7,2)} {\\fill[black] \\p circle (0.65mm);}\n\\foreach \\p in {(9,0),(10,0),(11,0),(12,0),(10,1),(11,1),(12,1),(11,2),(12,2),(12,3)} {\\fill[black] \\p circle (0.65mm);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Question 48 dot pattern, lower left",
+          "description": "Four unlabelled right triangular dot arrays in one horizontal sequence, sharing a bottom baseline and with their vertical sides on the right.",
+          "mathematics": "Successive arrays contain 1, 3, 6 and 10 dots, with bottom rows containing 1, 2, 3 and 4 dots.",
+          "answerVisibility": "All four supplied patterns remain visible; no general rule or additional pattern is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p5-q48-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down the elements in the ‘second’ column $(k=2)$ of Pascal’s triangle. What do you notice about these values in relation to the triangular numbers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,3,6,10,15,\\ldots$; these are $t_1,t_2,t_3,t_4,t_5,\\ldots$.",
+          "worked": "Reading down column $k=2$, starting at row $n=2$, gives $1,3,6,10,15,\\ldots$. These are the triangular numbers $t_1,t_2,t_3,t_4,t_5,\\ldots$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p5-q48-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Is this pattern guaranteed to continue? If so, explain why this is the case.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. Pascal’s addition rule gives $t_n=t_{n-1}+n$, the same recurrence as the triangular dot pattern.",
+          "worked": "Yes. The entries in column $k=1$ are $1,2,3,4,\\ldots$. Each new entry in column $k=2$ is the previous entry in that column plus the entry above left in column $k=1$. Hence\n$$t_n=t_{n-1}+n\\qquad(n\\ge2).$$\nThe triangular dot pattern also adds $n$ dots at stage $n$. Both sequences start at $t_1=1$, so they continue to agree.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p5-q48-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What can be said about the entries of the $k=3$ column of Pascal’s triangle and the triangular numbers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "They are the running totals of the triangular numbers: $1,4,10,20,35,\\ldots$.",
+          "worked": "Each entry in column $k=3$ is the previous entry in that column plus the triangular number above left in column $k=2$. Starting at row $n=3$, the entries are therefore\n$$\\begin{align*}1&=t_1\\\\4&=t_1+t_2\\\\10&=t_1+t_2+t_3\\\\20&=t_1+t_2+t_3+t_4\\end{align*}$$\nThus column $k=3$ contains the running totals of the triangular numbers.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q48": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q48-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p5-q48-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p5-q48-label-item",
+                      "type": "item",
+                      "ref": "p5-q48-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p5-q48-stem-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p5-q48-title-item",
+                          "type": "item",
+                          "ref": "p5-q48-root/prompt#p5-q48-title"
+                        },
+                        {
+                          "id": "p5-q48-definition-item",
+                          "type": "item",
+                          "ref": "p5-q48-root/prompt#p5-q48-definition"
+                        },
+                        {
+                          "id": "p5-q48-dots-item",
+                          "type": "item",
+                          "ref": "p5-q48-dots",
+                          "width": 65,
+                          "align": "center"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p5-q48-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p5-q48-a-label-item",
+                      "type": "item",
+                      "ref": "p5-q48-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p5-q48-a-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p5-q48-a-prompt-item",
+                          "type": "item",
+                          "ref": "p5-q48-a/prompt"
+                        },
+                        {
+                          "id": "p5-q48-a-space-item",
+                          "type": "item",
+                          "ref": "p5-q48-a/space"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p5-q48-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p5-q48-b-label-item",
+                      "type": "item",
+                      "ref": "p5-q48-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p5-q48-b-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p5-q48-b-prompt-item",
+                          "type": "item",
+                          "ref": "p5-q48-b/prompt"
+                        },
+                        {
+                          "id": "p5-q48-b-space-item",
+                          "type": "item",
+                          "ref": "p5-q48-b/space"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p5-q48-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p5-q48-c-label-item",
+                      "type": "item",
+                      "ref": "p5-q48-c/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p5-q48-c-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p5-q48-c-prompt-item",
+                          "type": "item",
+                          "ref": "p5-q48-c/prompt"
+                        },
+                        {
+                          "id": "p5-q48-c-space-item",
+                          "type": "item",
+                          "ref": "p5-q48-c/space"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p5-q48"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:39.410Z",
+  "updatedAt": "2026-11-12T11:08:39.411Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p5-q48",
+    "sectionRole": "exercise"
+  }
+}

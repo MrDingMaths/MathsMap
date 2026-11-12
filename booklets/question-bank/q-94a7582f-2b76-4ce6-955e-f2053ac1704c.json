@@ -1,0 +1,337 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-94a7582f-2b76-4ce6-955e-f2053ac1704c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the specified proof chain, selecting SSS then SAS and transferring corresponding angles before using equal supplementary angles to conclude perpendicularity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:21.969Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f58d579af6bd850fd8bf7f15b2883b1009d27a117f6c9b32eb65927ca50f2529",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part16/7673ee151d1d78f4c357a8aebc4460886c3344d0b2e94040c9b147b423e0f214-1792558256464/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Prove that the diagonals of a kite are perpendicular by following the steps below.\n\nFirst, copy this diagram of a kite neatly into your book. Then answer the following questions.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 p22-q3-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.5,1.5);\\coordinate (C) at (4.5,0);\\coordinate (D) at (1.5,-1.5);\\coordinate (M) at (1.5,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw (A)--(C);\\draw (B)--(D);\n\\foreach \\P/\\Q in {A/B,A/D}{\\draw[line width=0.4pt] ($ (\\P)!0.5!(\\Q)!2pt!90:(\\Q) $)--($ (\\P)!0.5!(\\Q)!2pt!-90:(\\Q) $);}\n\\foreach \\P/\\Q in {B/C,D/C}{\\foreach \\t in {0.48,0.52}{\\draw[line width=0.4pt] ($ (\\P)!\\t!(\\Q)!2pt!90:(\\Q) $)--($ (\\P)!\\t!(\\Q)!2pt!-90:(\\Q) $);}}\n\\node[left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[right] at (C) {$C$};\\node[below] at (D) {$D$};\\node[above right] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 56.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Left column, question 3",
+          "description": "Kite with both diagonals, intersection M, single ticks on AB and AD, and double ticks on BC and CD. Decorative orange interior fill is omitted.",
+          "mathematics": "AB=AD and BC=CD; AC and BD intersect at M. No right-angle marker is supplied.",
+          "answerVisibility": "Perpendicularity remains to be proved."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle ABC\\equiv\\triangle ADC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABC\\equiv\\triangle ADC$ by SSS: $AB=AD$, $BC=DC$ and $AC$ is shared.",
+          "worked": "$$\\begin{align*}AB&=AD &&\\text{(given)}\\\\BC&=DC &&\\text{(given)}\\\\AC&=AC &&\\text{(shared side)}\\end{align*}$$\nTherefore $\\triangle ABC\\equiv\\triangle ADC$ by SSS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p22-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why $\\angle BAM=\\angle DAM$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "They are corresponding angles in the congruent triangles from (a), since $M$ lies on $AC$.",
+          "worked": "From (a), corresponding angles give $\\angle BAC=\\angle DAC$. Since $M$ lies on $AC$, these are $\\angle BAM$ and $\\angle DAM$. Hence $\\angle BAM=\\angle DAM$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $\\triangle AMB\\equiv\\triangle AMD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle AMB\\equiv\\triangle AMD$ by SAS: $AB=AD$, $AM$ is shared and $\\angle BAM=\\angle DAM$.",
+          "worked": "$$\\begin{align*}AB&=AD &&\\text{(given)}\\\\AM&=AM &&\\text{(shared side)}\\\\\\angle BAM&=\\angle DAM &&\\text{(proved in (b))}\\end{align*}$$\nTherefore $\\triangle AMB\\equiv\\triangle AMD$ by SAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p22-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why $\\angle AMB=\\angle AMD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "They are corresponding angles in the congruent triangles from (c).",
+          "worked": "$\\triangle AMB\\equiv\\triangle AMD$ from (c). Their corresponding angles at $M$ are equal, so $\\angle AMB=\\angle AMD$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Why does this mean that $BD$ is perpendicular to $AC$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The equal adjacent angles sum to $180^\\circ$, so each is $90^\\circ$. Hence $BD\\perp AC$.",
+          "worked": "$B$, $M$ and $D$ lie on a straight line, so\n$$\\begin{align*}\\angle AMB+\\angle AMD&=180^\\circ\\\\2\\angle AMB&=180^\\circ\\\\\\angle AMB&=90^\\circ\\end{align*}$$\nThus the diagonals meet at a right angle, and $BD\\perp AC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q3-root/label",
+                  "type": "item",
+                  "ref": "p22-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p22-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q3-diagram",
+                  "type": "item",
+                  "ref": "p22-q3-diagram",
+                  "title": "Diagram",
+                  "width": 56.8
+                },
+                {
+                  "id": "p22-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q3-a/label",
+                          "type": "item",
+                          "ref": "p22-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p22-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q3-a/space",
+                          "type": "item",
+                          "ref": "p22-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q3-b/label",
+                          "type": "item",
+                          "ref": "p22-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p22-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q3-b/space",
+                          "type": "item",
+                          "ref": "p22-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q3-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q3-c/label",
+                          "type": "item",
+                          "ref": "p22-q3-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p22-q3-c/prompt",
+                          "type": "item",
+                          "ref": "p22-q3-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q3-c/space",
+                          "type": "item",
+                          "ref": "p22-q3-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q3-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q3-d/label",
+                          "type": "item",
+                          "ref": "p22-q3-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p22-q3-d/prompt",
+                          "type": "item",
+                          "ref": "p22-q3-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q3-d/space",
+                          "type": "item",
+                          "ref": "p22-q3-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q3-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q3-e/label",
+                          "type": "item",
+                          "ref": "p22-q3-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p22-q3-e/prompt",
+                          "type": "item",
+                          "ref": "p22-q3-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q3-e/space",
+                          "type": "item",
+                          "ref": "p22-q3-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:00.831Z",
+  "updatedAt": "2026-11-12T11:14:00.831Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part16",
+    "blockId": "p22-q3",
+    "sectionRole": "exercise"
+  }
+}

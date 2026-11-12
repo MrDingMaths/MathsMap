@@ -1,0 +1,325 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7272f090-1077-4f21-a3a5-9f1fde428f65",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret the extreme-view point through a tangent in horizontal projection, recover the frustum height, and connect the resulting circle geometry to the sides and area of an inclined triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d06579ddfe592f126fc4675287b9b209a81f4f2e0a97d6303e02be9ffded4100",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-q19-radius-information",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the figure below, a conical frustum is shown. The radius of the top circle is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "3\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and the radius of the bottom circle is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "6\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p15-q19-elevation-information",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "From point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " on the lower circle, the angle of elevation to the nearest point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " on the upper circle is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "65^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "C",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is the leftmost point on the upper circle as seen from ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q19-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 15, p15-q19-diagram\"}\n\\begin{tikzpicture}[x={(0.55cm,0cm)},y={(0cm,0.176cm)},z={(0cm,0.55cm)},draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},declare function={frustumHeight=6.4335207615; rimAngle=8.581637355;}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0,0);\n\\coordinate (A) at (-6,0,0);\n\\coordinate (B) at (-3,0,{frustumHeight});\n\\coordinate (C) at (-1.5,{1.5*sqrt(3)},{frustumHeight});\n\\coordinate (E) at (-3,0,0);\n\\coordinate (F) at (3,0,0);\n\\coordinate (R) at (3,0,{frustumHeight});\n\\draw[dashed,line width=0.4pt] plot[domain={rimAngle}:{180-rimAngle},samples=70] ({6*cos(\\x)},{6*sin(\\x)},0);\n\\draw plot[domain={180-rimAngle}:{360+rimAngle},samples=100] ({6*cos(\\x)},{6*sin(\\x)},0);\n\\draw ({6*cos(rimAngle)},{6*sin(rimAngle)},0)--({3*cos(rimAngle)},{3*sin(rimAngle)},{frustumHeight});\n\\draw ({6*cos(180-rimAngle)},{6*sin(180-rimAngle)},0)--({3*cos(180-rimAngle)},{3*sin(180-rimAngle)},{frustumHeight});\n\\draw plot[domain=0:360,samples=100] ({3*cos(\\x)},{3*sin(\\x)},{frustumHeight});\n\\draw[dashed,line width=0.4pt] plot[domain=0:360,samples=80] ({3*cos(\\x)},{3*sin(\\x)},0);\n\\draw[dashed,line width=0.4pt] (B)--(E) (R)--(F) (A)--(O) (A)--(C) (B)--(C);\n\\draw (A)--(B);\n\\pic[draw,line width=0.4pt,angle radius=4mm] {angle=O--A--B};\n\\path (A)--(B) node[pos=0.13,anchor=west,xshift=2mm] {$65^\\circ$};\n\\path (A) node[anchor=east,xshift=-1mm] {$A$};\n\\path (B) node[anchor=east,xshift=-1mm] {$B$};\n\\path (C) node[anchor=south,yshift=1mm] {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 19, lower left column, between the radius information and elevation prose",
+          "description": "Unshaded conical frustum with calculated silhouette generators and lower-rim visibility transitions. The angle label follows the prose’s 65°; the original diagram’s 60° discrepancy remains recorded in source evidence.",
+          "mathematics": "Model: lower circle x²+y²=36 at z=0; upper circle x²+y²=9 at z=h; A=(-6,0,0), B=(-3,0,h), C=(-3/2,3√3/2,h). C is the extreme-view tangent point in horizontal projection. Orthographic view is proportional to (0,-1,0.32); lateral silhouette generators satisfy the surface-normal/view orthogonality condition. Hidden lower-rim arcs are distinct from dashed construction lines. Independent assessment review accepts the prose's 65° for the model and displayed angle label; the original conflicting 60° label remains preserved in source evidence.",
+          "answerVisibility": "Only original givens and constructions appear; no requested result or solution-only label is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the angle of elevation of $C$ from $A$, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$51.07^\\circ$ using the stated $65^\\circ$ elevation.\n\nFind the frustum height and the horizontal tangent length, then use the tangent ratio.",
+          "worked": "Using the stated elevation of $65^\\circ$, let $h$ be the frustum height, $O$ the lower-circle centre, $E$ the vertical projection of $B$, and $D$ the vertical projection of $C$.\n\n$AE=6-3=3\\text{ cm}$. The extreme-view point gives a tangent $AD$, so $OD\\perp AD$.\n\n$$\\begin{align*}\n\\tan65^\\circ&=\\frac{h}{3}\\\\\nh&=3\\tan65^\\circ\\\\\nAD^2&=AO^2-OD^2\\\\\nAD^2&=6^2-3^2\\\\\nAD&=3\\sqrt3\\text{ cm}\\\\\n\\tan\\theta&=\\frac{3\\tan65^\\circ}{3\\sqrt3}\\\\\n\\theta&=51.07^\\circ\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 94
+      },
+      {
+        "id": "p15-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of $\\triangle ABC$, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10.41\\text{ cm}^2$ using the stated $65^\\circ$ elevation.\n\nFind the triangle's sides, then use the cosine rule and $\\tfrac12 ab\\sin C$.",
+          "worked": "Using the stated elevation of $65^\\circ$, retain $h=3\\tan65^\\circ$ without rounding. Let $U$ be the upper-circle centre. In the horizontal projection, $\\cos\\angle BUC=\\frac{3}{6}$, so $\\angle BUC=60^\\circ$.\n\n$$\\begin{align*}\nAB&=\\frac{3}{\\cos65^\\circ}\\\\\nAC^2&=27+h^2\\\\\nBC^2&=3^2+3^2-2(3)(3)\\cos60^\\circ\\\\\nBC&=3\\text{ cm}\\\\\n\\cos\\angle ABC&=\\frac{AB^2+BC^2-AC^2}{2(AB)(BC)}\\\\\n\\cos\\angle ABC&=\\frac{(9+h^2)+9-(27+h^2)}{6AB}\\\\\n\\cos\\angle ABC&=-\\frac{3}{2AB}\\\\\n\\operatorname{Area}(\\triangle ABC)&=\\frac12(AB)(3)\\sqrt{1-\\frac{9}{4AB^2}}\\\\\n\\operatorname{Area}(\\triangle ABC)&=\\frac32\\sqrt{\\frac{9}{\\cos^2 65^\\circ}-\\frac94}\\\\\n\\operatorname{Area}(\\triangle ABC)&=10.41\\text{ cm}^2\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 116
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q19-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p15-q19-number",
+                  "type": "item",
+                  "ref": "p15-q19-root/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p15-q19-radius-position",
+                  "type": "item",
+                  "ref": "p15-q19-root/prompt#p15-q19-radius-information",
+                  "align": "left"
+                },
+                {
+                  "id": "p15-q19-figure-position",
+                  "type": "item",
+                  "ref": "p15-q19-diagram",
+                  "width": 70,
+                  "align": "center"
+                },
+                {
+                  "id": "p15-q19-elevation-position",
+                  "type": "item",
+                  "ref": "p15-q19-root/prompt#p15-q19-elevation-information",
+                  "align": "left"
+                },
+                {
+                  "id": "p15-q19-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p15-q19-a-label-position",
+                      "type": "item",
+                      "ref": "p15-q19-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p15-q19-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p15-q19-a-prompt-position",
+                          "type": "item",
+                          "ref": "p15-q19-a/prompt"
+                        },
+                        {
+                          "id": "p15-q19-a-space-position",
+                          "type": "item",
+                          "ref": "p15-q19-a/space"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p15-q19-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p15-q19-b-label-position",
+                      "type": "item",
+                      "ref": "p15-q19-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p15-q19-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p15-q19-b-prompt-position",
+                          "type": "item",
+                          "ref": "p15-q19-b/prompt"
+                        },
+                        {
+                          "id": "p15-q19-b-space-position",
+                          "type": "item",
+                          "ref": "p15-q19-b/space"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p15-q19"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:03.306Z",
+  "updatedAt": "2026-11-12T11:06:03.306Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p15-q19",
+    "sectionRole": "exercise"
+  }
+}

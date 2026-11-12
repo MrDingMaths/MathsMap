@@ -1,0 +1,228 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7664cca2-4646-4279-bd83-1f0c3921145b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "induction-structure"
+    ],
+    "reasoningScore": 94,
+    "difficulty": "Challenge",
+    "difficultyReason": "Beyond the supplied four-piece construction, devise a mechanism for every larger piece count and justify it inductively. This requires handling the equilateral exception, including a separate five-piece construction, without a suggested route.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:21.969Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51705c4b4d07a3834c223b7dc5fd9930563abb17b1488acfb2a8b7564320fd92",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part16/7673ee151d1d78f4c357a8aebc4460886c3344d0b2e94040c9b147b423e0f214-1792558256464/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that any right-angled triangle can be decomposed into two isosceles triangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q7-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q7-a-diagram\"}\n\\begin{tikzpicture}[line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (M) at ($(A)!0.5!(B)$);\n\\draw[line width=0.8pt] (A)--(C)--(B)--cycle;\n\\draw[line width=0.8pt] (C)--(M);\n\\draw[line width=0.4pt] ($(C)!0.2cm!(A)$)--($(C)!0.2cm!(A)+(C)!0.2cm!(B)-(C)$)--($(C)!0.2cm!(B)$);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Right column, below question 7(a)",
+              "description": "Unlabelled right triangle with vertical left leg, horizontal base, right-angle marker and a segment from the right-angle vertex to the hypotenuse midpoint. Decorative cyan fill is omitted.",
+              "mathematics": "The midpoint segment divides the right triangle into two isosceles triangles.",
+              "answerVisibility": "No labels or equal-radius annotations are supplied in the student figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Join the right-angle vertex $C$ to the midpoint $M$ of the hypotenuse $AB$. Since $MA=MB=MC$, triangles $AMC$ and $BMC$ are isosceles.",
+          "worked": "Let $\\angle ACB=90^\\circ$ and let $M$ be the midpoint of the hypotenuse $AB$. The circumcentre of a right-angled triangle is the midpoint of its hypotenuse. Hence\n$$MA=MB=MC.$$\nDraw $CM$. Since $MA=MC$, $\\triangle AMC$ is isosceles. Since $MB=MC$, $\\triangle BMC$ is isosceles. These two triangles together form $\\triangle ABC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p26-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The picture below shows a decomposition of a triangle into four isosceles triangles. Using part (a), prove that any triangle can be decomposed into $n$ isosceles triangles, for any $n\\geq4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q7-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q7-b-diagram\"}\n\\begin{tikzpicture}[line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (-1.2,0);\n\\coordinate (D) at (0,0);\n\\coordinate (R) at (3.4,0);\n\\coordinate (T) at (0,2.3);\n\\coordinate (U) at ($(L)!0.5!(T)$);\n\\coordinate (V) at ($(T)!0.5!(R)$);\n\\draw[line width=0.8pt] (L)--(T)--(R)--cycle;\n\\draw[line width=0.8pt] (T)--(D)--(U);\n\\draw[line width=0.8pt] (D)--(V);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Right column, below question 7(b)",
+              "description": "Unlabelled triangle with horizontal base, an apex-to-base subdivision and segments from the base subdivision point to both sloping sides. All four pieces are unshaded; no ticks or right-angle marks are added.",
+              "mathematics": "Two right triangles are each divided through their hypotenuse midpoint, producing four isosceles pieces.",
+              "answerVisibility": "The student figure contains only the supplied subdivision."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Use strong induction. The altitude construction gives four pieces. A non-equilateral triangle can be cut into one isosceles triangle and another triangle. For an equilateral triangle, a centre construction gives five pieces; for larger totals, retain two centre triangles and subdivide the third.",
+          "worked": "First draw an altitude from the vertex opposite a longest side. It produces two right-angled triangles. By part (a), each can be split into two isosceles triangles, proving the case $n=4$.\n\nAny non-equilateral triangle has a vertex with unequal adjacent sides. Mark a point on the longer side at a distance from this vertex equal to the shorter side, and join it to the opposite vertex. This cuts off one isosceles triangle and leaves another triangle.\n\nWe must separately establish five pieces for an equilateral triangle $ABC$. Join its centre $O$ to $A,B,C$, forming three isosceles triangles with centre angles $120^\\circ$. In $\\triangle OAB$, take $D$ on $AB$ so that $OD\\perp OB$. Then $\\angle OAD=30^\\circ$ and $\\angle AOD=120^\\circ-90^\\circ=30^\\circ$, so $\\triangle AOD$ is isosceles. Triangle $ODB$ is right-angled and splits into two isosceles triangles by part (a). Along with $OBC$ and $OCA$, this gives five pieces. For a non-equilateral triangle, the preceding cut and the four-piece construction on the remaining triangle also give five pieces.\n\nNow use strong induction. Assume every triangle can be decomposed into $k$ isosceles triangles for each $4\\leq k<n$, where $n\\geq6$. For a non-equilateral triangle, cut off one isosceles triangle and divide the remaining triangle into $n-1$ pieces by the hypothesis. For an equilateral triangle, join its centre to its vertices and retain two of the resulting isosceles triangles. The third triangle can be divided into $n-2$ pieces, since $4\\leq n-2<n$. Both cases give $n$ pieces. Therefore every triangle can be decomposed into $n$ isosceles triangles for every integer $n\\geq4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q7-root/label",
+                  "type": "item",
+                  "ref": "p26-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "p26-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q7-a/label",
+                          "type": "item",
+                          "ref": "p26-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p26-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p26-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q7-a-diagram",
+                          "type": "item",
+                          "ref": "p26-q7-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p26-q7-a/space",
+                          "type": "item",
+                          "ref": "p26-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q7-b/label",
+                          "type": "item",
+                          "ref": "p26-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p26-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p26-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q7-b-diagram",
+                          "type": "item",
+                          "ref": "p26-q7-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p26-q7-b/space",
+                          "type": "item",
+                          "ref": "p26-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:03.115Z",
+  "updatedAt": "2026-11-12T11:14:03.115Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part16",
+    "blockId": "p26-q7",
+    "sectionRole": "exercise"
+  }
+}

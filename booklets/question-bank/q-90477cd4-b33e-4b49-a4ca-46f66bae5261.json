@@ -1,0 +1,193 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-90477cd4-b33e-4b49-a4ca-46f66bae5261",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Count clubs with an officer subset by size, then use the directed officers-first order and independent optional membership to count the same outcomes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4031d1f263dab3f9bae831ded5fc9d8e82a71ac57a5d26d2ffa4cd71ca67688d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "In a school, there are $n$ students. In a social club, there are to be $m$ officers and the other members of the social club are regular members.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If the social club has $k$ members, find the number of ways for $m$ officers to be appointed within the school.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n}{k}\\binom{k}{m}$.",
+          "worked": "Choose the $k$ club members from the $n$ students in $\\binom{n}{k}$ ways. Choose the $m$ officers from these members in $\\binom{k}{m}$ ways.\n\nThe number of outcomes is\n$$\\binom{n}{k}\\binom{k}{m}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p29-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By appointing $m$ officers from the school first, and then filling the social club with more regular members, show that\n$$\\binom{n}{m}\\binom{m}{m}+\\binom{n}{m+1}\\binom{m+1}{m}+\\cdots+\\binom{n}{n}\\binom{n}{m}$$\nis equal to $2^{n-m}\\binom{n}{m}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n}{m}\\binom{m}{m}+\\binom{n}{m+1}\\binom{m+1}{m}+\\cdots+\\binom{n}{n}\\binom{n}{m}=2^{n-m}\\binom{n}{m}$.\n\nChoose the officers first, then let each remaining student join or stay out; compare with the club-size counts in part (a).",
+          "worked": "Choose the $m$ officers from the $n$ students in $\\binom{n}{m}$ ways. Each remaining student independently joins as a regular member or stays out. The $n-m$ students give $2^{n-m}$ membership choices, so there are $2^{n-m}\\binom{n}{m}$ outcomes.\n\nAlternatively, for each club size $k=m,m+1,\\ldots,n$, part (a) gives $\\binom{n}{k}\\binom{k}{m}$ outcomes. These cases cover every possible club exactly once.\n\nBoth methods count the same clubs with appointed officers, hence\n$$\\binom{n}{m}\\binom{m}{m}+\\binom{n}{m+1}\\binom{m+1}{m}+\\cdots+\\binom{n}{n}\\binom{n}{m}=2^{n-m}\\binom{n}{m}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q19",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q19-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q19-root/label",
+                  "type": "item",
+                  "ref": "p29-q19-root/label",
+                  "title": "Label 19"
+                },
+                {
+                  "id": "layout:p29-q19-root/prompt",
+                  "type": "item",
+                  "ref": "p29-q19-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p29-q19-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q19-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q19-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q19-a/label",
+                              "type": "item",
+                              "ref": "p29-q19-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p29-q19-a/prompt",
+                              "type": "item",
+                              "ref": "p29-q19-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p29-q19-a/space",
+                              "type": "item",
+                              "ref": "p29-q19-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p29-q19-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q19-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q19-b/label",
+                              "type": "item",
+                              "ref": "p29-q19-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p29-q19-b/prompt",
+                              "type": "item",
+                              "ref": "p29-q19-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p29-q19-b/space",
+                              "type": "item",
+                              "ref": "p29-q19-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 19",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:01.496Z",
+  "updatedAt": "2026-11-12T11:09:01.496Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p29-q19",
+    "sectionRole": "exercise"
+  }
+}

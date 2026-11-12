@@ -1,0 +1,62 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8ad39231-60ad-43c9-adfb-c0985bb48ae0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Discover the partition by shared endpoints and determine why each four-point set gives three line pairings while each three-point set gives three shared-endpoint choices.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f3f137a7e6cb45f85a20600ed150fd620525413b4f90993d5f89d5a78da5e796",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q22-root",
+    "type": "question",
+    "label": "22",
+    "prompt": "Consider $n$ distinct points arranged in a circle.\n\nBy considering the number of ways to choose 2 distinct lines that each pass through two of the points on the circle, show that\n$$\\binom{\\binom{n}{2}}{2}=3\\binom{n}{4}+3\\binom{n}{3}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\binom{\\binom{n}{2}}{2}=3\\binom{n}{4}+3\\binom{n}{3}$.\n\nFour endpoints give three pairings; three endpoints give three choices of a shared point. These cases count every unordered pair of distinct lines.",
+      "worked": "Each line is determined by two points, so there are $\\binom{n}{2}$ lines and $\\binom{\\binom{n}{2}}{2}$ unordered pairs of distinct lines.\n\nAlternatively, partition the pairs by their endpoints.\n\n• No shared endpoint: choose four points in $\\binom{n}{4}$ ways. Pair one fixed point with any of the other three; the remaining two form the second line. This gives $3\\binom{n}{4}$ pairs.\n\n• One shared endpoint: choose three points in $\\binom{n}{3}$ ways, then choose their shared point in three ways. This gives $3\\binom{n}{3}$ pairs.\n\nThese cases are disjoint and exhaustive, so\n$$\\binom{\\binom{n}{2}}{2}=3\\binom{n}{4}+3\\binom{n}{3}.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 84
+  },
+  "presentation": {
+    "ownerId": "p30-q22",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:02.637Z",
+  "updatedAt": "2026-11-12T11:09:02.637Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p30-q22",
+    "sectionRole": "exercise"
+  }
+}

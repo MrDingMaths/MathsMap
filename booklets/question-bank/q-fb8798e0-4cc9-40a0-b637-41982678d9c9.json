@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fb8798e0-4cc9-40a0-b637-41982678d9c9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-sum-product-roots",
+    "secondarySkillIds": [
+      "sum-product-roots-cubic",
+      "graph-polynomials-factored"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Represent the opposite roots so they cancel in the sum and pair sums, recover the remaining roots and constant coefficient, then translate those results into a cubic sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:36:44.827Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b80a0dcde321c34f2fc7fd50cedccd799c2052c4437870cdbebf0bba9e4341ef",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch02/118cb2db39aa09fb93cd626e6a1c902711a7aaca3c1425eb8847c7b301d34d0f-1792557350666/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q22-root",
+    "type": "question",
+    "label": "22",
+    "prompt": "The graph of $y=4x^3-8x^2-4x+d$ has two $x$-intercepts that are negatives of each other.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p42-q22-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the $x$-intercepts.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=-1,\\ 1,\\ 2$.",
+          "worked": "Let the roots be $\\alpha,-\\alpha,\\beta$. Using the sum of roots,\n$$\\begin{align*}\\alpha-\\alpha+\\beta&=-\\frac{-8}{4}\\\\\\beta&=2.\\end{align*}$$\nUsing the sum of roots in pairs,\n$$\\begin{align*}\\alpha(-\\alpha)+\\alpha\\beta+(-\\alpha)\\beta&=\\frac{-4}{4}\\\\-\\alpha^2&=-1\\\\\\alpha^2&=1\\\\\\alpha&=\\pm1.\\end{align*}$$\nThe $x$-intercepts are $(-1,0)$, $(1,0)$ and $(2,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p42-q22-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the $y$-intercept.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8$.",
+          "worked": "Using the product of roots,\n$$\\begin{align*}(-1)(1)(2)&=-\\frac d4\\\\-2&=-\\frac d4\\\\d&=8.\\end{align*}$$\nAt $x=0$, $y=8$, so the $y$-intercept is $(0,8)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p42-q22-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, sketch the graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cubic crossing the $x$-axis at $-1$, $1$ and $2$, and the $y$-axis at $8$; the left tail falls and the right tail rises.",
+          "worked": "$$y=4(x+1)(x-1)(x-2).$$\nEach root is simple, so the graph crosses the $x$-axis at each intercept. The leading coefficient is positive, so the left tail falls and the right tail rises. Mark $(0,8)$ and draw a smooth cubic through the intercepts.",
+          "solutionDiagrams": [
+            {
+              "id": "p42-q22-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial graph\"}],\"reference\":\"source PDF page 42, teacher PDF page 21, question 22(c)\"}\n\\begin{tikzpicture}[x=1cm,y=0.12cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.9,-20) rectangle (2.95,17);\n\\draw[black,line width=0.5pt,->] (-1.8,0)--(2.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-19)--(0,16) node[above] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.5:2.6,samples=160] plot (\\x,{4*(\\x)^3-8*(\\x)^2-4*(\\x)+8});\n\\foreach \\t in {-1,1,2}{\\draw[black,line width=0.4pt] (\\t,-0.45)--(\\t,0.45);\\node[below,inner sep=2pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.4pt] (-0.06,8)--(0.06,8);\n\\node[left,inner sep=2pt] at (0,8) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$8$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 42,
+                "sourceRegion": "Question 22(c); answer graph on teacher PDF page 21, printed page 325",
+                "description": "Unshaded cubic with arrowed axes, three labelled x-intercepts and y-intercept 8.",
+                "mathematics": "y=4x^3-8x^2-4x+8=4(x+1)(x-1)(x-2); three simple roots; positive leading coefficient.",
+                "answerVisibility": "Solution only; no graph is supplied in the student question."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q22",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:29.142Z",
+  "updatedAt": "2026-11-12T11:05:29.142Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch02",
+    "blockId": "p42-q22",
+    "sectionRole": "exercise"
+  }
+}

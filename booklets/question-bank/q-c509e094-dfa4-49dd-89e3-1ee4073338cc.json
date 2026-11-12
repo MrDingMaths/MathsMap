@@ -1,0 +1,348 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c509e094-dfa4-49dd-89e3-1ee4073338cc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-sums",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the prescribed induction structure while identifying each next term and arranging rational or exponential expressions to match the stated next-case formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:48:53.292Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d75bddf83fa9065db4e6cf2187e5fdfba149de0c223996adc2f42333e5dc19cb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-ch16-part18/020bc7f20a0c6d3397106bcddf50cb672e56564c8104d0b404480e5147a6371a-1792558083004/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Use mathematical induction to prove each of the following for all $n\\in\\mathbb N$:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$1^2+2^2+\\cdots+n^2=\\frac{n(n+1)(2n+1)}6$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The identity holds for all $n\\in\\mathbb N$.\n\nVerify $n=1$, assume the result for $n=k$, then add $(k+1)^2$ and factor.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, the left-hand side is $1$ and the right-hand side is $\\frac{1\\cdot2\\cdot3}{6}=1$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $1^2+2^2+\\cdots+k^2=\\frac{k(k+1)(2k+1)}6$.\n\nInductive step:\n$$\\begin{align*}1^2+\\cdots+k^2+(k+1)^2&=\\frac{k(k+1)(2k+1)}6+(k+1)^2\\\\1^2+\\cdots+k^2+(k+1)^2&=\\frac{k(k+1)(2k+1)+6(k+1)^2}6\\\\1^2+\\cdots+k^2+(k+1)^2&=\\frac{(k+1)(2k^2+7k+6)}6\\\\1^2+\\cdots+k^2+(k+1)^2&=\\frac{(k+1)(k+2)(2k+3)}6.\\end{align*}$$\nThe first equality uses $P(k)$; the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 116
+      },
+      {
+        "id": "p24-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$1+x+x^2+\\cdots+x^n=\\frac{x^{n+1}-1}{x-1}\\qquad\\text{(where }x\\ne1\\text{)}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The identity holds for all $n\\in\\mathbb N$, where $x\\ne1$.\n\nVerify $n=1$, assume the result for $n=k$, then add $x^{k+1}$ and combine over $x-1$.",
+          "worked": "Fix $x\\ne1$ and let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, the left-hand side is $1+x$, and $\\frac{x^2-1}{x-1}=x+1$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $1+x+\\cdots+x^k=\\frac{x^{k+1}-1}{x-1}$.\n\nInductive step:\n$$\\begin{align*}1+x+\\cdots+x^k+x^{k+1}&=\\frac{x^{k+1}-1}{x-1}+x^{k+1}\\\\1+x+\\cdots+x^k+x^{k+1}&=\\frac{x^{k+1}-1+x^{k+1}(x-1)}{x-1}\\\\1+x+\\cdots+x^k+x^{k+1}&=\\frac{x^{k+1}-1+x^{k+2}-x^{k+1}}{x-1}\\\\1+x+\\cdots+x^k+x^{k+1}&=\\frac{x^{k+2}-1}{x-1}.\\end{align*}$$\nThe first equality uses $P(k)$; the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 116
+      },
+      {
+        "id": "p24-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$$\\frac1{1\\cdot2}+\\frac1{2\\cdot3}+\\cdots+\\frac1{n(n+1)}=\\frac n{n+1}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The identity holds for all $n\\in\\mathbb N$.\n\nAfter assuming the result for $k$, add $\\frac1{(k+1)(k+2)}$ to obtain $\\frac{k+1}{k+2}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, both sides equal $\\frac12$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $\\frac1{1\\cdot2}+\\cdots+\\frac1{k(k+1)}=\\frac k{k+1}$.\n\nInductive step:\n$$\\begin{align*}\\frac1{1\\cdot2}+\\cdots+\\frac1{k(k+1)}+\\frac1{(k+1)(k+2)}&=\\frac k{k+1}+\\frac1{(k+1)(k+2)}\\\\\\frac1{1\\cdot2}+\\cdots+\\frac1{k(k+1)}+\\frac1{(k+1)(k+2)}&=\\frac{k(k+2)+1}{(k+1)(k+2)}\\\\\\frac1{1\\cdot2}+\\cdots+\\frac1{k(k+1)}+\\frac1{(k+1)(k+2)}&=\\frac{(k+1)^2}{(k+1)(k+2)}\\\\\\frac1{1\\cdot2}+\\cdots+\\frac1{k(k+1)}+\\frac1{(k+1)(k+2)}&=\\frac{k+1}{k+2}.\\end{align*}$$\nThe first equality uses $P(k)$; the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p24-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$$\\frac1{1\\cdot3}+\\frac1{3\\cdot5}+\\cdots+\\frac1{(2n-1)(2n+1)}=\\frac n{2n+1}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The identity holds for all $n\\in\\mathbb N$.\n\nAfter assuming the result for $k$, add $\\frac1{(2k+1)(2k+3)}$ and factor the numerator as $(k+1)(2k+1)$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, both sides equal $\\frac13$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $\\frac1{1\\cdot3}+\\cdots+\\frac1{(2k-1)(2k+1)}=\\frac k{2k+1}$.\n\nInductive step:\n$$\\begin{align*}\\frac1{1\\cdot3}+\\cdots+\\frac1{(2k-1)(2k+1)}+\\frac1{(2k+1)(2k+3)}&=\\frac k{2k+1}+\\frac1{(2k+1)(2k+3)}\\\\\\frac1{1\\cdot3}+\\cdots+\\frac1{(2k-1)(2k+1)}+\\frac1{(2k+1)(2k+3)}&=\\frac{k(2k+3)+1}{(2k+1)(2k+3)}\\\\\\frac1{1\\cdot3}+\\cdots+\\frac1{(2k-1)(2k+1)}+\\frac1{(2k+1)(2k+3)}&=\\frac{(k+1)(2k+1)}{(2k+1)(2k+3)}\\\\\\frac1{1\\cdot3}+\\cdots+\\frac1{(2k-1)(2k+1)}+\\frac1{(2k+1)(2k+3)}&=\\frac{k+1}{2k+3}.\\end{align*}$$\nThe first equality uses $P(k)$; the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p24-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$$\\frac3{1\\cdot2\\cdot2}+\\frac4{2\\cdot3\\cdot2^2}+\\cdots+\\frac{n+2}{n(n+1)2^n}=1-\\frac1{(n+1)2^n}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The printed identity is true for all $n\\in\\mathbb N$.\n\nUse induction and a common denominator of $(k+1)(k+2)2^{k+1}$; the remaining numerator is $-(k+1)$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, the left-hand side is $\\frac3{1\\cdot2\\cdot2}=\\frac34$, and the right-hand side is $1-\\frac1{2\\cdot2}=\\frac34$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $\\frac3{1\\cdot2\\cdot2}+\\cdots+\\frac{k+2}{k(k+1)2^k}=1-\\frac1{(k+1)2^k}$.\n\nInductive step:\n$$\\begin{align*}\\sum_{r=1}^{k+1}\\frac{r+2}{r(r+1)2^r}&=1-\\frac1{(k+1)2^k}+\\frac{k+3}{(k+1)(k+2)2^{k+1}}\\\\\\sum_{r=1}^{k+1}\\frac{r+2}{r(r+1)2^r}&=1+\\frac{-2(k+2)+(k+3)}{(k+1)(k+2)2^{k+1}}\\\\\\sum_{r=1}^{k+1}\\frac{r+2}{r(r+1)2^r}&=1-\\frac{k+1}{(k+1)(k+2)2^{k+1}}\\\\\\sum_{r=1}^{k+1}\\frac{r+2}{r(r+1)2^r}&=1-\\frac1{(k+2)2^{k+1}}.\\end{align*}$$\nThe sum denotes the printed terms through the $(k+1)$st term. The first equality uses $P(k)$; the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 124
+      },
+      {
+        "id": "p24-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$$1\\cdot3^1+2\\cdot3^2+3\\cdot3^3+\\cdots+n\\cdot3^n=\\frac34\\big[(2n-1)3^n+1\\big]$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The identity holds for all $n\\in\\mathbb N$.\n\nAfter adding $(k+1)3^{k+1}$, factor out $\\frac34$ and use $(6k+3)3^k=(2k+1)3^{k+1}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: for $n=1$, the left-hand side is $3$, and the right-hand side is $\\frac34[(2-1)3+1]=3$. Thus $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true for some $k\\in\\mathbb N$, so $1\\cdot3^1+\\cdots+k3^k=\\frac34[(2k-1)3^k+1]$.\n\nInductive step:\n$$\\begin{align*}1\\cdot3^1+\\cdots+k3^k+(k+1)3^{k+1}&=\\frac34[(2k-1)3^k+1]+(k+1)3^{k+1}\\\\1\\cdot3^1+\\cdots+k3^k+(k+1)3^{k+1}&=\\frac34[(2k-1)3^k+1+4(k+1)3^k]\\\\1\\cdot3^1+\\cdots+k3^k+(k+1)3^{k+1}&=\\frac34[(6k+3)3^k+1]\\\\1\\cdot3^1+\\cdots+k3^k+(k+1)3^{k+1}&=\\frac34[(2k+1)3^{k+1}+1].\\end{align*}$$\nThe first equality uses $P(k)$. Since $2k+1=2(k+1)-1$, the final expression is the right-hand side of $P(k+1)$. Thus $P(k+1)$ is true.\n\nTherefore the identity holds for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 116
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p24-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p24-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p24-q1-root/label",
+                  "type": "item",
+                  "ref": "p24-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p24-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p24-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p24-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p24-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-a/label",
+                          "type": "item",
+                          "ref": "p24-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p24-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-a/space",
+                          "type": "item",
+                          "ref": "p24-q1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p24-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-b/label",
+                          "type": "item",
+                          "ref": "p24-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p24-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-b/space",
+                          "type": "item",
+                          "ref": "p24-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p24-q1-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-c/label",
+                          "type": "item",
+                          "ref": "p24-q1-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p24-q1-c/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-c/space",
+                          "type": "item",
+                          "ref": "p24-q1-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p24-q1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-d/label",
+                          "type": "item",
+                          "ref": "p24-q1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p24-q1-d/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-d/space",
+                          "type": "item",
+                          "ref": "p24-q1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p24-q1-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-e/label",
+                          "type": "item",
+                          "ref": "p24-q1-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p24-q1-e/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-e/space",
+                          "type": "item",
+                          "ref": "p24-q1-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p24-q1-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q1-f/label",
+                          "type": "item",
+                          "ref": "p24-q1-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p24-q1-f/prompt",
+                          "type": "item",
+                          "ref": "p24-q1-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p24-q1-f/space",
+                          "type": "item",
+                          "ref": "p24-q1-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:26.927Z",
+  "updatedAt": "2026-11-12T11:09:26.927Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-ch16-part18",
+    "blockId": "p24-q1",
+    "sectionRole": "exercise"
+  }
+}

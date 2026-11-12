@@ -1,0 +1,261 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4e0d389e-7f56-437f-abe0-43006b6a1a70",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Find perpendicular component lengths in congruent slant faces, then apply the cosine rule in the internal triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T11:50:10.804Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cea3bc164604bf9431c9ca65bb0ceca5327622f99dbfb43b4acc0aea533fdabe",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch03-20261002/semantic-packets/assignments/assignment-26bce44b16b7d6b23b8c/1/generation.json",
+      "originalTaskHash": "7f1b108abb8d7cb05b24217e6b576a0a0642291bcc82651244892b999108ef3f",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "98c67dd8e9c68fa0a8d62539a646280bfc09cf8424155e8beba7dd3d4b6b4e5e"
+      }
+    }
+  },
+  "content": {
+    "id": "p15-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-q18-description",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the diagram given, a right tetrahedron is shown. The base ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "ABC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an equilateral triangle with side lengths ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "6\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and has slant lengths ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OA=OB=OC=8\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p15-q18-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "X",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is marked on ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " such that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\angle OXA=\\angle OXB=90^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Find the size of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\angle AXB",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", correct to two decimal places.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15, p15-q18-diagram\"}\n\\usetikzlibrary{calc,angles}\n\\begin{tikzpicture}[x={(0.8cm,-0.033333cm)},y={(0.067358cm,0.336788cm)},z={(-0.002311cm,0.737296cm)},draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n% Explicit solid vertices in cm: C=(0,0,0), A=(6,0,0), B=(3,3sqrt(3),0), O=(3,sqrt(3),sqrt(52)).\n% Faces: OCA, OAB, OBC, ABC. Object-to-viewer direction is proportional to (0.05045,-0.58976,0.27170).\n% Only OCA faces the viewer; OC, OA, CA are silhouette edges. OB, BC, BA are obscured solid edges.\n\\coordinate (C) at (0,0,0);\n\\coordinate (A) at (6,0,0);\n\\coordinate (B) at (3,{3*sqrt(3)},0);\n\\coordinate (O) at (3,{sqrt(3)},{sqrt(52)});\n\\coordinate (X) at ($(C)!0.28125!(O)$);\n\\draw (C)--(O)--(A)--cycle;\n\\draw[dashed] (O)--(B)--(C) (B)--(A);\n% Construction segments are separate from solid edges.\n\\draw (X)--(A) (X)--(B);\n% Equal base-edge ticks, derived from each projected segment.\n\\foreach \\L/\\R in {C/A,A/B,B/C}{\n  \\coordinate (M) at ($(\\L)!0.5!(\\R)$);\n  \\draw[line width=0.4pt] ($(M)!2.5pt!90:(\\R)$)--($(M)!2.5pt!-90:(\\R)$);\n}\n% Equal slant-edge double ticks.\n\\foreach \\L/\\R in {O/A,O/B,O/C}{\n  \\coordinate (M) at ($(\\L)!0.5!(\\R)$);\n  \\coordinate (T) at ($(M)!1.4pt!(\\R)$);\n  \\coordinate (U) at ($(M)!1.4pt!(\\L)$);\n  \\draw[line width=0.4pt] ($(T)!2.5pt!90:(\\R)$)--($(T)!2.5pt!-90:(\\R)$);\n  \\draw[line width=0.4pt] ($(U)!2.5pt!90:(\\R)$)--($(U)!2.5pt!-90:(\\R)$);\n}\n% Project the two actual perpendicular corner squares at X.\n\\coordinate (XOmark) at ($(X)!0.035!(O)$);\n\\coordinate (XAmark) at ($(X)!0.045!(A)$);\n\\coordinate (XBmark) at ($(X)!0.065!(B)$);\n\\draw[line width=0.4pt] (XOmark)--($(XOmark)+(XAmark)-(X)$)--(XAmark);\n\\draw[line width=0.4pt] (XOmark)--($(XOmark)+(XBmark)-(X)$)--(XBmark);\n\\path (O)--(A) node[midway,right=5pt] {$8\\text{ cm}$};\n\\path (C)--(A) node[midway,below=5pt] {$6\\text{ cm}$};\n\\fill (O) circle[radius=1.2pt] node[above=3pt] {$O$};\n\\fill (C) circle[radius=1.2pt] node[below left=3pt] {$C$};\n\\fill (A) circle[radius=1.2pt] node[below right=3pt] {$A$};\n\\fill (B) circle[radius=1.2pt] node[above right=3pt] {$B$};\n\\fill (X) circle[radius=1pt] node[left=4pt] {$X$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 18, upper left column",
+          "description": "Unshaded tetrahedron with apex O above the equilateral base ABC, X on OC, hidden edges through B dashed, and the construction segments XA and XB solid.",
+          "mathematics": "AB=BC=CA=6 cm; OA=OB=OC=8 cm; X lies on OC; XA and XB are perpendicular to OC. Explicit vertices and projected viewing direction are recorded in the editable code.",
+          "answerVisibility": "Only supplied givens and perpendicular marks appear; no calculated lengths or requested angle are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\angle AXB=65.28^\\circ$.\n\nFind $XA=XB$ from the perpendicular triangles, then use the cosine rule in $\\triangle AXB$.",
+      "worked": "In $\\triangle OCA$, use the cosine rule:\n$$\\begin{align*}\\cos\\angle OCA&=\\frac{8^2+6^2-8^2}{2\\times8\\times6}\\\\\\cos\\angle OCA&=\\frac38.\\end{align*}$$\nSince $X$ lies on $OC$ and $AX\\perp OC$,\n$$\\begin{align*}CX&=6\\cos\\angle OCA\\\\CX&=\\frac94\\text{ cm}\\\\OX&=8-\\frac94\\\\OX&=\\frac{23}{4}\\text{ cm}.\\end{align*}$$\nThe right triangles $OXA$ and $OXB$ have equal hypotenuses and share $OX$, so $XA=XB$. By Pythagoras’ theorem,\n$$\\begin{align*}XA^2&=8^2-\\left(\\frac{23}{4}\\right)^2\\\\XA^2&=\\frac{495}{16}\\text{ cm}^2.\\end{align*}$$\nApply the cosine rule in $\\triangle AXB$:\n$$\\begin{align*}\\cos\\angle AXB&=\\frac{XA^2+XB^2-AB^2}{2(XA)(XB)}\\\\\\cos\\angle AXB&=\\frac{2\\left(\\frac{495}{16}\\right)-36}{2\\left(\\frac{495}{16}\\right)}\\\\\\cos\\angle AXB&=\\frac{23}{55}\\\\\\angle AXB&=\\cos^{-1}\\left(\\frac{23}{55}\\right)\\\\\\angle AXB&\\approx65.28^\\circ.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 160
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q18-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p15-q18-labelled-content",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p15-q18-label-item",
+                      "type": "item",
+                      "ref": "p15-q18-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p15-q18-content-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p15-q18-description-item",
+                          "type": "item",
+                          "ref": "p15-q18-root/prompt#p15-q18-description",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p15-q18-diagram-item",
+                          "type": "item",
+                          "ref": "p15-q18-diagram",
+                          "width": 70,
+                          "align": "center"
+                        },
+                        {
+                          "id": "p15-q18-task-item",
+                          "type": "item",
+                          "ref": "p15-q18-root/prompt#p15-q18-task",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p15-q18-space-item",
+                          "type": "item",
+                          "ref": "p15-q18-root/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p15-q18"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:03.039Z",
+  "updatedAt": "2026-11-12T11:06:03.039Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p15-q18",
+    "sectionRole": "exercise"
+  }
+}

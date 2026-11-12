@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6e4b4dae-d0ce-4c69-bfb5-4adb8ec6e7e3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-sum-product-roots",
+    "secondarySkillIds": [
+      "sum-product-roots-cubic",
+      "zeroes-roots-multiplicity"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret tangency as a double root, remove the known origin root, and use the remaining cubic's symmetric sums to determine the positive tangency coordinate and slope.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:36:52.111Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a45df989dcffdf18b203533ec5e8f1ffdbef30e6e16d0a3b21ec9f5681d8336",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch02/0f3c40522b4d8a65a871e20dee147a17748177e55597b754b2f0a1d6cbc2ad3b-1792557363768/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p45-q65-root",
+    "type": "question",
+    "label": "65",
+    "prompt": "A line passing through the origin is tangential to the curve $y=x^4-3x^2+x$ at a point $P$ which has positive $x$-coordinate.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p45-q65-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"quartic curve distinguished from tangent\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent distinguished from quartic curve\"}],\"reference\":\"PDF page 45, printed page 145, p45-q65-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=0.65cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2.35,-4.05) rectangle (2.18,3.75);\n\\draw[black,line width=0.5pt,->] (-2.25,0)--(2.05,0) node[below right,text=black] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.95)--(0,3.5) node[above left,text=black] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-2.05:1.85,samples=180] plot (\\x,{(\\x)^4-3*(\\x)^2+\\x});\n\\draw[tangentRed,line width=0.8pt,<->] (-2.2,2.2)--(2,-2);\n\\fill[black] (1,-1) circle[radius=1.5pt];\n\\node[below,text=black] at (1,-1) {$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 59.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 45,
+          "sourceRegion": "Question 65, right column, graph between stem and parts",
+          "description": "Unshaded quartic with upward ends, descending tangent through the origin, and marked positive-x point P below the x-axis. Black arrowed axes labelled x and y; no ticks or origin label.",
+          "mathematics": "Plot y=x^4-3x^2+x and its tangent y=-x. P=(1,-1) is represented by an unnumbered point. The curve has a deep left minimum, a small maximum just right of the y-axis and a right minimum.",
+          "answerVisibility": "Show only the supplied labels P, x and y. Do not display the tangent equation or P's coordinates."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p45-q65-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $y=mx$ be the equation of the line. Show that the $x$-coordinates of its points of intersection with the curve satisfy the following equation.\n$$x^4-3x^2+(1-m)x=0$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$mx=x^4-3x^2+x$, so $x^4-3x^2+(1-m)x=0$.",
+          "worked": "At an intersection, the line and curve have the same $y$-coordinate.\n$$\\begin{align*}mx&=x^4-3x^2+x\\\\0&=x^4-3x^2+x-mx\\\\0&=x^4-3x^2+(1-m)x.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p45-q65-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why this equation has a positive double root.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Tangency at $P$ gives a double root equal to its positive $x$-coordinate.",
+          "worked": "Let $P$ have $x$-coordinate $\\alpha>0$. Since the line is tangent to the curve at $P$, $x=\\alpha$ is a repeated intersection root. Thus the equation has a positive double root.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p45-q65-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the coordinates of $P$ and the line’s equation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P=(1,-1)$; $y=-x$.\n\nRemove the origin root, then use the sum and sum of pairs of the remaining roots $\\alpha,\\alpha,\\beta$.",
+          "worked": "The origin gives the factor $x$:\n$$x\\bigl(x^3-3x+1-m\\bigr)=0.$$\nThe cubic has roots $\\alpha,\\alpha,\\beta$, where $\\alpha>0$. Its sum of roots and sum of pairs give\n$$\\begin{align*}2\\alpha+\\beta&=0\\\\\\beta&=-2\\alpha\\\\\\alpha^2+2\\alpha\\beta&=-3\\\\\\alpha^2+2\\alpha(-2\\alpha)&=-3\\\\-3\\alpha^2&=-3\\\\\\alpha^2&=1\\\\\\alpha&=1.\\end{align*}$$\nHence $\\beta=-2$. Use the product of roots:\n$$\\begin{align*}\\alpha^2\\beta&=-(1-m)\\\\(1)^2(-2)&=m-1\\\\m&=-1.\\end{align*}$$\nThe tangent is $y=-x$. At $x=1$, $y=-1$, so $P=(1,-1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 124
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q65",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:38.686Z",
+  "updatedAt": "2026-11-12T11:05:38.686Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch02",
+    "blockId": "p45-q65",
+    "sectionRole": "exercise"
+  }
+}

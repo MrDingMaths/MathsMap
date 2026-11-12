@@ -1,0 +1,215 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-34a02824-ab52-4d75-b370-8baeb7c160f4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-sums",
+    "secondarySkillIds": [
+      "induction-structure"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Generalise the preceding product-sum induction by holding the parameter fixed, tracking product endpoints, and factoring the shared symbolic product in the induction step.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:48:53.292Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f6365c8320c28d24a2e67f94db3e629747df42c41b89cc2432e806929cce9786",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-ch16-part18/020bc7f20a0c6d3397106bcddf50cb672e56564c8104d0b404480e5147a6371a-1792558083004/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q3a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that\n$$\\sum_{r=1}^{n}r(r+1)=\\frac13n(n+1)(n+2).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nUse induction and factor out $(k+1)(k+2)$ in the inductive step.",
+          "worked": "Base case: for $n=1$, both sides are $2$.\n\nInductive hypothesis: assume $\\sum_{r=1}^{k}r(r+1)=\\frac13k(k+1)(k+2)$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}\\sum_{r=1}^{k+1}r(r+1)&=\\sum_{r=1}^{k}r(r+1)+(k+1)(k+2)\\\\\\sum_{r=1}^{k+1}r(r+1)&=\\frac13k(k+1)(k+2)+(k+1)(k+2)\\\\\\sum_{r=1}^{k+1}r(r+1)&=(k+1)(k+2)\\left(\\frac{k}{3}+1\\right)\\\\\\sum_{r=1}^{k+1}r(r+1)&=\\frac13(k+1)(k+2)(k+3).\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p25-q3b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that\n$$\\sum_{r=1}^{n}r(r+1)(r+2)=\\frac14n(n+1)(n+2)(n+3).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nUse induction and factor out $(k+1)(k+2)(k+3)$.",
+          "worked": "Base case: for $n=1$, both sides are $6$.\n\nInductive hypothesis: assume $\\sum_{r=1}^{k}r(r+1)(r+2)=\\frac14k(k+1)(k+2)(k+3)$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}\\sum_{r=1}^{k+1}r(r+1)(r+2)&=\\sum_{r=1}^{k}r(r+1)(r+2)+(k+1)(k+2)(k+3)\\\\\\sum_{r=1}^{k+1}r(r+1)(r+2)&=\\frac14k(k+1)(k+2)(k+3)+(k+1)(k+2)(k+3)\\\\\\sum_{r=1}^{k+1}r(r+1)(r+2)&=(k+1)(k+2)(k+3)\\left(\\frac{k}{4}+1\\right)\\\\\\sum_{r=1}^{k+1}r(r+1)(r+2)&=\\frac14(k+1)(k+2)(k+3)(k+4).\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p25-q3c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Parts (a) and (b) suggest a general pattern, which can also be proved by induction. For each positive integer $p$, show by induction on $n$ that\n$$\\sum_{r=1}^{n}r(r+1)(r+2)\\cdots(r+p-1)=\\frac1{p+1}n(n+1)(n+2)\\cdots(n+p).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all positive integers $p$ and $n$.\n\nFix $p$, check $n=1$, then factor out $(k+1)(k+2)\\cdots(k+p)$ in the inductive step.",
+          "worked": "Fix a positive integer $p$.\n\nBase case: for $n=1$, the left-hand side is $1\\cdot2\\cdots p=p!$ and the right-hand side is $\\frac{1\\cdot2\\cdots(p+1)}{p+1}=p!$.\n\nWrite $S_n=\\sum_{r=1}^{n}r(r+1)\\cdots(r+p-1)$. Assume $S_k=\\frac{k(k+1)\\cdots(k+p)}{p+1}$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}S_{k+1}&=S_k+(k+1)(k+2)\\cdots(k+p)\\\\S_{k+1}&=\\frac{k(k+1)\\cdots(k+p)}{p+1}+(k+1)(k+2)\\cdots(k+p)\\\\S_{k+1}&=(k+1)(k+2)\\cdots(k+p)\\left(\\frac{k}{p+1}+1\\right)\\\\S_{k+1}&=\\frac{(k+1)(k+2)\\cdots(k+p)(k+p+1)}{p+1}.\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$, for each positive integer $p$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q3-root/label",
+                  "type": "item",
+                  "ref": "p25-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "p25-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q3a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q3a/label",
+                          "type": "item",
+                          "ref": "p25-q3a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p25-q3a/prompt",
+                          "type": "item",
+                          "ref": "p25-q3a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q3a/space",
+                          "type": "item",
+                          "ref": "p25-q3a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p25-q3b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q3b/label",
+                          "type": "item",
+                          "ref": "p25-q3b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p25-q3b/prompt",
+                          "type": "item",
+                          "ref": "p25-q3b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q3b/space",
+                          "type": "item",
+                          "ref": "p25-q3b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p25-q3c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q3c/label",
+                          "type": "item",
+                          "ref": "p25-q3c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p25-q3c/prompt",
+                          "type": "item",
+                          "ref": "p25-q3c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q3c/space",
+                          "type": "item",
+                          "ref": "p25-q3c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:27.393Z",
+  "updatedAt": "2026-11-12T11:09:27.393Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-ch16-part18",
+    "blockId": "p25-q3",
+    "sectionRole": "exercise"
+  }
+}

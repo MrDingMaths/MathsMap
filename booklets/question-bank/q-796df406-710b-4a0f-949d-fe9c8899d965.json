@@ -1,0 +1,286 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-796df406-710b-4a0f-949d-fe9c8899d965",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-absolute-value-of-function",
+    "secondarySkillIds": [
+      "graph-log-functions",
+      "exponential-transformations"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Distinguishes absolute values applied to outputs and inputs, combines both operations, and recognises when positivity leaves an exponential unchanged.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:38:28.892Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "be8d284f288bc6d9947684687f3213d822895ba23a14d9431fddc5db7b2f31d5",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch09-20261021/semantic-packets/assignments/assignment-1c7f01a43b98c4dec461/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "Sketch, on separate axes, the graphs of:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=|\\log_2x|$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Minimum $(1,0)$; passes through $(\\tfrac12,1)$, $(2,1)$ and $(4,2)$. Vertical asymptote $x=0$. Domain $(0,\\infty)$; range $[0,\\infty)$.",
+          "worked": "Retain the part of $y=\\log_2x$ above the $x$-axis and reflect its negative part in the $x$-axis.\n\n$$y=\\begin{cases}-\\log_2x,&0<x<1,\\\\\\log_2x,&x\\ge1.\\end{cases}$$\n\nThe branches meet at $(1,0)$. Both $y\\to\\infty$ as $x\\to0^+$ and $y\\to\\infty$ as $x\\to\\infty$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16a; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.7,-0.7) rectangle (5.2,4);\n\\draw[->,line width=0.5pt] (-0.3,0)--(4.9,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,3.8) node[above] {$y$};\n\\foreach \\v in {1,2,4}{\\draw[line width=0.4pt] (\\v,0)--(\\v,-0.07) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below left] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {1,2}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (0,1)--(2,1)--(2,0) (0.5,0)--(0.5,1) (0,2)--(4,2)--(4,0);\n\\draw[<-,line width=0.8pt,domain=0.09:1,samples=90] plot (\\x,{-ln(\\x)/ln(2)});\n\\draw[->,line width=0.8pt,domain=1:4.7,samples=90] plot (\\x,{ln(\\x)/ln(2)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16a",
+                "description": "Equation-driven sketch of the absolute value of the base-two logarithm, with key-value guides.",
+                "mathematics": "y=abs(log(x)/log(2)), x>0; minimum (1,0); vertical asymptote x=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p38-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=|2^x|$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=2^x$: increasing through $(-1,\\tfrac12)$, $(0,1)$, $(1,2)$ and $(2,4)$, with horizontal asymptote $y=0$. Domain $\\mathbb R$; range $(0,\\infty)$.",
+          "worked": "Since $2^x>0$ for every real $x$, $|2^x|=2^x$. Sketch the usual increasing exponential through $(-1,\\tfrac12)$, $(0,1)$, $(1,2)$ and $(2,4)$. The curve approaches the $x$-axis as $x\\to-\\infty$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16b; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3,-0.9) rectangle (3,5.5);\n\\draw[->,line width=0.5pt] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.4)--(0,5.2) node[above] {$y$};\n\\foreach \\v in {-1,1,2}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,4}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,0.5)--(0,0.5) (0,2)--(1,2)--(1,0) (0,4)--(2,4)--(2,0);\n\\draw[<->,line width=0.8pt,domain=-2.7:2.3,samples=100] plot (\\x,{pow(2,\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16b",
+                "description": "Unchanged positive exponential with guides to the source answer's key values.",
+                "mathematics": "abs(2^x)=2^x; horizontal asymptote y=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p38-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=\\log_2|x|$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Two branches symmetric about the $y$-axis, through $(\\pm1,0)$, $(\\pm2,1)$ and $(\\pm\\tfrac12,-1)$. Vertical asymptote $x=0$. Domain $\\mathbb R\\setminus\\{0\\}$; range $\\mathbb R$.",
+          "worked": "Retain $y=\\log_2x$ for $x>0$ and reflect this branch in the $y$-axis to obtain the branch for $x<0$.\n\n$$y=\\begin{cases}\\log_2(-x),&x<0,\\\\\\log_2x,&x>0.\\end{cases}$$\n\nBoth branches approach $-\\infty$ as $x\\to0$, and rise without bound as $|x|\\to\\infty$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16c; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.8,-3.5) rectangle (3.8,2.5);\n\\draw[->,line width=0.5pt] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.2)--(0,2.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,1,2}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,1)--(2,1)--(2,0) (-0.5,0)--(-0.5,-1)--(0.5,-1)--(0.5,0);\n\\draw[<->,line width=0.8pt,domain=0.12:3.3,samples=100] plot (\\x,{ln(\\x)/ln(2)});\n\\draw[<->,line width=0.8pt,domain=0.12:3.3,samples=100] plot (-\\x,{ln(\\x)/ln(2)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16c",
+                "description": "Two logarithmic branches symmetric about the vertical axis.",
+                "mathematics": "y=log_2(abs(x)); zeros at plus and minus 1; asymptote x=0.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p38-q16-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=2^{|x|}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Symmetric about the $y$-axis, with minimum $(0,1)$, through $(\\pm1,2)$ and $(\\pm2,4)$. Domain $\\mathbb R$; range $[1,\\infty)$.",
+          "worked": "Retain the right-hand half of $y=2^x$ and reflect it in the $y$-axis.\n\n$$y=\\begin{cases}2^{-x},&x<0,\\\\2^x,&x\\ge0.\\end{cases}$$\n\nThe branches meet at $(0,1)$, pass through $(\\pm1,2)$ and $(\\pm2,4)$, and rise without bound in both directions. There is no asymptote.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16d; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3,-0.8) rectangle (3,5.5);\n\\draw[->,line width=0.5pt] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,5.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,4}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,4)--(2,4)--(2,0) (-1,0)--(-1,2)--(1,2)--(1,0);\n\\draw[<-,line width=0.8pt,domain=-2.3:0,samples=70] plot (\\x,{pow(2,-\\x)});\n\\draw[->,line width=0.8pt,domain=0:2.3,samples=70] plot (\\x,{pow(2,\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16d",
+                "description": "Reflected positive-input exponential branches meeting at a sharp minimum.",
+                "mathematics": "y=2^abs(x); minimum (0,1); points (+/-1,2), (+/-2,4).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p38-q16-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=|\\log_2|x||$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Symmetric about the $y$-axis, with minima $(\\pm1,0)$, through $(\\pm\\tfrac12,1)$ and $(\\pm2,1)$. Vertical asymptote $x=0$. Domain $\\mathbb R\\setminus\\{0\\}$; range $[0,\\infty)$.",
+          "worked": "First sketch $y=\\log_2|x|$ by reflecting the positive-input logarithmic branch in the $y$-axis. Then reflect every part below the $x$-axis upwards.\n\n$$y=\\begin{cases}-\\log_2|x|,&0<|x|<1,\\\\\\log_2|x|,&|x|\\ge1.\\end{cases}$$\n\nThe two minima are $(\\pm1,0)$. The curve rises without bound as $x\\to0^\\pm$ and as $|x|\\to\\infty$.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-e-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16e; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.8,-0.9) rectangle (3.8,3.7);\n\\draw[->,line width=0.5pt] (-3.5,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,3.5) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,1)--(2,1)--(2,0) (-0.5,0)--(-0.5,1) (0.5,0)--(0.5,1);\n\\draw[<-,line width=0.8pt,domain=0.11:1,samples=80] plot (\\x,{-ln(\\x)/ln(2)});\n\\draw[->,line width=0.8pt,domain=1:3.3,samples=80] plot (\\x,{ln(\\x)/ln(2)});\n\\draw[<-,line width=0.8pt,domain=0.11:1,samples=80] plot (-\\x,{-ln(\\x)/ln(2)});\n\\draw[->,line width=0.8pt,domain=1:3.3,samples=80] plot (-\\x,{ln(\\x)/ln(2)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16e",
+                "description": "Four equation-driven pieces forming two minima and an upward vertical asymptote.",
+                "mathematics": "y=abs(log_2(abs(x))), x nonzero; minima at (+/-1,0).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p38-q16-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=|2^{|x|}|$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=2^{|x|}$, the same graph as part d: minimum $(0,1)$, symmetry about the $y$-axis and points $(\\pm1,2)$, $(\\pm2,4)$. Domain $\\mathbb R$; range $[1,\\infty)$.",
+          "worked": "Since $2^{|x|}>0$, the outer absolute value changes nothing. Retain the right-hand half of $y=2^x$ and reflect it in the $y$-axis. Draw both branches meeting at $(0,1)$, passing through $(\\pm1,2)$ and $(\\pm2,4)$ and rising without bound. There is no asymptote.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q16-f-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 38 question 16f; teacher page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3,-0.8) rectangle (3,5.5);\n\\draw[->,line width=0.5pt] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,5.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,4}{\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,4)--(2,4)--(2,0) (-1,0)--(-1,2)--(1,2)--(1,0);\n\\draw[<-,line width=0.8pt,domain=-2.3:0,samples=70] plot (\\x,{pow(2,-\\x)});\n\\draw[->,line width=0.8pt,domain=0:2.3,samples=70] plot (\\x,{pow(2,\\x)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 16f",
+                "description": "Separate complete sketch, identical mathematically to part d.",
+                "mathematics": "abs(2^abs(x))=2^abs(x); minimum (0,1).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:19:15.365Z",
+  "updatedAt": "2026-11-12T13:19:15.365Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch09",
+    "blockId": "p38-q16",
+    "sectionRole": "exercise"
+  }
+}

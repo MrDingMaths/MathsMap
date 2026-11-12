@@ -1,0 +1,223 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-18f96e81-bb3d-4df9-bf72-3c721cb4843d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "distance-formula"
+    ],
+    "reasoningScore": 94,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires discovering six inequivalent configurations without construction hints, including interior-point arrangements and a pentagon subset, while constraining all six pairwise distances to two values.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:56.391Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9e8cf3bfa7e4b3f66454dc9e29ac45c8b51dd8bedee58e51842cbe7705531305",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part15/cd4aa72312bc85d185376e5555bd3cabc0b6cbb74f45ebcbea42893805b95dba-1792558225274/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p2-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Find all six ways to arrange four distinct points in the plane so that only two distances occur between any pair of points. Configurations that differ only by rotation, reflection, translation, or scaling are regarded as the same.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "sharedSolutionDiagramLayout": "row",
+    "answer": {
+      "short": "A square; a $60^\\circ$ rhombus; an equilateral triangle with its centre; an isosceles triangle with an interior point; a kite; and four vertices of a regular pentagon.\n\nThe diagrams specify the required shapes: blue segments have the shorter length and red segments the longer length.",
+      "worked": "The six configurations are shown below. Every pair of points is joined; blue segments share one length and red segments share the other.\n\nOne exact construction for each is:\n\n1. Square: $(0,0)$, $(1,0)$, $(1,1)$, $(0,1)$. The two distances are $1$ and $\\sqrt2$.\n\n2. Equilateral triangle and centre: $(-\\frac12,0)$, $(\\frac12,0)$, $(0,\\frac{\\sqrt3}{2})$, $(0,\\frac{\\sqrt3}{6})$. The distances are $\\frac1{\\sqrt3}$ and $1$.\n\n3. Rhombus: $(0,0)$, $(1,0)$, $(\\frac12,\\frac{\\sqrt3}{2})$, $(\\frac32,\\frac{\\sqrt3}{2})$. The distances are $1$ and $\\sqrt3$.\n\n4. Isosceles triangle and interior point: $(-\\frac12,0)$, $(\\frac12,0)$, $(0,1+\\frac{\\sqrt3}{2})$, $(0,\\frac{\\sqrt3}{2})$. The distances are $1$ and $\\sqrt{2+\\sqrt3}$.\n\n5. Kite: $(-\\frac12,0)$, $(\\frac12,0)$, $(0,\\frac{\\sqrt3}{2})$, $(0,\\frac{\\sqrt3}{2}-1)$. The distances are $\\sqrt{2-\\sqrt3}$ and $1$.\n\n6. Four vertices of a regular pentagon: the distances are its side length and its diagonal length. With side length $1$, the diagonal length is $\\frac{1+\\sqrt5}{2}$.\n\nCoordinate differences and Pythagoras verify these lengths. These are the six configurations; an exhaustive proof is not required here.",
+      "solutionDiagrams": [
+        {
+          "id": "p2-q8-sol-square",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=2cm,y=2cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at(0,0);\\coordinate(B)at(1,0);\\coordinate(C)at(1,1);\\coordinate(D)at(0,1);\\draw[short](A)--(B)--(C)--(D)--cycle;\\draw[long](A)--(C)(B)--(D);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 42,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, upper-left answer figure",
+            "description": "Square with all six pairwise segments.",
+            "mathematics": "Sides 1; diagonals sqrt(2).",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p2-q8-sol-equilateral",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=2cm,y=2cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at(-.5,0);\\coordinate(B)at(.5,0);\\coordinate(C)at(0,{sqrt(3)/2});\\coordinate(D)at(0,{sqrt(3)/6});\\draw[long](A)--(B)--(C)--cycle;\\draw[short](D)--(A)(D)--(B)(D)--(C);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 42,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, upper-middle answer figure",
+            "description": "Equilateral triangle with fourth point at its centre.",
+            "mathematics": "Outer distances 1; centre distances 1/sqrt(3).",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p2-q8-sol-rhombus",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=2cm,y=2cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at(0,0);\\coordinate(B)at(1,0);\\coordinate(C)at(1.5,{sqrt(3)/2});\\coordinate(D)at(.5,{sqrt(3)/2});\\draw[short](A)--(B)--(C)--(D)--cycle(B)--(D);\\draw[long](A)--(C);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 48,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, upper-right answer figure",
+            "description": "Rhombus with 60-degree acute angles.",
+            "mathematics": "Four sides and short diagonal 1; long diagonal sqrt(3).",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p2-q8-sol-isosceles",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1.5cm,y=1.5cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at(-.5,0);\\coordinate(B)at(.5,0);\\coordinate(C)at(0,{1+sqrt(3)/2});\\coordinate(D)at(0,{sqrt(3)/2});\\draw[long](A)--(C)--(B);\\draw[short](A)--(B)(A)--(D)--(B)(C)--(D);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 42,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, lower-left answer figure",
+            "description": "Tall isosceles triangle with interior point on symmetry axis; apex-to-interior segment is short.",
+            "mathematics": "Four short distances 1; two outer equal distances sqrt(2+sqrt(3)).",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p2-q8-sol-kite",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=2cm,y=2cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at(-.5,0);\\coordinate(B)at(.5,0);\\coordinate(C)at(0,{sqrt(3)/2});\\coordinate(D)at(0,{sqrt(3)/2-1});\\draw[long](A)--(C)--(B)(A)--(B)(C)--(D);\\draw[short](A)--(D)--(B);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 42,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, lower-middle answer figure",
+            "description": "Kite with both diagonals and upper sides long.",
+            "mathematics": "Four long distances 1; two lower distances sqrt(2-sqrt(3)).",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p2-q8-sol-trapezium",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1.7cm,y=1.7cm]\\definecolor{short}{HTML}{268CFF}\\definecolor{long}{HTML}{EF6068}\\coordinate(A)at({cos(162)},{sin(162)});\\coordinate(B)at({cos(18)},{sin(18)});\\coordinate(C)at({cos(-54)},{sin(-54)});\\coordinate(D)at({cos(-126)},{sin(-126)});\\draw[long](A)--(B)(A)--(C)(B)--(D);\\draw[short](A)--(D)--(C)--(B);\\foreach\\p in{A,B,C,D}\\fill[black](\\p)circle(1.2pt);\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 48,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 65,
+            "sourceRegion": "Section A 8, lower-right answer figure",
+            "description": "Four consecutive vertices of a regular pentagon, omitting its top vertex.",
+            "mathematics": "Three pentagon sides are short; upper side and two diagonals are long.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 124
+  },
+  "presentation": {
+    "ownerId": "p2-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p2-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p2-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p2-q8-root/label",
+                  "type": "item",
+                  "ref": "p2-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p2-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p2-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p2-q8-root/space",
+                  "type": "item",
+                  "ref": "p2-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:01.764Z",
+  "updatedAt": "2026-11-12T13:09:01.764Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part15",
+    "blockId": "p2-q8",
+    "sectionRole": "exercise"
+  }
+}

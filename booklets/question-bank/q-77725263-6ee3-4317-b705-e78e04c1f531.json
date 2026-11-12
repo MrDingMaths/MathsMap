@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77725263-6ee3-4317-b705-e78e04c1f531",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logarithmic-scales",
+    "secondarySkillIds": [
+      "laws-of-logarithms",
+      "fractional-indices"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Use supplied semitone and tuning ratios, compare frequencies by subtraction, and convert an explicitly specified mean of logarithms into a geometric mean.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:42:34.501Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6766e3d3be51aed7573c6790da07a8f4cdc8cbc145efa31bb0a516021710a503",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch09-20261021/semantic-packets/assignments/assignment-7f0459b04e528338dd4d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p42-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "[Keyboard tuning] When a keyboard is tuned to modern concert pitch, the note A below middle C vibrates at $220\\text{ Hz}$ (1 hertz is 1 vibration per second), and the note A′ above middle C vibrates at twice that frequency, which is $440\\text{ Hz}$ (these names are not standard, but are convenient for this question). When modern *equal temperament* is used for the twelve semitones of the scale from A and A′, the frequency ratio of each semitone is $2^{1/12}$, so that on a logarithmic scale base 10, the log of all the semitones ratios is $\\frac{1}{12}\\log_{10}2$. Give non-exact numerical answers correct to two decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p42-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find, correct to two decimal places, the frequencies of C, C♯ and E, if the interval AC consists of three semitones, A C♯ of four semitones, and AE of seven semitones.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "C: $261.63\\text{ Hz}$; C♯: $277.18\\text{ Hz}$; E: $329.63\\text{ Hz}$.",
+          "worked": "After $n$ semitones, the frequency is $220(2^{1/12})^n=220\\times2^{n/12}$ Hz.\n\n$$\\begin{align*}f_C&=220\\times2^{3/12}\\approx261.63\\text{ Hz}\\\\f_{C\\sharp}&=220\\times2^{4/12}\\approx277.18\\text{ Hz}\\\\f_E&=220\\times2^{7/12}\\approx329.63\\text{ Hz}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p42-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Unfortunately, intervals sound best when their ratios consist of small whole numbers, as most of them are in *meantone temperament*, the most common temperament from say 1500 to 1800. Using that temperament, find the frequencies of C, C♯ and E, if the interval AC is in the ratio $6:5$ (meaning frequency of C : frequency of A $=6:5$), A C♯ is in ratio $5:4$, and AE is in ratio $3:2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "C: $264\\text{ Hz}$; C♯: $275\\text{ Hz}$; E: $330\\text{ Hz}$.",
+          "worked": "$$\\begin{align*}f_C&=220\\times\\frac65=264\\text{ Hz}\\\\f_{C\\sharp}&=220\\times\\frac54=275\\text{ Hz}\\\\f_E&=220\\times\\frac32=330\\text{ Hz}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p42-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "When two frequencies close together are sounded together, there is an ugly *beat frequency*, which is the difference between the frequencies. Calculate the beat frequencies between the equal-tempered and meantone versions of C, C♯ and E.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "C: $2.37\\text{ Hz}$; C♯: $2.18\\text{ Hz}$; E: $0.37\\text{ Hz}$.",
+          "worked": "Use the absolute difference, keeping the equal-tempered frequencies unrounded.\n\n$$\\begin{align*}b_C&=\\left|264-220\\times2^{3/12}\\right|\\approx2.37\\text{ Hz}\\\\b_{C\\sharp}&=\\left|275-220\\times2^{4/12}\\right|\\approx2.18\\text{ Hz}\\\\b_E&=\\left|330-220\\times2^{7/12}\\right|\\approx0.37\\text{ Hz}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p42-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Meantone temperament is actually very complicated. Suppose that a careless tuner tuned A at $220\\text{ Hz}$, then tuned three major thirds so that A C♯ was in ratio $5:4$, C♯ F was in ratio $5:4$, and F A′ was in ratio $5:4$. What would the resulting frequency of A′ be, and how would it beat with A′ tuned to $440\\text{ Hz}$ on another instrument?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A′: $429.69\\text{ Hz}$; beat frequency: $10.31\\text{ Hz}$.\n\nMultiply by $\\frac54$ for each of the three major thirds, then take the frequency difference.",
+          "worked": "$$\\begin{align*}f_{A'}&=220\\left(\\frac54\\right)^3\\\\f_{A'}&=\\frac{6875}{16}=429.6875\\text{ Hz}\\\\f_{A'}&\\approx429.69\\text{ Hz}\\\\b&=\\left|440-\\frac{6875}{16}\\right|\\\\b&=\\frac{165}{16}\\approx10.31\\text{ Hz}\\end{align*}$$\n\nThe tuned A′ is lower than $440\\text{ Hz}$ and produces about $10.31$ beats per second.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      },
+      {
+        "id": "p42-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Meantone temperament gets its name from the fact that B between A and C♯ is tuned so that the log of its frequency is the mean of the logs of the frequencies of A and C♯ (B is two semitones above A, and two semitones below C♯). Find the meantone frequency of B, and the equal-temperament frequency of B.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Meantone: $245.97\\text{ Hz}$; equal temperament: $246.94\\text{ Hz}$.\n\nThe mean of the logarithms gives the geometric mean of the frequencies.",
+          "worked": "Let $f_B$ be the meantone frequency of B, in Hz. From part b, the meantone frequency of C♯ is $275\\text{ Hz}$.\n\n$$\\begin{align*}\\log_{10}f_B&=\\frac{\\log_{10}220+\\log_{10}275}{2}\\\\\\log_{10}f_B&=\\frac12\\log_{10}(220\\times275)\\\\\\log_{10}f_B&=\\log_{10}\\sqrt{220\\times275}\\\\f_B&=\\sqrt{220\\times275}=110\\sqrt5\\\\f_B&\\approx245.97\\text{ Hz}\\end{align*}$$\n\nFor equal temperament, B is two semitones above A:\n\n$$\\begin{align*}f_{B,\\mathrm{equal}}&=220\\times2^{2/12}\\\\f_{B,\\mathrm{equal}}&\\approx246.94\\text{ Hz}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:19:19.348Z",
+  "updatedAt": "2026-11-12T13:19:19.348Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch09",
+    "blockId": "p42-q11",
+    "sectionRole": "exercise"
+  }
+}

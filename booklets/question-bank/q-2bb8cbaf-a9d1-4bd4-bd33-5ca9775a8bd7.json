@@ -1,0 +1,412 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2bb8cbaf-a9d1-4bd4-bd33-5ca9775a8bd7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Use the earlier counts to explain that partitioning assignments by the number entering A counts the same outcomes as independent binary choices.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "842ad09ea8478c2c4819ab28f688ba2e75e7a7b1e1586d98c7f36887ad32bafa",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt",
+      "originalTaskHash": "20c41454180fb97951156759412d5e28c6c7f8e52062420c21e899e9b7c3895c",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "7cd4497471e20677593b2d4f1b40a4c84a5ec6820d5a5639ce02bb2e244cb0d7"
+      }
+    }
+  },
+  "content": {
+    "id": "p27-q7-root",
+    "type": "question",
+    "label": "3",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p27-q7-stem-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "There are 5 students, and each enters one of two distinct classrooms, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " or ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p27-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many ways are there for them to enter the classrooms?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^5=32$ ways.",
+          "worked": "Each of the 5 students has 2 choices, $A$ or $B$.\n$$2\\times2\\times2\\times2\\times2=2^5=32\\text{ ways}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p27-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If all students enter room $B$, how many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "1 way.",
+          "worked": "Every student's classroom is fixed as $B$, so there is exactly 1 assignment.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p27-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "If only one student is to enter room $A$, how many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{5}{1}=5$ ways.",
+          "worked": "Choose the one student who enters $A$. The other four must enter $B$.\n$$\\binom{5}{1}=5\\text{ ways}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p27-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "If there are to be 2 students to enter room $A$, how many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{5}{2}=10$ ways.",
+          "worked": "Choose the two students who enter $A$. The other three must enter $B$.\n$$\\binom{5}{2}=\\frac{5\\times4}{2\\times1}=10\\text{ ways}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p27-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "By using a combinatorial argument, show that\n$$\\binom{5}{0}+\\binom{5}{1}+\\cdots+\\binom{5}{5}=2^5.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{5}{0}+\\binom{5}{1}+\\cdots+\\binom{5}{5}=2^5=32$.\n\nCount classroom assignments by the number entering $A$, or by each student's two choices.",
+          "worked": "If exactly $k$ students enter $A$, choose them in $\\binom{5}{k}$ ways; all remaining students enter $B$. The mutually exclusive cases $k=0,1,\\ldots,5$ cover every classroom assignment, so their total is\n$$\\binom{5}{0}+\\binom{5}{1}+\\cdots+\\binom{5}{5}.$$\nEach of the 5 students also has 2 independent choices, giving $2^5$ assignments. Both methods count the same assignments, so\n$$\\binom{5}{0}+\\binom{5}{1}+\\cdots+\\binom{5}{5}=2^5.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p27-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p27-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p27-q7-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p27-q7-root/label",
+                      "type": "item",
+                      "ref": "p27-q7-root/label",
+                      "title": "Label 7",
+                      "width": 7
+                    },
+                    {
+                      "id": "p27-q7-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p27-q7-root/prompt#p27-q7-stem-paragraph",
+                          "type": "item",
+                          "ref": "p27-q7-root/prompt#p27-q7-stem-paragraph",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p27-q7-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p27-q7-root:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p27-q7-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p27-q7-a/label",
+                                      "type": "item",
+                                      "ref": "p27-q7-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-a/prompt",
+                                      "type": "item",
+                                      "ref": "p27-q7-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-a/space",
+                                      "type": "item",
+                                      "ref": "p27-q7-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p27-q7-root:row:1",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p27-q7-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p27-q7-b/label",
+                                      "type": "item",
+                                      "ref": "p27-q7-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-b/prompt",
+                                      "type": "item",
+                                      "ref": "p27-q7-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-b/space",
+                                      "type": "item",
+                                      "ref": "p27-q7-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p27-q7-root:row:2",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p27-q7-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p27-q7-c/label",
+                                      "type": "item",
+                                      "ref": "p27-q7-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-c/prompt",
+                                      "type": "item",
+                                      "ref": "p27-q7-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-c/space",
+                                      "type": "item",
+                                      "ref": "p27-q7-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p27-q7-root:row:3",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p27-q7-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p27-q7-d/label",
+                                      "type": "item",
+                                      "ref": "p27-q7-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-d/prompt",
+                                      "type": "item",
+                                      "ref": "p27-q7-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-d/space",
+                                      "type": "item",
+                                      "ref": "p27-q7-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p27-q7-root:row:4",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p27-q7-e:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p27-q7-e/label",
+                                      "type": "item",
+                                      "ref": "p27-q7-e/label",
+                                      "title": "Label e"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-e/prompt",
+                                      "type": "item",
+                                      "ref": "p27-q7-e/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p27-q7-e/space",
+                                      "type": "item",
+                                      "ref": "p27-q7-e/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part e",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p27-q7"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:58.553Z",
+  "updatedAt": "2026-11-12T11:08:58.554Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p27-q7",
+    "sectionRole": "exercise"
+  }
+}

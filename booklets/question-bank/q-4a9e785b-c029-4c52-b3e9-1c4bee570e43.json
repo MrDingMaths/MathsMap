@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4a9e785b-c029-4c52-b3e9-1c4bee570e43",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "approximate-area-rectangles",
+    "secondarySkillIds": [
+      "area-trapezium",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied strip construction and height-finding instruction, substitute into the parabola equation and sum the resulting triangle and trapezium areas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:45.030Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7a6146b9938c2344165e4269ca7b6a3a476695ecaeeccbed8fb3af9debb0f81f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/b26a12d63c3bc7ef5914dc0ddaedb8e12e1d5dd1e9b2de5487983e236732e371-1792558182774/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "Below is the graph of a parabola with equation $y=\\frac14x^2$, plotted over the interval $x=-3$ to $x=3$. Estimate the area between the parabola and the $x$-axis by finding the area of four trapezia and two triangles that approximate this region, as shown.\n\nNote: First find the height of each of the vertical lines drawn below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"stripBlue\",\"hex\":\"D4E8FF\",\"reason\":\"distinguishes alternating sampled area strips\"}],\"reference\":\"source page 17 p17-q13-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{stripBlue}{HTML}{D4E8FF}\n\\fill[stripBlue] (-3,0)--(-3,2.25)--(-2,1)--(-2,0)--cycle;\n\\fill[stripBlue] (-1,0)--(-1,0.25)--(0,0)--cycle;\n\\fill[stripBlue] (1,0)--(1,0.25)--(2,1)--(2,0)--cycle;\n\\draw[black,line width=0.5pt] (-3.25,0)--(3.25,0) (0,0)--(0,3.15);\n\\draw[black,line width=0.4pt] (-3,0)--(-3,2.25) (-2,0)--(-2,1) (-1,0)--(-1,0.25) (1,0)--(1,0.25) (2,0)--(2,1) (3,0)--(3,2.25);\n\\draw[black,line width=0.4pt] (-3,2.25)--(-2,1)--(-1,0.25)--(0,0)--(1,0.25)--(2,1)--(3,2.25);\n\\draw[black,line width=0.8pt,domain=-3:3,samples=121] plot (\\x,{0.25*\\x*\\x});\n\\foreach \\x in {-3,-2,-1,0,1,2,3} {\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 13, lower right",
+          "description": "Equation-driven parabola and straight sampled joins at every integer from -3 to 3. Four trapezia and two triangles remain distinct through internal vertical boundaries and alternating light blue fill. The source has no y-scale, grid, axis arrows or axis titles.",
+          "mathematics": "y=x^2/4 on [-3,3]; sampled heights 9/4,1,1/4,0,1/4,1,9/4. These derived heights are used geometrically without printing answer labels.",
+          "answerVisibility": "Only source x-axis labels are visible; sampled heights and areas are withheld."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{19}{4}$ square units.\n\nAdd the four unit-width trapezia and two triangles using heights from $y=\\frac14x^2$.",
+      "worked": "The heights at $x=-3,-2,-1,0,1,2,3$ are $\\frac94,1,\\frac14,0,\\frac14,1,\\frac94$, respectively. Each strip has width $1$. By symmetry, calculate the three strips on one side and double.\n\n$$\\begin{align*} A_{\\text{triangle}}&=\\frac12(1)\\left(\\frac14\\right)=\\frac18,\\\\ A_{\\text{inner trapezium}}&=\\frac12(1)\\left(\\frac14+1\\right)=\\frac58,\\\\ A_{\\text{outer trapezium}}&=\\frac12(1)\\left(1+\\frac94\\right)=\\frac{13}{8},\\\\ A_{\\text{estimate}}&=2\\left(\\frac18+\\frac58+\\frac{13}{8}\\right),\\\\ A_{\\text{estimate}}&=\\frac{19}{4}\\text{ square units}. \\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 66
+  },
+  "presentation": {
+    "ownerId": "p17-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q13-root/label",
+                  "type": "item",
+                  "ref": "p17-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p17-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p17-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p17-q13-diagram",
+                  "type": "item",
+                  "ref": "p17-q13-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p17-q13-root/space",
+                  "type": "item",
+                  "ref": "p17-q13-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:17.081Z",
+  "updatedAt": "2026-11-12T13:09:17.081Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p17-q13",
+    "sectionRole": "exercise"
+  }
+}

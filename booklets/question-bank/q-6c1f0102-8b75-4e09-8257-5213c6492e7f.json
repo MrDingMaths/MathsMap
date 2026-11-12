@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6c1f0102-8b75-4e09-8257-5213c6492e7f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose ratios from three different right triangles, recognise the unmarked right angle at Y and equal wedge heights, and combine the ratios so the shared length cancels.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1fdfc9ed0a2a403604eeb8c69fdb75c768114db4ab9afe3c11dfd4f53590ce46",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The diagram shows a wedge with angles marked $\\angle XOY=\\alpha$, $\\angle COY=\\beta$ and $\\angle BOX=\\theta$.\n\nShow that $\\sin\\theta=\\cos\\alpha\\sin\\beta$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 13, p13-q12-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\usetikzlibrary{calc,angles,quotes}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n% Rectangular wedge model: O=(0,0,0), A=(L,0,0), C=(0,d,0), B=(L,d,0), Y=(0,d,h), X=(L,d,h).\n% Projection basis: L -> (4,0.45), d -> (-1.18,1), h -> (0,2).\n% Faces: OCY, ABX, OABC, CBXY, OAXY. Observer direction proportional to (-2.36,-8,4.531).\n% CB and BA are hidden solid edges. BX is also hidden geometrically; its source-solid stroke is retained as the height construction used by triangle OBX.\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (4,0.45);\n\\coordinate (C) at (-1.18,1);\n\\coordinate (B) at (2.82,1.45);\n\\coordinate (Y) at (-1.18,3);\n\\coordinate (X) at (2.82,3.45);\n% Visible solid boundary, with no face fill.\n\\draw[black,line width=0.8pt] (O)--(C)--(Y)--(X)--(A)--cycle;\n\\draw[black,line width=0.8pt] (O)--(Y);\n% Hidden solid edges.\n\\draw[black,line width=0.8pt,dashed] (C)--(B)--(A);\n\\draw[black,line width=0.8pt,dashed] (B)--(X);\n% Source-supplied construction segments.\n\\draw[black,line width=0.8pt] (O)--(B) (O)--(X) (B)--(X);\n% Coordinate-derived right-angle marks.\n\\coordinate (Cu) at ($(C)!0.15cm!(O)$);\n\\coordinate (Cv) at ($(C)!0.15cm!(Y)$);\n\\draw[black,line width=0.4pt] (Cu)--($(Cu)+(Cv)-(C)$)--(Cv);\n\\coordinate (Bu) at ($(B)!0.15cm!(O)$);\n\\coordinate (Bv) at ($(B)!0.15cm!(X)$);\n\\draw[black,line width=0.4pt] (Bu)--($(Bu)+(Bv)-(B)$)--(Bv);\n% Angle sectors follow their actual source rays.\n\\pic[draw=black,line width=0.4pt,angle radius=0.49cm,angle eccentricity=1.3,\"$\\beta$\"] {angle=Y--O--C};\n\\pic[draw=black,line width=0.4pt,angle radius=0.43cm,angle eccentricity=1.35,\"$\\alpha$\"] {angle=X--O--Y};\n\\pic[draw=black,line width=0.4pt,angle radius=0.68cm,angle eccentricity=1.2,\"$\\theta$\"] {angle=B--O--X};\n\\foreach \\P in {O,A,C,B,Y,X} {\\fill[black] (\\P) circle[radius=0.7pt];}\n\\path (O) node[below left] {$O$}\n(A) node[below right] {$A$}\n(C) node[left] {$C$}\n(B) node[right=6pt,yshift=5pt] {$B$}\n(Y) node[above left] {$Y$}\n(X) node[above] {$X$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 12, lower right column",
+          "description": "Wedge with triangular end faces OCY and ABX, dashed base edges CB and BA, and solid construction segments OX, OB and BX. Three adjacent angle sectors at O identify beta, alpha and theta. Right-angle marks are at C and B.",
+          "mathematics": "The end faces are congruent, so CY=BX. Triangles OCY and OBX are right-angled at C and B. The longitudinal edge YX is perpendicular to the end face OCY, so triangle OYX is right-angled at Y. The explicit wedge vertices and projection are recorded in the editable code. BX is retained as a solid height construction over its hidden-edge stroke.",
+          "answerVisibility": "Only source-supplied vertices, edges, construction segments, right-angle markers and angles are visible. No proof or additional answer labels are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\displaystyle \\cos\\alpha\\sin\\beta=\\frac{OY}{OX}\\frac{CY}{OY}=\\frac{BX}{OX}=\\sin\\theta$.\n\nUse the equal wedge heights $CY=BX$ and right-angle ratios in $\\triangle OYX$, $\\triangle OCY$ and $\\triangle OBX$.",
+      "worked": "The wedge has equal heights $CY=BX$. Also, $YX$ is perpendicular to the end face $OCY$, so $\\triangle OYX$ is right-angled at $Y$.\n\nIn the three right-angled triangles,\n$$\\begin{align*}\n\\cos\\alpha&=\\frac{OY}{OX}\\\\\n\\sin\\beta&=\\frac{CY}{OY}\\\\\n\\sin\\theta&=\\frac{BX}{OX}.\n\\end{align*}$$\nTherefore,\n$$\\begin{align*}\n\\cos\\alpha\\sin\\beta&=\\frac{OY}{OX}\\times\\frac{CY}{OY}\\\\\n\\cos\\alpha\\sin\\beta&=\\frac{CY}{OX}\\\\\n\\cos\\alpha\\sin\\beta&=\\frac{BX}{OX}\\\\\n\\cos\\alpha\\sin\\beta&=\\sin\\theta.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 98
+  },
+  "presentation": {
+    "ownerId": "p13-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:01.789Z",
+  "updatedAt": "2026-11-12T11:06:01.789Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p13-q12",
+    "sectionRole": "exercise"
+  }
+}

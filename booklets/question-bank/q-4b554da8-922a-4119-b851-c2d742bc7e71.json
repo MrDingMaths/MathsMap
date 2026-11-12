@@ -1,0 +1,244 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4b554da8-922a-4119-b851-c2d742bc7e71",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-coefficient-in-product",
+    "secondarySkillIds": [
+      "combinatorial-argument-proof",
+      "simplify-binomial-coefficient-expressions"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose the number of distinct singles as a case parameter, derive the number of milk-and-dark allocations remaining, and reduce the resulting weighted sum using two earlier identities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fa643f9f267624248d1c97fc18bf887601ec05d55070d4ce11952b921348e1aa",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q26-root",
+    "type": "question",
+    "label": "26",
+    "prompt": "Mary wants exactly $n$ chocolates. The shop sells milk bars, dark bars, and $n$ distinct ‘single’ specials (each single can be taken at most once).",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q26-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the coefficient of $x^n$ in\n$$ (1+x+\\cdots+x^n)^2(1+x)^n $$\ncounts the number of possible selections Mary can make.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each bar type contributes $1+x+\\cdots+x^n$, and each distinct single contributes $1+x$. Multiplying combines independent choices; the coefficient of $x^n$ counts selections of exactly $n$ chocolates.",
+          "worked": "For each of the milk and dark bar types, Mary may choose $0,1,\\ldots,n$ bars, represented by $1+x+\\cdots+x^n$. These two independent choices give $(1+x+\\cdots+x^n)^2$.\n\nEach distinct single is either omitted, contributing $1$, or selected, contributing $x$. The $n$ singles therefore give $(1+x)^n$.\n\nWhen the factors are multiplied, exponents add to the total number of chocolates. The coefficient of $x^n$ counts selections totalling $n$ chocolates.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p31-q26-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the number of ways Mary can select $n$ chocolates is $2^{n-1}(n+2)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p31-q26-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "2^{n-1}(n+2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " selections.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p31-q26-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Sum over the number of singles chosen, using ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\sum_{r=0}^{n}\\binom nr=2^n",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\sum_{r=0}^{n}r\\binom nr=n2^{n-1}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "If $r$ singles are chosen, there are $\\binom nr$ choices of singles. The remaining $n-r$ chocolates are bars. Choosing $0,1,\\ldots,n-r$ milk bars determines the number of dark bars, giving $n-r+1$ choices.\n\nLet $N$ be the total number of selections. Using the earlier binomial-sum results,\n$$\\begin{align*}N&=\\sum_{r=0}^{n}(n-r+1)\\binom nr\\\\N&=(n+1)\\sum_{r=0}^{n}\\binom nr-\\sum_{r=0}^{n}r\\binom nr\\\\N&=(n+1)2^n-n2^{n-1}\\\\N&=2^{n-1}(2n+2-n)\\\\N&=2^{n-1}(n+2).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q26",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q26": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q26-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q26-root/label",
+                  "type": "item",
+                  "ref": "p31-q26-root/label",
+                  "title": "Label 26"
+                },
+                {
+                  "id": "layout:p31-q26-root/prompt",
+                  "type": "item",
+                  "ref": "p31-q26-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p31-q26-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q26-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q26-a/label",
+                          "type": "item",
+                          "ref": "p31-q26-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p31-q26-a/prompt",
+                          "type": "item",
+                          "ref": "p31-q26-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q26-a/space",
+                          "type": "item",
+                          "ref": "p31-q26-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-q26-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q26-b/label",
+                          "type": "item",
+                          "ref": "p31-q26-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p31-q26-b/prompt",
+                          "type": "item",
+                          "ref": "p31-q26-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q26-b/space",
+                          "type": "item",
+                          "ref": "p31-q26-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 26",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:03.446Z",
+  "updatedAt": "2026-11-12T11:09:03.446Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p31-q26",
+    "sectionRole": "exercise"
+  }
+}

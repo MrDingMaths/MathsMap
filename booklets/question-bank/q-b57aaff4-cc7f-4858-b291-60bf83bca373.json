@@ -1,0 +1,383 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b57aaff4-cc7f-4858-b291-60bf83bca373",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-sums",
+    "secondarySkillIds": [
+      "induction-recursive-formulas",
+      "induction-structure"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires five induction proofs using a recursively defined sequence, including a common-factor argument.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:47:27.088Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d37b5a85a6b9b5db3e41e99ffef518c53f8754d212830e6b698caa5bd974bdac",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part18-20261008/semantic-packets/assignments/assignment-4ae41e179843383f87dc/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p26-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q11-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Many of the remarkable properties of the Fibonacci numbers can be proved by induction. ",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q11-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Recall that the Fibonacci numbers are defined by ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "F_1=F_2=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and the recurrence relation ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "F_{n+1}=F_n+F_{n-1}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " for all ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n\\geq2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Prove each of the following:",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$F_1+F_2+F_3+\\cdots+F_n=F_{n+2}-1$ for all $n\\in\\mathbb N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nEstablish $n=1$, then add $F_{k+1}$ to the assumed sum and use $F_{k+3}=F_{k+2}+F_{k+1}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: $F_1=1$ and $F_3-1=2-1=1$, so $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true, so $F_1+F_2+\\cdots+F_k=F_{k+2}-1$.\n\nInductive step:\n$$\\begin{align*}F_1+F_2+\\cdots+F_k+F_{k+1}&=(F_1+F_2+\\cdots+F_k)+F_{k+1}\\\\F_1+F_2+\\cdots+F_k+F_{k+1}&=(F_{k+2}-1)+F_{k+1}\\\\F_1+F_2+\\cdots+F_k+F_{k+1}&=F_{k+3}-1.\\end{align*}$$\nThe second row uses $P(k)$ and the last row uses the recurrence. Thus $P(k+1)$ is true.\n\nTherefore, $P(n)$ is true for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p26-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$F_1+F_3+F_5+\\cdots+F_{2n-1}=F_{2n}$ for all $n\\in\\mathbb N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nAdd $F_{2k+1}$ to the assumed sum and use $F_{2k}+F_{2k+1}=F_{2k+2}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: $F_1=F_2=1$, so $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true, so $F_1+F_3+\\cdots+F_{2k-1}=F_{2k}$.\n\nInductive step:\n$$\\begin{align*}F_1+F_3+\\cdots+F_{2k-1}+F_{2k+1}&=(F_1+F_3+\\cdots+F_{2k-1})+F_{2k+1}\\\\F_1+F_3+\\cdots+F_{2k-1}+F_{2k+1}&=F_{2k}+F_{2k+1}\\\\F_1+F_3+\\cdots+F_{2k-1}+F_{2k+1}&=F_{2k+2}.\\end{align*}$$\nThe second row uses $P(k)$ and the last row uses the recurrence. Since $2k+2=2(k+1)$, $P(k+1)$ is true.\n\nTherefore, $P(n)$ is true for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p26-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$F_2+F_4+F_6+\\cdots+F_{2n}=F_{2n+1}-1$ for all $n\\in\\mathbb N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nAdd $F_{2k+2}$ to the assumed sum and use $F_{2k+1}+F_{2k+2}=F_{2k+3}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: $F_2=1$ and $F_3-1=2-1=1$, so $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true, so $F_2+F_4+\\cdots+F_{2k}=F_{2k+1}-1$.\n\nInductive step:\n$$\\begin{align*}F_2+F_4+\\cdots+F_{2k}+F_{2k+2}&=(F_2+F_4+\\cdots+F_{2k})+F_{2k+2}\\\\F_2+F_4+\\cdots+F_{2k}+F_{2k+2}&=(F_{2k+1}-1)+F_{2k+2}\\\\F_2+F_4+\\cdots+F_{2k}+F_{2k+2}&=F_{2k+3}-1.\\end{align*}$$\nThe second row uses $P(k)$ and the last row uses the recurrence. Since $2k+3=2(k+1)+1$, $P(k+1)$ is true.\n\nTherefore, $P(n)$ is true for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p26-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$F_1^2+F_2^2+F_3^2+\\cdots+F_n^2=F_nF_{n+1}$ for all $n\\in\\mathbb N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nThe inductive step gives $F_kF_{k+1}+F_{k+1}^2=F_{k+1}(F_k+F_{k+1})=F_{k+1}F_{k+2}$.",
+          "worked": "Let $P(n)$ be the stated identity.\n\nBase case: $F_1^2=1$ and $F_1F_2=1$, so $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true, so $F_1^2+F_2^2+\\cdots+F_k^2=F_kF_{k+1}$.\n\nInductive step:\n$$\\begin{align*}F_1^2+F_2^2+\\cdots+F_k^2+F_{k+1}^2&=(F_1^2+F_2^2+\\cdots+F_k^2)+F_{k+1}^2\\\\F_1^2+F_2^2+\\cdots+F_k^2+F_{k+1}^2&=F_kF_{k+1}+F_{k+1}^2\\\\F_1^2+F_2^2+\\cdots+F_k^2+F_{k+1}^2&=F_{k+1}(F_k+F_{k+1})\\\\F_1^2+F_2^2+\\cdots+F_k^2+F_{k+1}^2&=F_{k+1}F_{k+2}.\\end{align*}$$\nThe second row uses $P(k)$ and the last row uses the recurrence. Thus $P(k+1)$ is true.\n\nTherefore, $P(n)$ is true for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      },
+      {
+        "id": "p26-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Consecutive Fibonacci numbers $F_n$ and $F_{n+1}$ have no factor in common other than 1.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Consecutive Fibonacci numbers have no common factor greater than 1.\n\nA common factor of $F_{k+1}$ and $F_{k+2}$ also divides $F_{k+2}-F_{k+1}=F_k$, contradicting the inductive hypothesis.",
+          "worked": "Let $P(n)$ be the statement that $F_n$ and $F_{n+1}$ have no common factor greater than 1.\n\nBase case: $F_1=F_2=1$, so $P(1)$ is true.\n\nInductive hypothesis: assume $P(k)$ is true, so $F_k$ and $F_{k+1}$ have no common factor greater than 1.\n\nInductive step: suppose an integer $d>1$ divides both $F_{k+1}$ and $F_{k+2}$. It also divides their difference. By the recurrence,\n$$F_{k+2}-F_{k+1}=F_k.$$\nThus $d$ divides both $F_k$ and $F_{k+1}$, contradicting $P(k)$. Therefore, $F_{k+1}$ and $F_{k+2}$ have no common factor greater than 1, so $P(k+1)$ is true.\n\nTherefore, $P(n)$ is true for all $n\\in\\mathbb N$ by mathematical induction.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q11-root/label",
+                  "type": "item",
+                  "ref": "p26-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p26-q11-root/prompt#p26-q11-introduction",
+                  "type": "item",
+                  "ref": "p26-q11-root/prompt#p26-q11-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p26-q11-root/prompt#p26-q11-definition",
+                  "type": "item",
+                  "ref": "p26-q11-root/prompt#p26-q11-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "p26-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q11-a/label",
+                          "type": "item",
+                          "ref": "p26-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p26-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p26-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q11-a/space",
+                          "type": "item",
+                          "ref": "p26-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q11-b/label",
+                          "type": "item",
+                          "ref": "p26-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p26-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p26-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q11-b/space",
+                          "type": "item",
+                          "ref": "p26-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q11-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q11-c/label",
+                          "type": "item",
+                          "ref": "p26-q11-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p26-q11-c/prompt",
+                          "type": "item",
+                          "ref": "p26-q11-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q11-c/space",
+                          "type": "item",
+                          "ref": "p26-q11-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q11-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q11-d/label",
+                          "type": "item",
+                          "ref": "p26-q11-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p26-q11-d/prompt",
+                          "type": "item",
+                          "ref": "p26-q11-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q11-d/space",
+                          "type": "item",
+                          "ref": "p26-q11-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q11-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q11-e/label",
+                          "type": "item",
+                          "ref": "p26-q11-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p26-q11-e/prompt",
+                          "type": "item",
+                          "ref": "p26-q11-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q11-e/space",
+                          "type": "item",
+                          "ref": "p26-q11-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:29.526Z",
+  "updatedAt": "2026-11-12T11:09:29.527Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-ch16-part18",
+    "blockId": "p26-q11",
+    "sectionRole": "exercise"
+  }
+}

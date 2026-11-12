@@ -1,0 +1,799 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b99b8b86-1d25-4699-8a2f-1bc0cc622441",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-problems",
+    "secondarySkillIds": [
+      "proof-terminology",
+      "prove-geometry-inequalities"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "The hardest demand is proving earliest mediant appearance: introduce positive integer determinants for an arbitrary intermediate fraction and derive a denominator bound, beyond proving uniqueness. Later parts also connect determinant identities to circle tangency and orthogonality.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:05.636Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "288abea95b949c1f7d6260699ca8c4b2c15e4a4becef99584009119acbc63a3e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part13/4099728c3bee85106b0ae72edc085fac6d7e4577d956937e1900b575bf663696-1792558159456/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p11-q25-opening",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For this question all our fractions will be assumed to be written with non-negative numerators and positive denominators.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q25-farey-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n^{\\text{th}}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " Farey sequence ",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "math",
+              "latex": "F_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is the list, written in increasing order, of all fractions between 0 and 1 which have denominators less than or equal to ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " (when expressed as irreducible fractions). For example,",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q25-farey-examples",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\begin{aligned}F_1&=\\left\\{\\frac01,\\frac11\\right\\},\\\\F_2&=\\left\\{\\frac01,\\frac12,\\frac11\\right\\},\\\\F_3&=\\left\\{\\frac01,\\frac13,\\frac12,\\frac23,\\frac11\\right\\}.\\end{aligned}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q25-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q25-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Write down the Farey sequences ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "F_4,\\ F_5,\\ F_6",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "F_7",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-farey-diagram-introduction-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "We have represented ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "F_4",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " on the number line with neighbouring fractions connected by circular arcs. This is called a ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "Farey diagram",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p11-q25-farey-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"stageBlue\",\"hex\":\"268CFF\",\"reason\":\"first Farey stage\"},{\"name\":\"stageGreen\",\"hex\":\"4F9B63\",\"reason\":\"second Farey stage\"},{\"name\":\"stageOrange\",\"hex\":\"EF8B2C\",\"reason\":\"third Farey stage\"},{\"name\":\"stageRed\",\"hex\":\"EF6068\",\"reason\":\"fourth Farey stage\"}],\"reference\":\"page 11 p11-q25-farey-diagram\"}\n\\begin{tikzpicture}[x=10cm,y=10cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{stageBlue}{HTML}{268CFF}\\definecolor{stageGreen}{HTML}{4F9B63}\\definecolor{stageOrange}{HTML}{EF8B2C}\\definecolor{stageRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt] (0,0)--(1,0);\n\\draw[stageBlue,line width=0.8pt] (1,0) arc[start angle=0,end angle=180,radius=0.5];\n\\foreach \\l/\\r in {0/0.5,0.5/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageGreen,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\l/\\r in {0/0.333333333,0.333333333/0.5,0.5/0.666666667,0.666666667/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageOrange,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\l/\\r in {0/0.25,0.25/0.333333333,0.666666667/0.75,0.75/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageRed,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\v/\\a/\\b in {0/0/1,0.25/1/4,0.333333333/1/3,0.5/1/2,0.666666667/2/3,0.75/3/4,1/1/1}{\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\dfrac{\\a}{\\b}$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 110,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 11,
+              "sourceRegion": "Right column, diagram following part (a)",
+              "description": "Nested semicircular Farey arcs. A number-line template cannot express the nested arcs.",
+              "mathematics": "Endpoints are the seven fractions in F4; arcs reproduce the four supplied Farey stages.",
+              "answerVisibility": "All supplied labels and arcs remain visible; F5, F6 and F7 are not supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$$F_4=\\left\\{\\frac01,\\frac14,\\frac13,\\frac12,\\frac23,\\frac34,\\frac11\\right\\}.$$\n$$F_5=\\left\\{\\frac01,\\frac15,\\frac14,\\frac13,\\frac25,\\frac12,\\frac35,\\frac23,\\frac34,\\frac45,\\frac11\\right\\}.$$\n$$F_6=\\left\\{\\frac01,\\frac16,\\frac15,\\frac14,\\frac13,\\frac25,\\frac12,\\frac35,\\frac23,\\frac34,\\frac45,\\frac56,\\frac11\\right\\}.$$\n$$\\begin{aligned}F_7=\\biggl\\{&\\frac01,\\frac17,\\frac16,\\frac15,\\frac14,\\frac27,\\frac13,\\frac25,\\frac37,\\frac12,\\\\&\\frac47,\\frac35,\\frac23,\\frac57,\\frac34,\\frac45,\\frac56,\\frac67,\\frac11\\biggr\\}.\\end{aligned}$$",
+          "worked": "List the irreducible fractions with denominators at most $n$, in increasing order.\n$$F_4=\\left\\{\\frac01,\\frac14,\\frac13,\\frac12,\\frac23,\\frac34,\\frac11\\right\\}.$$\nFor $F_5$, insert $\\frac15,\\frac25,\\frac35,\\frac45$.\n$$F_5=\\left\\{\\frac01,\\frac15,\\frac14,\\frac13,\\frac25,\\frac12,\\frac35,\\frac23,\\frac34,\\frac45,\\frac11\\right\\}.$$\nFor $F_6$, insert $\\frac16,\\frac56$; the other sixths reduce to fractions already listed.\n$$F_6=\\left\\{\\frac01,\\frac16,\\frac15,\\frac14,\\frac13,\\frac25,\\frac12,\\frac35,\\frac23,\\frac34,\\frac45,\\frac56,\\frac11\\right\\}.$$\nFor $F_7$, insert the six proper sevenths.\n$$\\begin{aligned}F_7=\\biggl\\{&\\frac01,\\frac17,\\frac16,\\frac15,\\frac14,\\frac27,\\frac13,\\frac25,\\frac37,\\frac12,\\\\&\\frac47,\\frac35,\\frac23,\\frac57,\\frac34,\\frac45,\\frac56,\\frac67,\\frac11\\biggr\\}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p11-q25-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q25-kiss-definition-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "We say that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " kiss",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " if ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "ad-bc=\\pm1",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Prove that if the fractions ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " kiss, then they must both be irreducible.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Any common divisor of $a,b$, or of $c,d$, divides $ad-bc=\\pm1$. Thus both greatest common divisors are 1.",
+          "worked": "Suppose $k>1$ divides both $a$ and $b$. Then $k$ divides $ad$ and $bc$, so it divides $ad-bc=\\pm1$, which is impossible. Hence $\\gcd(a,b)=1$.\nLikewise, any common divisor of $c$ and $d$ divides $ad-bc$, so $\\gcd(c,d)=1$. Both fractions are irreducible.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p11-q25-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q25-neighbours-note-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "In fact, ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " kiss if and only if they are neighbours in a Farey sequence, provided both fractions lie between 0 and 1 inclusive. We will not prove this here.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-mediant-definition-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "We define the ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "mediant",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " to be ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{a+c}{b+d}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-c-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Prove that if ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab<\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", then their mediant satisfies:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-c-inequality",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\frac ab<\\frac{a+c}{b+d}<\\frac cd.",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cross-multiplying $\\frac ab<\\frac cd$ gives $ad<bc$. Adding $ab$ and $cd$, respectively, proves both required inequalities.",
+          "worked": "Since $b,d>0$, the hypothesis gives $ad<bc$.\n$$\\begin{align*}ab+ad&<ab+bc\\\\a(b+d)&<b(a+c)\\\\\\frac ab&<\\frac{a+c}{b+d}.\\end{align*}$$\nSimilarly,\n$$\\begin{align*}ad+cd&<bc+cd\\\\d(a+c)&<c(b+d)\\\\\\frac{a+c}{b+d}&<\\frac cd.\\end{align*}$$\nTogether these give the required double inequality.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p11-q25-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Prove that if $\\frac ab$ and $\\frac cd$ kiss, then their mediant $\\frac{a+c}{b+d}$ kisses both $\\frac ab$ and $\\frac cd$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The two determinants are $ad-bc$ and $bc-ad$, so both have absolute value 1.",
+          "worked": "Since $ad-bc=\\pm1$,\n$$\\begin{align*}(a+c)d-(b+d)c&=ad-bc\\\\(a+c)d-(b+d)c&=\\pm1,\\\\(a+c)b-(b+d)a&=bc-ad\\\\(a+c)b-(b+d)a&=\\mp1.\\end{align*}$$\nThus the mediant kisses both original fractions.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p11-q25-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Prove that if $\\frac ab$ and $\\frac cd$ are neighbours in a Farey sequence, then their mediant is the unique fraction that occurs in between $\\frac ab$ and $\\frac cd$ that kisses them both. In particular, the mediant is the first fraction that occurs between $\\frac ab$ and $\\frac cd$ in a later Farey sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $\\frac ab<\\frac pq<\\frac cd$, put $u=bp-aq$ and $v=cq-dp$. Then $p=cu+av$ and $q=du+bv$. Kissing both forces $u=v=1$, giving $\\frac pq=\\frac{a+c}{b+d}$.\nEvery intermediate fraction has $q\\ge b+d$, with equality only for the mediant; it therefore appears first.",
+          "worked": "Order the neighbours so that $\\frac ab<\\frac cd$. Then $bc-ad=1$. By (c) and (d), the mediant lies between them and kisses both.\nIf $\\frac pq$ lies between them and kisses both, the signs are fixed:\n$$\\begin{align*}bp-aq&=1\\\\cq-dp&=1.\\end{align*}$$\nMultiplying and adding eliminates one unknown at a time:\n$$\\begin{align*}(bc-ad)p&=c+a\\\\p&=a+c,\\\\(bc-ad)q&=d+b\\\\q&=b+d.\\end{align*}$$\nThus the mediant is the unique such fraction.\nFor any irreducible intermediate fraction, let $u=bp-aq$ and $v=cq-dp$. Both are positive integers. Then\n$$\\begin{align*}du+bv&=d(bp-aq)+b(cq-dp)\\\\du+bv&=(bc-ad)q\\\\du+bv&=q.\\end{align*}$$\nHence $q\\ge b+d$, with equality only when $u=v=1$. The mediant is irreducible by (b) and (d), and has denominator $b+d$. It is therefore the first intermediate fraction to appear, in $F_{b+d}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 158
+      },
+      {
+        "id": "p11-q25-f",
+        "type": "part",
+        "label": "f",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q25-ford-definition-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "To any irreducible fraction ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " we define its associated ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "Ford circle",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " to be the circle with radius ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac1{2b^2}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " that lies above the number line, and touches it at the point ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-q25-f-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Prove that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac ab",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac cd",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " kiss if and only if their associated Ford circles are tangent.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Pythagoras gives $D^2=(\\frac ab-\\frac cd)^2+(r-s)^2$, where $r=\\frac1{2b^2}$ and $s=\\frac1{2d^2}$. External tangency, $D=r+s$, is equivalent to $(ad-bc)^2=1$.",
+          "worked": "Let $r=\\frac1{2b^2}$ and $s=\\frac1{2d^2}$. The centres are $(\\frac ab,r)$ and $(\\frac cd,s)$. Their distance $D$ satisfies\n$$\\begin{align*}D^2&=\\left(\\frac ab-\\frac cd\\right)^2+(r-s)^2\\\\D^2&=\\frac{(ad-bc)^2}{b^2d^2}+(r-s)^2.\\end{align*}$$\nExternal tangency means $D=r+s$. Therefore it is equivalent to\n$$\\begin{align*}\\frac{(ad-bc)^2}{b^2d^2}&=(r+s)^2-(r-s)^2\\\\\\frac{(ad-bc)^2}{b^2d^2}&=4rs\\\\\\frac{(ad-bc)^2}{b^2d^2}&=\\frac1{b^2d^2}\\\\(ad-bc)^2&=1.\\end{align*}$$\nThis is exactly $ad-bc=\\pm1$. Distinct Ford circles cannot be internally tangent: their horizontal centre separation is nonzero, so $D>|r-s|$. Coincident circles are not tangent. Thus the claimed equivalence holds.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p12-q25-g",
+        "type": "part",
+        "label": "g",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-q25-continuation-start",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Beginning with the fractions ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac01",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac11",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", we can take mediants and sketch the associated Ford circles. We can iterate this procedure to generate",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": " infinitely many circles, and have drawn the first few iterations below. Each circle represents a rational number, and starting with the integers ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac n1",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " we can generate all rational numbers in this way, though we will not prove this here. Note that the diagram is particularly pleasing when overlaid onto the Farey diagram, as shown adjacent.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p12-q25-g-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Prove that the circular arcs in the Farey diagram adjacent meet the Ford circles at right angles.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p12-q25-g-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"stageBlue\",\"hex\":\"268CFF\",\"reason\":\"endpoint circles and outer Farey arc\"},{\"name\":\"stageGreen\",\"hex\":\"4F9B63\",\"reason\":\"denominator-two circle and Farey stage\"},{\"name\":\"stageOrange\",\"hex\":\"EF8B2C\",\"reason\":\"denominator-three circles and Farey stage\"},{\"name\":\"stageRed\",\"hex\":\"EF6068\",\"reason\":\"denominator-four circles and Farey stage\"},{\"name\":\"stagePurple\",\"hex\":\"8B5CC7\",\"reason\":\"denominator-five circles and Farey stage\"}],\"reference\":\"page 12 p12-q25-g-diagram\"}\n\\begin{tikzpicture}[x=7cm,y=7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{stageBlue}{HTML}{268CFF}\\definecolor{stageGreen}{HTML}{4F9B63}\\definecolor{stageOrange}{HTML}{EF8B2C}\\definecolor{stageRed}{HTML}{EF6068}\\definecolor{stagePurple}{HTML}{8B5CC7}\n\\draw[black,line width=0.5pt] (0,0)--(1,0);\n\\foreach \\a/\\b/\\col in {0/1/stageBlue,1/5/stagePurple,1/4/stageRed,1/3/stageOrange,2/5/stagePurple,1/2/stageGreen,3/5/stagePurple,2/3/stageOrange,3/4/stageRed,4/5/stagePurple,1/1/stageBlue}{\\pgfmathsetmacro{\\xx}{\\a/\\b}\\pgfmathsetmacro{\\rr}{1/(2*\\b*\\b)}\\draw[\\col,line width=0.8pt] (\\xx,\\rr) circle[radius=\\rr];\\node[below=3pt] at (\\xx,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\dfrac{\\a}{\\b}$\\special{dvisvgm:raw </g>}};}\n\\draw[stageBlue,line width=0.8pt] (1,0) arc[start angle=0,end angle=180,radius=0.5];\n\\foreach \\l/\\r in {0/0.5,0.5/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageGreen,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\l/\\r in {0/0.333333333,0.333333333/0.5,0.5/0.666666667,0.666666667/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageOrange,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\l/\\r in {0/0.25,0.25/0.333333333,0.666666667/0.75,0.75/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stageRed,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\foreach \\l/\\r in {0/0.2,0.2/0.25,0.333333333/0.4,0.4/0.5,0.5/0.6,0.6/0.666666667,0.75/0.8,0.8/1}{\\pgfmathsetmacro{\\rad}{(\\r-\\l)/2}\\draw[stagePurple,line width=0.8pt] (\\r,0) arc[start angle=0,end angle=180,radius=\\rad];}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 150,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 12,
+              "sourceRegion": "Upper right, before the 11C band",
+              "description": "Ford circles through denominator five overlaid with nested Farey semicircles; the number-line template cannot represent circle intersections.",
+              "mathematics": "Ford centre for a/b is (a/b,1/(2b²)); radius is 1/(2b²). Farey arcs have their endpoint interval as diameter.",
+              "answerVisibility": "Supplied circles, arcs and fraction labels are visible; no right-angle solution marks are added."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "For an arc with endpoints $u<v$, its circle has centre $M=(\\frac{u+v}{2},0)$ and radius $R=\\frac{v-u}{2}$. An endpoint Ford circle has centre $C=(v,r)$, so $MC^2=R^2+r^2$. Pythagoras therefore makes the radii, and hence the tangents, perpendicular at each intersection. The other endpoint is identical.",
+          "worked": "Consider a Farey arc joining $u=\\frac ab$ and $v=\\frac cd$, with $u<v$. Its circle has centre $M=(\\frac{u+v}{2},0)$ and radius $R=\\frac{v-u}{2}$.\nThe Ford circle at $v$ has radius $r=\\frac1{2d^2}$ and centre $C=(v,r)$. Pythagoras gives\n$$\\begin{align*}MC^2&=\\left(v-\\frac{u+v}{2}\\right)^2+r^2\\\\MC^2&=\\left(\\frac{v-u}{2}\\right)^2+r^2\\\\MC^2&=R^2+r^2.\\end{align*}$$\nAt an intersection $P$, $MP=R$ and $CP=r$. By the converse of Pythagoras, $\\angle MPC=90^\\circ$. Each tangent is perpendicular to its corresponding radius, so the curves meet at right angles.\nFor the Ford circle at $u$, the horizontal centre separation is again $R$, giving the same calculation. This proves the claim for each arc and its endpoint Ford circles.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 104
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q25",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:53.789Z",
+  "updatedAt": "2026-11-12T13:08:53.793Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part13",
+    "blockId": "p11-q25",
+    "sectionRole": "exercise"
+  }
+}

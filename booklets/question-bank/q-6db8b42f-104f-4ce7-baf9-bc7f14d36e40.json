@@ -1,0 +1,238 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6db8b42f-104f-4ce7-baf9-bc7f14d36e40",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "proof-terminology",
+    "secondarySkillIds": [
+      "angle-properties-plane-shapes"
+    ],
+    "reasoningScore": 86,
+    "difficulty": "Challenge",
+    "difficultyReason": "The hint supplies planar reduction, but the student must devise triangulation and boundary-removal steps, prove their count changes preserve the characteristic and connect the terminal triangle to the original solid.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:19.384Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "65660a024102e4ace66367b0791b1783f141fad903947ff19c2111508d20ddcc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part12-20261008/6d03cc2b51a42a862059acbcb4fba2925189522b1779e830efebfd3d5dd4e9c9-1792558141821/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q30-root",
+    "type": "question",
+    "label": "30",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p20-q30-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For any polyhedron let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "V",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "E",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "F",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " denote the number of vertices, edges and faces, respectively. We define the ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Euler characteristic",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " of the polyhedron to be the integer",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p20-q30-formula",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\chi=V-E+F.",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p20-q30-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\chi=2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " for any convex polyhedron.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p20-q30-hint",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Hint: Remove one face of the polyhedron and project the resulting figure onto the plane to reduce the problem to two dimensions.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\chi=2$.\n\nRemoving one face decreases $\\chi$ by $1$. Triangulation and suitable boundary-triangle removals preserve it, leaving one triangle with $\\chi=1$.",
+      "worked": "Remove one face. This leaves $V$ and $E$ unchanged and decreases $F$ by $1$, so the Euler characteristic decreases by $1$. Because the polyhedron is convex, the remaining surface can be projected into a planar polygonal region without changing these counts. Count only its remaining faces, not the unbounded exterior region.\n\nTriangulate every face by adding diagonals. Each diagonal increases $E$ and $F$ by $1$, so $V-E+F$ is unchanged.\n\nRemove boundary triangles successively, choosing removals that leave a connected triangulated region. If a removed triangle has one boundary edge, delete that edge and the face:\n$$\\Delta\\chi=0-(-1)+(-1)=0.$$\nIf it has two boundary edges, delete those edges, their common boundary vertex and the face:\n$$\\Delta\\chi=(-1)-(-2)+(-1)=0.$$\nContinue until one triangle remains. It has three vertices, three edges and one face, so\n$$\\chi_{\\text{remaining}}=3-3+1=1.$$\nAll steps after removing the original face preserved the characteristic. Restoring that face increases it by $1$, giving\n$$\\chi_{\\text{original}}=1+1=2.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 156
+  },
+  "presentation": {
+    "ownerId": "p20-q30",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q30": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q30-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q30-root/label",
+                  "type": "item",
+                  "ref": "p20-q30-root/label",
+                  "title": "Label 30"
+                },
+                {
+                  "id": "layout:p20-q30-root/prompt#p20-q30-definition",
+                  "type": "item",
+                  "ref": "p20-q30-root/prompt#p20-q30-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q30-root/prompt#p20-q30-formula",
+                  "type": "item",
+                  "ref": "p20-q30-root/prompt#p20-q30-formula",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q30-root/prompt#p20-q30-request",
+                  "type": "item",
+                  "ref": "p20-q30-root/prompt#p20-q30-request",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q30-root/prompt#p20-q30-hint",
+                  "type": "item",
+                  "ref": "p20-q30-root/prompt#p20-q30-hint",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q30-root/space",
+                  "type": "item",
+                  "ref": "p20-q30-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 30",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:59.274Z",
+  "updatedAt": "2026-11-12T13:08:59.275Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part12-20261008",
+    "blockId": "p20-q30",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2d1a3ca7-336a-4b29-b1d6-935798971c6b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expansion-factorisation-problems",
+    "secondarySkillIds": [
+      "factorise-common-factor"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Generalises common-factor extraction to prove the existence of arbitrarily long sequences of composite numbers.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:20:24.279Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "81570425a6ef00c407e6d13e9b37d073414404689c1f3dbbbb6d00db7efd0658",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part10-20261008/semantic-packets/assignments/assignment-0a0201125507d72ab17f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p3-q8-definition-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "factorial",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " of the natural number ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", denoted by ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n!",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", is the product of all of the natural numbers less than or equal to ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". For example,",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p3-q8-example-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "5!=5\\times4\\times3\\times2\\times1=120.",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p3-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By factorisation, explain why $6!+4$ will be divisible by $4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6!+4=4(6\\times5\\times3\\times2\\times1+1)$, so it is divisible by $4$.",
+          "worked": "$$\\begin{align*}6!+4&=6\\times5\\times4\\times3\\times2\\times1+4\\\\6!+4&=4(6\\times5\\times3\\times2\\times1+1).\\end{align*}$$\nThe expression in brackets is an integer, so $6!+4$ is divisible by $4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p3-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By factorisation, explain why $7!+3$ will be divisible by $3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7!+3=3(7\\times6\\times5\\times4\\times2\\times1+1)$, so it is divisible by $3$.",
+          "worked": "$$\\begin{align*}7!+3&=7\\times6\\times5\\times4\\times3\\times2\\times1+3\\\\7!+3&=3(7\\times6\\times5\\times4\\times2\\times1+1).\\end{align*}$$\nThe expression in brackets is an integer, so $7!+3$ is divisible by $3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p3-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Consider the sequence of $n-1$ consecutive natural numbers\n$$n!+2,\\ n!+3,\\ n!+4,\\ \\ldots,\\ n!+n.$$\nShow that none of these is a prime number. Note that this shows that there are sequences of consecutive composite numbers of arbitrary length.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For every integer $k$ with $2\\le k\\le n$, $n!+k=k\\left(\\frac{n!}{k}+1\\right)$ is composite.\n\nHere $k$ divides $n!$, and both factors are greater than $1$. Choosing $n=L+1$ gives $L$ consecutive composite numbers.",
+          "worked": "Let $k$ be an integer with $2\\le k\\le n$. Since $k$ is a factor in the product $n!$, $\\frac{n!}{k}$ is a positive integer.\n$$\\begin{align*}n!+k&=k\\left(\\frac{n!}{k}+1\\right).\\end{align*}$$\nBoth factors are greater than $1$, so $n!+k$ is composite. This applies to every term of the sequence. For any desired positive length $L$, choose $n=L+1$; the sequence then contains $L$ consecutive composite numbers.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q8-root/label",
+                  "type": "item",
+                  "ref": "p3-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-definition-paragraph",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-definition-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-example-paragraph",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-example-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "p3-q8-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q8-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8-a/label",
+                          "type": "item",
+                          "ref": "p3-q8-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p3-q8-a/prompt",
+                          "type": "item",
+                          "ref": "p3-q8-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q8-a/space",
+                          "type": "item",
+                          "ref": "p3-q8-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8-b/label",
+                          "type": "item",
+                          "ref": "p3-q8-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p3-q8-b/prompt",
+                          "type": "item",
+                          "ref": "p3-q8-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q8-b/space",
+                          "type": "item",
+                          "ref": "p3-q8-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8-c/label",
+                          "type": "item",
+                          "ref": "p3-q8-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p3-q8-c/prompt",
+                          "type": "item",
+                          "ref": "p3-q8-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q8-c/space",
+                          "type": "item",
+                          "ref": "p3-q8-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:45.116Z",
+  "updatedAt": "2026-11-12T13:08:45.117Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part10-20261008",
+    "blockId": "p3-q8",
+    "sectionRole": "exercise"
+  }
+}

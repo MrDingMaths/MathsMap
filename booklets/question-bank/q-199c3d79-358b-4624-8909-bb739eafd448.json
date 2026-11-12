@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-199c3d79-358b-4624-8909-bb739eafd448",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-sector"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Prove equality by accounting for overlap when adding two semicircle areas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T14:26:24.901Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fd84796dc3e5e6d1b238743c829190bcf1d8578524976c6a2caa46fd38344f67",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part14-20261008/semantic-packets/assignments/assignment-9f5c1ccccef255f3c3bb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q26-root",
+    "type": "question",
+    "label": "26",
+    "prompt": "Two semicircles are drawn in a quarter circle, as shown in the diagram below. Show that the areas $A_1$ and $A_2$ indicated in the diagram are equal.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q26-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the two semicircles\"},{\"name\":\"overlapBlue\",\"hex\":\"268CFF\",\"reason\":\"Distinguishes overlap A1 from uncovered region A2\"}],\"reference\":\"source page 22 p22-q26-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\definecolor{overlapBlue}{HTML}{268CFF}\n\\fill[regionBlue] (0,0)--(0,2) arc[start angle=90,end angle=-90,radius=1]--cycle;\n\\fill[regionBlue] (0,0) arc[start angle=180,end angle=0,radius=1]--cycle;\n\\begin{scope}\n\\clip (0,0)--(0,2) arc[start angle=90,end angle=-90,radius=1]--cycle;\n\\fill[overlapBlue] (0,0) arc[start angle=180,end angle=0,radius=1]--cycle;\n\\end{scope}\n\\draw[black] (0,2)--(0,0)--(2,0) arc[start angle=0,end angle=90,radius=2];\n\\draw[black] (0,2) arc[start angle=90,end angle=-90,radius=1];\n\\draw[black] (0,0) arc[start angle=180,end angle=0,radius=1];\n\\node at (0.48,0.48) {$A_1$};\n\\node at (1.22,1.28) {$A_2$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 42.3,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 26, middle-right diagram",
+          "description": "Quarter circle with inward semicircles on its vertical and horizontal radii. All three arcs and labels A₁ and A₂ are retained. White identifies the uncovered region A₂; light blue identifies semicircles and solid blue their overlap.",
+          "mathematics": "Quarter circle centred at (0,0), radius 2. Semicircles have centres (0,1) and (1,0), radius 1, and intersect at (0,0) and (1,1).",
+          "answerVisibility": "Only the supplied regions and labels are shown; no answer measurements are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$A_1=A_2$.\n\nThe two semicircle areas together equal the quarter-circle area; their overlap balances the uncovered region.",
+      "worked": "Let each semicircle have radius $r$. The quarter circle has radius $2r$.\n$$\\begin{align*}A_{\\text{two semicircles}}&=2\\left(\\frac12\\pi r^2\\right)\\\\A_{\\text{two semicircles}}&=\\pi r^2\\\\A_{\\text{quarter circle}}&=\\frac14\\pi(2r)^2\\\\A_{\\text{quarter circle}}&=\\pi r^2\\end{align*}$$\nLet $B$ be the area covered by exactly one semicircle. Adding the semicircle areas counts the overlap twice, whereas the quarter circle contains the overlap once and also contains $A_2$.\n$$\\begin{align*}B+2A_1&=B+A_1+A_2\\\\A_1&=A_2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 86
+  },
+  "presentation": {
+    "ownerId": "p22-q26",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q26": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q26-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q26-root/label",
+                  "type": "item",
+                  "ref": "p22-q26-root/label",
+                  "title": "Label 26"
+                },
+                {
+                  "id": "layout:p22-q26-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q26-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q26-diagram",
+                  "type": "item",
+                  "ref": "p22-q26-diagram",
+                  "title": "Diagram",
+                  "width": 42.3
+                },
+                {
+                  "id": "layout:p22-q26-root/space",
+                  "type": "item",
+                  "ref": "p22-q26-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 26",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:30.909Z",
+  "updatedAt": "2026-11-12T13:09:30.909Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p22-q26",
+    "sectionRole": "exercise"
+  }
+}

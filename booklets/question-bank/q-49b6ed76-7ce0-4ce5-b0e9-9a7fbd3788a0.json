@@ -1,0 +1,350 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-49b6ed76-7ce0-4ce5-b0e9-9a7fbd3788a0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "combinations-restrictions"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Count eligible partners for a fixed lowest card and connect the resulting exhaustive cases, in reverse order, to the sum of the first n integers.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "022a49c43bd431a984f0f8e024eb0b9f74e839991259a41570f09d092c3e4b78",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "Consider a deck of $n+1$ distinct cards labelled $1,2,\\ldots,n+1$, with one number on each card.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many pairs of cards can be chosen?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\binom{n+1}{2}=\\frac{n(n+1)}{2}$ pairs.",
+          "worked": "Choose two cards from the $n+1$ distinct cards; their order does not matter.\n$$\\begin{align*}\\binom{n+1}{2}&=\\frac{(n+1)n}{2!}\\\\\\binom{n+1}{2}&=\\frac{n(n+1)}{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p28-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p28-q13-b-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "How many pairs of cards can be chosen so that the number ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "k",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is the ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "lowest",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " number of the two cards?",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n+1-k$ pairs.",
+          "worked": "The card labelled $k$ is fixed. The other card can be any of $k+1,k+2,\\ldots,n+1$.\n$$\\text{Number of pairs}=(n+1)-k=n+1-k.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p28-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show, giving reasons, why\n$$1+2+\\cdots+n=\\frac{n(n+1)}{2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p28-q13-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "1+2+\\cdots+n=\\binom{n+1}{2}=\\frac{n(n+1)}{2}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p28-q13-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Partition all pairs by their lowest card: lowest labels ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n,n-1,\\ldots,1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " give ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "1,2,\\ldots,n",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " pairs respectively.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "By part (a), there are $\\frac{n(n+1)}{2}$ pairs in total.\n\nCount the same pairs according to their lowest card. By part (b), lowest labels $n,n-1,\\ldots,1$ give $1,2,\\ldots,n$ pairs respectively. Every pair has exactly one lowest card, so these cases are disjoint and include every pair.\n\nBoth methods count the same pairs. Hence\n$$1+2+\\cdots+n=\\frac{n(n+1)}{2}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q13-root/label",
+                  "type": "item",
+                  "ref": "p28-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p28-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p28-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p28-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q13-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p28-q13-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p28-q13-a/label",
+                              "type": "item",
+                              "ref": "p28-q13-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p28-q13-a/prompt",
+                              "type": "item",
+                              "ref": "p28-q13-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p28-q13-a/space",
+                              "type": "item",
+                              "ref": "p28-q13-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p28-q13-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p28-q13-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p28-q13-b/label",
+                              "type": "item",
+                              "ref": "p28-q13-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p28-q13-b/prompt#p28-q13-b-prompt",
+                              "type": "item",
+                              "ref": "p28-q13-b/prompt#p28-q13-b-prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p28-q13-b/space",
+                              "type": "item",
+                              "ref": "p28-q13-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p28-q13-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p28-q13-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p28-q13-c/label",
+                              "type": "item",
+                              "ref": "p28-q13-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p28-q13-c/prompt",
+                              "type": "item",
+                              "ref": "p28-q13-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p28-q13-c/space",
+                              "type": "item",
+                              "ref": "p28-q13-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 13",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:59.610Z",
+  "updatedAt": "2026-11-12T11:08:59.611Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p28-q13",
+    "sectionRole": "exercise"
+  }
+}

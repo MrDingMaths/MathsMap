@@ -1,0 +1,208 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-59ff815f-0574-4f0b-94ea-8d42717d8096",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "permutations-restrictions",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "multiplication-principle"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive the extra forward moves needed to offset backward steps, restrict horizontal and vertical orders to remain inside the rectangle and interleave those valid orders.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "21a99130e8073cce646bc25832efc0e0a1915c3ac79949415fb479c6c96e9d52",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "In the grid below, consider paths from $A$ to $B$ that move one unit at a time along the grid-lines. At each step you may move right or up, and exactly once in the entire path you must take a single down step.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q28-grid",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 21, p21-q28-grid\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt] (0,0) rectangle (4,3);\n\\foreach \\x in {1,2,3}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,3);}\n\\foreach \\y in {1,2}{\\draw[black,line width=0.4pt] (0,\\y)--(4,\\y);}\n\\node[black,anchor=north east,font=\\fontsize{10}{12}\\selectfont] at (0,0) {$A$};\n\\node[black,anchor=south west,font=\\fontsize{10}{12}\\selectfont] at (4,3) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Left column, question 28, between stem and part (a).",
+          "description": "Unshaded four-column, three-row rectangular grid, with A at the bottom-left and B at the top-right.",
+          "mathematics": "Vertices have coordinates 0≤x≤4 and 0≤y≤3; moves follow unit grid edges.",
+          "answerVisibility": "Only the supplied grid and endpoint labels are visible; no route or count is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many such paths are there?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{9}{4}\\times3=378$ paths.\n\nInterleave four right steps with one of the three vertical step orders that stay inside the grid.",
+          "worked": "The path needs four right steps, four up steps and one down step. Ignoring right steps, the down step must occur after exactly one, two or three up steps: it cannot start below the grid or follow four up steps above it. Thus there are three valid vertical orders. Choose four of the nine positions for the right steps:\n$$\\begin{align*}N&=\\binom{9}{4}\\times3\\\\N&=126\\times3\\\\N&=378.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p21-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If you must now also take a single left step in the entire path in addition to the single down step, how many such paths are there?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{11}{6}\\times4\\times3=5544$ paths.\n\nInterleave one of four valid horizontal orders with one of three valid vertical orders.",
+          "worked": "There are five right steps and one left step, and four up steps and one down step. To stay within the grid, the left step must follow exactly one, two, three or four right steps, giving four valid horizontal orders. The down step must follow exactly one, two or three up steps, giving three valid vertical orders. Choose six of the eleven positions for the horizontal steps, preserving the chosen horizontal and vertical orders:\n$$\\begin{align*}N&=\\binom{11}{6}\\times4\\times3\\\\N&=462\\times12\\\\N&=5544.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q28-root/label",
+                  "type": "item",
+                  "ref": "p21-q28-root/label",
+                  "title": "Label 28"
+                },
+                {
+                  "id": "layout:p21-q28-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q28-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q28-grid",
+                  "type": "item",
+                  "ref": "p21-q28-grid",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p21-q28-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p21-q28-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q28-a/label",
+                          "type": "item",
+                          "ref": "p21-q28-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p21-q28-a/prompt",
+                          "type": "item",
+                          "ref": "p21-q28-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q28-a/space",
+                          "type": "item",
+                          "ref": "p21-q28-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q28-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q28-b/label",
+                          "type": "item",
+                          "ref": "p21-q28-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p21-q28-b/prompt",
+                          "type": "item",
+                          "ref": "p21-q28-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q28-b/space",
+                          "type": "item",
+                          "ref": "p21-q28-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 28",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:36.956Z",
+  "updatedAt": "2026-11-12T11:07:36.956Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p21-q28",
+    "sectionRole": "exercise"
+  }
+}

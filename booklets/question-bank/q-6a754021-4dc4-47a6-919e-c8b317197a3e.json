@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6a754021-4dc4-47a6-919e-c8b317197a3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 41,
+    "difficulty": "Development",
+    "difficultyReason": "Find ground distances from the elevations and use the cosine rule in the ground triangle, then transfer the earlier lengths into AHB for a second cosine-rule calculation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4caf1765043c683760d97edf7102ad7847e707a8ed73983071021e8bebd4d31c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A $6\\text{ m}$ tall antenna $OH$ is held up by two ropes pinned at $A$ and $B$. The angle of elevation of the top of the antenna is $56^\\circ$ and $41^\\circ$ from $A$ and $B$ respectively.\n\nFind the following correct to one decimal place.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p13-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 13, p13-q10-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},every pic/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (H) at (0,3.2);\n\\coordinate (A) at (-2.3,-0.3);\n\\coordinate (B) at (1.7,-1.5);\n\\draw (A)--(H)--(B)--(A);\n\\draw (O)--node[midway,left,xshift=-2pt] {$6\\text{ m}$} (H);\n\\draw[dashed] (A)--(O)--(B);\n\\pic[angle radius=6mm] {angle=O--A--H};\n\\pic[angle radius=6mm] {angle=H--B--O};\n\\pic[angle radius=5mm] {angle=A--O--B};\n\\pic[angle radius=5mm] {angle=A--H--B};\n\\pic[angle radius=2mm] {right angle=H--O--A};\n\\path (A) ++(27:9mm) node {$56^\\circ$};\n\\path (B) ++(125:9mm) node {$41^\\circ$};\n\\path (O) ++(253:8mm) node {$100^\\circ$};\n\\fill (A) circle (1pt) (B) circle (1pt) (O) circle (1pt) (H) circle (1pt);\n\\path (A) node[below left] {$A$};\n\\path (B) node[below right] {$B$};\n\\path (O) node[above right] {$O$};\n\\path (H) node[above] {$H$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 10 antenna diagram in the lower left column",
+          "description": "Upright antenna OH, two ropes AH and BH, solid AB, dashed ground segments AO and BO, elevation angles at A and B, a 100-degree ground angle at O, a right-angle marker at O and an unlabelled angle arc between the ropes at H.",
+          "mathematics": "OH=6 m; angle HAO=56 degrees; angle HBO=41 degrees; angle AOB=100 degrees. OH is perpendicular to the ground plane AOB. An exact spatial model is O=(0,0,0), H=(0,0,6), A=(6/tan(56 degrees),0,0), B=((6/tan(41 degrees))cos(100 degrees),(6/tan(41 degrees))sin(100 degrees),0). Drawing coordinates represent the source perspective, not measured lengths or projected angle values. Dashed AO and BO are ground construction lines; this is an antenna framework, not an opaque solid.",
+          "answerVisibility": "Only source givens and the unlabelled requested angle are visible; no calculated lengths or angles are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$AH$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7.2\\text{ m}$",
+          "worked": "In right-angled triangle $AOH$:\n$$\\begin{align*}\\sin56^\\circ&=\\frac{6}{AH}\\\\AH&=\\frac{6}{\\sin56^\\circ}\\\\AH&\\approx7.2\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p13-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$BH$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$9.1\\text{ m}$",
+          "worked": "In right-angled triangle $BOH$:\n$$\\begin{align*}\\sin41^\\circ&=\\frac{6}{BH}\\\\BH&=\\frac{6}{\\sin41^\\circ}\\\\BH&\\approx9.1\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p13-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$AB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8.6\\text{ m}$\n\nFind $AO$ and $BO$ using tangent, then use the cosine rule in $\\triangle AOB$.",
+          "worked": "Let $a=AO$ and $b=BO$. From the elevation triangles:\n$$\\begin{align*}a&=\\frac{6}{\\tan56^\\circ}\\\\b&=\\frac{6}{\\tan41^\\circ}.\\end{align*}$$\nUse the cosine rule in $\\triangle AOB$, retaining the exact expressions for $a$ and $b$:\n$$\\begin{align*}AB^2&=a^2+b^2-2ab\\cos100^\\circ\\\\AB&=\\sqrt{a^2+b^2-2ab\\cos100^\\circ}\\\\AB&\\approx8.6\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 86
+      },
+      {
+        "id": "p13-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$\\angle AHB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$61.9^\\circ$\n\nUse the cosine rule in $\\triangle AHB$, keeping the lengths from earlier parts unrounded.",
+          "worked": "Let $\\phi=\\angle AHB$. Use the unrounded lengths from parts (a)–(c) in $\\triangle AHB$:\n$$\\begin{align*}\\cos\\phi&=\\frac{AH^2+BH^2-AB^2}{2(AH)(BH)}\\\\\\phi&=\\cos^{-1}\\!\\left(\\frac{AH^2+BH^2-AB^2}{2(AH)(BH)}\\right)\\\\\\phi&\\approx61.9^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:01.286Z",
+  "updatedAt": "2026-11-12T11:06:01.286Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p13-q10",
+    "sectionRole": "exercise"
+  }
+}

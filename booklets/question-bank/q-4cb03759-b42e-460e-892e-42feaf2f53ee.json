@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4cb03759-b42e-460e-892e-42feaf2f53ee",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-using-pythagoras",
+    "secondarySkillIds": [
+      "area-of-sector",
+      "pythagoras-find-side"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive unlabelled heights using Pythagoras, express and combine the four supplied component areas and turn the strict geometric containment into a bound on π.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:45.030Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8ca15982e82e129507bb61514ff983c517bd1f556e3c64f5c6d0ed6665d7edeb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/b26a12d63c3bc7ef5914dc0ddaedb8e12e1d5dd1e9b2de5487983e236732e371-1792558182774/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Approximate the area of this quarter circle by finding the sum of the areas of the four regions depicted below. Hence, show that $\\pi>3$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionOrange\",\"hex\":\"FCE8D5\",\"reason\":\"identifies alternating regions in the four-region inscribed area approximation\"}],\"reference\":\"source page 17 p17-q12-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionOrange}{HTML}{FCE8D5}\n\\coordinate (O) at (0,0); \\coordinate (A) at (0,2); \\coordinate (B) at (1,{sqrt(3)}); \\coordinate (C) at ({sqrt(3)},1); \\coordinate (D) at (2,0); \\coordinate (E) at (0,1); \\coordinate (F) at (1,1); \\coordinate (G) at (1,0);\n\\fill[regionOrange] (O)--(E)--(F)--(G)--cycle;\n\\fill[regionOrange] (F)--(B)--(C)--cycle;\n\\draw[black,line width=0.8pt] (O)--(A) arc[start angle=90,end angle=0,radius=2]--cycle;\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D);\n\\draw[black,line width=0.4pt] (E)--(C) (G)--(B);\n\\path (O)--(E) node[midway,left] {$1$};\n\\path (E)--(A) node[midway,left] {$1$};\n\\path (O)--(G) node[midway,below] {$1$};\n\\path (G)--(D) node[midway,below] {$1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 12, middle right",
+          "description": "Radius-two quarter circle containing a unit square, two congruent trapezia and a triangle. Internal lines terminate at the arc-intersection vertices. Alternating light orange and unfilled regions identify the four components; curved gaps remain visible.",
+          "mathematics": "Centre (0,0), radius 2; internal partitions x=1 and y=1. Inscribed boundary vertices are (0,2), (1,sqrt(3)), (sqrt(3),1), (2,0). Only the four source labels 1 are printed.",
+          "answerVisibility": "No derived lengths, component areas or numerical approximation are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$3$ square units; $\\pi>3$.\n\nThe four inscribed regions have total area $3$, strictly less than the quarter-circle area $\\pi$.",
+      "worked": "The radius is $2$. At the point on the arc above the unit square, let the height above the base be $h$.\n\n$$\\begin{align*} h^2&=2^2-1^2\\\\ h^2&=3\\\\ h&=\\sqrt3. \\end{align*}$$\nThe square has area $1$. Each trapezium has parallel sides $1$ and $\\sqrt3-1$ and perpendicular height $1$. The remaining triangle has perpendicular sides $\\sqrt3-1$.\n\n$$\\begin{align*} A_{\\text{inscribed}}&=1+2\\left(\\frac{1+(\\sqrt3-1)}{2}\\right)+\\frac{(\\sqrt3-1)^2}{2}\\\\ A_{\\text{inscribed}}&=1+\\sqrt3+2-\\sqrt3\\\\ A_{\\text{inscribed}}&=3. \\end{align*}$$\nThe quarter circle has area $\\frac14\\pi(2)^2=\\pi$. It also contains the curved gaps outside the straight inscribed boundary, so its area is strictly greater than $3$. Therefore, $\\pi>3$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 112
+  },
+  "presentation": {
+    "ownerId": "p17-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q12-root/label",
+                  "type": "item",
+                  "ref": "p17-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p17-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p17-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p17-q12-diagram",
+                  "type": "item",
+                  "ref": "p17-q12-diagram",
+                  "title": "Diagram",
+                  "width": 40.5
+                },
+                {
+                  "id": "layout:p17-q12-root/space",
+                  "type": "item",
+                  "ref": "p17-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:16.341Z",
+  "updatedAt": "2026-11-12T13:09:16.341Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p17-q12",
+    "sectionRole": "exercise"
+  }
+}

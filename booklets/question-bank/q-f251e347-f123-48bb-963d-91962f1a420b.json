@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f251e347-f123-48bb-963d-91962f1a420b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-coefficient-in-product",
+    "secondarySkillIds": [
+      "binomial-specific-term"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Model five bounded variables and combine the contributing terms from two binomial expansions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T12:12:33.592Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9c7108106f93ef2e9d339227be6b64fbb84f385b2b00b5435bd23f3ca4cc1ee6",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch05-20261002/semantic-packets/assignments/assignment-772f6238e5866bebe0e5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "Consider the equation\n$$a+b+c+d+e=10,$$\nwhere $a,b,c,d,e$ are integers between $0$ and $3$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the coefficient of $x^{10}$ in $(1+x+x^2+x^3)^5$ counts the number of solutions to the equation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each variable contributes $0,1,2$ or $3$, giving one factor $1+x+x^2+x^3$. The five factors track the five variables, and the $x^{10}$ coefficient counts assignments with sum $10$.",
+          "worked": "For each variable, choosing $1,x,x^2$ or $x^3$ records its value as $0,1,2$ or $3$. The five distinguishable variables give $(1+x+x^2+x^3)^5$.\n\nEach product of chosen terms corresponds to one assignment of the variables, and its exponent is their sum. Thus the coefficient of $x^{10}$ counts solutions with sum $10$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p31-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the number of solutions to the equation $a+b+c+d+e=10$ with the given conditions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "There are $101$ solutions.\n\nFactor the polynomial as $(1+x)^5(1+x^2)^5$ and collect the $x^{10}$ terms.",
+          "worked": "$$\\begin{align*}(1+x+x^2+x^3)^5&=((1+x)(1+x^2))^5\\\\(1+x+x^2+x^3)^5&=(1+x)^5(1+x^2)^5.\\end{align*}$$\nThe contributing power pairs are $x^4x^6$, $x^2x^8$ and $1\\cdot x^{10}$. Let $N$ be the coefficient of $x^{10}$.\n$$\\begin{align*}N&=\\binom54\\binom53+\\binom52\\binom54+\\binom50\\binom55\\\\N&=5\\times10+10\\times5+1\\times1\\\\N&=101.\\end{align*}$$\nThere are $101$ solutions.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q28-root/label",
+                  "type": "item",
+                  "ref": "p31-q28-root/label",
+                  "title": "Label 28"
+                },
+                {
+                  "id": "layout:p31-q28-root/prompt",
+                  "type": "item",
+                  "ref": "p31-q28-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p31-q28-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q28-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q28-a/label",
+                          "type": "item",
+                          "ref": "p31-q28-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p31-q28-a/prompt",
+                          "type": "item",
+                          "ref": "p31-q28-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q28-a/space",
+                          "type": "item",
+                          "ref": "p31-q28-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-q28-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q28-b/label",
+                          "type": "item",
+                          "ref": "p31-q28-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p31-q28-b/prompt",
+                          "type": "item",
+                          "ref": "p31-q28-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q28-b/space",
+                          "type": "item",
+                          "ref": "p31-q28-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 28",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:03.844Z",
+  "updatedAt": "2026-11-12T11:09:03.844Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p31-q28",
+    "sectionRole": "exercise"
+  }
+}

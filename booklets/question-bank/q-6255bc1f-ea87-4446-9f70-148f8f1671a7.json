@@ -1,0 +1,355 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6255bc1f-ea87-4446-9f70-148f8f1671a7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires transferring symbolic lengths across three right triangles into a cosine-rule calculation; later parts scaffold substitution and a deduction of equal edges from the resulting angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:42.788Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "21c609208842d170cf323366780a8b85defccadd1a1d5c9c3ce934e06acabf46",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/03e20a2304678bde24afa94912cb8f88c301ffa0192bef91cf0f2a632d9182e9-1792557404909/last-message.txt",
+      "originalTaskHash": "6dfddc046c594d2ab7b0f1ee691d5c2d47a94b8352ffa5ebb3a94fc9cf164ef5",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "d4c48679f3a2ded5dcdbdc980443300f625478ac327299905eceb46ed12e33b0"
+      }
+    }
+  },
+  "content": {
+    "id": "p17-q27-root",
+    "type": "question",
+    "label": "27",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p17-q27-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the diagram below, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OABC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a tetrahedron with right angles at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "O",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p17-q27-length",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The length of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "AB",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "d",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " units.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q27-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 17, p17-q27-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n% Explicit solid: O=(0,0,0), A=(1.3,0,0), B=(0,2.3,0), C=(0,0,1.7).\n% Faces OAB,OAC,OBC,ABC. Orthographic view toward the solid from (1,1,1).\n% Projection basis u=(-1,1,0)/sqrt(2), v=(-1,-1,2)/sqrt(6).\n% ABC is the visible face; OA,OB,OC are obscured edges; AC,CB,AB are silhouettes.\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-0.91924,-0.53072);\n\\coordinate (B) at (1.62635,-0.93897);\n\\coordinate (C) at (0,1.38804);\n\\draw[black,line width=0.8pt] (A)--(C)--(B)--cycle;\n\\draw[black,line width=0.8pt,dashed] (A)--(O)--(B) (O)--(C);\n% Three right-angle facets derived from the projected coordinate axes.\n\\coordinate (oa) at ($(O)!0.11!(A)$);\n\\coordinate (ob) at ($(O)!0.062!(B)$);\n\\coordinate (oc) at ($(O)!0.075!(C)$);\n\\draw[black,line width=0.4pt] (oa)--($(oa)+(ob)-(O)$)--(ob);\n\\draw[black,line width=0.4pt] (oa)--($(oa)+(oc)-(O)$)--(oc);\n\\draw[black,line width=0.4pt] (ob)--($(ob)+(oc)-(O)$)--(oc);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.25,\"$\\alpha$\"] {angle=O--A--C};\n\\pic[draw=black,line width=0.4pt,angle radius=8mm,angle eccentricity=1.2,\"$\\theta$\"] {angle=B--A--O};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.25,\"$\\beta$\"] {angle=C--B--O};\n\\path (A)--(B) node[midway,below=3pt] {$d$};\n\\fill[black] (A) circle (0.7pt) (B) circle (0.7pt) (C) circle (0.7pt) (O) circle (0.7pt);\n\\node[below left=2pt] at (A) {$A$};\n\\node[below right=2pt] at (B) {$B$};\n\\node[above=2pt] at (C) {$C$};\n\\node[below=4pt] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 27, upper-left tetrahedron",
+          "description": "Tetrahedron with C above the hidden vertex O, A lower left and B lower right; d labels AB.",
+          "mathematics": "OA, OB and OC are pairwise perpendicular. Alpha is angle CAO, theta is angle OAB and beta is angle OBC. Explicit faces and a view from the positive octant give solid silhouette edges AC, CB and AB and hidden dashed edges OA, OB and OC. Drawing coordinates describe an illustrative projection and supply no numerical measurements.",
+          "answerVisibility": "Only source givens and angle labels are visible; no derived lengths or answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q27-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $\\cos\\angle ACB$ in terms of $d$, $\\alpha$, $\\beta$ and $\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\cos\\angle ACB=\\frac{\\cos^2\\beta\\cos^2\\theta+\\cos^2\\alpha\\sin^2\\theta-\\cos^2\\alpha\\cos^2\\beta}{2\\cos\\theta\\sin\\theta\\cos\\alpha\\cos\\beta}$.\n\nExpress $AC$ and $BC$ using the right-angled triangles, then apply the cosine rule in $\\triangle ACB$; $d$ cancels.",
+          "worked": "From the right-angled triangles $OAB$, $OAC$ and $OBC$:\n$$\\begin{align*}OA&=d\\cos\\theta\\\\OB&=d\\sin\\theta\\\\AC&=\\frac{OA}{\\cos\\alpha}\\\\AC&=\\frac{d\\cos\\theta}{\\cos\\alpha}\\\\BC&=\\frac{OB}{\\cos\\beta}\\\\BC&=\\frac{d\\sin\\theta}{\\cos\\beta}.\\end{align*}$$\nBy the cosine rule in $\\triangle ACB$:\n$$\\begin{align*}\\cos\\angle ACB&=\\frac{AC^2+BC^2-AB^2}{2(AC)(BC)}\\\\\\cos\\angle ACB&=\\frac{\\dfrac{d^2\\cos^2\\theta}{\\cos^2\\alpha}+\\dfrac{d^2\\sin^2\\theta}{\\cos^2\\beta}-d^2}{\\dfrac{2d^2\\cos\\theta\\sin\\theta}{\\cos\\alpha\\cos\\beta}}\\\\\\cos\\angle ACB&=\\frac{\\cos^2\\beta\\cos^2\\theta+\\cos^2\\alpha\\sin^2\\theta-\\cos^2\\alpha\\cos^2\\beta}{2\\cos\\theta\\sin\\theta\\cos\\alpha\\cos\\beta}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p17-q27-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $$\\cos\\angle ACB=\\frac{\\tan\\theta}{2},$$ given the condition that $\\alpha=\\beta=\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\cos\\angle ACB=\\frac{\\tan\\theta}{2}$.\n\nSubstitute $\\alpha=\\beta=\\theta$ into part (a) and use $1-\\cos^2\\theta=\\sin^2\\theta$.",
+          "worked": "Substitute $\\alpha=\\beta=\\theta$ into part (a):\n$$\\begin{align*}\\cos\\angle ACB&=\\frac{\\cos^4\\theta+\\cos^2\\theta\\sin^2\\theta-\\cos^4\\theta}{2\\cos^3\\theta\\sin\\theta}\\\\\\cos\\angle ACB&=\\frac{\\cos^2\\theta\\sin^2\\theta}{2\\cos^3\\theta\\sin\\theta}\\\\\\cos\\angle ACB&=\\frac{\\sin\\theta}{2\\cos\\theta}\\\\\\cos\\angle ACB&=\\frac{\\tan\\theta}{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p17-q27-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Deduce that if also $\\angle ACB=60^\\circ$, then $\\triangle ACB$ is an equilateral triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\alpha=\\beta=\\theta=45^\\circ$, so $OA=OB=OC$ and $AC=BC=AB=d$. Hence $\\triangle ACB$ is equilateral.\n\nUse part (b), then the three isosceles right-angled component triangles.",
+          "worked": "Using part (b):\n$$\\begin{align*}\\tan\\theta&=2\\cos60^\\circ\\\\\\tan\\theta&=1\\\\\\theta&=45^\\circ.\\end{align*}$$\nThus $\\alpha=\\beta=\\theta=45^\\circ$. The right-angled triangle $OAB$ gives $OA=OB$, triangle $OAC$ gives $OA=OC$, and triangle $OBC$ gives $OB=OC$. Therefore $OA=OB=OC$, and\n$$\\begin{align*}AB^2&=OA^2+OB^2=2OA^2\\\\AC^2&=OA^2+OC^2=2OA^2\\\\BC^2&=OB^2+OC^2=2OA^2.\\end{align*}$$\nHence $AC=BC=AB=d$, so $\\triangle ACB$ is equilateral.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q27": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q27-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p17-q27-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p17-q27-root/label",
+                      "type": "item",
+                      "ref": "p17-q27-root/label",
+                      "title": "Label 27",
+                      "width": 7
+                    },
+                    {
+                      "id": "p17-q27-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q27-root/prompt#p17-q27-stem",
+                          "type": "item",
+                          "ref": "p17-q27-root/prompt#p17-q27-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q27-root/prompt#p17-q27-length",
+                          "type": "item",
+                          "ref": "p17-q27-root/prompt#p17-q27-length",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q27-diagram",
+                          "type": "item",
+                          "ref": "p17-q27-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "p17-q27-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p17-q27-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p17-q27-a/label",
+                                  "type": "item",
+                                  "ref": "p17-q27-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p17-q27-a/prompt",
+                                  "type": "item",
+                                  "ref": "p17-q27-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p17-q27-a/space",
+                                  "type": "item",
+                                  "ref": "p17-q27-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p17-q27-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p17-q27-b/label",
+                                  "type": "item",
+                                  "ref": "p17-q27-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p17-q27-b/prompt",
+                                  "type": "item",
+                                  "ref": "p17-q27-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p17-q27-b/space",
+                                  "type": "item",
+                                  "ref": "p17-q27-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p17-q27-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p17-q27-c/label",
+                                  "type": "item",
+                                  "ref": "p17-q27-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p17-q27-c/prompt",
+                                  "type": "item",
+                                  "ref": "p17-q27-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p17-q27-c/space",
+                                  "type": "item",
+                                  "ref": "p17-q27-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 27",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p17-q27"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:05.245Z",
+  "updatedAt": "2026-11-12T11:06:05.246Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p17-q27",
+    "sectionRole": "exercise"
+  }
+}

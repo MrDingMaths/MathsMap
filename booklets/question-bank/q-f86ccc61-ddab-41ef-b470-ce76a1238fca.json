@@ -1,0 +1,386 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f86ccc61-ddab-41ef-b470-ce76a1238fca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 77,
+    "difficulty": "Mastery",
+    "difficultyReason": "Must relate each supplied vertex-type case to four, five or six supporting polygon vertices, establish configurations per selection, and justify avoiding overcounting.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:13.943Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0b02d0c6087a3b503a6f181cde61f70c59d0435ae02c49bf76fc794be6dcaa8e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/ea4df16147150ce13b8fbd2d12fd2c1cc52192184e6f59496dc5a996418621d5-1792557507702/last-message.txt",
+      "originalTaskHash": "59d37fce1565a1bb6b5f0455be1bca544f3fd23d45ce85fcd399801cba67db4b",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "bef0066687416f71f2dd0bbcc491b854c9958c27b429069c60a64303808931f0"
+      }
+    }
+  },
+  "content": {
+    "id": "p36-q39-root",
+    "type": "question",
+    "label": "39",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "03db8227-f7d3-4b75-9a78-36fbe50ee501",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider a strictly convex ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": "-sided polygon in which no three diagonals meet at an interior point. Within the polygon, how many triangles whose edges lie along sides or diagonals of the polygon are there if",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q39-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "all three vertices of the triangle are also vertices of the polygon?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n}{3}$",
+          "worked": "Any three polygon vertices form one triangle. Order does not matter, so the number of triangles is $\\binom{n}{3}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p36-q39-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "two vertices of the triangle are vertices of the polygon, and the third vertex is a point of intersection of two diagonals?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4\\binom{n}{4}$\n\nChoose four polygon vertices; their crossing diagonals give four triangles.",
+          "worked": "Choose four polygon vertices to form a quadrilateral. Its two diagonals intersect, forming four triangles with two quadrilateral vertices and the intersection as vertices. Thus the number is $4\\binom{n}{4}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p36-q39-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "one vertex of the triangle is also a vertex of the polygon, and the other two vertices are points of intersection of diagonals?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5\\binom{n}{5}$\n\nChoose five polygon vertices and count the five corresponding triangles.",
+          "worked": "Each triangle of this type uses five polygon vertices as endpoints of its supporting diagonals. Choose these vertices in $\\binom{n}{5}$ ways. The diagonals of each resulting pentagon give five such triangles, so the number is $5\\binom{n}{5}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p36-q39-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "all three vertices of the triangle are points of intersection of diagonals?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n}{6}$\n\nChoose six polygon vertices; the three opposite-vertex diagonals give one interior triangle.",
+          "worked": "Each triangle of this type uses six polygon vertices as endpoints of its three supporting diagonals. Choose these vertices in $\\binom{n}{6}$ ways. In cyclic order, joining opposite vertices of each selected hexagon gives three pairwise-intersecting diagonals and one interior triangle. Thus the number is $\\binom{n}{6}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p36-q39-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "there are no restrictions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom{n}{3}+4\\binom{n}{4}+5\\binom{n}{5}+\\binom{n}{6}$\n\nAdd the four mutually exclusive vertex-type cases.",
+          "worked": "Parts (a)–(d) cover all triangles without overlap. Adding their counts gives $\\binom{n}{3}+4\\binom{n}{4}+5\\binom{n}{5}+\\binom{n}{6}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p36-q39",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p36-q39": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p36-q39-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p36-q39-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p36-q39-root/label",
+                      "type": "item",
+                      "ref": "p36-q39-root/label",
+                      "title": "Label 39",
+                      "width": 7
+                    },
+                    {
+                      "id": "p36-q39-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p36-q39-root/prompt#03db8227-f7d3-4b75-9a78-36fbe50ee501",
+                          "type": "item",
+                          "ref": "p36-q39-root/prompt#03db8227-f7d3-4b75-9a78-36fbe50ee501",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p36-q39-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p36-q39-root:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p36-q39-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p36-q39-a/label",
+                                      "type": "item",
+                                      "ref": "p36-q39-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-a/prompt",
+                                      "type": "item",
+                                      "ref": "p36-q39-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-a/space",
+                                      "type": "item",
+                                      "ref": "p36-q39-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p36-q39-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p36-q39-b/label",
+                                      "type": "item",
+                                      "ref": "p36-q39-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-b/prompt",
+                                      "type": "item",
+                                      "ref": "p36-q39-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-b/space",
+                                      "type": "item",
+                                      "ref": "p36-q39-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p36-q39-root:row:2",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p36-q39-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p36-q39-c/label",
+                                      "type": "item",
+                                      "ref": "p36-q39-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-c/prompt",
+                                      "type": "item",
+                                      "ref": "p36-q39-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-c/space",
+                                      "type": "item",
+                                      "ref": "p36-q39-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p36-q39-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p36-q39-d/label",
+                                      "type": "item",
+                                      "ref": "p36-q39-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-d/prompt",
+                                      "type": "item",
+                                      "ref": "p36-q39-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-d/space",
+                                      "type": "item",
+                                      "ref": "p36-q39-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p36-q39-root:row:4",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p36-q39-e:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p36-q39-e/label",
+                                      "type": "item",
+                                      "ref": "p36-q39-e/label",
+                                      "title": "Label e"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-e/prompt",
+                                      "type": "item",
+                                      "ref": "p36-q39-e/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p36-q39-e/space",
+                                      "type": "item",
+                                      "ref": "p36-q39-e/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part e",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 39",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:00.785Z",
+  "updatedAt": "2026-11-12T11:08:00.785Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p36-q39",
+    "sectionRole": "exercise"
+  }
+}

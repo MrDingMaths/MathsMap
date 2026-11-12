@@ -1,0 +1,163 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c1f08134-27bc-4722-b104-494ac390405d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "inclusion-exclusion-rule",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "permutations-restrictions"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Form four forbidden adjacency events, count their intersections with changing repeated-element divisors and correct all overlapping exclusions without an in-task scaffold.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:01.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a02749b5411c8db20861744b641cbf786aa5dd7534bf83845d35016cc8a9639f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/1361528c5d29318b126ca2a36e01c5d46a29f281e876c4c73530e46632a78605-1792557473685/last-message.txt",
+      "originalTaskHash": "172f779b4f21dd5a9ee15bc4126e9467affa14f5b930f4412a72fa661e3f2a50",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "63c91edadefe5ddb2b055170dc2886a73e97f01e941d1f19cc03084519e870dc"
+      }
+    }
+  },
+  "content": {
+    "id": "p14-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p14-q19-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Mary has two black pens, two blue pens, two red pens and two green pens.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q19-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "How many ways can she arrange her pens in a row so that no adjacent pens are the same colour?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$864$\n\nUse inclusion–exclusion on the four same-colour adjacency events.",
+      "worked": "Pens of the same colour are identical. For each colour, consider the event that its two pens are adjacent. Count intersections by treating each required adjacent pair as one block.\n\nLet $S_k$ be the sum of counts obtained by requiring adjacency for each selection of $k$ colours; $S_0$ counts all arrangements.\n$$\\begin{align*}S_0&=\\frac{8!}{(2!)^4}=2520\\\\S_1&=4\\times\\frac{7!}{(2!)^3}=2520\\\\S_2&=6\\times\\frac{6!}{(2!)^2}=1080\\\\S_3&=4\\times\\frac{5!}{2!}=240\\\\S_4&=4!=24.\\end{align*}$$\nSubtracting $S_1$ removes arrangements with a same-colour pair together. An arrangement with two such pairs has been subtracted twice, so $S_2$ restores it once. Overlaps involving three or four pairs need further alternating corrections. More generally, an arrangement with $r$ adjacent same-colour pairs has total weight $\\sum_{k=0}^{r}(-1)^k\\binom{r}{k}=(1-1)^r$. This weight is $0$ when $r>0$, and $1$ when $r=0$, so only the permitted arrangements remain.\n$$\\begin{align*}N&=2520-2520+1080-240+24\\\\N&=864.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q19-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p14-q19-body-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p14-q19-label-item",
+                      "type": "item",
+                      "ref": "p14-q19-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p14-q19-body-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p14-q19-stem-item",
+                          "type": "item",
+                          "ref": "p14-q19-root/prompt#p14-q19-stem",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p14-q19-task-item",
+                          "type": "item",
+                          "ref": "p14-q19-root/prompt#p14-q19-task",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p14-q19-space-item",
+                          "type": "item",
+                          "ref": "p14-q19-root/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p14-q19"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:27.436Z",
+  "updatedAt": "2026-11-12T11:07:27.436Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p14-q19",
+    "sectionRole": "exercise"
+  }
+}

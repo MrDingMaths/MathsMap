@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b0c2db77-3ff8-4f87-ac3e-90562930d423",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "unknown-angles-point"
+    ],
+    "reasoningScore": 60,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce symbolic base angles for both isosceles triangles and combine their triangle sums with the reflex angle's complement around B to prove a general doubling relationship.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:43.527Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "519989fc48cc332ddc4b3c69538c92defe70196d9edf9eed092a4dc31dcd7445",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part12-20261008/c52f75f7932c07e77ab5f3b5965ae09f005bd25d2db207b8c40b9f74bc1817ea-1792558133376/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q12-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Each of $\\triangle ABC$ and $\\triangle CBD$ in the figure below is isosceles. Prove that the measure of reflex $\\angle ABD$ is twice the measure of $\\angle ACD$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"reflexFill\",\"hex\":\"FCDFE1\",\"reason\":\"identifies the reflex angle ABD\"},{\"name\":\"wholeAngleFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the entire angle ACD across BC\"}],\"reference\":\"source page 13 question 12\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},angle radius=6mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{reflexFill}{HTML}{FCDFE1}\n\\definecolor{wholeAngleFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,0);\\coordinate (C) at (2,0);\\coordinate (B) at (1,2);\\coordinate (D) at (3,1);\n\\path[fill=reflexFill,draw=black,line width=0.4pt] (B)--++(-116.565:0.48) arc[start angle=-116.565,end angle=-386.565,radius=0.48]--cycle;\n\\pic[draw=black,fill=wholeAngleFill,line width=0.4pt,angle radius=5mm] {angle=D--C--A};\n\\draw (A)--(B)--(D)--(C)--cycle (B)--(C);\n\\foreach \\P/\\Q in {A/B,B/C,B/D}{\\draw[line width=0.4pt] ($ (\\P)!0.5!(\\Q)!0.075cm!90:(\\Q) $)--($ (\\P)!0.5!(\\Q)!0.075cm!-90:(\\Q) $);}\n\\node[left] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[below] at (C) {$C$};\\node[right] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "right column, question 12",
+          "description": "Two joined isosceles triangles with one tick on AB, BC and BD; a red reflex sector at B and a blue full ACD sector at C.",
+          "mathematics": "AB=BC=BD. The marked angle at B is reflex ABD; the marked angle at C includes both ACB and BCD.",
+          "answerVisibility": "Only source givens and requested angle regions are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Reflex $\\angle ABD=2\\angle ACD$.\n\nUse equal base angles in both isosceles triangles, then subtract the two angles at $B$ from $360^\\circ$.",
+      "worked": "Let $\\angle BAC=\\angle BCA=x$ and $\\angle BCD=\\angle BDC=y$, since the triangles are isosceles. By the angle sum of a triangle,\n$$\\begin{align*}\\angle ABC&=180^\\circ-2x\\\\\\angle CBD&=180^\\circ-2y\\\\\\angle ACD&=x+y.\\end{align*}$$\nAngles at a point sum to $360^\\circ$, so\n$$\\begin{align*}\\text{reflex }\\angle ABD&=360^\\circ-(180^\\circ-2x)-(180^\\circ-2y)\\\\\\text{reflex }\\angle ABD&=2x+2y\\\\\\text{reflex }\\angle ABD&=2(x+y)\\\\\\text{reflex }\\angle ABD&=2\\angle ACD.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 84
+  },
+  "presentation": {
+    "ownerId": "p13-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q12-root/label",
+                  "type": "item",
+                  "ref": "p13-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p13-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q12-diagram",
+                  "type": "item",
+                  "ref": "p13-q12-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p13-q12-root/space",
+                  "type": "item",
+                  "ref": "p13-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:49.162Z",
+  "updatedAt": "2026-11-12T13:08:49.162Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part12-20261008",
+    "blockId": "p13-q12",
+    "sectionRole": "exercise"
+  }
+}

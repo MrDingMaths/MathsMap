@@ -1,0 +1,317 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b84203d7-5958-4963-a591-6a47b4134100",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires reversible path transformations, justification of the scaffolded first-return recurrence, a parenthesis bijection and a reflection count for the closed formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:56.049Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "813b6d51af203483009cc4c43d4b7ee0664088fa09881a34007a5b3d8c54b06e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/c51c8a711856d9188a89f902a2f295d52a49c2dffa4502ed294ae6a6f64c1658-1792557494348/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p21-q31-title",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Catalan Numbers",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p21-q31-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A lattice path starts at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "(0,0)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and uses only steps ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "R=(1,0)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "U=(0,1)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". A path from ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "(0,0)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " to ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "(n,n)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is called ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "admissible",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " if it never goes above the diagonal ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", i.e. at every point along the path, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y\\le x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q31-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "List all admissible paths from $(0,0)$ to $(2,2)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{\\mathrm{RRUU},\\mathrm{RURU}\\}$",
+          "worked": "An admissible path has two $R$ steps and two $U$ steps, with at least as many $R$ steps as $U$ steps in every prefix. The only possibilities are $\\mathrm{RRUU}$ and $\\mathrm{RURU}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p21-q31-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many admissible paths are there from $(0,0)$ to $(3,3)$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5$",
+          "worked": "The admissible paths are $\\mathrm{RRRUUU}$, $\\mathrm{RRURUU}$, $\\mathrm{RRUURU}$, $\\mathrm{RURRUU}$ and $\\mathrm{RURURU}$. Hence there are $5$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p21-q31-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Let $C_n$ be the number of admissible paths to $(n,n)$. By considering the first return to the diagonal (or by splitting at the first point after the origin where $y=x$ again), explain why\n$$C_{n+1}=C_0C_n+C_1C_{n-1}+\\cdots+C_kC_{n-k}+\\cdots+C_nC_0.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If the first return is at $(k+1,k+1)$, write the first-return block as $RPU$. Remove its initial $R$ and final $U$, then translate $P$ one unit left to obtain an admissible path to $(k,k)$, counted by $C_k$. The remaining path is counted by $C_{n-k}$. Sum $C_kC_{n-k}$ over $k=0,\\ldots,n$.",
+          "worked": "Every admissible path to $(n+1,n+1)$ starts with $R$. Suppose its first return to $y=x$ is at $(k+1,k+1)$.\n\nRemove the initial $R$ and the $U$ that completes this first return. Translate the intervening segment one unit left. It is an admissible path from $(0,0)$ to $(k,k)$, giving $C_k$ choices.\n\nTranslate the remaining segment to start at the origin. It is an admissible path to $(n-k,n-k)$, giving $C_{n-k}$ choices. Conversely, each pair of these paths gives exactly one path with this first return. These cases are disjoint and cover $k=0,\\ldots,n$, so\n$$\\begin{align*}C_{n+1}&=\\sum_{k=0}^{n}C_kC_{n-k}\\\\C_{n+1}&=C_0C_n+C_1C_{n-1}+\\cdots+C_nC_0.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      },
+      {
+        "id": "p21-q31-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Show that $C_n$ counts the number of valid bracketings of $n$ pairs of parentheses, where every opening parenthesis is matched with a later closing parenthesis. Hence list all valid bracketings for $n=3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Replace $R$ by “(” and $U$ by “)”. The prefix condition prevents premature closing parentheses, and the endpoint supplies $n$ of each. For $n=3$: $((()))$, $(()())$, $(())()$, $()(())$, $()()()$.",
+          "worked": "Encode each $R$ as an opening parenthesis and each $U$ as a closing parenthesis. Since $y\\le x$, every prefix has at least as many opening as closing parentheses. Thus each closing parenthesis can be matched with an earlier unmatched opening parenthesis. Ending at $(n,n)$ gives exactly $n$ of each, so all are matched.\n\nConversely, a valid bracketing has this prefix condition and therefore gives an admissible path. This correspondence is one-to-one, so the number is $C_n$.\n\nFor $n=3$, the valid bracketings are $((()))$, $(()())$, $(())()$, $()(())$ and $()()()$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p21-q31-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find $C_0$, $C_1$, $C_2$, $C_3$, $C_4$, $C_5$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$C_0=1$, $C_1=1$, $C_2=2$, $C_3=5$, $C_4=14$, $C_5=42$.",
+          "worked": "There is one empty path, so $C_0=1$. Using the recurrence from part (c):\n$$\\begin{align*}C_1&=1\\times1=1\\\\C_2&=1\\times1+1\\times1=2\\\\C_3&=1\\times2+1\\times1+2\\times1=5\\\\C_4&=1\\times5+1\\times2+2\\times1+5\\times1=14\\\\C_5&=1\\times14+1\\times5+2\\times2+5\\times1+14\\times1=42.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p21-q31-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find a closed formula for $C_n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p21-q31-f-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "C_n=\\binom{2n}{n}-\\binom{2n}{n+1}=\\frac{1}{n+1}\\binom{2n}{n}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p21-q31-f-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Count all paths and subtract the bad paths. Interchange R and U throughout each bad path’s initial segment, up to and including its first step above y=x. This gives a bijection with paths ending at (n+1,n−1).",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "There are $\\binom{2n}{n}$ unrestricted paths to $(n,n)$.\n\nFor a bad path, reflect its initial segment up to and including the first step above $y=x$, interchanging $R$ and $U$ throughout that segment. At this first crossing the segment has one more $U$ than $R$, so the transformed path has $n+1$ steps $R$ and $n-1$ steps $U$. It ends at $(n+1,n-1)$.\n\nConversely, every path to $(n+1,n-1)$ first reaches $x=y+1$ somewhere. Reflecting its initial segment through that point recovers exactly one bad path to $(n,n)$. Thus there are $\\binom{2n}{n+1}$ bad paths.\n\nFor $n\\ge1$,\n$$\\begin{align*}C_n&=\\binom{2n}{n}-\\binom{2n}{n+1}\\\\C_n&=\\binom{2n}{n}-\\frac{n}{n+1}\\binom{2n}{n}\\\\C_n&=\\frac{1}{n+1}\\binom{2n}{n}.\\end{align*}$$\nThe final formula also gives $C_0=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:37.944Z",
+  "updatedAt": "2026-11-12T11:07:37.944Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p21-q31",
+    "sectionRole": "exercise"
+  }
+}

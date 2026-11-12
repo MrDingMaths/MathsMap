@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8e0cc80a-ffac-4edc-80b2-6222ee7504d0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-coefficient-in-product",
+    "secondarySkillIds": [
+      "binomial-theorem-expand"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret ordered roll outcomes and extract a coefficient from a fifth power of a six-term polynomial.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T12:12:33.592Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bf6a370997898df0208468367530100835a4dfab980556f940988a05283ad67e",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch05-20261002/semantic-packets/assignments/assignment-772f6238e5866bebe0e5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q29-root",
+    "type": "question",
+    "label": "29",
+    "prompt": "A six-sided die is rolled $5$ times, and the results of each roll are added together.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q29-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the coefficient of $x^k$ in $(x+x^2+x^3+x^4+x^5+x^6)^5$ counts the number of ways a total of $k$ can be achieved.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each roll contributes $1$ to $6$, represented by $x+x^2+\\cdots+x^6$. Five independent rolls give the fifth power; its $x^k$ coefficient counts roll sequences totalling $k$.",
+          "worked": "For one roll, choosing the term $x^r$ records the outcome $r$, where $1\\le r\\le6$. There is one factor for each of the five rolls.\n\nA choice of one term from every factor specifies an ordered sequence of outcomes. The product has exponent equal to their total, so the coefficient of $x^k$ counts sequences with total $k$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p31-q29-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the number of ways to roll a total of $10$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$126$ ways.\n\nFactor out $x^5$, then find the coefficient of $x^5$ in $(1+x+x^2+x^3+x^4+x^5)^5$.",
+          "worked": "$$\\begin{align*}(x+x^2+x^3+x^4+x^5+x^6)^5&=x^5(1+x+x^2+x^3+x^4+x^5)^5.\\end{align*}$$\nThe required coefficient is therefore that of $x^5$ in the bracketed fifth power. Set $u=x+x^2+x^3+x^4+x^5$ and expand:\n$$\\begin{align*}(1+u)^5&=1+5u+10u^2+10u^3+5u^4+u^5.\\end{align*}$$\nThe coefficients of $x^5$ in $u,u^2,u^3,u^4,u^5$ are respectively $1,4,6,4,1$, obtained by collecting products whose exponents sum to $5$. Let $N$ be the required coefficient.\n$$\\begin{align*}N&=5(1)+10(4)+10(6)+5(4)+1\\\\N&=126.\\end{align*}$$\nThere are $126$ ways.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q29",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:04.261Z",
+  "updatedAt": "2026-11-12T11:09:04.261Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p31-q29",
+    "sectionRole": "exercise"
+  }
+}

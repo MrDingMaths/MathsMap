@@ -1,0 +1,123 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6e6d9dfe-a1af-448c-9e23-bf3c1b97b7f6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expansion-factorisation-problems",
+    "secondarySkillIds": [
+      "factorise-special-products"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Model interior and border tile counts, complete a product in two variables, justify admissible factor signs and convert all factor pairs into whole-tiling dimensions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:01.761Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f54d7adbc9ccd0e8b69afe506881baa5211a4100074b43a6935dd1f521fb334a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part10-20261008/48ec07a563d04915b7e2d650554832ab8d16e578deb0c7508598d7f063aaebd9-1792558093698/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "The tiling below consists of a rectangle of orange square tiles, with a border of blue square tiles that is one tile wide. We want to make a similar tiling for which the number of orange tiles is twice the number of blue tiles. Find all possible lengths and widths of such tilings.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"interiorOrange\",\"hex\":\"FCE8D5\",\"reason\":\"orange interior tiles counted separately\"},{\"name\":\"borderBlue\",\"hex\":\"D4E8FF\",\"reason\":\"blue one-tile border counted separately\"}],\"reference\":\"source page 14 p14-q14-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{interiorOrange}{HTML}{FCE8D5}\n\\definecolor{borderBlue}{HTML}{D4E8FF}\n\\fill[borderBlue] (0,0) rectangle (7,4);\n\\fill[interiorOrange] (1,1) rectangle (6,3);\n\\draw[white,line width=0.4pt,step=1] (0,0) grid (7,4);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 56,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 14, below the right-column prompt",
+          "description": "Seven columns and four rows of equal square tiles, with a five-column by two-row orange interior and a complete blue border. TikZ preserves two distinct tile classes, which a single-shade fraction-grid template cannot express.",
+          "mathematics": "10 interior tiles and 18 border tiles; border thickness is one tile.",
+          "answerVisibility": "The supplied illustration is always visible and contains no requested dimensions."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Whole tiling dimensions, in tile widths: $7\\times30,\\ 8\\times18,\\ 9\\times14,\\ 10\\times12$, allowing rotation.\n\nThe corresponding orange rectangles are $5\\times28,\\ 6\\times16,\\ 7\\times12,\\ 8\\times10$. Grouping gives $(m-4)(n-4)=24$ for orange-region dimensions $m,n$.",
+      "worked": "Let the orange rectangle have dimensions $m\\times n$ tiles. Its blue border contains\n$$\\begin{align*}(m+2)(n+2)-mn&=mn+2m+2n+4-mn\\\\(m+2)(n+2)-mn&=2m+2n+4.\n\\end{align*}$$\nThe required count condition gives\n$$\\begin{align*}mn&=2(2m+2n+4)\\\\mn-4m-4n&=8\\\\mn-4m-4n+16&=24\\\\m(n-4)-4(n-4)&=24\\\\(m-4)(n-4)&=24.\n\\end{align*}$$\nPositive $m,n$ cannot both be below $4$, since then $(m-4)(n-4)\\le9$. Thus both factors are positive. Up to rotation, the factor pairs are $(1,24),(2,12),(3,8),(4,6)$.\nThe orange-region dimensions are $5\\times28,\\ 6\\times16,\\ 7\\times12,\\ 8\\times10$.\nAdding the one-tile border on both sides gives whole tiling dimensions $7\\times30,\\ 8\\times18,\\ 9\\times14,\\ 10\\times12$ tile widths.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 116
+  },
+  "presentation": {
+    "ownerId": "p14-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q14-root/label",
+                  "type": "item",
+                  "ref": "p14-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p14-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p14-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q14-diagram",
+                  "type": "item",
+                  "ref": "p14-q14-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p14-q14-root/space",
+                  "type": "item",
+                  "ref": "p14-q14-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:02.835Z",
+  "updatedAt": "2026-11-12T13:09:02.835Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part10-20261008",
+    "blockId": "p14-q14",
+    "sectionRole": "exercise"
+  }
+}

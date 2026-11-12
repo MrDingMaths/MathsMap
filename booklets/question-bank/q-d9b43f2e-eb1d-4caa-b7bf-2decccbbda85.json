@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d9b43f2e-eb1d-4caa-b7bf-2decccbbda85",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sum-difference-identities",
+    "secondarySkillIds": [
+      "double-angle-identities",
+      "add-subtract-multiply-polynomials"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the trigonometric definition into a recurrence, iterate it and convert the resulting mixed sine-cosine expression into powers of sine using the Pythagorean identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:27.617Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1c54be6daba86cd4f7a5347280287afb5f249ad78e14ac19d3b98a9b93b511aa",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/af8677bdf926517dab7fcd5fafba3ac99350079048a84bd87223c2e72b073426-1792557462883/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p59-q35-root",
+    "type": "question",
+    "label": "35",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p59-q35-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Chebyshev polynomials of the second kind",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            },
+            {
+              "type": "text",
+              "text": "  Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "U_n(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be polynomials with the property that",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p59-q35-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "U_n(\\cos\\theta)=\\frac{\\sin((n+1)\\theta)}{\\sin\\theta}.",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p59-q35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $U_0(x)=1$ and $U_1(x)=2x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$U_0(x)=1$, $U_1(x)=2x$.\n\nUse the definition with $n=0,1$ and $\\sin2\\theta=2\\sin\\theta\\cos\\theta$.",
+          "worked": "For $\\sin\\theta\\ne0$,\n$$\\begin{align*}U_0(\\cos\\theta)&=\\frac{\\sin\\theta}{\\sin\\theta}=1,\\\\U_1(\\cos\\theta)&=\\frac{\\sin2\\theta}{\\sin\\theta},\\\\U_1(\\cos\\theta)&=\\frac{2\\sin\\theta\\cos\\theta}{\\sin\\theta},\\\\U_1(\\cos\\theta)&=2\\cos\\theta.\\end{align*}$$\nSubstituting $x=\\cos\\theta$ gives $U_0(x)=1$ and $U_1(x)=2x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      },
+      {
+        "id": "p59-q35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that\n$$\\sin((n+2)\\theta)+\\sin(n\\theta)=2\\cos\\theta\\sin((n+1)\\theta).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin((n+2)\\theta)+\\sin(n\\theta)=2\\cos\\theta\\sin((n+1)\\theta)$.\n\nExpand $\\sin(n\\theta+2\\theta)$, use the double-angle identities and factor out $2\\cos\\theta$.",
+          "worked": "$$\\begin{align*}\\sin((n+2)\\theta)+\\sin(n\\theta)&=\\sin(n\\theta)\\cos2\\theta+\\cos(n\\theta)\\sin2\\theta+\\sin(n\\theta),\\\\\\sin((n+2)\\theta)+\\sin(n\\theta)&=\\sin(n\\theta)(\\cos2\\theta+1)+\\cos(n\\theta)\\sin2\\theta,\\\\\\sin((n+2)\\theta)+\\sin(n\\theta)&=2\\sin(n\\theta)\\cos^2\\theta+2\\cos(n\\theta)\\sin\\theta\\cos\\theta,\\\\\\sin((n+2)\\theta)+\\sin(n\\theta)&=2\\cos\\theta\\bigl(\\sin(n\\theta)\\cos\\theta+\\cos(n\\theta)\\sin\\theta\\bigr),\\\\\\sin((n+2)\\theta)+\\sin(n\\theta)&=2\\cos\\theta\\sin((n+1)\\theta).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p59-q35-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, show that $U_{n+1}(x)=2xU_n(x)-U_{n-1}(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$U_{n+1}(x)=2xU_n(x)-U_{n-1}(x)$.\n\nDivide the identity in part b by $\\sin\\theta$, use the definition and substitute $x=\\cos\\theta$.",
+          "worked": "Divide the identity in part b by $\\sin\\theta\\ne0$ and rearrange:\n$$\\begin{align*}\\frac{\\sin((n+2)\\theta)}{\\sin\\theta}&=2\\cos\\theta\\frac{\\sin((n+1)\\theta)}{\\sin\\theta}-\\frac{\\sin(n\\theta)}{\\sin\\theta},\\\\U_{n+1}(\\cos\\theta)&=2\\cos\\theta\\,U_n(\\cos\\theta)-U_{n-1}(\\cos\\theta).\\end{align*}$$\nWith $x=\\cos\\theta$,\n$$U_{n+1}(x)=2xU_n(x)-U_{n-1}(x),\\qquad n\\ge1.$$\nThe polynomial identity holds for all $x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p59-q35-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find $U_4(x)$, and hence an identity for $\\sin5\\theta$ in terms of powers of $\\sin\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$U_4(x)=16x^4-12x^2+1$.\n\n$\\sin5\\theta=16\\sin^5\\theta-20\\sin^3\\theta+5\\sin\\theta$.\n\nUse the recurrence, then substitute $x=\\cos\\theta$ and $\\cos^2\\theta=1-\\sin^2\\theta$.",
+          "worked": "$$\\begin{align*}U_2(x)&=2x(2x)-1,\\\\U_2(x)&=4x^2-1,\\\\U_3(x)&=2x(4x^2-1)-2x,\\\\U_3(x)&=8x^3-4x,\\\\U_4(x)&=2x(8x^3-4x)-(4x^2-1),\\\\U_4(x)&=16x^4-12x^2+1.\\end{align*}$$\nUsing the definition and $\\cos^2\\theta=1-\\sin^2\\theta$,\n$$\\begin{align*}\\sin5\\theta&=\\sin\\theta\\,U_4(\\cos\\theta),\\\\\\sin5\\theta&=\\sin\\theta(16\\cos^4\\theta-12\\cos^2\\theta+1),\\\\\\sin5\\theta&=\\sin\\theta\\bigl(16(1-\\sin^2\\theta)^2-12(1-\\sin^2\\theta)+1\\bigr),\\\\\\sin5\\theta&=16\\sin^5\\theta-20\\sin^3\\theta+5\\sin\\theta.\\end{align*}$$\nFor $\\sin\\theta=0$, both sides are zero, so the identity holds for every $\\theta$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p59-q35",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:57.747Z",
+  "updatedAt": "2026-11-12T11:06:57.747Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p59-q35",
+    "sectionRole": "exercise"
+  }
+}

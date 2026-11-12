@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5f88335b-d0ea-4631-9786-a203a3de2ccc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-pyramid-cone",
+    "secondarySkillIds": [
+      "pythagoras-3d"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose a common cube-edge variable, identify the face diagonal as the tetrahedron edge using Pythagoras, and reuse the previously derived tetrahedron formula to compare the two volumes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:25.139Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "276dcbfd053f081ac58d00d4785e8f6054ee13604637465691bae1fa6bb80083",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/446f3c0fcd54e127347fc43bf5a86bf1c712ecad1c4f7fd4cf4c76c1069e89c5-1792558205695/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The square-based pyramid below is inscribed within a cube, while the triangular-based pyramid below has all its edges equal in length to the red diagonal. Which of these pyramids has larger volume?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q9-cube-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"pyramidBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the square-based pyramid\"},{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the edge length shared with the adjacent tetrahedron\"}],\"reference\":\"source page 38 p38-q9-cube-diagram\"}\n\\begin{tikzpicture}[line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{pyramidBlue}{HTML}{268CFF}\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2.4,0);\\coordinate (C) at (3.6,1.2);\\coordinate (D) at (1.2,1.2);\n\\coordinate (E) at (0,2.4);\\coordinate (F) at (2.4,2.4);\\coordinate (G) at (3.6,3.6);\\coordinate (H) at (1.2,3.6);\\coordinate (P) at (1.8,3);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(G)--(H)--(E)--cycle (E)--(F)--(G) (B)--(F);\n\\draw[black,dashed,line width=0.4pt] (A)--(D)--(C) (D)--(H);\n\\draw[pyramidBlue,line width=0.8pt] (A)--(B)--(C) (A)--(P)--(B) (P)--(C);\n\\draw[pyramidBlue,dashed,line width=0.8pt] (A)--(D)--(C) (D)--(P);\n\\draw[diagonalRed,line width=0.8pt] (B)--(G);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.2,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 9, left comparison figure",
+          "description": "Square pyramid with the cube's bottom face as base and the centre of its top face as apex; red right-face diagonal.",
+          "mathematics": "For cube edge s, the pyramid base area is s², height s, and the red face diagonal is s√2.",
+          "answerVisibility": "No computed dimensions or volumes are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p38-q9-tetrahedron-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"edgeRed\",\"hex\":\"EF6068\",\"reason\":\"all tetrahedron edges equal the red cube face diagonal\"}],\"reference\":\"source page 38 p38-q9-tetrahedron-diagram\"}\n\\begin{tikzpicture}[line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{edgeRed}{HTML}{EF6068}\n\\coordinate (A) at (0,1.6);\\coordinate (B) at (0.55,0);\\coordinate (C) at (3.3,1.05);\\coordinate (P) at (1.65,3.3);\n\\draw[edgeRed,line width=0.8pt] (A)--(B)--(C)--(P)--cycle (B)--(P);\n\\draw[edgeRed,dashed,line width=0.8pt] (A)--(C);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.4,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 9, right comparison figure",
+          "description": "Regular triangular-based pyramid in red, paired horizontally with the cube figure; all six edges retained.",
+          "mathematics": "Each edge has length s√2, equal to the highlighted face diagonal.",
+          "answerVisibility": "No answer is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The pyramids have equal volume.\n\nEach occupies one third of the cube's volume.",
+      "worked": "Let the cube edge be $s$. The square-based pyramid has base area $s^2$ and height $s$.\n$$\\begin{align*}V_{\\text{square pyramid}}&=\\frac13s^2s\\\\V_{\\text{square pyramid}}&=\\frac13s^3.\\end{align*}$$\nThe red face diagonal has length $s\\sqrt2$. Using the regular tetrahedron result from question 8,\n$$\\begin{align*}V_{\\text{tetrahedron}}&=\\frac{\\sqrt2}{12}(s\\sqrt2)^3\\\\V_{\\text{tetrahedron}}&=\\frac13s^3.\\end{align*}$$\nTherefore, the two pyramids have equal volume.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q9-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p38-q9-label-item",
+                  "type": "item",
+                  "ref": "p38-q9-root/label"
+                },
+                {
+                  "id": "p38-q9-prompt-item",
+                  "type": "item",
+                  "ref": "p38-q9-root/prompt"
+                },
+                {
+                  "id": "p38-q9-comparison-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p38-q9-left-item",
+                      "type": "item",
+                      "ref": "p38-q9-cube-diagram",
+                      "width": 41.2
+                    },
+                    {
+                      "id": "p38-q9-right-item",
+                      "type": "item",
+                      "ref": "p38-q9-tetrahedron-diagram",
+                      "width": 41.4
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p38-q9-space-item",
+                  "type": "item",
+                  "ref": "p38-q9-root/space"
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p38-q9"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:09.011Z",
+  "updatedAt": "2026-11-12T13:10:09.012Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p38-q9",
+    "sectionRole": "exercise"
+  }
+}

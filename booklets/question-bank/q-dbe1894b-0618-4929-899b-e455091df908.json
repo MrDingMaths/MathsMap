@@ -1,0 +1,220 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dbe1894b-0618-4929-899b-e455091df908",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-sum-product-roots",
+    "secondarySkillIds": [
+      "sum-product-roots-quadratic"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Generalise root substitution by multiplying each root equation by its kth-power offset, add to establish the supplied recurrence, and apply it to derive the cubic power sum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:36:52.111Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cfc2151c60ad05fefe15e961028293bdd6294f1980e296d8352d9a9a0025f838",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch02/0f3c40522b4d8a65a871e20dee147a17748177e55597b754b2f0a1d6cbc2ad3b-1792557363768/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p46-q69-root",
+    "type": "question",
+    "label": "69",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p46-q69-title",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Newton’s identities (quadratic)",
+              "marks": [
+                "bold"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p46-q69-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\alpha",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\beta",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be the roots of the monic quadratic ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(x)=x^2+px+q",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Denote the sum of the powers of the roots by",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p46-q69-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "s_k=\\alpha^k+\\beta^k,",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p46-q69-range",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k=0,1,2,\\ldots",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p46-q69-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $s_0=2$ and $s_1=-p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$s_0=2$ and $s_1=-p$, using the definition and the sum of roots.",
+          "worked": "$$\\begin{align*}s_0&=\\alpha^0+\\beta^0\\\\s_0&=1+1=2.\\end{align*}$$\n\nBy the sum of roots of $x^2+px+q=0$,\n\n$$\\begin{align*}s_1&=\\alpha+\\beta\\\\s_1&=-p.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p46-q69-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $s_k$ satisfies\n\n$$s_k=-ps_{k-1}-qs_{k-2},$$\n\nfor $k\\geq2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$s_k=-ps_{k-1}-qs_{k-2}$ for $k\\geq2$.\n\nMultiply the two root equations by $\\alpha^{k-2}$ and $\\beta^{k-2}$ respectively, then add.",
+          "worked": "Since $\\alpha$ and $\\beta$ are roots,\n\n$$\\begin{align*}\\alpha^2&=-p\\alpha-q\\\\\\beta^2&=-p\\beta-q.\\end{align*}$$\n\nMultiply by $\\alpha^{k-2}$ and $\\beta^{k-2}$ respectively:\n\n$$\\begin{align*}\\alpha^k&=-p\\alpha^{k-1}-q\\alpha^{k-2}\\\\\\beta^k&=-p\\beta^{k-1}-q\\beta^{k-2}.\\end{align*}$$\n\nAdd the equations:\n\n$$\\begin{align*}\\alpha^k+\\beta^k&=-p(\\alpha^{k-1}+\\beta^{k-1})-q(\\alpha^{k-2}+\\beta^{k-2})\\\\s_k&=-ps_{k-1}-qs_{k-2},\\qquad k\\geq2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p46-q69-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, show that $s_3=3pq-p^3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$s_3=3pq-p^3$.\n\nUse the recurrence to find $s_2=p^2-2q$, then substitute into the recurrence for $s_3$.",
+          "worked": "Using $s_0=2$ and $s_1=-p$,\n\n$$\\begin{align*}s_2&=-ps_1-qs_0\\\\s_2&=-p(-p)-q(2)\\\\s_2&=p^2-2q.\\end{align*}$$\n\nThen\n\n$$\\begin{align*}s_3&=-ps_2-qs_1\\\\s_3&=-p(p^2-2q)-q(-p)\\\\s_3&=3pq-p^3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p46-q69",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:40.229Z",
+  "updatedAt": "2026-11-12T11:05:40.230Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch02",
+    "blockId": "p46-q69",
+    "sectionRole": "exercise"
+  }
+}

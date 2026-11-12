@@ -1,0 +1,156 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2ea33580-4ceb-4876-9d0f-36a1740982b4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "gradient-of-interval",
+    "secondarySkillIds": [],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reframe all possible point pairs as bounded positive integer rises and runs, enumerate their ratios systematically, and remove equivalent fractions to count distinct gradients.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:56.391Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b48f3a47b64bf7461b3cc9ca5647acd1719f5c68aa94622950d0b03c86f6bca5",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part15/cd4aa72312bc85d185376e5555bd3cabc0b6cbb74f45ebcbea42893805b95dba-1792558225274/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "On the $4\\times4$ grid below we can draw lines through two of the grid points to form a line with a gradient of $\\frac12$:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p9-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"gradientRed\",\"hex\":\"EF6068\",\"reason\":\"supplied example line with gradient one half\"}],\"reference\":\"source page 9 p9-q9-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\definecolor{houseGrid}{HTML}{CCCCCC}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gradientRed}{HTML}{EF6068}\n\\draw[draw=houseGrid,line width=0.25pt,densely dotted,step=1] (0,0) grid (4,4);\n\\draw[draw=gradientRed,line width=0.8pt] (0,1)--(4,3);\n\\fill[black] (0,1) circle[radius=1.5pt];\n\\fill[black] (2,2) circle[radius=1.5pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 9,
+          "sourceRegion": "Right column, question 9",
+          "description": "Four square cells across and four high, with no axes or labels. A red segment joins (0,1) to (4,3); black points mark (0,1) and (2,2). The blank-grid template cannot express the supplied line and point markers.",
+          "mathematics": "The supplied segment has rise 2 and run 4, hence gradient 1/2.",
+          "answerVisibility": "Only the source-supplied example gradient is illustrated; the requested count is hidden."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p9-q9-response",
+        "type": "part",
+        "label": "",
+        "prompt": "By choosing any two grid points above, how many different positive gradients can you find?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "11 different positive gradients.\n\nCount distinct rise/run ratios, treating equivalent fractions as the same gradient.",
+          "worked": "Any positive gradient can be represented using the bottom-left corner and another grid point. Both rise and run can be $1,2,3$ or $4$.\n\n$$m=\\frac{\\text{rise}}{\\text{run}}.$$\n\nFor runs of $1,2,3,4$, respectively, the possible gradients are:\n\n$$\\begin{aligned}m&=1,2,3,4\\\\m&=\\frac12,1,\\frac32,2\\\\m&=\\frac13,\\frac23,1,\\frac43\\\\m&=\\frac14,\\frac12,\\frac34,1.\\end{aligned}$$\n\nRemoving repetitions leaves $\\frac14,\\frac13,\\frac12,\\frac23,\\frac34,1,\\frac43,\\frac32,2,3,4$: **11 different positive gradients**.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 90
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p9-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p9-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p9-q9-root/label",
+                  "type": "item",
+                  "ref": "p9-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p9-q9-root/prompt",
+                  "type": "item",
+                  "ref": "p9-q9-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p9-q9-diagram",
+                  "type": "item",
+                  "ref": "p9-q9-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p9-q9-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p9-q9-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p9-q9-response/prompt",
+                          "type": "item",
+                          "ref": "p9-q9-response/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p9-q9-response/space",
+                          "type": "item",
+                          "ref": "p9-q9-response/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:13.842Z",
+  "updatedAt": "2026-11-12T13:09:13.843Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part15",
+    "blockId": "p9-q9",
+    "sectionRole": "exercise"
+  }
+}

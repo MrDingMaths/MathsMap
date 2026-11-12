@@ -1,0 +1,280 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-93cb16a0-6349-4211-b14d-c213d59f3844",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-sums",
+    "secondarySkillIds": [
+      "induction-structure"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Apply induction with factorial recurrences and rational summands; the hardest step selects a common denominator and factors toward the supplied next-case target.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:48:53.292Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51ba9dc89e605045b30691a9a8e218590d8ee0645a78d494cfbfcba17f442914",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-ch16-part18/020bc7f20a0c6d3397106bcddf50cb672e56564c8104d0b404480e5147a6371a-1792558083004/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Use mathematical induction to prove each of the following for all $n\\in\\mathbb N$, except in part (d), where $n\\ge2$:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q2a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$\\sum_{i=1}^{n}i\\cdot i!=(n+1)!-1$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nCheck $n=1$; add $(k+1)(k+1)!$ to the assumed sum and factor out $(k+1)!$.",
+          "worked": "Base case: for $n=1$, the left-hand side is $1\\cdot1!=1$ and the right-hand side is $2!-1=1$.\n\nInductive hypothesis: assume $\\sum_{i=1}^{k}i\\cdot i!=(k+1)!-1$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}\\sum_{i=1}^{k+1}i\\cdot i!&=\\sum_{i=1}^{k}i\\cdot i!+(k+1)(k+1)!\\\\\\sum_{i=1}^{k+1}i\\cdot i!&=(k+1)!-1+(k+1)(k+1)!\\\\\\sum_{i=1}^{k+1}i\\cdot i!&=(k+1)![1+(k+1)]-1\\\\\\sum_{i=1}^{k+1}i\\cdot i!&=(k+2)!-1.\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 108
+      },
+      {
+        "id": "p25-q2b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$\\sum_{i=1}^{n}\\frac{i-1}{i!}=\\frac{n!-1}{n!}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nCheck $n=1$; use the inductive hypothesis and a common denominator of $(k+1)!$.",
+          "worked": "Base case: for $n=1$, both sides are $0$.\n\nInductive hypothesis: assume $\\sum_{i=1}^{k}\\frac{i-1}{i!}=\\frac{k!-1}{k!}$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}\\sum_{i=1}^{k+1}\\frac{i-1}{i!}&=\\sum_{i=1}^{k}\\frac{i-1}{i!}+\\frac{k}{(k+1)!}\\\\\\sum_{i=1}^{k+1}\\frac{i-1}{i!}&=\\frac{k!-1}{k!}+\\frac{k}{(k+1)!}\\\\\\sum_{i=1}^{k+1}\\frac{i-1}{i!}&=\\frac{(k+1)(k!-1)+k}{(k+1)!}\\\\\\sum_{i=1}^{k+1}\\frac{i-1}{i!}&=\\frac{(k+1)!-1}{(k+1)!}.\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p25-q2c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$$\\sum_{i=1}^{n}i^3=\\frac{n^2(n+1)^2}{4}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all $n\\in\\mathbb N$.\n\nAfter adding $(k+1)^3$, factor out $(k+1)^2$ and use $k^2+4k+4=(k+2)^2$.",
+          "worked": "Base case: for $n=1$, $1^3=1=\\frac{1^2(1+1)^2}{4}$.\n\nInductive hypothesis: assume $\\sum_{i=1}^{k}i^3=\\frac{k^2(k+1)^2}{4}$ for some $k\\ge1$.\n\nInductive step:\n$$\\begin{align*}\\sum_{i=1}^{k+1}i^3&=\\sum_{i=1}^{k}i^3+(k+1)^3\\\\\\sum_{i=1}^{k+1}i^3&=\\frac{k^2(k+1)^2}{4}+(k+1)^3\\\\\\sum_{i=1}^{k+1}i^3&=\\frac{(k+1)^2[k^2+4(k+1)]}{4}\\\\\\sum_{i=1}^{k+1}i^3&=\\frac{(k+1)^2(k^2+4k+4)}{4}\\\\\\sum_{i=1}^{k+1}i^3&=\\frac{(k+1)^2(k+2)^2}{4}.\\end{align*}$$\nThus the formula holds for $k+1$. By mathematical induction, it holds for all $n\\in\\mathbb N$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p25-q2d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$$\\sum_{i=2}^{n}\\frac{4}{i^2-1}=\\frac{(n-1)(3n+2)}{n(n+1)},\\qquad n\\ge2$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True for all integers $n\\ge2$.\n\nStart at $n=2$; add $\\frac4{k(k+2)}$ and combine over $k(k+1)(k+2)$.",
+          "worked": "Base case: for $n=2$, the left-hand side is $\\frac4{2^2-1}=\\frac43$ and the right-hand side is $\\frac{(2-1)(3\\cdot2+2)}{2(2+1)}=\\frac43$.\n\nInductive hypothesis: assume $\\sum_{i=2}^{k}\\frac4{i^2-1}=\\frac{(k-1)(3k+2)}{k(k+1)}$ for some $k\\ge2$.\n\nInductive step:\n$$\\begin{align*}\\sum_{i=2}^{k+1}\\frac4{i^2-1}&=\\sum_{i=2}^{k}\\frac4{i^2-1}+\\frac4{(k+1)^2-1}\\\\\\sum_{i=2}^{k+1}\\frac4{i^2-1}&=\\frac{(k-1)(3k+2)}{k(k+1)}+\\frac4{k(k+2)}\\\\\\sum_{i=2}^{k+1}\\frac4{i^2-1}&=\\frac{(k-1)(3k+2)(k+2)+4(k+1)}{k(k+1)(k+2)}\\\\\\sum_{i=2}^{k+1}\\frac4{i^2-1}&=\\frac{3k^3+5k^2}{k(k+1)(k+2)}\\\\\\sum_{i=2}^{k+1}\\frac4{i^2-1}&=\\frac{k(3k+5)}{(k+1)(k+2)}.\\end{align*}$$\nThe last expression is the required right-hand side for $n=k+1$. By mathematical induction, the formula holds for all integers $n\\ge2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 152
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q2-root/label",
+                  "type": "item",
+                  "ref": "p25-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p25-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p25-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p25-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q2-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p25-q2a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q2a/label",
+                              "type": "item",
+                              "ref": "p25-q2a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p25-q2a/prompt",
+                              "type": "item",
+                              "ref": "p25-q2a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p25-q2a/space",
+                              "type": "item",
+                              "ref": "p25-q2a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p25-q2b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q2b/label",
+                              "type": "item",
+                              "ref": "p25-q2b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p25-q2b/prompt",
+                              "type": "item",
+                              "ref": "p25-q2b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p25-q2b/space",
+                              "type": "item",
+                              "ref": "p25-q2b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p25-q2-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p25-q2c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q2c/label",
+                              "type": "item",
+                              "ref": "p25-q2c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p25-q2c/prompt",
+                              "type": "item",
+                              "ref": "p25-q2c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p25-q2c/space",
+                              "type": "item",
+                              "ref": "p25-q2c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p25-q2d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q2d/label",
+                              "type": "item",
+                              "ref": "p25-q2d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p25-q2d/prompt",
+                              "type": "item",
+                              "ref": "p25-q2d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p25-q2d/space",
+                              "type": "item",
+                              "ref": "p25-q2d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:27.157Z",
+  "updatedAt": "2026-11-12T11:09:27.158Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-ch16-part18",
+    "blockId": "p25-q2",
+    "sectionRole": "exercise"
+  }
+}

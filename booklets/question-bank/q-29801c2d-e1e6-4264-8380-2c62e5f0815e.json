@@ -1,0 +1,280 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-29801c2d-e1e6-4264-8380-2c62e5f0815e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interior-angle-sum-polygon",
+    "secondarySkillIds": [
+      "exterior-angle-sum-polygon",
+      "angle-sum-triangle"
+    ],
+    "reasoningScore": 69,
+    "difficulty": "Mastery",
+    "difficultyReason": "Move from a regular numerical case to an arbitrary star, recognise exterior angles counted twice across the tip triangles, and generalise that counting argument to n tips.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:43.527Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e0ccdca16aa3c605447d0fe9a99f92c73b78ef37c2927a8d92395644105c2b64",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part12-20261008/c52f75f7932c07e77ab5f3b5965ae09f005bd25d2db207b8c40b9f74bc1817ea-1792558133376/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "Investigate the outermost angles of stars formed by extending polygon sides.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The sides of a regular pentagon are extended to form a star. Find the measure of each of the outermost angles in this star.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q18-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18, p18-q18-a-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (126:2);\n\\coordinate (B) at (54:2);\n\\coordinate (C) at (-18:2);\n\\coordinate (D) at (-90:2);\n\\coordinate (E) at (-162:2);\n\\draw[black] (A)--(C)--(E)--(B)--(D)--cycle;\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 43.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "right column, question 18(a)",
+              "description": "Regular five-point star with two upper tips, a horizontal segment joining the left and right tips, and one downward tip. Decorative cyan fill is omitted under house style.",
+              "mathematics": "Five intersecting straight segments enclose a regular central pentagon and five congruent tip triangles.",
+              "answerVisibility": "No answers or additional angle labels appear in the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$36^{\\circ}$.\n\nEach tip triangle has two base angles of $72^{\\circ}$.",
+          "worked": "Each interior angle of the regular pentagon is\n$$\\begin{align*}I&=\\frac{(5-2)\\times180^{\\circ}}{5}\\\\I&=108^{\\circ}.\\end{align*}$$\nEach base angle of a tip triangle is $180^{\\circ}-108^{\\circ}=72^{\\circ}$, using angles on a straight line. Therefore,\n$$\\begin{align*}\\theta&=180^{\\circ}-72^{\\circ}-72^{\\circ}\\\\\\theta&=36^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p18-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The sides of an arbitrary pentagon are extended to form a star. Find the sum of the outermost angles in this star.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q18-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18, p18-q18-b-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,2.65);\n\\coordinate (C) at (2.4,-0.65);\n\\coordinate (D) at (0,1.95);\n\\coordinate (E) at (3.7,0);\n\\draw[black] (A)--(B)--(C)--(D)--(E)--cycle;\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 46.2,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "right column, question 18(b)",
+              "description": "Irregular five-point star retaining its central pentagon, crossing incidences, horizontal lower-left to lower-right segment, upper-left and upper-right tips, and downward tip. Coordinates construct the illustration and are not numerical givens. Decorative cyan fill is omitted.",
+              "mathematics": "Five extended central-pentagon sides form five exterior tip triangles.",
+              "answerVisibility": "No supplied or derived angles appear in the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$180^{\\circ}$.\n\nThe five tip triangles contain the pentagon’s exterior angles twice.",
+          "worked": "Let $S$ be the sum of the five tip angles. The five tip triangles have a total angle sum of $5\\times180^{\\circ}$. Their ten base angles are the exterior angles of the central pentagon, each occurring twice. The exterior angles sum to $360^{\\circ}$, so\n$$\\begin{align*}S&=5\\times180^{\\circ}-2\\times360^{\\circ}\\\\S&=180^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p18-q18-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Suppose we extend the sides of an arbitrary $n$-gon to form a star with $n$ “points”. Find the sum of the outermost angles in this star.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(n-4)\\times180^{\\circ}$, for the intended construction with one exterior tip triangle along each side.\n\nSubtract twice the polygon’s exterior-angle sum from the angle sum of the $n$ tip triangles.",
+          "worked": "For the intended construction, there are $n$ exterior tip triangles. Their base angles are the exterior angles of the central polygon, each occurring twice. Let $S$ be the sum of the tip angles. Then\n$$\\begin{align*}S&=n\\times180^{\\circ}-2\\times360^{\\circ}\\\\S&=(n-4)\\times180^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p18-q18-root/label",
+                  "type": "item",
+                  "ref": "p18-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p18-q18-root/prompt",
+                  "type": "item",
+                  "ref": "p18-q18-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p18-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p18-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q18-a/label",
+                          "type": "item",
+                          "ref": "p18-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p18-q18-a/prompt",
+                          "type": "item",
+                          "ref": "p18-q18-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q18-a-diagram",
+                          "type": "item",
+                          "ref": "p18-q18-a-diagram",
+                          "title": "Diagram",
+                          "width": 43.3
+                        },
+                        {
+                          "id": "layout:p18-q18-a/space",
+                          "type": "item",
+                          "ref": "p18-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q18-b/label",
+                          "type": "item",
+                          "ref": "p18-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p18-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p18-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q18-b-diagram",
+                          "type": "item",
+                          "ref": "p18-q18-b-diagram",
+                          "title": "Diagram",
+                          "width": 46.2
+                        },
+                        {
+                          "id": "layout:p18-q18-b/space",
+                          "type": "item",
+                          "ref": "p18-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p18-q18-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p18-q18-c/label",
+                          "type": "item",
+                          "ref": "p18-q18-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p18-q18-c/prompt",
+                          "type": "item",
+                          "ref": "p18-q18-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p18-q18-c/space",
+                          "type": "item",
+                          "ref": "p18-q18-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:56.832Z",
+  "updatedAt": "2026-11-12T13:08:56.832Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part12-20261008",
+    "blockId": "p18-q18",
+    "sectionRole": "exercise"
+  }
+}

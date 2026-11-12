@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9baee309-8f1f-4da9-aaaa-15358858386a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "angle-properties-plane-shapes",
+    "secondarySkillIds": [
+      "interior-angle-sum-polygon"
+    ],
+    "reasoningScore": 92,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires inventing matching-boundary constructions beyond regular polygons and a general side-count argument covering every integer, with no construction scaffold supplied.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:19.384Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4400ad2fcb6ff836b973d0162674785f8bd8edcacc82e8ef184d83f9162e81f1",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part12-20261008/6d03cc2b51a42a862059acbcb4fba2925189522b1779e830efebfd3d5dd4e9c9-1792558141821/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "It is possible to tessellate the plane using copies of a single triangle, and also using copies of a single quadrilateral. Determine for which values of $n$ there exists an $n$-gon which tessellates the plane, and for any such $n$ give an example of an $n$-gon that suffices.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "All integers $n\\geq3$.\n\nTriangles, squares, a suitable pentagon and regular hexagons provide the first cases. Matching teeth on suitable tiles give examples for every larger number of sides.",
+      "worked": "An equilateral triangle, a square and a regular hexagon tessellate the plane. The pentagon shown also tessellates: two copies, joined along their longest sloping edges, form a parallelogram, and parallelograms tessellate.\n\nThe four lower figures give examples with $7$, $8$, $9$ and $10$ sides. Their protrusions match the recesses of adjacent copies; the clipped corner in the $7$-sided example matches a neighbouring corner. Translating copies fills the plane without gaps or overlaps.\n\nExtend an existing tooth pattern on both the top and bottom boundaries, keeping the two boundaries matching. Append the new diagonal and vertical segments immediately after an existing tooth, without an intervening horizontal segment. Each added tooth increases the side count by $2$, so adding one to each boundary increases it by $4$.\n\nEvery integer $n\\geq7$ has the form $7+4k$, $8+4k$, $9+4k$ or $10+4k$, where $k\\geq0$. Thus these four constructions, together with the examples for $3$, $4$, $5$ and $6$, cover all integers $n\\geq3$.",
+      "solutionDiagrams": [
+        {
+          "id": "p20-q28-examples",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"teacher page 50, question 28; p20-q28-examples\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[shift={(0,5)}]\\draw (0,0)--(2,0)--(1,1.732)--cycle;\\node[below] at (1,0) {$n=3$};\\end{scope}\n\\begin{scope}[shift={(3.5,5)}]\\draw (0,0)--(2,0)--(2,2)--(0,2)--cycle;\\node[below] at (1,0) {$n=4$};\\end{scope}\n\\begin{scope}[shift={(7,5)}]\\draw (0,1)--(.5,0)--(1.5,0)--(2,1)--(1,3)--cycle;\\node[below] at (1,0) {$n=5$};\\end{scope}\n\\begin{scope}[shift={(10.5,5)}]\\draw (0,.866)--(.5,0)--(1.5,0)--(2,.866)--(1.5,1.732)--(.5,1.732)--cycle;\\node[below] at (1,0) {$n=6$};\\end{scope}\n\\begin{scope}[shift={(0,0)}]\\draw (0,0)--(2.1,0)--(2.4,.3)--(2.4,2.4)--(.3,2.4)--(.3,2.7)--(0,2.4)--cycle;\\node[below] at (1.2,0) {$n=7$};\\end{scope}\n\\begin{scope}[shift={(3.5,0)}]\\draw (0,0)--(.3,.3)--(.3,0)--(2.4,0)--(2.4,2.4)--(.3,2.4)--(.3,2.7)--(0,2.4)--cycle;\\node[below] at (1.2,0) {$n=8$};\\end{scope}\n\\begin{scope}[shift={(7,0)}]\\draw (0,0)--(.3,.3)--(.3,0)--(2.4,0)--(2.4,2.4)--(1.2,2.4)--(1.2,2.7)--(.9,2.4)--(0,2.4)--cycle;\\node[below] at (1.2,0) {$n=9$};\\end{scope}\n\\begin{scope}[shift={(10.5,0)}]\\draw (0,0)--(.9,0)--(1.2,.3)--(1.2,0)--(2.4,0)--(2.4,2.4)--(1.2,2.4)--(1.2,2.7)--(.9,2.4)--(0,2.4)--cycle;\\node[below] at (1.2,0) {$n=10$};\\end{scope}\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 155,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 20,
+            "sourceRegion": "Teacher PDF page 50, question 28; teacher page 49, question 27 for the regular-hexagon reference",
+            "description": "Editable examples for three through ten sides. The pentagon and four toothed polygons reconstruct the supplied solution figures; triangle, square and regular hexagon make the referenced earlier cases explicit.",
+            "mathematics": "The pentagon has five genuine vertices. The four lower polygons have exactly seven, eight, nine and ten sides, respectively. Matching opposite boundary profiles permit tessellation; extending paired tooth patterns adds four sides.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 164
+  },
+  "presentation": {
+    "ownerId": "p20-q28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q28-root/label",
+                  "type": "item",
+                  "ref": "p20-q28-root/label",
+                  "title": "Label 28"
+                },
+                {
+                  "id": "layout:p20-q28-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q28-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q28-root/space",
+                  "type": "item",
+                  "ref": "p20-q28-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 28",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:58.437Z",
+  "updatedAt": "2026-11-12T13:08:58.437Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part12-20261008",
+    "blockId": "p20-q28",
+    "sectionRole": "exercise"
+  }
+}

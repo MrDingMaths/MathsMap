@@ -1,0 +1,251 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-575446bc-e788-4a2d-bc8e-23d9c6c45c33",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-triangle",
+      "area-of-circle"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a regular hexagon's area from its inradius, then use containment to establish a bound on π.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T14:23:55.959Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f9e066aa45c80aabf1c30777ba65d783ad46c9740500bca3ad18f6be420b8e45",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part14-20261008/semantic-packets/assignments/assignment-77b5e3bb2f7dafaaabd8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q22-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A circle of radius $\\sqrt{3}$ is inscribed in a regular hexagon below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q22-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22, p22-q22-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (2,0)--(1,{sqrt(3)})--(-1,{sqrt(3)})--(-2,0)--(-1,{-sqrt(3)})--(1,{-sqrt(3)})--cycle;\n\\draw[black] (0,0) circle[radius={sqrt(3)}];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 42,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 22, upper left column",
+          "description": "Regular hexagon with horizontal top and bottom sides and a circle tangent to all six sides. Source pink fill is omitted under the unshaded house convention; no measurements or construction lines are added.",
+          "mathematics": "Circumradius 2 and inradius √3 in the internal coordinate model; the student figure has no numerical labels.",
+          "answerVisibility": "Only the supplied hexagon and inscribed circle are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q22-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the hexagon. Hint: divide the hexagon into equilateral triangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6\\sqrt{3}$ square units.\n\nDivide the hexagon into six equilateral triangles.",
+          "worked": "Join the centre to the six vertices. Each equilateral triangle has height $\\sqrt{3}$. Let its side length be $s$. Bisecting it gives\n$$\\begin{align*}\\left(\\frac{s}{2}\\right)^2+3&=s^2\\\\\\frac{3s^2}{4}&=3\\\\s^2&=4\\\\s&=2.\\end{align*}$$\nTherefore,\n$$\\begin{align*}A_{\\text{hexagon}}&=6\\times\\frac12\\times2\\times\\sqrt{3}\\\\A_{\\text{hexagon}}&=6\\sqrt{3}\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p22-q22-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of the circle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\pi$ square units.",
+          "worked": "$$\\begin{align*}A_{\\text{circle}}&=\\pi r^2\\\\A_{\\text{circle}}&=\\pi(\\sqrt{3})^2\\\\A_{\\text{circle}}&=3\\pi\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p22-q22-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain how this shows $\\pi<4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\pi<2\\sqrt{3}<4$.\n\nThe circle has less area than the enclosing hexagon.",
+          "worked": "The hexagon contains the circle and has additional area outside it. Hence\n$$\\begin{align*}3\\pi&<6\\sqrt{3}\\\\\\pi&<2\\sqrt{3}.\\end{align*}$$\nSince $\\sqrt{3}<2$, we have $2\\sqrt{3}<4$. Therefore $\\pi<4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q22",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q22": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q22-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q22-root/label",
+                  "type": "item",
+                  "ref": "p22-q22-root/label",
+                  "title": "Label 22"
+                },
+                {
+                  "id": "layout:p22-q22-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q22-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q22-diagram",
+                  "type": "item",
+                  "ref": "p22-q22-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p22-q22-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q22-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q22-a/label",
+                          "type": "item",
+                          "ref": "p22-q22-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q22-a/prompt",
+                          "type": "item",
+                          "ref": "p22-q22-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q22-a/space",
+                          "type": "item",
+                          "ref": "p22-q22-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q22-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q22-b/label",
+                          "type": "item",
+                          "ref": "p22-q22-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q22-b/prompt",
+                          "type": "item",
+                          "ref": "p22-q22-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q22-b/space",
+                          "type": "item",
+                          "ref": "p22-q22-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q22-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q22-c/label",
+                          "type": "item",
+                          "ref": "p22-q22-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p22-q22-c/prompt",
+                          "type": "item",
+                          "ref": "p22-q22-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q22-c/space",
+                          "type": "item",
+                          "ref": "p22-q22-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 22",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:30.383Z",
+  "updatedAt": "2026-11-12T13:09:30.383Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p22-q22",
+    "sectionRole": "exercise"
+  }
+}

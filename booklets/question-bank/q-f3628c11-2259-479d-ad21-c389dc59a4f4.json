@@ -1,0 +1,195 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3628c11-2259-479d-ad21-c389dc59a4f4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "parallel-perpendicular-any-form",
+      "distance-formula"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Distinguish a square from a rectangle by proving equal adjacent lengths, then reverse the construction to find missing boundaries. The harder part requires converting the given separation into a side-length constraint and recognising both possible placements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:14.332Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "542488f8f53ad6445ff47ac8b9d0ecc8568ce53a45f6612fdf557adcef908142",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part15/cc9f6bb8efb9ce45c71d88ee663d88c4613f1e9c347521cf8a24bbac929cff94-1792558237570/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Consider the four lines\n$$\\begin{gathered}y=2x+1\\\\y=2x+4\\\\y=-\\frac12x+1\\\\y=-\\frac12x+\\frac52.\\end{gathered}$$\nShow that the region bounded by the four lines is a square.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The region is a square: its angles are $90^\\circ$ and every side has length $\\frac{3\\sqrt5}{5}$.\n\nUse the gradients to establish right angles and the distance formula to compare adjacent sides.",
+          "worked": "Each pair of lines with the same gradient is parallel. Also, $2\\left(-\\frac12\\right)=-1$, so adjacent boundaries are perpendicular.\n\nFind the intersections by substitution. For the first two adjacent vertices:\n$$\\begin{align*}2x+1&=-\\frac12x+1\\\\\\frac52x&=0\\\\x&=0\\\\y&=1,\\\\2x+1&=-\\frac12x+\\frac52\\\\\\frac52x&=\\frac32\\\\x&=\\frac35\\\\y&=\\frac{11}{5}.\\end{align*}$$\nThe four vertices, in order, are $A(0,1)$, $B\\left(\\frac35,\\frac{11}{5}\\right)$, $C\\left(-\\frac35,\\frac{14}{5}\\right)$ and $D\\left(-\\frac65,\\frac85\\right)$.\n$$\\begin{align*}AB&=\\sqrt{\\left(\\frac35\\right)^2+\\left(\\frac65\\right)^2}\\\\AB&=\\frac{3\\sqrt5}{5},\\\\BC&=\\sqrt{\\left(-\\frac65\\right)^2+\\left(\\frac35\\right)^2}\\\\BC&=\\frac{3\\sqrt5}{5}.\\end{align*}$$\nThe parallel boundaries form a rectangle. Its adjacent sides are equal, so it is a square.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"teacher PDF page 72, Section J 11(a)\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.2,-0.8) rectangle (1.5,4.5);\n\\draw[<->,line width=0.5pt] (-2.1,0)--(1.3,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-0.7)--(0,4.2) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-0.8:1.4] plot (\\x,{2*\\x+1});\n\\draw[line width=0.8pt,domain=-2:0.1] plot (\\x,{2*\\x+4});\n\\draw[line width=0.8pt,domain=-2:1.3] plot (\\x,{-0.5*\\x+1});\n\\draw[line width=0.8pt,domain=-2:1.3] plot (\\x,{-0.5*\\x+2.5});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 72,
+                "sourceRegion": "Section J, answer 11(a), illustrative graph",
+                "description": "Four equation-driven boundaries on unnumbered Cartesian axes, without ticks, grid or shading.",
+                "mathematics": "The intersections bound a square with gradients 2 and -1/2.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 170
+      },
+      {
+        "id": "p28-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Consider the two lines\n$$\\begin{gathered}y=3x+1\\\\y=3x+3.\\end{gathered}$$\nFind the equation of the other two lines that would enclose a square, if one of the square’s vertices is at $(0,1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "First line: $y=-\\tfrac13x+1$.\n\nSecond line: either $y=-\\tfrac13x+\\tfrac13$ or $y=-\\tfrac13x+\\tfrac53$.\n\nThe remaining boundaries are perpendicular to the given lines and have the same separation as them.",
+          "worked": "The remaining lines have gradient $-\\frac13$. The one through $(0,1)$ is\n$$y=-\\frac13x+1.$$\nIts intersection with $y=3x+3$ is found from\n$$\\begin{align*}3x+3&=-\\frac13x+1\\\\\\frac{10}{3}x&=-2\\\\x&=-\\frac35\\\\y&=\\frac65.\\end{align*}$$\nHence the required side length is\n$$\\begin{align*}s&=\\sqrt{\\left(-\\frac35\\right)^2+\\left(\\frac65-1\\right)^2}\\\\s&=\\frac{\\sqrt{10}}5.\\end{align*}$$\nLet the other vertex on $y=3x+1$ be $(t,3t+1)$. It must be this distance from $(0,1)$:\n$$\\begin{align*}\\sqrt{t^2+(3t)^2}&=\\frac{\\sqrt{10}}5\\\\10t^2&=\\frac25\\\\t^2&=\\frac1{25}\\\\t&=\\pm\\frac15.\\end{align*}$$\nThe second perpendicular line has equation $y=-\\frac13x+c$. Substituting $(t,3t+1)$ gives\n$$\\begin{align*}3t+1&=-\\frac13t+c\\\\c&=1+\\frac{10}{3}t\\\\c&=\\frac13\\text{ or }\\frac53.\\end{align*}$$\nTherefore the other two lines are $y=-\\frac13x+1$ and either $y=-\\frac13x+\\frac13$ or $y=-\\frac13x+\\frac53$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 180
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q11-root/label",
+                  "type": "item",
+                  "ref": "p28-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "p28-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q11-a/label",
+                          "type": "item",
+                          "ref": "p28-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p28-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p28-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q11-a/space",
+                          "type": "item",
+                          "ref": "p28-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q11-b/label",
+                          "type": "item",
+                          "ref": "p28-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p28-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p28-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q11-b/space",
+                          "type": "item",
+                          "ref": "p28-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:42.705Z",
+  "updatedAt": "2026-11-12T13:09:42.705Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part15",
+    "blockId": "p28-q11",
+    "sectionRole": "exercise"
+  }
+}

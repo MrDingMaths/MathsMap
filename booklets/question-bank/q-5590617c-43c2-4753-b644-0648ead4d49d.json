@@ -1,0 +1,195 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5590617c-43c2-4753-b644-0648ead4d49d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-identities"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Derive the leader-count identity, apply it across the weighted sum, and recognise the shifted unweighted binomial sum after factoring out n.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c924d2dd7c28d9684783566919d60c2459484af6cf1acd0425859b8e2e005df3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "A cohort of $n$ students are to be given $k$ prefect roles, which includes a school captain position.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By considering the number of ways to fill the roles, show that\n$$k\\binom{n}{k}=n\\binom{n-1}{k-1}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k\\binom{n}{k}=n\\binom{n-1}{k-1}$.\n\nChoose the prefects then their captain, or choose the captain then the remaining prefects.",
+          "worked": "Choose the $k$ prefects in $\\binom{n}{k}$ ways, then their captain in $k$ ways. This gives $k\\binom{n}{k}$ outcomes.\n\nAlternatively, choose the captain in $n$ ways, then choose the other $k-1$ prefects from the remaining $n-1$ students in $\\binom{n-1}{k-1}$ ways.\n\nBoth methods count the same prefect group with its captain, so\n$$k\\binom{n}{k}=n\\binom{n-1}{k-1}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p29-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, use the identity to prove that\n$$1\\binom{n}{1}+2\\binom{n}{2}+3\\binom{n}{3}+\\cdots+n\\binom{n}{n}=n2^{n-1}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1\\binom{n}{1}+2\\binom{n}{2}+\\cdots+n\\binom{n}{n}=n2^{n-1}$.\n\nApply part (a) to each term, factor out $n$, and use the binomial sum $2^{n-1}$.",
+          "worked": "Apply part (a) to each term and factor out $n$:\n$$\\begin{align*}1\\binom{n}{1}+2\\binom{n}{2}+\\cdots+n\\binom{n}{n}&=n\\binom{n-1}{0}+n\\binom{n-1}{1}+\\cdots+n\\binom{n-1}{n-1}\\\\1\\binom{n}{1}+2\\binom{n}{2}+\\cdots+n\\binom{n}{n}&=n\\left[\\binom{n-1}{0}+\\binom{n-1}{1}+\\cdots+\\binom{n-1}{n-1}\\right]\\\\1\\binom{n}{1}+2\\binom{n}{2}+\\cdots+n\\binom{n}{n}&=n2^{n-1}.\\end{align*}$$\nThe bracketed sum is $2^{n-1}$ by the taught light-switch identity with $n-1$ switches.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q17-root/label",
+                  "type": "item",
+                  "ref": "p29-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p29-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p29-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p29-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q17-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q17-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q17-a/label",
+                              "type": "item",
+                              "ref": "p29-q17-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p29-q17-a/prompt",
+                              "type": "item",
+                              "ref": "p29-q17-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p29-q17-a/space",
+                              "type": "item",
+                              "ref": "p29-q17-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p29-q17-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q17-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q17-b/label",
+                              "type": "item",
+                              "ref": "p29-q17-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p29-q17-b/prompt",
+                              "type": "item",
+                              "ref": "p29-q17-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p29-q17-b/space",
+                              "type": "item",
+                              "ref": "p29-q17-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 17",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:01.111Z",
+  "updatedAt": "2026-11-12T11:09:01.111Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p29-q17",
+    "sectionRole": "exercise"
+  }
+}

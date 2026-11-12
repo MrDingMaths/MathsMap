@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a7e0cbd8-0ce0-42b1-b4b4-b4d27aa3a6f4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interior-angle-regular-polygon",
+    "secondarySkillIds": [
+      "unknown-angles-point"
+    ],
+    "reasoningScore": 60,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires translating tessellation into an integer number of equal angles around a vertex, bounding the possible counts and identifying which yield integer polygon side counts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:49:19.384Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0c53cb8e4c9007f02bdfee6a18a05bb3e7b6b09d997139782d54d3fa858fbbc7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part12-20261008/6d03cc2b51a42a862059acbcb4fba2925189522b1779e830efebfd3d5dd4e9c9-1792558141821/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q27-root",
+    "type": "question",
+    "label": "27",
+    "prompt": "Suppose we wish to tessellate the plane using a regular $n$-gon of fixed size, such that if a pair of tiles are adjacent, then they share a complete edge. Determine for which values of $n$ there exists such a tessellation.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$n=3,4,6$: equilateral triangles, squares and regular hexagons.\n\nTheir interior angles fit around a point in groups of six, four and three, respectively.",
+      "worked": "Let $k$ be the number of polygons meeting at a vertex. Each interior angle is $\\dfrac{(n-2)180^{\\circ}}{n}$, and the angles at the vertex sum to $360^{\\circ}$.\n\n$$\\begin{align*}\\frac{k(n-2)180^{\\circ}}{n}&=360^{\\circ}\\\\\\frac{k(n-2)}{n}&=2\\\\\\frac{n-2}{n}&=\\frac{2}{k}\\\\1-\\frac{2}{n}&=\\frac{2}{k}\\\\\\frac{1}{k}+\\frac{1}{n}&=\\frac{1}{2}\\end{align*}$$\n\nSince $n\\geq3$, each interior angle is at least $60^{\\circ}$ and less than $180^{\\circ}$, so $3\\leq k\\leq6$.\n\nFor $k=3,4,5,6$, the corresponding values of $n$ are $6,4,\\dfrac{10}{3},3$. Reject $\\dfrac{10}{3}$ because the number of sides must be an integer.\n\nThus $n=3,4,6$. Equilateral triangles, squares and regular hexagons give tessellations with six, four and three tiles at each vertex, respectively. An equilateral-triangle tessellation is shown below.",
+      "solutionDiagrams": [
+        {
+          "id": "p19-q27-solution-tessellation",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.4pt]\n\\clip (0,0) rectangle (4,2.598076211);\n\\foreach \\j in {-1,...,3} {\n  \\foreach \\i in {-2,...,5} {\n    \\draw ({\\i+0.5*\\j},{0.866025404*\\j}) -- ({\\i+1+0.5*\\j},{0.866025404*\\j}) -- ({\\i+0.5+0.5*\\j},{0.866025404*(\\j+1)}) -- cycle;\n  }\n}\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 19,
+            "sourceRegion": "Teacher PDF page 49, printed page 424, question 27 illustration",
+            "description": "Native equilateral-triangle tessellation, with six triangles meeting at each interior vertex. Tile edges replace the source's alternating decorative cyan fills.",
+            "mathematics": "Unit equilateral triangles on a triangular lattice; six interior angles of 60 degrees meet at each interior vertex.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 156
+  },
+  "presentation": {
+    "ownerId": "p19-q27",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q27": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q27-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q27-root/label",
+                  "type": "item",
+                  "ref": "p19-q27-root/label",
+                  "title": "Label 27"
+                },
+                {
+                  "id": "layout:p19-q27-root/prompt",
+                  "type": "item",
+                  "ref": "p19-q27-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q27-root/space",
+                  "type": "item",
+                  "ref": "p19-q27-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 27",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:08:58.112Z",
+  "updatedAt": "2026-11-12T13:08:58.112Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part12-20261008",
+    "blockId": "p19-q27",
+    "sectionRole": "exercise"
+  }
+}

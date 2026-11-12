@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c7ecebb1-8b75-4c5b-9a22-c3d2cb5cfb4b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Choose which students avoid A, count their independent B-or-C choices, and sum these disjoint cases to match all three-room assignments.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b95698de71c1d7be92b29a758766d13767da9e60a45a6b80dfa2c69768c8ae4b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "There are $n$ students, and each enters one of three distinct classrooms, $A$, $B$ or $C$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many ways can the $n$ students enter the classrooms?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3^n$ ways.",
+          "worked": "Each of the $n$ students independently chooses one of three classrooms. Multiplying the numbers of choices gives $3^n$ ways.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p29-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose that $k$ of the students are to enter either room $B$ or room $C$, and the other students enter room $A$. How many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^k\\binom{n}{k}$ ways.",
+          "worked": "Choose the $k$ students entering $B$ or $C$ in $\\binom{n}{k}$ ways. Each of these students independently has two classroom choices; all remaining students enter $A$. Thus the number of arrangements is $2^k\\binom{n}{k}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p29-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show, giving reasons, why\n$$2^0\\binom{n}{0}+2^1\\binom{n}{1}+2^2\\binom{n}{2}+\\cdots+2^n\\binom{n}{n}=3^n.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^0\\binom{n}{0}+2^1\\binom{n}{1}+\\cdots+2^n\\binom{n}{n}=3^n$.\n\nPartition the arrangements by the number of students entering $B$ or $C$, then add the counts from part (b).",
+          "worked": "If exactly $k$ students enter $B$ or $C$, part (b) gives $2^k\\binom{n}{k}$ arrangements. The cases $k=0,1,\\ldots,n$ are mutually exclusive and include every arrangement. Their sum therefore counts all classroom arrangements, which part (a) counts as $3^n$.\n$$2^0\\binom{n}{0}+2^1\\binom{n}{1}+2^2\\binom{n}{2}+\\cdots+2^n\\binom{n}{n}=3^n.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:08:59.994Z",
+  "updatedAt": "2026-11-12T11:08:59.994Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p29-q14",
+    "sectionRole": "exercise"
+  }
+}

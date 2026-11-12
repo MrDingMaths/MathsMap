@@ -1,0 +1,306 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0697e349-2ced-438f-9843-5c3470142a5a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-identities"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Relate shared triangle vertices to union sizes four, five and six, justify constant counts for each union size, then use the prescribed substitutions and exclude shared-edge pairs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5824178d8bde615d0f2704cdf2b0de5cf2a15112d09fb75f93d93899e4785d5f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "Consider $n$ distinct points arranged in a circle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By considering the number of ways to choose 2 distinct triangles whose vertices are from the $n$ points, show that\n$$\\binom{\\binom{n}{3}}{2}=a\\binom{n}{4}+b\\binom{n}{5}+c\\binom{n}{6},$$\nfor some integer values $a$, $b$ and $c$.\n\n(You do not have to find their values in this part, unless you want to do so without using the next part!)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Partition pairs into triangles sharing an edge, exactly one vertex, or no vertices. Their unions have 4, 5 or 6 vertices respectively, giving $a\\binom{n}{4}+b\\binom{n}{5}+c\\binom{n}{6}$.",
+          "worked": "There are $\\binom{n}{3}$ triangles, hence $\\binom{\\binom{n}{3}}{2}$ unordered pairs of distinct triangles.\n\nTwo distinct triangles can share two, one or zero vertices. Their combined vertex sets therefore contain four, five or six points respectively. For each fixed set, let $a$, $b$ or $c$ be the integer number of triangle pairs using exactly that set. These counts depend only on the vertex sets, not on the positions of the points.\n\nThe cases are disjoint and exhaustive, so\n$$\\binom{\\binom{n}{3}}{2}=a\\binom{n}{4}+b\\binom{n}{5}+c\\binom{n}{6}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p30-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p30-q23-b-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "As the equation in part (a) is an identity, it works for ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "all",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " values of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ". By substituting ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n=4,5,6",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " into the equation, find the values of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "b",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "c",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=6$, $b=15$, $c=10$.\n\nSubstitute $n=4,5,6$ successively.",
+          "worked": "For $n=4$:\n$$\\begin{align*}\\binom{4}{2}&=a\\\\a&=6.\\end{align*}$$\nFor $n=5$:\n$$\\begin{align*}\\binom{10}{2}&=5a+b\\\\45&=30+b\\\\b&=15.\\end{align*}$$\nFor $n=6$:\n$$\\begin{align*}\\binom{20}{2}&=15a+6b+c\\\\190&=90+90+c\\\\c&=10.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      },
+      {
+        "id": "p30-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, determine the number of unordered pairs of distinct triangles that can be formed from $n$ distinct points on a circle such that no two triangles share an edge.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$15\\binom{n}{5}+10\\binom{n}{6}$.\n\nInclude the cases sharing one vertex or no vertices.",
+          "worked": "Exclude pairs sharing an edge, which are counted by $a\\binom{n}{4}$. The remaining pairs share exactly one vertex or no vertices, so their number is\n$$b\\binom{n}{5}+c\\binom{n}{6}=15\\binom{n}{5}+10\\binom{n}{6}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q23-root/label",
+                  "type": "item",
+                  "ref": "p30-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "layout:p30-q23-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q23-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p30-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q23-a/label",
+                          "type": "item",
+                          "ref": "p30-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p30-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q23-a/space",
+                          "type": "item",
+                          "ref": "p30-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p30-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q23-b/label",
+                          "type": "item",
+                          "ref": "p30-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q23-b/prompt#p30-q23-b-prompt",
+                          "type": "item",
+                          "ref": "p30-q23-b/prompt#p30-q23-b-prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q23-b/space",
+                          "type": "item",
+                          "ref": "p30-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p30-q23-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q23-c/label",
+                          "type": "item",
+                          "ref": "p30-q23-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p30-q23-c/prompt",
+                          "type": "item",
+                          "ref": "p30-q23-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q23-c/space",
+                          "type": "item",
+                          "ref": "p30-q23-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 23",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:03.042Z",
+  "updatedAt": "2026-11-12T11:09:03.042Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p30-q23",
+    "sectionRole": "exercise"
+  }
+}

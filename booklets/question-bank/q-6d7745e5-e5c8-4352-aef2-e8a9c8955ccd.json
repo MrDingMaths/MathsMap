@@ -1,0 +1,264 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6d7745e5-e5c8-4352-aef2-e8a9c8955ccd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-sum-product-roots",
+    "secondarySkillIds": [
+      "sum-product-roots-cubic"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect derivative values at roots to squared root differences, then organise the derivative product into symmetric sums and derive the squared pair-product identity needed for coefficient reduction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:36:52.111Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "63fd8eefac94b4b1f94157bad91b6f87e82dce80db690f8f2537dd2e2d3545e3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch02/0f3c40522b4d8a65a871e20dee147a17748177e55597b754b2f0a1d6cbc2ad3b-1792557363768/last-message.txt",
+      "originalTaskHash": "21379a9159f686135bd688ed62538e09acad99d68576f0e41bc6765877c61942",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "8a899486d48f8449341b91607c31efd3e6f802cd873c9b65679a2206d5131149"
+      }
+    }
+  },
+  "content": {
+    "id": "p46-q70-root",
+    "type": "question",
+    "label": "70",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p46-q70-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Discriminant of cubic",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            },
+            {
+              "type": "text",
+              "text": " The discriminant of a monic cubic ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " with zeroes ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\alpha,\\beta,\\gamma",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is defined as:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p46-q70-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\Delta(f)=(\\alpha-\\beta)^2(\\alpha-\\gamma)^2(\\beta-\\gamma)^2",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p46-q70-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Since $f(x)$ is monic, it can be expressed as\n$$f(x)=(x-\\alpha)(x-\\beta)(x-\\gamma).$$\nShow that $f'(\\alpha)f'(\\beta)f'(\\gamma)=-\\Delta(f)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(\\alpha)f'(\\beta)f'(\\gamma)=-(\\alpha-\\beta)^2(\\alpha-\\gamma)^2(\\beta-\\gamma)^2=-\\Delta(f)$.\n\nDifferentiate the factored form using the product rule, evaluate at each root and multiply.",
+          "worked": "Using the product rule,\n$$f'(x)=(x-\\beta)(x-\\gamma)+(x-\\alpha)(x-\\gamma)+(x-\\alpha)(x-\\beta).$$\nThus,\n$$\\begin{align*}f'(\\alpha)&=(\\alpha-\\beta)(\\alpha-\\gamma),\\\\f'(\\beta)&=(\\beta-\\alpha)(\\beta-\\gamma),\\\\f'(\\gamma)&=(\\gamma-\\alpha)(\\gamma-\\beta).\\end{align*}$$\nEach reversed difference contributes a negative sign. Therefore,\n$$\\begin{align*}f'(\\alpha)f'(\\beta)f'(\\gamma)&=[(\\alpha-\\beta)(\\beta-\\alpha)][(\\alpha-\\gamma)(\\gamma-\\alpha)][(\\beta-\\gamma)(\\gamma-\\beta)]\\\\f'(\\alpha)f'(\\beta)f'(\\gamma)&=-(\\alpha-\\beta)^2(\\alpha-\\gamma)^2(\\beta-\\gamma)^2\\\\f'(\\alpha)f'(\\beta)f'(\\gamma)&=-\\Delta(f).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p46-q70-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, show that if $f(x)=x^3+px+q$, then\n$$\\Delta(f)=-27q^2-4p^3.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\Delta(f)=-27q^2-4p^3$.\n\nExpand $(3\\alpha^2+p)(3\\beta^2+p)(3\\gamma^2+p)$ and simplify using the cubic root-coefficient relationships.",
+          "worked": "The cubic root-coefficient relationships give\n$$\\begin{align*}\\alpha+\\beta+\\gamma&=0,\\\\\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma&=p,\\\\\\alpha\\beta\\gamma&=-q.\\end{align*}$$\nHence,\n$$\\begin{align*}\\alpha^2+\\beta^2+\\gamma^2&=(\\alpha+\\beta+\\gamma)^2-2(\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma)\\\\\\alpha^2+\\beta^2+\\gamma^2&=-2p,\\\\\\alpha^2\\beta^2+\\alpha^2\\gamma^2+\\beta^2\\gamma^2&=(\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma)^2-2\\alpha\\beta\\gamma(\\alpha+\\beta+\\gamma)\\\\\\alpha^2\\beta^2+\\alpha^2\\gamma^2+\\beta^2\\gamma^2&=p^2.\\end{align*}$$\nSince $f'(x)=3x^2+p$,\n$$\\begin{align*}f'(\\alpha)f'(\\beta)f'(\\gamma)&=(3\\alpha^2+p)(3\\beta^2+p)(3\\gamma^2+p)\\\\f'(\\alpha)f'(\\beta)f'(\\gamma)&=27\\alpha^2\\beta^2\\gamma^2+9p(\\alpha^2\\beta^2+\\alpha^2\\gamma^2+\\beta^2\\gamma^2)+3p^2(\\alpha^2+\\beta^2+\\gamma^2)+p^3\\\\f'(\\alpha)f'(\\beta)f'(\\gamma)&=27q^2+9p(p^2)+3p^2(-2p)+p^3\\\\f'(\\alpha)f'(\\beta)f'(\\gamma)&=27q^2+4p^3.\\end{align*}$$\nBy part (a),\n$$\\begin{align*}\\Delta(f)&=-f'(\\alpha)f'(\\beta)f'(\\gamma)\\\\\\Delta(f)&=-27q^2-4p^3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 140
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p46-q70": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p46-q70-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p46-q70-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p46-q70-label-item",
+                      "type": "item",
+                      "ref": "p46-q70-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p46-q70-stem-item",
+                      "type": "item",
+                      "ref": "p46-q70-root/prompt#p46-q70-stem"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p46-q70-definition-item",
+                  "type": "item",
+                  "ref": "p46-q70-root/prompt#p46-q70-definition",
+                  "align": "center"
+                },
+                {
+                  "id": "p46-q70-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p46-q70-a-label-item",
+                      "type": "item",
+                      "ref": "p46-q70-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p46-q70-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p46-q70-a-prompt-item",
+                          "type": "item",
+                          "ref": "p46-q70-a/prompt"
+                        },
+                        {
+                          "id": "p46-q70-a-space-item",
+                          "type": "item",
+                          "ref": "p46-q70-a/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p46-q70-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p46-q70-b-label-item",
+                      "type": "item",
+                      "ref": "p46-q70-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p46-q70-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p46-q70-b-prompt-item",
+                          "type": "item",
+                          "ref": "p46-q70-b/prompt"
+                        },
+                        {
+                          "id": "p46-q70-b-space-item",
+                          "type": "item",
+                          "ref": "p46-q70-b/space"
+                        }
+                      ]
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p46-q70"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:40.634Z",
+  "updatedAt": "2026-11-12T11:05:40.634Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch02",
+    "blockId": "p46-q70",
+    "sectionRole": "exercise"
+  }
+}

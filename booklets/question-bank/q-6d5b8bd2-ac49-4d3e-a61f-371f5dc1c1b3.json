@@ -1,0 +1,106 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6d5b8bd2-ac49-4d3e-a61f-371f5dc1c1b3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "combinations-restrictions",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives all capacity-compatible occupancy patterns and changes the symmetry correction for each when labelled cabins become indistinguishable.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:56.049Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5fb9809cda7b2da092492624da77378a4ad33d9207655457251415abfe2246b1",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch04/c51c8a711856d9188a89f902a2f295d52a49c2dffa4502ed294ae6a6f64c1658-1792557494348/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q35-root",
+    "type": "question",
+    "label": "35",
+    "prompt": "A hostel has three labelled cabins $A$, $B$ and $C$. Each cabin contains three indistinguishable beds. Six backpackers arrive. How many ways can they be assigned to cabins (no capacity exceeded) if",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "there are no restrictions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$510$ ways.\n\nAdd the occupancy cases $(3,3,0)$, $(3,2,1)$ and $(2,2,2)$, retaining the cabin capacity restriction.",
+          "worked": "The possible occupancy patterns are $(3,3,0)$, $(3,2,1)$ and $(2,2,2)$.\n\nFor $(3,3,0)$, choose the empty cabin, then choose three backpackers for one of the occupied cabins. For $(3,2,1)$, assign the three different occupancies to the labelled cabins in $3!$ ways, then choose the groups. For $(2,2,2)$, choose two backpackers for $A$, then two for $B$; the remaining two go to $C$.\n\n$$\\begin{align*}N&=3\\binom{6}{3}+6\\binom{6}{3}\\binom{3}{2}+\\binom{6}{2}\\binom{4}{2}\\\\N&=60+360+90\\\\N&=510.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p36-q35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "no cabin is empty?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$450$ ways.\n\nSubtract the $(3,3,0)$ allocations from part (a).",
+          "worked": "An empty cabin forces the occupancy pattern $(3,3,0)$. Subtract these allocations from part (a).\n\n$$\\begin{align*}N&=510-3\\binom{6}{3}\\\\N&=510-60\\\\N&=450.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p36-q35-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "cabins are indistinguishable? (The backpackers only wanted to know who is going with who, without caring which cabin they end up in.)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$85$ ways.\n\nCount the same three occupancy patterns, dividing by $2!$ for the two equal groups of three and by $3!$ for the three equal groups of two.",
+          "worked": "Use the occupancy patterns $(3,3,0)$, $(3,2,1)$ and $(2,2,2)$.\n\nFor $(3,3,0)$, divide by $2!$ because the two groups of three are indistinguishable. For $(3,2,1)$, group sizes distinguish the groups, so no division is required. For $(2,2,2)$, divide by $3!$ because the three groups of two are indistinguishable.\n\n$$\\begin{align*}N&=\\frac{\\binom{6}{3}}{2!}+\\binom{6}{3}\\binom{3}{2}+\\frac{\\binom{6}{2}\\binom{4}{2}}{3!}\\\\N&=10+60+15\\\\N&=85.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p36-q35",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:07:59.016Z",
+  "updatedAt": "2026-11-12T11:07:59.016Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch04",
+    "blockId": "p36-q35",
+    "sectionRole": "exercise"
+  }
+}

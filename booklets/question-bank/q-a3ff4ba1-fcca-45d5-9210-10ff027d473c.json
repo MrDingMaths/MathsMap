@@ -1,0 +1,337 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a3ff4ba1-fcca-45d5-9210-10ff027d473c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-3d-trig",
+    "secondarySkillIds": [
+      "pythagoras-3d",
+      "interpret-3d-trig-context"
+    ],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "The shaded elevation triangle supplies the projection; calculate its base diagonal using Pythagoras and then apply inverse tangent.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:37:13.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ac3035b5bf6c2b27320bd20bc0bb53cf95490ce947fbc7b17cd538f73c5f92e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/cb020362d312978f1368ea8a41afe475dde4de611613344c8bae8dc09bdbfa84-1792557394672/last-message.txt",
+      "originalTaskHash": "2559c4f1edebb8e481b2e599c024bfd32377c19eef6af303e462745431efaa39",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "251390df49fce7b38c8394cac9312e5141acfc4c789acd2b2a54a523ab30ad46"
+      }
+    }
+  },
+  "content": {
+    "id": "p11-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p11-q3-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the diagram given, a wedge with height ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "2\\,\\mathrm{cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and a ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "4\\,\\mathrm{cm}\\times3\\,\\mathrm{cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " rectangular base is shown.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q3-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the angle of elevation of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "S",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " from ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "X",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Give your answer to 1 decimal place.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p11-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"selectionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the elevation triangle XZS\"}],\"reference\":\"source PDF page 11, p11-q3-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{selectionBlue}{HTML}{D4E8FF}\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (3.8,-1.4);\n\\coordinate (W) at (2.1,1.4);\n\\coordinate (Z) at (5.9,0);\n\\coordinate (T) at (2.1,3);\n\\coordinate (S) at (5.9,1.6);\n\\fill[selectionBlue] (X)--(Z)--(S)--cycle;\n\\draw[black,line width=0.8pt] (X)--(T)--(S)--(Z)--(Y)--(X) (Y)--(S);\n\\draw[black,line width=0.8pt,dashed] (X)--(W)--(Z) (W)--(T);\n\\draw[black,line width=0.8pt] (X)--(Z) (X)--(S);\n\\draw[black,line width=0.4pt] ($(W)!0.25cm!(X)$)--($($(W)!0.25cm!(X)$)+(0,0.25)$)--($(W)+(0,0.25)$);\n\\draw[black,line width=0.4pt] ($(Z)!0.25cm!(Y)$)--($($(Z)!0.25cm!(Y)$)+(0,0.25)$)--($(Z)+(0,0.25)$);\n\\draw[black,line width=0.4pt] ($(Z)!0.25cm!(X)$)--($($(Z)!0.25cm!(X)$)+(0,0.25)$)--($(Z)+(0,0.25)$);\n\\path (X)--(Y) node[midway,below left] {$4\\,\\mathrm{cm}$};\n\\path (Y)--(Z) node[midway,below right] {$3\\,\\mathrm{cm}$};\n\\path (Z)--(S) node[midway,right] {$2\\,\\mathrm{cm}$};\n\\fill[black] (X) circle (1.2pt) (Y) circle (1.2pt) (Z) circle (1.2pt) (W) circle (1.2pt) (T) circle (1.2pt) (S) circle (1.2pt);\n\\node[below left] at (X) {$X$};\n\\node[below] at (Y) {$Y$};\n\\node[below right] at (Z) {$Z$};\n\\node[above right,xshift=1mm,yshift=1mm] at (W) {$W$};\n\\node[above] at (T) {$T$};\n\\node[above right] at (S) {$S$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Essential Problems 3, lower-left wedge",
+          "description": "Rectangular-base wedge with triangle XZS selected, original dimensions and hidden edges retained.",
+          "mathematics": {
+            "vertices": {
+              "X": [
+                0,
+                0,
+                0
+              ],
+              "Y": [
+                4,
+                0,
+                0
+              ],
+              "Z": [
+                4,
+                3,
+                0
+              ],
+              "W": [
+                0,
+                3,
+                0
+              ],
+              "T": [
+                0,
+                3,
+                2
+              ],
+              "S": [
+                4,
+                3,
+                2
+              ]
+            },
+            "faces": [
+              [
+                "X",
+                "Y",
+                "Z",
+                "W"
+              ],
+              [
+                "X",
+                "W",
+                "T"
+              ],
+              [
+                "Y",
+                "Z",
+                "S"
+              ],
+              [
+                "W",
+                "Z",
+                "S",
+                "T"
+              ],
+              [
+                "X",
+                "Y",
+                "S",
+                "T"
+              ]
+            ],
+            "projection": {
+              "xBasis": [
+                0.95,
+                -0.35
+              ],
+              "yBasis": [
+                0.7,
+                0.4666666667
+              ],
+              "zBasis": [
+                0,
+                0.8
+              ],
+              "viewDirection": [
+                0.28,
+                -0.76,
+                0.6883333333
+              ]
+            },
+            "visibleSolidEdges": [
+              "XY",
+              "YZ",
+              "ZS",
+              "SY",
+              "ST",
+              "TX"
+            ],
+            "hiddenSolidEdges": [
+              "XW",
+              "WZ",
+              "WT"
+            ],
+            "constructionLines": [
+              "XZ",
+              "XS"
+            ],
+            "givens": [
+              "XY = 4 cm",
+              "YZ = 3 cm",
+              "ZS = 2 cm"
+            ],
+            "rightAngles": [
+              "XWT",
+              "YZS",
+              "XZS"
+            ]
+          },
+          "answerVisibility": "Only the source givens and selected triangle appear; the calculated diagonal and elevation angle are solution-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$21.8^\\circ$",
+      "worked": "Since $XYZW$ is a rectangle, Pythagoras gives\n$$\\begin{align*}XZ^2&=XY^2+YZ^2\\\\XZ^2&=4^2+3^2\\\\XZ&=5\\,\\mathrm{cm}.\\end{align*}$$\nThe angle of elevation is $\\theta=\\angle SXZ$, between $XS$ and its horizontal projection $XZ$.\n$$\\begin{align*}\\tan\\theta&=\\frac{ZS}{XZ}\\\\\\tan\\theta&=\\frac{2}{5}\\\\\\theta&\\approx21.8^\\circ.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 70
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p11-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p11-q3-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p11-q3-labelled-task",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p11-q3-label-item",
+                      "type": "item",
+                      "ref": "p11-q3-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p11-q3-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p11-q3-introduction-item",
+                          "type": "item",
+                          "ref": "p11-q3-root/prompt#p11-q3-introduction"
+                        },
+                        {
+                          "id": "p11-q3-diagram-item",
+                          "type": "item",
+                          "ref": "p11-q3-diagram",
+                          "width": 70,
+                          "align": "center"
+                        },
+                        {
+                          "id": "p11-q3-task-item",
+                          "type": "item",
+                          "ref": "p11-q3-root/prompt#p11-q3-task"
+                        },
+                        {
+                          "id": "p11-q3-space-item",
+                          "type": "item",
+                          "ref": "p11-q3-root/space"
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p11-q3"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:05:59.848Z",
+  "updatedAt": "2026-11-12T11:05:59.849Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p11-q3",
+    "sectionRole": "exercise"
+  }
+}

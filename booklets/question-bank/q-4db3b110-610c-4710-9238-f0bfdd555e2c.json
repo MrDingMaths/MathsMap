@@ -1,0 +1,229 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4db3b110-610c-4710-9238-f0bfdd555e2c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-of-triangle",
+    "secondarySkillIds": [
+      "identify-base-perpendicular-height"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hint supplies the area decomposition, but the altitude identity requires recognising that all three base–altitude products equal twice the same area and substituting these into the reciprocal inradius expression.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:21.969Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "37127f272c2c9282aa67aacc597eedc46a58d41ea39d3be25806ad3401083ef3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part16/7673ee151d1d78f4c357a8aebc4460886c3344d0b2e94040c9b147b423e0f214-1792558256464/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The triangle shown below has side lengths $a$, $b$ and $c$. Let $P$ denote its perimeter, $A$ denote its area, and $r$ denote its inradius.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q3-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,0);\\coordinate (R) at (5,0);\\coordinate (T) at (1.3,2.5);\n\\pgfmathsetmacro{\\leftside}{sqrt(1.3*1.3+2.5*2.5)}\n\\pgfmathsetmacro{\\rightside}{sqrt(3.7*3.7+2.5*2.5)}\n\\pgfmathsetmacro{\\perim}{5+\\leftside+\\rightside}\n\\pgfmathsetmacro{\\ix}{(5*\\leftside+5*1.3)/\\perim}\n\\pgfmathsetmacro{\\ir}{12.5/\\perim}\n\\coordinate (I) at (\\ix,\\ir);\n\\draw[black] (L)--node[midway,below] {$a$}(R)--node[midway,above right] {$c$}(T)--node[midway,left] {$b$}(L);\n\\draw[black] (I) circle[radius=\\ir];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 3, left column",
+          "description": "Unshaded scalene triangle with horizontal base and an incircle tangent to all three sides. No centre or radii supplied.",
+          "mathematics": "Base a, left side b, right side c. The incentre and radius are derived from the triangle coordinates; illustrative coordinates are not numerical givens.",
+          "answerVisibility": "Only the supplied triangle, side labels and incircle are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p26-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $$A=\\frac{1}{2}Pr.$$ Hint: Mark the incentre of the triangle and then split the triangle into three smaller triangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\frac{ar}{2}+\\frac{br}{2}+\\frac{cr}{2}=\\frac{1}{2}Pr$.\n\nJoin the incentre to the vertices; each smaller triangle has perpendicular height $r$.",
+          "worked": "Mark the incentre $O$ and join it to all three vertices. Its perpendicular distance from each side is $r$, so the three smaller triangles have bases $a$, $b$, $c$ and height $r$.\n\n$$\\begin{align*}A&=\\frac{ar}{2}+\\frac{br}{2}+\\frac{cr}{2}\\\\A&=\\frac{r}{2}(a+b+c)\\\\A&=\\frac{1}{2}Pr.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q3-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 question 3(a), teacher page 79\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,0);\\coordinate (R) at (5,0);\\coordinate (T) at (1.3,2.5);\n\\pgfmathsetmacro{\\leftside}{sqrt(1.3*1.3+2.5*2.5)}\\pgfmathsetmacro{\\rightside}{sqrt(3.7*3.7+2.5*2.5)}\\pgfmathsetmacro{\\perim}{5+\\leftside+\\rightside}\\pgfmathsetmacro{\\ix}{(5*\\leftside+5*1.3)/\\perim}\\pgfmathsetmacro{\\ir}{12.5/\\perim}\n\\coordinate (O) at (\\ix,\\ir);\\coordinate (F) at ($(L)!(O)!(R)$);\\coordinate (G) at ($(L)!(O)!(T)$);\\coordinate (H) at ($(T)!(O)!(R)$);\n\\draw[black] (L)--node[midway,below] {$a$}(R)--node[midway,above right] {$c$}(T)--node[midway,left] {$b$}(L);\n\\draw[black] (O) circle[radius=\\ir];\\draw[black] (L)--(O)--(R) (T)--(O);\n\\draw[black,dashed,line width=0.4pt] (O)--node[midway,right] {$r$}(F) (O)--node[midway,below left] {$r$}(G) (O)--node[midway,above left=4pt] {$r$}(H);\n\\node[above left] at (O) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 3(a); teacher PDF page 79, Section F 3(a)",
+                "description": "The supplied incircle figure completed with incentre-to-vertex segments and three perpendicular radii.",
+                "mathematics": "The three radii are perpendicular heights r for triangles with bases a, b and c.",
+                "answerVisibility": "Solution-only construction."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p26-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $h_a$, $h_b$ and $h_c$ denote the three altitudes meeting the indicated sides. Prove that $$\\frac{1}{r}=\\frac{1}{h_a}+\\frac{1}{h_b}+\\frac{1}{h_c}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{r}=\\frac{a+b+c}{2A}=\\frac{1}{h_a}+\\frac{1}{h_b}+\\frac{1}{h_c}$.\n\nUse $2A=ah_a=bh_b=ch_c$.",
+          "worked": "From part (a), $2A=r(a+b+c)$. Also, the triangle area formula gives $2A=ah_a=bh_b=ch_c$.\n\n$$\\begin{align*}\\frac{1}{r}&=\\frac{a+b+c}{2A}\\\\\\frac{1}{r}&=\\frac{a}{2A}+\\frac{b}{2A}+\\frac{c}{2A}\\\\\\frac{1}{r}&=\\frac{a}{ah_a}+\\frac{b}{bh_b}+\\frac{c}{ch_c}\\\\\\frac{1}{r}&=\\frac{1}{h_a}+\\frac{1}{h_b}+\\frac{1}{h_c}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q3-root/label",
+                  "type": "item",
+                  "ref": "p26-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p26-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p26-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p26-q3-diagram",
+                  "type": "item",
+                  "ref": "p26-q3-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p26-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q3-a/label",
+                          "type": "item",
+                          "ref": "p26-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p26-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p26-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q3-a/space",
+                          "type": "item",
+                          "ref": "p26-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q3-b/label",
+                          "type": "item",
+                          "ref": "p26-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p26-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p26-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q3-b/space",
+                          "type": "item",
+                          "ref": "p26-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:02.093Z",
+  "updatedAt": "2026-11-12T11:14:02.093Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part16",
+    "blockId": "p26-q3",
+    "sectionRole": "exercise"
+  }
+}

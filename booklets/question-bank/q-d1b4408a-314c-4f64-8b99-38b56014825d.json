@@ -1,0 +1,127 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d1b4408a-314c-4f64-8b99-38b56014825d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-identities",
+    "secondarySkillIds": [
+      "double-angle-identities"
+    ],
+    "reasoningScore": 59,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reduce fourth powers to a cosine model, solve a periodic inequality within the five-minute window, and distinguish that window from the proportion over a complete period.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:14.243Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "708de7d0f73cbd6d824bc4624c7131f4031f4e2d83b19c370c10d0cf70ddfce4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/e905341f53e785bb3113e86c558b202276518c1f809a30bcaf6468ee772e84f0-1792557433693/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p50-q45-root",
+    "type": "question",
+    "label": "45",
+    "prompt": "The power output $P$, in kilowatts, is modelled by\n\n$$P(t)=120(\\sin^4t+\\cos^4t),$$\n\nwhere $t$ is time (minutes) after the turbine begins operating. The trigonometric arguments are measured in radians.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p50-q45-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"powerBlue\",\"hex\":\"268CFF\",\"reason\":\"Identifies the modelled power-output curve\"}],\"reference\":\"PDF page 50, p50-q45-diagram\"}\n\\definecolor{powerBlue}{HTML}{268CFF}\n\\begin{tikzpicture}[x=0.85cm,y=0.85cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (-0.5,0)--(7.1,0) node[below] {$t$};\n\\draw[black,line width=0.5pt,->] (0,-0.3)--(0,2.6) node[above left] {$P$};\n\\draw[powerBlue,line width=0.8pt] plot[domain=0:6.283185307,samples=241] (\\x,{1.5+0.5*cos(4*\\x*180/pi)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "Question 45, between the shared model and part (a)",
+          "description": "Qualitative power-time graph with black arrowed axes, a blue curve beginning at a maximum and four troughs. No ticks, numerical scales, grid or origin label.",
+          "mathematics": "Equation-driven plot of the supplied model, using a proportional vertical coordinate and a domain containing four complete periods. Plot coordinates are not printed scale information.",
+          "answerVisibility": "Shows the supplied qualitative graph only; no threshold, interval endpoints or transformed equation is revealed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p50-q45-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find constants $A$ and $B$ such that\n\n$$P(t)=A+B\\cos4t.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=90,\\quad B=30$.",
+          "worked": "$$\\begin{align*}\nP(t)&=120\\bigl((\\sin^2t+\\cos^2t)^2-2\\sin^2t\\cos^2t\\bigr)\\\\\nP(t)&=120\\left(1-\\frac12\\sin^22t\\right)\\\\\nP(t)&=120\\left(1-\\frac14(1-\\cos4t)\\right)\\\\\nP(t)&=90+30\\cos4t\n\\end{align*}$$\n\nThus $A=90$ and $B=30$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p50-q45-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The turbine operates at high efficiency when the power output is at least $105\\text{ kW}$. State the values of $t$, in the first five-minute window, for which the power output is at a high efficiency.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t\\in\\left[0,\\frac{\\pi}{12}\\right]\\cup\\left[\\frac{5\\pi}{12},\\frac{7\\pi}{12}\\right]\\cup\\left[\\frac{11\\pi}{12},\\frac{13\\pi}{12}\\right]\\cup\\left[\\frac{17\\pi}{12},\\frac{19\\pi}{12}\\right]$ minutes.\n\nUse $\\cos4t\\ge\\frac12$ over $0\\le t\\le5$.",
+          "worked": "$$\\begin{align*}\n90+30\\cos4t&\\ge105\\\\\n30\\cos4t&\\ge15\\\\\n\\cos4t&\\ge\\frac12\n\\end{align*}$$\n\nThe trigonometric arguments are in radians. For each integer $k$,\n\n$$\\begin{align*}\n-\\frac\\pi3+2k\\pi&\\le4t\\le\\frac\\pi3+2k\\pi\\\\\n-\\frac\\pi{12}+\\frac{k\\pi}{2}&\\le t\\le\\frac\\pi{12}+\\frac{k\\pi}{2}\n\\end{align*}$$\n\nRestricting to $0\\le t\\le5$ gives\n\n$$\\begin{aligned}\nt\\in{}&\\left[0,\\frac\\pi{12}\\right]\\cup\\left[\\frac{5\\pi}{12},\\frac{7\\pi}{12}\\right]\\\\\n&{}\\cup\\left[\\frac{11\\pi}{12},\\frac{13\\pi}{12}\\right]\\cup\\left[\\frac{17\\pi}{12},\\frac{19\\pi}{12}\\right]\n\\end{aligned}$$\n\nwhere $t$ is in minutes. All endpoints are included because the threshold is “at least” $105\\text{ kW}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 112
+      },
+      {
+        "id": "p50-q45-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "For what proportion of the time is the turbine operating at high efficiency?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac13$.\n\nHigh efficiency occupies one third of each complete period.",
+          "worked": "The period of $\\cos4t$ is $\\frac\\pi2$ minutes. In $0\\le t\\le\\frac\\pi2$, high efficiency occurs on $\\left[0,\\frac\\pi{12}\\right]$ and $\\left[\\frac{5\\pi}{12},\\frac\\pi2\\right]$.\n\n$$\\begin{align*}\n\\text{High-efficiency duration}&=\\frac\\pi{12}+\\left(\\frac\\pi2-\\frac{5\\pi}{12}\\right)\\\\\n\\text{High-efficiency duration}&=\\frac\\pi6\\text{ minutes}\\\\\n\\text{Proportion}&=\\frac{\\pi/6}{\\pi/2}\\\\\n\\text{Proportion}&=\\frac13\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p50-q45",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:06:47.820Z",
+  "updatedAt": "2026-11-12T11:06:47.820Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p50-q45",
+    "sectionRole": "exercise"
+  }
+}

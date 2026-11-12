@@ -1,0 +1,316 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6c8b7b6f-84d8-4a00-a933-9b06234cfc37",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "simplify-binomial-coefficient-expressions"
+    ],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the scaffolded selection orders to count the same outcomes, then connect that equality to the weighted sum by reindexing and applying the preceding binomial-square identity with n−1.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:27.123Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0da1d124e1e56e5857ef49d7a642439ad467d5ea2fb8c698b2e947b1e14abb2e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/6252b79133e142d92c6d38311617ffad5454847cb40fe1dabf85e4a5d7106e17-1792557554021/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Bob has $n$ lollies in his left pocket and $n$ lollies in his right pocket. He reaches into both pockets simultaneously and pulls out $k$ lollies with each hand, then eats exactly one lolly from each hand.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "For a fixed $k$, how many ways can Bob pull out $k$ lollies from each pocket and then eat one from each hand?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k^2\\binom{n}{k}^{2}$ ways.",
+          "worked": "For each pocket, choose $k$ lollies in $\\binom{n}{k}$ ways, then choose the lolly eaten in $k$ ways. The choices for the two pockets are independent.\n$$\\begin{align*}\\text{Number of ways}&=\\left(k\\binom{n}{k}\\right)^2\\\\\\text{Number of ways}&=k^2\\binom{n}{k}^{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p34-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose a lolly is first eaten from each pocket, before $k-1$ lollies are pulled out from each pocket. How many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n^2\\binom{n-1}{k-1}^{2}$ ways.",
+          "worked": "For each pocket, choose the lolly eaten in $n$ ways, then choose $k-1$ lollies from the remaining $n-1$ in $\\binom{n-1}{k-1}$ ways. The choices for the two pockets are independent.\n$$\\begin{align*}\\text{Number of ways}&=\\left(n\\binom{n-1}{k-1}\\right)^2\\\\\\text{Number of ways}&=n^2\\binom{n-1}{k-1}^{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p34-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find a simple expression for\n$$1^2\\binom{n}{1}^{2}+2^2\\binom{n}{2}^{2}+\\cdots+n^2\\binom{n}{n}^{2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p34-q14-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "n^2\\binom{2n-2}{n-1}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p34-q14-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Equate the counts in (a) and (b), sum over ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "k=1,\\ldots,n",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", then apply question 13 with ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n-1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " in place of ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Parts (a) and (b) count the same outcomes: in each pocket, one lolly is eaten and $k-1$ other lollies are selected. Therefore,\n$$k^2\\binom{n}{k}^{2}=n^2\\binom{n-1}{k-1}^{2}.$$\nSumming for $k=1,\\ldots,n$ and writing $r=k-1$ gives\n$$\\begin{align*}\\sum_{k=1}^{n}k^2\\binom{n}{k}^{2}&=n^2\\sum_{k=1}^{n}\\binom{n-1}{k-1}^{2}\\\\\\sum_{k=1}^{n}k^2\\binom{n}{k}^{2}&=n^2\\sum_{r=0}^{n-1}\\binom{n-1}{r}^{2}\\\\\\sum_{k=1}^{n}k^2\\binom{n}{k}^{2}&=n^2\\binom{2n-2}{n-1}.\\end{align*}$$\nThe last equality uses question 13 with $n-1$ in place of $n$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q14-root/label",
+                  "type": "item",
+                  "ref": "p34-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p34-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p34-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p34-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q14-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p34-q14-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p34-q14-a/label",
+                              "type": "item",
+                              "ref": "p34-q14-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p34-q14-a/prompt",
+                              "type": "item",
+                              "ref": "p34-q14-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p34-q14-a/space",
+                              "type": "item",
+                              "ref": "p34-q14-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p34-q14-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p34-q14-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p34-q14-b/label",
+                              "type": "item",
+                              "ref": "p34-q14-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p34-q14-b/prompt",
+                              "type": "item",
+                              "ref": "p34-q14-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p34-q14-b/space",
+                              "type": "item",
+                              "ref": "p34-q14-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p34-q14-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p34-q14-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p34-q14-c/label",
+                              "type": "item",
+                              "ref": "p34-q14-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p34-q14-c/prompt",
+                              "type": "item",
+                              "ref": "p34-q14-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p34-q14-c/space",
+                              "type": "item",
+                              "ref": "p34-q14-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 14",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:09:14.702Z",
+  "updatedAt": "2026-11-12T11:09:14.703Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p34-q14",
+    "sectionRole": "exercise"
+  }
+}
