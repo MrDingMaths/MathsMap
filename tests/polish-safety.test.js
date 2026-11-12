@@ -105,6 +105,16 @@ test('save guard refuses unsafe candidates before invoking the live save transac
  await assert.rejects(savePolished({state:{input:{revision:3}},work,id:p.id,root}),/export gates have not passed/);
 });
 
+test('a block split into one block per printed question keeps its internal references in order',()=>{
+ const p=booklet(),list=blocks(p);
+ const holder=list[1],split=[{...structuredClone(holder),id:'s1',content:{id:'s1-root',type:'question',label:'1',children:[{id:'s1-a',type:'part',label:'a',prompt:'x'}]}},{...structuredClone(holder),id:'s2',content:{id:'s2-root',type:'question',label:'2',children:[{id:'s2-a',type:'part',label:'a',prompt:'Hence',dependsOn:['s1-a']}]}}];
+ holder.content={id:'h-root',type:'question',label:'',children:[{id:'s1-a',type:'part',label:'a',prompt:'x'},{id:'s2-a',type:'part',label:'b',prompt:'Hence',dependsOn:['s1-a']}]};
+ const sectionOf=proj=>proj.sections.find(s=>s.blocks.some(b=>b.id===holder.id||b.id==='s1'));
+ let q=structuredClone(p);const sec=sectionOf(q),i=sec.blocks.findIndex(b=>b.id===holder.id);sec.blocks.splice(i,1,...structuredClone(split));
+ assert.ok(!polishSafetyIssues(p,q).some(x=>/reordered dependency/.test(x)),'the split keeps the referenced part before the reference');
+ q=structuredClone(p);const sec2=sectionOf(q),j=sec2.blocks.findIndex(b=>b.id===holder.id);sec2.blocks.splice(j,1,...structuredClone(split).reverse());
+ assert.ok(polishSafetyIssues(p,q).some(x=>/reordered dependency/.test(x)),'a split that puts the dependent question first is still caught');
+});
 test('reordering preserves nested dependencies, pairs and the per-question band bound',()=>{
  const p=booklet();for(const b of blocks(p))b.flow={localDifficulty:{reasoningScore:10}};
  blocks(p)[2].content.children[0].dependsOn=['q2-a'];

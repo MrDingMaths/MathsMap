@@ -104,7 +104,10 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
  }
  // Preserve relative order and adjacency of linked groups, including links added during this run.
  for(const b of [...oldBlocks,...newBlocks])for(const n of nodesOf(b))for(const ref of references(n)){
-  const owner=oldBlocks.find(b=>nodesOf(b).some(n=>n.id===ref));if(!owner||owner.id===b.id)continue;
+  let owner=oldBlocks.find(b=>nodesOf(b).some(n=>n.id===ref));if(!owner||owner.id===b.id)continue;
+  // A block split into one block per printed question no longer exists; judge the
+  // reference against the new block that now holds the node (Ch 2 pilot investigation).
+  if(!newOrder.has(owner.id)&&newOrder.has(b.id)){const holder=newBlocks.find(nb=>nodesOf(nb).some(n=>n.id===ref));if(holder&&(holder.id===b.id||newOrder.get(holder.id)<newOrder.get(b.id)))continue;}
   if(!newOrder.has(owner.id)||!newOrder.has(b.id)||(oldOrder.get(owner.id)<oldOrder.get(b.id))!==(newOrder.get(owner.id)<newOrder.get(b.id)))issues.push('reordered dependency '+b.id+'/'+ref);
  }
  for(let i=0;i<oldBlocks.length-1;i++)if(oldBlocks[i].flow?.keepWithNext||oldBlocks[i].pairedBlockId&&oldBlocks[i].pairedBlockId===oldBlocks[i+1].id){const a=newOrder.get(oldBlocks[i].id),b=newOrder.get(oldBlocks[i+1].id);if(a==null||b!==a+1)issues.push('separated linked blocks '+oldBlocks[i].id);}
