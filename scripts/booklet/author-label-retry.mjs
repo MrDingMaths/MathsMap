@@ -13,10 +13,11 @@ import {recordAttempt} from './semantic-run-metrics.mjs';
 import {withWorkerSlot} from './worker-pool.mjs';
 
 export const LABEL_RETRY_RULES = [
- 'Change label placement only: node anchors and positions, label offsets, which tick values carry a printed label, and where dashed guide lines stop.',
+ 'Change label placement only: node anchors and positions, label offsets, and where dashed guide lines stop.',
+ 'Never remove, empty or change the text of any label: every label in the given code is source or answer-key content and must still be printed, with clear space around it.',
  'Keep every plotted curve, line, asymptote, point, domain, scale, colour declaration, metadata comment and special exactly as given, so the mathematics is unchanged.',
  'An intercept or tick label goes on the side of the axis the curve does not occupy near that point; a circle or ellipse intercept label goes outside the curve.',
- 'Never print two tick labels on one axis closer than 0.6 cm apart: keep the key value and drop the other label (the tick mark may stay).',
+ 'Two tick labels on one axis closer than 0.6 cm apart: anchor them away from each other (one left of its tick, the other right) or stagger them above and below the axis.',
  'Point coordinates go diagonally into an empty region beside the point; equation and asymptote names go past the end of their line, clear of every other path.',
  'Dashed guide lines stop at the axis and never pass through a label.',
 ].join(' ');
@@ -51,6 +52,12 @@ async function studioLabelCheck(rows, {name}) {
  finally { fs.rmSync(input, {force: true}); }
 }
 
+// Printed maths in a diagram ($...$ strings, whitespace-insensitive). A retry may move labels, never lose one.
+const printedMaths = code => (code.match(/\$[^$]*\$/g) ?? []).map(text => text.replace(/\s+/g, ''));
+export function droppedLabels(before, after) {
+ const left = printedMaths(after);
+ return printedMaths(before).filter(text => { const i = left.indexOf(text); if (i < 0) return true; left.splice(i, 1); return false; });
+}
 const collisions = (rows, found) => rows.map(row => ({id: row.id, code: row.code, issues: (found?.[row.id]?.issues ?? []).map(String)})).filter(row => row.issues.length);
 
 // Mutates packets in place (only the code of diagrams the retry returned) and returns a record.
@@ -67,6 +74,7 @@ export async function retryDiagramLabels({packets, runDir, assignmentId, pages, 
  const prompt = labelRetryPrompt(failing);
  const events = recordAttempt(path.join(runDir, 'semantic-packets'), {stage: 'author-labels', page: pages[0], pages, assignmentId, attempt, retryReason: 'label-collisions'});
  let ok = false, error, metrics, applied = [];
+ const refused = [];
  try {
   events.phase('generation');
   const reply = await withWorkerSlot(runDir, {stage: 'author-labels', assignmentId}, () => runner({cwd: runDir, runDir, configuration, prompt, images: [], out: dir}), workerSlotOptions);
@@ -76,6 +84,8 @@ export async function retryDiagramLabels({packets, runDir, assignmentId, pages, 
   for (const item of reply.result?.diagrams ?? []) {
    const node = byId.get(item?.id);
    if (!node || typeof item.code !== 'string' || !/\\begin\{tikzpicture\}/.test(item.code) || !failing.some(row => row.id === item.id) || applied.includes(item.id)) continue;
+   const dropped = droppedLabels(node.code, item.code);
+   if (dropped.length) { refused.push({id: item.id, dropped}); continue; }
    node.code = item.code; applied.push(item.id);
   }
   ok = true;
@@ -92,5 +102,5 @@ export async function retryDiagramLabels({packets, runDir, assignmentId, pages, 
    remaining = [...failing.filter(row => !applied.includes(row.id) || reverted.includes(row.id)), ...after].map(row => ({id: row.id, issues: row.issues}));
   } catch (e) { revert(applied); log('Author label recheck skipped; keeping the authored diagrams: ' + e.message); }
  }
- return record({checked: rows.length, failing: failing.map(row => ({id: row.id, issues: row.issues})), retried: true, ok, error, applied: applied.filter(id => !reverted.includes(id)), reverted, remaining});
+ return record({checked: rows.length, failing: failing.map(row => ({id: row.id, issues: row.issues})), retried: true, ok, error, applied: applied.filter(id => !reverted.includes(id)), reverted, refused, remaining});
 }

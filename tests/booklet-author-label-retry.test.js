@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {retryDiagramLabels,labelRetryPrompt,packetTikz} from '../scripts/booklet/author-label-retry.mjs';
+import {retryDiagramLabels,labelRetryPrompt,packetTikz,droppedLabels} from '../scripts/booklet/author-label-retry.mjs';
 
 const tikz = body => '\\begin{tikzpicture}' + body + '\\end{tikzpicture}';
 const packets = () => [{pageNumber: 1, sections: [{blocks: [{id: 'q1', content: {children: [
@@ -56,6 +56,18 @@ test('a failed retry call keeps every authored diagram', async () => {
   check: async rows => Object.fromEntries(rows.map(r => [r.id, {issues: ['a label overlaps another label']}]))});
  assert.equal(result.ok, false); assert.deepEqual(packetTikz(data).map(n => n.code), before);
  assert.equal(result.remaining.length, 3);
+});
+
+test('a retry that drops or empties a printed label is refused and the authored diagram kept', async () => {
+ const {runDir, out} = fixture();
+ const data = [{pageNumber: 1, sections: [{blocks: [{id: 'q', content: {questionDiagrams: [{id: 'h', format: 'tikz', code: tikz('\\node at (0,-3) {$-3$};\\node at (0,-4) {$-4$};')}]}}]}]}];
+ const result = await retryDiagramLabels({packets: data, runDir, assignmentId: 'a1', pages: [1], attempt: 1, out, configuration: {},
+  runner: async ({out: dir}) => { fs.mkdirSync(dir, {recursive: true}); return {result: {diagrams: [{id: 'h', code: tikz('\\node at (0,-3) {};\\node[left] at (0,-4) {$-4$};')}]}}; },
+  check: async rows => Object.fromEntries(rows.map(r => [r.id, {issues: ['a curve or line runs through the label 43% across and 86% down (bottom-centre)']}]))});
+ assert.deepEqual(result.refused, [{id: 'h', dropped: ['$-3$']}]);
+ assert.deepEqual(result.applied, []); assert.equal(result.remaining.length, 1);
+ assert.match(packetTikz(data)[0].code, /\$-3\$/);
+ assert.deepEqual(droppedLabels(tikz('$1$ $2$'), tikz('$2$ $ 1 $')), []);
 });
 
 test('the retry prompt asks for label placement only', () => {
