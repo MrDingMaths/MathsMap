@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1e5350dc-1aee-463a-82f3-bfba6f662350",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "even-odd-functions",
+    "secondarySkillIds": [
+      "symmetry-of-graphs"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Rewrite the reciprocal exponential after substituting -x, combine fractions to establish the specified oddness, then connect an independently plotted graph with origin symmetry.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T13:50:04.834Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "932a4ef4162ce452797177a4689b3ff3588698f078d95d22b308d0a575ed6ecb",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794491384124-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q11-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(x)=\\frac12-\\frac{1}{2^x+1}$ is an odd function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(-x)=-f(x)$, so $f$ is odd.",
+          "worked": "$$\\begin{align*}f(-x)&=\\frac12-\\frac{1}{2^{-x}+1}\\\\f(-x)&=\\frac12-\\frac{2^x}{1+2^x}\\\\f(-x)&=\\frac{1-2^x}{2(1+2^x)}\\\\f(-x)&=-\\left(\\frac12-\\frac{1}{2^x+1}\\right)\\\\f(-x)&=-f(x).\\end{align*}$$\nHence $f$ is odd.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      },
+      {
+        "id": "p22-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Confirm the result by plotting the graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph has rotational symmetry of $180^\\circ$ about the origin, confirming that $f$ is odd.",
+          "worked": "$f(0)=0$, $f(1)=\\frac16$ and $f(-1)=-\\frac16$. The horizontal asymptotes are $y=\\frac12$ and $y=-\\frac12$. The plotted graph has rotational symmetry of $180^\\circ$ about the origin.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q11-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 question 11b; authored solution\"}\n\\begin{tikzpicture}[x=0.65cm,y=3.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (-5.4,0)--(5.6,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.68)--(0,0.72) node[above left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-5.2,0.5)--(5.2,0.5);\n\\draw[black,dashed,line width=0.4pt] (-5.2,-0.5)--(5.2,-0.5);\n\\node[anchor=west] at (5.35,0.5) {$y=\\frac12$};\n\\node[anchor=west] at (5.35,-0.5) {$y=-\\frac12$};\n\\draw[black,line width=0.8pt,domain=-5:5,samples=121] plot (\\x,{0.5-1/(pow(2,(\\x))+1)});\n\\fill[black] (0,0) circle[radius=1.2pt];\n\\fill[black] (1,{1/6}) circle[radius=1.2pt];\n\\fill[black] (-1,{-1/6}) circle[radius=1.2pt];\n\\draw[black,dashed,line width=0.4pt] (1,0)--(1,{1/6})--(0,{1/6});\n\\draw[black,dashed,line width=0.4pt] (-1,0)--(-1,{-1/6})--(0,{-1/6});\n\\node[anchor=north west] at (1.05,-0.025) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east] at (-1.05,0.025) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east] at (-0.13,{1/6}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac16$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west] at (0.13,{-1/6}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac16$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 11b",
+                "description": "Authored equation-driven solution graph; no graph is supplied in the question or answer key.",
+                "mathematics": "y=1/2-1/(2^x+1), all real x; origin symmetry; horizontal asymptotes y=±1/2; points (±1,±1/6).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:24:55.904Z",
+  "updatedAt": "2026-11-12T20:24:55.904Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p22-q11",
+    "sectionRole": "exercise"
+  }
+}

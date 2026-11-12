@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-772663bd-b6e9-4975-957e-990fbb056a78",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "absolute-value-definition",
+    "secondarySkillIds": [
+      "transform-translations"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect two symbolic triangle-area expressions through Pythagoras and absolute-value simplification, then translate an arbitrary point to the origin to derive a general distance formula. The parts scaffold the strategy, but transferring the origin result through a coordinate shift requires a substantive algebraic and geometric connection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:22:40.032Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e62768d70f3399e99e2864faeaa70ca9323e3b6bb6aa2ce52a4b7265ace6076b",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794486120247-46/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q21-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram on the right shows the line $ax+by+c=0$, which intersects the axes at $A(-\\frac ca,0)$ and $B(0,-\\frac cb)$. Let $p$ be the perpendicular distance from $O$ to the line $AB$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q21-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p38 q21 diagram; evidence 0e9982d28e5c7c4e4ca861ec454858ded237f2882006df44d6c2b59058244f2b\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (3.2,0);\\coordinate (B) at (0,2.6);\\coordinate (H) at (1.272,1.566);\n\\draw[->,line width=0.5pt] (-0.65,0)--(4.05,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.8)--(0,3.75) node[above] {$y$};\n\\draw[<->,line width=0.8pt] (-0.65,3.128)--(4,-0.65);\n\\draw[line width=0.8pt] (O)--(H) node[midway,above left] {$p$};\n\\draw[line width=0.4pt] (1.117,1.375)--(1.308,1.220)--(1.463,1.411);\n\\node[below left] at (O) {$O$};\n\\node[above right] at (A) {$A$};\\node[above right] at (B) {$B$};\n\\node[below] at (3.2,-0.12) {$-\\frac ca$};\n\\node[left] at (-0.12,2.6) {$-\\frac cb$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 21, right-hand diagram",
+          "description": "Descending line through positive intercepts A and B, axes with arrowheads, perpendicular from O labelled p and an edge-derived right-angle square. O is retained as a necessary named geometric vertex.",
+          "mathematics": "Representative intercept proportions only. H is the orthogonal projection of O onto AB; no numerical coordinates are printed.",
+          "answerVisibility": "All labels and the perpendicular are permanent supplied givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p38-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use distances $|OA|$ and $|OB|$ to find the area of $\\triangle AOB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle \\text{Area}=\\frac12\\left|\\frac{c^2}{ab}\\right|$.",
+          "worked": "$$\\begin{align*}\\text{Area}&=\\frac12|OA|\\,|OB|\\\\\\text{Area}&=\\frac12\\left|\\frac ca\\right|\\left|\\frac cb\\right|\\\\\\text{Area}&=\\frac12\\left|\\frac{c^2}{ab}\\right|.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p38-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The area of $\\triangle AOB$ is also $\\frac12p\\times|AB|$. Use Pythagoras’ theorem to rewrite this in terms of $a$, $b$, $c$ and $p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle \\text{Area}=\\frac12p\\left|\\frac{c}{ab}\\right|\\sqrt{a^2+b^2}$.",
+          "worked": "$$\\begin{align*}|AB|&=\\sqrt{\\left(-\\frac ca\\right)^2+\\left(-\\frac cb\\right)^2}\\\\|AB|&=\\sqrt{\\frac{c^2(a^2+b^2)}{a^2b^2}}\\\\|AB|&=\\left|\\frac{c}{ab}\\right|\\sqrt{a^2+b^2}.\\end{align*}$$\nHence\n$$\\begin{align*}\\text{Area}&=\\frac12p|AB|\\\\\\text{Area}&=\\frac12p\\left|\\frac{c}{ab}\\right|\\sqrt{a^2+b^2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p38-q21-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Equate your answers to parts a and b, and so find $p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle p=\\frac{|c|}{\\sqrt{a^2+b^2}}$.",
+          "worked": "Equating the two area expressions gives\n$$\\begin{align*}\\frac12p\\left|\\frac{c}{ab}\\right|\\sqrt{a^2+b^2}&=\\frac12\\left|\\frac{c^2}{ab}\\right|,\\\\p\\sqrt{a^2+b^2}&=|c|,\\\\p&=\\frac{|c|}{\\sqrt{a^2+b^2}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p38-q21-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Now use shifting to find a formula for the distance from $P(x_1,y_1)$ to the line $ax+by+c=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p38-q21-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "d=\\frac{|ax_1+by_1+c|}{\\sqrt{a^2+b^2}}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p38-q21-d-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Shift P to the origin and apply the result from part c.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Shift $P$ to the origin by setting $X=x-x_1$ and $Y=y-y_1$. The line becomes\n$$\\begin{align*}a(X+x_1)+b(Y+y_1)+c&=0,\\\\aX+bY+(ax_1+by_1+c)&=0.\\end{align*}$$\nTranslation preserves perpendicular distance. Applying part c with constant term $ax_1+by_1+c$ gives\n$$d=\\frac{|ax_1+by_1+c|}{\\sqrt{a^2+b^2}}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p38-q21-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use this formula to find the distance from $(3,2)$ to the line $2x-5y+3=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle \\frac1{\\sqrt{29}}$ units.",
+          "worked": "$$\\begin{align*}d&=\\frac{|2(3)-5(2)+3|}{\\sqrt{2^2+(-5)^2}}\\\\d&=\\frac{|6-10+3|}{\\sqrt{29}}\\\\d&=\\frac1{\\sqrt{29}}\\text{ units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p38-q21",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:25:14.282Z",
+  "updatedAt": "2026-11-12T20:25:14.282Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p38-q21",
+    "sectionRole": "exercise"
+  }
+}

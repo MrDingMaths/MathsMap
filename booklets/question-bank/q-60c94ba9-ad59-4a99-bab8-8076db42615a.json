@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-60c94ba9-ad59-4a99-bab8-8076db42615a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-combined-transformations",
+    "secondarySkillIds": [
+      "transform-dilations",
+      "exponential-transformations"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise and combine horizontal compression, vertical dilation and reflection to sketch related square-root and exponential curves on shared axes, retaining endpoints, intercepts and asymptotic behaviour.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:19:45.045Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7437c1227a7f8f3131283a7bcaa1880e4411f07d1a38412e4a22508eef4900f8",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794485951302-31/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q9-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Sketch each group of three functions on the one set of axes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=\\sqrt{4+x}$, $y=2\\sqrt{4+x}$, $y=2\\sqrt{4+2x}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The first two curves start at $(-4,0)$ and pass through $(0,2)$ and $(0,4)$ respectively. The third starts at $(-2,0)$ and passes through $(0,4)$.",
+          "worked": "Let $f(x)=\\sqrt{4+x}$. Its endpoint is $(-4,0)$ and its $y$-intercept is $2$. For $y=2f(x)$, double each ordinate: the endpoint stays $(-4,0)$ and the $y$-intercept becomes $4$. For $y=2f(2x)$, also halve each abscissa: the endpoint becomes $(-2,0)$ and the $y$-intercept remains $4$. Draw all three increasing, concave-down curves.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q9-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 29 question 9a; answer page 39\"}\n\\begin{tikzpicture}[x=0.67cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-5,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1)--(0,6.8) node[above] {$y$};\n\\draw[->,line width=0.8pt,domain=0:2.65,samples=100,variable=\\t] plot ({(\\t)^2-4},{\\t});\n\\draw[->,line width=0.8pt,domain=0:2.65,samples=100,variable=\\t] plot ({(\\t)^2-4},{2*(\\t)});\n\\draw[->,line width=0.8pt,domain=0:3.16,samples=100,variable=\\t] plot ({((\\t)^2-4)/2},{2*(\\t)});\n\\fill (-4,0) circle[radius=1.3pt];\n\\fill (-2,0) circle[radius=1.3pt];\n\\node[anchor=north east] at (-4.1,-0.15) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-4$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east] at (-2.1,-0.15) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west] at (0.13,1.86) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east] at (-0.15,4.18) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 9a; answer PDF page 39, right column",
+                "description": "Three solid square-root curves, filled endpoints at -4 and -2, and y-intercept labels 2 and 4.",
+                "mathematics": "y=sqrt(4+x), y=2sqrt(4+x), y=2sqrt(4+2x). Parametric plotting avoids endpoint artefacts.",
+                "answerVisibility": "answer-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 59
+      },
+      {
+        "id": "p29-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=2^x$, $y=2^{-x}$, $y=3\\times2^{-x}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=2^x$ increases through $(0,1)$ and $(1,2)$. Its reflection $y=2^{-x}$ decreases through $(0,1)$ and $(-1,2)$. The curve $y=3\\times2^{-x}$ decreases through $(0,3)$. All have horizontal asymptote $y=0$.",
+          "worked": "Reflect $y=2^x$ in the $y$-axis to obtain $y=2^{-x}$. Then multiply the ordinates of $y=2^{-x}$ by $3$ to obtain $y=3\\times2^{-x}$. The $y$-intercepts are $1$, $1$ and $3$ respectively. Each curve stays above and approaches the $x$-axis; none has an $x$-intercept.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q9-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 29 question 9b; answer page 39\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.9)--(0,6) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,2)--(1,2)--(1,0);\n\\draw[<->,line width=0.8pt,domain=-3:2.45,samples=100] plot (\\x,{2^(\\x)});\n\\draw[<->,line width=0.8pt,domain=-2.45:3.7,samples=100] plot (\\x,{2^(-(\\x))});\n\\draw[<->,line width=0.8pt,domain=-0.86:3.7,samples=100] plot (\\x,{3*2^(-(\\x))});\n\\node[anchor=north] at (-1,-0.17) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north] at (1,-0.17) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east] at (-0.16,0.85) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east] at (-0.16,2.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south west] at (0.16,3.15) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east] at (3.7,-0.5) {$y=0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 9b; answer PDF page 39, right column",
+                "description": "One increasing and two decreasing exponential curves, source guides through (-1,2) and (1,2), labelled intercepts 1 and 3. The horizontal asymptote coincides with the x-axis and is additionally identified by an external label.",
+                "mathematics": "y=2^x, y=2^(-x), y=3*2^(-x); asymptote y=0.",
+                "answerVisibility": "answer-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 59
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q9-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:25:00.635Z",
+  "updatedAt": "2026-11-12T20:25:00.635Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p29-q9-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-60f10129-eb40-4521-8303-659d0a5dd926",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "even-odd-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Prove and apply the supplied even–odd decomposition, then identify how intersecting the domains of f(x) and f(-x) prevents it from representing either example on its full original domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:18:42.455Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3b9914379787a95ffc40e3ed6b8ae2d4c0c48547ff95a95516d0c608f96fc1f3",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794485881719-26/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q14-root",
+    "type": "question",
+    "label": null,
+    "prompt": "For any function $f(x)$, where both $f(x)$ and $f(-x)$ are defined, define $g(x)=\\frac12\\bigl(f(x)+f(-x)\\bigr)$ and $h(x)=\\frac12\\bigl(f(x)-f(-x)\\bigr)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(x)=g(x)+h(x)$, that $g(x)$ is even and that $h(x)$ is odd.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$g(x)+h(x)=f(x)$, $g(-x)=g(x)$ and $h(-x)=-h(x)$.",
+          "worked": "$$\\begin{align*}g(x)+h(x)&=\\frac12\\bigl(f(x)+f(-x)\\bigr)+\\frac12\\bigl(f(x)-f(-x)\\bigr)\\\\g(x)+h(x)&=f(x).\\end{align*}$$\n$$\\begin{align*}g(-x)&=\\frac12\\bigl(f(-x)+f(x)\\bigr)\\\\g(-x)&=g(x).\\end{align*}$$\nThus $g$ is even.\n$$\\begin{align*}h(-x)&=\\frac12\\bigl(f(-x)-f(x)\\bigr)\\\\h(-x)&=-\\frac12\\bigl(f(x)-f(-x)\\bigr)\\\\h(-x)&=-h(x).\\end{align*}$$\nThus $h$ is odd.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p22-q14-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Hence write each function as the sum of an even and an odd function.",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p22-q14-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$f(x)=1-2x+x^2$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$f(x)=(1+x^2)+(-2x)$, where $g(x)=1+x^2$ is even and $h(x)=-2x$ is odd.",
+              "worked": "$f(-x)=1+2x+x^2$.\n$$\\begin{align*}g(x)&=\\frac{(1-2x+x^2)+(1+2x+x^2)}2\\\\g(x)&=1+x^2,\\\\h(x)&=\\frac{(1-2x+x^2)-(1+2x+x^2)}2\\\\h(x)&=-2x.\\end{align*}$$\nThus $f(x)=(1+x^2)+(-2x)$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p22-q14-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$f(x)=2^x$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$g(x)=\\frac{2^x+2^{-x}}2$ and $h(x)=\\frac{2^x-2^{-x}}2$.\n\nThen $f=g+h$, with $g$ even and $h$ odd.",
+              "worked": "$f(-x)=2^{-x}$.\n$$\\begin{align*}g(x)&=\\frac{2^x+2^{-x}}2,\\\\h(x)&=\\frac{2^x-2^{-x}}2.\\end{align*}$$\nThus\n$$f(x)=\\frac{2^x+2^{-x}}2+\\frac{2^x-2^{-x}}2.$$\nThe first summand is even and the second is odd, by part a.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 25
+          }
+        ]
+      },
+      {
+        "id": "p22-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Why is there a problem with this process if $f(x)=\\frac{1}{x-1}$ or $f(x)=\\sqrt{x}$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $f(x)=\\frac1{x-1}$, $g$ and $h$ are undefined at $x=\\pm1$, so the decomposition loses $x=-1$ from the domain of $f$.\n\nFor $f(x)=\\sqrt{x}$, both $f(x)$ and $f(-x)$ are real only at $x=0$.",
+          "worked": "For $f(x)=\\frac1{x-1}$, the natural domain excludes $1$, while $f(-x)=\\frac1{-x-1}$ also excludes $-1$. Consequently $g$ and $h$ are defined only for $x\\ne\\pm1$. The decomposition therefore does not recover $f$ on its entire natural domain: $f(-1)=-\\frac12$ exists, but $g(-1)$ and $h(-1)$ do not.\n\nFor $f(x)=\\sqrt{x}$, $f(x)$ requires $x\\ge0$ and $f(-x)=\\sqrt{-x}$ requires $x\\le0$. Both are defined only at $x=0$, so the construction gives no decomposition on the positive part of the domain.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:24:57.125Z",
+  "updatedAt": "2026-11-12T20:24:57.125Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p22-q14",
+    "sectionRole": "exercise"
+  }
+}

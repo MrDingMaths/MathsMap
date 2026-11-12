@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-15a132d7-8cbb-4156-9d82-7896a9173017",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "even-odd-functions",
+    "secondarySkillIds": [
+      "graph-piecewise"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Transform branch conditions under −x, handle the zero boundary, compare with the original function and its negative, and confirm parity using restricted cubic and quadratic graphs rather than polynomial powers alone.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:25:56.705Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7821157b80d5e0f46f78ee60421390a31889cb0316c7124e6283d494e0b799a9",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794486311381-62/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p57-q10-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A polynomial with only odd powers is an odd function, and a polynomial with only even powers is an even function. These conclusions may not be valid for piecewise functions. Simplify each function at $-x$ and compare it with the original function and its negative to determine whether it is odd, even or neither. Graph each function to confirm your answer.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p57-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}x-x^3,&x<0,\\\\x^3-x,&x\\ge0.\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Even: $f(-x)=f(x)$. Its graph is symmetric about the $y$-axis.",
+          "worked": "$$\\begin{align*}f(-x)&=\\begin{cases}(-x)-(-x)^3,&-x<0,\\\\(-x)^3-(-x),&-x\\ge0\\end{cases}\\\\f(-x)&=\\begin{cases}x^3-x,&x>0,\\\\x-x^3,&x\\le0.\\end{cases}\\end{align*}$$At $x=0$, both cubic expressions equal $0$, so the boundary may be included in either branch. Thus $f(-x)=f(x)$ and $f$ is even. The graph has zeroes at $x=-1,0,1$ and passes through $(-2,6)$ and $(2,6)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p57-q10-a-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p57-q10-a-answer-graph; answer page 48\"}\n\\begin{tikzpicture}[x=1.1cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\def\\T#1{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}#1\\special{dvisvgm:raw </g>}}\n\\draw[->,line width=0.5pt] (-2.6,0)--(2.7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.2)--(0,8.2) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,6)--(2,6)--(2,0);\n\\draw[<-,line width=0.8pt,domain=-2.15:0,samples=65] plot (\\x,{(\\x)-(\\x)^3});\n\\draw[->,line width=0.8pt,domain=0:2.15,samples=65] plot (\\x,{(\\x)^3-(\\x)});\n\\node[below] at (-2,0) {\\T{$-2$}};\n\\node[above right] at (-1,0) {\\T{$-1$}};\n\\node[below right] at (1,0) {\\T{$1$}};\n\\node[below] at (2,0) {\\T{$2$}};\n\\node[above left] at (0,6) {\\T{$6$}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 57,
+                "sourceRegion": "Question 10a; answer-book page 48",
+                "description": "Symmetric cubic pieces with zeroes -1,0,1 and dashed guides to (+/-2,6).",
+                "mathematics": "y=x-x^3 for x<0 and y=x^3-x for x>=0.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 71
+      },
+      {
+        "id": "p57-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$g(x)=\\begin{cases}x^2+1,&x<0,\\\\x^2-1,&x\\ge0.\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Neither even nor odd.",
+          "worked": "$$\\begin{align*}g(-x)&=\\begin{cases}(-x)^2+1,&-x<0,\\\\(-x)^2-1,&-x\\ge0\\end{cases}\\\\g(-x)&=\\begin{cases}x^2+1,&x>0,\\\\x^2-1,&x\\le0.\\end{cases}\\end{align*}$$For example, $g(-1)=2$ and $g(1)=0$, so $g(-1)$ equals neither $g(1)$ nor $-g(1)$. Therefore $g$ is neither even nor odd. Draw the left half of $y=x^2+1$ with an open point at $(0,1)$, and the right half of $y=x^2-1$ with a filled point at $(0,-1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p57-q10-b-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p57-q10-b-answer-graph; answer page 48\"}\n\\begin{tikzpicture}[x=1cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\def\\T#1{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}#1\\special{dvisvgm:raw </g>}}\n\\draw[->,line width=0.5pt] (-2.7,0)--(2.9,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.6)--(0,6.3) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,5)--(0,5) (-1,0)--(-1,2)--(0,2) (0,3)--(2,3)--(2,0);\n\\draw[<-,line width=0.8pt,domain=-2.2:0,samples=65] plot (\\x,{(\\x)^2+1});\n\\draw[->,line width=0.8pt,domain=0:2.5,samples=65] plot (\\x,{(\\x)^2-1});\n\\draw[fill=white,line width=0.8pt] (0,1) circle (2pt);\n\\fill (0,-1) circle (2pt);\n\\node[right] at (0.08,1) {\\T{$1$}};\n\\node[left] at (-0.08,-1) {\\T{$-1$}};\n\\node[above right] at (0,2) {\\T{$2$}};\n\\node[above left] at (0,3) {\\T{$3$}};\n\\node[above right] at (0,5) {\\T{$5$}};\n\\node[below] at (-2,0) {\\T{$-2$}};\n\\node[below] at (-1,0) {\\T{$-1$}};\n\\node[below right] at (1,0) {\\T{$1$}};\n\\node[below] at (2,0) {\\T{$2$}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 84,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 57,
+                "sourceRegion": "Question 10b; answer-book page 48",
+                "description": "Left parabola ends at open (0,1); right parabola starts at filled (0,-1), crosses at (1,0), and has the source key-point guides.",
+                "mathematics": "y=x^2+1 for x<0; y=x^2-1 for x>=0.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 69
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:25:33.559Z",
+  "updatedAt": "2026-11-12T20:25:33.559Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p57-q10",
+    "sectionRole": "exercise"
+  }
+}

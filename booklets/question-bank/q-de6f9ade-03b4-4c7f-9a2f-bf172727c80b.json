@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-de6f9ade-03b4-4c7f-9a2f-bf172727c80b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "even-odd-functions",
+    "secondarySkillIds": [
+      "graph-piecewise",
+      "continuity-discontinuity"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Compare branch values at two junctions, combine restricted quadratic and linear graphs, and reverse branch inequalities when substituting −x to prove evenness; the requested stages explicitly guide these routine connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:25:56.705Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7921942b8a43ca740b26b78f15ded9bacb24410aaeb2d6322b7d874f07235aac",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794486311381-62/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p57-q9-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Consider the function $$f(x)=\\begin{cases}-2x-1,&x<-1,\\\\x^2,&-1\\le x\\le1,\\\\2x-1,&x>1.\\end{cases}$$",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p57-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(x)$ is continuous at $x=-1$ and $x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At each junction, the function value and both adjoining branch values equal $1$. Hence $f$ is continuous at $x=-1$ and $x=1$.",
+          "worked": "At $x=-1$: $$\\begin{align*}f(-1)&=(-1)^2=1\\\\\\text{Left branch at }-1&=-2(-1)-1=1\\\\\\text{Right branch at }-1&=(-1)^2=1\\end{align*}$$At $x=1$: $$\\begin{align*}f(1)&=1^2=1\\\\\\text{Left branch at }1&=1^2=1\\\\\\text{Right branch at }1&=2(1)-1=1\\end{align*}$$The values agree at each junction, so $f$ is continuous at both.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 41
+      },
+      {
+        "id": "p57-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The central parabola $y=x^2$, $-1\\le x\\le1$, joins outward rising rays at $(-1,1)$ and $(1,1)$.",
+          "worked": "Draw the parabola segment from $(-1,1)$ through $(0,0)$ to $(1,1)$. Join $y=-2x-1$ on the left and $y=2x-1$ on the right. The rays pass through $(-2,3)$ and $(2,3)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p57-q9-b-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p57-q9-b-answer-graph; answer page 48\"}\n\\begin{tikzpicture}[x=0.95cm,y=0.72cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\def\\T#1{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}#1\\special{dvisvgm:raw </g>}}\n\\draw[->,line width=0.5pt] (-2.9,0)--(3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.8)--(0,4.8) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-2,0)--(-2,3)--(2,3)--(2,0) (-1,0)--(-1,1)--(1,1)--(1,0);\n\\draw[<-,line width=0.8pt] (-2.7,4.4)--(-1,1);\n\\draw[line width=0.8pt,domain=-1:1,samples=50] plot (\\x,{(\\x)^2});\n\\draw[->,line width=0.8pt] (1,1)--(2.7,4.4);\n\\foreach \\v in {-2,-1,1,2}{\\node[below] at (\\v,0) {\\T{$\\v$}};}\n\\node[above left] at (0,1) {\\T{$1$}};\n\\node[above left] at (0,3) {\\T{$3$}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 57,
+                "sourceRegion": "Question 9b; answer-book page 48",
+                "description": "Central parabola joins two rays; dashed guides at (+/-1,1) and (+/-2,3).",
+                "mathematics": "y=x^2 between -1 and 1; y=-2x-1 to the left; y=2x-1 to the right.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p57-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Simplify $f(-x)$ and hence show that $f(x)$ is an even function.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$f(-x)=\\begin{cases}-2x-1,&x<-1,\\\\x^2,&-1\\le x\\le1,\\\\2x-1,&x>1\\end{cases}=f(x).$$Hence $f$ is even.",
+          "worked": "$$\\begin{align*}f(-x)&=\\begin{cases}-2(-x)-1,&-x<-1,\\\\(-x)^2,&-1\\le -x\\le1,\\\\2(-x)-1,&-x>1\\end{cases}\\\\f(-x)&=\\begin{cases}2x-1,&x>1,\\\\x^2,&-1\\le x\\le1,\\\\-2x-1,&x<-1\\end{cases}\\\\f(-x)&=f(x).\\end{align*}$$Therefore $f$ is even.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:25:33.029Z",
+  "updatedAt": "2026-11-12T20:25:33.029Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p57-q9",
+    "sectionRole": "exercise"
+  }
+}

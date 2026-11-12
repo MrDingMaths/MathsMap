@@ -1,0 +1,220 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4e7bd4f3-a6d6-443a-9263-7210eec1d579",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "transform-reflections",
+    "secondarySkillIds": [
+      "exponential-transformations"
+    ],
+    "reasoningScore": 19,
+    "difficulty": "Foundation",
+    "difficultyReason": "Evaluate two specified exponential landmarks, identify the horizontal asymptote, and apply the named axis reflections to the equation and sketch. Each transformation follows directly from the taught sign-replacement rules.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:16:00.182Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ff92e140b5cdad7188f9c41a182299873baa2f3449218a04242c3b3ba13bd980",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794485724175-13/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of the exponential function $y=2^{-x}$, showing the $y$-intercept and the coordinates at $x=-1$, and clearly indicating the asymptote.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y$-intercept $(0,1)$; point $(-1,2)$; horizontal asymptote $y=0$. The curve is positive and decreasing.",
+          "worked": "$$\\begin{align*}y\\big|_{x=0}&=2^0=1\\\\y\\big|_{x=-1}&=2^1=2\\end{align*}$$\nPlot $(0,1)$ and $(-1,2)$. Draw a decreasing exponential approaching the asymptote $y=0$ as $x$ increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q4-a-sol",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p15 q4a\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2.3,0)--(3.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,4.8) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,2)--(0,2);\n\\draw[<->,line width=0.8pt,domain=-2.1:3,samples=80] plot (\\x,{pow(2,-(\\x))});\n\\fill (-1,2) circle (1pt) (0,1) circle (1pt);\n\\node[below left,xshift=-2pt,yshift=-2pt] at (-1,2) {$(-1,2)$};\n\\node[above right,xshift=2pt,yshift=2pt] at (0,1) {$(0,1)$};\n\\node[below right] at (3.5,-0.15) {asymptote $y=0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 4a; answer-book page 33, 4a",
+                "description": "Decreasing exponential with both required points and the horizontal asymptote.",
+                "mathematics": "y=2^{-x}; (0,1), (-1,2); y=0",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p15-q4-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "In each case, find the equation of the curve when this exponential is reflected as indicated. Then draw a sketch of the new function.",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p15-q4-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "In the $x$-axis",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=-2^{-x}$.",
+              "worked": "Reflection in the $x$-axis maps $(x,y)$ to $(x,-y)$.\n$$y=-2^{-x}$$\nThe points become $(-1,-2)$ and $(0,-1)$. The asymptote is $y=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p15-q4-bi-sol",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p15 q4bi\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2.3,0)--(3.3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.7)--(0,0.7) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,-2)--(0,-2);\n\\draw[<->,line width=0.8pt,domain=-2.1:3,samples=70] plot (\\x,{-pow(2,-(\\x))});\n\\fill (-1,-2) circle (1pt) (0,-1) circle (1pt);\n\\node[above left,xshift=-2pt,yshift=2pt] at (-1,-2) {$(-1,-2)$};\n\\node[below right,xshift=2pt,yshift=-2pt] at (0,-1) {$(0,-1)$};\n\\node[above right] at (3.4,0.15) {$y=0$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 50,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 15,
+                    "sourceRegion": "4b i; corrected answer-book page 33",
+                    "description": "Negative increasing exponential, reflecting the original graph vertically.",
+                    "mathematics": "y=-2^{-x}; (-1,-2), (0,-1); y=0",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 38
+          },
+          {
+            "id": "p15-q4-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "In the $y$-axis",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=2^x$.",
+              "worked": "Reflection in the $y$-axis maps $(x,y)$ to $(-x,y)$.\n$$\\begin{align*}y&=2^{-(-x)}\\\\y&=2^x\\end{align*}$$\nThe points become $(1,2)$ and $(0,1)$. The asymptote is $y=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p15-q4-bii-sol",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p15 q4bii\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(2.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,4.8) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (1,0)--(1,2)--(0,2);\n\\draw[<->,line width=0.8pt,domain=-3:2.1,samples=70] plot (\\x,{pow(2,(\\x))});\n\\fill (1,2) circle (1pt) (0,1) circle (1pt);\n\\node[below right,xshift=2pt,yshift=-2pt] at (1,2) {$(1,2)$};\n\\node[above left,xshift=-2pt,yshift=2pt] at (0,1) {$(0,1)$};\n\\node[below left] at (-3.4,-0.1) {$y=0$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 50,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 15,
+                    "sourceRegion": "4b ii; corrected answer-book page 33",
+                    "description": "Positive increasing exponential, reflecting the original graph horizontally.",
+                    "mathematics": "y=2^x; (1,2), (0,1); y=0",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 38
+          },
+          {
+            "id": "p15-q4-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "In both axes",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=-2^x$.",
+              "worked": "Reflection in both axes maps $(x,y)$ to $(-x,-y)$.\n$$\\begin{align*}y&=-2^{-(-x)}\\\\y&=-2^x\\end{align*}$$\nThe points become $(1,-2)$ and $(0,-1)$. The asymptote is $y=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p15-q4-biii-sol",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p15 q4biii\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.3,0)--(2.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.7)--(0,0.7) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (1,0)--(1,-2)--(0,-2);\n\\draw[<->,line width=0.8pt,domain=-3:2.1,samples=70] plot (\\x,{-pow(2,(\\x))});\n\\fill (1,-2) circle (1pt) (0,-1) circle (1pt);\n\\node[above right,xshift=2pt,yshift=2pt] at (1,-2) {$(1,-2)$};\n\\node[below left,xshift=-2pt,yshift=-2pt] at (0,-1) {$(0,-1)$};\n\\node[above left] at (-3.4,0.1) {$y=0$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 50,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 15,
+                    "sourceRegion": "4b iii; answer-book page 33",
+                    "description": "Negative decreasing exponential.",
+                    "mathematics": "y=-2^x; (0,-1), (1,-2); y=0",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 38
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:24:46.427Z",
+  "updatedAt": "2026-11-12T20:24:46.427Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p15-q4",
+    "sectionRole": "exercise"
+  }
+}
