@@ -69,6 +69,12 @@ test('substantive verified repairs can justify growth; discretionary trials cann
  assert.equal(gateProblems(before,after,{growthReasons:[{cause:'tidier',verified:false}]}).length,1);
 });
 
+test('import v2 sends no blank answer-recto page to the visual reviewer',t=>{
+ const {project,manifest}=fixture(t),pages=Array.from({length:4},(_,i)=>({page:i+1,hash:'h'+i,blocks:i===2?['']:['theory']}));
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(e=>[e,{pdf:{path:e},pageHashes:pages,issues:[]}]));
+ const plan=visualPlan({project,report,state:{pages:{},questions:{}},manifest:{...manifest,importPolicy:'import-v2'}});
+ assert.deepEqual(plan.student.pending.map(p=>p.page),[1,2,4]);
+});
 test('new visual policy reviews all Questions once, reuses accepted pages, and keeps ICE-EM targeted',t=>{
  const {project,manifest}=fixture(t),pages=Array.from({length:12},(_,i)=>({page:i+1,hash:'h'+i,blocks:['theory']}));
  const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(e=>[e,{pdf:{path:e},pageHashes:pages,issues:[]}]));

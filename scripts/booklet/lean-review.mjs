@@ -585,6 +585,8 @@ export function visualPlan({project,report,state,previousReport,manifest={}}){
   selected=[...new Set([...selected,...currentFailedPages(state,edition,entry).map(page=>page.page)])].sort((a,b)=>a-b);
   // Import v2: the generated cover has no source counterpart; DOM and PDF checks cover it.
   if(importV2(manifest))selected=selected.filter(page=>!entry.pageHashes[page-1]?.isCover||flagged.includes(page));
+  // The answer-recto blank page (booklet-pagination.js) carries no block; DOM QA checks it is empty.
+  if(importV2(manifest))selected=selected.filter(page=>(entry.pageHashes[page-1]?.blocks??[]).some(id=>(typeof id==='string'?id:id?.id))||flagged.includes(page));
   const stamp=page=>importV2(manifest)?pageBlockStamp(project,entry.pageHashes,page-1,{renderer:entry.renderer??null}):null;
   const stampParts=page=>importV2(manifest)?pageBlockStampParts(project,entry.pageHashes,page-1,{renderer:entry.renderer??null}):null;
   const pending=selected.filter(page=>{const row=state.pages[pageKey(edition,entry.pageHashes[page-1].hash)];return row?.outcome!=='accepted'||policy.enabled&&row.reviewProfile!==SOURCE_VISUAL_PROFILE;});
