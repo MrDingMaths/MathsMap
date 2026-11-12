@@ -61,6 +61,9 @@ export function importRunMetrics(runDir){
  const finishExports=list(path.join(runDir,'streamlined-exports')).filter(n=>/^\d+$/.test(n)).sort((a,b)=>a-b);
  let pixelRetained=0,stampCarried=0;
  for(const n of finishExports){const plan=readJson(path.join(runDir,'streamlined-exports',n,'visual-plan.json'));for(const entry of Object.values(plan??{}))for(const row of entry.pending??[]){if(row.retainedReviewKey)pixelRetained++;if(row.carriedReviewKey)stampCarried++;}}
+ // Reviewer verdicts a person overrode (lean-review decide-page), reported, never hidden.
+ const decisionsFile=path.join(runDir,'lean-review','page-decisions.jsonl');
+ const decisions=fs.existsSync(decisionsFile)?fs.readFileSync(decisionsFile,'utf8').split('\n').filter(Boolean).length:0;
  const manifest=readJson(path.join(runDir,'manifest.json'));
  const first=[manifest?.createdAt?Date.parse(manifest.createdAt):Infinity,...intervals.map(i=>i[0])].reduce((a,b)=>Math.min(a,b),Infinity),last=intervals.reduce((a,i)=>Math.max(a,i[1]),0);
  const scripts=list(runDir).filter(name=>/\.(?:mjs|js|cjs|ps1|py)$/.test(name));
@@ -70,7 +73,7 @@ export function importRunMetrics(runDir){
   time:{elapsedMinutes:+((last-first)/60000).toFixed(1),activeMinutes:+(union(intervals)/60000).toFixed(1),modelActiveMinutes:+(union(modelIntervals)/60000).toFixed(1),summedWorkerMinutes:+(totals.workerSeconds/60).toFixed(1)},
   modelCalls:{byKind:calls,totals},
   exports:{finish:finishExports.length,all:exports.filter(e=>!e.development),targetedRenders:exports.filter(e=>e.development).length},
-  visual:{freshInspections:fresh,freshAccepted:accepted,freshNeedsChange:needsChange,pixelRetainedRows:pixelRetained,stampCarriedRows:stampCarried,note:'A final gate pagesAccepted counts accepted pages on fresh and reused evidence; it is not a count of inspections.'},
+  visual:{freshInspections:fresh,humanPageDecisions:decisions,freshAccepted:accepted,freshNeedsChange:needsChange,pixelRetainedRows:pixelRetained,stampCarriedRows:stampCarried,note:'A final gate pagesAccepted counts accepted pages on fresh and reused evidence; it is not a count of inspections.'},
   scriptsInRunRoot:scripts,
  };
 }

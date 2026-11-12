@@ -45,3 +45,19 @@ test('stamp parts name what changed; reuse diagnostics explain every page to ins
  assert.deepEqual(r.rows.map(row=>row.decision),['stamp-changed','new-blocks','no-stamp','pixel-retained']);
  assert.deepEqual(r.rows[0].changed,['settings']);assert.equal(r.counts['changed:settings'],1);
 });
+
+test('a person can decide a needs-change page with evidence; the reviewer finding is kept and the decision is counted',async t=>{
+ const {recordPageDecision,saveReviewed,loadReviewed}=await import('../scripts/booklet/lean-review.mjs');
+ const run=fs.mkdtempSync(path.join(os.tmpdir(),'page-decision-'));t.after(()=>fs.rmSync(run,{recursive:true,force:true}));
+ const exportDir=path.join(run,'streamlined-exports','3'),evidence=path.join(run,'zoom.png');
+ write(path.join(exportDir,'visual-plan.json'),{student:{pending:[{page:18,hash:'h18',blocks:['q3']},{page:19,hash:'h19',blocks:['q4']}]}});
+ write(evidence,'pixels');
+ saveReviewed(path.join(run,'lean-review'),{questions:{},pages:{'student:h18':{outcome:'needs-change',finding:'missing axis',details:[{area:'diagram'}],edition:'student',page:18},'student:h19':{outcome:'accepted',edition:'student',page:19}}});
+ assert.throws(()=>recordPageDecision({runDir:run,exportDir,edition:'student',page:18,reason:'axis present',evidence}),/decided-by/);
+ assert.throws(()=>recordPageDecision({runDir:run,exportDir,edition:'student',page:19,decidedBy:'James',reason:'x',evidence}),/needs-change/);
+ const r=recordPageDecision({runDir:run,exportDir,edition:'student',page:18,decidedBy:'James',reason:'The axis is continuous at full resolution',evidence});
+ assert.equal(r.accepted,true);
+ const row=loadReviewed(path.join(run,'lean-review')).pages['student:h18'];
+ assert.equal(row.outcome,'accepted');assert.equal(row.decision.overrides.finding,'missing axis');assert.equal(row.decision.decidedBy,'James');assert.match(row.decision.evidence.hash,/^[0-9a-f]{64}$/);
+ assert.equal(importRunMetrics(run).visual.humanPageDecisions,1);
+});

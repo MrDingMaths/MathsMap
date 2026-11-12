@@ -107,6 +107,38 @@ export function layoutPreflightBlockers(project){
  return blockers;
 }
 
+// C8: one block holding several printed questions (children numbered 1, 2, ...) prints
+// its own booklet number beside the first child's number (Ch 2 pilot investigation).
+// Structural, so it is checked before content review: author one block per question.
+export function nestedQuestionBlockers(project){
+ const blockers=[];
+ for(const {block} of practiceRows(project)){
+  const numbered=(block.content?.children??[]).filter(child=>/^\d+$/.test(String(child.label??'').trim()));
+  // Numbered parts (1)-(6) are legitimate; a numbered group or question with its own parts is a printed question.
+  if(numbered.length<2||!numbered.some(child=>['group','question'].includes(child.type)&&child.children?.length))continue;
+  blockers.push({check:'C8-nested-questions',blockId:block.id,message:'Block '+block.id+' holds printed questions '+numbered.map(c=>c.label).join(', ')+' as nested children; author one block per printed question (shared introduction in the first question\'s prompt)'});
+ }
+ return blockers;
+}
+
+// C9: an answer-key absence claim that searched only some of the prepared answer pages
+// usually means the topic's configured teacherPages missed the exercise (Ch 2 pilot: five
+// Exercise 2D blocks). Content review would refuse the claim; say why, before any call.
+export function answerKeyCoverageBlockers(project,manifest){
+ const prepared=manifest?.teacherPages??[];if(!prepared.length)return [];
+ const blockers=[];
+ for(const {block} of practiceRows(project)){
+  const absence=block.sourceReview?.answerEvidence?.answerKeyAbsence;if(!absence)continue;
+  const searched=absence.searchedTeacherPages??[],missing=prepared.filter(page=>!searched.includes(page));
+  if(missing.length)blockers.push({check:'C9-answer-pages',blockId:block.id,message:'Block '+block.id+' claims no answer-key entry after searching answer pages '+searched.join(', ')+' only (not '+missing.join(', ')+'): check the topic\'s teacherPages in the run config, then re-author or record the key reference'});
+ }
+ return blockers;
+}
+// Structural checks to run before content review (C8, C9).
+export function structuralPreflightBlockers(project,manifest){
+ return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest)];
+}
+
 // C5 plus repaired blocks: what a targeted render must check before printing.
 export function renderRiskTargets(project,{changed=[]}={}){
  const targets=new Set(changed);

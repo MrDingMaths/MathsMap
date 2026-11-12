@@ -482,6 +482,16 @@ Not yet done: chunk-level lint is unchanged (it already runs per author assignme
 | | Evidence | Fixes are recorded in `lean-review/finish/preflight-fixes.json`. C1 and C3 leave `contentHash` and `reasoningTaskHash` unchanged; C2 changes only the task hash, so it runs before rating. |
 | Before every finish export | **C6** a block with `flow.dependsOn` whose wording refers to another question needs `sourceReview.bankDependencyReview` | Blocks printing with a named message. |
 | | **Targeted render** (`check-compact-exercises --development --target-blocks`, one process per edition, against Studio on 5173) of 3+-column grids holding long maths plus every block whose stamp changed since the last export | Any DOM or printed issue blocks printing. A clean result is remembered per candidate hash. If Studio can't be reached, the edition is logged as skipped, as the label check is. |
+| Added after the Ch 2 pilot | **C7** wrap a display environment written without `$$` (fix, before content review) | |
+| | DOM issues from **every** page (`--all-dom-issues`), always rendering at least one anchor block | |
+| | **C8** a block whose numbered children are groups or questions with parts holds several printed questions: blocker before content review and in the sample | Numbered parts (1)–(6) are legitimate; no existing project is flagged. |
+| | **C9** an answer-key absence claim that searched only some of the prepared answer pages: blocker before content review and in the sample | Usually the topic's `teacherPages` missed the exercise. |
+| | The sample also applies the preflight fixes and Studio's label check before review | |
+
+**A wrong reviewer verdict.**
+- **Command:** `node scripts/booklet/lean-review.mjs decide-page --run-id RUN --exports DIR --edition E --page N --decided-by NAME --reason TEXT --evidence FILE`. It records a person's decision on a page the independent reviewer marked needs-change.
+- **What it keeps:** the reviewer's finding (`decision.overrides`), the page hash and raster binding, and a hash of the evidence file. Each decision is appended to `lean-review/page-decisions.jsonl` and counted in the run metrics (`humanPageDecisions`).
+- **When to use it:** only for a verdict the evidence contradicts (for example a full-resolution crop showing the "missing" line), and only on James's decision.
 
 Replayed on Ch 1 (about 28 s per state): it stops the export-1 state on `p24-q2` (C6), then on the 8 `p14-p1` column overflows. It stops the export-2 state on the `p23-q1` footer overflow (2.5 mm), and it passes the repaired state. These are the three failed exports' causes. The C1 output equals the 12 headings the visual review demanded and the final accepted project carries.
 

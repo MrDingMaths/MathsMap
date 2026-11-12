@@ -715,6 +715,25 @@ export async function recoverVisualReviews({runDir,projectFile,exportDir}){
 }
 // Pages of one export (its visual plan, or a report's page hashes) whose recorded
 // outcome is still needs-change.
+// A person's verdict on a page an independent reviewer marked needs-change (import v2
+// case study, fix 3: Ch 2's Question 3(b) "missing axis" was visibly present). The
+// reviewer's finding stays in the record; the decision is bound to the same page hash
+// and raster, names who decided and cites hashed evidence. Logged to page-decisions.jsonl.
+export function recordPageDecision({runDir,exportDir,edition,page,decidedBy,reason,evidence}){
+ if(!String(decidedBy??'').trim()||!String(reason??'').trim())throw Error('A page decision needs --decided-by and --reason');
+ if(!evidence||!fs.existsSync(evidence))throw Error('A page decision needs an existing --evidence file');
+ const planFile=exportDir&&path.join(exportDir,'visual-plan.json');
+ if(!planFile||!fs.existsSync(planFile))throw Error('A page decision needs --exports with a visual plan');
+ const row=read(planFile)[edition]?.pending?.find(r=>r.page===Number(page));
+ if(!row)throw Error('Page is not in this export\'s visual plan: '+edition+' p'+page);
+ const dir=path.join(runDir,'lean-review'),state=loadReviewed(dir),key=pageKey(edition,row.hash),current=state.pages[key];
+ if(current?.outcome!=='needs-change')throw Error('Only a page an independent reviewer marked needs-change can be decided: '+edition+' p'+page);
+ const decision={decidedBy:String(decidedBy).trim(),reason:String(reason).trim(),at:now(),evidence:{path:path.resolve(evidence),hash:sha(fs.readFileSync(evidence))},overrides:{finding:current.finding,details:current.details??[],at:current.at??null}};
+ state.pages[key]={...current,outcome:'accepted',finding:'',details:[],decision};
+ saveReviewed(dir,state);
+ fs.appendFileSync(path.join(dir,'page-decisions.jsonl'),JSON.stringify({edition,page:row.page,hash:row.hash,...decision})+'\n');
+ return {edition,page:row.page,accepted:true,decidedBy:decision.decidedBy};
+}
 export function outstandingFindings(state,pagesByEdition){
  const rows=[],outcome=visualOutcomeReader(state);
  for(const [edition,entry] of Object.entries(pagesByEdition??{}))for(const page of entry?.pending??entry?.pageHashes??[]){
@@ -1019,6 +1038,7 @@ export async function main(args=process.argv.slice(2)){
  else if(command==='status')result=reviewStatus({runDir,projectFile,exportDir:values['--exports'],projectHash:values['--exports']?(await import('./page-review.mjs')).projectReviewHash:undefined});
  else if(command==='lint'){const lint=leanPreExportLint(read(projectFile));result={...lint,errors:lint.blocking.length?[lint.blocking.length+' blocking text issues']:[]};}
  else if(command==='repair')result=await applyRepair({runDir,projectFile,correctionsFile:values['--corrections'],exportDir:values['--exports']});
+ else if(command==='decide-page')result=recordPageDecision({runDir,exportDir:values['--exports'],edition:values['--edition'],page:values['--page'],decidedBy:values['--decided-by'],reason:values['--reason'],evidence:values['--evidence']});
  else throw Error('Use content|status|lint --run-id ID --project-file FILE, export --run-id ID --project ID --project-file FILE --out DIR, visual|recover-visual --run-id ID --project-file FILE --exports DIR, or repair --run-id ID --project-file FILE --corrections FILE [--exports DIR]');
  console.log(JSON.stringify(result,null,2));if(result.errors?.length||result.sampleAccepted===false||['finish','status'].includes(command)&&result.deliverable===false)process.exitCode=1;return result;
 }

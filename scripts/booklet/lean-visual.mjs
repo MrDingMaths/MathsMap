@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {liveWorkflow,FINAL_EDITIONS,effectiveInventory} from './workflow-review.mjs';
-import {applyLayoutPreflightFixes,printedPracticeHeadings} from './import-layout-preflight.mjs';
+import {applyLayoutPreflightFixes,printedPracticeHeadings,structuralPreflightBlockers} from './import-layout-preflight.mjs';
 import {describeReview} from './visual-review.mjs';
 import {prepareReviewQueue} from './visual-review-queue.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
@@ -150,10 +150,12 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  }
  // Import v2: Studio's label-collision check on the sample's diagrams, in seconds and
  // before any reviewer looks (Ch 2 pilot: both sample findings were label collisions).
- let labelCollisions=[];
+ let labelCollisions=[],structural=[];
  if(v2){
   const check=labels??(await import('./import-finish.mjs')).diagramLabelCheck;
   const result=await check({file:projectFile,runDir});labelCollisions=result.collisions??[];
+  // C8/C9: nested printed questions and partial answer-page searches show in the sample too.
+  structural=structuralPreflightBlockers(project,read(manifestFile));
  }
  const sample=selectLayoutSample(project,{limit,all:v2});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
  const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];
@@ -183,8 +185,8 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  // Import v2: every practice question must render in every edition the sample
  // covers (Ch 1: an investigation classed as teaching got no worked page).
  const missingBlocks=v2&&!exportError?sampleBlocksMissingFromEditions(project,report,editions):[];
- const ok=!exportError&&!missingEditions.length&&!missingBlocks.length&&!labelCollisions.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
- const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,missingBlocks,preflightFixes,labelCollisions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
+ const ok=!exportError&&!missingEditions.length&&!missingBlocks.length&&!labelCollisions.length&&!structural.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
+ const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,missingBlocks,preflightFixes,labelCollisions,structural,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
   next:(ok?'':'This sample did not pass: repair the lint, automated issues or render failure listed here and sample again before authoring more. ')+(coversPracticeAnswers?'':'This candidate has no practice answers yet, so short and worked layouts are untested: sample again once the first exercise is authored. ')+'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate and in the instructions for the remaining pages before authoring them; nothing here records an acceptance.'};
  fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
  return {...result,file:path.join(out,'layout-sample.json')};
