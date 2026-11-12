@@ -13921,6 +13921,213 @@
           },
           "snapshotKind": "local",
           "bankRef": null
+        },
+        {
+          "id": "v2-f9808-p34-practice-slot-5-214331",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "v2-f9808-p34-practice-slot-5-214331-root",
+            "type": "question",
+            "label": null,
+            "prompt": "A bus is late on any given weekday with probability $0.3$, independently of other days. Over a 7-day week, exactly 3 days are late and no two late days are consecutive.\n\nFind, correct to four decimal places, the probability of this happening.",
+            "answerSpaceMm": 80,
+            "answer": {
+              "short": "$0.0648$",
+              "worked": "Each arrangement of 3 late days (L) and 4 on-time days (O) has probability $(0.3)^3(0.7)^4$. Count the arrangements with no two L's consecutive by position of the late days:\n\n135, 136, 137, 146, 147, 157, 246, 247, 257, 357\n\nThere are $10$ arrangements (equivalently, place the 3 L's in the 5 gaps around the 4 O's: $\\binom53=10$).\n$$\\begin{align*}P&=10\\times(0.3)^3(0.7)^4\\\\&=10\\times0.027\\times0.2401\\\\&=0.064827\\\\&\\approx0.0648.\\end{align*}$$"
+            }
+          },
+          "classification": {
+            "primarySkillId": "solve-binomial-problems",
+            "secondarySkillIds": [],
+            "archetype": "ordered-independent-outcomes",
+            "reasoningScore": 58,
+            "difficulty": "Mastery",
+            "difficultyReason": "This is not a plain binomial count. The student must count arrangements of 3 late days among 7 with no two adjacent (10 ways, found by a gap argument or listing) and multiply by the probability of one arrangement. The counting step is unsignposted.",
+            "assessment": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "method": "comparison-v1",
+              "assessedAt": "2026-11-10T21:58:48.699Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "dcbf797d8cfca27688824e76d5441c9ffd675b0ac842e4d3ad9379d73487bacb",
+              "diagramBlindHash": "dcbf797d8cfca27688824e76d5441c9ffd675b0ac842e4d3ad9379d73487bacb",
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-binomial-distributions-2-v1/20261110-214331/calls/15-solve-1.json",
+              "comparison": {
+                "harderThan": {
+                  "ref": "p38-q15-block",
+                  "score": 55
+                },
+                "easierThan": {
+                  "ref": "p39-q18",
+                  "score": 60
+                },
+                "equalTo": null,
+                "closerTo": "middle"
+              }
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "projectId": "s6ext1-binomial-distributions-2-v1",
+              "blockId": "v2-f9808-p34-practice-slot-5-214331",
+              "generatedBy": "pedagogy-audit-v2"
+            },
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "kind": "slot",
+              "slot": {
+                "id": "slot-5-214331",
+                "reason": "type-count",
+                "target": 58,
+                "range": [
+                  55,
+                  58
+                ]
+              },
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-binomial-distributions-2-v1/20261110-214331/calls/15-solve-1.json"
+            },
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "slot-5-root",
+                  "mathematicalRows": 6,
+                  "answerSpaceMm": 80
+                }
+              ]
+            },
+            "addition": {
+              "approvedBy": "James",
+              "date": "2026-11-12",
+              "comment": "33988b1b-1304-49dd-89b5-04e35940acf2",
+              "reason": "Approved pedagogy audit v2 comment."
+            },
+            "additionTo": {
+              "projectId": "s6ext1-binomial-distributions-2-v1",
+              "blockId": "p39-q17"
+            }
+          }
+        },
+        {
+          "id": "v2-f9808-p34-practice-slot-4-214331",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "v2-f9808-p34-practice-slot-4-214331-root",
+            "type": "question",
+            "label": null,
+            "prompt": "An archer hits the target with nine of every ten arrows, and hits the bullseye, the centre of the target, with three of every ten arrows. She fires five arrows. Assuming that successive arrows are independent events, find, correct to four decimal places, the probability that:",
+            "children": [
+              {
+                "id": "v2-f9808-p34-practice-slot-4-214331-slot-4-q-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "she hits exactly three bullseyes and the other two arrows hit the target away from the bullseye,",
+                "answerSpaceMm": 55,
+                "answer": {
+                  "short": "$0.0972$",
+                  "worked": "$$\\begin{align*}P(\\text{hit, not bullseye})&=0.9-0.3\\\\&=0.6.\\end{align*}$$\nThere are $\\binom53$ choices for the three bullseye positions.\n$$\\begin{align*}P(\\text{three bullseyes, other two hit away from bullseye})&=\\binom53(0.3)^3(0.6)^2\\\\&=0.0972.\\end{align*}$$"
+                }
+              },
+              {
+                "id": "v2-f9808-p34-practice-slot-4-214331-slot-4-q-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "all five arrows hit the target and at most one is a bullseye.",
+                "answerSpaceMm": 65,
+                "answer": {
+                  "short": "$0.2722$",
+                  "worked": "$P(\\text{hit, not bullseye})=0.9-0.3=0.6$.\n\nLet $B$ be the number of bullseyes. All five arrows hit the target with $B=0$ or $B=1$.\n$$\\begin{align*}P(\\text{all hit},\\ B=0)&=(0.6)^5=0.07776\\\\P(\\text{all hit},\\ B=1)&=\\binom51(0.3)(0.6)^4=0.1944\\\\P(\\text{all hit},\\ B\\le1)&=0.07776+0.1944\\\\&=0.27216\\\\&\\approx0.2722.\\end{align*}$$"
+                }
+              }
+            ],
+            "questionDiagrams": []
+          },
+          "classification": {
+            "primarySkillId": "solve-binomial-problems",
+            "secondarySkillIds": [],
+            "archetype": "nested-outcome-categories",
+            "reasoningScore": 58,
+            "difficulty": "Mastery",
+            "difficultyReason": "Three outcomes per arrow, so the student must derive 0.6 for on target but not bullseye. Part a is one term; part b is a sum of two cases combined with that derived probability.",
+            "assessment": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "method": "comparison-v1",
+              "assessedAt": "2026-11-10T21:58:48.633Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "72998f0947e1f2579a2deb252338e5b841bf0886665269f8165d50a2097db28d",
+              "diagramBlindHash": "72998f0947e1f2579a2deb252338e5b841bf0886665269f8165d50a2097db28d",
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-binomial-distributions-2-v1/20261110-214331/calls/15-solve-1.json",
+              "comparison": {
+                "harderThan": {
+                  "ref": "p38-q15-block",
+                  "score": 55
+                },
+                "easierThan": {
+                  "ref": "p39-q18",
+                  "score": 60
+                },
+                "equalTo": null,
+                "closerTo": "middle"
+              }
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "projectId": "s6ext1-binomial-distributions-2-v1",
+              "blockId": "v2-f9808-p34-practice-slot-4-214331",
+              "generatedBy": "pedagogy-audit-v2"
+            },
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "kind": "slot",
+              "slot": {
+                "id": "slot-4-214331",
+                "reason": "type-count",
+                "target": 58,
+                "range": [
+                  55,
+                  58
+                ]
+              },
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-binomial-distributions-2-v1/20261110-214331/calls/15-solve-1.json"
+            },
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "v2-f9808-p34-practice-slot-4-214331-slot-4-q-a",
+                  "mathematicalRows": 3,
+                  "answerSpaceMm": 55
+                },
+                {
+                  "targetId": "v2-f9808-p34-practice-slot-4-214331-slot-4-q-b",
+                  "mathematicalRows": 5,
+                  "answerSpaceMm": 65
+                }
+              ]
+            },
+            "addition": {
+              "approvedBy": "James",
+              "date": "2026-11-12",
+              "comment": "33988b1b-1304-49dd-89b5-04e35940acf2",
+              "reason": "Approved pedagogy audit v2 comment."
+            },
+            "additionTo": {
+              "projectId": "s6ext1-binomial-distributions-2-v1",
+              "blockId": "p39-q17"
+            }
+          }
         }
       ],
       "pageBreakBefore": false,
@@ -15476,7 +15683,7 @@
           "type": "callout",
           "variant": "info",
           "title": "Expected frequency",
-          "content": "For an entire experiment repeated $N$ times, the expected number of repetitions in which $X=r$ is:\n$$N\\cdot P(X=r)$$",
+          "content": "If an experiment is repeated $N$ times, each time with the same $P(X=r)$, the **expected frequency** of $X=r$ is:\n$$N\\cdot P(X=r)$$",
           "sourceAtom": {
             "id": "p42-frequency-atom",
             "kind": "definition",
@@ -29021,7 +29228,7 @@
         "id": "33988b1b-1304-49dd-89b5-04e35940acf2",
         "targetId": "p39-q17",
         "note": "[Pedagogy audit v2 · New question to decide] For the type count gap (nested-outcome-categories). Comparison score 58, between p38-q15-block and p39-q18: Three outcomes per arrow, so the student must derive 0.6 for on target but not bullseye. Part a is one term; part b is a sum of two cases combined with that derived probability.\nProposed question: An archer hits the target with nine of every ten arrows, and hits the bullseye, the centre of the target, with three of every ten arrows. She fires five arrows. Assuming that successive arrows are independent events, find, correct to four decimal places, the probability that:\na) she hits exactly three bullseyes and the other two arrows hit the target away from the bullseye,\nb) all five arrows hit the target and at most one is a bullseye.\nAnswers: a) $0.0972$; b) $0.2722$\n\n[Pedagogy audit v2 · New question to decide] For the type count gap (ordered-independent-outcomes). Comparison score 58, between p38-q15-block and p39-q18: This is not a plain binomial count. The student must count arrangements of 3 late days among 7 with no two adjacent (10 ways, found by a gap argument or listing) and multiply by the probability of one arrangement. The counting step is unsignposted.\nProposed question: A bus is late on any given weekday with probability $0.3$, independently of other days. Over a 7-day week, exactly 3 days are late and no two late days are consecutive.\n\nFind, correct to four decimal places, the probability of this happening.\nAnswers: $0.0648$",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-10T21:58:49.119Z",
         "scope": "local",
         "anchor": {
@@ -29043,7 +29250,9 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "slot-comment-only",
-        "findingKey": "slot|slot-4"
+        "findingKey": "slot|slot-4",
+        "resolvedAt": "2026-11-12T05:46:41.901Z",
+        "resolution": "Approved by James and applied: Added after p39-q17. Added after p39-q17."
       },
       {
         "id": "67621cbe-611e-4260-843c-d39eb51309a4",
@@ -29080,7 +29289,7 @@
         "id": "4a417f82-9574-4cb0-a8c6-76d0c9400b38",
         "targetId": "p34-q3",
         "note": "[Pedagogy audit v2 · Applied automatically · Duplicate replacement] Question 5 and part a of the later die question are the same problem: exactly two threes in six rolls, answer 0.2009. The later part a should be replaced. Replace p34-q3-a with the question below.\nProposed question: A fete game uses a wheel with 10 equal sectors, 3 of them blue. The wheel is spun 9 times. Find the probability that it lands on blue exactly 4 times, correct to four decimal places.\nAnswers: $0.1715$\nApplied: p34-q3-a replaced with A fete game uses a wheel with 10 equal sectors, 3 of them blue. The wheel is spun 9 times. Find the probability that it lands on blue exactly 4 times, correct to four decimal places..",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-10T21:58:49.119Z",
         "scope": "local",
         "anchor": {
@@ -29103,7 +29312,9 @@
         "autoApplied": {
           "at": "2026-11-10T22:01:21.615Z",
           "what": "p34-q3-a replaced with A fete game uses a wheel with 10 equal sectors, 3 of them blue. The wheel is spun 9 times. Find the probability that it lands on blue exactly 4 times, correct to four decimal places.."
-        }
+        },
+        "resolvedAt": "2026-11-12T05:52:48.939Z",
+        "resolution": "Checked 12 Nov 2026: the change (replacement text 1.00) was applied earlier and is in the booklet."
       },
       {
         "id": "40be2ee0-ad3f-4a5a-ab99-89341b811aed",
@@ -29372,7 +29583,7 @@
         "id": "0e205f8f-42f2-4fab-82aa-ab523b852eda",
         "targetId": "p25-definition",
         "note": "[Pedagogy audit v2 · Definition] The definition does not state what X counts or the values of r. Suggested wording: 'If X~Bin(n,p) is the number of successes in n independent trials, each with probability p of success, then for r=0,1,…,n the probability of r successes is:' with the annotated formula unchanged.\nNo replacement text: this passage cannot be rewritten automatically (no editable text); edit it by hand.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-10T21:58:49.121Z",
         "scope": "local",
         "anchor": {
@@ -29391,7 +29602,9 @@
         "location": "Probability of r successes · Probability of r successes",
         "kind": "pedagogy-audit-v2",
         "findingKind": "theory-definition",
-        "findingKey": "theory|p25-definition"
+        "findingKey": "theory|p25-definition",
+        "resolvedAt": "2026-11-12T06:19:12.748Z",
+        "resolution": "Kept 12 Nov 2026: X ~ Bin(n, p) is defined on the previous page as the number of successes in n independent trials; the formula line is correct as it stands."
       },
       {
         "id": "0d4167d8-be69-419b-8dcb-70b5b28c0313",
@@ -29459,7 +29672,7 @@
         "id": "556d8328-68b0-42e9-a4b6-b3bdd73d1b5e",
         "targetId": "p42-frequency-definition",
         "note": "[Pedagogy audit v2 · Definition] The text never names the term it defines and omits the condition that each repetition has the same P(X=r). Suggested wording: 'If an experiment is repeated N times, each time with the same P(X=r), the expected frequency of X=r is:' with the formula N·P(X=r) unchanged.\nNo replacement text: this passage cannot be rewritten automatically (no editable text); edit it by hand.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-10T21:58:49.123Z",
         "scope": "local",
         "anchor": {
@@ -29478,7 +29691,9 @@
         "location": "Mean, variance, expected frequency of binomial distributions · Expected Frequency",
         "kind": "pedagogy-audit-v2",
         "findingKind": "theory-definition",
-        "findingKey": "theory|p42-frequency-definition"
+        "findingKey": "theory|p42-frequency-definition",
+        "resolvedAt": "2026-11-12T06:19:12.748Z",
+        "resolution": "Fixed 12 Nov 2026: the term is named and the condition stated."
       },
       {
         "id": "2be70737-9bf4-4ffe-94e9-237878c2ed25",
@@ -29546,7 +29761,7 @@
         "id": "cc5ba0d1-ae5b-41b0-a648-f40fa0b1d673",
         "targetId": "p43-q1",
         "note": "[Pedagogy audit v2 · Ordering hold] These questions were left in their current order instead of being sorted by difficulty: p43-q1, p43-q2, p43-q3, p43-q4, v2-8424b-p43-practice-slot-10, p43-q5, p43-q6, p44-q7-block, v2-8424b-p43-practice-slot-7, p44-q8-block, p44-q9-block, p44-q10-block, v2-8424b-p43-practice-slot-9, p45-q11, p45-q12, p45-q13, p46-q14, p47-q15-block, p47-q16-block, p50-q19, p49-q18. Hold: unsupported-nonpractice-printed-reference. Held by: \"A quiz has 20 multiple-choice questions. 300 students guess every answer, each w\" in p41-interpret-activity (outside this exercise). What would release it: rewording the teaching block's printed reference to a question or example.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-10T21:58:49.123Z",
         "scope": "local",
         "anchor": {
@@ -29565,7 +29780,9 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "ordering-hold",
-        "findingKey": "hold|assignment-85f6e4733c00d2e8424b-p43-practice|p43-q1"
+        "findingKey": "hold|assignment-85f6e4733c00d2e8424b-p43-practice|p43-q1",
+        "resolvedAt": "2026-11-12T05:09:32.111Z",
+        "resolution": "Settled 12 Nov 2026: teacher order kept. The hold is still real (rating-unverified); sorting would break what it protects."
       },
       {
         "id": "b9490fc8-e776-4119-ba47-351fc58515e4",
@@ -38899,10 +39116,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 10,
+  "revision": 14,
   "assets": [],
   "createdAt": "2026-11-06T11:03:44.391Z",
-  "updatedAt": "2026-11-11T13:37:19.350Z",
+  "updatedAt": "2026-11-12T06:19:32.900Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-12",

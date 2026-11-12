@@ -8350,15 +8350,30 @@
           "classification": {
             "primarySkillId": "find-inverse-function",
             "secondarySkillIds": [],
-            "reasoningScore": 22,
-            "difficulty": "Foundation",
-            "difficultyReason": "Apply the taught coordinate swap and reverse familiar operations, including a three-operation cubic expression; no additional method selection is needed.",
+            "reasoningScore": 26,
+            "difficulty": "Development",
+            "difficultyReason": "Every part is the same direct procedure: swap x and y, then rearrange. Most parts need one or two inversion steps. The hardest are n, which needs a divide, then a cube root of a fraction, and k, which comes as an implicit linear equation and must be rearranged. Parts i and o also take a short multi-step rearrangement. There are no restrictions, no domain or range work, no graphing and no interpretation, and the method is signposted by the prompt. This is more than the single-step angle fact in A2, because of the multi-step rearrangements and the cube-root and implicit forms. It is below p9-q4, which also needs graphing a circle, reflecting it and reasoning about domain and range.",
             "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-21T05:27:13.744Z",
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "method": "comparison-v1",
+              "assessedAt": "2026-11-12T05:27:25.948Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "507b06b7a7323e20fceac3ed0da36bfca64252933c23bad2bf3f5638454a768e",
-              "evidence": ".booklet-work/reasoning-ratings/calls/inverse-functions-v1/7df796e4e1681738f90f31d54275f93739846ea94ebcc08ff481ee4b402ce373-1792560388431/last-message.txt"
+              "taskHash": "06a37d3d8fa48ed2ec407c463a02592b809d4bf3778271e15bc84a0ba3547f1b",
+              "diagramBlindHash": "06a37d3d8fa48ed2ec407c463a02592b809d4bf3778271e15bc84a0ba3547f1b",
+              "evidence": ".booklet-work/pedagogy-audit-v2/inverse-functions-v1/20261112-052713-apply-comments/calls/01-rating-1.json",
+              "comparison": {
+                "harderThan": {
+                  "ref": "A2",
+                  "score": 18
+                },
+                "easierThan": {
+                  "ref": "p9-q4-block",
+                  "score": 29
+                },
+                "equalTo": null,
+                "closerTo": "easierThan"
+              }
             },
             "archetype": "linear-inverse",
             "archetypeReview": {
@@ -8571,13 +8586,13 @@
                 "id": "p8-q1-g",
                 "type": "part",
                 "label": "g",
-                "prompt": "$y=3x-2$",
+                "prompt": "$y=4x-3$",
                 "answerSpaceMm": 23,
                 "answer": {
-                  "short": "$y=\\dfrac{x+2}{3}$",
-                  "worked": "$$\\begin{align*}x&=3y-2\\\\x+2&=3y\\\\y&=\\frac{x+2}{3}\\end{align*}$$",
+                  "short": "$y=\\dfrac{x+3}{4}$",
+                  "worked": "$$\\begin{align*}x&=4y-3\\\\x+3&=4y\\\\y&=\\frac{x+3}{4}\\end{align*}$$",
                   "provenance": {
-                    "short": "source",
+                    "short": "authored",
                     "worked": "authored"
                   }
                 }
@@ -8601,13 +8616,13 @@
                 "id": "p8-q1-i",
                 "type": "part",
                 "label": "i",
-                "prompt": "$y=3-\\dfrac{x}{2}$",
+                "prompt": "$y=4-\\dfrac{x}{3}$",
                 "answerSpaceMm": 23,
                 "answer": {
-                  "short": "$y=6-2x$",
-                  "worked": "$$\\begin{align*}x&=3-\\frac{y}{2}\\\\\\frac{y}{2}&=3-x\\\\y&=6-2x\\end{align*}$$",
+                  "short": "$y=12-3x$",
+                  "worked": "$$\\begin{align*}x&=4-\\frac{y}{3}\\\\\\frac{y}{3}&=4-x\\\\y&=12-3x\\end{align*}$$",
                   "provenance": {
-                    "short": "source",
+                    "short": "authored",
                     "worked": "authored"
                   }
                 }
@@ -8900,7 +8915,27 @@
                 "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\inverse-functions-v1-20261002-medium\\semantic-packets\\page-008.author.json",
                 "hash": "f62b3a4906289321808f0f017fb3ff5fc29eb25505afd66913c9f0f3b7777b6a"
               }
-            }
+            },
+            "corrections": [
+              {
+                "at": "2026-11-12T05:27:13.592Z",
+                "targetId": "p8-q1-g",
+                "kind": "approved-departure",
+                "approvedBy": "James",
+                "comment": "15fd7367-ba80-41a6-9d07-326441269c01",
+                "before": "$y=3x-2$",
+                "reason": "Repeated item replaced (pedagogy audit v2)."
+              },
+              {
+                "at": "2026-11-12T05:27:13.596Z",
+                "targetId": "p8-q1-i",
+                "kind": "approved-departure",
+                "approvedBy": "James",
+                "comment": "15fd7367-ba80-41a6-9d07-326441269c01",
+                "before": "$y=3-\\dfrac{x}{2}$",
+                "reason": "Repeated item replaced (pedagogy audit v2)."
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -22670,7 +22705,7 @@
         "id": "15fd7367-ba80-41a6-9d07-326441269c01",
         "targetId": "p8-q1",
         "note": "[Pedagogy audit v2 · Duplicate replacement] Part g of question 1 and part a of question 7 both ask for the inverse of y=3x-2, and the guided practice already uses the same line. Change the function in question 1 part g so the algebra is not repeated. Replace p8-q1-g with the question below.\nProposed question: Find the inverse relation of $y=4x-3$.\nAnswers: $y=\\dfrac{x+3}{4}$\n\n[Pedagogy audit v2 · Duplicate replacement] Part i of question 1 and part c of question 7 both ask for the inverse of y=3-x/2. Change the function in question 1 part i. Replace p8-q1-i with the question below.\nProposed question: Find the inverse relation of $y=4-\\dfrac{x}{3}$.\nAnswers: $y=12-3x$",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-11T03:11:11.864Z",
         "scope": "local",
         "anchor": {
@@ -22689,7 +22724,9 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "proposal-duplicate",
-        "findingKey": "prop|j1"
+        "findingKey": "prop|j1",
+        "resolvedAt": "2026-11-12T05:27:25.949Z",
+        "resolution": "Approved by James and applied: p8-q1-g replaced with Find the inverse relation of $y=4x-3$.. p8-q1-i replaced with Find the inverse relation of $y=4-\\dfrac{x}{3}$.."
       },
       {
         "id": "021d5cb1-2ff6-4959-8ea4-85cecfedff38",
@@ -33005,10 +33042,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 308,
+  "revision": 309,
   "assets": [],
   "createdAt": "2026-10-02T11:26:21.873Z",
-  "updatedAt": "2026-11-11T07:41:17.008Z",
+  "updatedAt": "2026-11-12T05:28:18.469Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-11",

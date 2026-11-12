@@ -24186,6 +24186,97 @@
           }
         },
         {
+          "id": "v2-4d41dd58a864b1-p36-slot-13-134003",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "v2-4d41dd58a864b1-p36-slot-13-134003-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Prove by mathematical induction that $7^n-6n-1$ is divisible by $36$ for all integers $n\\geq0$.",
+            "answer": {
+              "short": "$7^0-6(0)-1=0$. If $7^k-6k-1=36p$, then $7^{k+1}-6(k+1)-1=36(7p+k)$, an integer multiple of $36$. Hence the result holds for all integers $n\\geq0$ by mathematical induction.",
+              "worked": "Test $n=0$\n$$\\begin{aligned}\\mathrm{LHS}&=7^0-6(0)-1\\\\&=0\\\\&=36(0)\\end{aligned}$$Therefore true for $n=0$.\n\nAssume true for $n=k$, where $k\\geq0$:\n$7^k-6k-1=36p$, where $p$ is an integer.\n\nProve $n=k+1$\nWTP: $7^{k+1}-6(k+1)-1=36q$, where $q$ is an integer.\n\nFrom the assumption, $7^k=36p+6k+1$.\n$$\\begin{aligned}\\mathrm{LHS}&=7^{k+1}-6(k+1)-1\\\\&=7\\times7^k-6k-7\\\\&=7(36p+6k+1)-6k-7\\\\&=252p+42k+7-6k-7\\\\&=252p+36k\\\\&=36(7p+k)\\\\&=36q\\end{aligned}$$\n\nSince $p$ and $k$ are integers, $q=7p+k$ is also an integer.\n\nThe statement is true for $n=0$, and truth for $n=k$ implies truth for $n=k+1$. Therefore, by mathematical induction, it is true for all integers $n\\geq0$."
+            },
+            "questionDiagrams": []
+          },
+          "classification": {
+            "primarySkillId": "induction-divisibility",
+            "secondarySkillIds": [],
+            "archetype": "exponential-linear-divisibility",
+            "reasoningScore": 58,
+            "difficulty": "Mastery",
+            "difficultyReason": "An exponential plus a linear term: substitute for 7^k, then factor the leftover linear term in k to reach a multiple of 36.",
+            "assessment": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "method": "comparison-v1",
+              "assessedAt": "2026-11-11T13:47:58.963Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "daa6050e43953e11da9a4e4298a211e4dc251faeaed2ab2c56bbf991430d6363",
+              "diagramBlindHash": "daa6050e43953e11da9a4e4298a211e4dc251faeaed2ab2c56bbf991430d6363",
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-proof-by-mathematical-induction-v1/20261111-134003/calls/12-solve-1.json",
+              "comparison": {
+                "harderThan": {
+                  "ref": "p40-question-q",
+                  "score": 54
+                },
+                "easierThan": null,
+                "equalTo": {
+                  "ref": "p39-o-block",
+                  "score": 58
+                },
+                "closerTo": "middle"
+              }
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+              "blockId": "v2-4d41dd58a864b1-p36-slot-13-134003",
+              "generatedBy": "pedagogy-audit-v2"
+            },
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "effort": "medium",
+              "kind": "slot",
+              "slot": {
+                "id": "slot-13-134003",
+                "reason": "type-count",
+                "target": 57,
+                "range": [
+                  54,
+                  58
+                ]
+              },
+              "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-proof-by-mathematical-induction-v1/20261111-134003/calls/12-solve-1.json"
+            },
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "slot-13-q",
+                  "mathematicalRows": 13,
+                  "answerSpaceMm": 110
+                }
+              ]
+            },
+            "addition": {
+              "approvedBy": "James",
+              "date": "2026-11-12",
+              "comment": "a3e101e6-2b40-49e2-aac8-4ba4862bad98",
+              "reason": "Approved pedagogy audit v2 comment."
+            },
+            "additionTo": {
+              "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+              "blockId": "p39-n-block"
+            }
+          }
+        },
+        {
           "id": "p39-o-block",
           "type": "question",
           "sourceOrder": 1,
@@ -27710,7 +27801,7 @@
         "id": "a3e101e6-2b40-49e2-aac8-4ba4862bad98",
         "targetId": "p39-n-block",
         "note": "[Pedagogy audit v2 · New question to decide] For the type count gap (exponential-linear-divisibility). Comparison score 58, between p40-question-q and —: An exponential plus a linear term: substitute for 7^k, then factor the leftover linear term in k to reach a multiple of 36.\nProposed question: Prove by mathematical induction that $7^n-6n-1$ is divisible by $36$ for all integers $n\\geq0$.\nAnswers: $7^0-6(0)-1=0$. If $7^k-6k-1=36p$, then $7^{k+1}-6(k+1)-1=36(7p+k)$, an integer multiple of $36$. Hence the result holds for all integers $n\\geq0$ by mathematical induction.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-11T13:48:04.747Z",
         "scope": "local",
         "anchor": {
@@ -27732,7 +27823,9 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "slot-comment-only",
-        "findingKey": "slot|slot-13"
+        "findingKey": "slot|slot-13",
+        "resolvedAt": "2026-11-12T05:48:41.149Z",
+        "resolution": "Approved by James and applied: Added after p39-n-block."
       },
       {
         "id": "41c98cde-a353-4147-8329-81a5f08024d7",
@@ -27862,7 +27955,7 @@
         "id": "05ac9512-a521-44c2-8564-8e89532930ac",
         "targetId": "p33-c-block",
         "note": "[Pedagogy audit v2 · Ordering hold] These questions were left in their current order instead of being sorted by difficulty: p33-c-block, v2-c2e92a0d6f45ad-p33-slot-8, p33-d-block. Hold: noncontiguous-semantic-unit. Held by: noncontiguous-semantic-unit at p33-c-block. What would release it: placing the kept sequence together.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-11T13:48:04.798Z",
         "scope": "local",
         "anchor": {
@@ -27881,13 +27974,15 @@
         "location": "Proofs of divisibility · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "ordering-hold",
-        "findingKey": "hold|assignment-8d799fc2e92a0d6f45ad-p33|p33-c-block"
+        "findingKey": "hold|assignment-8d799fc2e92a0d6f45ad-p33|p33-c-block",
+        "resolvedAt": "2026-11-12T05:09:43.753Z",
+        "resolution": "Settled 12 Nov 2026: the hold no longer applies after the 11 Nov planner fixes, so the exercise was sorted by difficulty with the audit's own order (page-checked)."
       },
       {
         "id": "bed43e65-d486-4e73-8cad-e5f691acae51",
         "targetId": "exam-mb-c1037a30-7873-4d42-ad0d-bff95e4b7268",
         "note": "[Pedagogy audit v2 · Ordering hold] These questions were left in their current order instead of being sorted by difficulty: exam-mb-c1037a30-7873-4d42-ad0d-bff95e4b7268, exam-induction-sgg-2020-q12c, exam-mb-c2383f02-ea61-4e56-a915-c99a50d09b23, exam-mb-e33439cb-8125-4745-8061-72a8574860a6, exam-mb-d1be33b6-ef29-46f9-826f-511353424e8b, p42-q3-block, exam-mb-dd7b0302-8f44-4712-9515-9e5370c1e6c6, exam-mb-4374f916-b47d-4001-a45f-f7bfaff5d283, exam-mb-4b42bce1-d616-437c-b549-8634ca538c7c, exam-mb-74029b36-db46-46e5-a92b-6fa8833048ee, p44-q5, p48-q9, p42-q2-block, p49-q10, exam-mb-05b69bd3-6c43-48fd-bd7f-60d8e050b8d2, exam-mb-9e977469-5786-4232-ac43-c73f00455f6a, exam-mb-6c18c977-7e4e-4e06-940e-a4d58e18ce35, p41-q1, p45-q6, exam-mb-397ea54b-fced-4b30-8459-6d7b90472126, p43-q4, exam-mb-4d2e6488-ccc4-4481-922a-a7dc56672c23, p46-q7, p47-q8, p50-q11-block. Hold: noncontiguous-semantic-unit. Held by: noncontiguous-semantic-unit at p42-q3-block; noncontiguous-semantic-unit at p49-q10. What would release it: placing the kept sequence together.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-11-11T13:48:04.798Z",
         "scope": "local",
         "anchor": {
@@ -27906,7 +28001,9 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-audit-v2",
         "findingKind": "ordering-hold",
-        "findingKey": "hold|assignment-deed8f815cbf7e369671-p41-exam|exam-mb-c1037a30-7873-4d42-ad0d-bff95e4b7268"
+        "findingKey": "hold|assignment-deed8f815cbf7e369671-p41-exam|exam-mb-c1037a30-7873-4d42-ad0d-bff95e4b7268",
+        "resolvedAt": "2026-11-12T05:09:43.753Z",
+        "resolution": "Settled 12 Nov 2026: the held questions are already in difficulty order (20 38 40 40 42 43 44 45 46 47 48 48 49 49 49 51 52 57 57 57 58 58 61 63 72), so nothing to change."
       }
     ]
   },
@@ -32806,10 +32903,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 11,
+  "revision": 13,
   "assets": [],
   "createdAt": "2026-10-28T07:09:51.748Z",
-  "updatedAt": "2026-11-11T13:49:50.024Z",
+  "updatedAt": "2026-11-12T05:49:00.020Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-12",
