@@ -50,6 +50,9 @@ test('follow-up merge: the follow-up continues the previous question in one labe
 test('follow-up judge reply must cover every candidate with a decision and a note', ()=>{
  const ids=new Set(['a']);
  assert.ok(validJudgement({items:[{id:'a',decision:'independent',note:'Refers to a method only; all givens are present.'}]},ids));
+ const unresolved={id:'a',decision:'manual',note:'The referenced exercise is absent from the supplied questions.'};
+ assert.ok(validJudgement({items:[unresolved]},ids));
+ assert.ok(!validJudgement({items:[unresolved,unresolved]},new Set(['a','b'])));
  assert.ok(!validJudgement({items:[{id:'a',decision:'embed',note:'Needs the expression from the previous question.'}]},ids),'embed needs a prompt');
  assert.ok(!validJudgement({items:[{id:'a',decision:'merge',note:'short'}]},ids));
  assert.ok(!validJudgement({items:[]},ids));

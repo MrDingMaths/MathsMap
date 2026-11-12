@@ -32,19 +32,20 @@ export function judgePrompt(project,pairs){
  const items=pairs.map(({followUp,previous,references})=>({id:followUp.id,references,previousQuestion:studentView(previous),followUp:studentView(followUp)}));
  return `Do not run any commands or open files: everything you need is in this message.
 You are checking practice questions from the MathsMap booklet "${project.title}" before they enter a question bank, where each question is drawn on its own, without the questions around it.
-Each item is a question ("followUp") whose wording points back at the question printed just before it ("previousQuestion"); "references" quotes the words that do so.
+Each item is a question ("followUp") with a possible reference. "previousQuestion" is the question printed just before it, which may differ from the question named in "references".
 Decide for each item:
 - "merge": the follow-up needs the previous question's task, working or result (for example "use your answers to the previous question", "hence"), or reads as its continuation. It will become further parts of the previous question.
 - "embed": the follow-up needs only a given that the previous question states (a value, expression, equation, graph description or table) and is otherwise a separate task. Give "prompt": the follow-up's new instruction, in the booklet's style, keeping its own words and stating that given exactly (copy LaTeX exactly, in $...$). Do not add hints or change the task.
 - "independent": the follow-up refers to a method or technique only (for example "use the techniques of the previous questions") and already carries every given it needs. Nothing changes.
+- "manual": the follow-up needs a question or given that you cannot verify is supplied by previousQuestion. A numbered question in another exercise is not the preceding question. Never choose merge or embed if the actual target is missing.
 Prefer "merge" over "embed" when either would do, and "independent" when no given or result is needed.
 Give "note": one or two sentences saying what the follow-up needs from the previous question, or why it needs nothing (at least 20 characters).
 Items: ${JSON.stringify(items)}
-Reply with ONLY JSON: {"items": [{"id": "...", "decision": "merge|embed|independent", "note": "...", "prompt": "only for embed"}]}`;
+Reply with ONLY JSON: {"items": [{"id": "...", "decision": "merge|embed|independent|manual", "note": "...", "prompt": "only for embed"}]}`;
 }
 export function validJudgement(result,ids){
  const items=result?.items;
- return Array.isArray(items)&&items.length===ids.size&&items.every(i=>ids.has(i.id)&&['merge','embed','independent'].includes(i.decision)&&String(i.note??'').trim().length>=20&&(i.decision!=='embed'||String(i.prompt??'').trim().length>0));
+ return Array.isArray(items)&&items.length===ids.size&&new Set(items.map(i=>i.id)).size===ids.size&&items.every(i=>ids.has(i.id)&&['merge','embed','independent','manual'].includes(i.decision)&&String(i.note??'').trim().length>=20&&(i.decision!=='embed'||String(i.prompt??'').trim().length>0));
 }
 
 // The follow-up's parts continue the previous question's letters in one sequence. Returns {content, labels} or
@@ -121,6 +122,12 @@ export async function resolveFollowUps(project,pairs,{dir,call=callSol,reviewOf}
  for(const item of judged.result.items){
   const pair=pairs.find(p=>p.followUp.id===item.id),at=find(item.id),prev=find(pair.previous.id);
   const row={blockId:item.id,previousBlockId:pair.previous.id,decision:item.decision,note:item.note.trim()};
+  if(item.decision==='manual'||!at||item.decision==='merge'&&!prev){
+   row.decision='merge-manual';
+   row.reason=item.decision==='manual'?'the referenced question or given could not be verified':'an earlier merge already absorbed a block in this pair';
+   results.push(row);
+   continue;
+  }
   const components=(item.decision==='merge'?[pair.previous,pair.followUp]:[pair.followUp]).map(b=>({blockId:b.id,...reviewOf(b)}));
   if(item.decision!=='independent'&&!components.every(c=>c.current)){row.decision=item.decision+'-blocked';row.reason='a component has no current review: '+components.filter(c=>!c.current).map(c=>c.blockId+' '+c.reason).join(', ');results.push(row);continue;}
   row.components=components;
