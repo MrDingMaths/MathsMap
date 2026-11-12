@@ -123,3 +123,16 @@ test('question UUIDs cannot turn planar figures into 3D candidates',()=>{
  for(const id of ['q-01f9954f-23d9-4a9f-96a2-adc0bdb4f137','q-dc804bf3-d9ca-4914-9623-57d3721e667d'])assert.equal(isSolidCandidate(plane,'booklets/question-bank/'+id+'.json'),false);
  for(const context of ['3D diagram','3-D diagram','a solid prism'])assert.equal(isSolidCandidate(plane,context),true);
 });
+
+test('a tagged 2D function graph is not a solid candidate; solids drawn on graph axes still are (simplification item 8)',()=>{
+ const graph=body=>'% mathsmap-diagram-colours {"version":1,"kind":"graph","base":[],"semantic":[],"reference":"p31 q17a"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes="1"/>}\n\\draw[->,line width=.5pt] (-4,0)--(4.2,0) node[below]{$x$};\n\\draw[->,line width=.5pt] (0,-3.7)--(0,4.2) node[left]{$y$};\n'+body+'\n\\end{tikzpicture}';
+ const ellipse=graph('\\draw[line width=.8pt] (0,0) ellipse [x radius=3,y radius=2];');
+ assert.equal(isSolidCandidate(ellipse,'Sketch the ellipse'),false);
+ assert.equal(isSolidCandidate(ellipse,'Find the volume of the solid of revolution'),true,'volume context keeps the audit');
+ assert.equal(isSolidCandidate(graph('\\draw[dashed] (0,0) ellipse [x radius=.2,y radius=2];'),'Sketch'),true,'dashed ellipse is a hidden rim');
+ assert.equal(isSolidCandidate(graph('\\draw (2,0) arc[start angle=0,end angle=180,x radius=2,y radius=.5];'),'Sketch'),true,'elliptical arc');
+ assert.equal(isSolidCandidate(graph('\\draw[fill=blue] (0,0) ellipse [x radius=1,y radius=2];'),'Sketch'),true,'filled ellipse is a slice');
+ assert.equal(isSolidCandidate(ellipse.replace('data-graph-strokes="1"','x'),'Sketch'),true,'graph tag must match the code');
+ assert.equal(isSolidCandidate(ellipse.replace('(0,-3.7)--(0,4.2)','(1,1)--(2,2)'),'Sketch'),true,'both axes required');
+ assert.equal(isSolidCandidate(ellipse.replace('\\draw[line','\\coordinate (A) at (0,0,1);\n\\draw[line'),'Sketch'),true,'3D coordinate');
+});

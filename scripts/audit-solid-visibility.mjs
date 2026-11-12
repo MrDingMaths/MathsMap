@@ -53,7 +53,33 @@ function disconnectedPlanarTriangles(code,drawings,named){
   }
   return used.size===named.size&&bounds.every((a,i)=>bounds.slice(i+1).every(b=>a.right<b.left-1e-5||b.right<a.left-1e-5||a.top<b.bottom-1e-5||b.top<a.bottom-1e-5));
 }
+// A 2D function graph (import v2 simplification item 8, 13 November 2026). Ch 5's
+// only candidates were ellipse graphs, all "No supported solid topology", which
+// cost a failed sample export and visibility records. The graph tag is checked
+// against the code: graph colour metadata, graph-stroke calibration, an arrowed
+// x axis on y=0 and y axis on x=0, and no solid construct (tdplot, a solid model
+// or a 3D coordinate). A solid of revolution sketched on graph axes stays a
+// candidate: a volume, revolution or rotation context, a dashed or filled
+// ellipse, or an elliptical arc (24 such figures in the library). Anything else
+// stays a candidate.
+const AXIS=/\\draw\s*\[[^\]]*->[^\]]*\]\s*\(\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\)\s*--\s*\(\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\)/g;
+export function isTaggedFunctionGraph(code,context='') {
+  if(/volume|revolution|revolv|rotat|solid of/i.test(context))return false;
+  // Any stroke drawing an ellipse or elliptical arc that is dashed, dotted or filled, or an arc with two radii.
+  const strokes=[...code.matchAll(/\\(?:draw|fill|filldraw|path)\b[^;]*;/g)].map(m=>m[0]);
+  if(strokes.some(s=>/ellipse/.test(s)&&(/\\fill|\\filldraw|\bfill\s*=|dash|dotted/.test(s))))return false;
+  if(strokes.some(s=>/\barc\b/.test(s)&&(/x radius|y radius/.test(s)||/\barc\s*\([^)]*\band\b/.test(s))))return false;
+  const tag=code.match(/(?:^|\n)[ \t]*% mathsmap-diagram-colours (\{[^\r\n]*\})/);
+  let kind;try{kind=tag&&JSON.parse(tag[1]).kind;}catch{return false;}
+  if(kind!=='graph'||!/data-graph-strokes="1"/.test(code))return false;
+  if(/mathsmap-solid|tdplot|canvas is|\\pgfmathsetmacro|\\foreach/.test(code)||[...coordinates(code).values()].some(point=>point.length===3))return false;
+  if(/\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)/.test(code))return false;
+  const axes=[...code.matchAll(AXIS)].map(m=>m.slice(1).map(Number));
+  const xAxis=axes.some(([x1,y1,x2,y2])=>y1===0&&y2===0&&x1<0&&x2>0),yAxis=axes.some(([x1,y1,x2,y2])=>x1===0&&x2===0&&y1<0&&y2>0);
+  return xAxis&&yAxis;
+}
 export function isSolidCandidate(code,context='') {
+  if(isTaggedFunctionGraph(code,context))return false;
   // A colour-policy source reference such as "question 3d" names part d,
   // not three-dimensional geometry. Keep all real shape/model/context cues.
   code=code.replace(/(^|\n)([ \t]*% mathsmap-diagram-colours )([^\r\n]*)/g,(line,start,prefix,json)=>{
