@@ -1,6 +1,6 @@
 // Batch runner for the bank import pipeline (pipeline 4; docs/booklet-bank-import-pipeline.md). Commands:
 //   (node pedagogy/bank-run.mjs ...)
-//   run    --projects a,b [--until edits|assessments|stage] [--preview]
+//   run    --projects a,b [--until edits|assessments|stage] [--preview] [--stage-only]
 //   save   --projects a,b --approved-by "QUOTE"
 //   report [--projects a,b]
 // `run` works one booklet at a time: plan (Stage 0), exam tags (2), follow-up judge, merges and re-rating (3, Sol low),
@@ -65,16 +65,20 @@ export async function bookletEdits(project,rows,{dir,root,preview,resolve=resolv
  return {candidate,edits,changed:JSON.stringify(candidate)!==JSON.stringify(project)};
 }
 
-export async function runBooklet(id,{root=ROOT,until='stage',preview=false,log=console.error,skills,dotpoints,resolve}={}){
+export async function runBooklet(id,{root=ROOT,until='stage',preview=false,stageOnly=false,log=console.error,skills,dotpoints,resolve}={}){
  const dir=dirOf(id,root),state={projectId:id,startedAt:new Date().toISOString(),preview};
  let project=read(projectFile(id,root));
  let [plan]=await planBatch([project],{root});
  if(plan.skipped){state.status='skipped';state.reason=plan.skipped;write(path.join(dir,'state.json'),state);return state;}
  state.origin=plan.origin;state.plan={revision:plan.revision,counts:plan.counts,reasons:plan.reasons};
  // Stages 2-3: one save for exam tags, follow-up comments and merges.
- const edits=await bookletEdits(project,plan.blocks,{dir,root,preview,resolve});
+ // Parallel staging may inspect these edits but must leave live files and model work to a serial run.
+ const edits=await bookletEdits(project,plan.blocks,{dir,root,preview:preview||stageOnly,resolve});
+ if(stageOnly&&(edits.edits.examTags.length||edits.edits.followUps.length||edits.edits.comments.some(comment=>!comment.exists))){
+  throw Error(`[${id}] needs a serial run to review follow-ups or update booklet metadata`);
+ }
  state.edits=edits.edits;
- if(edits.changed){
+ if(!stageOnly&&edits.changed){
   const candidateFile=path.join(dir,`edits.r${project.revision}.json`);write(candidateFile,edits.candidate);
   const saved=await publishProject({candidateFile,expectedRevision:project.revision,apply:true,root,record:path.join(dir,`edits.r${project.revision}.record.json`),ledger:path.join(root,RUN_DIR,'ledger.jsonl'),note:'Bank import Stages 2-3: exam tags, follow-up merges, embeds and dependency reviews, comments'});
   state.edits.saved={from:saved.from,to:saved.to};log(`[${id}] edits saved r${saved.from} -> r${saved.to}`);
@@ -165,8 +169,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
  const [command,...rest]=process.argv.slice(2),args={};
  for(let i=0;i<rest.length;i++){const k=rest[i].replace(/^--/,'');args[k]=rest[i+1]&&!rest[i+1].startsWith('--')?rest[++i]:true;}
  const ids=String(args.projects??'').split(',').filter(Boolean);
- if(!['run','save','report'].includes(command)||!ids.length){console.error('Usage: node pedagogy/bank-run.mjs run|save|report --projects a,b [--until edits|assessments|stage] [--preview] [--approved-by "QUOTE"]');process.exit(2);}
- if(command==='run')for(const id of ids){const s=await runBooklet(id,{until:args.until??'stage',preview:!!args.preview});console.log(JSON.stringify({projectId:id,status:s.status,publish:s.publish,outcomes:s.stage?.outcomes,allCarryOrigin:s.stage?.allCarryOrigin}));}
+ if(!['run','save','report'].includes(command)||!ids.length){console.error('Usage: node pedagogy/bank-run.mjs run|save|report --projects a,b [--until edits|assessments|stage] [--preview] [--stage-only] [--approved-by "QUOTE"]');process.exit(2);}
+ if(command==='run')for(const id of ids){const s=await runBooklet(id,{until:args.until??'stage',preview:!!args.preview,stageOnly:!!args['stage-only']});console.log(JSON.stringify({projectId:id,status:s.status,publish:s.publish,outcomes:s.stage?.outcomes,allCarryOrigin:s.stage?.allCarryOrigin}));}
  if(command==='save')for(const id of ids){const s=await saveBooklet(id,{approvedBy:args['approved-by']});console.log(JSON.stringify({projectId:id,status:s.status,saved:s.saved}));}
  const report=batchReport(ids),file=path.join(ROOT,RUN_DIR,'report-'+new Date().toISOString().replace(/[:.]/g,'-')+'.md');
  write(file,report.markdown);console.log('Report: '+posix(file));
