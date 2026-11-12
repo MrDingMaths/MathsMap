@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e1de23ad-e56b-4a4d-9573-2ec524fea031",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "order-of-transformations",
+    "secondarySkillIds": [
+      "transform-translations",
+      "transform-dilations",
+      "transform-reflections"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Compare two symbolic transformation orders for an arbitrary function, then classify pairs by their coordinate and whether they translate or multiply it. The teaching states the commuting rules, and parts a–c provide worked proof structures for the final classification.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T12:31:39.913Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4035ea8ded57828c8f7f69a9ca6e40f510df01897f3eff67d07a27a319fff66d",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch05/lean-review/calls/content-1794486658982-1/last-message.txt",
+      "originalTaskHash": "735c93738f1969bf402b5a0f8c04c0088359e5581f3adf5819eb890e67c68c7c"
+    }
+  },
+  "content": {
+    "id": "p51-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p51-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $\\mathcal H$ be a horizontal translation by $a$ units and $\\mathcal V$ be a vertical translation by $b$ units. Show that $\\mathcal H$ and $\\mathcal V$ commute. That is, show that for all functions $y=f(x)$ the result of applying $\\mathcal H$ followed by $\\mathcal V$ is the same as applying $\\mathcal V$ followed by $\\mathcal H$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both orders give $y=f(x-a)+b$.",
+          "worked": "Take positive horizontal translation as right and positive vertical translation as up.\n$$\\begin{aligned}\\mathcal H\\text{ then }\\mathcal V:&\\quad f(x)\\longmapsto f(x-a)\\longmapsto f(x-a)+b,\\\\\\mathcal V\\text{ then }\\mathcal H:&\\quad f(x)\\longmapsto f(x)+b\\longmapsto f(x-a)+b.\\end{aligned}$$\nBoth orders give the same function, so the translations commute.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p51-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $\\mathcal E$ be a horizontal dilation by factor $a$ and $\\mathcal U$ be a vertical dilation by factor $b$, where $a,b\\ne0$. Show that $\\mathcal E$ and $\\mathcal U$ commute.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both orders give $y=bf(\\frac{x}{a})$.",
+          "worked": "$$\\begin{aligned}\\mathcal E\\text{ then }\\mathcal U:&\\quad f(x)\\longmapsto f\\left(\\frac xa\\right)\\longmapsto bf\\left(\\frac xa\\right),\\\\\\mathcal U\\text{ then }\\mathcal E:&\\quad f(x)\\longmapsto bf(x)\\longmapsto bf\\left(\\frac xa\\right).\\end{aligned}$$\nBoth orders give the same function, so the dilations commute.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p51-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Let $\\mathcal F$ be a reflection in the $y$-axis and $\\mathcal L$ be a reflection in the $x$-axis. Show that $\\mathcal F$ and $\\mathcal L$ commute.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both orders give $y=-f(-x)$.",
+          "worked": "$$\\begin{aligned}\\mathcal F\\text{ then }\\mathcal L:&\\quad f(x)\\longmapsto f(-x)\\longmapsto -f(-x),\\\\\\mathcal L\\text{ then }\\mathcal F:&\\quad f(x)\\longmapsto -f(x)\\longmapsto -f(-x).\\end{aligned}$$\nBoth orders give the same function, so the reflections commute.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p51-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Now suppose that any two of the above transformations are applied in succession. Which pairs of transformations commute and why?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Every pair chosen from $\\mathcal E,\\mathcal U,\\mathcal F,\\mathcal L$ commutes. The pairs $\\mathcal H,\\mathcal V$; $\\mathcal H,\\mathcal U$; $\\mathcal H,\\mathcal L$; $\\mathcal V,\\mathcal E$; and $\\mathcal V,\\mathcal F$ also commute. Translation with a dilation or reflection affecting the same coordinate generally depends on order.",
+          "worked": "Dilations and reflections multiply coordinates by constants. Multiplication commutes, so every pair among $\\mathcal E,\\mathcal U,\\mathcal F,\\mathcal L$ commutes.\n\nTransformations acting independently on the horizontal and vertical coordinates also commute. This gives the pairs $\\mathcal H,\\mathcal V$; $\\mathcal H,\\mathcal U$; $\\mathcal H,\\mathcal L$; $\\mathcal V,\\mathcal E$; and $\\mathcal V,\\mathcal F$.\n\nFor a translation by $t$ and a multiplier $s$ affecting the same coordinate, the two orders give $s(u+t)=su+st$ and $su+t$. They agree for every coordinate $u$ exactly when $(s-1)t=0$. Thus the remaining pairs $\\mathcal H,\\mathcal E$; $\\mathcal H,\\mathcal F$; $\\mathcal V,\\mathcal U$; and $\\mathcal V,\\mathcal L$ generally depend on order, with equality when the translation is zero or the multiplier is 1.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p51-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T22:20:31.201Z",
+  "updatedAt": "2026-11-12T22:20:31.201Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch05",
+    "blockId": "p51-q12",
+    "sectionRole": "exercise"
+  }
+}
