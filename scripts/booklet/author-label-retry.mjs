@@ -46,7 +46,10 @@ const collisions = (rows, found) => rows.map(row => ({id: row.id, code: row.code
 // Mutates packets in place (only the code of diagrams placement changed) and returns a record,
 // written to label-retry.json beside the attempt.
 export async function retryDiagramLabels({packets, assignmentId, out, check = studioLabelCheck, place = studioPlacement, log = () => {}}) {
- const rows = packetTikz(packets);
+ // A question that crosses a page break has one copy per page packet, with the same diagram ids.
+ // Check and place each diagram once and write the result to every copy, so the copies stay
+ // identical (Mastering Ch 3: placing only the first copy failed "Continuation copies disagree").
+ const copies = packetTikz(packets), rows = [...new Map(copies.map(node => [node.id, node])).values()];
  if (!rows.length) return {checked: 0, failing: [], placed: false};
  const record = file => { fs.writeFileSync(path.join(out, 'label-retry.json'), JSON.stringify(file, null, 2)); return file; };
  let first;
@@ -64,7 +67,8 @@ export async function retryDiagramLabels({packets, assignmentId, out, check = st
   const dropped = node ? droppedLabels(node.code, row.code) : [];
   // Placement keeps every node's text; a loop split substitutes its variable, so compare rendered texts there.
   if (dropped.length && !/\\foreach/.test(node.code)) { refused.push({id: row.id, dropped}); continue; }
-  node.code = row.code; applied.push(row.id);
+  for (const copy of copies) if (copy.id === row.id) copy.code = row.code;
+  applied.push(row.id);
  }
  // Still colliding: every failing diagram placement did not change, and any it changed but could not fully clear.
  const after = new Map((result?.results ?? []).map(row => [row.id, row.after]));

@@ -68,3 +68,15 @@ test('placed code that drops a printed label is refused and the authored diagram
  assert.match(packetTikz(data)[0].code, /\$-3\$/);
  assert.deepEqual(droppedLabels(tikz('$1$ $2$'), tikz('$2$ $ 1 $')), []);
 });
+
+test('a question copied on two pages is placed once and both copies get the placed code', async () => {
+ const {out} = fixture();
+ const block = () => ({id: 'q5', content: {children: [{id: 'a', answer: {solutionDiagrams: [{id: 'd-cross', format: 'tikz', code: tikz('\\node at (0,0) {1};')}]}}]}});
+ const data = [{pageNumber: 19, sections: [{blocks: [block()]}]}, {pageNumber: 20, sections: [{blocks: [block()]}]}];
+ const checked = [], placed = [];
+ const check = async rows => { checked.push(...rows.map(r => r.id)); return Object.fromEntries(rows.map(r => [r.id, {issues: collide}])); };
+ const place = async rows => { placed.push(...rows.map(r => r.id)); return {results: [{id: 'd-cross', before: 1, after: 0, changed: true, code: tikz('\\node[anchor=north] at (0,0) {1};')}]}; };
+ await retryDiagramLabels({packets: data, assignmentId: 'a2', out, check, place});
+ assert.deepEqual(checked, ['d-cross']);assert.deepEqual(placed, ['d-cross']);
+ assert.deepEqual(packetTikz(data).map(n => n.code), [tikz('\\node[anchor=north] at (0,0) {1};'), tikz('\\node[anchor=north] at (0,0) {1};')], 'both page copies stay identical');
+});
