@@ -313,6 +313,9 @@ export function applyCorrections(blocks,corrections=[],{blockedFields=[]}={}){
    if(blockedFields.includes(pointerParts(patch.field??'').at(-1))){rejected.push({...row,status:'not-required',error:'working space is set by the estimator and pagination'});continue;}
    const owner=blocks.find(block=>block.id===patch.targetId||findNode(block,patch.targetId));
    if(!owner)throw Error('target is outside the reviewed blocks');
+   // A dependency between parts of one question needs no record: the parts already print
+   // in order and together (Ch 2 pilot: two blocks failed on this patch alone).
+   if(patch.field==='/flow/dependsOn'&&owner.id!==patch.targetId&&Array.isArray(patch.corrected)&&patch.corrected.every(id=>id===owner.id||findNode(owner,id))){rejected.push({...row,blockId:owner.id,status:'not-required',error:'parts of one question already print in order and together'});continue;}
    const node=owner.id===patch.targetId?owner:findNode(owner,patch.targetId),parts=pointerParts(patch.field);
    if(!parts.length)throw Error('a patch must name a field');
    let parent=node;for(const part of parts.slice(0,-1)){parent=parent?.[part];if(!parent||typeof parent!=='object')throw Error('field path does not exist');}

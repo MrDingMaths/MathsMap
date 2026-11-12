@@ -42,6 +42,14 @@ test('import-v2 content review never patches working space',()=>{
  assert.equal(legacy.applied.length,2,'runs without import-v2 keep their recorded behaviour');
 });
 
+test('a dependency between parts of one question is not required and does not hold the block',()=>{
+ const block={id:'q9',type:'question',content:{id:'q9-root',type:'question',children:[{id:'q9-a',type:'part',label:'a',prompt:'x'},{id:'q9-b',type:'part',label:'b',prompt:'Hence y'}]}};
+ const within=applyCorrections([structuredClone(block)],[{id:'dep',patches:[{targetId:'q9-b',field:'/flow/dependsOn',original:null,corrected:['q9-a']}]}]);
+ assert.equal(within.applied.length,0);assert.equal(within.rejected[0].status,'not-required');
+ const across=applyCorrections([structuredClone(block)],[{id:'dep',patches:[{targetId:'q9-b',field:'/flow/dependsOn',original:null,corrected:['q1']}]}]);
+ assert.equal(across.rejected[0].status,'rejected','a dependency on another question still needs a valid field');
+});
+
 test('the reviewer is the one rater: a passed unrated practice question goes back once, then fails',()=>{
  const dir=fs.mkdtempSync(path.join(path.resolve('.booklet-work'),'import-v2-test-'));
  try{
