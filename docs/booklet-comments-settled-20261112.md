@@ -207,11 +207,11 @@ Mastering ch01/ch02 already print their category headings through `flow.practice
 - iceem-7 ch18: symmetry solution tables.
 - iceem-7 ch22: tessellation figures, and a black figure-only crop for Activity 5.
 
-**Taxonomy (Concept Maths ch02), for James to confirm:**
+**Taxonomy (Concept Maths ch02), confirmed by James on 13 November:**
 - p36-q73 and p70-q26 → `simultaneous-equations-algebraically`;
 - p149 → `intersection-line-curve`.
 
-No exact skill exists for the k-method or for comparing two curves.
+No exact skill exists for the k-method or for comparing two curves, so these are the closest existing skills.
 
 **Render rows:** every one was looked at, at final size. Label defects were fixed beyond the rows:
 - Cambridge ch03 Q8 ticks and labels, and Q13 intercept labels;
