@@ -637,6 +637,11 @@ Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11
   | short | 77 s to ready | 18 s to ready (pagination 16.7 s) |
 
   `tikz-svg-viewport` "a real flip transition…" times out with and without the change.
+- **The solid audit skips tagged 2D function graphs** (plan item 8). `isTaggedFunctionGraph` (`scripts/audit-solid-visibility.mjs`) exempts a figure only when its code agrees with the tag: graph colour metadata, `data-graph-strokes`, an arrowed x axis on y=0 and y axis on x=0, and no `tdplot`, solid model or 3D coordinate.
+  - Solids of revolution sketched on graph axes stay candidates: a volume, revolution or rotation context, a dashed or filled ellipse, or an elliptical arc.
+  - Ch 5: 4 false candidates down to 0.
+  - Library: 4,615 candidates down to 4,437. All 178 exempted figures were "review" status (none "defect"), and none has an ellipse or arc next to a solid cue.
+  - Candidate detection is part of the frozen-export runtime check, so an in-flight run's frozen export is not reused after this change.
 - **Parallel compiles:** `prewarm-diagrams.mjs` (three pages, cold) compiled all 374 Ch 5 sources in 140 s. Collecting them by paginating five editions took 171 s more, so `finish` should not run it while the label check already publishes.
 
 ### Pilots

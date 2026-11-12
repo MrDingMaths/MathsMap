@@ -16,7 +16,8 @@ For the next session that continues the [import v2 simplification plan](booklet-
 ## Next (ranked)
 
 1. **Measure on the next real import** with `import-run-metrics.mjs`: export compiles (`timings.tikzCompiles` per edition in the export's `report.json`) should be near zero after the label check, and `timings.paginationMs` close to Ch 2's rate.
-2. **The open plan items**, in order: 2 (graph template; no-model coverage replay on Ch 5 first), 6, 7, 8, 9, 10.
+2. **Item 8 is done** (solid audit skips tagged 2D graphs). **Item 2's coverage replay is done**: 80% of Ch 5's graphs (66–71% on Ch 2 and Ch 3) map to a function/conic/region/parametric spec, about 80% shorter than the TikZ; hand-sketched `controls` curves are the main gap. Building the template is James's decision 2.
+3. **Wait for the next import's measurements** before items 6, 7 and 9; fold item 10 into whatever next touches those files.
 
 ## Working notes
 

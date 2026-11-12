@@ -186,7 +186,7 @@ Savings are for a Ch 5-sized chapter and are estimates from the measurements abo
 | 5 | **One question-reference rule**: merge C6 and C10; a source follow-up to an earlier question in the same section is recorded by the script; rewording only when the target isn't in the booklet | 2 stops, 2 questions, 3 re-review calls, about 20 min | about 20 min | A follow-up reaches the bank as one; the bank check already handles that | Ch 5's two blocks pass with no reword; `check-question-dependencies --strict` unchanged |
 | 6 | **Label-placement exemption** in the review, rating and visibility hashes (section 7) | Stale reviews and re-recorded visibility after label moves; the Q20 oversize chain (17 min, 1 code change) | about 15 min, 5–10 calls | A real change hidden as "placement" | Hash test: any change to text, a coordinate or a path changes the hash |
 | 7 | **Re-review sends the changed fields**, not both snapshots | 261,646-character prompt; a mid-run code change | removes a stop | Reviewer loses context | Q20 prompt under 200,000 characters with the same evidence |
-| 8 | **Solid audit skips graphs** | 1 failed sample export; visibility records for 2D curves | about 5 min | A 3D figure tagged as a graph | Audit still runs on every non-graph diagram; tag is checked against the code |
+| 8 | **Solid audit skips graphs** (**done 13 November**, `isTaggedFunctionGraph` in `scripts/audit-solid-visibility.mjs`) | 1 failed sample export; visibility records for 2D curves | about 5 min | A 3D figure tagged as a graph | Audit still runs on every non-graph diagram; tag is checked against the code |
 | 9 | **Sample review on student and worked only** | 57 calls, 2.05 M input | about 0.7 M input | A short-only defect waits for `finish` | Count short-only sample findings in Ch 1, 2, 5 (Ch 5: none that the checker with clearance would miss) |
 | 10 | **Delete stamp carry; log ratings separately from corrections; pre-render gate fails closed** | 0 reuse in three runs; 336 rating rows crowd the correction log; 26 DOM issues reached export 1 | clarity; one export | Low | Existing visual-evidence tests; a skipped render blocks |
 
@@ -243,9 +243,31 @@ Content and visual review are model time under fixed settings (Sol low, three wo
 ## Decisions for James
 
 1. ~~Approve items 1 and 3–5 for implementation first?~~ **Approved and implemented (James, 13 November 2026).**
-2. Item 2 (graph template): run the no-model coverage replay on Ch 5 before deciding?
+2. Item 2 (graph template): the no-model coverage replay is done (below). Build the template?
 3. Item 5: accept source follow-ups as printed, recorded by the script, instead of rewording before review?
 4. Item 6: allow label placement to leave reviews and ratings current?
 5. Item 9: drop the short edition from the sample review?
+
+## Item 2 coverage replay (13 November 2026, no model calls)
+
+Every statement of each accepted graph's TikZ was mapped to a spec element: window and axes, ticks, function `y=f(x)` with domain and end arrows, line, dashed guide or asymptote, point (open or closed), label, then conics (circle, ellipse, arc), filled regions, and `x=f(y)` or parametric curves. A graph is covered only if every statement maps. The spec size is a compact JSON of what an author would return.
+
+| Chapter | Graphs | Functions, lines, points | + conics | + regions | + parametric | Covered graphs: TikZ → spec characters |
+|---|---|---|---|---|---|---|
+| Cambridge X11 Ch 5 | 373 | 64% | 69% | 72% | **80%** | 267,646 → 54,161 (−80%) |
+| Cambridge X11 Ch 3 | 263 | 57% | 66% | 66% | **71%** | 138,318 → 30,324 (−78%) |
+| Mastering Adv 11 Ch 2 | 90 | 46% | 56% | 58% | **66%** | 41,994 → 8,632 (−79%) |
+
+**What does not fit:**
+- Hand-sketched curves drawn with `.. controls` or `to[bend]`: 46 on Ch 5 (12%) and 26 on Ch 2 (29%). These are "sketch the shape" answers with no equation. A template could take a smooth curve through given points, at some risk to fidelity.
+- Reflections and side-by-side panels drawn with scopes (`xscale=-1`, `xshift`). `graphTikz` already has panels; a reflection could be a transformed function.
+- A few circles with computed radii (`{sqrt(5)}`), and path macros (`\def\F`).
+- Ch 3's 64 "loop drawing" fallbacks are mostly tick loops this classifier does not read, so its real coverage is higher.
+
+**What it means:** on Ch 5 the covered graphs hold 79% of the final graph code. Returning specs instead would cut that code by about 80%, roughly 63% of all final graph characters. That supports the estimate's "if half the graph output goes" (about 40 min and 0.3 M output tokens per Ch 5-sized chapter).
+
+**Caveats:**
+- Final code understates what authors generated (retries and drafts).
+- No raster comparison was possible: `graph-model.js` draws only straight lines, points, labels and a rectangle today. The template has to be built before specs can be rendered and compared with the accepted TikZ. That comparison stays the acceptance test.
 
 Kept as decided: Sol low for review and rating, Sol medium for authoring, at most three workers, Studio on 5173 reused, no pedagogy at import.
