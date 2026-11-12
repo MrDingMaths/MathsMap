@@ -898,7 +898,8 @@ export function reviewStatus({runDir,projectFile,exportDir,projectHash}){
   const findings=outstandingFindings(state,plan);
   // Completion checks the whole current report, even if a stored plan omits a
   // failed page. Historical hashes remain historical and are never deleted.
-  for(const [edition,entry]of Object.entries(report))for(const page of currentFailedPages(state,edition,entry)){
+  // Import v2: a page with no block (the answer-recto blank) is not a review subject; DOM QA checks it is empty.
+  for(const [edition,entry]of Object.entries(report))for(const page of currentFailedPages(state,edition,entry).filter(page=>!importV2(manifest)||(page.blocks??[]).some(id=>(typeof id==='string'?id:id?.id)))){
    if(!findings.some(row=>row.edition===edition&&row.page===page.page))findings.push({edition,page:page.page,blocks:page.blocks??[],finding:state.pages[pageKey(edition,page.hash)].finding||'Current page still needs changes'});
   }
   const workflow=state.workflow?.[project.id],currentHash=completionHash(project);
