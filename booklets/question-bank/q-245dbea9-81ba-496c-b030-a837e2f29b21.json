@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-245dbea9-81ba-496c-b030-a837e2f29b21",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Students complete the square, choose the branch from the given point, solve f(x)=x, reject the root outside the domain and sketch. It is close to p31-q8 but the domain is more directly signposted.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T02:59:11.282Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "13daa75ffcb53f6d52a6da229632a502e44304d60a0a8011233a7cdc73939c45",
+      "diagramBlindHash": "4ffe0de11efac8f90bf499756c30e50314dce266baffa8eb8aab9bfc4ae4d47f",
+      "evidence": ".booklet-work/pedagogy-audit-v2/inverse-functions-2-v1/20261111-024628/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p29-q4-block",
+          "score": 48
+        },
+        "easierThan": {
+          "ref": "p31-q8",
+          "score": 56
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-044f0-p28-practice-slot-6-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-044f0-p28-practice-slot-6-slot-6-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $f(x)=x^2-6x+7$. Restrict $f(x)$ to the largest domain containing $x=5$ for which the inverse exists. Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs intersect only at $\\left(\\dfrac{7+\\sqrt{21}}{2},\\dfrac{7+\\sqrt{21}}{2}\\right)$.\n\n$f(x)=(x-3)^2-2$, $x\\geq3$; $f^{-1}(x)=3+\\sqrt{x+2}$, $x\\geq-2$. Blue is $y=f(x)$; red is $y=f^{-1}(x)$.",
+          "worked": "$$\\begin{align*}f(x)&=x^2-6x+7\\\\f(x)&=(x-3)^2-2\\end{align*}$$\nThe turning point is $(3,-2)$. The branch containing $x=5$ has domain $x\\geq3$ and range $y\\geq-2$.\n\nInterchange $x$ and $y$:\n$$\\begin{align*}x&=(y-3)^2-2,\\qquad y\\geq3\\\\(y-3)^2&=x+2\\\\y-3&=\\sqrt{x+2}\\\\f^{-1}(x)&=3+\\sqrt{x+2},\\qquad x\\geq-2.\\end{align*}$$\n$f$ is increasing on $x\\geq3$, so all intersections with its inverse lie on $y=x$.\n$$\\begin{align*}x^2-6x+7&=x\\\\x^2-7x+7&=0\\\\x&=\\frac{7\\pm\\sqrt{21}}{2}.\\end{align*}$$\nOnly $x=\\dfrac{7+\\sqrt{21}}{2}\\approx5.79$ satisfies $x\\geq3$ (the other root is about $1.21$). The intersection is $\\left(\\dfrac{7+\\sqrt{21}}{2},\\dfrac{7+\\sqrt{21}}{2}\\right)$.\n\nReflect the restricted parabola in $y=x$. The endpoint $(3,-2)$ reflects to $(-2,3)$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-044f0-p28-practice-slot-6-slot-6-q-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"restricted original function\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function\"}],\"reference\":\"slot-6 part a\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-4.8,-3.6) rectangle (9.4,9.3);\n\\draw[black,line width=0.5pt,->] (-3,0)--(8.4,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3)--(0,8.4) node[above] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-2.8,-2.8)--(8.2,8.2);\n\\draw[functionBlue,line width=0.8pt,->,domain=3:6.1,samples=80] plot (\\x,{(\\x-3)^2-2});\n\\draw[inverseRed,line width=0.8pt,->,domain=-2:8,samples=120] plot (\\x,{3+sqrt(\\x+2)});\n\\fill[functionBlue] (3,-2) circle (1.5pt);\n\\fill[inverseRed] (-2,3) circle (1.5pt);\n\\coordinate (P) at ({(7+sqrt(21))/2},{(7+sqrt(21))/2});\n\\fill[black] (P) circle (1.7pt);\n\\node[black,below] at (3,-2.1) {$(3,-2)$};\n\\node[black,left] at (-2.1,3) {$(-2,3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 71,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "v2-044f0-p28-practice-slot-6-slot-6-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $f(x)=x^2-4x+1$. Restrict $f(x)$ to the largest domain containing $x=0$ for which the inverse exists. Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs intersect only at $\\left(\\dfrac{5-\\sqrt{21}}{2},\\dfrac{5-\\sqrt{21}}{2}\\right)$.\n\n$f(x)=(x-2)^2-3$, $x\\leq2$; $f^{-1}(x)=2-\\sqrt{x+3}$, $x\\geq-3$. Blue is $y=f(x)$; red is $y=f^{-1}(x)$.",
+          "worked": "$$\\begin{align*}f(x)&=x^2-4x+1\\\\f(x)&=(x-2)^2-3\\end{align*}$$\nThe turning point is $(2,-3)$. The branch containing $x=0$ is strictly decreasing, with domain $x\\leq2$ and range $y\\geq-3$.\n\nInterchange $x$ and $y$:\n$$\\begin{align*}x&=(y-2)^2-3,\\qquad y\\leq2\\\\(y-2)^2&=x+3\\\\y-2&=-\\sqrt{x+3}\\\\f^{-1}(x)&=2-\\sqrt{x+3},\\qquad x\\geq-3.\\end{align*}$$\nReflect the restricted branch in $y=x$. The endpoint $(2,-3)$ reflects to $(-3,2)$. The sketch shows one intersection, on $y=x$, and none away from it. Confirm the point:\n$$\\begin{align*}x^2-4x+1&=x\\\\x^2-5x+1&=0\\\\x&=\\frac{5\\pm\\sqrt{21}}{2}.\\end{align*}$$\nOnly $x=\\dfrac{5-\\sqrt{21}}{2}\\approx0.21$ satisfies $x\\leq2$ (the other root is about $4.79$). The intersection is $\\left(\\dfrac{5-\\sqrt{21}}{2},\\dfrac{5-\\sqrt{21}}{2}\\right)$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-044f0-p28-practice-slot-6-slot-6-q-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"restricted original function\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function\"}],\"reference\":\"slot-6 part b\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-4.8,-4.2) rectangle (6.3,6.3);\n\\draw[black,line width=0.5pt,->] (-3.8,0)--(5.4,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.6)--(0,5.4) node[above] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-3.6,-3.6)--(5.2,5.2);\n\\draw[functionBlue,line width=0.8pt,->,domain=2:-0.8,samples=80] plot (\\x,{(\\x-2)^2-3});\n\\draw[inverseRed,line width=0.8pt,->,domain=-3:5.2,samples=120] plot (\\x,{2-sqrt(\\x+3)});\n\\fill[functionBlue] (2,-3) circle (1.5pt);\n\\fill[inverseRed] (-3,2) circle (1.5pt);\n\\coordinate (P) at ({(5-sqrt(21))/2},{(5-sqrt(21))/2});\n\\fill[black] (P) circle (1.7pt);\n\\node[black,below] at (2,-3.1) {$(2,-3)$};\n\\node[black,left] at (-3.1,2) {$(-3,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 61,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-044f0-p28-practice-slot-6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:20:52.950Z",
+  "updatedAt": "2026-11-12T08:20:52.951Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "inverse-functions-2-v1",
+    "blockId": "v2-044f0-p28-practice-slot-6",
+    "sectionRole": "exercise"
+  }
+}

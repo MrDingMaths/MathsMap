@@ -1,0 +1,135 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-be1a896b-9ba8-4684-b6c3-0ab7bf6fb2a9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "restrict-trig-for-inverse",
+    "secondarySkillIds": [
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Select the largest interval on which sine is one-to-one, then sketch the restricted function and its reflection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T11:59:24.534Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e5c7d3d333560e0236189ed5c6c6fc8d959bef13c92506f2c39646012a0e698a",
+      "evidence": ".booklet-work/full-imports/inverse-functions-v1-20261002-medium/semantic-packets/assignments/assignment-5be732bbd4c94457353e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q10",
+    "type": "question",
+    "label": "10",
+    "prompt": "The diagram shows $f(x)=\\sin x$ in the domain $x\\in[-\\pi,\\pi]$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q10-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied sine function\"}],\"reference\":\"source page 32 p32-q10-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4,-1.65) rectangle (4,1.65);\n\\draw[black,line width=0.5pt,->] (-3.95,0)--(3.95,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.5)--(0,1.55) node[above] {$y$};\n\\foreach \\v/\\lab in {-3.141593/{-\\pi},-1.570796/{-\\frac{\\pi}{2}},1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi}} {\n\\draw[black,line width=0.4pt] (\\v,-0.06)--(\\v,0.06);\n\\node[below] at (\\v,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-1,1} {\n\\draw[black,line width=0.4pt] (-0.07,\\v)--(0.07,\\v);\n\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[functionBlue,line width=0.8pt,domain=-3.141593:3.141593,samples=121] plot (\\x,{sin(\\x*180/pi)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Question 10 supplied graph beneath the stem",
+          "description": "Sine curve on the closed interval from negative pi to pi, with positive-end axis arrows, six labelled ticks and no grid or endpoint markers.",
+          "mathematics": "y=sin(x), -pi<=x<=pi; extrema (-pi/2,-1) and (pi/2,1).",
+          "answerVisibility": "Permanent student-visible given."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the largest possible domain such that the inverse function exists.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-\\dfrac{\\pi}{2}\\le x\\le\\dfrac{\\pi}{2}$.",
+          "worked": "The largest interval between turning points is $\\left[-\\dfrac{\\pi}{2},\\dfrac{\\pi}{2}\\right]$. On this interval, $\\sin x$ is strictly increasing and therefore one-to-one. Include both turning points.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p32-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch $y=f(x)$ with the restricted domain and $f^{-1}(x)$ on the same axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Reflect the restricted sine curve in $y=x$. The inverse has endpoints $\\left(-1,-\\dfrac{\\pi}{2}\\right)$ and $\\left(1,\\dfrac{\\pi}{2}\\right)$; both curves pass through $(0,0)$.",
+          "worked": "Sketch $y=\\sin x$ for $-\\dfrac{\\pi}{2}\\le x\\le\\dfrac{\\pi}{2}$, with endpoints $\\left(-\\dfrac{\\pi}{2},-1\\right)$ and $\\left(\\dfrac{\\pi}{2},1\\right)$. Reflect the curve in $y=x$, interchanging the coordinates of each point. The inverse has endpoints $\\left(-1,-\\dfrac{\\pi}{2}\\right)$ and $\\left(1,\\dfrac{\\pi}{2}\\right)$. Both curves pass through $(0,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p32-q10-b-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"restricted sine and its endpoint projections\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse curve and its endpoint projections\"}],\"reference\":\"source page 32 p32-q10-b-answer-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.15,-2.8) rectangle (3.15,2.8);\n\\draw[black,line width=0.5pt,->] (-2.6,0)--(2.6,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.5)--(0,2.5) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-2.45,-2.45)--(2.45,2.45);\n\\draw[functionBlue,dashed,line width=0.4pt] (-1.570796,0)--(-1.570796,-1)--(0,-1);\n\\draw[functionBlue,dashed,line width=0.4pt] (1.570796,0)--(1.570796,1)--(0,1);\n\\draw[inverseRed,dashed,line width=0.4pt] (-1,0)--(-1,-1.570796)--(0,-1.570796);\n\\draw[inverseRed,dashed,line width=0.4pt] (1,0)--(1,1.570796)--(0,1.570796);\n\\foreach \\v/\\lab in {-1.570796/{-\\frac{\\pi}{2}},-1/{-1},1/{1},1.570796/{\\frac{\\pi}{2}}} {\n\\draw[black,line width=0.4pt] (\\v,-0.045)--(\\v,0.045);\n\\draw[black,line width=0.4pt] (-0.045,\\v)--(0.045,\\v);\n}\n\\node[above] at (-1.570796,0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\node[above] at (-1,0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1.570796,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0.06,-1.570796) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\node[right] at (0.06,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.06,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.06,1.570796) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt,domain=-1.570796:1.570796,samples=101] plot (\\x,{sin(\\x*180/pi)});\n\\draw[inverseRed,line width=0.8pt,domain=-90:90,samples=101,variable=\\t] plot ({sin(\\t)},{\\t*pi/180});\n\\fill[functionBlue] (-1.570796,-1) circle (1.8pt);\n\\fill[functionBlue] (1.570796,1) circle (1.8pt);\n\\fill[inverseRed] (-1,-1.570796) circle (1.8pt);\n\\fill[inverseRed] (1,1.570796) circle (1.8pt);\n\\node[functionBlue,left] at (-1.570796,-1) {$\\left(-\\frac{\\pi}{2},-1\\right)$};\n\\node[functionBlue,right] at (1.570796,1) {$\\left(\\frac{\\pi}{2},1\\right)$};\n\\node[inverseRed,below left] at (-1,-1.570796) {$\\left(-1,-\\frac{\\pi}{2}\\right)$};\n\\node[inverseRed,above right] at (1,1.570796) {$\\left(1,\\frac{\\pi}{2}\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 32,
+                "sourceRegion": "Supplied answer sketch below question 10 part b",
+                "description": "Restricted sine in blue and its inverse in red, with filled endpoints, complete endpoint labels, coloured dashed projection guides and a dashed reflection line.",
+                "mathematics": "Blue: y=sin(x), -pi/2<=x<=pi/2. Red: reflection parametrised by (sin(t),t), -pi/2<=t<=pi/2. Dashed line y=x. Both curves pass through the origin.",
+                "answerVisibility": "Answer-only complete figure."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 78
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q10-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {
+        "p32-q10-b": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:20:54.219Z",
+  "updatedAt": "2026-11-12T08:20:54.219Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "inverse-functions-2-v1",
+    "blockId": "p32-q10-block",
+    "sectionRole": "challenge"
+  }
+}
