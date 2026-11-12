@@ -90,7 +90,8 @@ function ratePrompt(project,blocks){
  return `Do not run any commands or open files: everything you need is in this message.
 Rate each practice question from the MathsMap booklet "${project.title}". ${REASONING_PROMPT}
 The booklet's existing rated questions, as anchors for the scale: ${JSON.stringify(anchorsFor(project))}
-Questions: ${JSON.stringify(blocks.map(b=>studentView(b)))}
+Questions: ${JSON.stringify(blocks.map(b=>({blockId:b.id,question:studentView(b)})))}
+Copy each outer blockId exactly into the corresponding item's id. Ignore IDs inside question.
 Reply with ONLY JSON: {"items": [{"id": "...", "reasoningScore": 0, "difficultyReason": "..."}]}`;
 }
 async function callSol({dir,name,prompt,check}){
@@ -139,8 +140,8 @@ export async function resolveFollowUps(project,pairs,{dir,call=callSol,reviewOf}
   results.push(row);
  }
  if(rerate.length){
-  const blocks=rerate.map(id=>{const f=find(id);return f.section.blocks[f.index];}),want=new Set(rerate);
-  const rated=await call({dir,name:'rerate',prompt:ratePrompt(candidate,blocks),check:r=>Array.isArray(r?.items)&&r.items.length===want.size&&r.items.every(i=>want.has(i.id)&&Number.isInteger(i.reasoningScore)&&i.reasoningScore>=0&&i.reasoningScore<=100&&String(i.difficultyReason??'').trim())});
+  const want=new Set(rerate),blocks=[...want].map(id=>{const f=find(id);return f.section.blocks[f.index];});
+  const rated=await call({dir,name:'rerate',prompt:ratePrompt(candidate,blocks),check:r=>Array.isArray(r?.items)&&r.items.length===want.size&&new Set(r.items.map(i=>i.id)).size===want.size&&r.items.every(i=>want.has(i.id)&&Number.isInteger(i.reasoningScore)&&i.reasoningScore>=0&&i.reasoningScore<=100&&String(i.difficultyReason??'').trim())});
   for(const i of rated.result.items){
    const f=find(i.id),block=f.section.blocks[f.index];
    block.classification={...block.classification,...assessedRating(block,{...i,difficulty:difficultyBandForScore(i.reasoningScore)},{model:rated.model,assessedAt:rated.at,evidence:rated.evidence})};

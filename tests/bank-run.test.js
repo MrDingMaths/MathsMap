@@ -62,9 +62,15 @@ test('resolveFollowUps: independent records a dependency review; merge joins, re
  const project={id:'book',title:'Book',sections:[{id:'s',phase:'practice',blocks:[previous,method]},{id:'t',phase:'practice',blocks:[structuredClone(previous),hence]}]};
  project.sections[1].blocks[0].id='p9-q7b';project.sections[1].blocks[0].content.id='p9-q7b-root';
  const prevB=project.sections[1].blocks[0];
- const call=async({name})=>name==='judge'
+ const call=async({name,prompt,check})=>name==='judge'
   ?{model:'gpt-6.1-sol',effort:'low',at:'2026-11-12T00:00:00.000Z',result:{items:[{id:'p10-q8',decision:'independent',note:'Refers to a factoring method only; the expression is given.'},{id:'p10-q9',decision:'merge',note:'Solving needs the factorisation from the previous question.'}]}}
-  :{model:'gpt-6.1-sol',effort:'low',at:'2026-11-12T00:00:01.000Z',evidence:'x/last-message.txt',result:{items:[{id:'p9-q7b',reasoningScore:30,difficultyReason:'Factorise, then apply the null factor law.'}]}};
+  :(()=>{
+    const rating={id:'p9-q7b',reasoningScore:30,difficultyReason:'Factorise, then apply the null factor law.'};
+    assert.match(prompt,/"blockId":"p9-q7b","question":/);
+    assert.ok(!check({items:[{...rating,id:'p9-q7b-root'}]}));
+    assert.ok(check({items:[rating]}));
+    return {model:'gpt-6.1-sol',effort:'low',at:'2026-11-12T00:00:01.000Z',evidence:'x/last-message.txt',result:{items:[rating]}};
+   })();
  const reviewOf=()=>({current:true,by:'import'});
  const {project:out,results}=await resolveFollowUps(project,[{followUp:method,previous,references:['previous questions']},{followUp:hence,previous:prevB,references:['previous question']}],{dir:'unused',call,reviewOf});
  assert.equal(results.find(r=>r.blockId==='p10-q8').decision,'independent');
