@@ -1,0 +1,186 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3712a893-2e29-4eaa-b48c-d666252dc376",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "recurrence-relation-definition",
+    "secondarySkillIds": [
+      "sequence-notation"
+    ],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Eight guided investigation steps require explaining parity and seed-order effects, comparison and exceptions, plus golden-ratio arithmetic; scaffold supplied but mathematical generalisation independent.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:31:26.055Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3a3e70566e0de9851e7b23f07eab42a11d5269261c5422ecf1684618934a0098",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch20-20261015/direct-independent-statistics-unbroken-fibonacci-content-20261024/response.json",
+      "originalTaskHash": "253838c55054ffb22011ec9cd7e24c95accad1188c5f9c18698fcde2d2a28281"
+    }
+  },
+  "content": {
+    "id": "p18-activity4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "It is now time to make a few observations about your Fibonacci sequences.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-activity4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The classic sequence (in Activity 1) has two odd seeds. This gives a certain pattern of odd and even terms throughout the sequence. What happens if you start with two even seeds or an odd and an even seed? Explain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Odd/odd seeds: O,O,E repeats. Even/even seeds: every term even. Even/odd seeds: E,O,O repeats; odd/even seeds: O,E,O repeats.",
+          "worked": "An odd plus an odd is even; an odd plus an even is odd; two evens give an even. Starting with O,O therefore gives O,O,E,O,O,E,... . Starting E,E stays even forever. Starting E,O gives E,O,O,E,O,O,...; reversing the order shifts that three-term pattern. Parity here concerns integer seeds.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p18-activity4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Compare the 10th terms in each of the sequences you generated in Activities 2 and 3. Which one is larger? Compare the 20th terms as well. Can you explain what is happening?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Sample: $F_{10}$ is $500$ versus $435$; $F_{20}$ is $61495$ versus $53510$. The ascending seed order gives the larger terms from the fourth term onward (equal seeds give identical sequences).",
+          "worked": "For seeds $6,11$ versus $11,6$, the requested values are $500>435$ and $61495>53510$. More generally compare seeds $a,b$ with $b,a$. Their third terms are both $a+b$. Their fourth terms are $a+2b$ and $2a+b$, a difference $b-a$; the fifth terms again differ by $b-a$. Every later difference is the sum of its two predecessors. Therefore if $b>a$, all differences from the fourth onward are positive. If the seeds are equal the sequences coincide; if $a>b$ the roles reverse.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p18-activity4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use a calculator to divide the term F₁₀ in the first sequence by the term F₉ immediately before it. Write your answer down. Then do the same with the second sequence. Now repeat the calculations but with F₂₀ and F₁₉ for both sequences. Do you notice anything interesting? Did any of the other students who are doing this activity get the same number? Compare how close your ratios are. With positive seeds the later ratios generally get closer; other seed choices can give undefined ratios. Give decimal ratios to six decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Sample ratios: $1.618123$, $1.617100$ at term 10; both $1.618034$ at term 20 (6 d.p.). Positive-seed later ratios approach $\\Phi\\approx1.618034$; unrestricted seeds may give undefined ratios.",
+          "worked": "For the sample sequences, $\\frac{500}{309}\\approx1.618123$ and $\\frac{435}{269}\\approx1.617100$, whereas $\\frac{61495}{38006}\\approx1.618034$ and $\\frac{53510}{33071}\\approx1.618034$ (6d.p.). The earlier values differ already in the third decimal place, so the original sixth-place claim is not valid. For positive seeds repeated addition makes consecutive ratios approach the golden ratio. This is not an unconditional claim for “any” seeds: two zero seeds give $\\frac{0}{0}$, and other signed seeds may give a zero denominator or exceptional behaviour.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p18-activity4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "For the classic Fibonacci sequence, the first two terms larger than 1 000 000 are $F_{31}=1\\,346\\,269$ and $F_{32}=2\\,178\\,309$. Use these two values to see if what you noticed in the previous ratio calculations also holds for high-order terms in the classic Fibonacci sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{2178309}{1346269}\\approx1.618034$ (6d.p.), agreeing with the later sample ratios.",
+          "worked": "Using the two given values, $\\frac{2178309}{1346269}=1.618033988749\\ldots$, which rounds to $1.618034$. With the actual source convention $F_1=F_2=1$, these are $F_{31}$ and $F_{32}$; the preceding term is $F_{30}=832040<1000000$, so they are indeed the first two terms above a million. The original indices 32/33 were off by one.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p18-activity4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "The number you obtained (to a good approximation) in the ratio calculations is famous and interesting enough to deserve its own Greek letter. It is called Φ (phi, pronounced to rhyme with ‘spy’) and is known as the golden mean or golden ratio. It is a very interesting number with a long history.\n\nSearch Google and you will discover some amazing facts about Φ. It appears in many different ways in geometry and architecture.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Sample finding: removing a square from a golden rectangle leaves a smaller similar golden rectangle.",
+          "worked": "This open research instruction has no single required fact. A mathematical sample is the golden rectangle: its longer-to-shorter side ratio is $\\Phi$. Removing a square leaves a rectangle with ratio $\\frac{1}{(\\Phi-1)}=\\Phi$, so it is similar to the original.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p18-activity4-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Now try calculating these values and see what you notice about them. Give decimal results to six decimal places.\n\nCalculate $\\Phi^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\Phi^2=\\Phi+1\\approx2.618034$.",
+          "worked": "Using $\\Phi=\\frac{(1+\\sqrt5)}{2}$, $\\Phi^2=\\frac{(1+2\\sqrt5+5)}{4}=\\frac{(3+\\sqrt5)}{2}=\\Phi+1\\approx2.618034$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p18-activity4-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Calculate $\\dfrac1\\Phi$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac1\\Phi=\\Phi-1\\approx0.618034$.",
+          "worked": "Since $\\Phi^2=\\Phi+1$, division by the positive $\\Phi$ gives $\\Phi=1+\\frac{1}{\\Phi}$. Hence $\\frac{1}{\\Phi}=\\Phi-1\\approx0.618034$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p18-activity4-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Calculate $(2\\Phi-1)^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2\\Phi-1)^2=5$.",
+          "worked": "Substituting $\\Phi=\\frac{(1+\\sqrt5)}{2}$ gives $2\\Phi-1=\\sqrt5$, so $(2\\Phi-1)^2=5$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-activity4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:53:13.068Z",
+  "updatedAt": "2026-11-12T21:53:13.068Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch20-20261015",
+    "blockId": "p18-activity4",
+    "sectionRole": "exercise"
+  }
+}

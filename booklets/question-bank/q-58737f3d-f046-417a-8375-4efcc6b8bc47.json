@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-58737f3d-f046-417a-8375-4efcc6b8bc47",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "parallel-line-angle-properties"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "The first two angle-sum comparisons are prescribed, but the final step must connect bisected equal opposite angles to converse alternate-angle parallelism and then select equal-base-angle reasoning to establish adjacent side equality.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T01:13:01.291Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b9be689e58956ba7de91437757384798325fb2e272fd04267e981f6ff3e62738",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/direct-independent-factorisation-final-four-annotations-content-20261024/response.json",
+      "originalTaskHash": "7cc1347f2bc414c7ef751182e0676dc66c7100c540eeffe094e87609317ce7f2"
+    }
+  },
+  "content": {
+    "id": "p21-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "The diagonals of the quadrilateral $ABCD$ bisect each vertex angle, as shown in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q4-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the given angle-bisecting diagonals from boundary edges\"}],\"reference\":\"source PDF page 21 question 4\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0); \\coordinate (B) at (0.8,3); \\coordinate (C) at (3.9,3.25); \\coordinate (D) at (3.1,0.25);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[diagonalRed,dashed] (A)--(C) (B)--(D);\n\\node[below left] at (A) {$A$}; \\node[above left] at (B) {$B$}; \\node[above right] at (C) {$C$}; \\node[below right] at (D) {$D$};\n\\pic[draw,line width=0.4pt,angle radius=7mm,angle eccentricity=1.35] {angle=D--A--B};\n\\pic[draw,line width=0.4pt,angle radius=7mm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,line width=0.4pt,angle radius=6mm,angle eccentricity=1.35] {angle=B--C--D};\n\\pic[draw,line width=0.4pt,angle radius=7mm,angle eccentricity=1.35] {angle=C--D--A};\n\\node (wholeAlpha) at (-.55,.65) {$\\alpha$};\n\\draw[line width=.4pt] (wholeAlpha.east)--(.55,.46);\n\\node (wholeBeta) at (.3,3.45) {$\\beta$};\n\\draw[line width=.4pt] (wholeBeta.south)--(1.25,2.46);\n\\node (wholeGamma) at (4.43,2.65) {$\\gamma$};\n\\draw[line width=.4pt] (wholeGamma.west)--(3.44,2.84);\n\\node (wholeTheta) at (4,1.05) {$\\theta$};\n\\draw[line width=.4pt] (wholeTheta.west)--(3.1,.95);\n\\pic[angle radius=4mm,angle eccentricity=1,\"$x$\"] {angle=A--B--D};\n\\pic[angle radius=4mm,angle eccentricity=1,\"$x$\"] {angle=D--B--C};\n\\pic[angle radius=4mm,angle eccentricity=1,\"$y$\"] {angle=C--D--B};\n\\pic[angle radius=4mm,angle eccentricity=1,\"$y$\"] {angle=B--D--A};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 72,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 4 diagram",
+          "description": "Unshaded oblique quadrilateral with complete vertex-angle arcs, two x labels at B, two y labels at D and intersecting dashed diagonals without an intersection label. Ordinary source blue lines become black.",
+          "mathematics": "AC bisects angles A and C; BD bisects angles B and D. Complete vertex angles are alpha, beta, gamma and theta.",
+          "answerVisibility": "All givens remain visible; no conclusions are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q4-part-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the angle sums of $\\triangle ABD$ and $\\triangle CBD$ to prove that $\\alpha=\\gamma$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\alpha=\\gamma$.\n\nBoth triangle angle sums give the same remaining sum $x+y$.",
+          "worked": "Using the angle sums of $\\triangle ABD$ and $\\triangle CBD$:\n$$\\begin{align*}\\alpha+x+y&=180^\\circ,\\\\\\gamma+x+y&=180^\\circ.\\end{align*}$$\nSubtracting the common sum $x+y$ gives $\\alpha=\\gamma$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p21-q4-part-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use a similar argument to prove that $\\beta=\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\beta=\\theta$.\n\nCompare the angle sums of $\\triangle ABC$ and $\\triangle ADC$.",
+          "worked": "Since $AC$ bisects the angles at $A$ and $C$, the angle sums of $\\triangle ABC$ and $\\triangle ADC$ give\n$$\\begin{align*}\\beta+\\frac{\\alpha}{2}+\\frac{\\gamma}{2}&=180^\\circ,\\\\\\theta+\\frac{\\alpha}{2}+\\frac{\\gamma}{2}&=180^\\circ.\\end{align*}$$\nSubtracting the common terms gives $\\beta=\\theta$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p21-q4-part-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence explain why $AB\\parallel DC$ and $AD\\parallel BC$, and so $ABCD$ is a rhombus.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AB\\parallel DC$ and $AD\\parallel BC$ by equal alternate angles. Also $AD=DC$ from the equal base angles of $\\triangle ADC$; opposite sides of the parallelogram are equal, so all four sides are equal.",
+          "worked": "The given bisectors and $\\alpha=\\gamma$ give\n$$\\begin{align*}\\angle BAC&=\\frac{\\alpha}{2}=\\frac{\\gamma}{2}=\\angle ACD,\\\\\\angle DAC&=\\frac{\\alpha}{2}=\\frac{\\gamma}{2}=\\angle BCA.\\end{align*}$$\nThus $AB\\parallel DC$ and $AD\\parallel BC$ by the converse alternate-angle property, so $ABCD$ is a parallelogram.\n\nAlso $\\angle CAD=\\frac{\\alpha}{2}=\\frac{\\gamma}{2}=\\angle ACD$. Hence $\\triangle ADC$ is isosceles and $AD=DC$. Opposite sides of a parallelogram are equal, so $AB=DC$ and $BC=AD$. Therefore $AB=BC=CD=DA$, and $ABCD$ is a rhombus.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:53:03.595Z",
+  "updatedAt": "2026-11-12T21:53:03.595Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p21-q4-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fc1a7ae4-39b1-42e3-b561-59b88cae7fed",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-reciprocal-trig",
+    "secondarySkillIds": [
+      "reciprocal-identities",
+      "graph-trig-functions"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Constructs cosecant from sine, identifying undefined angles, asymptotes and the two reciprocal branches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:12:31.769Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a94420825e04f0816e2831cca9c540cd7c8a60003ef6e890ba9619f8fdaf60bc",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch19-20261015/lean-review/calls/content-1792584713195-20/last-message.txt",
+      "originalTaskHash": "01803a4870172fef34ca29309940c3925fdc7db26b954c4c1651f6f2c3ac1a1d"
+    }
+  },
+  "content": {
+    "id": "p24-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "On the same set of axes, sketch the graphs of $y=\\sin\\theta$ and $y=\\operatorname{cosec}\\theta$ for $0^\\circ\\leq\\theta\\leq360^\\circ$. For $y=\\operatorname{cosec}\\theta$, exclude $\\theta=0^\\circ,180^\\circ,360^\\circ$; include these angles on the sine graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The sine curve passes through $(0^\\circ,0)$, $(90^\\circ,1)$, $(180^\\circ,0)$, $(270^\\circ,-1)$ and $(360^\\circ,0)$. The cosecant graph has vertical asymptotes at $\\theta=0^\\circ,180^\\circ,360^\\circ$, a minimum at $(90^\\circ,1)$ on its positive branch and a maximum at $(270^\\circ,-1)$ on its negative branch.\n\nUse $\\operatorname{cosec}\\theta=\\frac{1}{\\sin\\theta}$ to construct the reciprocal branches.",
+      "worked": "Sketch the sine curve through $(0^\\circ,0)$, $(90^\\circ,1)$, $(180^\\circ,0)$, $(270^\\circ,-1)$ and $(360^\\circ,0)$.\n\nUse\n$$\\operatorname{cosec}\\theta=\\frac{1}{\\sin\\theta}.$$\nSine is zero at $0^\\circ,180^\\circ,360^\\circ$, so cosecant is undefined there. Draw vertical asymptotes at these angles.\n\nFor $0^\\circ<\\theta<180^\\circ$, sine is positive. Its reciprocal decreases from arbitrarily large positive values to $1$ at $90^\\circ$, then increases without bound.\n\nFor $180^\\circ<\\theta<360^\\circ$, sine is negative. Its reciprocal increases from arbitrarily large negative values to $-1$ at $270^\\circ$, then decreases without bound. The curves meet at $(90^\\circ,1)$ and $(270^\\circ,-1)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p24-q6-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sineBlue\",\"hex\":\"268CFF\",\"reason\":\"sine series and matching label\"},{\"name\":\"cosecantPurple\",\"hex\":\"8B5CC7\",\"reason\":\"reciprocal series and matching label\"}],\"reference\":\"source page 24 question 6; teacher page 89\"}\n\\begin{tikzpicture}[x=0.022cm,y=1cm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sineBlue}{HTML}{268CFF}\n\\definecolor{cosecantPurple}{HTML}{8B5CC7}\n\\path[use as bounding box] (-35,-3.7) rectangle (500,3.3);\n\\draw[->,line width=0.5pt] (-15,0)--(410,0) node[right] {$\\theta$};\n\\draw[->,line width=0.5pt] (0,-3.1)--(0,3.15) node[above] {$y$};\n\\foreach \\a in {0,90,180,270,360}{\\draw[line width=0.4pt] (\\a,-0.065)--(\\a,0.065);\\node[below=3pt] at (\\a,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a^\\circ$\\special{dvisvgm:raw </g>}};}\n\\foreach \\b in {-1,1}{\\draw[line width=0.4pt] (-3,\\b)--(3,\\b);\\node[left=8pt] at (0,\\b) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\b$\\special{dvisvgm:raw </g>}};}\n\\foreach \\a in {0,180,360}{\\draw[dashed,line width=0.4pt] (\\a,-3)--(\\a,3);}\n\\begin{scope}\n\\clip (0,-3) rectangle (360,3);\n\\draw[sineBlue,line width=0.8pt,domain=0:360,samples=181] plot (\\x,{sin(\\x)});\n\\draw[cosecantPurple,densely dashed,line width=0.8pt,domain=1:179,samples=240] plot (\\x,{1/sin(\\x)});\n\\draw[cosecantPurple,densely dashed,line width=0.8pt,domain=181:359,samples=240] plot (\\x,{1/sin(\\x)});\n\\end{scope}\n\\foreach \\a in {0,180,360}{\\fill[sineBlue] (\\a,0) circle[radius=1.3pt];}\n\\node[anchor=west,text=sineBlue] at (380,0.9) {$y=\\sin\\theta$};\n\\node[anchor=west,text=cosecantPurple] at (380,2.25) {$y=\\operatorname{cosec}\\theta$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 24,
+            "sourceRegion": "Challenge exercise question 6; answer graph on teacher PDF page 89",
+            "description": "One shared set of axes with the complete sine curve, two cosecant branches and dashed vertical asymptotes. Solid blue and dashed purple distinguish the series using the standard palette. Reciprocal branches are clipped at the display boundary and continue without bound.",
+            "mathematics": "Sine on the closed interval [0,360] degrees; cosecant on (0,180) union (180,360) degrees. Asymptotes at 0,180,360 degrees; reciprocal extrema and intersections at (90,1) and (270,-1).",
+            "answerVisibility": "Complete answer graph appears only in answer editions."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 95
+  },
+  "presentation": {
+    "ownerId": "p24-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:52:40.994Z",
+  "updatedAt": "2026-11-12T21:52:40.994Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch19-20261015",
+    "blockId": "p24-q6",
+    "sectionRole": "exercise"
+  }
+}

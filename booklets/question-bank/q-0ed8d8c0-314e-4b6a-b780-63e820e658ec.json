@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0ed8d8c0-314e-4b6a-b780-63e820e658ec",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-multistep",
+    "secondarySkillIds": [
+      "pythagoras-find-shorter-side"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied midpoint relationship to halve BC, identify three right triangles, and find DB before using it to calculate DE. The linked shorter-side calculations require planning, but the perpendicular relationships and taught method are supplied.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:22:15.398Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "376924fc28a58028e67d4f0d7147d78b81d6bfd1146b36deaf600f6f68bb571b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-8-ch08-20261015/ce97282226d5da78df19edb85807ce789bc1d6e12a487f3a01e41ee686229eda-1792560125556/last-message.txt",
+      "originalTaskHash": "0dd5adf98642d27852d14a32984a913722ef9287a71dbca0bb1161320d5a203f"
+    }
+  },
+  "content": {
+    "id": "p19-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "In the diagram to the right, $\\triangle ABC$ and $\\triangle DBC$ are isosceles triangles, with $AB=AC$, $DB=DC$ and $BC=4$.\n\n$AE$ and $DE$ lie on the perpendicular bisector of $BC$ in their respective triangles, so $\\angle AEB=\\angle DEB=90^\\circ$. Find $AE$, $DE$ and $DB$, correct to 2 decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"source distinguishes the internal perpendicular construction segments\"}],\"reference\":\"source page 19 Challenge 7\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (A) at (0,3.2);\n\\coordinate (D) at (0,1.6);\n\\coordinate (B) at (4,1.6);\n\\coordinate (C) at (2.4,0);\n\\coordinate (E) at ($(B)!0.5!(C)$);\n\\draw[line width=0.8pt] (A)--(D)--(C)--(B)--cycle (A)--(C);\n\\draw[constructionRed,densely dashed,line width=0.8pt] (D)--(B) (A)--(E) (D)--(E);\n\\draw[line width=0.4pt] ($(D)+(0,0.22)$)--($(D)+(0.22,0.22)$)--($(D)+(0.22,0)$);\n\\coordinate (T1) at ($(B)!0.5!(E)$);\n\\coordinate (T2) at ($(E)!0.5!(C)$);\n\\draw[line width=0.4pt] ($(T1)+(-0.07,0.07)$)--($(T1)+(0.07,-0.07)$);\n\\draw[line width=0.4pt] ($(T2)+(-0.07,0.07)$)--($(T2)+(0.07,-0.07)$);\n\\node[above] at (A) {$A$};\n\\node[below left] at (D) {$D$};\n\\node[right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (E) {$E$};\n\\path (A)--node[left] {$3$} (D);\n\\path (A)--node[above] {$5$} (B);\n\\path (E)--node[right,xshift=3mm] {$4$} (C);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 49.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Challenge exercise question 7, right-hand diagram",
+          "description": "Schematic projection retaining A above D, B right, C below, midpoint E on BC, the AD–DB right-angle mark and equal-half ticks. Ordinary blue source strokes become black; red internal construction segments retain semantic red.",
+          "mathematics": "AB=AC=5, AD=3, BC=4, BE=EC=2, DB=DC, AD perpendicular to DB, AE and DE perpendicular to BC. The printed 4 denotes the whole BC, as resolved by the supplied decision.",
+          "answerVisibility": "Only supplied points, lengths, construction lines and marks are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$AE\\approx4.58$, $DE\\approx3.46$, $DB=4.00$.\n\nUse $BE=\\frac{BC}{2}$ and apply Pythagoras’ theorem in $AEB$, $ADB$ and $DEB$.",
+      "worked": "Since $E$ is the midpoint of $BC$,\n$$\\begin{align*}BE&=\\frac{4}{2}\\\\BE&=2.\\end{align*}$$\nIn right-angled $\\triangle AEB$:\n$$\\begin{align*}AE^2+2^2&=5^2\\\\AE^2&=25-4\\\\AE^2&=21\\\\AE&=\\sqrt{21}\\\\AE&\\approx4.58.\\end{align*}$$\nIn right-angled $\\triangle ADB$:\n$$\\begin{align*}DB^2+3^2&=5^2\\\\DB^2&=25-9\\\\DB^2&=16\\\\DB&=4.\\end{align*}$$\nIn right-angled $\\triangle DEB$:\n$$\\begin{align*}DE^2+2^2&=4^2\\\\DE^2&=16-4\\\\DE^2&=12\\\\DE&=\\sqrt{12}\\\\DE&\\approx3.46.\\end{align*}$$\nThus $AE\\approx4.58$, $DE\\approx3.46$ and $DB=4.00$, correct to 2 decimal places.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 88
+  },
+  "presentation": {
+    "ownerId": "p19-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:52:39.453Z",
+  "updatedAt": "2026-11-12T21:52:39.453Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch08-20261015",
+    "blockId": "p19-q7",
+    "sectionRole": "exercise"
+  }
+}
