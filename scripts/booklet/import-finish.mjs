@@ -297,6 +297,8 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  }
  stamp();const entry=state.exports.at(-1);
  const status=entry&&hasFinishExportReport(entry,projectId)?await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir}):{deliverable:false,completion:assessCompletion({exportProblems:['No checked final export'],errors})};
+ // Loop refusals (an unrepaired finding, the export cap) are blockers too; report them instead of the last export's status alone.
+ if(!status.deliverable&&errors.length&&status.completion)status.completion={...status.completion,ready:false,blockers:[...new Set([...(status.completion.blockers??[]),...errors])]};
  if(entry&&state.steps.sheets!==entry.projectHash){
   const reportFile=path.join(entry.dir,'report.json');
   const pdf=fs.existsSync(reportFile)?read(reportFile).report?.[projectId]?.student?.pdf?.path:null;
