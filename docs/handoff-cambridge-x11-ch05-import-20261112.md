@@ -27,12 +27,14 @@ Read first:
 
 | | |
 |---|---|
-| Chapter PDF | `booklets/studio-sources/Textbooks/CambridgeX11/11 Cambridge X1 2025_Part7.pdf` (62 pages; Part *n* is Chapter *n*−2). It has a text layer, unlike Mastering Maths |
-| Answer book | `.../CambridgeX11/11 Cambridge X1 2025_Part21.pdf` (135 pages); Chapter 5 answers are pages **28–50** (Exercise 6A starts on page 51) |
+| Chapter PDF | `booklets/studio-sources/Textbooks/CambridgeX11/11 Cambridge X1 2025_Part7.pdf` (62 pages; Part *n* is Chapter *n*−2) |
+| Answer book | `.../CambridgeX11/11 Cambridge X1 2025_Part21.pdf` (135 pages); Chapter 5 answers are pages **28–51**. Chapter 5 starts part-way down page 28, and its review answers end part-way down page 51, above the Chapter 6 heading |
 | Run and project ID | `cambridge-x11-ch05` (no run or project exists yet) |
 | Title | "Cambridge Mathematics Extension 1 Year 11 — Chapter 5: Transformations and symmetry" (the form `ch01`, `ch03`, `ch04` and `ch09` use) |
 
-**Pages**, from the text layer (PDF page numbers).
+**Pages**, checked on the rendered page images (PDF page numbers).
+
+**Don't trust the PDF's text layer (OCR) for page mapping, answers or content.** Its map of this chapter put the last review answers on page 50; the images show they continue onto page 51. Confirm boundaries on the images, and treat extracted text as a hint only. The pipeline already treats page images as the authority (`sourceEvidenceMode: "pixels"`).
 
 Use exercise pages as `--pages` and teaching pages as `--context-pages`:
 
@@ -46,7 +48,7 @@ Use exercise pages as `--pages` and teaching pages as `--context-pages`:
 | 5F Composite functions | 39–40 | 41–44 (Exercise 5F starts part-way down page 41) | 43–44 |
 | 5G Combining transformations | 45–47 | 48–51 | 44–46 |
 | 5H Continuity and piecewise-defined functions | 52–55 | 56–58 | 46–49 |
-| Chapter 5 review | — | 59–62 | 49–50 |
+| Chapter 5 review | — | 59–62 | 49–51 |
 
 **Confirm each topic's answer pages on the page images before inventory.** In the Ch 2 pilot an estimated topic page range cost a failed `finish` start. C9 now stops on a partial answer-page search, but setting the pages right first is cheaper.
 
@@ -62,7 +64,7 @@ All commands run from the repository root, with `R=.booklet-work/full-imports/ca
 1. **Prepare.**
    - Write a config file with `title`, `contentScope: "practice-only"`, `track: "textbook"`, `sourceEvidenceMode: "pixels"`, `settings: {category: "Import review", questionOrder: "source"}`, `reviewRoute: "lean-review-v1"`, `authoringPreferences: "house-presets-v1"` and a `cover`.
    - Copy the shape of `.booklet-work/full-imports/mastering-maths-adv11-ch02/config.json`.
-   - Run `npm run booklet:prepare -- --pdf "<Part7>" --pages 6-10,14-17,20-22,28-31,36-38,41-44,48-51,56-62 --context-pages 1-5,11-13,18-19,23-27,32-35,39-40,45-47,52-55 --teacher-pdf "<Part21>" --teacher-pages 28-50 --run-id cambridge-x11-ch05 --config FILE`.
+   - Run `npm run booklet:prepare -- --pdf "<Part7>" --pages 6-10,14-17,20-22,28-31,36-38,41-44,48-51,56-62 --context-pages 1-5,11-13,18-19,23-27,32-35,39-40,45-47,52-55 --teacher-pdf "<Part21>" --teacher-pages 28-51 --run-id cambridge-x11-ch05 --config FILE`.
    - Check that the manifest records `importPolicy: "import-v2"` and `track: "textbook"`.
 2. **Config for inventory.** Copy the config to `$R/config.json` and add:
    - `topics` (id, title, `start`/`end` exercise pages, `teacherPages` from the table, `classificationSkillIds`) and the top-level `classificationSkillIds`;
