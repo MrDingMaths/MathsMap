@@ -1,0 +1,170 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cd3b22c4-19bd-41fa-be9e-7bed7649450a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Construct the five-card then two-coin-outcome tree and select paths satisfying both a coin condition and a letter category such as vowel or consonant.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:27.022Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "27cc8d967509bc6a498fbf1f56888b42e63261c87121f995f56c7407492909cb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch12-20261015/0be374487af4529c323c6865443a3ed5f463669d6eb7216c8f10ea26f65a94ad-1792560170666/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "A game consists of choosing a card from a set of 5 cards and tossing a coin. The 5 cards are labelled from ‘A’ to ‘E’.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p27-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram to show the different outcomes of the experiment.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Five card branches, each splitting into H and T, give 10 outcomes.",
+          "worked": "Each of the five card choices is followed by either H or T. Each complete path represents one outcome, giving $5\\times2=10$ equally likely outcomes.",
+          "solutionDiagrams": [
+            {
+              "id": "p27-q14-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 27 question 14; teacher page 40\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\foreach \\card/\\yy in {A/40,B/20,C/0,D/-20,E/-40}{\n\\draw (O)--(29,\\yy);\n\\node[inner sep=1.5pt] at (31,\\yy) {\\card};\n\\draw (35,\\yy)--(57,{\\yy+6});\n\\draw (35,\\yy)--(57,{\\yy-6});\n\\node[right] at (57,{\\yy+6}) {H};\n\\node[right] at (57,{\\yy-6}) {T};\n}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 27,
+                "sourceRegion": "Review exercise question 14a",
+                "description": "A card-first tree with five branches labelled A to E, each followed by branches H and T, matching the teacher answer structure.",
+                "mathematics": "Ten complete paths: AH, AT, BH, BT, CH, CT, DH, DT, EH, ET.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p27-q14-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the probability of getting:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p27-q14-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "a head and an ‘A’",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{10}$",
+              "worked": "Only AH is favourable among the 10 equally likely outcomes.\n\n$$P(\\text{head and A})=\\frac{1}{10}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p27-q14-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "a tail and an ‘E’",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{10}$",
+              "worked": "Only ET is favourable among the 10 equally likely outcomes.\n\n$$P(\\text{tail and E})=\\frac{1}{10}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p27-q14-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "a head and a vowel",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{5}$",
+              "worked": "The vowels are A and E, so the favourable outcomes are AH and EH.\n\n$$\\begin{align*}P(\\text{head and vowel})&=\\frac{2}{10}\\\\P(\\text{head and vowel})&=\\frac{1}{5}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 25
+          },
+          {
+            "id": "p27-q14-b-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "a tail and a consonant",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{10}$",
+              "worked": "The consonants are B, C and D, so the favourable outcomes are BT, CT and DT.\n\n$$P(\\text{tail and consonant})=\\frac{3}{10}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:06:04.786Z",
+  "updatedAt": "2026-11-12T14:06:04.786Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p27-q14",
+    "sectionRole": "exercise"
+  }
+}

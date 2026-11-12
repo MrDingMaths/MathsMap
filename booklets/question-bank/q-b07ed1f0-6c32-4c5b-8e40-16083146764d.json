@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b07ed1f0-6c32-4c5b-8e40-16083146764d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Translate three different sets of colour choices into tree stages and identify paths with all three colours distinct despite restrictions at each stage.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:27.022Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c72b00d8c3d693997334b591d2695ed4eccdd50548041e2f8a2f76e93cdce539",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch12-20261015/0be374487af4529c323c6865443a3ed5f463669d6eb7216c8f10ea26f65a94ad-1792560170666/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "A painter is going to paint a child’s bedroom. He has two choices of colour for the ceiling, blue or white; he has three choices of colour for the walls, blue, grey or white; and he has two choices of colour for the skirting boards, grey or white. He has to choose the colour for the ceiling, the walls and the skirting boards.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram showing all the outcomes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Use $B=$ blue, $G=$ grey and $W=$ white. In ceiling–walls–skirting order, the outcomes are $BBG, BBW, BGG, BGW, BWG, BWW, WBG, WBW, WGG, WGW, WWG, WWW$.",
+          "worked": "The stages are ceiling, walls and skirting boards. Branch first into $B,W$, then into $B,G,W$ from each ceiling choice, and finally into $G,W$ from each wall choice. There are $2\\times3\\times2=12$ outcomes.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q12-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 22 question 12a\"}\n\\begin{tikzpicture}[grow=right,level distance=27mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=4pt},edge from parent/.style={draw=black,line width=0.8pt,shorten <=2pt,shorten >=2pt},edge from parent path={(\\tikzparentnode.east)--(\\tikzchildnode.west)},level 1/.style={sibling distance=66mm},level 2/.style={sibling distance=22mm},level 3/.style={sibling distance=11mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node {} child {node {$W$} child {node {$W$} child {node[label=right:{$WWW$}] {$W$}} child {node[label=right:{$WWG$}] {$G$}}} child {node {$G$} child {node[label=right:{$WGW$}] {$W$}} child {node[label=right:{$WGG$}] {$G$}}} child {node {$B$} child {node[label=right:{$WBW$}] {$W$}} child {node[label=right:{$WBG$}] {$G$}}}} child {node {$B$} child {node {$W$} child {node[label=right:{$BWW$}] {$W$}} child {node[label=right:{$BWG$}] {$G$}}} child {node {$G$} child {node[label=right:{$BGW$}] {$W$}} child {node[label=right:{$BGG$}] {$G$}}} child {node {$B$} child {node[label=right:{$BBW$}] {$W$}} child {node[label=right:{$BBG$}] {$G$}}}};\n\\node at (27mm,72mm) {Ceiling};\\node at (54mm,72mm) {Walls};\\node at (90mm,72mm) {Skirting};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 155,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 12a; teacher page 39 question 12a",
+                "description": "Three-stage tree with 2 ceiling branches, 3 wall branches per ceiling and 2 skirting branches per wall. Colour names are represented by editable letter labels, with no decorative colour.",
+                "mathematics": "Twelve ordered outcomes with stage choice sets {B,W}, {B,G,W}, {G,W}.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 105
+      },
+      {
+        "id": "p22-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If he chooses at random, what is the probability that the ceiling, the walls and the skirting boards are painted different colours?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac14$",
+          "worked": "In ceiling–walls–skirting order, the favourable outcomes are $BGW, BWG, WBG$. There are 3 favourable paths among 12 equally likely paths.\n$$\\begin{align*}P(\\text{all different colours})&=\\frac3{12}\\\\P(\\text{all different colours})&=\\frac14\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:05:58.305Z",
+  "updatedAt": "2026-11-12T14:05:58.306Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p22-q12",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e72c96d1-64a9-49cb-b14d-fa19036ac06b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simultaneous-equations-algebraically",
+    "secondarySkillIds": [
+      "identities-contradictions"
+    ],
+    "reasoningScore": 82,
+    "difficulty": "Challenge",
+    "difficultyReason": "Literal elimination is only part of the task: despite the nonzero a,b assumption the third system permits a+b=0. The solver must independently detect invalid division, split the parameter domain and justify infinitely many solutions in that unprompted case, while treating the other positive denominators correctly.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T00:08:26.329Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e0a5e2cf3f24e466350548b99547c688aa634a2c4c432be37613bef1e1276acb",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch14-20261015/direct-independent-statistics-three-missing-ratings-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p25-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Solve the simultaneous equations for $x$ and $y$. Assume that $a$ and $b$ are non-zero numbers.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$\\begin{aligned}ax-by&=b\\\\bx+ay&=a\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\dfrac{2ab}{a^2+b^2},\\quad y=\\dfrac{a^2-b^2}{a^2+b^2}$.",
+          "worked": "Multiply the first equation by $a$ and the second by $b$, then add:\n$$\\begin{align*}a^2x-aby&=ab\\\\b^2x+aby&=ab\\\\(a^2+b^2)x&=2ab\\\\x&=\\frac{2ab}{a^2+b^2}.\\end{align*}$$\nMultiply the second equation by $a$ and subtract $b$ times the first:\n$$\\begin{align*}abx+a^2y&=a^2\\\\abx-b^2y&=b^2\\\\(a^2+b^2)y&=a^2-b^2\\\\y&=\\frac{a^2-b^2}{a^2+b^2}.\\end{align*}$$\nSince $a^2+b^2>0$, both divisions are valid. Check:\n$$\\begin{align*}ax-by&=\\frac{2a^2b-b(a^2-b^2)}{a^2+b^2}=b,\\\\bx+ay&=\\frac{2ab^2+a(a^2-b^2)}{a^2+b^2}=a.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 115
+      },
+      {
+        "id": "p25-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$\\begin{aligned}2bx-a^2y&=ab\\\\ax+aby&=a^2+b^2\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=a,\\quad y=\\dfrac{b}{a}$.",
+          "worked": "Multiply the first equation by $b$ and the second by $a$, then add:\n$$\\begin{align*}2b^2x-a^2by&=ab^2\\\\a^2x+a^2by&=a^3+ab^2\\\\(a^2+2b^2)x&=a(a^2+2b^2)\\\\x&=a.\\end{align*}$$\nSince $a^2+2b^2>0$, division is valid. Substitute into the first equation:\n$$\\begin{align*}2ab-a^2y&=ab\\\\a^2y&=ab\\\\y&=\\frac ba.\\end{align*}$$\nCheck:\n$$\\begin{align*}2bx-a^2y&=2ab-a^2\\frac ba=ab,\\\\ax+aby&=a^2+ab\\frac ba=a^2+b^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 125
+      },
+      {
+        "id": "p25-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$$\\begin{aligned}\\frac{x}{2a}+\\frac{y}{2b}&=a+b\\\\x-y&=-b(a+b)\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If $a+b\\ne0$, $x=ab$ and $y=b(2a+b)$.\n\nIf $a+b=0$, infinitely many solutions: $x=y=t$ for any real $t$.",
+          "worked": "Multiply the first equation by $2ab$. Multiply the second by $a$:\n$$\\begin{align*}bx+ay&=2ab(a+b)\\\\ax-ay&=-ab(a+b).\\end{align*}$$\nAdd:\n$$\\begin{align*}(a+b)x&=ab(a+b).\\end{align*}$$\nIf $a+b\\ne0$:\n$$\\begin{align*}x&=ab\\\\ab-y&=-b(a+b)\\\\y&=b(2a+b).\\end{align*}$$\nCheck:\n$$\\begin{align*}\\frac{x}{2a}+\\frac{y}{2b}&=\\frac b2+\\frac{2a+b}{2}=a+b,\\\\x-y&=ab-b(2a+b)=-b(a+b).\\end{align*}$$\nIf $a+b=0$, then $b=-a$. The original equations become\n$$\\begin{align*}\\frac{x-y}{2a}&=0\\\\x-y&=0.\\end{align*}$$\nThey are equivalent, so every pair $x=y=t$, with $t$ real, satisfies both equations.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 135
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:34:20.317Z",
+  "updatedAt": "2026-11-12T11:34:20.317Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch14-20261015",
+    "blockId": "p25-q3",
+    "sectionRole": "exercise"
+  }
+}

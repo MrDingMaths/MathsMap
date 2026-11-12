@@ -1,0 +1,220 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bfc05733-c194-4d97-a82e-1562263a83c0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "complementary-multistage",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "multiplication-principle"
+    ],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires generalising the scaffolded tree counts to 2^n outcomes and recognising that excluding the single all-tail path counts every outcome with at least one head. The earlier numerical cases support, but do not supply, this symbolic generalisation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:05.526Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3652c0de751e45cc67bc4d63e0f4011b66584618d3ea62b4688c0fa39234daba",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch12-20261015/d1a05355c67aff13b299741c7563eb989092304cc701d229d866385841fad1e6-1792560176656/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-challenge-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p27-challenge-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A coin is tossed twice. By drawing a tree diagram, calculate the probability that at least one head is obtained.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{3}{4}$",
+          "worked": "H means head and T means tail. The tree gives four equally likely outcomes: HH, HT, TH and TT. Three contain at least one head.\n\n$$P(\\text{at least one head})=\\frac{3}{4}.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p27-challenge-q1-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 27 Challenge 1a; taught tree page 17\"}\n\\begin{tikzpicture}[x=18mm,y=10mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (R) at (0,0);\n\\node (H) at (2,1.5) {H};\n\\node (T) at (2,-1.5) {T};\n\\node (HH) at (4,2.25) {H};\n\\node (HT) at (4,0.75) {T};\n\\node (TH) at (4,-0.75) {H};\n\\node (TT) at (4,-2.25) {T};\n\\draw[shorten >=3pt] (R)--(H.west) (R)--(T.west);\n\\draw[shorten <=3pt,shorten >=3pt] (H.east)--(HH.west) (H.east)--(HT.west) (T.east)--(TH.west) (T.east)--(TT.west);\n\\node[anchor=west] at (4.6,2.25) {HH};\n\\node[anchor=west] at (4.6,0.75) {HT};\n\\node[anchor=west] at (4.6,-0.75) {TH};\n\\node[anchor=west] at (4.6,-2.25) {TT};\n\\node at (2,3.2) {First toss};\n\\node at (4,3.2) {Second toss};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 105,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 27,
+                "sourceRegion": "Challenge exercise 1a",
+                "description": "Complete two-stage coin tree, following the left-to-right taught tree convention.",
+                "mathematics": "Two branches at each toss; terminal outcomes HH, HT, TH, TT.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p27-challenge-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A coin is tossed three times. By drawing a tree diagram, calculate the probability that at least one head is obtained.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{7}{8}$",
+          "worked": "The tree gives eight equally likely outcomes: HHH, HHT, HTH, HTT, THH, THT, TTH and TTT. Only TTT has no head, so seven outcomes contain at least one head.\n\n$$P(\\text{at least one head})=\\frac{7}{8}.$$",
+          "solutionDiagrams": [
+            {
+              "id": "p27-challenge-q1-b-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 27 Challenge 1b; taught tree page 18\"}\n\\begin{tikzpicture}[x=19mm,y=9mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (R) at (0,0);\n\\node (H) at (2,3) {H};\n\\node (T) at (2,-3) {T};\n\\node (HH) at (4,4.5) {H};\n\\node (HT) at (4,1.5) {T};\n\\node (TH) at (4,-1.5) {H};\n\\node (TT) at (4,-4.5) {T};\n\\node (HHH) at (6,5.25) {H};\n\\node (HHT) at (6,3.75) {T};\n\\node (HTH) at (6,2.25) {H};\n\\node (HTT) at (6,0.75) {T};\n\\node (THH) at (6,-0.75) {H};\n\\node (THT) at (6,-2.25) {T};\n\\node (TTH) at (6,-3.75) {H};\n\\node (TTT) at (6,-5.25) {T};\n\\draw[shorten >=12pt] (R)--(H.west) (R)--(T.west);\n\\draw[shorten <=12pt,shorten >=12pt] (H.east)--(HH.west) (H.east)--(HT.west) (T.east)--(TH.west) (T.east)--(TT.west);\n\\draw[shorten <=12pt,shorten >=12pt] (HH.east)--(HHH.west) (HH.east)--(HHT.west) (HT.east)--(HTH.west) (HT.east)--(HTT.west) (TH.east)--(THH.west) (TH.east)--(THT.west) (TT.east)--(TTH.west) (TT.east)--(TTT.west);\n\\foreach \\outcome/\\ordinate in {HHH/5.25,HHT/3.75,HTH/2.25,HTT/0.75,THH/-0.75,THT/-2.25,TTH/-3.75,TTT/-5.25}{\\node[anchor=west] at (6.6,\\ordinate) {\\outcome};}\n\\node[align=center,anchor=south] at (2,6.3) {First\\\\toss};\n\\node[align=center,anchor=south] at (4,6.3) {Second\\\\toss};\n\\node[align=center,anchor=south] at (6,6.3) {Third\\\\toss};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 145,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 27,
+                "sourceRegion": "Challenge exercise 1b",
+                "description": "Complete three-stage coin tree with all eight terminal sequences.",
+                "mathematics": "Two branches per stage; seven terminal sequences contain H, and only TTT does not.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p27-challenge-q1-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "A coin is tossed four times.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p27-challenge-q1-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "How many outcomes are there? (Hint: Try to picture what the tree diagram would look like without actually drawing it.)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$16$ outcomes.",
+              "worked": "Each toss doubles the number of paths in the tree.\n\n$$\\text{Number of outcomes}=2\\times2\\times2\\times2=16.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p27-challenge-q1-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "What is the probability that at least one head is obtained?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{15}{16}$",
+              "worked": "Of the 16 equally likely outcomes, only TTTT has no head. Therefore 15 outcomes contain at least one head.\n\n$$P(\\text{at least one head})=\\frac{16-1}{16}=\\frac{15}{16}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          }
+        ]
+      },
+      {
+        "id": "p27-challenge-q1-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "A coin is tossed $n$ times.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p27-challenge-q1-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "How many outcomes are there?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2^n$ outcomes.",
+              "worked": "There are two possible results at each of the $n$ stages, so the number of terminal paths doubles at each stage.\n\n$$\\text{Number of outcomes}=2^n.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p27-challenge-q1-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "What is the probability that at least one head is obtained?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2^n-1}{2^n}$\n\nExclude the single outcome consisting entirely of tails.",
+              "worked": "There are $2^n$ equally likely outcomes. Exactly one has no heads: tails on every toss. Thus $2^n-1$ outcomes contain at least one head.\n\n$$\\begin{align*}P(\\text{at least one head})&=\\frac{2^n-1}{2^n}\\\\P(\\text{at least one head})&=1-\\frac{1}{2^n}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-challenge-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:06:05.129Z",
+  "updatedAt": "2026-11-12T14:06:05.129Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p27-challenge-q1",
+    "sectionRole": "exercise"
+  }
+}

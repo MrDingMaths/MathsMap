@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-63b7f4d5-b7e4-4353-a0d7-7ba5230cd7f0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "theoretical-probability"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Count equally likely ordered pairs of holes while accounting for repeated scores.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T08:15:50.146Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ef7c8db4ffb3481de6f325ed0f2b82012c92f498f110504a1b28c3f1dc9474e5",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch12-20261015/semantic-packets/assignments/assignment-ebdb93241ee9b5c616b8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p26-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A ball is dropped at random into one of six holes, numbered as shown in the diagram below. The number under each hole gives the score obtained when the ball drops into that hole.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q10-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (0,0) rectangle (144,16);\n\\draw[black] (0,6)--(144,6);\n\\foreach \\x in {24,48,72,96,120} {\\draw[black] (\\x,0)--(\\x,16);}\n\\foreach \\x in {12,36,60,84,108,132} {\\draw[black] (\\x,11) ellipse [x radius=5.5,y radius=2.5];}\n\\node at (12,3) {1};\n\\node at (36,3) {2};\n\\node at (60,3) {3};\n\\node at (84,3) {2};\n\\node at (108,3) {1};\n\\node at (132,3) {1};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 144,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 10, six-hole score diagram",
+          "description": "Six distinct oval holes in a horizontal two-row grid, each directly above its score. Decorative blue gradient shading is omitted under house style.",
+          "mathematics": "Six equally likely holes have scores 1, 2, 3, 2, 1, 1 in that order; repeated scores represent different holes.",
+          "answerVisibility": "Only supplied holes and scores are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p26-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the probability of scoring 1.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{2}$",
+          "worked": "Three of the six equally likely holes score 1.\n\n$$\\begin{align*}P(\\text{score }1)&=\\frac{3}{6}\\\\P(\\text{score }1)&=\\frac{1}{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p26-q10-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "If the ball is dropped twice and the scores are added, find the probability of obtaining:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p26-q10-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "a total of 5",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{9}$\n\nCount ordered pairs of holes, including both score orders.",
+              "worked": "There are $6\\times6=36$ equally likely ordered pairs of holes. A total of 5 comes from scores $(2,3)$ or $(3,2)$. There are two holes scoring 2 and one scoring 3, giving $2\\times1+1\\times2=4$ favourable pairs.\n\n$$\\begin{align*}P(\\text{total }5)&=\\frac{4}{36}\\\\P(\\text{total }5)&=\\frac{1}{9}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 34
+          },
+          {
+            "id": "p26-q10-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "a total of 4",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{5}{18}$\n\nCount ordered pairs of holes for scores $(1,3)$, $(2,2)$ and $(3,1)$.",
+              "worked": "There are $6\\times6=36$ equally likely ordered pairs of holes. A total of 4 comes from scores $(1,3)$, $(2,2)$ or $(3,1)$. There are three holes scoring 1, two scoring 2 and one scoring 3, giving $3\\times1+2\\times2+1\\times3=10$ favourable pairs.\n\n$$\\begin{align*}P(\\text{total }4)&=\\frac{10}{36}\\\\P(\\text{total }4)&=\\frac{5}{18}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 38
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:06:03.409Z",
+  "updatedAt": "2026-11-12T14:06:03.409Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p26-q10",
+    "sectionRole": "exercise"
+  }
+}

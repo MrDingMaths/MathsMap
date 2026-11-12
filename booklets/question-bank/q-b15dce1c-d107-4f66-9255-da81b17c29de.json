@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b15dce1c-d107-4f66-9255-da81b17c29de",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Build the three-stage tree and distinguish exactly one head from at least one head when selecting favourable paths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:27.022Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "390870c38c7b3616d00d7481680fbca6918400705664c5e297338babdef0e455",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch12-20261015/0be374487af4529c323c6865443a3ed5f463669d6eb7216c8f10ea26f65a94ad-1792560170666/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A coin is tossed three times.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram showing all the outcomes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The tree has outcomes $HHH, HHT, HTH, HTT, THH, THT, TTH, TTT$.",
+          "worked": "At each of three stages, branch into $H$ and $T$. There are $2\\times2\\times2=8$ paths, one for each ordered outcome.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q11-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 22 question 11a\"}\n\\begin{tikzpicture}[grow=right,level distance=24mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=4pt},edge from parent/.style={draw=black,line width=0.8pt,shorten <=2pt,shorten >=2pt},edge from parent path={(\\tikzparentnode.east)--(\\tikzchildnode.west)},level 1/.style={sibling distance=44mm},level 2/.style={sibling distance=22mm},level 3/.style={sibling distance=11mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node {} child {node {$T$} child {node {$T$} child {node[label=right:{$TTT$}] {$T$}} child {node[label=right:{$TTH$}] {$H$}}} child {node {$H$} child {node[label=right:{$THT$}] {$T$}} child {node[label=right:{$THH$}] {$H$}}}} child {node {$H$} child {node {$T$} child {node[label=right:{$HTT$}] {$T$}} child {node[label=right:{$HTH$}] {$H$}}} child {node {$H$} child {node[label=right:{$HHT$}] {$T$}} child {node[label=right:{$HHH$}] {$H$}}}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 135,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 11a; teacher page 39 question 11a",
+                "description": "Three-stage binary tree with H above T at every split and all eight terminal outcomes labelled.",
+                "mathematics": "All ordered sequences of three H/T results.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p22-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability that three heads are obtained?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac18$",
+          "worked": "Only $HHH$ gives three heads, out of eight equally likely paths.\n$$P(\\text{three heads})=\\frac18$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the probability that exactly one head is obtained?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac38$",
+          "worked": "The favourable paths are $HTT, THT, TTH$, out of eight equally likely paths.\n$$P(\\text{exactly one head})=\\frac38$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the probability that at least one head is obtained?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac78$",
+          "worked": "The favourable paths are $HHH, HHT, HTH, HTT, THH, THT, TTH$. Seven of the eight equally likely paths contain a head.\n$$P(\\text{at least one head})=\\frac78$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:05:57.972Z",
+  "updatedAt": "2026-11-12T14:05:57.972Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p22-q11",
+    "sectionRole": "exercise"
+  }
+}

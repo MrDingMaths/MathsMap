@@ -1,0 +1,193 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-83aba192-92d9-4795-898c-eeb0fad374c3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Translate overlapping enrolment totals into exclusive Venn regions, calculate neither from the total, and read the requested regions as probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:27.022Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2e024e9734d2b132a187ac17533790d39915fd805590050265dfd11959004020",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch12-20261015/0be374487af4529c323c6865443a3ed5f463669d6eb7216c8f10ea26f65a94ad-1792560170666/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p11-q9-venn-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Use an appropriate Venn diagram in the following questions.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q9-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In a group of 100 students, 60 study mathematics, 70 study physics and 30 study both mathematics and physics.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Represent this information on a Venn diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$M$: mathematics; $P$: physics. Mathematics only: 30; both: 30; physics only: 40; neither: 0.",
+          "worked": "Let $M$ be the event ‘studies mathematics’ and $P$ be the event ‘studies physics’. Bracketed numbers in the diagram give the number of students in each region.\n\n$$\\begin{align*}\\text{Mathematics only}&=60-30\\\\\\text{Mathematics only}&=30\\\\\\text{Physics only}&=70-30\\\\\\text{Physics only}&=40\\\\\\text{Neither}&=100-(30+30+40)\\\\\\text{Neither}&=0\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p11-q9-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11 p11-q9-a-solution-venn\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,0) rectangle (6,3.9);\n\\draw[line width=0.8pt] (2.15,2.05) circle (1.35);\n\\draw[line width=0.8pt] (3.85,2.05) circle (1.35);\n\\node[above left] at (0,3.9) {$\\xi$};\n\\node at (1.05,3.45) {$M$};\n\\node at (4.95,3.45) {$P$};\n\\node at (1.55,2.05) {$(30)$};\n\\node at (3,2.05) {$(30)$};\n\\node at (4.45,2.05) {$(40)$};\n\\node at (5.35,0.45) {$(0)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Question 9(a); teacher PDF page 38, Exercise 12B Question 9(a)",
+                "description": "Two overlapping circles labelled M and P inside the sample-space rectangle. Counts are bracketed as taught in Example 5. The zero outside both circles is made explicit.",
+                "mathematics": "M only = 30; M intersection P = 30; P only = 40; neither = 0; total = 100.",
+                "answerVisibility": "Solution only; the student must construct the diagram."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p11-q9-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "One student is selected at random from the group. What is the probability that the student studies:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p11-q9-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "mathematics and not physics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{10}$",
+              "worked": "From the Venn diagram, 30 students study mathematics and not physics.\n\n$$\\begin{align*}P(M\\cap P^c)&=\\frac{30}{100}\\\\P(M\\cap P^c)&=\\frac{3}{10}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p11-q9-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "physics but not mathematics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{5}$",
+              "worked": "From the Venn diagram, 40 students study physics but not mathematics.\n\n$$\\begin{align*}P(P\\cap M^c)&=\\frac{40}{100}\\\\P(P\\cap M^c)&=\\frac{2}{5}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p11-q9-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "neither physics nor mathematics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0$",
+              "worked": "There are no students outside both circles.\n\n$$P(P^c\\cap M^c)=\\frac{0}{100}=0.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:05:51.760Z",
+  "updatedAt": "2026-11-12T14:05:51.760Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch12-20261015",
+    "blockId": "p11-q9",
+    "sectionRole": "exercise"
+  }
+}

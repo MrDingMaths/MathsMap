@@ -1,0 +1,156 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-51b4c1a3-3f0e-41be-ba9b-e52728d60163",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [
+      "area-rule-triangle",
+      "trig-find-side"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires introducing an unmarked perpendicular height, expressing it using sine and connecting it to triangle area. The numerical task supports the subsequent symbolic proof, but neither diagram supplies the construction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T05:52:53.220Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b9fb179462653df814a4348c91275fce7d3601ee09ec8ad1961a13caa7edb4c3",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch13-20261015/direct-current-rating-32-1792734756499/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area in square metres of the triangle shown below, correct to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p32-q5-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 32, p32-q5-a-diagram\"}\n\\usetikzlibrary{angles,quotes}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1.5pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (C) at (6,0);\n\\coordinate (B) at ({3.5*cos(35)},{3.5*sin(35)});\n\\draw (A)--(B) node[midway,above left] {$7\\text{ m}$} --(C)--(A) node[midway,below] {$12\\text{ m}$};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.5,\"$35^{\\circ}$\"] {angle=C--A--B};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 32,
+              "sourceRegion": "Question 5a triangle",
+              "description": "Unshaded triangle with horizontal 12 m base, 7 m left side and included lower-left angle 35 degrees.",
+              "mathematics": "Base 12 m; adjacent sloping side 7 m; included angle 35 degrees. No altitude is supplied.",
+              "answerVisibility": "Only source givens are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$24.09\\text{ m}^2$.\n\nUse sine to find the perpendicular height, then halve the product of base and height.",
+          "worked": "Let $h$ metres be the perpendicular height from the apex to the base.\n$$\\begin{align*}\\sin35^{\\circ}&=\\frac{h}{7}\\\\h&=7\\sin35^{\\circ}\\\\A&=\\frac12\\times12\\times h\\\\A&=\\frac12\\times12\\times7\\sin35^{\\circ}\\\\A&=42\\sin35^{\\circ}\\\\A&\\approx24.09\\text{ m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p32-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that the area of triangle $ABC$ is $\\dfrac12 ab\\sin\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p32-q5-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 32, p32-q5-b-diagram\"}\n\\usetikzlibrary{angles,quotes}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1.5pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.7,1.8);\n\\coordinate (C) at (6,0);\n\\draw (A)--(B) node[midway,above left] {$c$} --(C) node[midway,above right] {$a$} --(A) node[midway,below] {$b$};\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.5,\"$\\theta$\"] {angle=B--C--A};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 32,
+              "sourceRegion": "Question 5b triangle",
+              "description": "Unshaded triangle ABC with B above horizontal AC. No altitude or right-angle mark is supplied.",
+              "mathematics": "AB=c, BC=a, AC=b; interior angle ACB=theta.",
+              "answerVisibility": "All original labels remain visible; the proof construction is solution-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$h=a\\sin\\theta$, so $A=\\dfrac12 bh=\\dfrac12 ab\\sin\\theta$.\n\nDrop a perpendicular from $B$ to $AC$ and use the sine ratio.",
+          "worked": "Draw $BD\\perp AC$, with $D$ on $AC$, and let $BD=h$.\nIn right-angled triangle $BCD$:\n$$\\begin{align*}\\sin\\theta&=\\frac{h}{a}\\\\h&=a\\sin\\theta\\end{align*}$$\nUsing base $AC=b$ and perpendicular height $h$:\n$$\\begin{align*}\\operatorname{Area}(ABC)&=\\frac12 bh\\\\\\operatorname{Area}(ABC)&=\\frac12 b(a\\sin\\theta)\\\\\\operatorname{Area}(ABC)&=\\frac12 ab\\sin\\theta.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p32-q5-b-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 32 question 5b; teacher PDF page 42 proof construction\"}\n\\usetikzlibrary{angles,quotes}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1.5pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.7,1.8);\n\\coordinate (C) at (6,0);\n\\coordinate (D) at (2.7,0);\n\\draw (A)--(B) node[midway,above left] {$c$} --(C) node[midway,above right] {$a$} --(A) node[midway,below=5mm] {$b$};\n\\draw[dashed,line width=0.4pt] (B)--(D) node[midway,left] {$h$};\n\\draw[line width=0.4pt] (2.7,0.18)--(2.88,0.18)--(2.88,0);\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.5,\"$\\theta$\"] {angle=B--C--A};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 32,
+                "sourceRegion": "Question 5b; teacher page 42 answer 5b",
+                "description": "Complete original triangle with a dashed perpendicular altitude BD, height h and right-angle marker.",
+                "mathematics": "BD is perpendicular to AC; sin(theta)=BD/BC=h/a.",
+                "answerVisibility": "Altitude, D, h and right-angle marker appear only in the solution."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 48
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:49.465Z",
+  "updatedAt": "2026-11-12T13:17:49.465Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch13-20261015",
+    "blockId": "p32-q5",
+    "sectionRole": "exercise"
+  }
+}

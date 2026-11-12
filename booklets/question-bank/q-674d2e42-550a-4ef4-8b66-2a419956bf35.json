@@ -1,0 +1,183 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-674d2e42-550a-4ef4-8b66-2a419956bf35",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "area-trapezium",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied trapezium decomposition to derive a general cyclic coordinate-area identity, then interpret signed orientation and zero-area degeneracy.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T01:43:08.367Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "94187d8b3759d7d9f0333cf5fc47365526771c491f5b453a36eb94f864123fa1",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch14-20261015/direct-independent-statistics-final-twelve-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p25-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p25-q4-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the diagram shown below:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p25-q4-observation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\begin{gathered}\\text{Area of triangle }ABC=\\text{area of trapezium }ALNC\\\\+\\text{area of trapezium }CNMB-\\text{area of trapezium }LABM\\end{gathered}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"projectionRed\",\"hex\":\"EF6068\",\"reason\":\"vertical projections identify the parallel trapezium sides\"}],\"reference\":\"page 25 p25-q4-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{projectionRed}{HTML}{EF6068}\n\\coordinate (A) at (1,1);\n\\coordinate (C) at (2.5,2);\n\\coordinate (B) at (3.5,1.5);\n\\coordinate (L) at (1,0);\n\\coordinate (N) at (2.5,0);\n\\coordinate (M) at (3.5,0);\n\\draw[->,black,line width=0.5pt] (-1,0)--(5.5,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-1)--(0,3.4) node[left] {$y$};\n\\draw[projectionRed,dashed,line width=0.4pt] (A)--(L);\n\\draw[projectionRed,dashed,line width=0.4pt] (C)--(N);\n\\draw[projectionRed,dashed,line width=0.4pt] (B)--(M);\n\\draw[black,line width=0.8pt] (A)--(C)--(B)--cycle;\n\\fill[black] (A) circle (1.2pt);\n\\fill[black] (B) circle (1.2pt);\n\\fill[black] (C) circle (1.2pt);\n\\node[anchor=west] (Alabel) at (3,2.9) {$A(x_1,y_1)$};\\draw[line width=.25pt] (Alabel.west)--(1,2.9)--(A);\n\\node[above] at (C) {$C(x_3,y_3)$};\n\\node[right] at (B) {$B(x_2,y_2)$};\n\\node[below] at (L) {$L$};\n\\node[below] at (N) {$N$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 4 projection diagram",
+          "description": "Triangle above the positive x-axis, with A, C and B in that left-to-right order. Vertical dashed projections end at L, N and M. Ordinary outlines and vertices use house black; decorative blue fill is omitted. The origin numeral is omitted under the graph convention.",
+          "mathematics": "x_1<x_3<x_2; AL, CN and BM are vertical, with lengths y_1, y_3 and y_2. C is above AB. Coordinates used for drawing encode only the supplied qualitative relationships.",
+          "answerVisibility": "All diagram content is permanently visible; no answers are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p25-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use this observation to prove that:\n$$\\text{Area of triangle }ABC=\\frac12\\left(x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\\right).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$\\begin{aligned}A_{ABC}&=\\frac12(y_1+y_3)(x_3-x_1)\\\\&\\quad+\\frac12(y_2+y_3)(x_2-x_3)\\\\&\\quad-\\frac12(y_1+y_2)(x_2-x_1)\\\\A_{ABC}&=\\frac12\\left(x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\\right).\\end{aligned}$$",
+          "worked": "The parallel sides of the three trapezia have lengths $y_1,y_3$; $y_3,y_2$; and $y_1,y_2$, respectively. Their perpendicular distances are $x_3-x_1$, $x_2-x_3$ and $x_2-x_1$.\n\n$$\\begin{align*}2A_{ABC}&=(y_1+y_3)(x_3-x_1)+(y_2+y_3)(x_2-x_3)-(y_1+y_2)(x_2-x_1)\\\\2A_{ABC}&=y_1x_3+y_3x_3-y_1x_1-y_3x_1+y_2x_2+y_3x_2-y_2x_3-y_3x_3-y_1x_2-y_2x_2+y_1x_1+y_2x_1\\\\2A_{ABC}&=x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\\\\A_{ABC}&=\\frac12\\left(x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p25-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the formula to calculate the area of the triangle $ABC$ where $A$, $B$ and $C$ have coordinates $(2,3)$, $(4,1)$ and $(3,6)$, respectively.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4$ square units.",
+          "worked": "$$\\begin{align*}A_{ABC}&=\\frac12\\left(2(1-6)+4(6-3)+3(3-1)\\right)\\\\A_{ABC}&=\\frac12(-10+12+6)\\\\A_{ABC}&=4\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p25-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the area of the triangle $DEF$ where $D$, $E$ and $F$ have coordinates $(2,5)$, $(4,6)$ and $(3,2)$ respectively. Explain the answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac72$ square units. The formula gives $-\\frac72$ because the vertex order has the opposite orientation; geometric area is positive.",
+          "worked": "Let $S$ denote the signed expression supplied in part a.\n\n$$\\begin{align*}S&=\\frac12\\left(2(6-2)+4(2-5)+3(5-6)\\right)\\\\S&=\\frac12(8-12-3)\\\\S&=-\\frac72.\\end{align*}$$\n\n$F$ lies below the line segment $DE$, reversing the orientation used in the supplied diagram. The negative sign records this orientation. The geometric area is $|S|=\\frac72$ square units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p25-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "If the area determined by this formula is zero, what can be said about the points?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The points are collinear.",
+          "worked": "Zero area means the triangle is degenerate: its vertices lie on one straight line. Therefore the points are collinear.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:34:20.643Z",
+  "updatedAt": "2026-11-12T11:34:20.643Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch14-20261015",
+    "blockId": "p25-q4",
+    "sectionRole": "exercise"
+  }
+}
