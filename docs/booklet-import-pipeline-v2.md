@@ -610,6 +610,26 @@ James approved items 1 and 3–5 of the [simplification plan](booklet-import-v2-
 - Fixes are logged in `RUN/lean-review/finish/reference-fixes.jsonl`. The bank's own dependency check is unchanged.
 - **Replay:** Ch 5's two references that cost two stops, two questions and three re-reviews (`p50-q7` "Question 5", `p58-q14` "Question 11") resolve with no reword.
 
+### `finish` time (13 November 2026)
+
+Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11 Ch 5; see the [plan's finish-time section](booklet-import-v2-simplification-plan.md#is-about-an-hour-right-for-finish-13-november-2026).
+
+- **`finish` keeps a named oversize exemption.** `finish --oversize-reason TEXT --oversize-blocks ID,…` stores the exemption in `RUN/lean-review/finish/state.json` (`steps.oversize`). It is passed to the pre-review prompt check and to both content reviews, and later attempts reuse it without the flags. The reason still applies only to batches made entirely of the named blocks.
+- **The label check warms the export render cache.** `labelCollisions` (`pedagogy/figure-label-check.mjs`) takes `publishTo` and publishes Studio's compiled diagrams to that checkout's `.booklet-work/render-cache`. They have the same keys and diagram version as the frozen export.
+  - Ch 5 has 374 unique TikZ sources across all five editions, equal to its diagram count, so editions print each diagram's code unchanged and the check covers the keys exports read.
+  - Ch 5's export snapshot and Studio have the same diagram fingerprint (`0c360a2a…`).
+  - Warming is best effort and logged; it never fails the check.
+  - `render-cache-server.mjs` is unchanged, because `vite.config.js` loads it.
+- **Pagination was waiting, not computing.** On Ch 5's short edition, with every diagram cached, 54 of 70 s were main-thread idle. `TikZ.flushPending` (`src/lib/tikz.js`) sleeps 200 ms between checks, and `settleBookletMeasurement` calls it for every measurement that holds a diagram. A 10 ms poll, served to the page by Playwright with no source edit:
+
+  | Edition | 200 ms poll (today) | 10 ms poll |
+  |---|---|---|
+  | worked (676 measurements, 295 cache hits in both) | pagination 80.3 s, asset waits 74.9 s | 11.5 s, 6.4 s |
+  | short | 77 s to ready | 11 s to ready |
+
+  The same wait runs in every export's pagination (Ch 5: short 108–218 s, worked 107–134 s), in `compose`, and in Studio itself. Changing it is a `src/` edit and needs James's approval.
+- **Parallel compiles:** `prewarm-diagrams.mjs` (three pages, cold) compiled all 374 Ch 5 sources in 140 s. Collecting them by paginating five editions took 171 s more, so `finish` should not run it while the label check already publishes.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):
