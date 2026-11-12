@@ -173,13 +173,13 @@ Each run also records the section role, origin and exam tag. A booklet that anot
 
 ## Rollout reconciliation, 13 November 2026
 
-Counts exclude the pilot and pre-existing links. The live receipts and bank records confirm the origin of every new record. Published textbook chapters have library category `textbook`. All 17 approved secondary skill additions and their prior bank revisions are in Git.
+Counts exclude the pilot and pre-existing links. The live receipts and bank records confirm the origin of every new record. Published textbook chapters have library category `textbook`. All 18 approved secondary skill additions and their prior bank revisions are in Git.
 
 | Origin | Published | Exact links | Decision 6 links to a master |
 |---|---:|---:|---:|
 | Master | 4,458 | 27 | 0 |
-| Textbook | 9,747 | 6 | 55 |
-| Total | 14,205 | 33 | 55 |
+| Textbook | 9,824 | 7 | 56 |
+| Total | 14,282 | 34 | 56 |
 
 | Other outcomes | Questions |
 |---|---:|
@@ -200,7 +200,9 @@ Counts exclude the pilot and pre-existing links. The live receipts and bank reco
 
 Exclusion reasons overlap. All 574 questions on the documented slash-fraction list were kept out: 570 still fail bank validation, and four are excluded for stale review and rating. The bank-validation count also includes 23 questions outside that list.
 
-The final plans showed no busy booklets and no remaining master publication or link rows. One textbook chapter remains staged: `iceem-8-ch04-20261015` (77 new records, one exact link and one Decision 6 link). The exact link would add `order-of-operations-integers` to `q-93fd9f74-6da6-487a-8103-907daff24e93`, which ICE-EM 7 Chapter 11 owns. That change is outside the 17 approved additions, so the chapter was not saved.
+The last batch published `iceem-8-ch04-20261015` with 77 new records, one exact link and one Decision 6 link. The exact link added the approved secondary skill `order-of-operations-integers` to `q-93fd9f74-6da6-487a-8103-907daff24e93`. ICE-EM 7 Chapter 11 retains ownership, and Git retains the prior bank revision.
+
+Both final plans showed zero remaining publication or link rows and zero busy booklets. The held duplicates and manual follow-ups remain listed in the rollout report for Studio review.
 
 ## Open points
 
