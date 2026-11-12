@@ -1019,7 +1019,7 @@ export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
   if(['--retry-failed','--resume-checked-export','--adopt-streamlined','--iceem-direct','--save-progress'].includes(args[i])){flags.add(args[i]);continue;}
-  if(!['--run-id','--project','--project-file','--reuse-project','--reuse-run','--out','--exports','--teaching-exports','--teaching-project-file','--previous-exports','--repair-blocks','--concurrency','--limit','--visibility-reviews','--regenerate-reason','--corrections','--sample'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
+  if(!['--run-id','--project','--project-file','--reuse-project','--reuse-run','--out','--exports','--teaching-exports','--teaching-project-file','--previous-exports','--repair-blocks','--concurrency','--limit','--visibility-reviews','--regenerate-reason','--corrections','--sample','--edition','--page','--decided-by','--reason','--evidence'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
  const {loadRun}=await import('./transcription.mjs'),{runDir}=loadRun(values['--run-id']);
