@@ -148,7 +148,9 @@ export async function main(args=process.argv.slice(2)){
   const loaded=loadRun(values['--run-id']);
   const {effectiveInventory}=await import('./workflow-review.mjs'),{printedPracticeHeadings}=await import('./import-layout-preflight.mjs'),{recommendSamplePages}=await import('./lean-visual.mjs');
   const inventories=loaded.manifest.selectedPages.map(page=>effectiveInventory(loaded.runDir,page)).filter(Boolean);
-  result=recommendSamplePages(inventories,{headings:printedPracticeHeadings(inventories)});
+  // The run config's topic starts are the exercise boundaries; the inventory's group kinds vary by page.
+  const {readRunConfig}=await import('./import-layout-preflight.mjs');
+  result=recommendSamplePages(inventories,{headings:printedPracticeHeadings(inventories),topicStarts:(readRunConfig(loaded.runDir)?.topics??[]).map(topic=>topic.start)});
  }else if(command==='sample'){
   const loaded=loadRun(values['--run-id']);
   result=await withRunLock(loaded.runDir,'lean-layout-sample',()=>runLayoutSample({runDir:loaded.runDir,projectId:values['--project'],projectFile:values['--project-file'],out:values['--out'],limit:values['--limit']?Number(values['--limit']):undefined,visibilityReviews:values['--visibility-reviews'],regenerationReason:values['--regenerate-reason']}));

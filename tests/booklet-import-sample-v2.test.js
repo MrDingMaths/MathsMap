@@ -53,6 +53,12 @@ test('sample pages come from inventory patterns: first exercise, then the fewest
  assert.deepEqual(recommendSamplePages(chain).pages,[2,7,8,9],'a page referenced across a page break brings its whole continuation chain');
 });
 
+test('config topic starts set the first exercise when the inventory names exercise groups inconsistently',()=>{
+ const inv=[2,3,4,5,6,7,8].map(n=>({pageNumber:n,groups:n===6?[{kind:'practice',header:'Exercise 1C'}]:[],entries:[{id:'q'+n,kind:'question'}]}));
+ assert.deepEqual(recommendSamplePages(inv).pages,[6,7,8],'inventory alone: a stray exercise header makes 6-8 the first exercise');
+ assert.deepEqual(recommendSamplePages(inv,{topicStarts:[2,5,7]}).pages,[2,3,4],'config topics: pages 2-4');
+});
+
 function sampleRun(t,{pages,v2=true}){
  const runDir=tmp(t),sampleDir=path.join(runDir,'sample'),manifest={id:'run',completionProfile:COMPLETION_PROFILE,...(v2?{importPolicy:IMPORT_POLICY,track:'textbook'}:{}),source:{pdfHash:'s'}};
  write(path.join(runDir,'manifest.json'),manifest);

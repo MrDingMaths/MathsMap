@@ -92,13 +92,16 @@ export function samplePatternClasses(inventory,{headings=[]}={}){
  }
  return classes;
 }
-export function recommendSamplePages(inventories,{headings=[]}={}){
+// topicStarts: the run config's topic start pages. When given they mark where each exercise opens:
+// Mastering Ch 3's inventory named an exercise group only on one page, which made 17-33 the "first exercise".
+export function recommendSamplePages(inventories,{headings=[],topicStarts=[]}={}){
  const pages=(inventories??[]).filter(Boolean).sort((a,b)=>a.pageNumber-b.pageNumber);
  const byPage=new Map(pages.map(inv=>[inv.pageNumber,samplePatternClasses(inv,{headings})]));
  const chosen=new Map(),covered=new Set();
  const take=(page,reason)=>{if(!byPage.has(page))return;if(!chosen.has(page))chosen.set(page,[]);chosen.get(page).push(reason);for(const c of byPage.get(page))covered.add(c);};
  // The first exercise: from its opening page to the page before the next exercise opens.
- const opens=pages.filter(inv=>(inv.groups??[]).some(g=>/exercise/i.test(g.kind??'')||/^exercise\b/i.test(g.header??''))).map(inv=>inv.pageNumber);
+ const starts=[...new Set(topicStarts.filter(Number.isInteger))].sort((a,b)=>a-b);
+ const opens=starts.length?starts:pages.filter(inv=>(inv.groups??[]).some(g=>/exercise/i.test(g.kind??'')||/^exercise\b/i.test(g.header??''))).map(inv=>inv.pageNumber);
  if(opens.length)for(const inv of pages)if(inv.pageNumber>=opens[0]&&(opens.length<2||inv.pageNumber<opens[1]))take(inv.pageNumber,'first exercise');
  // A book without exercise groups starts from its first page of questions.
  if(!opens.length){const first=pages.find(inv=>(inv.entries??[]).some(e=>e.kind==='question'&&!e.exclusionReason));if(first)take(first.pageNumber,'first questions');}
