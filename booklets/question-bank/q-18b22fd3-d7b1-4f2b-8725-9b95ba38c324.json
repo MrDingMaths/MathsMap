@@ -1,0 +1,229 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-18b22fd3-d7b1-4f2b-8725-9b95ba38c324",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-power-curves",
+    "secondarySkillIds": [
+      "symmetry-of-graphs"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Compare three even-power curves across four intervals and generalise their reflection symmetry.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:09:23.094Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c55b46274cd800fa05578c3ace5d0dd2276227edd78ca6aecc15651c93c691b3",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch03-20261021/semantic-packets/assignments/assignment-550843d845576ec40812/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "[Technology]",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use computer graphing software to plot on the number plane $y=x^2$, $y=x^4$ and $y=x^6$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The three curves are shown in the graph.",
+          "worked": "Plot the three equations on the same number plane. Each has its minimum at $(0,0)$ and passes through $(-1,1)$ and $(1,1)$. Higher even powers are flatter near the origin and steeper further away.",
+          "solutionDiagrams": [
+            {
+              "id": "p43-q6-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"quadraticBlue\",\"hex\":\"268CFF\",\"reason\":\"quadratic series\"},{\"name\":\"quarticRed\",\"hex\":\"EF6068\",\"reason\":\"quartic series\"},{\"name\":\"sexticGreen\",\"hex\":\"4F9B63\",\"reason\":\"sextic series\"}],\"reference\":\"PDF 43 Q6a; teacher PDF 15 Q6\"}\n\\begin{tikzpicture}[x=1.3cm,y=0.65cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{quadraticBlue}{HTML}{268CFF}\n\\definecolor{quarticRed}{HTML}{EF6068}\n\\definecolor{sexticGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-2.9,-0.8) rectangle (4.4,7.5);\n\\draw[black,line width=0.5pt,->] (-2.8,0)--(2.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,7.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\draw[black,line width=0.4pt] (\\v,-0.08)--(\\v,0.08);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {2,4,6}{\\draw[black,line width=0.4pt] (-0.04,\\v)--(0.04,\\v);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.04,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[quadraticBlue,line width=0.8pt,<->,domain=-2.6:2.6,samples=101] plot (\\x,{\\x^2});\n\\draw[quarticRed,line width=0.8pt,dashed,<->,domain=-1.61:1.61,samples=101] plot (\\x,{\\x^4});\n\\draw[sexticGreen,line width=0.8pt,dotted,<->,domain=-1.37:1.37,samples=101] plot (\\x,{\\x^6});\n\\foreach \\x in {-1,1}{\\fill[black] (\\x,1) circle[radius=0.045];}\n\\node[right,text=quadraticBlue] at (2.65,6.4) {$y=x^2$};\n\\node[right,text=quarticRed] at (2.65,5.3) {$y=x^4$};\n\\node[right,text=sexticGreen] at (2.65,4.2) {$y=x^6$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 43,
+                "sourceRegion": "Question 6a; teacher PDF page 15, question 6",
+                "description": "Equation-driven comparison of three even-power curves, with identical scales and distinguishable labelled series. No area shading.",
+                "mathematics": "y=x^2, y=x^4, y=x^6; common points (-1,1), (0,0), (1,1).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p43-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Which three points do all these graphs pass through?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(-1,1)$, $(0,0)$ and $(1,1)$.",
+          "worked": "For each exponent $n=2,4,6$, $(-1)^n=1$, $0^n=0$ and $1^n=1$. Hence the common points are $(-1,1)$, $(0,0)$ and $(1,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p43-q6-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Which curve is nearest the $x$-axis for:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q6-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$0<x<1$,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^6$.",
+              "worked": "For $0<x<1$, $0<x^6<x^4<x^2$. Thus $y=x^6$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p43-q6-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$x>1$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^2$.",
+              "worked": "For $x>1$, $0<x^2<x^4<x^6$. Thus $y=x^2$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      },
+      {
+        "id": "p43-q6-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "Which curve is nearest the $x$-axis for:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q6-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$-1<x<0$,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^6$.",
+              "worked": "Here $0<|x|<1$. Even powers are positive, with $0<x^6<x^4<x^2$, so $y=x^6$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p43-q6-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$x<-1$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^2$.",
+              "worked": "Here $|x|>1$. Even powers are positive, with $0<x^2<x^4<x^6$, so $y=x^2$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      },
+      {
+        "id": "p43-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Reflect each curve in the $y$-axis. What do you notice?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "In each case, the result is the same curve.",
+          "worked": "Each graph has matching points $(x,y)$ and $(-x,y)$. Reflection in the $y$-axis therefore leaves each curve unchanged.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p43-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Try finding other powers of $x$ which have the same feature found in part e. What do you notice about the index of these functions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For example, $y=x^8$ and $y=x^{10}$. Every index is even.",
+          "worked": "Plotting $y=x^8$ and $y=x^{10}$ gives further curves symmetric about the $y$-axis. Raising opposite inputs to an even power gives the same output, so positive even integer powers have this feature.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:35:23.257Z",
+  "updatedAt": "2026-11-12T10:35:23.257Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch03",
+    "blockId": "p43-q6",
+    "sectionRole": "exercise"
+  }
+}

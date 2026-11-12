@@ -1,0 +1,106 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8d47102e-e893-4479-9617-43cf925ae8c7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "equal-quadratics-coefficients",
+    "secondarySkillIds": [
+      "simultaneous-equations-algebraically",
+      "simplify-surds-operations"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Translate three supplied points into simultaneous equations, eliminate to find the coefficients, then substitute the specified input and compare rounded values; the model and approximation procedure are explicitly supplied.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:29:54.103Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "beadcea718176c68083983ba07db32dfbac2ee03915426a7fd7e81e71b0f028d",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch04-20261021/semantic-packets/assignments/assignment-29fe2dd5ec8133d6a641/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p20-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "The calculator uses several clever tricks in order to evaluate the square-root of a number. One of the tricks employed approximates $y=\\sqrt{x}$ with a concave down parabola over the interval $[\\tfrac12,1]$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let the parabola be $y=ax^2+bx+c$. Evaluate the constants $a$, $b$ and $c$ so that the parabola passes through $P(\\tfrac12,\\tfrac1{\\sqrt2})$, $Q(\\tfrac34,\\tfrac{\\sqrt3}{2})$ and $R(1,1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=4(2+\\sqrt2-2\\sqrt3)$,\n\n$b=-10-7\\sqrt2+12\\sqrt3$,\n\n$c=3+3\\sqrt2-4\\sqrt3$.\n\nSubstitute the three points and solve the simultaneous equations.",
+          "worked": "Substituting $P$, $Q$ and $R$ gives\n$$\\begin{align*}\\tfrac14a+\\tfrac12b+c&=\\tfrac{\\sqrt2}{2} &&(1)\\\\\\tfrac9{16}a+\\tfrac34b+c&=\\tfrac{\\sqrt3}{2} &&(2)\\\\a+b+c&=1 &&(3).\n\\end{align*}$$\nSubtract (1) from (2), and (2) from (3), then multiply each result by $16$:\n$$\\begin{align*}5a+4b&=8\\sqrt3-8\\sqrt2 &&(4)\\\\7a+4b&=16-8\\sqrt3 &&(5).\n\\end{align*}$$\nSubtracting (4) from (5):\n$$\\begin{align*}2a&=16+8\\sqrt2-16\\sqrt3\\\\a&=4(2+\\sqrt2-2\\sqrt3).\n\\end{align*}$$\nUsing (4):\n$$\\begin{align*}4b&=8\\sqrt3-8\\sqrt2-5(8+4\\sqrt2-8\\sqrt3)\\\\4b&=-40-28\\sqrt2+48\\sqrt3\\\\b&=-10-7\\sqrt2+12\\sqrt3.\n\\end{align*}$$\nUsing (3):\n$$\\begin{align*}c&=1-(8+4\\sqrt2-8\\sqrt3)-(-10-7\\sqrt2+12\\sqrt3)\\\\c&=3+3\\sqrt2-4\\sqrt3.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 112
+      },
+      {
+        "id": "p20-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use this parabola to estimate $\\sqrt{\\tfrac35}$ in terms of $\\sqrt2$ and $\\sqrt3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{\\tfrac35}\\approx\\dfrac{-3+6\\sqrt2+8\\sqrt3}{25}$.",
+          "worked": "Let $f(x)=ax^2+bx+c$ be the parabola from part a.\n$$\\begin{align*}f(\\tfrac35)&=\\tfrac9{25}a+\\tfrac35b+c\\\\f(\\tfrac35)&=\\tfrac9{25}(8+4\\sqrt2-8\\sqrt3)+\\tfrac35(-10-7\\sqrt2+12\\sqrt3)+3+3\\sqrt2-4\\sqrt3\\\\f(\\tfrac35)&=\\tfrac{-3+6\\sqrt2+8\\sqrt3}{25}.\n\\end{align*}$$\nTherefore $\\sqrt{\\tfrac35}\\approx\\dfrac{-3+6\\sqrt2+8\\sqrt3}{25}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p20-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use $\\sqrt2\\doteq1.41421$ and $\\sqrt3\\doteq1.73205$ to obtain a decimal approximation correct to four decimal places. Then compare this answer with the value of $\\sqrt{\\tfrac35}$ given by your calculator.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.7737$, compared with the calculator value $0.7746$ to four decimal places. The parabola underestimates by approximately $0.0009$.",
+          "worked": "$$\\begin{align*}f(\\tfrac35)&\\approx\\tfrac{-3+6(1.41421)+8(1.73205)}{25}\\\\f(\\tfrac35)&\\approx0.7736664\\\\f(\\tfrac35)&\\approx0.7737\\quad\\text{(4 decimal places)}.\n\\end{align*}$$\nThe calculator gives $\\sqrt{\\tfrac35}\\approx0.7745966692$, or $0.7746$ to four decimal places. Comparing the rounded values, $0.7746-0.7737=0.0009$, so the parabola gives a slight underestimate.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:36:24.555Z",
+  "updatedAt": "2026-11-12T10:36:24.556Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch04",
+    "blockId": "p20-q17",
+    "sectionRole": "exercise"
+  }
+}

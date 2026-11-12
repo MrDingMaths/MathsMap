@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-88f495b0-9df0-4262-a453-54d3c9c96bd1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-quadratic-inequalities",
+    "secondarySkillIds": [
+      "area-composite-figures",
+      "complete-square-form"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive a quadratic area by subtracting three triangles, solve a repeated-root inequality and establish the area bounds on a restricted domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:14:13.468Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3a6bca9cd8ebe77a8874c718abc1e75f922e0c3420a21d0890f32397eba5f840",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch04-20261021/semantic-packets/assignments/assignment-2ece9df4369824e8fc94/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p10-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Square $ABCD$ has side length $L$. The point $E$ is on $DA$ with $DE=x$. The point $F$ is on $AB$ with $AF=x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p10-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a sketch of the situation and state any restrictions on $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0\\le x\\le L$. See the labelled sketch.",
+          "worked": "Since $DE=x$ and $AF=x$ lie along sides of length $L$, the restrictions are $0\\le x\\le L$.",
+          "solutionDiagrams": [
+            {
+              "id": "p10-q17-a-solution-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 question 17a; teacher page 25\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (4,4);\\coordinate (D) at (0,4);\\coordinate (E) at (0,2.6);\\coordinate (F) at (1.4,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.8pt] (E)--(C)--(F)--cycle;\n\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above right] at (C) {$C$};\\node[above left] at (D) {$D$};\\node[left] at (E) {$E$};\\node[below] at (F) {$F$};\n\\path (D)--node[left] {$x$} (E);\\path (A)--node[below] {$x$} (F);\\path (B)--node[right] {$L$} (C);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 10,
+                "sourceRegion": "Question 17a; answer-book PDF page 25, question 17a",
+                "description": "Unshaded square with vertices A bottom-left, B bottom-right, C top-right and D top-left. E lies on DA and F on AB. Triangle CEF is drawn. Labels DE=x, AF=x and BC=L are retained; E and F are explicitly named.",
+                "mathematics": "A=(0,0), B=(4,0), C=(4,4), D=(0,4), E=(0,2.6), F=(1.4,0), illustrating equal DE and AF without assigning numerical measurements.",
+                "answerVisibility": "Solution only; the student must draw the sketch."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p10-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of $\\triangle CEF$ in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac12(L^2-Lx+x^2)$.",
+          "worked": "Subtract the three corner triangles from the square. Here $AE=L-x$ and $FB=L-x$.\n$$\\begin{align*}A_{CEF}&=L^2-\\frac12x(L-x)-\\frac12Lx-\\frac12L(L-x)\\\\A_{CEF}&=L^2-\\frac12(L^2+Lx-x^2)\\\\A_{CEF}&=\\frac12(L^2-Lx+x^2).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p10-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What values may $x$ take if the area of the triangle is at most $\\frac38L^2$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\dfrac L2$.\n\nThe completed square is non-negative, so the inequality holds only when it is zero.",
+          "worked": "$$\\begin{align*}\\frac12(L^2-Lx+x^2)&\\le\\frac38L^2\\\\x^2-Lx+\\frac14L^2&\\le0\\\\\\left(x-\\frac L2\\right)^2&\\le0.\\end{align*}$$\nA square is non-negative, so equality is required. Hence $x=\\frac L2$, which satisfies $0\\le x\\le L$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p10-q17-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "By completing the square or otherwise, and noting the restrictions on $x$, what values does the area of $\\triangle CEF$ lie between?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac38L^2\\le A_{CEF}\\le\\dfrac12L^2$.\n\nThe minimum occurs at $x=\\frac L2$ and the maximum at $x=0$ or $x=L$.",
+          "worked": "$$\\begin{align*}A_{CEF}&=\\frac12(x^2-Lx+L^2)\\\\A_{CEF}&=\\frac12\\left(x-\\frac L2\\right)^2+\\frac38L^2.\\end{align*}$$\nSince $0\\le x\\le L$, we have $0\\le\\left(x-\\frac L2\\right)^2\\le\\frac14L^2$. Thus\n$$\\frac38L^2\\le A_{CEF}\\le\\frac12L^2.$$\nThe lower bound is attained at $x=\\frac L2$; the upper bound is attained at $x=0$ and $x=L$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:36:14.695Z",
+  "updatedAt": "2026-11-12T10:36:14.695Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch04",
+    "blockId": "p10-q17",
+    "sectionRole": "exercise"
+  }
+}

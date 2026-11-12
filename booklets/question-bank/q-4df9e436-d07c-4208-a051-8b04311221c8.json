@@ -1,0 +1,229 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4df9e436-d07c-4208-a051-8b04311221c8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-power-curves",
+    "secondarySkillIds": [
+      "symmetry-of-graphs"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Compare three power graphs over four intervals and generalise their rotational symmetry to other odd positive integer powers.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:09:26.528Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6db34da00fbf0f276efe9a085dcb5dab920f8ca381b61e12590c030a49838a41",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch03-20261021/semantic-packets/assignments/assignment-fc92c6a41de6289bfc2e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "[Technology]",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use computer graphing software to plot on the number plane $y=x$, $y=x^3$ and $y=x^5$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The three graphs are shown below.",
+          "worked": "Plot all three equations on the same number plane. Each passes through $(-1,-1)$, $(0,0)$ and $(1,1)$. Between $x=0$ and $x=1$, the fifth-power curve lies below the cubic, which lies below the line. Beyond $x=1$, this order reverses. The negative branches have the corresponding shape under a half-turn about the origin.",
+          "solutionDiagrams": [
+            {
+              "id": "p43-q5-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"lineBlue\",\"hex\":\"268CFF\",\"reason\":\"y=x series\"},{\"name\":\"cubicRed\",\"hex\":\"EF6068\",\"reason\":\"y=x^3 series\"},{\"name\":\"fifthGreen\",\"hex\":\"4F9B63\",\"reason\":\"y=x^5 series\"}],\"reference\":\"PDF 43 printed 87 Exercise 3G Q5a; teacher PDF 15 printed 763 Q5\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{lineBlue}{HTML}{268CFF}\n\\definecolor{cubicRed}{HTML}{EF6068}\n\\definecolor{fifthGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-2.8,-3.6) rectangle (4.7,3.5);\n\\draw[black,line width=0.5pt,->] (-2.6,0)--(2.7,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.2)--(0,3.2) node[above] {$y$};\n\\foreach \\v in {-2,-1,1,2}{\\draw[black,line width=0.4pt] (\\v,-0.06)--(\\v,0.06);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\\draw[black,line width=0.4pt] (-0.06,\\v)--(0.06,\\v);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.06,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[lineBlue,line width=0.8pt,<->] (-2.4,-2.4)--(2.4,2.4);\n\\draw[cubicRed,line width=0.8pt,dashed,<->,domain=-1.442:1.442,samples=101] plot (\\x,{\\x*\\x*\\x});\n\\draw[fifthGreen,line width=0.8pt,densely dotted,<->,domain=-1.2457:1.2457,samples=101] plot (\\x,{\\x*\\x*\\x*\\x*\\x});\n\\foreach \\p in {(-1,-1),(0,0),(1,1)}{\\fill[black] \\p circle[radius=0.045];}\n\\draw[lineBlue,line width=0.8pt] (2.8,2.8)--(3.2,2.8);\\node[right] at (3.3,2.8) {$y=x$};\n\\draw[cubicRed,line width=0.8pt,dashed] (2.8,2.1)--(3.2,2.1);\\node[right] at (3.3,2.1) {$y=x^3$};\n\\draw[fifthGreen,line width=0.8pt,densely dotted] (2.8,1.4)--(3.2,1.4);\\node[right] at (3.3,1.4) {$y=x^5$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 43,
+                "sourceRegion": "Exercise 3G question 5a",
+                "description": "Three equation-driven graphs on common axes, distinguished by standard palette colours and line styles. No area shading.",
+                "mathematics": "y=x, y=x^3 and y=x^5, with common points (-1,-1), (0,0), (1,1).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p43-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Which three points do all these graphs pass through?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(-1,-1)$, $(0,0)$ and $(1,1)$.",
+          "worked": "At $x=-1$, all three outputs are $-1$; at $x=0$, all are $0$; and at $x=1$, all are $1$. Thus the common points are $(-1,-1)$, $(0,0)$ and $(1,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p43-q5-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Which curve is nearest the $x$-axis for:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q5-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$0<x<1$,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^5$.",
+              "worked": "For $0<x<1$, $0<x^5<x^3<x$. Hence $y=x^5$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p43-q5-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$x>1$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x$.",
+              "worked": "For $x>1$, $0<x<x^3<x^5$. Hence $y=x$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      },
+      {
+        "id": "p43-q5-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "Which curve is nearest the $x$-axis for:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q5-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$-1<x<0$,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x^5$.",
+              "worked": "For $-1<x<0$, $x<x^3<x^5<0$. The fifth-power output has the smallest magnitude, so $y=x^5$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p43-q5-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$x<-1$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=x$.",
+              "worked": "For $x<-1$, $x^5<x^3<x<0$. The linear output has the smallest magnitude, so $y=x$ is nearest the $x$-axis.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      },
+      {
+        "id": "p43-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Rotate each curve by $180^\\circ$ about the origin. What do you notice?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "In each case, the result is the same curve.",
+          "worked": "A half-turn sends $(x,y)$ to $(-x,-y)$. On each graph, replacing $x$ by $-x$ changes the sign of the output, so the rotated point remains on the same graph. Each curve has rotational symmetry of order 2 about the origin.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p43-q5-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Try finding other powers of $x$ which have the same feature found in part e. What do you notice about the index of these functions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For example, $y=x^7$ and $y=x^9$. Every index is odd.",
+          "worked": "Graphs such as $y=x^7$ and $y=x^9$ also coincide with themselves after a half-turn about the origin. For an odd positive integer $n$, $(-x)^n=-x^n$, so the graph of $y=x^n$ has this symmetry.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:35:22.758Z",
+  "updatedAt": "2026-11-12T10:35:22.758Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch03",
+    "blockId": "p43-q5",
+    "sectionRole": "exercise"
+  }
+}

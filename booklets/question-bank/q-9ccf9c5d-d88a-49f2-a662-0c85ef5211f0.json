@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9ccf9c5d-d88a-49f2-a662-0c85ef5211f0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-quadratic-inequalities",
+    "secondarySkillIds": [
+      "quadratic-word-problems"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Translate a three-sided fencing constraint into an area inequality, solve it and interpret the smallest feasible dimension.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:50:35.866Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8e15856c7536cb4fa0fb5f5dcb7918775df842a1fb7e3cae9edf6c83a27407b8",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch04-20261021/lean-review/calls/content-1792579793779-30/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "A farmer needs to build a rectangular holding pen for some sheep. The side of a barn will be used for one side of the pen and there is $60\\text{ m}$ of fencing available for the remaining three sides. Let $x$ be the length of each side perpendicular to the barn wall.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find an expression for the third side in terms of $x$ and draw a diagram showing all this information.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(60-2x)\\text{ m}$; see diagram.",
+          "worked": "Let the third side have length $L$ metres.\n$$\\begin{align*}2x+L&=60\\\\L&=60-2x\\end{align*}$$\nThe barn wall forms the fourth side; fencing is needed on the two sides of length $x$ and the side of length $60-2x$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q13-a-pen",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 question 13a; teacher page 28\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,2)--(0,0)--(4,0)--(4,2);\n\\draw[line width=0.8pt] (-0.2,2) rectangle (4.2,2.3);\n\\node[above] at (2,2.3) {barn wall};\n\\path (0,0)--node[left] {$x\\text{ m}$}(0,2);\n\\path (4,0)--node[right] {$x\\text{ m}$}(4,2);\n\\path (0,0)--node[below] {$(60-2x)\\text{ m}$}(4,0);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 13a; answer-book page 28, question 13a",
+                "description": "Rectangular pen with the barn wall along the upper side, two perpendicular fenced sides and the remaining fenced side labelled. Decorative brickwork omitted.",
+                "mathematics": "The three fenced sides total x+x+(60-2x)=60 metres.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p22-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The area $A$ of the pen must be at least $400\\text{ m}^2$ so that the sheep are not overcrowded. What is the smallest value of $x$ for these requirements?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10\\text{ m}$.\n\nThe area requirement holds for $10\\le x\\le20$.",
+          "worked": "$$\\begin{align*}A&=x(60-2x)\\\\x(60-2x)&\\ge400\\\\60x-2x^2&\\ge400\\\\x^2-30x+200&\\le0\\\\(x-10)(x-20)&\\le0\\end{align*}$$\nThe zeroes are $10$ and $20$. The graph of $y=(x-10)(x-20)$ is an upward-opening parabola, so it is on or below the $x$-axis between its zeroes. Hence $10\\le x\\le20$. These values also satisfy the physical restriction $0<x<30$.\n\nThe smallest value is therefore $x=10\\text{ m}$. At this value, the third side is $40\\text{ m}$ and the area is $400\\text{ m}^2$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q13-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 question 13b; graphical method on source pages 6-7\"}\n\\begin{tikzpicture}[x=0.35cm,y=0.025cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,0)--(24,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-35)--(0,48) node[above] {$y$};\n\\draw[line width=0.8pt,domain=7:23,samples=81] plot (\\x,{(\\x-10)*(\\x-20)});\n\\foreach \\v in {10,20}{\\draw[line width=0.4pt] (\\v,-2)--(\\v,2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-2) {$\\v$};}\n\\node[below] at (15,-35) {$y=(x-10)(x-20)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 13b",
+                "description": "Authored solution sketch applying the source-taught graphical method; roots labelled 10 and 20.",
+                "mathematics": "Upward-opening parabola y=(x-10)(x-20), non-positive for 10≤x≤20.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:36:28.454Z",
+  "updatedAt": "2026-11-12T10:36:28.454Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch04",
+    "blockId": "p22-q13",
+    "sectionRole": "exercise"
+  }
+}
