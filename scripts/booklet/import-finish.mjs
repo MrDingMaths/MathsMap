@@ -16,6 +16,8 @@ import {repairRoute} from '../../polish/repair-routing.mjs';
 import {projectReviewHash} from './page-review.mjs';
 import {sampleSourceKey,reviewImportSample} from './import-sample-review.mjs';
 import {withRunLock,readRunEvents} from './run-observability.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck} from './import-layout-preflight.mjs';
+import {effectiveInventory} from './workflow-review.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
@@ -199,7 +201,12 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   return {projectFile:file,deliverable:false,completion,saved,...extra};
  };
  const stamp=()=>{const reviewed=loadReviewed(dir);reviewed.workflow??={};reviewed.workflow[projectId]={...reviewed.workflow[projectId],profile:COMPLETION_PROFILE,preparedHash:completionHash(read(file)),projectHash:completionHash(read(file)),errors};saveReviewed(dir,reviewed);};
- if(!state.steps.prepared){await(deps.prepare??prepareFinishCandidate)({file,runDir,direct:policy.direct,examTags:importV2(manifest),log},deps.prepareDeps);state.steps.prepared=true;persist();}
+ if(!state.steps.prepared){
+  await(deps.prepare??prepareFinishCandidate)({file,runDir,direct:policy.direct,examTags:importV2(manifest),log},deps.prepareDeps);
+  // Import v2 layout preflight fixes run once, before content review and rating, so they make nothing stale.
+  if(importV2(manifest)&&!policy.direct)state.steps.layoutPreflight=(deps.preflightFixes??applyFinishPreflightFixes)({file,runDir,manifest,log});
+  state.steps.prepared=true;persist();
+ }
  // Import pipeline v2 (inefficiency 5): label collisions in new TikZ are found before any review call.
  if(importV2(manifest)&&!policy.direct){
   const labels=await(deps.labels??diagramLabelCheck)({file,runDir,checked:state.steps.diagramLabels,log});
@@ -253,6 +260,12 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
         .some(file=>/^(?:src|public)\//.test(file));
     }
     if(unrepaired.length&&!rendererChanged){errors.push('Repair every outstanding visual finding in one batch before another export; unchanged since export '+state.exports.length+': '+unrepaired.map(row=>row.edition+' p'+row.page+' ('+row.blocks.join(', ')+')').join('; '));break;}
+    // Layout preflight before printing: recorded cross-reference decisions, then a
+    // targeted render of risky and repaired blocks (seconds, not a five-edition export).
+    if(!policy.direct){
+     const gate=await(deps.preRender??finishPreRenderGate)({file,projectId,state,stamps,workDir,log});persist();
+     if(gate.errors.length)return incomplete(assessCompletion({errors:gate.errors}),{layoutPreflight:gate});
+    }
     if(state.exports.length>=FINISH_EXPORT_BUDGET)log('Finish export '+(state.exports.length+1)+' exceeds the budget of '+FINISH_EXPORT_BUDGET+': '+regenerationReason);
    }
    const exportDir=path.resolve(out??path.join(runDir,'streamlined-exports'),String(state.exports.length+1));
@@ -304,6 +317,34 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),exportBudget:{used:state.exports.length,budget:FINISH_EXPORT_BUDGET},saved:status.deliverable||saveProgress,validation};
 }
 const FINISH_EXPORT_BUDGET=3;
+// Import v2 layout preflight (docs/booklet-import-v2-ch01-efficiency.md). Headings
+// come only from printed group headers in the accepted source inventory.
+export function applyFinishPreflightFixes({file,runDir,manifest,log=()=>{},inventories}){
+ inventories??=(manifest.selectedPages??[]).map(page=>effectiveInventory(runDir,page)).filter(Boolean);
+ const {project,changes}=applyLayoutPreflightFixes(read(file),{headings:printedPracticeHeadings(inventories)});
+ if(changes.length)write(file,project);
+ write(path.join(runDir,'lean-review','finish','preflight-fixes.json'),{at:new Date().toISOString(),changes});
+ const counts={};for(const change of changes)counts[change.check]=(counts[change.check]??0)+1;
+ log('Layout preflight fixes: '+(Object.entries(counts).map(([k,n])=>k+' '+n).join(', ')||'none'));
+ return {counts};
+}
+export async function finishPreRenderGate({file,projectId,state,stamps,workDir,log=()=>{},render=targetedRenderCheck}){
+ const project=read(file),key=completionHash(project);
+ const blockers=layoutPreflightBlockers(project).map(row=>row.message);
+ if(blockers.length)return {errors:blockers};
+ state.steps.preRender??={};
+ if(state.steps.preRender[key])return state.steps.preRender[key];
+ const last=state.exports.findLast(entry=>entry.blockStamps);
+ const changed=last&&stamps?Object.keys(stamps).filter(id=>last.blockStamps[id]!==stamps[id]):[];
+ const targets=renderRiskTargets(project,{changed});
+ const result=await render({file,projectId,targets,out:path.join(workDir,'preflight',String(state.exports.length+1)),log});
+ const errors=result.issues.map(issue=>'Targeted render, '+issue.edition+' p'+issue.page+': '+issue.kind+(issue.targetId?' '+issue.targetId:'')+(issue.excessMm?' ('+issue.excessMm.toFixed(1)+' mm)':''));
+ if(result.skipped.length)log('Targeted render skipped for '+result.skipped.map(row=>row.edition+': '+row.reason).join('; '));
+ const outcome={errors,targets:result.targets.length,changed:changed.length,seconds:result.seconds,skipped:result.skipped.length};
+ // Only a clean, complete check is remembered; a failing or skipped one reruns on resume.
+ if(!errors.length&&!result.skipped.length)state.steps.preRender[key]=outcome;
+ return outcome;
+}
 // Outstanding needs-change pages of the last export with a readable report whose
 // blocks all still carry the stamps recorded when that export was made.
 export function unrepairedVisualFindings({state,projectId,stamps,dir}){

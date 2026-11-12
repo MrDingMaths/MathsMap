@@ -472,6 +472,19 @@ Fixed during and after the pilot (Codex, 11–12 November): `finish` writes expo
 
 Not yet done: chunk-level lint is unchanged (it already runs per author assignment); the bank-assessments-from-blocks change, sheets on demand, and the booklet-track pilot. The textbook pilot ran on 11–12 November (results above); the fixes since then are not yet measured on a second textbook part. Decisions 15–16 and the doc headers are separate sessions.
 
+**Layout preflight (12 November 2026; [Ch 1 case study](booklet-import-v2-ch01-efficiency.md), changes 1 and 2).** v2 only, not on the ICE-EM direct route. Code: `scripts/booklet/import-layout-preflight.mjs`, hooked into `import-finish.mjs`. Tests: `tests/booklet-import-layout-preflight.test.js`.
+
+| When | What | Notes |
+|---|---|---|
+| Once, with preparation (before content review and rating) | **C1** `flow.practiceCategoryHeading` on the first block of each printed source group | Headings come only from group headers in the accepted inventory (`effectiveInventory`), matched to `sourceIdentity.category`. Exercise and chapter titles, running headers and numbered subheadings are excluded, so an author-invented category is never printed. |
+| | **C3** `flow.workedPageBreakBefore` on each later practice section | Exercise starts stay forced in the worked edition. |
+| | **C2** `joinPrevious` on a blank after a one-letter text cue | Maths cues (`x =`) are left alone: they need a judged break. |
+| | Evidence | Fixes are recorded in `lean-review/finish/preflight-fixes.json`. C1 and C3 leave `contentHash` and `reasoningTaskHash` unchanged; C2 changes only the task hash, so it runs before rating. |
+| Before every finish export | **C6** a block with `flow.dependsOn` whose wording refers to another question needs `sourceReview.bankDependencyReview` | Blocks printing with a named message. |
+| | **Targeted render** (`check-compact-exercises --development --target-blocks`, one process per edition, against Studio on 5173) of 3+-column grids holding long maths plus every block whose stamp changed since the last export | Any DOM or printed issue blocks printing. A clean result is remembered per candidate hash. If Studio can't be reached, the edition is logged as skipped, as the label check is. |
+
+Replayed on Ch 1 (about 28 s per state): it stops the export-1 state on `p24-q2` (C6), then on the 8 `p14-p1` column overflows. It stops the export-2 state on the `p23-q1` footer overflow (2.5 mm), and it passes the repaired state. These are the three failed exports' causes. The C1 output equals the 12 headings the visual review demanded and the final accepted project carries.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):

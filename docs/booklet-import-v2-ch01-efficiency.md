@@ -219,3 +219,24 @@ The scripts were scratch files outside the repo. They read the retained snapshot
 - **Change 3:** narrowed to review coverage plus one selection rule.
 
 Still unmeasured: the full-export and inspection savings, which only the pilot can show.
+
+## 6. Implemented (12 November 2026)
+
+The layout preflight is in `import-layout-preflight.mjs` and `import-finish.mjs`; see [import pipeline v2, Layout preflight](booklet-import-pipeline-v2.md#pilots), just above Pilots.
+
+**Covered:**
+- **Change 1:** C1 headings, C3 worked exercise starts, C2 text-cue joins, C6 cross-reference decisions, and a targeted render before every export.
+- **Change 2, verification part:** the targeted render covers every block a repair changed before the next export prints.
+
+**Root cause behind the heading findings.** Authoring already supports category headings (`categoryHeadings`/`ownsHeading` in `author-assignments.mjs`), but only for labels on a fixed list (foundation, development, mastery, concept checks, …). Mastering Maths' "Fundamentals" and "Challenge Problems" groups weren't on it, so the author was never asked to transcribe them.
+- Widening that list would change assignment plans and IDs, so resumed runs would regenerate authoring.
+- The preflight sets the hash-neutral flow heading after authoring instead, using the same inventory evidence.
+
+**Not implemented, needs James's decision: content re-review for presentation-only edits.**
+- Experiment 2a showed 49 of 57 re-reviews followed presentation-only changes.
+- About 24 of those came from headings typed into prompts, which C1 now prevents, and a further batch from repeated left-hand sides, which the renderer now compacts.
+- Edits like `\tfrac` or `{x=7}` still change `reasoningTaskHash`, which covers the whole question including answers. Skipping their re-review would need the rating to be re-bound without a Sol low call. That changes the "rating bound to the current task" gate, so it waits for a decision.
+
+**Also not implemented:** repair-tool fields for keep-together, part breaks and row spacing; the sample-selection rule and sample review coverage (change 3); reuse diagnostics (change 4).
+
+**Baseline test note:** `booklet-import-completion.test.js` "open requests do not accept whole blocks" fails before and after this change. It tests `polish/guards.mjs` `teacherBlocks`, unchanged since 1 November.
