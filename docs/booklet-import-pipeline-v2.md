@@ -532,6 +532,12 @@ Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one
 - **Code:** `topicAnswerScope` and `readRunConfig` in `import-layout-preflight.mjs`.
 - **Tests:** `tests/booklet-import-layout-preflight.test.js`.
 
+**Named oversize review (12 November 2026, Cambridge X11 Ch 5; James approved).**
+- **Why:** re-reviewing a changed block sends its accepted snapshot as well. Review Q20 (16 graph parts, 41k characters) then needed a 261,646-character prompt, over the 200,000 review limit, and `lean-review` had no way to pass the runner's `oversizeReason`.
+- **Command:** `lean-review content --oversize-reason TEXT --oversize-blocks ID[,ID]`. Only a batch made entirely of the named blocks gets the reason, and the call's metrics record it; every other batch keeps the limit.
+- **Code:** `batchOversizeReason` in `lean-review.mjs`.
+- **Tests:** `tests/booklet-lean-review.test.js`.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):

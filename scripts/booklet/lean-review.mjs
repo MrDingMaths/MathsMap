@@ -413,7 +413,14 @@ export function splitExternalTeachingBatches(batches,{project,runDir,pageImage,l
  };
  return batches.flatMap(split);
 }
-export async function runContentReview({runDir,projectFile,reuseProjectFile,reuseRunDir,concurrency=3,limit=Infinity,retryFailed=false,runner,skills,root=ROOT}){
+// A named, recorded exception to the review prompt limit (Cambridge X11 Ch 5, 12 November 2026,
+// James): only a batch made entirely of the named blocks gets the reason; every other batch keeps
+// the limit. The runner records oversizeReason in the call's metrics.
+export function batchOversizeReason(batch,oversize){
+ const reason=oversize?.reason?.trim(),blocks=new Set(oversize?.blocks??[]);
+ return reason&&blocks.size&&batch.rows.length&&batch.rows.every(({block})=>blocks.has(block.id))?reason:undefined;
+}
+export async function runContentReview({runDir,projectFile,reuseProjectFile,reuseRunDir,concurrency=3,limit=Infinity,retryFailed=false,runner,skills,oversize,root=ROOT}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const dir=path.join(runDir,'lean-review'),handle=openProject(projectFile,{root}),state=loadReviewed(dir);
  const manifestFile=path.join(runDir,'manifest.json'),reviewerRates=importV2(fs.existsSync(manifestFile)?read(manifestFile):{});
@@ -445,7 +452,7 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
   const out=path.join(dir,'calls','content-'+Date.now()+'-'+index);
   try{
    const evidence=practiceContentEvidence(handle.project,batch,runDir);batch.practiceEvidence=evidence;
-   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-content'});
+   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-content',oversizeReason:batchOversizeReason(batch,oversize)});
    if(evidence)for(const ref of evidence.files)if(!fs.existsSync(ref.path)||sha(fs.readFileSync(ref.path))!==ref.hash)throw Error('Original review evidence changed during the call: '+ref.path);
    if(evidence&&batch.rows.some(({block})=>block.sourceReview?.teachingContext?.externalSources?.length)&&practiceContentEvidence(handle.project,batch,runDir).binding!==evidence.binding)throw Error('External original teaching references changed during the call');
    // Results are applied and saved one at a time.
@@ -1022,7 +1029,7 @@ export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
   if(['--retry-failed','--resume-checked-export','--adopt-streamlined','--iceem-direct','--save-progress'].includes(args[i])){flags.add(args[i]);continue;}
-  if(!['--run-id','--project','--project-file','--reuse-project','--reuse-run','--out','--exports','--teaching-exports','--teaching-project-file','--previous-exports','--repair-blocks','--concurrency','--limit','--visibility-reviews','--regenerate-reason','--corrections','--sample','--edition','--page','--decided-by','--reason','--evidence','--resolutions'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
+  if(!['--run-id','--project','--project-file','--reuse-project','--reuse-run','--out','--exports','--teaching-exports','--teaching-project-file','--previous-exports','--repair-blocks','--concurrency','--limit','--visibility-reviews','--regenerate-reason','--corrections','--sample','--edition','--page','--decided-by','--reason','--evidence','--resolutions','--oversize-reason','--oversize-blocks'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
  const {loadRun}=await import('./transcription.mjs'),{runDir}=loadRun(values['--run-id']);
@@ -1032,7 +1039,7 @@ export async function main(args=process.argv.slice(2)){
  if(command==='finish')result=await(await import('./import-finish.mjs')).finishImport({runDir,projectFile,projectId:values['--project'],out:values['--out'],concurrency,runner,visibilityReviews:values['--visibility-reviews'],adopt:flags.has('--adopt-streamlined'),direct:flags.has('--iceem-direct'),saveProgress:flags.has('--save-progress'),sampleDir:values['--sample'],regenerationReason:values['--regenerate-reason']});
  else if(command==='sample-review')result=await(await import('./import-sample-review.mjs')).reviewImportSample({runDir,projectFile,sampleDir:values['--sample'],regenerationReason:values['--regenerate-reason'],runner});
  else if(command==='resolve-sample')result=await(await import('./import-sample-review.mjs')).resolveImportSample({runDir,projectFile,sampleDir:values['--sample'],resolutionsFile:values['--resolutions'],visibilityReviews:values['--visibility-reviews']});
- else if(command==='content')result=await runContentReview({runDir,projectFile,reuseProjectFile:values['--reuse-project']?(values['--reuse-project'].endsWith('.json')?path.resolve(values['--reuse-project']):path.join(ROOT,'booklets/projects',values['--reuse-project']+'.json')):undefined,reuseRunDir:values['--reuse-run']?(fs.existsSync(values['--reuse-run'])?path.resolve(values['--reuse-run']):loadRun(values['--reuse-run']).runDir):undefined,concurrency,limit:values['--limit']?Number(values['--limit']):Infinity,retryFailed:flags.has('--retry-failed'),runner});
+ else if(command==='content')result=await runContentReview({runDir,projectFile,reuseProjectFile:values['--reuse-project']?(values['--reuse-project'].endsWith('.json')?path.resolve(values['--reuse-project']):path.join(ROOT,'booklets/projects',values['--reuse-project']+'.json')):undefined,reuseRunDir:values['--reuse-run']?(fs.existsSync(values['--reuse-run'])?path.resolve(values['--reuse-run']):loadRun(values['--reuse-run']).runDir):undefined,concurrency,limit:values['--limit']?Number(values['--limit']):Infinity,retryFailed:flags.has('--retry-failed'),oversize:values['--oversize-reason']?{reason:values['--oversize-reason'],blocks:(values['--oversize-blocks']??'').split(',').filter(Boolean)}:undefined,runner});
  else if(command==='export')result=await runLeanExport({runDir,projectId:values['--project'],projectFile,out:values['--out'],visibilityReviews:values['--visibility-reviews'],regenerationReason:values['--regenerate-reason'],previousExportDir:values['--previous-exports'],resumeCheckedExport:flags.has('--resume-checked-export')});
  else if(command==='visual')result=await runVisualReview({runDir,projectFile,exportDir:values['--exports'],concurrency,runner,previousExportDir:values['--previous-exports'],repairBlocks:values['--repair-blocks']?.split(',').filter(Boolean)});
  else if(command==='visual-plan')result=await prepareExportVisualPlan({runDir,projectId:values['--project'],projectFile,out:values['--exports'],previousExportDir:values['--previous-exports']});

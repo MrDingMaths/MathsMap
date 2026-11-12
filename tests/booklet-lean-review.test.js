@@ -712,3 +712,13 @@ test('non-question changed or missing source pins launch no calls and preserve p
  const result=await runContentReview({runDir:w.runDir,projectFile:w.file,skills:[],runner:async()=>{calls++;return {result:passAll(['context'])};}});
  assert.equal(calls,0);assert.equal(result.remaining,1);
 });
+
+test('a named oversize reason applies only to a batch made entirely of the named blocks', async () => {
+ const {batchOversizeReason} = await import('../scripts/booklet/lean-review.mjs');
+ const batch = ids => ({rows: ids.map(id => ({block: {id}}))});
+ const oversize = {reason: 'Review Q20 has 16 graph parts', blocks: ['p61-q20']};
+ assert.equal(batchOversizeReason(batch(['p61-q20']), oversize), 'Review Q20 has 16 graph parts');
+ assert.equal(batchOversizeReason(batch(['p61-q20', 'p61-q21']), oversize), undefined);
+ assert.equal(batchOversizeReason(batch(['p61-q20']), {reason: ' ', blocks: ['p61-q20']}), undefined);
+ assert.equal(batchOversizeReason(batch(['p61-q20']), undefined), undefined);
+});
