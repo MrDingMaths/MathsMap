@@ -507,6 +507,14 @@ Replayed on Ch 1 (about 28 s per state): it stops the export-1 state on `p24-q2`
 
 Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one column and authored as three. The finish layout preflight's targeted render covers it.
 
+**Author label retry (12 November 2026, Cambridge X11 Ch 5; James chose the code fix).**
+- **Why:** 57 of the 157 graphs in the first Ch 5 sample failed Studio's label check, and every checked collision was real on the pixels. Explicit placement rules in the page notes cut that only to 52, because the author can't see where a label lands.
+- **What it does:** this is the Stage 3 promise ("a diagram that fails goes back to the author once"), for v2 runs only. After an assignment passes validation, `retryDiagramLabels` (`scripts/booklet/author-label-retry.mjs`, called from `runAuthorAssignment`) runs Studio's label inspection on its TikZ. It then sends only the failing diagrams, with their measured collisions, back to the author in one code-only call (label placement only; paths, points and mathematics unchanged).
+- **What it keeps:** returned code that doesn't compile is reverted, and a reply that fails the assignment's validation restores every authored diagram.
+- **Recorded:** `label-retry.json` beside the attempt. The call is an `author-labels` attempt event, so the run metrics count it.
+- **What it doesn't do:** it accepts nothing. Remaining collisions stay sample and `finish` blockers. If Studio can't be reached, the step is skipped with a log line.
+- **Tests:** `tests/booklet-author-label-retry.test.js`.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):

@@ -12,6 +12,7 @@ import {coalescePacketContinuations} from './packet-continuations.mjs';
 import {compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {assignmentCategoryHeadings,categoryGroupAnchors} from './practice-category-headings.mjs';
 import {leanPreExportLint} from './import-pre-final.mjs';
+import {packetTikz,retryDiagramLabels} from './author-label-retry.mjs';
 
 // Apply existing export text rules before accepting a newly generated
 // assignment. Retained accepted assignments keep their original cache path.
@@ -241,7 +242,7 @@ function prepareAssignmentRun(runDir,tasks,plan){
  return root;
 }
 
-export async function runAuthorAssignment({runDir,assignment,tasks,root=path.join(runDir,'semantic-packets','assignments'),runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{},workerSlotOptions}){
+export async function runAuthorAssignment({runDir,assignment,tasks,root=path.join(runDir,'semantic-packets','assignments'),runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{},workerSlotOptions,labelRetry}){
   fs.mkdirSync(root,{recursive:true});
   const payload=assignmentPayload(assignment,tasks),dir=path.join(root,assignment.id),cacheFile=path.join(dir,'accepted.json');
   for(const resource of payload.resources){fs.mkdirSync(path.dirname(resource.path),{recursive:true});if(!fs.existsSync(resource.path))fs.writeFileSync(resource.path,resource.text);if(bytes(resource.path)!==resource.hash)throw Error('Shared context evidence changed');}
@@ -278,6 +279,14 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
      mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});preflightAuthorAssignment(packet);}
+    // Import v2 Stage 3: failing TikZ labels go back to the author once (author-label-retry.mjs).
+    // The fixed code passes the same validation again, or the authored code is kept.
+    if(tasks.some(task=>task.reviewerRates)&&!assignment.evidenceOnly&&labelRetry!==false){
+     const before=new Map(packetTikz(packets).map(node=>[node,node.code]));
+     await retryDiagramLabels({packets,runDir,assignmentId:assignment.id,pages:assignment.pages,attempt,out,runner,configuration:tasks.find(t=>assignment.pages.includes(t.page))?.generationDependencies.configuration,check:labelRetry?.check,log,workerSlotOptions});
+     try{for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p);validate(packet,{...original,inventory:{...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)}});preflightAuthorAssignment(packet);}}
+     catch(e){for(const [node,code] of before)node.code=code;log('Label retry output failed validation; keeping the authored diagrams: '+e.message);}
+    }
     coalescePacketContinuations(packets,{continuations:assignment.continuations});
       if(!tasks.some(task=>task.reviewerRates))for(const packet of packets)stampPacketRatings(packet,metrics,path.relative(process.cwd(),path.join(out,'generation.json')).replaceAll('\\','/'));
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
