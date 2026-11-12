@@ -198,11 +198,25 @@ Counts exclude the pilot and pre-existing links. The live receipts and bank reco
 | Follow-up: manual | 11 |
 | Exam tags added | 1 |
 
-Exclusion reasons overlap. All 574 questions on the documented slash-fraction list were kept out: 570 still fail bank validation, and four are excluded for stale review and rating. The bank-validation count also includes 23 questions outside that list.
+Exclusion reasons overlap. The initial rollout kept out all 574 questions on the documented slash-fraction list. At that checkpoint, 570 failed bank validation and four had stale reviews and ratings. The bank-validation count also included 23 questions outside that list.
 
 The last batch published `iceem-8-ch04-20261015` with 77 new records, one exact link and one Decision 6 link. The exact link added the approved secondary skill `order-of-operations-integers` to `q-93fd9f74-6da6-487a-8103-907daff24e93`. ICE-EM 7 Chapter 11 retains ownership, and Git retains the prior bank revision.
 
 Both final plans showed zero remaining publication or link rows and zero busy booklets. The held duplicates and manual follow-ups remain listed in the rollout report for Studio review.
+
+### Publication after the slash-fraction repair
+
+The separate notation repair cleared the slash-fraction check for 591 questions. The approved scope contained the 551 questions that the next plans marked `publish`. Pipeline 4 published the masters first, followed by Stage 6 Advanced textbooks, other textbooks and ICE-EM.
+
+| Origin | New after notation repair | Cumulative published | Cumulative exact links | Cumulative links to a master |
+|---|---:|---:|---:|---:|
+| Master | 94 | 4,552 | 27 | 0 |
+| Textbook | 457 | 10,281 | 7 | 56 |
+| Total | 551 | 14,833 | 34 | 56 |
+
+The 40 excluded questions remained in their booklets without bank links. Of those, 33 lack teaching context, six need a follow-up decision, and one needs a current rating.
+
+The post-publication plans confirmed that all 551 approved questions have bank links and no approved rows remain. No booklets were busy. The textbook plan found 11 new publication candidates in `cambridge-x11-ch05` after its separate repair. Those candidates were outside this approval. Across both plans, 95 questions are held for a duplicate decision and 2,229 are marked `leave-out`. The six deferred follow-ups are listed separately from `leave-out` rows.
 
 ## Open points
 
