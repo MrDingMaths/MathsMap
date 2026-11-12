@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
+import {questionDependencyFindings} from '../../src/lib/booklet-question-dependencies.js';
 
 const blocksOf=project=>(project.sections??[]).flatMap(section=>(section.blocks??[]).map(block=>({block,section})));
 const practiceRows=project=>blocksOf(project).filter(({section,block})=>section.phase==='practice'&&block.type==='question');
@@ -134,9 +135,15 @@ export function answerKeyCoverageBlockers(project,manifest){
  }
  return blockers;
 }
-// Structural checks to run before content review (C8, C9).
+// C10: the bank's own dependency check (check-question-dependencies --strict), run before
+// content review instead of at publication. A reference by source number ("Question 6")
+// prints the wrong number once the booklet renumbers (Ch 2 pilot, p9-q8).
+export function questionReferenceBlockers(project){
+ return questionDependencyFindings(project).filter(f=>!f.reviewed).map(f=>({check:'C10-question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): reword it to be self-contained (booklet numbering differs from the source), or record sourceReview.bankDependencyReview'}));
+}
+// Structural checks to run before content review (C8, C9, C10).
 export function structuralPreflightBlockers(project,manifest){
- return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest)];
+ return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest),...questionReferenceBlockers(project)];
 }
 
 // C5 plus repaired blocks: what a targeted render must check before printing.

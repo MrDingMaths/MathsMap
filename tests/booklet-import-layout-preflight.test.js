@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers} from '../scripts/booklet/import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers,questionReferenceBlockers} from '../scripts/booklet/import-layout-preflight.mjs';
 import {finishImport,finishPreRenderGate,applyFinishPreflightFixes} from '../scripts/booklet/import-finish.mjs';
 import {contentHash,saveReviewed} from '../scripts/booklet/lean-review.mjs';
 import {reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -167,4 +167,12 @@ test('C8 flags a block holding numbered printed questions, not numbered parts; C
  p.sections[0].blocks[2].sourceReview.answerEvidence={questionId:'q3',teacherReference:[],answerKeyAbsence:{searchedTeacherPages:[11,12],reason:'unkeyed'}};
  assert.deepEqual(answerKeyCoverageBlockers(p,{teacherPages:[11,12]}).map(b=>b.blockId),['q2']);
  assert.deepEqual(structuralPreflightBlockers(p,{teacherPages:[11,12]}).map(b=>b.check),['C8-nested-questions','C9-answer-pages']);
+});
+
+test('C10 runs the bank dependency check before review: a reference by source number must be reworded or decided',()=>{
+ const p=project();p.sections[1].phase='practice';
+ const q=p.sections[1].blocks[1];q.content.prompt='Use a combination of techniques from Question 6 and Question 7.';
+ assert.deepEqual(questionReferenceBlockers(p).map(b=>b.blockId),['q5']);
+ q.content.prompt='Use the conditions for a square root and for a denominator together.';
+ assert.deepEqual(questionReferenceBlockers(p),[]);
 });
