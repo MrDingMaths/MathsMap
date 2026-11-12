@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a6162ddc-5b6b-4ee2-8219-bfe86457a048",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-exponential-features",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Change a point's sign for the reflection in the x-axis, then negate the whole expression: -(2^x+1) rather than -2^x+1. This is a common error. The diagram supports the task.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T10:24:51.681Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0916dfd927f8ab5f4c552bbd9c9b00278b56e393509d52cae94bc3a924f9ed37",
+      "diagramBlindHash": "98d53dc37deba27fca8d952442312ae00b9b1f2731c3b7354faa2a21d9cb0678",
+      "evidence": ".booklet-work/pedagogy-audit-v2/features-quadratics-exponentials-v1/20261109-101212/calls/10-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p17-q1",
+          "score": 28
+        },
+        "easierThan": {
+          "ref": "p18-q2",
+          "score": 32
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-95924-p17-practice-slot-7-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The graph of $y=2^x+1$ is reflected in the $x$-axis. The reflected curve is shown dashed.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-95924-p17-practice-slot-7-slot-7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"original and reflected exponential curves\"}],\"reference\":\"slot-7 reflection\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,<->] (-3.6,0)--(3.6,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-10.6)--(0,10.6) node[above] {$y$};\n\\foreach \\v in {-8,-4,4,8}{\\draw[black,line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\v) {$\\v$};}\n\\draw[curveBlue,line width=0.8pt,<->,domain=-3.4:3.1,samples=100] plot (\\x,{2^(\\x)+1});\n\\draw[curveBlue,line width=0.8pt,dashed,<->,domain=-3.4:3.1,samples=100] plot (\\x,{-(2^(\\x))-1});\n\\fill[black] (2,5) circle (1.6pt);\n\\node[above left,font=\\fontsize{8.5}{10}\\selectfont] at (2,5) {$(2,5)$};\n\\node[anchor=west,font=\\fontsize{8.5}{10}\\selectfont] at (-3.3,3.6) {$y=2^x+1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-95924-p17-practice-slot-7-slot-7-qa",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down the image of the point $(2,5)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2,-5)$",
+          "worked": "Reflection in the $x$-axis changes the sign of $y$ and keeps $x$.\n$$(2,5)\\to(2,-5)$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-95924-p17-practice-slot-7-slot-7-qb",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the reflected curve.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-2^x-1$",
+          "worked": "Every $y$-value changes sign, so the whole right-hand side is negated.\n$$\\begin{align*}y&=-(2^x+1)\\\\y&=-2^x-1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-95924-p17-practice-slot-7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T05:20:39.373Z",
+  "updatedAt": "2026-11-12T05:20:39.374Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "features-quadratics-exponentials-v1",
+    "blockId": "v2-95924-p17-practice-slot-7",
+    "sectionRole": "exercise"
+  }
+}

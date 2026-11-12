@@ -16,13 +16,12 @@ import {fileURLToPath} from 'node:url';
 import {planBatch} from './bank-batch.mjs';
 import {buildAssessments} from './bank-assessments.mjs';
 import {resolveFollowUps} from './bank-merges.mjs';
-import {markTokens,questionTextFields} from './exam-marks.mjs';
 import {recordedReview,reviewContext} from '../scripts/booklet/recorded-review.mjs';
 import {importProjectBank,practiceQuestions} from '../scripts/booklet/import-project-bank.mjs';
 import {revisionHash,syncLinks} from '../scripts/booklet/bank-sync.mjs';
 import {publishProject} from '../scripts/booklet/publish-project.mjs';
 import {validateQuestion,normaliseQuestion} from '../src/lib/practice-question-model.js';
-import {bankProjectionPolicy,projectBankQuestion} from '../src/lib/question-bank-projection.js';
+export {printedMarks} from './bank-batch.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const RUN_DIR='.booklet-work/bank-import-20261112';
@@ -34,9 +33,8 @@ const dirOf=(id,root)=>path.join(root,RUN_DIR,id);
 
 // Import v2 open decision 16: exam-marks.mjs strips marks only with MathsBase source evidence, which textbook
 // chapters do not have. A textbook question still printing a standalone mark such as [3] is left out with a reason.
-export function printedMarks(block){
- return questionTextFields(block).flatMap(f=>markTokens(f.value,{nativeMath:f.nativeMath}).filter(t=>t.standalone&&!t.inMath).map(t=>t.token));
-}
+export const hasBankWork=(rows,assessments)=>assessments.questions.length>0||Object.keys(assessments.masterLinks??{}).length>0||rows.some(r=>r.action==='link');
+const studioLink=(projectId,blockId)=>`http://127.0.0.1:5173/?project=${encodeURIComponent(projectId)}&block=${encodeURIComponent(blockId)}`;
 
 // Stage 2 and 3 edits on a copy of the booklet; returns the candidate and what changed.
 export async function bookletEdits(project,rows,{dir,root,preview,resolve=resolveFollowUps}){
@@ -78,21 +76,18 @@ export async function runBooklet(id,{root=ROOT,until='stage',preview=false,log=c
  if(until==='edits'){state.status='edited';write(path.join(dir,'state.json'),state);return state;}
  // Stages 4-5: the left-out list and the assessments file.
  skills??=read(path.join(root,'data','skills.json'));dotpoints??=read(path.join(root,'data','dotpoints.json'));
- const rows=plan.blocks.map(r=>{
-  if(r.action!=='publish')return r;
-  const block=practiceQuestions(project).find(b=>b.id===r.blockId);
-  if(plan.origin==='textbook'){const marks=printedMarks(block);if(marks.length)return {...r,action:'leave-out',reasons:['printed-marks '+marks.join(' ')]};}
-  // The importer refuses the whole booklet when one question fails bank validation (12 November 2026: a slash
-  // fraction in one worked answer); leave that question out with the reason instead.
-  const checked=validateQuestion(normaliseQuestion({...projectBankQuestion(block,{policy:bankProjectionPolicy(block)}),classification:block.classification}));
-  return checked.valid?r:{...r,action:'leave-out',reasons:['bank-validation: '+checked.errors.join('; ')]};});
+ const rows=plan.blocks;
  const assessments=buildAssessments(project,rows,{root,skills,dotpoints});
- const tag=`r${project.revision}${preview?'-preview':''}`,assessmentsFile=path.join(dir,`assessments.${tag}.json`);write(assessmentsFile,assessments);
+ const revisionTag=`r${project.revision}${preview?'-preview':''}`;
+ const tag=preview||fs.existsSync(path.join(dir,`stage.${revisionTag}`))?`${revisionTag}-${randomUUID()}`:revisionTag;
+ const assessmentsFile=path.join(dir,`assessments.${tag}.json`);write(assessmentsFile,assessments);
  Object.assign(state,{revision:project.revision,assessments:posix(assessmentsFile),publish:assessments.questions.length,masterLinks:Object.keys(assessments.masterLinks??{}).length,deferred:assessments.deferred});
- if(until==='assessments'||!assessments.questions.length&&!state.masterLinks){state.status=assessments.questions.length||state.masterLinks?'assessed':'nothing-to-publish';write(path.join(dir,'state.json'),state);return state;}
+ state.holds=rows.filter(r=>r.action==='hold').map(r=>({sourceBlockId:r.blockId,sameQuestionAs:r.matches}));
+ const actionable=hasBankWork(rows,assessments);
+ if(until==='assessments'||!actionable){state.status=actionable?'assessed':'nothing-to-publish';write(path.join(dir,'state.json'),state);return state;}
  // Stage 6: stage the publication in isolation; nothing is published.
- // A preview stages into a fresh folder each time; a real run reuses its stage only while its inputs are unchanged.
- const out=path.join(dir,`stage.${tag}${preview?"-"+Date.now():""}`);
+ // Preserve previous attempts. Save reuses the exact stage recorded by this run.
+ const out=path.join(dir,`stage.${tag}`);
  const staged=await importProjectBank({root,projectId:id,assessmentsFile,out,apply:false,onProgress:p=>log(`[${id}] ${JSON.stringify(p)}`)});
  const receipt=read(path.join(out,'receipt.json')),bankDir=path.join(out,'bank');
  // The receipt keeps the entries of earlier publications, so a question already in the bank before this run counts
@@ -115,7 +110,10 @@ export async function saveBooklet(id,{approvedBy,root=ROOT,log=console.error}){
  const result=await importProjectBank({root,projectId:id,assessmentsFile,out,apply:true,onProgress:p=>log(`[${id}] ${JSON.stringify(p)}`)});
  // Read back: every created record names this booklet as its origin.
  const receipt=read(path.join(root,'booklets','provenance',id,'bank-import.json')),links=await syncLinks(path.join(root,'booklets','question-bank'));
- const readback=receipt.questions.filter(q=>q.outcome==='created').map(q=>{const bank=read(path.join(root,'booklets','question-bank',q.bankId+'.json'));return {bankId:q.bankId,origin:bank.bankContext?.origin??null,owner:links[q.bankId]?.projectId??null,ok:bank.bankContext?.origin===state.origin&&bank.bankContext.projectId===id&&links[q.bankId]?.projectId===id};});
+ // Only records created by this run: the receipt also keeps `created` entries from earlier imports, before origins.
+ const fresh=new Set((state.stage.records??[]).map(r=>r.bankId));
+ const readback=receipt.questions.filter(q=>q.outcome==='created'&&fresh.has(q.bankId)).map(q=>{const bank=read(path.join(root,'booklets','question-bank',q.bankId+'.json'));return {bankId:q.bankId,origin:bank.bankContext?.origin??null,owner:links[q.bankId]?.projectId??null,ok:bank.bankContext?.origin===state.origin&&bank.bankContext.projectId===id&&links[q.bankId]?.projectId===id};});
+ if(readback.length!==fresh.size)throw Error(`[${id}] readback: ${fresh.size-readback.length} staged records missing from the receipt`);
  if(readback.some(r=>!r.ok))throw Error(`[${id}] readback: ${readback.filter(r=>!r.ok).length} records lack their origin`);
  state.saved={at:new Date().toISOString(),approvedBy,result:{created:result.created,linked:result.linked,applied:result.applied},readback:{records:readback.length,origin:state.origin}};
  // Stage 7 (import v2, Decision 15): a published textbook chapter is accepted.
@@ -138,16 +136,16 @@ export function batchReport(ids,{root=ROOT}={}){
  const lines=['# Bank import report','',`${new Date().toISOString()}`,'','| Booklet | Origin | Status | Would publish / published | Linked | Held | Master links | Left out | Follow-ups | Exam tags |','|---|---|---|---|---|---|---|---|---|---|'];
  for(const r of rows){
   const o=r.stage?.outcomes??{};
-  lines.push(`| ${r.projectId} | ${r.origin??''} | ${r.status} | ${r.saved?.result?.created??o.created??r.publish??0} | ${o.linked??0} | ${o.held??0} | ${o['linked-master']??0} | ${(r.deferred??[]).filter(d=>d.action==='leave-out'||d.reasons?.length&&d.action==='publish').length} | ${(r.edits?.followUps??[]).length} | ${(r.edits?.examTags??[]).length} |`);
+  lines.push(`| ${r.projectId} | ${r.origin??''} | ${r.status} | ${r.saved?.result?.created??o.created??r.publish??0} | ${o.linked??0} | ${o.held??r.holds?.length??0} | ${o['linked-master']??0} | ${(r.deferred??[]).filter(d=>d.action==='leave-out'||d.reasons?.length&&d.action==='publish').length} | ${(r.edits?.followUps??[]).length} | ${(r.edits?.examTags??[]).length} |`);
  }
  for(const r of rows){
   lines.push('',`## ${r.projectId}`,'');
   if(r.reason)lines.push(`Skipped: ${r.reason}`);
-  for(const f of r.edits?.followUps??[])lines.push(`- Follow-up ${f.blockId} (after ${f.previousBlockId}): **${f.decision}**${f.note?' — '+f.note:''}${f.reason?' ('+f.reason+')':''}`);
-  for(const c of r.edits?.comments??[])lines.push(`- Studio comment on ${c.blockId} (teacher-protected follow-up)`);
+  for(const f of r.edits?.followUps??[])lines.push(`- Follow-up ${f.blockId} (after ${f.previousBlockId}): **${f.decision}**${f.note?' — '+f.note:''}${f.reason?' ('+f.reason+')':''}${/-(?:manual|blocked)$/.test(f.decision)?' — '+studioLink(r.projectId,f.blockId):''}`);
+  for(const c of r.edits?.comments??[])lines.push(`- Studio comment on ${c.blockId} (teacher-protected follow-up) — ${studioLink(r.projectId,c.blockId)}`);
   for(const t of r.edits?.examTags??[])lines.push(`- Exam tag ${t.blockId}: ${t.exam}`);
-  const held=(r.stage&&fs.existsSync(path.join(root,r.stage.out,'receipt.json')))?read(path.join(root,r.stage.out,'receipt.json')).questions.filter(q=>q.outcome==='held'):[];
-  for(const h of held)lines.push(`- Held for Use existing / Keep separate in Studio: ${h.sourceBlockId} (matches ${h.sameQuestionAs.join(', ')}) — http://127.0.0.1:5173/?project=${r.projectId}&block=${h.sourceBlockId}`);
+  const held=(r.stage&&fs.existsSync(path.join(root,r.stage.out,'receipt.json')))?read(path.join(root,r.stage.out,'receipt.json')).questions.filter(q=>q.outcome==='held'):r.holds??[];
+  for(const h of held)lines.push(`- Held for Use existing / Keep separate in Studio: ${h.sourceBlockId} (matches ${h.sameQuestionAs.join(', ')}) — ${studioLink(r.projectId,h.sourceBlockId)}`);
   const out=(r.deferred??[]).filter(d=>d.action!=='out-of-scope');
   if(out.length)lines.push('','Left out:',...out.map(d=>`- ${d.blockId}: ${(d.reasons??[d.action]).join(', ')}`));
   const scope=(r.deferred??[]).filter(d=>d.action==='out-of-scope').length;if(scope)lines.push('',`Out of scope (Exam questions in a master): ${scope}`);

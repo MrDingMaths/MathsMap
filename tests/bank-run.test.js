@@ -6,7 +6,8 @@ import {preservedProject} from '../scripts/booklet/import-project-bank.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
 import {mergedContent,resolveFollowUps,validJudgement} from '../pedagogy/bank-merges.mjs';
 import {buildAssessments,sourceScope} from '../pedagogy/bank-assessments.mjs';
-import {printedMarks} from '../pedagogy/bank-run.mjs';
+import {printedMarks,hasBankWork} from '../pedagogy/bank-run.mjs';
+import {newRecordExclusions} from '../pedagogy/bank-batch.mjs';
 import {questionDependencyFindings} from '../src/lib/booklet-question-dependencies.js';
 import {verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 
@@ -114,6 +115,20 @@ test('assessments: publish rows get origin and mapping notes; others are deferre
 test('textbook questions still printing a mark such as [3] are found', ()=>{
  assert.deepEqual(printedMarks(question('a','Find the value of $x$.\n[3]')),['[3]']);
  assert.deepEqual(printedMarks(question('b','Find $[3]$ and the list $[1,2]$.')),[]);
+});
+
+test('a slash fraction remains excluded and the planner retains the validation reason', ()=>{
+ const block=question('a','Find $x$.');
+ block.content.answer.worked='Find $x=1/2$.';
+ assert.ok(newRecordExclusions(block,'master',false).some(r=>r.startsWith('bank-validation:')&&r.includes('slash-style fraction notation')));
+ block.content.answer.worked=String.raw`Find $x=\frac{1}{2}$.`;
+ assert.deepEqual(newRecordExclusions(block,'master',false),[]);
+});
+
+test('an exact link alone requires staging; a hold alone does not', ()=>{
+ const assessments={questions:[]};
+ assert.equal(hasBankWork([{action:'link'}],assessments),true);
+ assert.equal(hasBankWork([{action:'hold'}],assessments),false);
 });
 
 test('Decision 6: a textbook block adopted by a master copy may change content; nothing else may', ()=>{

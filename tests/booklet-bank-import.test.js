@@ -372,6 +372,38 @@ test('a question kept separate is published by the next run with assessments for
   assert.equal((await importProjectBank({...args,apply:true})).created,0);
 });
 
+async function deferredOwnedFixture(t){
+  const f=await fixture(t);await importProjectBank({...f.args,apply:true});
+  const receiptFile=path.join(f.root,'booklets/provenance',f.saved.id,'bank-import.json'),first=await read(receiptFile);
+  const project=await loadBookletProject(f.saved.id,f.options),owned=practiceQuestions(project)[0].bankRef;
+  const b=createProjectBlock('question');b.id='q-new';b.content.prompt='Find the angle.';b.content.answer={short:'30°',worked:'Use the sine rule.',solutionDiagrams:[]};
+  project.sections[0].blocks.push(b);
+  const saved=await saveBookletProject(project,{...f.options,expectedRevision:project.revision}),added=practiceQuestions(saved).find(q=>q.id==='q-new');
+  // A later run leaves the already-published question out (as the rollout does for exam questions) and publishes the new one.
+  const assessments={projectId:saved.id,deferredBlockIds:['q-source'],sourceContext:{...f.assessments.sourceContext,projectHash:revisionHash(saved)},questions:[{...f.assessments.questions[0],sourceBlockId:'q-new',contentHash:revisionHash(added.content)}]};
+  const assessmentsFile=path.join(f.root,'assessments-deferred.json');await write(assessmentsFile,assessments);
+  const bankFile=path.join(f.options.bankRoot,owned.id+'.json'),bankBefore=await fs.readFile(bankFile,'utf8'),linkBefore=(await read(path.join(f.options.bankRoot,'.sync/links.json')))[owned.id];
+  return {...f,receiptFile,first,owned,args:{...f.args,assessmentsFile,out:path.join(f.root,'stage-deferred')},bankFile,bankBefore,linkBefore};
+}
+test('a left-out question already in the bank keeps its earlier receipt entry and its unchanged link',async t=>{
+  const f=await deferredOwnedFixture(t);
+  const result=await importProjectBank({...f.args,apply:true});assert.equal(result.created,1);
+  const receipt=await read(f.receiptFile);
+  assert.deepEqual(receipt.questions.map(q=>[q.sourceBlockId,q.outcome]),[['q-source','created'],['q-new','created']]);
+  assert.deepEqual(receipt.questions[0],f.first.questions[0],'The earlier entry is kept verbatim');
+  assert.equal(await fs.readFile(f.bankFile,'utf8'),f.bankBefore,'The left-out question\'s bank record is untouched');
+  assert.deepEqual((await read(path.join(f.options.bankRoot,'.sync/links.json')))[f.owned.id],f.linkBefore);
+  assert.deepEqual(practiceQuestions(await loadBookletProject(f.saved.id,f.options))[0].bankRef,f.owned);
+});
+test('a left-out linked question with no earlier receipt entry gets a retained entry',async t=>{
+  const f=await deferredOwnedFixture(t);
+  await write(f.receiptFile,{...f.first,questions:[]});
+  await importProjectBank({...f.args,apply:true});
+  const receipt=await read(f.receiptFile);
+  assert.deepEqual(receipt.questions[0],{sourceBlockId:'q-source',outcome:'retained-excluded',bankId:f.owned.id,bankRevision:f.owned.revision,ownerProjectId:f.saved.id});
+  assert.equal(await fs.readFile(f.bankFile,'utf8'),f.bankBefore);
+});
+
 test('adding another bank question preserves existing owner-local paragraph spacing and still rejects changed answers',async t=>{
  const f=await fixture(t),first=practiceQuestions(f.saved)[0];first.content.prompt=fromSource('Find the side.');
  await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);f.assessments.questions[0].contentHash=revisionHash(first.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);await write(f.args.assessmentsFile,f.assessments);

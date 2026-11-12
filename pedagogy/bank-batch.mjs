@@ -15,6 +15,10 @@ import {verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 import {recordedReview,runIdOf,reviewContext} from '../scripts/booklet/recorded-review.mjs';
 import {questionDependencyFindings,promptText} from '../src/lib/booklet-question-dependencies.js';
 import {teacherBlocks} from '../polish/guards.mjs';
+import {markTokens,questionTextFields} from './exam-marks.mjs';
+import {importSource} from './bank-assessments.mjs';
+import {validateQuestion,normaliseQuestion} from '../src/lib/practice-question-model.js';
+import {bankProjectionPolicy,projectBankQuestion} from '../src/lib/question-bank-projection.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const RUN='.booklet-work/bank-import-20261111';
@@ -42,6 +46,23 @@ export function busyProjects(projects){
  const r=spawnSync('powershell.exe',['-NoProfile','-Command',`Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object { $_.ProcessId -ne ${process.pid} } | ForEach-Object { $_.CommandLine }`],{encoding:'utf8',windowsHide:true});
  const lines=String(r.stdout??'').split(/\r?\n/).filter(Boolean);
  return new Map(projects.map(p=>[p.id,lines.find(l=>l.includes(p.id)||runIdOf(p)&&l.includes(runIdOf(p)))]).filter(([,l])=>l));
+}
+
+export function printedMarks(block){
+ return questionTextFields(block).flatMap(f=>markTokens(f.value,{nativeMath:f.nativeMath}).filter(t=>t.standalone&&!t.inMath).map(t=>t.token));
+}
+
+export function newRecordExclusions(block,origin,sourceAvailable){
+ const reasons=[];
+ if(origin==='textbook'){
+  const marks=printedMarks(block),tc=block.sourceReview?.teachingContext;
+  if(marks.length)reasons.push('printed-marks '+marks.join(' '));
+  if(!(tc?.methodNote?.trim()&&tc.pdfPages?.length))reasons.push('no-teaching-context');
+  if(!sourceAvailable)reasons.push('no-import-source');
+ }
+ const checked=validateQuestion(normaliseQuestion({...projectBankQuestion(block,{policy:bankProjectionPolicy(block)}),classification:block.classification}));
+ if(!checked.valid)reasons.push('bank-validation: '+checked.errors.join('; '));
+ return reasons;
 }
 
 // What publication would do with one question. Order matters: scope, existing link, readiness, follow-ups, bank outcome.
@@ -95,7 +116,13 @@ export async function planBatch(projects,{root=ROOT}={}){
   const questions=practiceQuestions(project),outcomes=await resolveBankOutcomes(questions,bankRoot,entries);
   const deps=new Map(questionDependencyFindings(project).map(d=>[d.blockId,d]));
   const ctx=reviewContext(project,root),protectedIds=teacherBlocks(project);
-  const blocks=questions.map(block=>classify({project,section:sectionOf.get(block.id),block,origin,skills,review:recordedReview(block,ctx),outcome:outcomes.get(block.id),dependency:deps.get(block.id),protectedIds,ownerOrigin}));
+  const sourceAvailable=origin==='textbook'&&!!importSource(project,root);
+  const blocks=questions.map(block=>{
+   const row=classify({project,section:sectionOf.get(block.id),block,origin,skills,review:recordedReview(block,ctx),outcome:outcomes.get(block.id),dependency:deps.get(block.id),protectedIds,ownerOrigin});
+   if(row.action!=='publish')return row;
+   const reasons=newRecordExclusions(block,origin,sourceAvailable);
+   return reasons.length?{...row,action:'leave-out',reasons}:row;
+  });
   const counts={};for(const b of blocks)counts[b.action]=(counts[b.action]??0)+1;
   const reasons={};for(const b of blocks)for(const r of b.reasons??[])reasons[r]=(reasons[r]??0)+1;
   rows.push({projectId:project.id,origin,revision:project.revision,questions:blocks.length,counts,reasons,examTags:blocks.filter(b=>b.examTag).length,blocks});
