@@ -1,0 +1,328 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-66e9bd9f-b593-412b-8ed0-819450b6c9b7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "area-rule-triangle",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce equal central triangles and bisect one to recover the radius from the polygon perimeter, then connect the seven triangle areas with the complementary circle area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:27:02.384Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7ec62f68939332526804144f7d20186fd870c5fe6697312a12f8951425bea2fd",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch03/081cd528b9998ba368172e4a81076befaf14abc197c1d9107d3ed38960578b74-1792556788951/last-message.txt",
+      "originalTaskHash": "b10f11597b4499f05721598c33bccebc40b12a1e495a9370b6d1d0173183e72d"
+    }
+  },
+  "content": {
+    "id": "p63-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p63-q23-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In the given diagram, a regular heptagon is inscribed in a circle. The parts of the circle that are not covered by the heptagon have been shaded.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p63-q23-perimeter",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The perimeter of the heptagon is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "560\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p63-q23-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"segmentFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the seven circular segments whose total area is requested\"}],\"reference\":\"source PDF page 63, p63-q23-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{segmentFill}{HTML}{D4E8FF}\n\\coordinate (C) at (0,0);\n\\foreach \\i in {0,...,6} {\\coordinate (V\\i) at ({90-360*\\i/7}:2);}\n\\path[fill=segmentFill,even odd rule] (C) circle[radius=2] (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--cycle;\n\\draw (C) circle[radius=2];\n\\draw (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--cycle;\n\\draw[dashed,line width=0.4pt] (C)--node[midway,above,sloped] {$r$} (V1);\n\\fill[black] (C) circle[radius=1.2pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.1,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 63,
+          "sourceRegion": "Left column, question 23 diagram",
+          "description": "A regular heptagon inscribed in a circle, with one vertex at the top, a horizontal bottom side, a centre dot and a dashed radius labelled r to the upper-right vertex. All seven exterior circular segments are shaded.",
+          "mathematics": "Seven equally spaced vertices on a common circle; adjacent central angles are 2π/7. The dashed segment joins the centre to a vertex.",
+          "answerVisibility": "Only the supplied radius label r is visible; numerical radius and area answers are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p63-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the length of the radius of the circle, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$92.19\\text{ cm}$.",
+          "worked": "Bisect one of the seven equal central triangles. Its half-angle is $\\frac{\\pi}{7}$, and its half-base is $40\\text{ cm}$.\n\n$$\\begin{align*}s &= \\frac{560}{7}\\text{ cm}\\\\s &= 80\\text{ cm}\\\\\\sin\\frac{\\pi}{7} &= \\frac{40}{r}\\\\r &= \\frac{40}{\\sin(\\pi/7)}\\text{ cm}\\\\r &\\approx 92.19\\text{ cm}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      },
+      {
+        "id": "p63-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the total area of the shaded parts, correct to the nearest square centimetre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p63-q23-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "3444\\text{ cm}^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p63-q23-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Subtract the seven central triangle areas from the circle area, using the unrounded radius.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Each central angle is $\\frac{2\\pi}{7}$. Use the unrounded radius from part (a).\n\n$$\\begin{align*}A &= \\pi r^2-7\\left(\\frac12r^2\\sin\\frac{2\\pi}{7}\\right)\\\\A &= r^2\\left(\\pi-\\frac72\\sin\\frac{2\\pi}{7}\\right)\\\\A &= \\left(\\frac{40}{\\sin(\\pi/7)}\\right)^2\\left(\\pi-\\frac72\\sin\\frac{2\\pi}{7}\\right)\\text{ cm}^2\\\\A &\\approx 3444\\text{ cm}^2.\\end{align*}$$\n\nThe total shaded area is $3444\\text{ cm}^2$, to the nearest square centimetre.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p63-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p63-q23-source-order",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p63-q23-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p63-q23-label-item",
+                      "type": "item",
+                      "ref": "p63-q23-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p63-q23-stem-item",
+                      "type": "item",
+                      "ref": "p63-q23-root/prompt#p63-q23-stem",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p63-q23-figure-item",
+                  "type": "item",
+                  "ref": "p63-q23-diagram",
+                  "width": 41.1,
+                  "align": "center"
+                },
+                {
+                  "id": "p63-q23-perimeter-item",
+                  "type": "item",
+                  "ref": "p63-q23-root/prompt#p63-q23-perimeter",
+                  "align": "left"
+                },
+                {
+                  "id": "p63-q23-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p63-q23-a-label-item",
+                      "type": "item",
+                      "ref": "p63-q23-a/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p63-q23-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p63-q23-a-prompt-item",
+                          "type": "item",
+                          "ref": "p63-q23-a/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p63-q23-a-space-item",
+                          "type": "item",
+                          "ref": "p63-q23-a/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p63-q23-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p63-q23-b-label-item",
+                      "type": "item",
+                      "ref": "p63-q23-b/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p63-q23-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p63-q23-b-prompt-item",
+                          "type": "item",
+                          "ref": "p63-q23-b/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p63-q23-b-space-item",
+                          "type": "item",
+                          "ref": "p63-q23-b/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p63-q23"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:09:21.954Z",
+  "updatedAt": "2026-11-12T21:09:21.955Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p63-q23",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cb4a9567-516a-43f2-8e48-8ca5637f6717",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-quadratic-model",
+    "secondarySkillIds": [],
+    "reasoningScore": 59,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose variables, connect the shared wire constraint to two different area formulas, eliminate one variable, and interpret the quadratic minimum as the two required wire lengths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:24:52.771Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "04137649b160fcfd858c4e1bd7b40bd9887dc8b9ca2f27c20d34838f46053297",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/955e78b256169e39a1ebd1ecf60feda028c8b44ae3b5e130011c8554f7c1ff69-1792556653392/last-message.txt",
+      "originalTaskHash": "f8b632b71d16c395a809d2a8ba233f43ecf7ace9268ebaede19b44b08b7d3f28"
+    }
+  },
+  "content": {
+    "id": "p69-q20-response",
+    "type": "question",
+    "label": "20",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p69-q20-opening",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A piece of wire ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "100\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " long is cut into two parts. One part is bent to form a square, and the other part is bent to form a circle.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p69-q20-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Determine the lengths of the two pieces if the total area enclosed is to be minimised.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p69-q20-square",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 69, p69-q20-square\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=10mm,y=10mm,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.25,-0.5) rectangle (2.25,2.25);\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2,0);\n\\coordinate (C) at (2,2);\n\\coordinate (D) at (0,2);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\foreach \\corner/\\first/\\second in {A/B/D,B/A/C,C/B/D,D/A/C} {\n  \\coordinate (Mone) at ($(\\corner)!0.15!(\\first)$);\n  \\coordinate (Mtwo) at ($(\\corner)!0.15!(\\second)$);\n  \\draw[black,line width=0.4pt] (Mone)--($(Mone)+(Mtwo)-(\\corner)$)--(Mtwo);\n}\n\\foreach \\first/\\second in {A/B,B/C,C/D,D/A} {\n  \\coordinate (M) at ($(\\first)!0.5!(\\second)$);\n  \\draw[black,line width=0.4pt] ($(M)!0.10cm!90:(\\second)$)--($(M)!0.10cm!-90:(\\second)$);\n}\n\\path ($(A)!0.5!(B)$) node[black,anchor=north,yshift=-7pt,inner sep=0pt] {$s$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 32,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 69,
+          "sourceRegion": "Question 20, left member of the paired figures in the upper right column.",
+          "description": "An unshaded square with four internal right-angle marks, one congruence tick crossing each side and s centred below the bottom side.",
+          "mathematics": "All four sides have length s. Coordinates are construction coordinates only and introduce no numerical length. Corner marks and perpendicular midpoint ticks are derived from the square's vertices.",
+          "answerVisibility": "The complete figure is a permanent question given; no answer is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p69-q20-circle",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 69, p69-q20-circle\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=10mm,y=10mm,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.25,-0.5) rectangle (2.25,2.25);\n\\coordinate (O) at (1,1);\n\\coordinate (R) at (2,1);\n\\draw[black,line width=0.8pt] (O) circle[radius=1];\n\\draw[black,line width=0.4pt,dash pattern=on 3pt off 2pt] (O)--(R);\n\\path ($(O)!0.5!(R)$) node[black,anchor=south,yshift=5pt,inner sep=0pt] {$r$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 32,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 69,
+          "sourceRegion": "Question 20, right member of the paired figures in the upper right column.",
+          "description": "An unshaded circle with a dashed horizontal radius from its centre to the right-hand circumference and r above that radius. No centre marker or centre label is supplied.",
+          "mathematics": "The radius is r. Construction coordinates supply no numerical measurement. Similar apparent figure sizes do not assert s=2r.",
+          "answerVisibility": "The complete figure is a permanent question given; no answer is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p69-q20-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Square piece: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\dfrac{400}{4+\\pi}\\text{ cm}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; circle piece: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\dfrac{100\\pi}{4+\\pi}\\text{ cm}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Express the combined area as a quadratic and minimise it at its vertex.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p69-q20-worked-formula-bridge",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For side length ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "s",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", the square has perimeter ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "4s",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and area ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "s^2",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". For radius ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "r",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", the circle has circumference ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "2\\pi r",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and area ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\pi r^2",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". Measure both lengths in centimetres.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-constraint",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}4s+2\\pi r&=100\\\\r&=\\frac{100-4s}{2\\pi}\\end{align*}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-domain",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Both pieces have positive length, so ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "0<s<25",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". The total area, in square centimetres, is",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-area",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}A(s)&=s^2+\\pi r^2\\\\A(s)&=s^2+\\frac{(100-4s)^2}{4\\pi}\\\\A(s)&=\\frac{\\pi+4}{\\pi}s^2-\\frac{200}{\\pi}s+\\frac{2500}{\\pi}\\end{align*}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-minimum-reason",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The quadratic coefficient is positive, so the minimum occurs at the vertex, where ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "s=-\\dfrac{b}{2a}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-vertex",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}s&=\\frac{\\frac{200}{\\pi}}{\\frac{2(\\pi+4)}{\\pi}}\\\\s&=\\frac{100}{\\pi+4}\\end{align*}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-feasibility",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "This lies in ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "0<s<25",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". The required wire lengths are therefore",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p69-q20-worked-lengths",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}L_{\\mathrm{square}}&=4s\\\\L_{\\mathrm{square}}&=\\frac{400}{4+\\pi}\\text{ cm}\\\\L_{\\mathrm{circle}}&=100-4s\\\\L_{\\mathrm{circle}}&=\\frac{100\\pi}{4+\\pi}\\text{ cm}\\end{align*}",
+                "display": true
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 82
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p69-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p69-q20-layout-root",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p69-q20-layout-label",
+                  "type": "item",
+                  "ref": "p69-q20-response/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p69-q20-layout-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p69-q20-layout-opening",
+                      "type": "item",
+                      "ref": "p69-q20-response/prompt#p69-q20-opening",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p69-q20-layout-figures",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p69-q20-layout-square",
+                          "type": "item",
+                          "ref": "p69-q20-square",
+                          "width": 32,
+                          "align": "center"
+                        },
+                        {
+                          "id": "p69-q20-layout-circle",
+                          "type": "item",
+                          "ref": "p69-q20-circle",
+                          "width": 32,
+                          "align": "center"
+                        }
+                      ],
+                      "gap": 2,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p69-q20-layout-instruction",
+                      "type": "item",
+                      "ref": "p69-q20-response/prompt#p69-q20-instruction",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p69-q20-layout-working",
+                      "type": "item",
+                      "ref": "p69-q20-response/space",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 1,
+                  "weight": 1
+                }
+              ],
+              "gap": 2,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p69-q20"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:10:35.420Z",
+  "updatedAt": "2026-11-12T21:10:35.421Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p69-q20",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,957 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5a656dc0-3ee9-46d1-80ce-691d68bbefdf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pattern-from-expression",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied example to translate shorthand and evaluate nested denominators, then compare the results with the given reference and use the shrinking differences to conjecture a limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-11T23:43:53.495Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aa01623aeaaeb2422c52b79d7efecf0495971cfd92938a581feb4830e9cd8345",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch01/lean-review/calls/content-1794440610662-0/last-message.txt",
+      "originalTaskHash": "deb27cd38b00834c2c3a2cfdd2a6a8b0c0d971b5664c32356ae3bf5dc08e36b2"
+    }
+  },
+  "content": {
+    "id": "p23-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p23-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "continued fraction",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " is a series of fractions inside fractions. This process is sometimes called ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "nesting",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " fractions.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-example-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For example, the following fraction is a continued fraction nested three times.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-example",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{2}}}}",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p23-example-notation-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In shorthand, this is written as",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-example-notation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "[1;2,2,2,2]",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write each of $[1;2,2]$ and $[1;2,2,2]$ as a nested fraction. Calculate their values, correct to three decimal places where necessary.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$[1;2,2]=1+\\dfrac{1}{2+\\frac12}=1.4$.\n\n$[1;2,2,2]=1+\\dfrac{1}{2+\\dfrac{1}{2+\\frac12}}\\approx1.417$.",
+          "worked": "Evaluate each fraction from the innermost denominator outwards.\n\n$$\\begin{align*}[1;2,2]&=1+\\dfrac{1}{2+\\frac12}\\\\{[}1;2,2]&=1+\\frac25\\\\{[}1;2,2]&=\\frac75\\\\{[}1;2,2]&=1.4\\end{align*}$$\n\n$$\\begin{align*}[1;2,2,2]&=1+\\dfrac{1}{2+\\dfrac{1}{2+\\frac12}}\\\\&=1+\\dfrac{1}{2+\\frac25}\\\\&=1+\\frac5{12}\\\\&=\\frac{17}{12}\\\\&\\approx1.417\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p23-q1-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Complete the table to compare each continued fraction with the given approximation to $\\sqrt{2}$. Use the absolute difference from $1.41421$. Give the values and differences to five decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p23-q1-b-table-response",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p23-q1-b-table",
+                  "type": "table",
+                  "widthMm": 122,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8
+                  ],
+                  "annotations": [],
+                  "border": true,
+                  "padding": 2,
+                  "widths": [
+                    42,
+                    18,
+                    17,
+                    23
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "p23-t-h-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "#d3e8fc",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-h-cf-text",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Continued fraction",
+                                "marks": [
+                                  "bold"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-h-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "#d3e8fc",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-h-v-text",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Value",
+                                "marks": [
+                                  "bold"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-h-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "#d3e8fc",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-h-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "\\sqrt{2}",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-h-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "#d3e8fc",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-h-d-text",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Difference",
+                                "marks": [
+                                  "bold"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p23-t-r1-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r1-cf-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "[1;2]",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r1-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      },
+                      {
+                        "id": "p23-t-r1-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r1-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.41421",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r1-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p23-t-r2-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r2-cf-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "[1;2,2]",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r2-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      },
+                      {
+                        "id": "p23-t-r2-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r2-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.41421",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r2-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p23-t-r3-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r3-cf-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "[1;2,2,2]",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r3-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      },
+                      {
+                        "id": "p23-t-r3-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r3-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.41421",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r3-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p23-t-r4-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r4-cf-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "[1;2,2,2,2]",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r4-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      },
+                      {
+                        "id": "p23-t-r4-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r4-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.41421",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r4-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p23-t-r5-cf",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r5-cf-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "[1;2,2,2,2,2]",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r5-v",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      },
+                      {
+                        "id": "p23-t-r5-s",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p23-t-r5-s-math",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.41421",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p23-t-r5-d",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Values from top to bottom are $1.50000$, $1.40000$, $1.41667$, $1.41379$ and $1.41429$.\n\nThe corresponding differences are $0.08579$, $0.01421$, $0.00246$, $0.00042$ and $0.00008$.",
+              "worked": "Evaluate from the innermost denominator. Let $D_n$ be the outer denominator when the shorthand has $n$ twos. Each additional level gives $D_{n+1}=2+\\frac{1}{D_n}$.\n\n$$\\begin{align*}\nD_1&=2\\\\\nD_2&=2+\\tfrac12=\\tfrac52\\\\\nD_3&=2+\\tfrac25=\\tfrac{12}{5}\\\\\nD_4&=2+\\tfrac5{12}=\\tfrac{29}{12}\\\\\nD_5&=2+\\tfrac{12}{29}=\\tfrac{70}{29}.\n\\end{align*}$$\n\nFor each truncation, calculate $C_n=1+\\frac{1}{D_n}$. Subtract $1.41421$ from the exact value, take the absolute value and round both table entries to five decimal places.\n\n$$\\begin{align*}\nC_1&=1+\\tfrac12=\\tfrac32=1.50000, & |C_1-1.41421|&=0.08579\\\\\nC_2&=1+\\tfrac25=\\tfrac75=1.40000, & |C_2-1.41421|&=0.01421\\\\\nC_3&=1+\\tfrac5{12}=\\tfrac{17}{12}\\approx1.41667, & |C_3-1.41421|&\\approx0.00246\\\\\nC_4&=1+\\tfrac{12}{29}=\\tfrac{41}{29}\\approx1.41379, & |C_4-1.41421|&\\approx0.00042\\\\\nC_5&=1+\\tfrac{29}{70}=\\tfrac{99}{70}\\approx1.41429, & |C_5-1.41421|&\\approx0.00008.\n\\end{align*}$$\n\n| Continued fraction | Value | $\\sqrt{2}$ reference | Difference |\n| --- | --- | --- | --- |\n| $[1;2]$ | $1.50000$ | $1.41421$ | $0.08579$ |\n| $[1;2,2]$ | $1.40000$ | $1.41421$ | $0.01421$ |\n| $[1;2,2,2]$ | $1.41667$ | $1.41421$ | $0.00246$ |\n| $[1;2,2,2,2]$ | $1.41379$ | $1.41421$ | $0.00042$ |\n| $[1;2,2,2,2,2]$ | $1.41429$ | $1.41421$ | $0.00008$ |",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p23-q1-b-observation",
+            "type": "part",
+            "label": "ii",
+            "prompt": "What do you notice about the difference?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The difference gets smaller as the nesting increases.",
+              "worked": "The absolute differences decrease from $0.08579$ to $0.00008$. The values alternate above and below $1.41421$ while getting closer to it.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          }
+        ]
+      },
+      {
+        "id": "p23-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hypothesise the value of the infinite continued fraction $[1;2,2,2,\\ldots]$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{2}$.",
+          "worked": "As more twos are added, the values in the table get closer to the given approximation to $\\sqrt{2}$. This suggests that $[1;2,2,2,\\ldots]=\\sqrt{2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:10:39.138Z",
+  "updatedAt": "2026-11-12T21:10:39.141Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch01",
+    "blockId": "p23-q1",
+    "sectionRole": "exercise"
+  }
+}

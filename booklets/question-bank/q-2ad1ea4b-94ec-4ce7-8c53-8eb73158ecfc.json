@@ -1,0 +1,475 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2ad1ea4b-94ec-4ce7-8c53-8eb73158ecfc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Distinguish equivalent increment substitutions from invalid definitions, including reframing the infinity limit as a symmetric quotient and recognising that its existence is insufficient.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:28:39.163Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "96d3f3b9cfcdc5206cb9f0c2f27006b5769657934920cbd46e768901e7254a8a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch05/9dda832fdb5aa7c85b1b6679906711d62b8a52f0abc73ab76fba974bde680abd-1792556857363/last-message.txt",
+      "originalTaskHash": "e88ab76b769db0c285a8556a1f546188df9dec9f87a217e17dc563e91cd0d766",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "070b0662ef77f792367a0acd502b75c9c0cbc8a3d7d4ea8af0a95aeec4e77c09"
+      }
+    }
+  },
+  "content": {
+    "id": "p16-q1-group",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p16-q1-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Decide whether each expression gives a valid general definition of the derivative. Do not assume the derivative exists in advance.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f'(x)=\\lim_{h\\to0}\\dfrac{f(x+h)-f(x-h)}{2h}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False as a general definition. The symmetric limit can exist when the derivative does not.",
+          "worked": "For $f(t)=|t|$ at $x=0$, the displayed limit is $0$, but $f'(0)$ does not exist. Where $f'(x)$ exists, the displayed limit does equal it.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f'(c)=\\lim_{x\\to c}\\dfrac{f(x)-f(c)}{x-c}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True.",
+          "worked": "This is the alternative derivative limit given in the page 11 student note.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$f'(x)=\\lim_{h\\to0}\\dfrac{f(x)-f(h)}{x-h}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False. The two secant points do not both approach $x$.",
+          "worked": "For $f(t)=t^2$ and $x=2$, the proposed limit is $\\dfrac{4-0}{2-0}=2$, while $f'(2)=4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$f'(x)=\\lim_{h\\to0}\\dfrac{f(x+2h)-f(x)}{2h}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True. The increment is $2h$ in both the numerator and denominator.",
+          "worked": "Let $k=2h$. As $h\\to0$, $k\\to0$, and the quotient becomes $\\lim_{k\\to0}\\dfrac{f(x+k)-f(x)}{k}=f'(x)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$f'(x)=\\lim_{\\Delta x\\to0}\\dfrac{f(x+\\Delta x)-f(x)}{\\Delta x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True.",
+          "worked": "$\\Delta x$ plays the same role as $h$ in the taught first-principles formula.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$f'(x)=\\lim_{h\\to0}\\dfrac{f(x)-f(x-h)}{h}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True. This is the backward-increment form.",
+          "worked": "Let $k=-h$. Then $\\dfrac{f(x)-f(x-h)}{h}=\\dfrac{f(x+k)-f(x)}{k}$, whose limit is $f'(x)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      },
+      {
+        "id": "p16-q1-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "$f'(x)=\\lim_{h\\to\\infty}h\\times\\dfrac{f\\left(x+\\frac{1}{h}\\right)-f\\left(x-\\frac{1}{h}\\right)}{2}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False as a general definition. This symmetric limit can exist without $f'(x)$.",
+          "worked": "Put $t=\\frac{1}{h}$, so $t\\to0^+$. The expression is the symmetric quotient $\\dfrac{f(x+t)-f(x-t)}{2t}$. For $f(u)=|u|$ at $x=0$, its limit is $0$ although $f'(0)$ does not exist. Where $f'(x)$ exists, the displayed limit does equal it.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 6
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p16-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p16-q1-group:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p16-q1-group/label",
+                  "type": "item",
+                  "ref": "p16-q1-group/label",
+                  "title": "Label 37"
+                },
+                {
+                  "id": "layout:p16-q1-group/prompt#p16-q1-instruction",
+                  "type": "item",
+                  "ref": "p16-q1-group/prompt#p16-q1-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "p16-q1-group:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p16-q1-group:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-a/label",
+                              "type": "item",
+                              "ref": "p16-q1-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p16-q1-a/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-a/space",
+                              "type": "item",
+                              "ref": "p16-q1-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-b/label",
+                              "type": "item",
+                              "ref": "p16-q1-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p16-q1-b/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-b/space",
+                              "type": "item",
+                              "ref": "p16-q1-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-c/label",
+                              "type": "item",
+                              "ref": "p16-q1-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p16-q1-c/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-c/space",
+                              "type": "item",
+                              "ref": "p16-q1-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:3",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-d/label",
+                              "type": "item",
+                              "ref": "p16-q1-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p16-q1-d/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-d/space",
+                              "type": "item",
+                              "ref": "p16-q1-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-e/label",
+                              "type": "item",
+                              "ref": "p16-q1-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p16-q1-e/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-e/space",
+                              "type": "item",
+                              "ref": "p16-q1-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:5",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-f/label",
+                              "type": "item",
+                              "ref": "p16-q1-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p16-q1-f/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-f/space",
+                              "type": "item",
+                              "ref": "p16-q1-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q1-group:row:6",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p16-q1-g:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p16-q1-g/label",
+                              "type": "item",
+                              "ref": "p16-q1-g/label",
+                              "title": "Label g"
+                            },
+                            {
+                              "id": "layout:p16-q1-g/prompt",
+                              "type": "item",
+                              "ref": "p16-q1-g/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p16-q1-g/space",
+                              "type": "item",
+                              "ref": "p16-q1-g/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part g",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 37",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:08:53.334Z",
+  "updatedAt": "2026-11-12T21:08:53.336Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch05",
+    "blockId": "p16-q1",
+    "sectionRole": "exercise"
+  }
+}

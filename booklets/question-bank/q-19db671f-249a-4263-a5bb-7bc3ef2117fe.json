@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-19db671f-249a-4263-a5bb-7bc3ef2117fe",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simplify-fractions-by-factorising",
+    "secondarySkillIds": [
+      "simplify-surds-operations"
+    ],
+    "reasoningScore": 77,
+    "difficulty": "Mastery",
+    "difficultyReason": "The earlier parts scaffold repeated substitution for √2. For √3, students must re-express the conjugate-derived fraction to obtain unit numerators and recognise the alternating 1,2 tail. They then generalise the identity by factorising a difference of squares.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-11T22:50:49.433Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "76c32f4d16e7878aecb4efd9ef74cc7611111d24623e950f638f3a7b3980eaf2",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch01/lean-review/calls/content-1794437408039-4/last-message.txt",
+      "originalTaskHash": "36a70262eb28238fd4103f15a66067486741559da39c70e1ebd4c021b45a34d7"
+    }
+  },
+  "content": {
+    "id": "p24-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "[Another way of deriving the continued fraction]",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that\n\n$$\\sqrt{2}=1+(\\sqrt{2}-1)=1+\\frac{1}{1+\\sqrt{2}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(\\sqrt{2}-1)(1+\\sqrt{2})=1$, so $\\sqrt{2}-1=\\dfrac{1}{1+\\sqrt{2}}$.",
+          "worked": "$$\\begin{align*}(\\sqrt{2}-1)(1+\\sqrt{2})&=2-1\\\\(\\sqrt{2}-1)(1+\\sqrt{2})&=1.\\end{align*}$$\n\n$$\\begin{align*}\\sqrt{2}&=1+(\\sqrt{2}-1)\\\\\\sqrt{2}&=1+\\frac{1}{1+\\sqrt{2}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p24-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Substitute this expression for $\\sqrt{2}$ back into itself to show that\n\n$$\\sqrt{2}=1+\\frac{1}{2+\\frac{1}{1+\\sqrt{2}}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Replace the $\\sqrt{2}$ in the denominator by $1+\\dfrac{1}{1+\\sqrt{2}}$ and combine the two $1$’s.",
+          "worked": "$$\\begin{align*}\\sqrt{2}&=1+\\frac{1}{1+\\left(1+\\frac{1}{1+\\sqrt{2}}\\right)}\\\\\\sqrt{2}&=1+\\frac{1}{2+\\frac{1}{1+\\sqrt{2}}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p24-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Repeat this process a few more times. What familiar-looking continued fraction do you get?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{2}=[1;2,2,2,\\ldots]$.\n\nEach substitution introduces one more $2$ in the nesting.",
+          "worked": "Substitute $1+\\dfrac{1}{1+\\sqrt{2}}$ for the innermost $\\sqrt{2}$ each time.\n\n$$\\begin{align*}\\sqrt{2}&=1+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{1+\\sqrt{2}}}}\\\\\\sqrt{2}&=1+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{1+\\sqrt{2}}}}}.\\end{align*}$$\n\nThe repeated $2$ gives the same continued fraction as in the earlier investigation.\n\n$$\\begin{align*}\\sqrt{2}&=1+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{\\ddots}}}}\\\\\\sqrt{2}&=[1;2,2,2,\\ldots].\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p24-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Investigate a similar process to obtain a continued fraction expression for $\\sqrt{3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{3}=[1;1,2,1,2,\\ldots]$.\n\nThe identity $\\sqrt{3}-1=\\dfrac{1}{1+\\dfrac{1}{2+(\\sqrt{3}-1)}}$ adds the pair $1,2$ at each substitution.",
+          "worked": "Let $r=\\sqrt{3}-1$. Since $(\\sqrt{3}-1)(\\sqrt{3}+1)=2$,\n\n$$\\begin{align*}\\frac{1}{r}&=\\frac{\\sqrt{3}+1}{2}\\\\\\frac{1}{r}&=1+\\frac{r}{2},\\\\\\frac{2}{r}&=\\sqrt{3}+1\\\\\\frac{2}{r}&=2+r.\\end{align*}$$\n\nThus $\\frac{r}{2}=\\frac{1}{(2+r)}$. Substitute this into $\\frac{1}{r}=1+\\frac{r}{2}$ and take the reciprocal.\n\n$$r=\\dfrac{1}{1+\\dfrac{1}{2+r}}.$$\n\nSubstitute this expression for $r$ repeatedly in $\\sqrt{3}=1+r$.\n\n$$\\begin{align*}\\sqrt{3}&=1+\\dfrac{1}{1+\\dfrac{1}{2+\\dfrac{1}{1+\\dfrac{1}{2+r}}}}\\\\\\sqrt{3}&=[1;1,2,1,2,\\ldots].\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p24-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "For $n\\ge 0$ and $a+\\sqrt{n}\\ne 0$, prove that\n\n$$\\sqrt{n}=a+\\frac{n-a^2}{a+\\sqrt{n}}$$\n\nand explain how this can be used to generate continued fractions.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Factor $n-a^2=(\\sqrt{n}-a)(\\sqrt{n}+a)$ and cancel ${\\sqrt{n}+a\\text{.}}$\n\nSubstitute the expression for $\\sqrt{n}$ into its own denominator repeatedly to generate a continued fraction.",
+          "worked": "$$\\begin{align*}a+\\frac{n-a^2}{a+\\sqrt{n}}&=a+\\frac{(\\sqrt{n}-a)(\\sqrt{n}+a)}{a+\\sqrt{n}}\\\\a+\\frac{n-a^2}{a+\\sqrt{n}}&=a+(\\sqrt{n}-a)\\\\a+\\frac{n-a^2}{a+\\sqrt{n}}&=\\sqrt{n}.\\end{align*}$$\n\nFor a positive nonsquare integer $n$, take $a$ to be the integer part of $\\sqrt{n}$ and let $b=n-a^2$. Substituting for the $\\sqrt{n}$ in the denominator repeatedly gives\n\n$$\\begin{align*}\\sqrt{n}&=a+\\dfrac{b}{2a+\\dfrac{b}{a+\\sqrt{n}}}\\\\\\sqrt{n}&=a+\\dfrac{b}{2a+\\dfrac{b}{2a+\\dfrac{b}{a+\\sqrt{n}}}}.\\end{align*}$$\n\nEach substitution adds another denominator term $2a$ and numerator $b$. When $b=1$, this gives the simple continued fraction $[a;2a,2a,2a,\\ldots]$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:10:39.770Z",
+  "updatedAt": "2026-11-12T21:10:39.770Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch01",
+    "blockId": "p24-q3",
+    "sectionRole": "exercise"
+  }
+}

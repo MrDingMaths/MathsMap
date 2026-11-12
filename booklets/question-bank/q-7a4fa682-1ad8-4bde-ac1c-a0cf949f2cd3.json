@@ -1,0 +1,327 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7a4fa682-1ad8-4bde-ac1c-a0cf949f2cd3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "derivative-sum-multiple"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Find the parameter-dependent first-quadrant intersection and use both derivatives there to express the right-angle condition; the parts scaffold these connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:29:18.568Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0fb309f0065b4b511792a84a63d3fe3eedc0ccf60e66f36be8a4c3b708b4190f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch05/412b5503e0e8750f9c49d903f9e7d52a520c628c6e79e7c163ecdd6b98468c3e-1792556896437/last-message.txt",
+      "originalTaskHash": "b14c5ca709e60007d9c773326663ac8527cad41632e81ecb1a7e504fe8506e05"
+    }
+  },
+  "content": {
+    "id": "p50-q59-root",
+    "type": "question",
+    "label": "59",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p50-q59-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The diagram below shows the graphs of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=1-ax^2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=x^2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be the intersection in the first quadrant.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p50-q59-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the downward parabola\"},{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the upward parabola\"}],\"reference\":\"source page 50, question 59 diagram\"}\n\\begin{tikzpicture}[x=1.35cm,y=1.35cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{curveRed}{HTML}{EF6068}\n% The parameter below controls this unscaled schematic; it is not a given value of a.\n\\def\\aplot{0.8}\n\\pgfmathsetmacro{\\px}{1/sqrt(1+\\aplot)}\n\\pgfmathsetmacro{\\py}{1/(1+\\aplot)}\n\\draw[->,black,line width=0.5pt] (-1.55,0)--(1.55,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.5)--(0,1.58) node[above] {$y$};\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-1.33:1.33,samples=65] (\\x,{1-\\aplot*\\x*\\x});\n\\draw[<->,curveRed,line width=0.8pt] plot[domain=-1.17:1.17,samples=65] (\\x,{\\x*\\x});\n\\fill[black] (-\\px,\\py) circle[radius=1.2pt];\n\\fill[black] (\\px,\\py) circle[radius=1.2pt] node[right] {$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "right column, question 59",
+          "description": "Unscaled Cartesian graph with a blue downward parabola and red upward parabola. Both intersections are marked; the first-quadrant intersection is labelled P.",
+          "mathematics": "y=1-ax^2 and y=x^2, with a>0 as depicted by the downward parabola.",
+          "answerVisibility": "The source graph gives no numerical coordinates or value of a."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p50-q59a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the coordinates of $P$, in terms of $a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P\\left(\\dfrac{1}{\\sqrt{a+1}},\\dfrac{1}{a+1}\\right)$.",
+          "worked": "At $P$, the curves have the same coordinates. Since $P$ is in the first quadrant, take the positive square root.\n$$\\begin{align*}1-ax^2&=x^2\\\\1&=(a+1)x^2\\\\x^2&=\\frac{1}{a+1}\\\\x&=\\frac{1}{\\sqrt{a+1}}\\\\y&=x^2=\\frac{1}{a+1}\\end{align*}$$\nThus $P\\left(\\dfrac{1}{\\sqrt{a+1}},\\dfrac{1}{a+1}\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p50-q59b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the gradient of the tangent to $y=x^2$ at $P$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{2}{\\sqrt{a+1}}$.",
+          "worked": "$$\\begin{align*}\\frac{dy}{dx}&=2x\\\\m_P&=2\\left(\\frac{1}{\\sqrt{a+1}}\\right)\\\\m_P&=\\frac{2}{\\sqrt{a+1}}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p50-q59c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the value of $a$ if the two curves intersect at right angles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=\\dfrac13$.\n\nThe tangent gradients at $P$ have product $-1$.",
+          "worked": "The gradient of $y=1-ax^2$ at $P$ is $-\\frac{2a}{\\sqrt{a+1}}$. At a right-angle intersection, the tangent gradients have product $-1$.\n$$\\begin{align*}\\frac{2}{\\sqrt{a+1}}\\left(-\\frac{2a}{\\sqrt{a+1}}\\right)&=-1\\\\-\\frac{4a}{a+1}&=-1\\\\4a&=a+1\\\\3a&=1\\\\a&=\\frac13\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p50-q59",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p50-q59": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p50-q59-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p50-q59-root/label",
+                  "type": "item",
+                  "ref": "p50-q59-root/label",
+                  "title": "Label 59"
+                },
+                {
+                  "id": "layout:p50-q59-root/prompt#p50-q59-stem",
+                  "type": "item",
+                  "ref": "p50-q59-root/prompt#p50-q59-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p50-q59-diagram",
+                  "type": "item",
+                  "ref": "p50-q59-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p50-q59-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p50-q59-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p50-q59a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p50-q59a/label",
+                              "type": "item",
+                              "ref": "p50-q59a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p50-q59a/prompt",
+                              "type": "item",
+                              "ref": "p50-q59a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p50-q59a/space",
+                              "type": "item",
+                              "ref": "p50-q59a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p50-q59-root:row:1",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p50-q59b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p50-q59b/label",
+                              "type": "item",
+                              "ref": "p50-q59b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p50-q59b/prompt",
+                              "type": "item",
+                              "ref": "p50-q59b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p50-q59b/space",
+                              "type": "item",
+                              "ref": "p50-q59b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p50-q59-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p50-q59c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p50-q59c/label",
+                              "type": "item",
+                              "ref": "p50-q59c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p50-q59c/prompt",
+                              "type": "item",
+                              "ref": "p50-q59c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p50-q59c/space",
+                              "type": "item",
+                              "ref": "p50-q59c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 59",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:09:07.051Z",
+  "updatedAt": "2026-11-12T21:09:07.052Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch05",
+    "blockId": "p50-q59",
+    "sectionRole": "exercise"
+  }
+}

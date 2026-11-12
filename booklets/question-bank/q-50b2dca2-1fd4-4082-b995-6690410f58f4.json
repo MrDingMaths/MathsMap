@@ -1,0 +1,186 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-50b2dca2-1fd4-4082-b995-6690410f58f4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "area-rule-triangle",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires constructing the triangle of centres and subtracting three sectors from its area.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T12:47:11.367Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6fa0a69394679d8327652af8ad2de1e23a0c790a3a5f8b0c308d11f1996aea4e",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-2312c1c6e3a1f5539b61/1/generation.json",
+      "originalTaskHash": "39459fdd6cff83a60092ec5dffffe73870118c3d811ee630db164d49221e9ffb"
+    }
+  },
+  "content": {
+    "id": "p63-q19-response",
+    "type": "question",
+    "label": "19",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p63-q19-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Three circles of radii ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " touch externally.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p63-q19-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the area bounded by the three minor arcs ending at the points of contact.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p63-q19-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionArea\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the region bounded by the three minor arcs\"}],\"reference\":\"source PDF page 63, p63-q19-diagram\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionArea}{HTML}{D4E8FF}\n\\coordinate (L) at (-1,0);\n\\coordinate (R) at (1,0);\n\\coordinate (T) at (0,{sqrt(3)});\n\\path[fill=regionArea,draw=none] (0,0) arc[start angle=0,end angle=60,radius=1] arc[start angle=240,end angle=300,radius=1] arc[start angle=120,end angle=180,radius=1] -- cycle;\n\\draw (L) circle[radius=1];\n\\draw (R) circle[radius=1];\n\\draw (T) circle[radius=1];\n\\coordinate (E) at ({-1+cos(30)},{sin(30)});\n\\draw (L) -- node[midway,above left,inner sep=1pt] {$r$} (E);\n\\fill[black] (L) circle[radius=0.035cm];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 44,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 63,
+          "sourceRegion": "Upper-right question 19 diagram.",
+          "description": "Three equal externally tangent circles, one above two lower circles. The central curved triangular gap is shaded. Only the lower-left centre is marked, with a radius labelled r directed upwards and rightwards.",
+          "mathematics": "Equal radii and external tangency place the centres at the vertices of an equilateral triangle of side 2r. The target boundary consists of three minor arcs of central angle π/3. The displayed radius follows the source orientation and is not a triangle-of-centres construction.",
+          "answerVisibility": "The source radius and target region are visible; centre joins, sector angles and the requested area are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\left(\\sqrt3-\\dfrac{\\pi}{2}\\right)r^2$.\n\nJoin the centres to form an equilateral triangle of side $2r$, then subtract the three $\\frac{\\pi}{3}$ sectors.",
+      "worked": "Join the three centres. They form an equilateral triangle of side $2r$, so each angle is $\\frac{\\pi}{3}$.\n\nIts area is\n$$\\begin{align*}\nT&=\\frac12(2r)(2r)\\sin\\frac{\\pi}{3}\\\\\nT&=\\sqrt3\\,r^2.\n\\end{align*}$$\nSubtract the three sectors inside the triangle:\n$$\\begin{align*}\nA&=\\sqrt3\\,r^2-3\\left(\\frac12r^2\\frac{\\pi}{3}\\right)\\\\\nA&=\\left(\\sqrt3-\\frac{\\pi}{2}\\right)r^2.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p63-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p63-q19-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p63-q19-labelled-stem",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p63-q19-label-item",
+                      "type": "item",
+                      "ref": "p63-q19-response/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p63-q19-stem-item",
+                      "type": "item",
+                      "ref": "p63-q19-response/prompt#p63-q19-stem"
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p63-q19-diagram-item",
+                  "type": "item",
+                  "ref": "p63-q19-diagram",
+                  "width": 44,
+                  "align": "center"
+                },
+                {
+                  "id": "p63-q19-request-item",
+                  "type": "item",
+                  "ref": "p63-q19-response/prompt#p63-q19-request"
+                },
+                {
+                  "id": "p63-q19-space-item",
+                  "type": "item",
+                  "ref": "p63-q19-response/space"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p63-q19"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:09:11.722Z",
+  "updatedAt": "2026-11-12T21:09:11.723Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p63-q19",
+    "sectionRole": "exercise"
+  }
+}
