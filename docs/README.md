@@ -50,6 +50,7 @@ Their bytes are compared with, or recorded in, accepted review receipts.
 | [booklet-import-duration-controls.md](booklet-import-duration-controls.md) | Preparation checks and lessons from earlier imports. Also describes the older ticket route |
 | [booklet-direct-compact-import.md](booklet-direct-compact-import.md) | Base import workflow: source inventory, semantic content, compact project |
 | [booklet-practice-only-import.md](booklet-practice-only-import.md) | Practice-only PDF imports and shared-stem question groups |
+| [booklet-import-v2-ch01-efficiency.md](booklet-import-v2-ch01-efficiency.md) | Import v2 cost case study (Mastering Maths Adv 11 Ch 1): measured baseline, ranked changes, experiment results, next-chapter pilot plan |
 | [booklet-change-runbook.md](booklet-change-runbook.md) | Booklet changes and feedback repairs: scope and minimum verification |
 | [booklet-cross-session-rules.md](booklet-cross-session-rules.md) | Register of transcription and rendering conventions |
 | [booklet-transcription-feedback-checklist.md](booklet-transcription-feedback-checklist.md) | Acceptance checklist for transcription runs |
