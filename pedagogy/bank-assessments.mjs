@@ -42,15 +42,17 @@ export function buildAssessments(project,rows,{root,skills,dotpoints,now=new Dat
   const review=recordedReview(block,ctx),c=block.classification??{},tc=block.sourceReview?.teachingContext;
   const reasons=[];
   if(!review.current)reasons.push(review.reason);
-  if(origin==='textbook'&&!(tc?.methodNote?.trim()&&tc.pdfPages?.length))reasons.push('no-teaching-context');
+  const methodNote=typeof tc?.methodNote==='string'?tc.methodNote.trim():'';
+  const mappingNote=typeof tc?.mappingNote==='string'?tc.mappingNote.trim():'';
+  if(origin==='textbook'&&!(methodNote&&tc.pdfPages?.length))reasons.push('no-teaching-context');
   if(origin==='textbook'&&!source)reasons.push('no-import-source');
   if(reasons.length){defer(row,reasons);continue;}
   const secondary=(c.secondarySkillIds??[]).filter(id=>known.has(id)&&id!==c.primarySkillId);
   const entry={sourceBlockId:block.id,contentHash:revisionHash(block.content),
    classification:{primarySkillId:c.primarySkillId,secondarySkillIds:secondary,reasoningScore:c.reasoningScore,difficulty:difficultyBandForScore(c.reasoningScore),difficultyReason:c.difficultyReason,assessment:structuredClone(c.assessment)},
-   mappingNote:tc?.mappingNote?.trim()||`${c.primarySkillId} is the primary skill recorded on this ${origin} question; its ${review.by} review is current for this content.`,
+   mappingNote:mappingNote||`${c.primarySkillId} is the primary skill recorded on this ${origin} question; its ${review.by} review is current for this content.`,
    bankContext:{origin,projectId:project.id,blockId:block.id,sectionRole:row.sectionRole??'exercise',...(row.examTag?{exam:row.examTag}:{})}};
-  if(origin==='textbook'){entry.methodNote=tc.methodNote.trim();entry.teachingReferences=[{id:SOURCE_PDF_REFERENCE,pdfPages:[...new Set(tc.pdfPages)].sort((a,b)=>a-b)}];}
+  if(origin==='textbook'){entry.methodNote=methodNote;entry.teachingReferences=[{id:SOURCE_PDF_REFERENCE,pdfPages:[...new Set(tc.pdfPages)].sort((a,b)=>a-b)}];}
   questions.push(entry);reviews.push({sourceBlockId:block.id,contentHash:entry.contentHash,by:review.by});
  }
  const scope=sourceScope(questions.flatMap(q=>[q.classification.primarySkillId,...q.classification.secondarySkillIds]),{skills,dotpoints});

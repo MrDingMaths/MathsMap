@@ -57,7 +57,7 @@ export function newRecordExclusions(block,origin,sourceAvailable){
  if(origin==='textbook'){
   const marks=printedMarks(block),tc=block.sourceReview?.teachingContext;
   if(marks.length)reasons.push('printed-marks '+marks.join(' '));
-  if(!(tc?.methodNote?.trim()&&tc.pdfPages?.length))reasons.push('no-teaching-context');
+  if(!(typeof tc?.methodNote==='string'&&tc.methodNote.trim()&&tc.pdfPages?.length))reasons.push('no-teaching-context');
   if(!sourceAvailable)reasons.push('no-import-source');
  }
  const checked=validateQuestion(normaliseQuestion({...projectBankQuestion(block,{policy:bankProjectionPolicy(block)}),classification:block.classification}));
