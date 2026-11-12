@@ -161,14 +161,14 @@ export function renderRiskTargets(project,{changed=[]}={}){
 // One checker process per edition (a failing edition stops its process), with
 // one retry that drops targets absent from that edition. Needs Studio on 5173;
 // when it cannot be reached the caller logs a skip, as the label check does.
-export async function targetedRenderCheck({file,projectId,targets,out,editions=['student','short','worked'],base,run=runChecker,log=()=>{}}){
+export async function targetedRenderCheck({file,projectId,targets,out,editions=['student','short','worked'],base,visibilityReviews,run=runChecker,log=()=>{}}){
  const issues=[],skipped=[],started=Date.now();
  if(!targets.length)return {issues,skipped,seconds:0,targets};
  for(const edition of editions){
   let ids=[...targets];
   for(let attempt=0;attempt<2&&ids.length;attempt++){
    const dir=path.join(out,edition);fs.mkdirSync(dir,{recursive:true});
-   const result=await run(['scripts/booklet/check-compact-exercises.mjs','--development','--project',projectId,'--project-file',file,'--target-blocks',ids.join(','),'--editions',edition,'--all-dom-issues','--out',dir,...(base?['--base',base]:[])]);
+   const result=await run(['scripts/booklet/check-compact-exercises.mjs','--development','--project',projectId,'--project-file',file,'--target-blocks',ids.join(','),'--editions',edition,'--all-dom-issues','--out',dir,...(base?['--base',base]:[]),...(visibilityReviews?['--visibility-reviews',visibilityReviews]:[])]);
    const missing=/Target blocks missing from \S+: ([^\n]+)/.exec(result.output??'')?.[1]?.split(',').map(id=>id.trim());
    if(missing?.length){ids=ids.filter(id=>!missing.includes(id));continue;}
    const reportFile=path.join(dir,'development-report.json');

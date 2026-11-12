@@ -82,3 +82,66 @@ export async function reviewImportSample({runDir,projectFile,sampleDir,runner}){
  saveReviewed(path.join(runDir,'lean-review'),state);
  return {completion,deliverable:false,sampleAccepted:completion.ready};
 }
+
+// Resolve a reviewed sample's findings without another review round (Cambridge X11 Ch 5,
+// 12 November 2026, James). A full re-review re-inspects every page (about 57 calls there)
+// and can repeat false verdicts, which decide-page cannot record on a sample. Each
+// needs-change page is resolved either by a person's decision (bound to the page hash and
+// a hashed evidence file, as decide-page does) or by named corrections already applied
+// through `lean-review repair`, verified mechanically: Studio's label check on the
+// candidate and a targeted render of the repaired blocks. No model call; the finish
+// visual review still inspects every Questions page.
+export async function resolveImportSample({runDir,projectFile,sampleDir,resolutionsFile,visibilityReviews,labels,render,now=()=>new Date().toISOString()}){
+ const project=read(projectFile),manifest=read(path.join(runDir,'manifest.json')),{sample,report}=importSampleEvidence(sampleDir,project.id);
+ const dir=path.join(runDir,'lean-review'),state=loadReviewed(dir),record=state.workflow?.[project.id]?.sample;
+ if(!record||record.dir!==path.resolve(sampleDir)||record.sourceKey!==sampleSourceKey(manifest))throw Error('Resolve the sample that sample-review last inspected for this run');
+ const sampleHash=createHash('sha256').update(JSON.stringify({sample,report,images:sample.pages.map(row=>fs.existsSync(row.image)?createHash('sha256').update(fs.readFileSync(row.image)).digest('hex'):null)})).digest('hex');
+ if(record.sampleHash!==sampleHash)throw Error('The sample changed since it was reviewed');
+ if(record.accepted)return {sampleAccepted:true,reused:true};
+ const pending=[];
+ for(const row of sample.pages){
+  const hash=report[row.edition]?.pageHashes?.find(p=>p.page===row.page)?.hash,key=row.edition+':'+hash,entry=state.pages?.[key];
+  if(hash&&entry?.outcome==='needs-change')pending.push({edition:row.edition,page:row.page,key,entry});
+ }
+ const resolutions=read(resolutionsFile).resolutions??[];
+ const find=(edition,page)=>resolutions.filter(r=>r.edition===edition&&Number(r.page)===page);
+ for(const p of pending)if(find(p.edition,p.page).length!==1)throw Error(`Give exactly one resolution for ${p.edition} p${p.page}: ${p.entry.finding}`);
+ for(const r of resolutions)if(!pending.some(p=>p.edition===r.edition&&p.page===Number(r.page)))throw Error(`No open finding on ${r.edition} p${r.page}`);
+ const applied=new Map(),log=path.join(dir,'corrections.jsonl');
+ if(fs.existsSync(log))for(const line of fs.readFileSync(log,'utf8').split('\n').filter(Boolean)){const row=JSON.parse(line);if(row.correctionId)applied.set(row.correctionId,[...(applied.get(row.correctionId)??[]),row.targetId]);}
+ const owner=new Map();
+ for(const {block} of reviewableBlocks(project)){const walk=n=>{if(Array.isArray(n))return n.forEach(walk);if(!n||typeof n!=='object')return;if(n.id)owner.set(n.id,block.id);Object.values(n).forEach(walk);};owner.set(block.id,block.id);walk(block.content);}
+ const repaired=new Set();
+ for(const r of resolutions){
+  if(r.kind==='decision'){
+   if(!String(r.decidedBy??'').trim()||!String(r.reason??'').trim())throw Error('A decision needs decidedBy and reason');
+   if(!r.evidence||!fs.existsSync(r.evidence))throw Error('A decision needs an existing evidence file');
+  }else if(r.kind==='repaired'){
+   if(!String(r.reason??'').trim()||!r.corrections?.length)throw Error('A repaired resolution needs a reason and the correction ids that fixed it');
+   for(const id of r.corrections){const targets=applied.get(id);if(!targets)throw Error('Correction '+id+' was not applied through lean-review repair');for(const t of targets)if(owner.has(t))repaired.add(owner.get(t));}
+  }else throw Error('Resolution kind must be decision or repaired');
+ }
+ let verification=null;
+ if(resolutions.some(r=>r.kind==='repaired')){
+  const label=await(labels??(async()=>(await import('./import-finish.mjs')).diagramLabelCheck({file:projectFile,runDir})))();
+  if(label.skipped)throw Error('Studio label check unavailable: '+label.skipped);
+  if(label.collisions?.length)throw Error('Label collisions remain: '+label.collisions.map(c=>c.id).join(', '));
+  const out=path.join(sampleDir,'resolution-render');
+  const rendered=await(render??(async args=>(await import('./import-layout-preflight.mjs')).targetedRenderCheck(args)))({file:projectFile,projectId:project.id,targets:[...repaired],out,editions:sample.editions,visibilityReviews});
+  if(rendered.skipped?.length)throw Error('Targeted render skipped: '+JSON.stringify(rendered.skipped));
+  if(rendered.issues?.length)throw Error('Targeted render found issues: '+JSON.stringify(rendered.issues.slice(0,5)));
+  verification={labelCheck:'clean',targets:[...repaired],render:{issues:0,seconds:rendered.seconds}};
+ }
+ const at=now();
+ for(const p of pending){
+  const r=find(p.edition,p.page)[0],overrides={finding:p.entry.finding,details:p.entry.details??[],at:p.entry.at??null};
+  const resolution=r.kind==='decision'
+   ?{kind:'decision',decidedBy:String(r.decidedBy).trim(),reason:String(r.reason).trim(),at,evidence:{path:path.resolve(r.evidence),hash:createHash('sha256').update(fs.readFileSync(r.evidence)).digest('hex')},overrides}
+   :{kind:'repaired',reason:String(r.reason).trim(),at,corrections:r.corrections,verification,overrides};
+  state.pages[p.key]={...p.entry,outcome:'accepted',finding:'',details:[],[r.kind==='decision'?'decision':'resolution']:resolution};
+  fs.appendFileSync(path.join(dir,r.kind==='decision'?'page-decisions.jsonl':'sample-resolutions.jsonl'),JSON.stringify({sample:path.resolve(sampleDir),edition:p.edition,page:p.page,hash:p.key.slice(p.edition.length+1),...resolution})+'\n');
+ }
+ state.workflow[project.id].sample.accepted=true;
+ saveReviewed(dir,state);
+ return {sampleAccepted:true,resolved:pending.length,decisions:resolutions.filter(r=>r.kind==='decision').length,repaired:resolutions.filter(r=>r.kind==='repaired').length,verification};
+}

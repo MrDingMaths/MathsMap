@@ -514,6 +514,17 @@ Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one
 - **Recorded:** `label-retry.json` beside the attempt. The call is an `author-labels` attempt event, so the run metrics count it.
 - **What it doesn't do:** it accepts nothing. Remaining collisions stay sample and `finish` blockers. If Studio can't be reached, the step is skipped with a log line.
 - **Tests:** `tests/booklet-author-label-retry.test.js`.
+- **Guard (same day):** a retry that drops or empties any printed `$…$` label is refused, and the authored diagram is kept. One of the 40 Ch 5 sample retries had emptied the source's −3 on a question diagram.
+
+**Resolving a reviewed sample (12 November 2026, Cambridge X11 Ch 5; James chose this over a second review round).**
+- **Why:** a sample is accepted only by a review round with zero findings, and `decide-page` works only on `finish` exports. So two false verdicts (a "missing" axis and a "missing" part label, both present at 300 dpi) and a layout finding deferred to `finish` could only be cleared by re-reviewing every page (about 57 Sol low calls), with no guarantee the false verdicts wouldn't repeat.
+- **Command:** `node scripts/booklet/lean-review.mjs resolve-sample --run-id RUN --project-file CANDIDATE --sample DIR --resolutions FILE --visibility-reviews FILE`.
+- **What it requires:** every needs-change page of the reviewed sample takes exactly one resolution:
+  - `decision`: `decidedBy`, `reason` and an `evidence` file, bound to the page hash as `decide-page` does, and logged to `page-decisions.jsonl`.
+  - `repaired`: the `correctionId`s applied through `lean-review repair`, verified mechanically by Studio's label check on the candidate (zero collisions) and a targeted render of the repaired blocks (zero issues), and logged to `sample-resolutions.jsonl`.
+- **What it doesn't do:** it makes no model call. The `finish` visual review still inspects every Questions page.
+- **Tests:** `tests/booklet-import-sample-resolve.test.js`.
+- **Fixed alongside:** `targetedRenderCheck` now passes the run's `--visibility-reviews`. Without them, any run with a reviewed 2D curve failed the checker's 3D gate in every edition, which `finish`'s pre-render gate only logged as "skipped", so the gate checked nothing.
 
 ### Pilots
 

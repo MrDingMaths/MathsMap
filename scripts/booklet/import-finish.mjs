@@ -267,7 +267,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
     // Layout preflight before printing: recorded cross-reference decisions, then a
     // targeted render of risky and repaired blocks (seconds, not a five-edition export).
     if(!policy.direct){
-     const gate=await(deps.preRender??finishPreRenderGate)({file,projectId,state,stamps,workDir,log});persist();
+     const gate=await(deps.preRender??finishPreRenderGate)({file,projectId,state,stamps,workDir,visibilityReviews,log});persist();
      if(gate.errors.length)return incomplete(assessCompletion({errors:gate.errors}),{layoutPreflight:gate});
     }
     if(state.exports.length>=FINISH_EXPORT_BUDGET)log('Finish export '+(state.exports.length+1)+' exceeds the budget of '+FINISH_EXPORT_BUDGET+': '+regenerationReason);
@@ -336,7 +336,7 @@ export function applyFinishPreflightFixes({file,runDir,manifest,log=()=>{},inven
  log('Layout preflight fixes: '+(Object.entries(counts).map(([k,n])=>k+' '+n).join(', ')||'none'));
  return {counts};
 }
-export async function finishPreRenderGate({file,projectId,state,stamps,workDir,log=()=>{},render=targetedRenderCheck}){
+export async function finishPreRenderGate({file,projectId,state,stamps,workDir,visibilityReviews,log=()=>{},render=targetedRenderCheck}){
  const project=read(file),key=completionHash(project);
  const blockers=layoutPreflightBlockers(project).map(row=>row.message);
  if(blockers.length)return {errors:blockers};
@@ -346,7 +346,7 @@ export async function finishPreRenderGate({file,projectId,state,stamps,workDir,l
  const changed=last&&stamps?Object.keys(stamps).filter(id=>last.blockStamps[id]!==stamps[id]):[];
  // Always render at least one block: the DOM pass then checks every page of each edition.
  const targets=renderRiskTargets(project,{changed});if(!targets.length){const first=(project.sections??[]).find(s=>s.phase==='practice'&&s.blocks?.length)?.blocks[0]?.id;if(first)targets.push(first);}
- const result=await render({file,projectId,targets,out:path.join(workDir,'preflight',String(state.exports.length+1)),log});
+ const result=await render({file,projectId,targets,out:path.join(workDir,'preflight',String(state.exports.length+1)),visibilityReviews,log});
  const errors=result.issues.map(issue=>'Targeted render, '+issue.edition+' p'+issue.page+': '+issue.kind+(issue.targetId?' '+issue.targetId:'')+(issue.excessMm?' ('+issue.excessMm.toFixed(1)+' mm)':''));
  if(result.skipped.length)log('Targeted render skipped for '+result.skipped.map(row=>row.edition+': '+row.reason).join('; '));
  const outcome={errors,targets:result.targets.length,changed:changed.length,seconds:result.seconds,skipped:result.skipped.length};

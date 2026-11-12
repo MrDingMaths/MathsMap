@@ -176,3 +176,13 @@ test('C10 runs the bank dependency check before review: a reference by source nu
  q.content.prompt='Use the conditions for a square root and for a denominator together.';
  assert.deepEqual(questionReferenceBlockers(p),[]);
 });
+
+test('the targeted render passes the run\'s visibility reviews, so reviewed 2D curves do not skip every edition',async t=>{
+ const dir=tmp(t),file=path.join(dir,'candidate.json');write(file,project());
+ const calls=[];
+ await targetedRenderCheck({file,projectId:'p',targets:['q1'],out:dir,editions:['short'],visibilityReviews:'run/visibility-reviews.json',run:async args=>{calls.push(args);return {code:1,output:''};}});
+ assert.deepEqual(calls[0].slice(-2),['--visibility-reviews','run/visibility-reviews.json']);
+ const seen=[];
+ await finishPreRenderGate({file,projectId:'p',state:{steps:{},exports:[]},stamps:null,workDir:dir,visibilityReviews:'v.json',render:async args=>{seen.push(args.visibilityReviews);return {issues:[],skipped:[],seconds:0,targets:args.targets};}});
+ assert.deepEqual(seen,['v.json']);
+});
