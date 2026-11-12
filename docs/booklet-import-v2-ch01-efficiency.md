@@ -186,7 +186,23 @@ The scripts were scratch files outside the repo. They read the retained snapshot
   - The blockers C1, C3 and C6 give 1 false positive on the final.
   - C2 becomes an automatic join, C4 is already handled, and C5 decides where the targeted render goes.
   - The remaining 13 findings (splits, row spacing, one clipped marker) need a render: these are change 2's targeted render and the final visual round.
-- **Not yet run:** replaying `p14-p1` and `p23-q1` through `--target-blocks` needs a throwaway Studio project. This waits for James's go-ahead, because Studio on 5173 may be serving remotely.
+**Experiment 1b: targeted render replays.**
+- No Studio project was needed. `check-compact-exercises --project-file` injects the candidate into the page through route interception, and `routeCandidateProject` (`diagram-preflight.mjs:19`) aborts every non-GET request. Nothing was saved.
+- The replays ran against the running Studio, with no `--run-dir` and output in a scratch folder. Run evidence and the project were untouched.
+- **Candidates:**
+  - e1 = `pre-batch-layout-repair.json`;
+  - e2 = e1 plus the run's own `apply-final-findings.mjs` and `refine-layout.mjs`, the edits made before export 2;
+  - e4 = `pre-export4-findings.project.json`.
+- **Caveat:** the replays use today's renderer, not the frozen export runtime, and e1/e2 don't hash-match the export-1/2 projects exactly (export 1 was itself flagged "exported from different project content").
+
+| Replay | Edition | Result | Time | Full-export equivalent |
+|---|---|---|---|---|
+| e1, `--target-blocks p14-p1` | student | **caught** `question-column-overflow` p25, `p14-p1-c` 19.4 mm | 8 s | export 1 failed after 78 s (20.8 mm) |
+| e2, `--target-blocks p23-q1` | worked | **caught** `footer-overflow` worked p54, 2.53 mm (identical to export 2) | 12 s | exports 2 and 3 failed after 82 s and 73 s |
+| e4, `--target-blocks p23-q1,p14-p1` | student, worked | **passes** (repair confirmed) | 26 s | export 4, 76 s, then a visual round |
+
+- **Result:** confirmed. Both historical automated failures appear in 8–12 s without a five-edition export, and the repair is confirmed in 26 s.
+- With the C5 grid list and the blocks touched by each repair as targets, exports 1–3 would have been one export, not three.
 
 **Experiment 3: sample coverage.**
 - The Ch 1 sample (source pages 2, 3, 15, 16, 23, 24) already contained an instance of every pattern above except C5 grid fit. The C5 blocks are on pages 7, 8, 14, 20 and 21. Adding the first C5 block's page (7, or 14 for `p14-p1`) covers all 7 categories with **one extra page**.
