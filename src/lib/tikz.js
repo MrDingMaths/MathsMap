@@ -317,6 +317,9 @@ const _hasLoaderSvg = (wrapper) => !!wrapper.querySelector('svg animate');
 const _isTikzErrorImg = (node) =>
   node && node.tagName === 'IMG' && /invalid\.site|img-not-found/.test(node.getAttribute('src') || '');
 
+// flushPending waiters, woken whenever a job finishes (import v2 simplification, 13 November
+// 2026: a fixed 200 ms poll left Ch 5's pagination idle 54 of 70 s with every diagram cached).
+const tikzSettleWaiters = new Set();
 const _finishJob = (job) => {
   if(job.done)return;
   if(!job.cancelled){const svg=job.wrapper.querySelector('svg.tikz-svg');if(job.error)job.onError?.(job.error);else if(svg)job.onSuccess?.(svg.outerHTML);}
@@ -332,6 +335,7 @@ const _finishJob = (job) => {
   }
   tikzStats.pending = tikzActiveJobs.size;
   if (tikzStats.firstPlaceholderAt && tikzStats.firstPlaceholderToSettledMs == null && !tikzActiveJobs.size) tikzStats.firstPlaceholderToSettledMs = performance.now() - tikzStats.firstPlaceholderAt;
+  for (const wake of [...tikzSettleWaiters]) wake();
 };
 const _failJob = (job, title) => {
   if(job.done)return;job.error=title;
@@ -654,7 +658,8 @@ window.TikZ = {
     while (Date.now() - t0 < timeoutMs) {
       const unsettled = window.TikZ._jobsIn(root).some(j => !j.done && j.wrapper.isConnected);
       if (!unsettled) return true;
-      await new Promise(r => setTimeout(r, 200));
+      // Wake as soon as any job finishes; the 200 ms fallback covers a wrapper removed from the page.
+      await new Promise(r => { const wake = () => { clearTimeout(timer); tikzSettleWaiters.delete(wake); r(); }; const timer = setTimeout(wake, 200); tikzSettleWaiters.add(wake); });
     }
     if (!window.TikZ._jobsIn(root).some(j => !j.done && j.wrapper.isConnected)) return true;
     TWARN('flushPending timed out with jobs still unsettled');

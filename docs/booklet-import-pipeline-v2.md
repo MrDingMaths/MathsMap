@@ -627,7 +627,16 @@ Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11
   | worked (676 measurements, 295 cache hits in both) | pagination 80.3 s, asset waits 74.9 s | 11.5 s, 6.4 s |
   | short | 77 s to ready | 11 s to ready |
 
-  The same wait runs in every export's pagination (Ch 5: short 108–218 s, worked 107–134 s), in `compose`, and in Studio itself. Changing it is a `src/` edit and needs James's approval.
+  The same wait runs in every export's pagination (Ch 5: short 108–218 s, worked 107–134 s), in `compose`, and in Studio itself.
+
+  **Fixed (James approved, 13 November).** `_finishJob` now wakes `flushPending` waiters, and the 200 ms poll stays only as a fallback for a wrapper removed from the page. Both edits are outside the `diagram-output` regions, so the render cache version is unchanged (`0c360a2a…`). Live Studio, Ch 5, every diagram cached:
+
+  | Edition | Before | After |
+  |---|---|---|
+  | worked | pagination 80.3 s, asset waits 74.9 s | 18.9 s, 7.3 s (same 676 measurements, 295 cache hits) |
+  | short | 77 s to ready | 18 s to ready (pagination 16.7 s) |
+
+  `tikz-svg-viewport` "a real flip transition…" times out with and without the change.
 - **Parallel compiles:** `prewarm-diagrams.mjs` (three pages, cold) compiled all 374 Ch 5 sources in 140 s. Collecting them by paginating five editions took 171 s more, so `finish` should not run it while the label check already publishes.
 
 ### Pilots

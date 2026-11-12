@@ -9,15 +9,14 @@ For the next session that continues the [import v2 simplification plan](booklet-
   - `finish --oversize-reason --oversize-blocks` keeps the exemption in its state (`7c5c04d11`);
   - the label check publishes its compiled diagrams to the shared render cache (`d47629535`).
   - Details and measurements: [import pipeline v2, `finish` time](booklet-import-pipeline-v2.md#finish-time-13-november-2026).
-- **Pagination is diagnosed, not fixed.** `TikZ.flushPending` (`src/lib/tikz.js`) sleeps 200 ms per check. With a 10 ms poll, Ch 5's worked pagination falls from 80 s to 11.5 s. The fix is a `src/` change and waits for James's approval.
+- **Pagination wait fixed** (James approved). `TikZ.flushPending` now wakes when a job finishes instead of sleeping 200 ms per check. Ch 5's worked pagination fell from 80 s to 19 s, and the diagram cache version is unchanged.
 - **Studio on 5173 stopped at about 07:33** while this work was running, cause unknown. It was restarted with the `mathsmap-dev` launch configuration (diagram fingerprint unchanged, `0c360a2a…`). The tunnel was not touched.
 - **Plan items 2 and 6–10 have not been started.** Decisions 2–5 in the plan doc are still open for James.
 
 ## Next (ranked)
 
-1. **The `flushPending` poll, if James approves.** Make the wait event-driven: resolve when the last job in `root` finishes, keeping the timeout. A shorter poll is the fallback. Before and after, time one export with `lean-review.mjs export` on a scratch copy.
-2. **Measure on the next real import** with `import-run-metrics.mjs`: export compiles (`timings.tikzCompiles` per edition in the export's `report.json`) should be near zero after the label check.
-3. **The open plan items**, in order: 2 (graph template; no-model coverage replay on Ch 5 first), 6, 7, 8, 9, 10.
+1. **Measure on the next real import** with `import-run-metrics.mjs`: export compiles (`timings.tikzCompiles` per edition in the export's `report.json`) should be near zero after the label check, and `timings.paginationMs` close to Ch 2's rate.
+2. **The open plan items**, in order: 2 (graph template; no-model coverage replay on Ch 5 first), 6, 7, 8, 9, 10.
 
 ## Working notes
 
