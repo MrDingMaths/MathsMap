@@ -48,8 +48,13 @@ export async function readinessBlockers(project,{reviewedQuestions={},inspect,si
  const assetSignatures=await(signatures??(async p=>(await import('./verification-cache.mjs')).contentAssetSignatures(p)))(project);
  const coverage=await(inspect??inspectContentCoverage)(project,{assetSignatures,reviewedQuestions});
  const nodes=contentNodes(project),seen=new Set(),rows=[];
+ // An embedded clause (a rule, context or instruction printed inside its question) shares the
+ // question's target; coverage accepts that once the block is reviewed (Mastering Adv 11 Ch 5).
+ const entries=project.source?.inventory?.entries??project.sourceInventory?.entries??[],owner=e=>e?.embeddedInQuestion??e?.presentation?.embeddedInQuestion;
+ const embeddedClause=id=>{const e=entries.find(x=>x.id===id);return ['teaching','instruction'].includes(e?.kind)&&!!owner(e)&&entries.some(q=>q.kind==='question'&&q.id===owner(e)&&q.targetId===e.targetId);};
  for(const issue of [...coverage.issues??[],...coverage.presentation?.issues??[]]){
   const key=issue.kind+'|'+issue.targetId;
+  if(issue.kind==='duplicate'&&embeddedClause(/same target: (\S+)$/.exec(issue.note??'')?.[1]))continue;
   if(REVIEW_SETTLED.has(issue.kind)||seen.has(key))continue;seen.add(key);
   const block=nodes.get(issue.targetId)?.block?.id??(project.sections??[]).flatMap(s=>s.blocks??[]).find(b=>b.id===issue.targetId)?.id;
   rows.push({stage:'readiness',message:'Source '+issue.kind+' '+(issue.targetId??'')+': '+issue.note,...(block?{blockIds:[block]}:{})});

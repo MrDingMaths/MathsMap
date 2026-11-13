@@ -91,4 +91,9 @@ test('readiness blockers report prompt and response-space issues before any expo
  assert.ok(rows.every(r=>r.stage==='readiness'&&r.blockIds?.[0]==='q1'));
  const settled=await readinessBlockers(project,{signatures:async()=>({}),inspect:async()=>({issues:[{kind:'ambiguous',targetId:'a',note:'x'},{kind:'review-finding',targetId:'a',note:'y'}],presentation:{issues:[]}})});
  assert.deepEqual(settled,[]);
+ // An embedded clause sharing its question's target is settled by content review (Mastering Adv 11 Ch 5).
+ project.source.inventory.entries.push({id:'q-rule',kind:'teaching',targetId:'root',field:'/prompt',embeddedInQuestion:'q',pageNumber:1},{id:'loose',kind:'teaching',targetId:'root',field:'/prompt',pageNumber:1});
+ const dup=id=>({kind:'duplicate',targetId:'root',note:'Multiple inventory items map to the same target: '+id});
+ const embedded=await readinessBlockers(project,{signatures:async()=>({}),inspect:async()=>({issues:[dup('q-rule'),dup('loose')],presentation:{issues:[]}})});
+ assert.equal(embedded.length,1);assert.match(embedded[0].message,/loose/);
 });
