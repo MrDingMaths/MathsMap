@@ -37,6 +37,26 @@ export function preReviewBlockers({runDir,project,projectFile,manifest,config=re
  return {blockers,plan:{pending:plan.pending,batches:plan.batches,largestPrompt:plan.largestPrompt}};
 }
 
+// The export's readiness report (inspectContentCoverage) as blockers, before any export. It used
+// to surface only after an export, and only once coverage was complete: Mastering Ch 3's 26
+// blank-prompt and response-space issues were in every export but first reported after the
+// third (13 November 2026). Issues that content review itself settles (ambiguous or unmapped
+// content, review findings, unchecked rows) are left to it.
+const REVIEW_SETTLED=new Set(['ambiguous','unmapped-content','review-finding','unchecked']);
+export async function readinessBlockers(project,{reviewedQuestions={},inspect,signatures}={}){
+ const {inspectContentCoverage,contentNodes}=await import('../../src/lib/booklet-content-verification.js');
+ const assetSignatures=await(signatures??(async p=>(await import('./verification-cache.mjs')).contentAssetSignatures(p)))(project);
+ const coverage=await(inspect??inspectContentCoverage)(project,{assetSignatures,reviewedQuestions});
+ const nodes=contentNodes(project),seen=new Set(),rows=[];
+ for(const issue of [...coverage.issues??[],...coverage.presentation?.issues??[]]){
+  const key=issue.kind+'|'+issue.targetId;
+  if(REVIEW_SETTLED.has(issue.kind)||seen.has(key))continue;seen.add(key);
+  const block=nodes.get(issue.targetId)?.block?.id??(project.sections??[]).flatMap(s=>s.blocks??[]).find(b=>b.id===issue.targetId)?.id;
+  rows.push({stage:'readiness',message:'Source '+issue.kind+' '+(issue.targetId??'')+': '+issue.note,...(block?{blockIds:[block]}:{})});
+ }
+ return rows;
+}
+
 export async function finishCheck({runDir,projectFile,projectId,visibilityReviews,render=true,labels=true,oversize,log=()=>{}},deps={}){
  const started=Date.now(),manifest=read(path.join(runDir,'manifest.json')),config=readRunConfig(runDir);
  // A resumed finish works on its own candidate; a new one starts from the given file.
@@ -49,6 +69,8 @@ export async function finishCheck({runDir,projectFile,projectId,visibilityReview
  project=references.project;
  const {blockers,plan}=preReviewBlockers({runDir,project,projectFile:source,manifest,config,visibilityReviews,oversize});
  const add=(stage,message,blockIds=[])=>blockers.push({stage,message,...(blockIds.length?{blockIds}:{})});
+ try{blockers.push(...await(deps.readiness??readinessBlockers)(project,{reviewedQuestions:loadReviewed(path.join(runDir,'lean-review')).questions}));}
+ catch(error){add('readiness','Readiness check failed: '+error.message);}
  let labelResult=null;
  if(labels){
   // Label collisions as the finish label check sees them (Studio's own inspection, cached by code).

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {runConfigProblems} from '../scripts/booklet/import-run-config.mjs';
-import {finishCheck} from '../scripts/booklet/import-finish-check.mjs';
+import {finishCheck,readinessBlockers} from '../scripts/booklet/import-finish-check.mjs';
 import {diagramLabelCheck} from '../scripts/booklet/import-finish.mjs';
 
 const tmp=t=>{fs.mkdirSync('.booklet-work',{recursive:true});const dir=fs.mkdtempSync(path.join('.booklet-work','finish-check-test-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
@@ -79,4 +79,16 @@ test('the label check publishes what Studio compiled to the given render cache, 
  assert.equal(done.published,1);assert.equal((await readRenderEntry(version,key,{cacheRoot}))?.svg,svg);
  const changed=await publishCheckedDiagrams(page('b'.repeat(64)),cacheRoot,m=>logs.push(m));
  assert.equal(changed.published,0);assert.match(logs.at(-1),/skipped: diagram renderer changed/);
+});
+
+test('readiness blockers report prompt and response-space issues before any export, leaving review-settled ones to review',async()=>{
+ const answer={short:'1',worked:'One.'};
+ const project={id:'p',source:{reviewProfile:'textbook-three-pass-v1',inventory:{entries:[{id:'q',kind:'question',targetId:'root',field:'/prompt',pageNumber:1},{id:'q-a',kind:'part',targetId:'a',parentId:'q',pageNumber:1}]}},
+  sections:[{id:'s',phase:'practice',blocks:[{id:'q1',type:'question',sourceReview:{responses:[{targetId:'a',kind:'cloze'}]},content:{id:'root',type:'question',prompt:'For each, state the axis.',children:[{id:'a',type:'part',prompt:'',answerSpaceMm:20,answer}]}}]}]};
+ const rows=await readinessBlockers(project,{signatures:async()=>({})});
+ const messages=rows.map(r=>r.message).join('\n');
+ assert.match(messages,/missing-prompt a/);
+ assert.ok(rows.every(r=>r.stage==='readiness'&&r.blockIds?.[0]==='q1'));
+ const settled=await readinessBlockers(project,{signatures:async()=>({}),inspect:async()=>({issues:[{kind:'ambiguous',targetId:'a',note:'x'},{kind:'review-finding',targetId:'a',note:'y'}],presentation:{issues:[]}})});
+ assert.deepEqual(settled,[]);
 });

@@ -161,7 +161,7 @@ test('v2 finish applies fixes at preparation and prints nothing while the pre-re
  const questions=Object.fromEntries(p.sections.flatMap(s=>s.blocks).map(b=>[b.id,{hash:contentHash(b),outcome:'passed'}]));
  saveReviewed(path.join(runDir,'lean-review'),{questions,pages:{},workflow:{p:{sample:{accepted:true,sourceKey:sampleSourceKey(manifest)}}}});
  let fixes=0,exports=0,gate={errors:['Targeted render, worked p54: footer-overflow']};
- const deps={prepare:async()=>{},preflightFixes:()=>{fixes++;return {counts:{}};},labels:async()=>({checked:{},collisions:[]}),preReview:()=>({blockers:[]}),layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),
+ const deps={prepare:async()=>{},preflightFixes:()=>{fixes++;return {counts:{}};},labels:async()=>({checked:{},collisions:[]}),preReview:()=>({blockers:[]}),readiness:async()=>[],layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),
   preRender:async()=>gate,shading:async()=>({errors:[]}),export:async({out})=>{exports++;write(path.join(out,'report.json'),{report:{p:{}}});},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()}),writeHandoff:()=>{}};
  const blocked=await finishImport({runDir,projectFile},deps);
  assert.equal(blocked.deliverable,false);assert.equal(exports,0);assert.match(blocked.completion.blockers.join(' '),/footer-overflow/);
@@ -176,7 +176,7 @@ test('finish keeps a named oversize exemption in its state and passes it to the 
  const questions=Object.fromEntries(p.sections.flatMap(s=>s.blocks).map(b=>[b.id,{hash:contentHash(b),outcome:'passed'}]));
  saveReviewed(path.join(runDir,'lean-review'),{questions,pages:{},workflow:{p:{sample:{accepted:true,sourceKey:sampleSourceKey(manifest)}}}});
  const seen={preReview:[],content:[]};
- const deps={prepare:async()=>{},preflightFixes:()=>({counts:{}}),labels:async()=>({checked:{},collisions:[]}),
+ const deps={prepare:async()=>{},preflightFixes:()=>({counts:{}}),labels:async()=>({checked:{},collisions:[]}),readiness:async()=>[],
   preReview:({oversize})=>{seen.preReview.push(oversize);return {blockers:oversize?.blocks?.includes('p61-q20')?[]:[{message:'Prompt size: p61-q20 is over the limit'}]};},
   layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async({oversize})=>{seen.content.push(oversize);return {};},images:async()=>({errors:[]}),
   preRender:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{p:{}}});},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()}),writeHandoff:()=>{}};

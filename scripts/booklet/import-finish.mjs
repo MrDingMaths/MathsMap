@@ -253,8 +253,10 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   // Every pre-review blocker at once (simplification plan item 3): config, structure (C8, C9,
   // question references), evidence, prompt size and the labels placement could not clear.
   // No content review call starts while any is reported. finish --check lists the same and more.
-  const {preReviewBlockers}=await import('./import-finish-check.mjs');
+  const {preReviewBlockers,readinessBlockers}=await import('./import-finish-check.mjs');
   const pre=(deps.preReview??preReviewBlockers)({runDir,project:read(file),projectFile:file,manifest,config:readRunConfig(runDir),stages:['config','structure','evidence','prompt-size'],oversize});
+  // The export readiness checks (prompts, response space, coverage duplicates), before any export.
+  pre.blockers.push(...await(deps.readiness??readinessBlockers)(read(file),{reviewedQuestions:loadReviewed(dir).questions}));
   const blockers=[...pre.blockers.map(row=>row.message),...labels.collisions.map(row=>'Diagram label collision in '+row.id+' (placement could not clear it): '+row.issues.join('; '))];
   if(blockers.length)return incomplete(assessCompletion({errors:blockers}),{preReview:pre.blockers,diagramLabels:labels});
  }
