@@ -1,0 +1,312 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-37f56f4c-09ba-49a6-b5db-e02b31027830",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-sides-similar",
+    "secondarySkillIds": [
+      "prove-similar-triangles",
+      "bearings-problems",
+      "exact-trig-ratios",
+      "trig-practical-problems"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Earlier parts explicitly scaffold angles, exact trigonometric lengths and an AAA similarity/proportional-side argument. The final part still requires recognising the perpendicular endpoint triangle and combining remaining walking-path lengths with Pythagoras; that routine linked synthesis puts the whole task just into Mastery.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:50:04.219Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1921df177010f03e12c9542cd0b6a1458b1880512235f2fadb4483ad0f093366",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/direct-independent-subagent-postfill-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p16-continuation",
+    "type": "question",
+    "label": "4",
+    "prompt": "Pedro and Sam are both camping in the bush. Sam’s campsite is 15 km due east of Pedro’s campsite. At 9 a.m., they both walk out from their campsites. Initially Pedro walks 5 km to checkpoint $A$. From there, he turns right $90^\\circ$ and walks 15 km to checkpoint $B$. Sam just walks 10 km to checkpoint $C$. The paths Pedro and Sam follow from their campsites are indicated on the diagram below. The angles are given from due north. Let $P$ and $S$ represent Pedro and Sam’s campsites, respectively.\n\nLet $X$ be the point where their paths cross and $Y$ be the point of intersection of the lines $PS$ and $AX$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"directionRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes compass and perpendicular projection guides from walking paths\"}],\"reference\":\"PDF page 15 question 4 path diagram\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.48cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{directionRed}{HTML}{EF6068}\n\\coordinate (P) at (0,0);\\coordinate (A) at (2.5,{2.5*sqrt(3)});\\coordinate (Y) at (10,0);\\coordinate (S) at (15,0);\\coordinate (X) at (13.75,{-1.25*sqrt(3)});\\coordinate (Z) at (13.75,0);\\coordinate (B) at ({2.5+7.5*sqrt(3)},{2.5*sqrt(3)-7.5});\\coordinate (C) at (10,{-5*sqrt(3)});\\coordinate (NP) at (0,5);\\coordinate (NS) at (15,5);\n\\draw[directionRed,dashed,line width=0.4pt,->] (0,-1.5)--(NP) node[above,text=black] {N};\n\\draw[directionRed,dashed,line width=0.4pt,->] (P)--(0,-1.5);\n\\draw[directionRed,dashed,line width=0.4pt,->] (S)--(-1.5,0) node[left,text=black] {$W$};\n\\draw[directionRed,dashed,line width=0.4pt,->] (X)--(13.75,5) node[above,text=black] {N};\n\\draw[directionRed,dashed,line width=0.4pt,->] (S)--(NS) node[above,text=black] {N};\n\\draw[black,line width=0.8pt] (P)--(A)--(B);\\draw[black,line width=0.8pt] (S)--(C);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,\"$30^\\circ$\",angle eccentricity=1.45] {angle=A--P--NP};\n\\pic[draw=black,->,line width=0.4pt,angle radius=8mm] {angle=NS--S--C};\n\\node[anchor=east,inner sep=2pt] at (12.6,1.7) {$150^\\circ$};\n\\draw[black,line width=0.4pt] (12.7,1.7)--(13.5,1.7)--(13.8,1.15);\n\\draw[black,line width=0.4pt] ($(A)+(-0.20,{-0.20*sqrt(3)})$)--($(A)+({0.20*sqrt(3)-0.20},{-0.20*sqrt(3)-0.20})$)--($(A)+({0.20*sqrt(3)},-0.20)$);\n\\draw[black,line width=0.4pt] ($(Z)+(-0.35,0)$)--($(Z)+(-0.35,-0.35)$)--($(Z)+(0,-0.35)$);\n\\foreach \\p in {P,A,Y,Z,S,X,B,C}{\\fill[black] (\\p) circle (1.3pt);}\n\\node[below right] at (P) {$P$};\\node[above left] at (A) {$A$};\\node[above] at (Y) {$Y$};\\node[above right=2pt] at (Z) {$Z$};\\node[right] at (S) {$S$};\\node[below left] at (X) {$X$};\\node[right] at (B) {$B$};\\node[below left] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 115,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 4 path diagram",
+          "description": "Editable walking-path diagram. Ordinary paths and point markers use house black; red dashed compass and projection guides distinguish directional construction. The 150° sector at S runs anticlockwise from north to the southwest path. Coordinates derive from the supplied lengths and angles. Native angle and right-angle marks require final-size inspection.",
+          "mathematics": "PA perpendicular to AB; A,Y,X,B collinear; S,X,C collinear; P,Y,Z,S collinear; XZ perpendicular to PS. PA=5 km, AB=15 km, PS=15 km, SC=10 km are supplied in the stem, not labelled on the diagram.",
+          "answerVisibility": "Supplied question geometry only; no calculated lengths or requested angles."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p15-q4-compass",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"directionRed\",\"hex\":\"EF6068\",\"reason\":\"compass orientation guide\"}],\"reference\":\"PDF page 15 question 4 North/East cue\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{directionRed}{HTML}{EF6068}\n\\draw[directionRed,dashed,line width=0.5pt,->] (0,-0.6)--(0,0.8) node[above,text=black] {North};\n\\draw[directionRed,dashed,line width=0.4pt] (-0.6,0)--(0.65,0) node[right,text=black] {East};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 30,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Separate compass cue above question 4 paths",
+          "description": "North points upward and East points right; retained separately as an editable orientation cue.",
+          "mathematics": "Perpendicular north and east directions.",
+          "answerVisibility": "Permanent orientation information."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-cont-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Find each angle.",
+        "layout": "grid",
+        "columns": 4,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-cont-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$\\angle APS$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$60^\\circ$",
+              "worked": "$$\\begin{align*}\\angle APS&=90^\\circ-30^\\circ\\\\\\angle APS&=60^\\circ\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p16-cont-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$\\angle AYP$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$30^\\circ$",
+              "worked": "$\\angle PAY=90^\\circ$.\n\n$$\\begin{align*}\\angle AYP&=180^\\circ-90^\\circ-60^\\circ\\\\\\angle AYP&=30^\\circ\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p16-cont-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "$\\angle SYX$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$30^\\circ$",
+              "worked": "$\\angle SYX=\\angle AYP=30^\\circ$ because they are vertically opposite angles.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p16-cont-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$\\angle SXY$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$90^\\circ$",
+              "worked": "The marked $150^\\circ$ is anticlockwise from north, so $\\angle XSY=150^\\circ-90^\\circ=60^\\circ$.\n\n$$\\begin{align*}\\angle SXY&=180^\\circ-60^\\circ-30^\\circ\\\\\\angle SXY&=90^\\circ\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          }
+        ]
+      },
+      {
+        "id": "p16-cont-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-cont-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Find the distance $PY$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$10\\text{ km}$",
+              "worked": "In right-angled $\\triangle PAY$:\n\n$$\\begin{align*}\\cos60^\\circ&=\\frac{5}{PY}\\\\PY&=\\frac{5}{\\cos60^\\circ}\\\\PY&=10\\text{ km}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p16-cont-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Hence, calculate the distance $YS$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$5\\text{ km}$",
+              "worked": "$$\\begin{align*}YS&=PS-PY\\\\YS&=15-10\\\\YS&=5\\text{ km}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      },
+      {
+        "id": "p16-cont-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $\\triangle PAY$ and $\\triangle SXY$ are similar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle PAY\\sim\\triangle SXY$ (AAA): corresponding angles are $60^\\circ$, $90^\\circ$ and $30^\\circ$.",
+          "worked": "$\\angle PAY=\\angle SXY=90^\\circ$.\n\n$\\angle APY=\\angle XSY=60^\\circ$.\n\n$\\angle AYP=\\angle SYX=30^\\circ$.\n\nTherefore $\\triangle PAY\\sim\\triangle SXY$ (AAA), with correspondence $P\\leftrightarrow S$, $A\\leftrightarrow X$, $Y\\leftrightarrow Y$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p16-cont-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, find the distance $SX$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2.5\\text{ km}$",
+          "worked": "Using corresponding sides of $\\triangle PAY$ and $\\triangle SXY$:\n\n$$\\begin{align*}\\frac{SX}{PA}&=\\frac{SY}{PY}\\\\SX&=5\\times\\frac{5}{10}\\\\SX&=2.5\\text{ km}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p16-cont-e",
+        "type": "group",
+        "label": "e",
+        "prompt": "Find the exact values of:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-cont-e-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$AX$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{15\\sqrt3}{2}\\text{ km}$",
+              "worked": "$$\\begin{align*}AY&=PA\\tan60^\\circ\\\\AY&=5\\sqrt3\\text{ km}\\\\XY&=SX\\tan60^\\circ\\\\XY&=\\frac{5\\sqrt3}{2}\\text{ km}\\\\AX&=AY+YX\\\\AX&=5\\sqrt3+\\frac{5\\sqrt3}{2}\\\\AX&=\\frac{15\\sqrt3}{2}\\text{ km}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 54
+          },
+          {
+            "id": "p16-cont-e-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$XB$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{30-15\\sqrt3}{2}\\text{ km}$",
+              "worked": "$$\\begin{align*}XB&=AB-AX\\\\XB&=15-\\frac{15\\sqrt3}{2}\\\\XB&=\\frac{30-15\\sqrt3}{2}\\text{ km}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          }
+        ]
+      },
+      {
+        "id": "p16-cont-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Hence, find how far apart Pedro and Sam finish up. Give your answer, correct to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7.765\\text{ km}$, or $7765\\text{ m}$.\n\nUse Pythagoras’ theorem in right-angled $\\triangle BXC$.",
+          "worked": "$$\\begin{align*}XC&=SC-SX\\\\XC&=10-2.5\\\\XC&=\\frac{15}{2}\\text{ km}\\end{align*}$$\n\nSince $\\angle BXC=90^\\circ$, Pythagoras’ theorem gives\n\n$$\\begin{align*}BC^2&=XB^2+XC^2\\\\BC^2&=\\left(\\frac{30-15\\sqrt3}{2}\\right)^2+\\left(\\frac{15}{2}\\right)^2\\\\BC^2&=225(2-\\sqrt3)\\\\BC&=15\\sqrt{2-\\sqrt3}\\text{ km}\\\\BC&\\approx7.765\\text{ km}\\end{align*}$$\n\nPedro and Sam finish $7765\\text{ m}$ apart, to the nearest metre.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:53.972Z",
+  "updatedAt": "2026-11-13T05:03:53.973Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p15-q4",
+    "sectionRole": "exercise"
+  }
+}

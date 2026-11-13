@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-22821145-035d-493d-8f99-48e88676994e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "pythagoras-theorem-statement"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct the three semicircle relationships, decompose the unlabelled lunes into semicircle areas minus shared circular segments, and select Pythagoras to cancel the squared-side terms. The area36 is given, but the multi-step decomposition and theorem connection are not scaffolded; no new theorem beyond the supplied circle-area and Pythagoras methods is required.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:06:58.703Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6877a518efd4859d2ae168854df7af8ac19752f1bb32fed056358cf336c06869",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch20-20261015/direct-independent-factorisation-source15-three-content-20261024/response.json",
+      "originalTaskHash": "dea15e09b10968b21d30513b641cd64357a6c2e4a5a214f4a75e3df2259f991e"
+    }
+  },
+  "content": {
+    "id": "p15-circles-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Circles. Start with a right-angled triangle. Construct three circles, using the three sides as diameters so that each circle has the midpoint of a side as its centre, as shown. Assume that the area of the triangle is $36\\text{ cm}^2$. Find the combined area of the shaded regions of the two smaller circles that lie outside the largest circle.\n\nWhat is surprising about the result?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-circles-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"lunefill\",\"hex\":\"D3E8FC\",\"reason\":\"The two mathematically requested lunes inside the smaller circles and outside the hypotenuse circle.\"},{\"name\":\"centrepoint\",\"hex\":\"EF6068\",\"reason\":\"The three supplied circle centres.\"}],\"reference\":\"Actual original15 Circles given regions and centres\"}\n\\definecolor{lunefill}{HTML}{D3E8FC}\\definecolor{centrepoint}{HTML}{EF6068}\n\\begin{tikzpicture}[x=1cm,y=1cm,font=\\fontsize{10}{12}\\selectfont,line width=.8pt]\n\\fill[lunefill](0,4)arc(90:270:2)arc(213.690067526:146.309932474:{sqrt(13)})--cycle;\n\\fill[lunefill](0,0)arc(180:360:3)arc(326.309932474:213.690067526:{sqrt(13)})--cycle;\n\\draw(0,2)circle(2);\\draw(3,0)circle(3);\\draw(3,2)circle({sqrt(13)});\\draw(0,4)--(0,0)--(6,0)--cycle;\n\\draw[line width=.4pt](0,.2)--(.2,.2)--(.2,0);\n\\fill[centrepoint](0,2)circle(1.3pt);\\fill[centrepoint](3,0)circle(1.3pt);\\fill[centrepoint](3,2)circle(1.3pt);\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Circles",
+          "description": "Complete circles on three sides of a right triangle, vertical short leg left/horizontal longer leg below. Only two smaller-circle regions outside the hypotenuse circle shaded. Three side midpoint centres red, right-angle lower-left. No numeric dimensions supplied.",
+          "mathematics": "Right triangle and its diameter circles; the requested two lunes are mathematical fill, not decorative backgrounds.",
+          "answerVisibility": "Supplied source regions/centres only, no derived area."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$36\\text{ cm}^2$, equal to the area of the triangle.",
+      "worked": "Call the perpendicular sides $a,b$ and the hypotenuse $c$. The two outward semicircles have total area $\\pi \\frac{a^2}{8}+\\pi \\frac{b^2}{8}$. The semicircle on the hypotenuse, on the triangle side, consists of the triangle together with the two unshaded circular segments. Thus the two lunes have combined area\n\n$$\\begin{aligned}L&=\\frac{\\pi a^2}{8}+\\frac{\\pi b^2}{8}-\\left(\\frac{\\pi c^2}{8}-\\frac{ab}{2}\\right)\\\\&=\\frac{\\pi(a^2+b^2-c^2)}{8}+\\frac{ab}{2}\\\\&=\\frac{ab}{2}=36\\text{ cm}^2.\\end{aligned}$$\n\nThe cancellation uses Pythagoras’ theorem, $a^2+b^2=c^2$. Surprisingly, the combined curved lune area equals the triangle area, independent of the right triangle’s shape.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 110
+  },
+  "presentation": {
+    "ownerId": "p15-circles",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:06:13.575Z",
+  "updatedAt": "2026-11-13T05:06:13.575Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch20-20261015",
+    "blockId": "p15-circles",
+    "sectionRole": "exercise"
+  }
+}

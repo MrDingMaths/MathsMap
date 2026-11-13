@@ -1,0 +1,163 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f1d67e0c-e40c-4f20-a6bf-ae41c9c0dfaf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "pythagoras-problems",
+      "expand-binomial-products"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Part a guides the Pythagoras equations for a previously encountered median identity. Part b requires constructing the diagonals, establishing their bisection, recognising a triangle to which the identity applies, and converting half-diagonal squares into the required result.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T09:36:15.303Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "24583535040d8d9c0c7398d9b7caefa4ea5bbf5065dce976c354534d4d73afcb",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch10-20261015/direct-retained-individual-assessment-23-assignment-2e6524614a62962e1718-1792748046355/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q20-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "$ABC$ is a triangle and $AQ$ is an altitude where $Q$ lies between $B$ and $C$. $P$ is the midpoint of $BC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p23-q20-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 p23-q20-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0);\\coordinate (P) at (2.3,0);\\coordinate (Q) at (3,0);\\coordinate (C) at (4.6,0);\\coordinate (A) at (3,2.9);\n\\draw (A)--(B)--(C)--cycle;\\draw (A)--(P);\\draw (A)--(Q);\n\\draw[line width=0.4pt] (2.82,0)--(2.82,0.18)--(3,0.18);\n\\node[above] at (A) {$A$};\\node[below left] at (B) {$B$};\\node[below] at (P) {$P$};\\node[below] at (Q) {$Q$};\\node[below right] at (C) {$C$};\n\\path (B)--node[above left] {$c$} (A);\\path (A)--node[above right] {$b$} (C);\\path (A)--node[right] {$h$} (Q);\n\\path (B)--node[below] {$a$} (P);\\path (P)--node[below] {$x$} (Q);\\path (Q)--node[below] {$a-x$} (C);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 23,
+              "sourceRegion": "Question 20a",
+              "description": "Triangle with median AP and altitude AQ; baseline order B, P, Q, C. Ordinary source blue strokes become house black. Coordinates establish the pictured relationships without adding numerical givens.",
+              "mathematics": "BP=PC=a, PQ=x, QC=a-x, AB=c, AC=b, AQ=h and AQ perpendicular to BC.",
+              "answerVisibility": "Only source givens and the supplied right-angle mark are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p23-q20-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Use Pythagoras’ theorem in triangles $ABQ$ and $ACQ$ to find relationships for $c^2$ and $b^2$ in terms of $a$, $x$ and $h$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$c^2=(a+x)^2+h^2$, $b^2=(a-x)^2+h^2$.",
+              "worked": "$BQ=BP+PQ=a+x$ and $CQ=PC-PQ=a-x$. Applying Pythagoras’ theorem in the two right-angled triangles gives\n$$\\begin{align*}c^2&=(a+x)^2+h^2\\\\b^2&=(a-x)^2+h^2.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p23-q20-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Prove that $AB^2+AC^2=2BP^2+2AP^2$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AB^2+AC^2=2a^2+2(x^2+h^2)=2BP^2+2AP^2$.\n\nAdd the equations from part i and use Pythagoras in $APQ$.",
+              "worked": "Adding the equations from part i:\n$$\\begin{align*}AB^2+AC^2&=(a+x)^2+h^2+(a-x)^2+h^2\\\\AB^2+AC^2&=a^2+2ax+x^2+a^2-2ax+x^2+2h^2\\\\AB^2+AC^2&=2a^2+2(x^2+h^2).\\end{align*}$$\nIn right-angled triangle $APQ$, $AP^2=x^2+h^2$, and $BP=a$. Therefore\n$$AB^2+AC^2=2BP^2+2AP^2.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 62
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p23-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use part a to prove that for any parallelogram $ABCD$\n$$2AB^2+2BC^2=AC^2+BD^2.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p23-q20-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 p23-q20-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (0.65,1.25);\\coordinate (C) at (3.7,1.25);\\coordinate (D) at (3.05,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\node[below left] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[above right] at (C) {$C$};\\node[below right] at (D) {$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 23,
+              "sourceRegion": "Question 20b",
+              "description": "Unshaded parallelogram with A bottom-left, B top-left, C top-right and D bottom-right. No source diagonals or marks are added.",
+              "mathematics": "AB parallel to CD and BC parallel to AD.",
+              "answerVisibility": "Only the supplied parallelogram and vertex names are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "Let the diagonals meet at $O$. Applying part a in $ABC$ gives $AB^2+BC^2=2AO^2+2BO^2$. Since the diagonals bisect each other, multiplying by $2$ gives $2AB^2+2BC^2=AC^2+BD^2$.",
+          "worked": "Draw diagonals $AC$ and $BD$, meeting at $O$. First establish that they bisect each other. Triangles $ABC$ and $CDA$ have two equal alternate-angle pairs and common side $AC$, so they are congruent by AAS. Hence $AB=CD$. In triangles $ABO$ and $CDO$, the alternate angles at $A,C$ and at $B,D$ are equal, and $AB=CD$. Thus these triangles are congruent by AAS, giving $AO=CO$ and $BO=DO$.\n\nApply part a to triangle $ABC$, with vertex $B$ and midpoint $O$ of $AC$:\n$$\\begin{align*}AB^2+BC^2&=2AO^2+2BO^2\\\\2AB^2+2BC^2&=4AO^2+4BO^2\\\\2AB^2+2BC^2&=(2AO)^2+(2BO)^2\\\\2AB^2+2BC^2&=AC^2+BD^2.\\end{align*}$$\nThe median identity also holds when the altitude meets an extension of the opposite side: the two squared base distances are still $(a+x)^2$ and $(a-x)^2$, possibly interchanged, so their sum is unchanged. The proof therefore applies to any parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 95
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:07:04.095Z",
+  "updatedAt": "2026-11-13T05:07:04.096Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch10-20261015",
+    "blockId": "p23-q20",
+    "sectionRole": "exercise"
+  }
+}

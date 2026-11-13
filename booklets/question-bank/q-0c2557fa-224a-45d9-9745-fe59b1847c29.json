@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0c2557fa-224a-45d9-9745-fe59b1847c29",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-sides-similar",
+    "secondarySkillIds": [
+      "area-trapezium",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infer midpoint relationships within a regular hexagon and combine similarity, symmetry and area formulas to compare two different regions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T07:59:33.097Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1d0851424914c19dfd1d5f4daff46fe9beeb4ade89582b2f98be239db68f0e03",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch10-20261015/semantic-packets/assignments/assignment-d1afed7d267deaf586c1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p25-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "$ABCDEF$ is a regular hexagon. $X$ is the midpoint of $AB$. $XE$ and $XD$ are drawn to meet $FC$ at $Y$ and $Z$, respectively.\n\nFind the ratio:\n\nArea of quadrilateral $YZDE$ : Area of $\\triangle FYX$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25 p25-q13-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-1,{sqrt(3)});\n\\coordinate (B) at (1,{sqrt(3)});\n\\coordinate (C) at (2,0);\n\\coordinate (D) at (1,{-sqrt(3)});\n\\coordinate (E) at (-1,{-sqrt(3)});\n\\coordinate (F) at (-2,0);\n\\coordinate (X) at (0,{sqrt(3)});\n\\coordinate (Y) at (-0.5,0);\n\\coordinate (Z) at (0.5,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--(E)--(F)--cycle;\n\\draw[black,line width=0.8pt] (F)--(C) (X)--(E) (X)--(D) (F)--(X);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\node[above] at (X) {$X$};\n\\node[above left] at (Y) {$Y$};\n\\node[above right] at (Z) {$Z$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 13, lower-right hexagon",
+          "description": "Regular hexagon with horizontal AB, FC and ED. X is the midpoint of AB. XE and XD meet FC at Y and Z, in the order F, Y, Z, C. FX is retained. Ordinary source blue strokes are reconstructed in house black.",
+          "mathematics": "All six sides are equal; FC is the long horizontal diagonal. The intersection points are derived from XE and XD, with no added measurements or answer annotations.",
+          "answerVisibility": "Only the supplied geometry and labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$2:1$.\n\nUse the midpoint relationships to find $YZ$ and $FY$, then compare the trapezium and triangle areas.",
+      "worked": "Let each hexagon side have length $s$, and let the perpendicular distance from $X$ to $FC$ be $h$.\n\nA regular hexagon divides into six equilateral triangles, so $FC=2s$. Also, $AB$, $FC$ and $ED$ are parallel, with equal perpendicular distances between consecutive lines. Hence the distance from $FC$ to $ED$ is also $h$.\n\nIn $\\triangle XED$, $\\triangle XYZ$ is similar to $\\triangle XED$ (AAA). Its height is half the height of $\\triangle XED$, so\n$$\\begin{align*}YZ&=\\frac12 ED\\\\YZ&=\\frac{s}{2}.\\end{align*}$$\nBy symmetry, $FY=ZC$. Therefore,\n$$\\begin{align*}FY&=\\frac{FC-YZ}{2}\\\\FY&=\\frac{2s-s/2}{2}\\\\FY&=\\frac{3s}{4}.\\end{align*}$$\nThe quadrilateral $YZDE$ is a trapezium with parallel sides $YZ$ and $ED$, and height $h$.\n$$\\begin{align*}\\operatorname{Area}(YZDE)&=\\frac12\\left(\\frac{s}{2}+s\\right)h\\\\\\operatorname{Area}(YZDE)&=\\frac{3sh}{4}\\\\\\operatorname{Area}(\\triangle FYX)&=\\frac12\\times\\frac{3s}{4}\\times h\\\\\\operatorname{Area}(\\triangle FYX)&=\\frac{3sh}{8}.\\end{align*}$$\nThus the required ratio is\n$$\\frac{3sh}{4}:\\frac{3sh}{8}=2:1.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 88
+  },
+  "presentation": {
+    "ownerId": "p25-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:22.434Z",
+  "updatedAt": "2026-11-13T05:03:22.434Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch10-20261015",
+    "blockId": "p25-q13",
+    "sectionRole": "exercise"
+  }
+}

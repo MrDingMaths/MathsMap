@@ -1,0 +1,113 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c590eea7-54e1-4fa8-befd-59888181a659",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "pythagoras-find-shorter-side",
+      "area-of-sector"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "The height part scaffolds the triangle area, but students must independently identify three 60-degree sectors and account for their shared triangle, subtracting its area twice. This connects Pythagoras, sector geometry and overlapping areas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T05:51:30.021Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bbd2fe9e39386c01a7ea9ff54aaee8b5383ff1eb2664fc6c611b9916c50e7dcc",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch20-20261015/direct-current-rating-9-1792734668912/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A company logo consists of an equilateral triangle with an arc of a circle drawn on each side using the opposite vertex as centre. If the length of each side of the equilateral triangle is 6 cm, find:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p9-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 9, p9-q3-diagram\"}\n\\begin{tikzpicture}[x=6mm,y=6mm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (6,0);\n\\coordinate (C) at (3,{3*sqrt(3)});\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.8pt] (A) arc[start angle=180,end angle=120,radius=6];\n\\draw[line width=0.8pt] (C) arc[start angle=60,end angle=0,radius=6];\n\\draw[line width=0.8pt] (B) arc[start angle=-60,end angle=-120,radius=6];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 39.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 9,
+          "sourceRegion": "Chapter 16 review, question 3, logo to the right",
+          "description": "Unshaded equilateral triangle with upper vertex and horizontal base. Three outward circular arcs join its vertices; each arc is centred at the opposite vertex. All three straight triangle sides remain visible. Decorative source blue is replaced by house black.",
+          "mathematics": "Each triangle side and each arc radius is 6 cm. Each arc subtends 60 degrees at its centre. No dimensions or calculated quantities are printed in the figure.",
+          "answerVisibility": "Only the supplied triangle and outer arcs are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p9-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the height of the triangle (giving an exact answer)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\sqrt{3}\\text{ cm}$",
+          "worked": "The perpendicular height bisects the 6 cm base.\n$$\\begin{align*}h^2&=6^2-3^2\\\\h^2&=27\\\\h&=3\\sqrt{3}\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p9-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the area of the logo, correct to 2 decimal places",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$25.37\\text{ cm}^2$\n\nAdd the three $60^\\circ$ sectors and subtract twice the triangle's area.",
+          "worked": "Each sector has radius 6 cm and angle $60^\\circ$.\n$$\\begin{align*}A_{\\text{triangle}}&=\\frac12\\times6\\times3\\sqrt3\\\\A_{\\text{triangle}}&=9\\sqrt3\\text{ cm}^2\\\\A_{\\text{sector}}&=\\frac{60}{360}\\times\\pi\\times6^2\\\\A_{\\text{sector}}&=6\\pi\\text{ cm}^2\\end{align*}$$\nThe logo consists of the triangle and three circular segments. Adding the three sectors counts the triangle three times, so subtract its area twice.\n$$\\begin{align*}A_{\\text{logo}}&=3(6\\pi)-2(9\\sqrt3)\\\\A_{\\text{logo}}&=18\\pi-18\\sqrt3\\\\A_{\\text{logo}}&\\approx25.37\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p9-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:11:11.417Z",
+  "updatedAt": "2026-11-13T05:11:11.417Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch20-20261015",
+    "blockId": "p9-q3",
+    "sectionRole": "exercise"
+  }
+}

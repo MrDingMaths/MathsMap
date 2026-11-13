@@ -1,0 +1,205 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-410fae7b-5966-4f60-890c-03b3e1c85091",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-area-problems",
+    "secondarySkillIds": [
+      "interior-angle-regular-polygon",
+      "pythagoras-find-shorter-side",
+      "simplify-surds-operations"
+    ],
+    "reasoningScore": 83,
+    "difficulty": "Challenge",
+    "difficultyReason": "Derives a regular hexagon’s area formula and applies a geometric size constraint using exact surds.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:19:04.367Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a09c05163dafae590ee82d42e89de545ca5a9ea359b0786c2b6c46d758c80255",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch20-20261015/semantic-packets/assignments/assignment-df3f056d1f5961004f18/5/generation.json"
+    }
+  },
+  "content": {
+    "id": "p16-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "A gardener is building a vegetable garden in the shape of a regular hexagon. In the given diagram $ACDF$ is a rectangle. Let $x$ metres be the length $AF$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p16-q6-hexagon",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"rectangle and horizontal construction segments inside the hexagon\"}],\"reference\":\"20B PDF16 question6 hexagon\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (B) at (-1,0);\\coordinate (T) at (-0.5,{sqrt(3)/2});\\coordinate (U) at (0.5,{sqrt(3)/2});\\coordinate (E) at (1,0);\\coordinate (F) at (0.5,{-sqrt(3)/2});\\coordinate (A) at (-0.5,{-sqrt(3)/2});\\coordinate (C) at (-0.5,0);\\coordinate (D) at (0.5,0);\n\\draw[black,line width=0.8pt] (B)--(T)--(U)--(E)--(F)--(A)--cycle;\n\\draw[constructionRed,dashed,line width=0.4pt] (B)--(E) (A)--(C) (F)--(D);\n\\node[left] at (B){$B$};\\node[right] at (E){$E$};\\node[above left] at (C){$C$};\\node[above right] at (D){$D$};\\node[below left] at (A){$A$};\\node[below right] at (F){$F$};\n\\draw[<->,black,line width=0.5pt] (-0.5,{-sqrt(3)/2-0.16})--node[below]{$x$}(0.5,{-sqrt(3)/2-0.16});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 16,
+          "sourceRegion": "Question 6 regular hexagon",
+          "description": "Regular hexagon with horizontal top and bottom sides; C and D are construction points on BE, directly above A and F.",
+          "mathematics": "ACDF is a rectangle; AF=x; dashed BE, AC and DF partition the lower half.",
+          "answerVisibility": "No derived lengths or angles are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the size of $\\angle BAC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$30^\\circ$",
+          "worked": "$$\\begin{align*}\\angle BAF&=\\frac{(6-2)180^\\circ}{6}\\\\\\angle BAF&=120^\\circ\\\\\\angle BAC&=120^\\circ-90^\\circ\\\\\\angle BAC&=30^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p16-q6-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the following in terms of $x$.",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-q6-bi",
+            "type": "part",
+            "label": "i",
+            "prompt": "$BC$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{x}{2}\\text{ m}$",
+              "worked": "Joining the centre to the vertices divides a regular hexagon into six equilateral triangles of side $x$, so $BE=2x$. By symmetry, $BC=DE$, and $CD=AF=x$.\n\n$$\\begin{align*}BC&=\\frac{BE-CD}{2}\\\\BC&=\\frac{2x-x}{2}\\\\BC&=\\frac{x}{2}\\text{ m}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p16-q6-bii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$AC$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{\\sqrt3x}{2}\\text{ m}$",
+              "worked": "In right-angled triangle $ABC$, $AB=x$.\n\n$$\\begin{align*}AC^2&=AB^2-BC^2\\\\AC^2&=x^2-\\left(\\frac{x}{2}\\right)^2\\\\AC^2&=\\frac{3x^2}{4}\\\\AC&=\\frac{\\sqrt3x}{2}\\text{ m}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 36
+          }
+        ]
+      },
+      {
+        "id": "p16-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the area $(A\\text{ m}^2)$ of the hexagonal vegetable garden is given by $A=\\dfrac{3\\sqrt3x^2}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\dfrac{3\\sqrt3x^2}{2}$",
+          "worked": "The lower half is rectangle $ACDF$ and two congruent right triangles. The upper half has the same area.\n\n$$\\begin{align*}A&=2\\left[x\\times\\frac{\\sqrt3x}{2}+2\\left(\\frac12\\times\\frac{x}{2}\\times\\frac{\\sqrt3x}{2}\\right)\\right]\\\\A&=2\\left(\\frac{\\sqrt3x^2}{2}+\\frac{\\sqrt3x^2}{4}\\right)\\\\A&=\\frac{3\\sqrt3x^2}{2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p16-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find, correct to 2 decimal places, the area $(A\\text{ m}^2)$ if $x=2.5\\text{ m}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$16.24\\text{ m}^2$",
+          "worked": "$$\\begin{align*}A&=\\frac{3\\sqrt3(2.5)^2}{2}\\\\A&=\\frac{75\\sqrt3}{8}\\\\A&\\approx16.24\\text{ m}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p16-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "To fit in the gardener’s backyard, the distance between opposite sides of the vegetable garden must be less than or equal to 7 m.\n\nFind the largest value of $x$, correct to 2 decimal places, such that the vegetable garden, perhaps rotated, will fit in the gardener’s backyard.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\dfrac7{\\sqrt3}\\approx4.04\\text{ m}$",
+          "worked": "The perpendicular distance between opposite sides is $2AC=\\sqrt3x$.\n\n$$\\begin{align*}\\sqrt3x&\\le7\\\\x&\\le\\frac7{\\sqrt3}.\\end{align*}$$\n\nThe largest value is $\\dfrac7{\\sqrt3}\\text{ m}$, or $4.04\\text{ m}$ correct to 2 decimal places.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p16-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Using the unrounded limiting value of $x$ from part e, find, correct to 2 decimal places, the largest possible area of the vegetable garden.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$42.44\\text{ m}^2$\n\nUse the exact limiting length before rounding the area.",
+          "worked": "$$\\begin{align*}A&=\\frac{3\\sqrt3}{2}\\left(\\frac7{\\sqrt3}\\right)^2\\\\A&=\\frac{49\\sqrt3}{2}\\\\A&\\approx42.44\\text{ m}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p16-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:11:25.837Z",
+  "updatedAt": "2026-11-13T05:11:25.837Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch20-20261015",
+    "blockId": "p16-q6",
+    "sectionRole": "exercise"
+  }
+}

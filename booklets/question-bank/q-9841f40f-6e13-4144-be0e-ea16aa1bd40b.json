@@ -1,0 +1,277 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9841f40f-6e13-4144-be0e-ea16aa1bd40b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-area-problems",
+    "secondarySkillIds": [
+      "trig-find-side",
+      "trig-find-side-denominator",
+      "trig-find-angle",
+      "area-of-sector",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Select tangent and cosine in the supplied isosceles-triangle cross-section, substitute into component area formulas, and follow the explicit equal-area and inverse-tangent scaffolding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T01:03:21.343Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "869e7536f82fc4731a055d3a0e59895d06355a7cca102cfd15c9299fce64a6bc",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/lean-review/calls/content-1792717367824-40/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The cross-section through the centre of a diamond cut at the Perfect Diamond Company is of the shape shown in the diagram. Region $A$ is semicircular and region $B$ is an isosceles triangle. The semicircle has radius $r$ mm and the isosceles triangle has height $h$ mm, slant height $s$ mm and slant angle $\\theta$, as shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"source-highlighted diameter, altitude and centre\"}],\"reference\":\"source page 17 p17-q9-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (L) at (-2,0); \\coordinate (R) at (2,0); \\coordinate (O) at (0,0); \\coordinate (V) at (0,2);\n\\draw[black,line width=0.8pt] (L)--(V)--(R);\n\\draw[black,line width=0.8pt] (L) arc[start angle=180,end angle=360,radius=2];\n\\draw[constructionRed,dashed,line width=0.4pt] (L)--(R);\n\\draw[constructionRed,dashed,line width=0.4pt] (V)--(O);\n\\fill[constructionRed] (O) circle[radius=1.5pt];\n\\foreach \\t in {0.47,0.53}{\\draw[black,line width=0.4pt] ($(L)!\\t!(V)+(-0.055,0.055)$)--($(L)!\\t!(V)+(0.055,-0.055)$);\\draw[black,line width=0.4pt] ($(V)!\\t!(R)+(-0.055,-0.055)$)--($(V)!\\t!(R)+(0.055,0.055)$);}\n\\pic[draw=black,line width=0.4pt,angle radius=5mm] {angle=R--L--V};\n\\node at ($(L)+(0.62,0.23)$) {$\\theta$};\n\\draw[<->,black,line width=0.4pt] ($(O)+(0,-0.23)$)--node[midway,below] {$r\\text{ mm}$} ($(R)+(0,-0.23)$);\n\\draw[<->,black,line width=0.4pt] ($(O)+(0.20,0)$)--node[midway,right] {$h\\text{ mm}$} ($(V)+(0.20,0)$);\n\\draw[<->,black,line width=0.4pt] ($(L)+(-0.20,0.20)$)--node[midway,above left] {$s\\text{ mm}$} ($(V)+(-0.20,0.20)$);\n\\node at (-0.35,0.78) {$B$};\n\\node at (0,-1.15) {$A$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 42,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 9, right-hand cross-section diagram",
+          "description": "An unshaded isosceles triangle above a downward semicircle, sharing its diameter. Double ticks identify the equal sloping sides. Red dashed diameter and altitude meet at the marked centre. External dimension arrows identify the radius, altitude and left sloping side.",
+          "mathematics": "The triangle has base 2r, perpendicular height h, equal sides s and left base angle theta. The lower semicircle has radius r. Drawing coordinates express symmetry and topology, not additional numerical givens.",
+          "answerVisibility": "All labels, construction lines and dimensions are permanent question givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q9a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Find a formula for:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p17-q9ai",
+            "type": "part",
+            "label": "i",
+            "prompt": "$h$ in terms of $r$ and $\\theta$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$h=r\\tan\\theta$",
+              "worked": "The altitude bisects the base of the isosceles triangle, giving a right triangle with adjacent side $r$.\n$$\\begin{align*}\\tan\\theta&=\\frac{h}{r}\\\\h&=r\\tan\\theta\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p17-q9aii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$s$ in terms of $r$ and $\\theta$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$s=\\dfrac{r}{\\cos\\theta}$",
+              "worked": "$$\\begin{align*}\\cos\\theta&=\\frac{r}{s}\\\\s\\cos\\theta&=r\\\\s&=\\frac{r}{\\cos\\theta}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          }
+        ]
+      },
+      {
+        "id": "p17-q9b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find a formula for the area of:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p17-q9bi",
+            "type": "part",
+            "label": "i",
+            "prompt": "region $A$ in terms of $r$ and $\\pi$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\operatorname{Area}(A)=\\dfrac12\\pi r^2\\text{ mm}^2$",
+              "worked": "Region $A$ is a semicircle.\n$$\\operatorname{Area}(A)=\\frac12\\pi r^2\\text{ mm}^2$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          },
+          {
+            "id": "p17-q9bii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "region $B$ in terms of $r$ and $\\theta$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\operatorname{Area}(B)=r^2\\tan\\theta\\text{ mm}^2$",
+              "worked": "The triangle has base $2r$ and perpendicular height $h=r\\tan\\theta$.\n$$\\begin{align*}\\operatorname{Area}(B)&=\\frac12(2r)h\\\\\\operatorname{Area}(B)&=r(r\\tan\\theta)\\\\\\operatorname{Area}(B)&=r^2\\tan\\theta\\text{ mm}^2\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          }
+        ]
+      },
+      {
+        "id": "p17-q9c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p17-q9c-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The Perfect Diamond Company’s secret is to make sure that the cross-sectional areas of regions ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "A",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "B",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " are equal. Show that this leads to an equation that can be simplified to",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p17-q9c-given-result",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\tan\\theta=\\frac{\\pi}{2}.",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac12\\pi r^2=r^2\\tan\\theta$, so $\\tan\\theta=\\dfrac\\pi2$.",
+          "worked": "Equate the two areas and divide by $r^2$.\n$$\\begin{align*}\\frac12\\pi r^2&=r^2\\tan\\theta\\\\\\frac\\pi2&=\\tan\\theta\\\\\\tan\\theta&=\\frac\\pi2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p17-q9d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Solve the equation in part c to find the value of $\\theta$, correct to one decimal place, for diamonds cut at the Perfect Diamond Company.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta\\approx57.5^\\circ$",
+          "worked": "The base angle is acute. In degree mode,\n$$\\begin{align*}\\theta&=\\tan^{-1}\\left(\\frac\\pi2\\right)\\\\\\theta&\\approx57.5^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      },
+      {
+        "id": "p17-q9e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find, to two decimal places, the total area of the cross-section through the centre of a diamond if the radius $r$ is $2$ mm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4\\pi\\approx12.57\\text{ mm}^2$\n\nThe two regions have equal areas, so double the semicircle’s area.",
+          "worked": "The two regions have equal areas.\n$$\\begin{align*}A_{\\text{total}}&=2\\left(\\frac12\\pi r^2\\right)\\\\A_{\\text{total}}&=\\pi(2)^2\\\\A_{\\text{total}}&=4\\pi\\text{ mm}^2\\\\A_{\\text{total}}&\\approx12.57\\text{ mm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "before-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:55.802Z",
+  "updatedAt": "2026-11-13T05:03:55.802Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p17-q9",
+    "sectionRole": "exercise"
+  }
+}

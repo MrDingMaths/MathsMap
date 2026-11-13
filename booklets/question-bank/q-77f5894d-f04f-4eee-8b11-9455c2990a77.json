@@ -1,0 +1,140 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77f5894d-f04f-4eee-8b11-9455c2990a77",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "find-sides-similar",
+      "prove-properties-triangles-quadrilaterals"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires an ordered similarity proof and combines proportional sides with the equal diagonals of an isosceles trapezium.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T06:45:56.364Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "64b5727eb8af38a9b0d5004d708549b1fb8940e59a3b125094265be39bac7fc2",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch10-20261015/semantic-packets/assignments/assignment-3f63188f6bfc5aebfe51/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p18-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "$ABCD$ is an isosceles trapezium with $AB\\parallel CD$ and $AD=BC$. The diagonals of $ABCD$ intersect at $X$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18, p18-q9-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0.6,2.4);\n\\coordinate (B) at (3.1,2.4);\n\\coordinate (C) at (3.7,0);\n\\coordinate (D) at (0,0);\n\\coordinate (X) at (1.85,1.43226);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[line width=0.8pt] (A)--(C) (D)--(B);\n\\draw[line width=0.4pt,->] (1.55,2.4)--(1.9,2.4);\n\\draw[line width=0.4pt,->] (1.55,0)--(1.9,0);\n\\node[above left,font=\\fontsize{10}{12}\\selectfont] at (A) {$A$};\n\\node[above right,font=\\fontsize{10}{12}\\selectfont] at (B) {$B$};\n\\node[below right,font=\\fontsize{10}{12}\\selectfont] at (C) {$C$};\n\\node[below left,font=\\fontsize{10}{12}\\selectfont] at (D) {$D$};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (X) {$X$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Question 9, upper-right diagram",
+          "description": "An isosceles trapezium with a shorter upper base, both diagonals and matching single parallel arrows on the bases. Ordinary source blue strokes are rendered in house black.",
+          "mathematics": "AB is parallel to CD; AD equals BC; AC and DB intersect at X. A and B are the upper vertices, D and C the lower vertices.",
+          "answerVisibility": "Only the source givens and point labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle ABX$ is similar to $\\triangle CDX$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABX\\sim\\triangle CDX$ (AAA).\n\nAlternate angles are equal because $AB\\parallel CD$, and the angles at $X$ are vertically opposite.",
+          "worked": "$\\angle BAX=\\angle DCX$ (alternate angles, $AB\\parallel CD$).\n\n$\\angle ABX=\\angle CDX$ (alternate angles, $AB\\parallel CD$).\n\n$\\angle AXB=\\angle CXD$ (vertically opposite angles).\n\nTherefore $\\triangle ABX\\sim\\triangle CDX$ (AAA).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p18-q9-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Given that $AB=4\\text{ cm}$, $BX=2.5\\text{ cm}$ and $DC=8\\text{ cm}$, calculate:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q9-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$AX$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AX=2.5\\text{ cm}$.\n\nThe equal diagonals of the isosceles trapezium are divided in the same ratio at $X$.",
+              "worked": "The diagonals of an isosceles trapezium are equal, so $AC=BD$.\n\nFrom part a, corresponding sides give\n$$\\begin{align*}\\frac{AX}{CX}&=\\frac{AB}{CD}\\\\\\frac{AX}{CX}&=\\frac{4}{8}\\\\CX&=2AX.\\end{align*}$$\nSimilarly, $DX=2BX$.\n$$\\begin{align*}AC&=AX+CX\\\\AC&=3AX\\\\BD&=BX+DX\\\\BD&=3BX.\\end{align*}$$\nSince $AC=BD$, $3AX=3BX$.\n$$\\begin{align*}AX&=BX\\\\AX&=2.5\\text{ cm}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 78
+          },
+          {
+            "id": "p18-q9-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$DX$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$DX=5\\text{ cm}$.",
+              "worked": "Corresponding sides of the similar triangles give\n$$\\begin{align*}\\frac{DX}{BX}&=\\frac{CD}{AB}\\\\\\frac{DX}{2.5}&=\\frac{8}{4}\\\\DX&=2.5\\times2\\\\DX&=5\\text{ cm}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p18-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:06:54.365Z",
+  "updatedAt": "2026-11-13T05:06:54.365Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch10-20261015",
+    "blockId": "p18-q9",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1f6f9b8a-660c-4f86-83e5-6317a5110985",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-practical-problems",
+    "secondarySkillIds": [
+      "exact-trig-ratios"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Bisect the isosceles triangle formed by two radii and the chord, then use right-triangle trigonometry to determine three related lengths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-22T22:42:02.009Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ff4de45b7c956478588cd0e6d73c07946835d56ca4ae48ccbedd3e7bc01a63d8",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/semantic-packets/assignments/assignment-30127435ecc485df1af5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The surface of the water in a horizontal pipe is $16\\text{ m}$ wide and subtends an angle of $120^\\circ$ at the centre of the pipe, as shown. Find, correct to three decimal places:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p3-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"waterFill\",\"hex\":\"D4E8FF\",\"reason\":\"water occupies the lower circular segment\"}],\"reference\":\"source page 3 p3-q7-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{waterFill}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at ({-sqrt(3)},-1);\n\\coordinate (R) at ({sqrt(3)},-1);\n\\fill[waterFill] (L) arc[start angle=210,end angle=330,radius=2] -- cycle;\n\\draw[line width=.8pt] (O) circle[radius=2];\n\\draw[line width=.8pt] (L)--(R);\n\\draw[line width=.8pt] (L)--(O)--(R);\n\\node[above] at (O) {$O$};\n\\pic[draw,line width=.4pt,angle radius=5mm,angle eccentricity=1.55,\"$120^\\circ$\"] {angle=L--O--R};\n\\coordinate (DL) at ({-sqrt(3)},-2.25);\n\\coordinate (DR) at ({sqrt(3)},-2.25);\n\\draw[densely dotted,line width=.4pt] (L)--(DL) (R)--(DR);\n\\draw[line width=.4pt] ($(DL)+(0,-.12)$)--($(DL)+(0,.12)$) ($(DR)+(0,-.12)$)--($(DR)+(0,.12)$);\n\\draw[<->,>=Stealth,line width=.4pt] (DL)--(DR) node[midway,below] {$16\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 3,
+          "sourceRegion": "Question 7 circular pipe cross-section",
+          "description": "Circle with centre O, a horizontal chord below O, two radii enclosing 120 degrees, and the lower circular segment filled light blue to identify water. Dimension guides meet the chord endpoints and label its width 16 m.",
+          "mathematics": "The water surface is a chord subtending 120 degrees at the centre. Its perpendicular bisector divides the chord into two 8 m lengths and the central angle into two 60-degree angles.",
+          "answerVisibility": "Only the supplied angle and chord width are visible; no solution lengths or auxiliary perpendicular are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p3-q7a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the distance from the centre of the pipe to the water surface",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4.619\\text{ m}$",
+          "worked": "Let $M$ be the midpoint of the water-surface chord and $A$ one endpoint. The perpendicular $OM$ bisects the chord and the central angle, so $AM=8\\text{ m}$ and $\\angle AOM=60^\\circ$.\n\n$$\\begin{align*}\\tan60^\\circ&=\\frac{8}{OM}\\\\OM&=\\frac{8}{\\tan60^\\circ}\\\\OM&=\\frac{8\\sqrt3}{3}\\text{ m}\\\\OM&\\approx4.619\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p3-q7b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the diameter of the pipe",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$18.475\\text{ m}$",
+          "worked": "Using the right triangle from part a, let the radius be $r$ and the diameter be $D$.\n\n$$\\begin{align*}\\sin60^\\circ&=\\frac{8}{r}\\\\r&=\\frac{8}{\\sin60^\\circ}\\\\r&=\\frac{16\\sqrt3}{3}\\text{ m}\\\\D&=2\\times\\frac{16\\sqrt3}{3}\\text{ m}\\\\D&\\approx18.475\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p3-q7c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the maximum depth of the water",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4.619\\text{ m}$",
+          "worked": "The maximum depth is the radius minus the perpendicular distance from the centre to the water surface. Use the exact values from parts a and b.\n\n$$\\begin{align*}d&=r-OM\\\\d&=\\frac{16\\sqrt3}{3}-\\frac{8\\sqrt3}{3}\\\\d&=\\frac{8\\sqrt3}{3}\\text{ m}\\\\d&\\approx4.619\\text{ m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p3-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:30.605Z",
+  "updatedAt": "2026-11-13T05:03:30.605Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p3-q7",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-90b7bb7f-b866-459e-94bd-57d05742153a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a four-stage binary tree and count outcomes satisfying three events. Independently reassessed the complete current task after annotation/wrapping repair: mathematical demand is unchanged because every given, requested step and geometric relation is retained.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T22:10:51.578Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ed7500cbfafd3198f748beeed0084f06b2842211e65e4074e0b9304a8131a6af",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch20-20261015/direct-independent-factorisation-sixty-one-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p3-q6-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A fair coin is tossed four times.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p3-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram to represent the outcomes of this experiment and list the sample space.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$S=\\left\\{\\begin{array}{llll}\\mathrm{HHHH},&\\mathrm{HHHT},&\\mathrm{HHTH},&\\mathrm{HHTT},\\\\\\mathrm{HTHH},&\\mathrm{HTHT},&\\mathrm{HTTH},&\\mathrm{HTTT},\\\\\\mathrm{THHH},&\\mathrm{THHT},&\\mathrm{THTH},&\\mathrm{THTT},\\\\\\mathrm{TTHH},&\\mathrm{TTHT},&\\mathrm{TTTH},&\\mathrm{TTTT}\\end{array}\\right\\}$.",
+          "worked": "Let H denote a head and T a tail. At each of the four stages, draw one H branch and one T branch. Read each path from the root to a terminal branch in toss order. The 16 equally likely outcomes are\n\n$S=\\left\\{\\begin{array}{llll}\\mathrm{HHHH},&\\mathrm{HHHT},&\\mathrm{HHTH},&\\mathrm{HHTT},\\\\\\mathrm{HTHH},&\\mathrm{HTHT},&\\mathrm{HTTH},&\\mathrm{HTTT},\\\\\\mathrm{THHH},&\\mathrm{THHT},&\\mathrm{THTH},&\\mathrm{THTT},\\\\\\mathrm{TTHH},&\\mathrm{TTHT},&\\mathrm{TTTH},&\\mathrm{TTTT}\\end{array}\\right\\}$.",
+          "solutionDiagrams": [
+            {
+              "id": "p3-q6-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Chapter 20 PDF pages 3–4 question 6; teacher PDF page 62\"}\n\\begin{tikzpicture}[x=1.8cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\d/\\last in {1/1,2/3,3/7,4/15}{\n\\foreach \\j in {0,...,\\last}{\n\\pgfmathsetmacro{\\yy}{8-(\\j+0.5)*16/pow(2,\\d)}\n\\pgfmathsetmacro{\\py}{8-(floor(\\j/2)+0.5)*16/pow(2,\\d-1)}\n\\pgfmathtruncatemacro{\\bit}{mod(\\j,2)}\n\\ifnum\\bit=0\n\\draw[black,line width=0.8pt] ({\\d-1},\\py)--(\\d,\\yy) node[pos=0.58,above=1pt,sloped,inner sep=0pt] {H};\n\\else\n\\draw[black,line width=0.8pt] ({\\d-1},\\py)--(\\d,\\yy) node[pos=0.58,below=1pt,sloped,inner sep=0pt] {T};\n\\fi\n}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 3,
+                "sourceRegion": "Question 6a; answer tree on teacher PDF page 62",
+                "description": "Four successive binary H/T branches, with 16 terminal paths. Ordinary source strokes are rendered black.",
+                "mathematics": "Each path records four ordered coin tosses; every terminal outcome has probability 1/16.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 135
+      },
+      {
+        "id": "p4-q6-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the probability of getting:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p4-q6-bi",
+            "type": "part",
+            "label": "i",
+            "prompt": "four tails",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{16}$",
+              "worked": "Only TTTT has four tails.\n\n$P(\\text{four tails})=\\frac{1}{16}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p4-q6-bii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "three tails and one head",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac14$",
+              "worked": "The favourable outcomes are HTTT, THTT, TTHT and TTTH.\n\n$P(\\text{three tails and one head})=\\frac{4}{16}=\\frac14$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 25
+          },
+          {
+            "id": "p4-q6-biii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "fewer than three tails",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{11}{16}$",
+              "worked": "There are 1, 4 and 6 outcomes with zero, one and two tails respectively, giving 11 favourable outcomes.\n\n$P(\\text{fewer than three tails})=\\frac{1+4+6}{16}=\\frac{11}{16}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 27
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:10:59.894Z",
+  "updatedAt": "2026-11-13T05:10:59.894Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch20-20261015",
+    "blockId": "p3-q6",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bf83e55c-c715-4db9-a4bd-3717601c004b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "constant-rate-graphs",
+    "secondarySkillIds": [
+      "identify-intercepts"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the initial value and constant decrease, construct a linear rule and extrapolate to an empty tank.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T09:49:01.304Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a5c0019f1bc1cecc97ea1107d13ab12aa2d89f94a98549d4caa3ffbd7d9c5cae",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch10-20261015/lean-review/calls/content-1793094521944-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Water was leaking from a tank at a constant rate. The graph shows the volume of water ($V$ litres) remaining in the tank after $t$ hours.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"volumeBlue\",\"hex\":\"268CFF\",\"reason\":\"volume graph\"},{\"name\":\"projectionRed\",\"hex\":\"EF6068\",\"reason\":\"dashed projection of the given point onto the time axis\"}],\"reference\":\"source PDF page 7, p7-q12-diagram\"}\n\\begin{tikzpicture}[x=0.008cm,y=0.12cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{volumeBlue}{HTML}{268CFF}\n\\definecolor{projectionRed}{HTML}{EF6068}\n\\draw[->,line width=0.5pt] (0,0)--(875,0) node[below left] {$t$ (hours)};\n\\draw[->,line width=0.5pt] (0,0)--(0,45.5) node[left] {$V$ (litres)};\n\\draw[line width=0.4pt] (-24,31)--(0,31) node[left,xshift=-3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$31\\,000$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-24,15)--(0,15) node[left,xshift=-3pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$15\\,000$\\special{dvisvgm:raw </g>}};\n\\draw[projectionRed,dashed,line width=0.4pt] (400,15)--(400,0);\n\\node[below] at (400,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$400$\\special{dvisvgm:raw </g>}};\n\\draw[volumeBlue,line width=0.8pt,domain=0:400,samples=2] plot (\\x,{31-0.04*(\\x)});\n\\node[right] at (400,15) {$(400,15\\,000)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "Question 12, lower-right graph",
+          "description": "Arrowed axes without an origin label or grid; descending blue segment and red dashed time projection. Source colours mapped to the standard graph palette.",
+          "mathematics": "V=31000-40t on the displayed segment 0≤t≤400, with labelled vertical values 31000 and 15000 and endpoint (400,15000).",
+          "answerVisibility": "The supplied graph and all its numerical givens remain visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p7-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many litres of water were initially in the tank?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$31\\,000$ L",
+          "worked": "At $t=0$, the graph meets the volume axis at $31\\,000$. Initially, the tank contained $31\\,000$ L.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p7-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many litres were leaking from the tank per hour?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$40$ L/h",
+          "worked": "$$\\begin{align*}\\text{Leakage rate}&=\\frac{31\\,000-15\\,000}{400-0}\\\\\\text{Leakage rate}&=\\frac{16\\,000}{400}\\\\\\text{Leakage rate}&=40\\text{ L/h}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p7-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write a rule for finding the number of litres remaining ($V$) after $t$ hours.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=31\\,000-40t$",
+          "worked": "The initial volume is $31\\,000$ L and the volume decreases by $40$ L each hour. Therefore,\n$$V=31\\,000-40t.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p7-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "When would the tank be empty if the leaking continued at this rate?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "After $775$ hours.",
+          "worked": "The tank is empty when $V=0$.\n$$\\begin{align*}0&=31\\,000-40t\\\\40t&=31\\,000\\\\t&=\\frac{31\\,000}{40}\\\\t&=775.\\end{align*}$$\nThe tank would be empty after $775$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:02:47.635Z",
+  "updatedAt": "2026-11-13T05:02:47.636Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch10-20261015",
+    "blockId": "p7-q12",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-abb548dc-4a8d-4e4f-9514-0ca2967f15a0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "find-sides-similar"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a parallel auxiliary segment, establish an isosceles triangle and use similarity to deduce the required ratio.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T07:58:11.066Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6112868653590e04eef000c55c25567607331329a57f460fb7d859d9a544e83c",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch10-20261015/semantic-packets/assignments/assignment-7c1697260b2d925144c3/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p25-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "$\\triangle ABC$ is an isosceles triangle. $L$ is a point on $BC$ produced so that there are points $N$ and $M$ on $AB$ and $AC$, respectively, so that $NM=ML$. Find the ratio $BN:CM$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25 p25-q10-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1.5,3.2);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3,0);\n\\coordinate (L) at (3.75,0);\n\\coordinate (N) at (1.125,2.4);\n\\coordinate (M) at (2.4375,1.2);\n\\draw[black,line width=0.8pt] (B)--(A)--(C)--cycle;\n\\draw[black,line width=0.8pt] (C)--(L)--(N);\n\\path (A)--(B) coordinate[midway] (Tab);\n\\path (A)--(C) coordinate[midway] (Tac);\n\\draw[black,line width=0.4pt] ($(Tab)+(-0.07,0.033)$)--($(Tab)+(0.07,-0.033)$);\n\\draw[black,line width=0.4pt] ($(Tac)+(-0.07,-0.033)$)--($(Tac)+(0.07,0.033)$);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (L) {$L$};\n\\node[above left] at (N) {$N$};\n\\node[above right] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 10, upper-right triangle",
+          "description": "Unshaded isosceles triangle with matching single ticks on AB and AC. B, C and L lie on one horizontal line in that order. N lies on AB, M lies on AC, and N, M and L are collinear. Ordinary source blue strokes are reconstructed in house black.",
+          "mathematics": "AB=AC; NM=ML; N is on AB; M is on AC; C is between B and L; M is between N and L.",
+          "answerVisibility": "Only source givens are shown. No auxiliary construction or required ratio is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$BN:CM=2:1$.\n\nDraw $MX\\parallel AB$ with $X$ on $BC$. Isosceles-triangle angles give $MX=MC$, and similarity gives $BN=2MX$.",
+      "worked": "Draw $MX\\parallel AB$, meeting $BC$ at $X$.\n\nSince $AB=AC$, $\\angle ABC=\\angle BCA$. Also, $\\angle MXC=\\angle ABC$ and $\\angle MCX=\\angle BCA$. Hence $\\triangle MXC$ is isosceles, so $MX=MC$.\n\nIn $\\triangle LNB$ and $\\triangle LMX$, $\\angle NLB=\\angle MLX$ because they are the same angle, and $\\angle LBN=\\angle LXM$ because $BN\\parallel XM$. Thus $\\triangle LNB\\sim\\triangle LMX$ (AAA), with corresponding vertices in that order.\n\nSince $NM=ML$ and $N,M,L$ are collinear,\n$$\\begin{align*}LN&=NM+ML\\\\LN&=2ML\\\\\\frac{BN}{MX}&=\\frac{LN}{LM}\\\\\\frac{BN}{MX}&=2\\\\BN&=2MX\\\\BN&=2CM.\\end{align*}$$\nTherefore $BN:CM=2:1$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "ownerId": "p25-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:21.082Z",
+  "updatedAt": "2026-11-13T05:03:21.083Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch10-20261015",
+    "blockId": "p25-q10",
+    "sectionRole": "exercise"
+  }
+}

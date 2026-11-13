@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6071d0aa-1dd7-48eb-b79e-14e59d7d7030",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadratic-word-problems",
+    "secondarySkillIds": [
+      "pythagoras-problems"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infer the centres and tangency distances, model the circle placement with Pythagoras and solve a quadratic, rejecting the geometrically impossible root.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T07:28:41.589Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0813ea39f524ce11a541cfbf8c04a95c241bbdf383c804886a31dcfedcbecb62",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch10-20261015/semantic-packets/assignments/assignment-1eef9eba0781fe1edb7c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p23-10c-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A circle (shown shaded) just fits inside a $2\\text{ m}\\times3\\text{ m}$ rectangle. What is the radius, in metres, of the largest circle that will also fit inside the rectangle but will not intersect with the shaded circle?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-10c-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenCircleFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the given shaded circle referenced in the stem\"}],\"reference\":\"page 23, p23-10c-q4-diagram; source SHA256 cc61b47fddbcc5b240d80107452e7db7ef568f5e579778d2be7f908f2fc19769\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenCircleFill}{HTML}{D4E8FF}\n\\pgfmathsetmacro{\\smallradius}{4-2*sqrt(3)}\n\\fill[givenCircleFill] (1,1) circle[radius=1];\n\\draw[black,line width=0.8pt] (0,0) rectangle (3,2);\n\\draw[black,line width=0.8pt] (1,1) circle[radius=1];\n\\draw[black,line width=0.8pt] ({3-\\smallradius},{2-\\smallradius}) circle[radius=\\smallradius];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 4, lower-right diagram",
+          "description": "Landscape rectangle with the given shaded circle tangent to its left, top and bottom sides. A smaller unshaded circle in the upper-right corner touches the top, right and large circle. No labels or dimensions are printed. Ordinary source-blue outlines become black; the identifying fill uses house light blue.",
+          "mathematics": "Rectangle width 3 and height 2; large radius 1. Small circle geometry is derived from mutual external tangency and the top-right corner constraints.",
+          "answerVisibility": "The supplied circle arrangement remains visible; no radius value, centre coordinates or solution annotations are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$(4-2\\sqrt{3})\\text{ m}$.\n\nUse Pythagoras on the triangle joining the circle centres and solve the resulting quadratic.",
+      "worked": "The shaded circle has radius $1\\text{ m}$. Let the required radius be $r\\text{ m}$. For a fixed radius, the greatest separation from the shaded circle is obtained in a right-hand corner. At the largest possible radius, the circles touch.\n\nUsing the upper-right corner shown, the horizontal and vertical distances between the centres are $(2-r)\\text{ m}$ and $(1-r)\\text{ m}$. The distance between the centres is $(1+r)\\text{ m}$.\n\nBy Pythagoras’ theorem:\n$$\\begin{align*}(2-r)^2+(1-r)^2&=(1+r)^2\\\\4-4r+r^2+1-2r+r^2&=1+2r+r^2\\\\r^2-8r+4&=0\\\\r^2-8r+16&=12\\\\(r-4)^2&=12\\\\r-4&=\\pm2\\sqrt{3}\\\\r&=4\\pm2\\sqrt{3}\\end{align*}$$\nA circle inside the rectangle has radius at most $1\\text{ m}$, so $4+2\\sqrt{3}$ is impossible. Therefore the largest radius is $(4-2\\sqrt{3})\\text{ m}$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 78
+  },
+  "presentation": {
+    "ownerId": "p23-10c-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:18.437Z",
+  "updatedAt": "2026-11-13T05:03:18.437Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch10-20261015",
+    "blockId": "p23-10c-q4",
+    "sectionRole": "exercise"
+  }
+}

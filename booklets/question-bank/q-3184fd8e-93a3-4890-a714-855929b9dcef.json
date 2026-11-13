@@ -1,0 +1,107 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3184fd8e-93a3-4890-a714-855929b9dcef",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "The supplied AF and BF construction hint supports a linked proof: establish AF=BF using trapezium properties and SAS, then use midpoint-based SSS congruence and supplementary angles to obtain perpendicularity to the parallel bases.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T08:15:50.742Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cc2fe7f5040b36b149de436c0f294add01233032827c5894b179baf58f2877b5",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch10-20261015/background-repair-1792570505622/worker-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "In the isosceles trapezium $ABCD$, $E$ is the midpoint of $AB$ and $F$ is the midpoint of $CD$. Prove that $EF\\perp DC$.\n\n(Hint: Join $AF$ and $BF$.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q16-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 question 16\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (.6,3);\\coordinate (B) at (3.8,3);\\coordinate (C) at (4.4,0);\\coordinate (D) at (0,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[->>,line width=.4pt] (1.7,3)--(2.4,3);\\draw[->>,line width=.4pt] (1.7,0)--(2.4,0);\n\\draw[line width=.4pt] (.2,1.52)--(.4,1.48);\\draw[line width=.4pt] (4,1.48)--(4.2,1.52);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 16, right-hand figure",
+          "description": "Isosceles trapezium with parallel top and bottom and equal-leg ticks. E, F and all hinted construction segments remain absent. Ordinary source blue strokes use house black.",
+          "mathematics": "AB parallel DC; AD=BC; AB is the shorter base.",
+          "answerVisibility": "Supplied scaffold only; no construction or conclusion is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\triangle ADF\\equiv\\triangle BCF$ (SAS), so $AF=BF$. The median $FE$ of isosceles triangle $AFB$ is perpendicular to $AB$; since $AB\\parallel DC$, $EF\\perp DC$.",
+      "worked": "Join $AF$ and $BF$. First establish the equal base angles: choose $X$ on $DC$ with $BX\\parallel AD$. Then $ABXD$ is a parallelogram, so $BX=AD=BC$. Thus triangle $BXC$ is isosceles, giving $\\angle BXC=\\angle BCX$. Corresponding angles give $\\angle ADC=\\angle BXC$, hence $\\angle ADF=\\angle BCF$.\n\nIn triangles $ADF$ and $BCF$:\n$$\\begin{align*}\nAD&=BC &&\\text{(isosceles trapezium)}\\\\\nDF&=CF &&\\text{(}F\\text{ is the midpoint of }CD\\text{)}\\\\\n\\angle ADF&=\\angle BCF &&\\text{(equal base angles).}\n\\end{align*}$$\nTherefore $\\triangle ADF\\equiv\\triangle BCF$ (SAS), so $AF=BF$.\n\nIn triangles $AEF$ and $BEF$, $AE=BE$ (midpoint), $AF=BF$, and $EF=EF$ (common). Thus $\\triangle AEF\\equiv\\triangle BEF$ (SSS), giving $\\angle AEF=\\angle BEF$. These adjacent angles sum to $180^\\circ$, so each is $90^\\circ$. Hence $EF\\perp AB$. Since $AB\\parallel DC$, $EF\\perp DC$.",
+      "solutionDiagrams": [
+        {
+          "id": "p13-q16-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 question 16 solution construction\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\\coordinate (C) at (6,0);\\coordinate (A) at (1,3);\\coordinate (B) at (5,3);\\coordinate (E) at (3,3);\\coordinate (F) at (3,0);\\coordinate (X) at (4,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw (A)--(F)--(B);\\draw[dashed,line width=.4pt] (B)--(X) (E)--(F);\n\\draw[->>,line width=.4pt] (1.7,3)--(2.3,3);\\draw[->>,line width=.4pt] (1.2,0)--(1.8,0);\n\\draw[line width=.4pt] (.4,1.53)--(.6,1.47) (5.4,1.47)--(5.6,1.53);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[above] at (E) {$E$};\\node[below] at (F) {$F$};\\node[below] at (X) {$X$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 13,
+            "sourceRegion": "Question 16 and teacher proof on answer PDF pages 30–31",
+            "description": "Complete solution construction adding AF, BF, EF and auxiliary BX parallel to AD; X lies on DC.",
+            "mathematics": "E and F are base midpoints; BX parallel AD establishes equal base angles; AF and BF support the SAS proof.",
+            "answerVisibility": "Solution edition only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 112
+  },
+  "presentation": {
+    "ownerId": "p13-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:06:42.709Z",
+  "updatedAt": "2026-11-13T05:06:42.709Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch10-20261015",
+    "blockId": "p13-q16",
+    "sectionRole": "exercise"
+  }
+}

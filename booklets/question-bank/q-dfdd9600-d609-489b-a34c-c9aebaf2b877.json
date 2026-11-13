@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dfdd9600-d609-489b-a34c-c9aebaf2b877",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "unknown-sides-angles-figures",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "unknown-angles-parallel"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use scaffolded equal-radius angle expressions to establish a general right-angle result, transfer it to another circumference point and combine that proof with a parallel-line angle calculation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:29:57.044Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ece692d8e680217c840f9e7ee131cbdf0d9e25cb2326b7fc1b03979ab1d12e4f",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch09-20261015/direct-independent-chapter21-final-six-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p12-geometry-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "$O$ is the centre of the circle shown opposite.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-geometry-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"radiusRed\",\"hex\":\"EF6068\",\"reason\":\"source highlights the auxiliary radius AO and centre O\"}],\"reference\":\"source PDF page 12, Geometry challenge 3\"}\n\\begin{tikzpicture}[x=2.1cm,y=2.1cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{radiusRed}{HTML}{EF6068}\n\\tikzset{every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},geometry/.style={draw=black,line width=0.8pt},mark/.style={draw=black,line width=0.4pt}}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (-1,0);\n\\coordinate (C) at (1,0);\n\\coordinate (A) at (-0.5,{sqrt(3)/2});\n\\coordinate (D) at (0,-1);\n\\coordinate (E) at ({2*sqrt(3)/(1+sqrt(3))-1},{-2*sqrt(3)/(1+sqrt(3))});\n\\draw[geometry] (O) circle[radius=1];\n\\draw[geometry] (B)--(A)--(C)--(B);\n\\draw[geometry] (B)--(E)--(C)--(D);\n\\draw[draw=radiusRed,dashed,line width=0.4pt] (A)--(O);\n\\fill[radiusRed] (O) circle[radius=1.6pt];\n\\draw[draw=black,line width=0.4pt,->,>=stealth] ($(B)!0.42!(A)$)--($(B)!0.63!(A)$);\n\\draw[draw=black,line width=0.4pt,->,>=stealth] ($(E)!0.42!(C)$)--($(E)!0.63!(C)$);\n\\draw[draw=black,line width=0.4pt] ($(B)+(0:0.1904761905)$) arc[start angle=0,end angle=60,radius=0.1904761905];\n\\draw[draw=black,line width=0.4pt] ($(C)+(150:0.2380952381)$) arc[start angle=150,end angle=180,radius=0.2380952381];\n\\node at ($(B)+(30:0.23)$) {$\\alpha$};\n\\node at ($(C)+(165:0.29)$) {$\\beta$};\n\\node[above] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\node[above right] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 39.3,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Geometry challenge, Question 3, lower-right circle diagram",
+          "description": "Circle with diameter BC, centre O, circumference points A and D, and external point E. B, D and E are collinear; AB and EC are parallel. AO is dashed red and O is a red point. Ordinary source-blue geometry is rendered black under house style.",
+          "mathematics": "OA=OB=OC; B,O,C are collinear; B,D,E are collinear; AB is parallel to EC; alpha is angle ABC and beta is angle ACB. Coordinates construct the relationships without supplying numerical measurements.",
+          "answerVisibility": "Only source givens and auxiliary radius are visible; no answers or additional right-angle marks."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-geometry-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $\\angle ABC$ be $\\alpha$. Express $\\angle AOC$ in terms of $\\alpha$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle AOC=2\\alpha$.",
+          "worked": "$OA=OB$ because they are radii, so $\\angle OAB=\\angle ABO=\\alpha$.\n\n$$\\begin{align*}\\angle AOB&=180^\\circ-\\alpha-\\alpha\\\\\\angle AOB&=180^\\circ-2\\alpha\\end{align*}$$\n\nSince $B$, $O$ and $C$ lie on a straight line,\n\n$$\\begin{align*}\\angle AOC&=180^\\circ-(180^\\circ-2\\alpha)\\\\\\angle AOC&=2\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p12-geometry-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $\\angle ACB$ be $\\beta$. Express $\\angle AOB$ in terms of $\\beta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle AOB=2\\beta$.",
+          "worked": "$OA=OC$ because they are radii, so $\\angle OAC=\\angle ACO=\\beta$.\n\n$$\\begin{align*}\\angle AOC&=180^\\circ-\\beta-\\beta\\\\\\angle AOC&=180^\\circ-2\\beta\\end{align*}$$\n\nSince $B$, $O$ and $C$ lie on a straight line,\n\n$$\\begin{align*}\\angle AOB&=180^\\circ-(180^\\circ-2\\beta)\\\\\\angle AOB&=2\\beta.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p12-geometry-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $\\triangle ABC$ is a right-angled triangle.\n\nHence, name two other right-angled triangles in the diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle BAC=90^\\circ$. The other right-angled triangles are $\\triangle BDC$ and $\\triangle CDE$.\n\nUse equal radii and the straight angle at $O$ to obtain $\\alpha+\\beta=90^\\circ$.",
+          "worked": "From parts a and b, the straight angle $BOC$ gives\n\n$$\\begin{align*}2\\alpha+2\\beta&=180^\\circ\\\\\\alpha+\\beta&=90^\\circ.\\end{align*}$$\n\nBy the angle sum of $\\triangle ABC$,\n\n$$\\begin{align*}\\angle BAC&=180^\\circ-(\\alpha+\\beta)\\\\\\angle BAC&=90^\\circ.\\end{align*}$$\n\nThe same equal-radii argument for the circumference point $D$ gives $\\angle BDC=90^\\circ$, so $\\triangle BDC$ is right-angled. Since $B$, $D$ and $E$ are collinear, $\\angle CDE=180^\\circ-90^\\circ=90^\\circ$, so $\\triangle CDE$ is also right-angled.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p12-geometry-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "If $\\angle ECD=25^\\circ$, find $\\angle ABD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle ABD=115^\\circ$.\n\nUse the right angle at $D$ and $AB\\parallel EC$.",
+          "worked": "From part c, $\\angle CDE=90^\\circ$. In $\\triangle CDE$,\n\n$$\\begin{align*}\\angle CED&=180^\\circ-90^\\circ-25^\\circ\\\\\\angle CED&=65^\\circ.\\end{align*}$$\n\nSince $B$, $D$ and $E$ are collinear, $\\angle CEB=65^\\circ$. The co-interior angles formed by $AB\\parallel EC$ and transversal $BE$ sum to $180^\\circ$:\n\n$$\\begin{align*}\\angle ABD&=180^\\circ-65^\\circ\\\\\\angle ABD&=115^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p12-geometry-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:05:33.244Z",
+  "updatedAt": "2026-11-13T05:05:33.244Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch09-20261015",
+    "blockId": "p12-geometry-q3",
+    "sectionRole": "exercise"
+  }
+}

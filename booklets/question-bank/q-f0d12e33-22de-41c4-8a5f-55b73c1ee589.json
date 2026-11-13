@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f0d12e33-22de-41c4-8a5f-55b73c1ee589",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "trig-practical-problems",
+      "tangent-secant-properties"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a limiting tangent and resolve a two-stage golf trajectory into perpendicular components.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T01:03:13.028Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7d6a04936e75758a4dd28e0107f333efa9572ba66401b5571827b401054412be",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/lean-review/calls/content-1792717361421-39/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "This diagram represents a golfer at $G$, 80 m from the centre of a green, $C$, which can be represented by a circle of diameter 12 metres.\n\nCalculate, to two decimal places, the greatest angle that the golfer can deviate either side of the direct line $GC$ so that the golfer’s ball can land on the green.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p16-q7-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 16 p16-q7-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (G) at (0,0);\\coordinate (C) at (4,0);\n\\draw (C) circle[radius=1.1cm];\\draw (G)--(C);\n\\fill (G) circle[radius=1.2pt] node[left] {$G$};\\fill (C) circle[radius=1.2pt] node[right] {$C$};\n\\draw[<->,line width=0.5pt] (0,-0.25)--node[below]{80 m}(4,-0.25);\n\\draw[<->,line width=0.5pt] (5.3,-1.1)--node[right]{12 m}(5.3,1.1);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 16,
+              "sourceRegion": "Question 7a, lower-right diagram",
+              "description": "Schematic unshaded green and centre-distance dimension. Ordinary source blue lines and red point markers use house black.",
+              "mathematics": "GC=80 m; circle diameter 12 m; no tangent or deviation angle supplied.",
+              "answerVisibility": "No solution construction or answer is visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$4.30^\\circ$ either side of $GC$.\n\nThe limiting line is tangent to the green.",
+          "worked": "Let $H$ be a point of tangency from $G$, and let $\\theta=\\angle CGH$. A radius is perpendicular to the tangent, so $\\angle GHC=90^\\circ$ and $CH=6$ m.\n\n$$\\begin{align*}\\sin\\theta&=\\frac{6}{80}\\\\\\theta&=\\sin^{-1}\\left(\\frac{6}{80}\\right)\\\\\\theta&\\approx4.30^\\circ.\\end{align*}$$\n\nThus the greatest deviation is $4.30^\\circ$ either side of $GC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p17-q7b",
+        "type": "part",
+        "label": "b",
+        "prompt": "This diagram below represents a 350 m golf hole. $TD$ and $DF$ represent the centre line of the fairway, with $\\angle TDF=120^\\circ$, $TD=200$ m and $DF=150$ m. The golfer hits 220 m, $10^\\circ$ left of the line $TD$, to a point, $X$. Find the distance, correct to two decimal places, from $X$ to $F$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q7b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 17 p17-q7b-diagram\"}\n\\begin{tikzpicture}[x=0.025cm,y=0.025cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,0);\\coordinate (D) at (200,0);\\coordinate (F) at (275,{-75*sqrt(3)});\\coordinate (X) at ({220*cos(10)},{220*sin(10)});\n\\draw (T)--node[below]{200 m}(D)--node[right]{150 m}(F);\n\\draw (T)--node[above,sloped]{220 m}(X);\n\\pic[draw,line width=0.4pt,angle radius=18mm,\"$10^\\circ$\",angle eccentricity=1.2] {angle=D--T--X};\n\\pic[draw,line width=0.4pt,angle radius=6mm,\"$120^\\circ$\",angle eccentricity=1.5] {angle=T--D--F};\n\\node[left] at (T) {$T$};\\node[above right] at (D) {$D$};\n\\fill (X) circle[radius=1.2pt] node[above right] {$X$};\\fill (F) circle[radius=1.2pt] node[below right] {$F$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 100,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 7b, upper diagram",
+              "description": "Coordinate-derived golf-hole geometry retaining the horizontal TD, rising TX and falling DF. Ordinary source colours use house black.",
+              "mathematics": "TD=200 m, DF=150 m, TX=220 m, angle XTD=10 degrees and angle TDF=120 degrees. XF is not supplied.",
+              "answerVisibility": "Only source givens are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$177.94\\text{ m}$.\n\nResolve the paths horizontally and vertically, then use Pythagoras’ theorem.",
+          "worked": "Take $TD$ as horizontal. Since $180^\\circ-120^\\circ=60^\\circ$, the horizontal and downward components of $DF$ are $150\\cos60^\\circ=75$ m and $150\\sin60^\\circ=75\\sqrt3$ m.\n\nRelative to $T$, $F$ is $275$ m horizontally to the right and $75\\sqrt3$ m below. The corresponding components of $TX$ are $220\\cos10^\\circ$ m right and $220\\sin10^\\circ$ m up.\n\n$$\\begin{align*}\\text{Horizontal separation}&=275-220\\cos10^\\circ\\\\\\text{Vertical separation}&=220\\sin10^\\circ+75\\sqrt3\\\\XF^2&=(275-220\\cos10^\\circ)^2+(220\\sin10^\\circ+75\\sqrt3)^2\\\\XF&=\\sqrt{(275-220\\cos10^\\circ)^2+(220\\sin10^\\circ+75\\sqrt3)^2}\\\\XF&\\approx177.94\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:55.066Z",
+  "updatedAt": "2026-11-13T05:03:55.066Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p16-q7",
+    "sectionRole": "exercise"
+  }
+}

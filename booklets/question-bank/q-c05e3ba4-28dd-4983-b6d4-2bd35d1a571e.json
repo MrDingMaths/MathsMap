@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c05e3ba4-28dd-4983-b6d4-2bd35d1a571e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "area-volume-similar-figures",
+      "pythagoras-problems"
+    ],
+    "reasoningScore": 88,
+    "difficulty": "Challenge",
+    "difficultyReason": "Combine rotational symmetry, Pythagoras and correctly ordered similar triangles to establish the central triangle's area ratio.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T07:57:20.795Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "83d134590c3a504f5cc17aa00a7cb0987535b7934b6a8d468d617edb89b344cc",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch10-20261015/semantic-packets/assignments/assignment-f442daee0b71ce345927/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p24-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "$\\triangle ABC$ is equilateral, $X$ is on $AB$ and $AX:XB=1:2$. $Y$ is on $BC$ and $BY:YC=1:2$. $Z$ is on $CA$ and $CZ:ZA=1:2$. $AY$, $BZ$ and $CX$ intersect at $P$, $Q$ and $R$. Prove that the area of $\\triangle PQR$ is one-seventh of the area of $\\triangle ABC$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24, p24-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (A) at (2,{2*sqrt(3)});\n\\coordinate (X) at ({8/3},{4*sqrt(3)/3});\n\\coordinate (Y) at ({8/3},0);\n\\coordinate (Z) at ({2/3},{2*sqrt(3)/3});\n\\coordinate (P) at ({18/7},{2*sqrt(3)/7});\n\\coordinate (Q) at ({16/7},{8*sqrt(3)/7});\n\\coordinate (R) at ({8/7},{4*sqrt(3)/7});\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[black,line width=0.8pt] (A)--(Y) (B)--(Z) (C)--(X);\n\\node[above] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\node[above right] at (X) {$X$};\n\\node[below] at (Y) {$Y$};\n\\node[left] at (Z) {$Z$};\n\\node[above right] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Question 8, right-hand diagram",
+          "description": "Unfilled equilateral triangle with three cevians and all nine source labels. Ordinary source-blue linework is reconstructed in house black. No new measurement, equality or angle marks are supplied.",
+          "mathematics": "AX:XB=BY:YC=CZ:ZA=1:2; P=AY∩BZ, Q=AY∩CX, R=BZ∩CX. Coordinates derive each intersection exactly.",
+          "answerVisibility": "Only source geometry and labels are visible; the area ratio and proof remain hidden."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\operatorname{area}(\\triangle PQR)=\\dfrac17\\operatorname{area}(\\triangle ABC)$.\n\nRotational symmetry makes $PQR$ equilateral. Similarity and Pythagoras give its side-length ratio to $ABC$ as $1:\\sqrt7$, so its area ratio is $1:7$.",
+      "worked": "Choose the side length of $ABC$ as $1$ unit; this does not change an area ratio. Then $AX=BY=CZ=\\tfrac13$.\n\nA rotation of $120^\\circ$ about the centre sends $A\\to C\\to B\\to A$, $X\\to Z\\to Y\\to X$ and $Q\\to R\\to P\\to Q$. Hence $PQR$ is equilateral, $AQ=CR=BP$, and $AY=BZ=CX$.\n\nLet $M$ be the foot of the perpendicular from $Z$ to $BC$. Since $\\angle ZCM=60^\\circ$, $CM=\\tfrac16$. By Pythagoras,\n$$\\begin{align*}ZM^2&=CZ^2-CM^2\\\\ZM^2&=\\left(\\frac13\\right)^2-\\left(\\frac16\\right)^2\\\\ZM^2&=\\frac1{12},\\\\BM&=1-\\frac16=\\frac56,\\\\BZ^2&=BM^2+ZM^2\\\\BZ^2&=\\frac{25}{36}+\\frac1{12}\\\\BZ^2&=\\frac79,\\\\BZ&=\\frac{\\sqrt7}{3}.\\end{align*}$$\nThe same rotation gives $\\angle BYP=\\angle CZB$. Also $\\angle PBY=\\angle CBZ$, since $B,P,Z$ are collinear and $B,Y,C$ are collinear. Therefore $\\triangle BPY\\sim\\triangle BCZ$ by AAA, in matching order.\n$$\\begin{align*}\\frac{BP}{BC}&=\\frac{PY}{CZ}=\\frac{BY}{BZ}\\\\\\frac{BY}{BZ}&=\\frac{1/3}{\\sqrt7/3}=\\frac1{\\sqrt7},\\\\BP&=\\frac1{\\sqrt7},\\\\PY&=\\frac1{3\\sqrt7}.\\end{align*}$$\nSince $AQ=BP$ and $A,Q,P,Y$ occur in that order on $AY$,\n$$\\begin{align*}PQ&=AY-AQ-PY\\\\PQ&=\\frac{\\sqrt7}{3}-\\frac1{\\sqrt7}-\\frac1{3\\sqrt7}\\\\PQ&=\\frac1{\\sqrt7}.\\end{align*}$$\nBoth $PQR$ and $ABC$ are equilateral, so they are similar. Thus\n$$\\begin{align*}\\frac{\\operatorname{area}(\\triangle PQR)}{\\operatorname{area}(\\triangle ABC)}&=\\left(\\frac{PQ}{AB}\\right)^2\\\\\\frac{\\operatorname{area}(\\triangle PQR)}{\\operatorname{area}(\\triangle ABC)}&=\\left(\\frac1{\\sqrt7}\\right)^2\\\\\\frac{\\operatorname{area}(\\triangle PQR)}{\\operatorname{area}(\\triangle ABC)}&=\\frac17.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 145
+  },
+  "presentation": {
+    "ownerId": "p24-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:20.182Z",
+  "updatedAt": "2026-11-13T05:03:20.182Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch10-20261015",
+    "blockId": "p24-q8",
+    "sectionRole": "exercise"
+  }
+}

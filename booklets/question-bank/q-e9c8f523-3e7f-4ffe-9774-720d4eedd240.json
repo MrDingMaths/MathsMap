@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e9c8f523-3e7f-4ffe-9774-720d4eedd240",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "unknown-sides-angles-figures",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "unknown-angles-point"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Select and link several isosceles base-angle relations, exterior and supplementary angles, a right-isosceles45° relation and a straight-angle equation without intermediate prompts, then interpret a reflex angle and prove uniqueness. Long connected angle reasoning with taught tools, without a new theorem.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T02:41:39.171Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a2d82cd1ec131ba8e8a35b2ed2fd6a4e3f45e793eb4be5ffa37c463c9e8bf20",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch09-20261015/direct-independent-factorisation-first-seven-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p11-angle-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "What pairs of whole number values can $\\theta$ and $\\alpha$ take in the diagram below? Explain the procedure you followed to obtain your answer.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p11-angle-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 11, Angle chasing 2\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.5,0);\\coordinate (E) at (2.7135,0.8817);\\coordinate (C) at (3.9271,0);\\coordinate (F) at (4.3906,1.4266);\\coordinate (D) at (5.5778,0);\\coordinate (G) at (5.5778,1.6507);\n\\draw (A)--(6.05,0);\\draw (A)--($(A)!1.08!(G)$);\\draw (D)--($(D)!1.4!(G)$);\\draw (B)--(E)--(C)--(F);\\draw (C)--(G);\n\\foreach \\P/\\Q in {A/B,B/E,E/C,C/F,F/G}{\\draw[line width=0.4pt] ($ (\\P)!0.48!(\\Q)!0.09cm!90:(\\Q) $)--($ (\\P)!0.48!(\\Q)!0.09cm!-90:(\\Q) $);\\draw[line width=0.4pt] ($ (\\P)!0.52!(\\Q)!0.09cm!90:(\\Q) $)--($ (\\P)!0.52!(\\Q)!0.09cm!-90:(\\Q) $);}\n\\foreach \\P/\\Q in {C/D,D/G}{\\foreach \\t in {0.46,0.50,0.54}{\\draw[line width=0.4pt] ($ (\\P)!\\t!(\\Q)!0.09cm!90:(\\Q) $)--($ (\\P)!\\t!(\\Q)!0.09cm!-90:(\\Q) $);}}\n\\draw[line width=0.4pt] ($(D)+(-0.18,0)$)--($(D)+(-0.18,0.18)$)--($(D)+(0,0.18)$);\n\\draw[line width=0.4pt] ($(A)+(18:0.25)$) arc[start angle=18,end angle=360,radius=0.25];\\node[above left] at ($(A)+(0,0.2)$) {$\\theta$};\n\\pic[draw,line width=0.4pt,angle radius=0.34cm] {angle=F--C--E};\\node at ($(C)+(108:0.48)$) {$\\alpha$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Angle chasing 2",
+          "description": "Connected chain of triangles between a baseline and an inclined line, with five double-ticked equal segments, two triple-ticked equal segments, a right-angle square, reflex theta and alpha. Coordinate names are internal and are not printed.",
+          "mathematics": "AB=BE=EC=CF=FG; CD=DG; angle CDG is 90 degrees. A,B,C,D are collinear and A,E,F,G are collinear. Internal segments BE, EC, CF and CG remain visible.",
+          "answerVisibility": "No auxiliary vertex names, derived angle values or solution construction appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\theta=342^\\circ$, $\\alpha=72^\\circ$. This is the only pair.\n\nFollow the equal-base-angle deductions through the adjoining isosceles triangles.",
+      "worked": "For this explanation, name the baseline points $A,B,C,D$ from left to right and the inclined-line points $A,E,F,G$ from left to right. Let the small angle at $A$ be $x$.\n\nSince $AB=BE$, $\\angle AEB=x$, so the exterior angle $\\angle EBC=2x$. Since $BE=EC$, $\\angle BCE=2x$. In triangle $AEC$, $\\angle AEC=180^\\circ-3x$, so $\\angle CEF=3x$.\n\nSince $EC=CF$, $\\angle CFE=3x$. Therefore\n$$\\begin{align*}\\alpha&=180^\\circ-6x.\\end{align*}$$\nBecause $E,F,G$ are collinear, $\\angle CFG=180^\\circ-3x$. Since $CF=FG$, the other two angles of triangle $CFG$ are equal, giving $\\angle FCG=\\tfrac32x$.\n\nTriangle $CDG$ is right-angled and has $CD=DG$, so $\\angle GCD=45^\\circ$. Angles above the straight line at $C$ now give\n$$\\begin{align*}2x+(180^\\circ-6x)+\\tfrac32x+45^\\circ&=180^\\circ\\\\225^\\circ-\\tfrac52x&=180^\\circ\\\\\\tfrac52x&=45^\\circ\\\\x&=18^\\circ\\\\\\theta&=360^\\circ-18^\\circ\\\\\\theta&=342^\\circ\\\\\\alpha&=180^\\circ-6\\times18^\\circ\\\\\\alpha&=72^\\circ.\\end{align*}$$\nThe deductions determine $x$ uniquely, so there is only one whole-number pair.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "ownerId": "p11-angle-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:05:30.682Z",
+  "updatedAt": "2026-11-13T05:05:30.682Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch09-20261015",
+    "blockId": "p11-angle-q2",
+    "sectionRole": "exercise"
+  }
+}

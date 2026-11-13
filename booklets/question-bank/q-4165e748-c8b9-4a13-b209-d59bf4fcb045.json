@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4165e748-c8b9-4a13-b209-d59bf4fcb045",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "bearings-problems",
+    "secondarySkillIds": [
+      "cosine-rule"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate bearings into the included triangle angle, find the displacement, then determine which way to turn from the reverse bearing for the return direction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-22T22:23:13.127Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5ef4be7c786469beace74b854c273e3081687951f8922d37df2a79c1075456a0",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/background-repair-1792707702191/worker-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-21b-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "A man starts from a point $G$ and walks for $6$ km on a bearing of $045^\\circ$ to a point $H$, then he walks $10$ km on a bearing of $150^\\circ$ to a point $M$. From his position at $M$:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-21b-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 p14-21b-q1-diagram\"}\n\\begin{tikzpicture}[x=0.35cm,y=0.35cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (G) at (0,0);\n\\coordinate (H) at ({6*sin(45)},{6*cos(45)});\n\\coordinate (M) at ({6*sin(45)+10*sin(150)},{6*cos(45)+10*cos(150)});\n\\draw[black,line width=0.8pt] (G)--(H)--(M);\n\\draw[black,->,line width=0.5pt] (G)--++(0,6.5) node[above] {$N$};\n\\draw[black,->,line width=0.5pt] (H)--++(0,6.5) node[above] {$N$};\n\\node[below left] at (G) {$G$};\n\\node[right] at (H) {$H$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 26.6,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "21B question 1, right-hand route diagram",
+          "description": "Open route G–H–M with north arrows at G and H. Ordinary source blue strokes are rendered black under house style. Geometry derives from the stated distances and bearings.",
+          "mathematics": "GH=6 km at bearing 045 degrees; HM=10 km at bearing 150 degrees. No GM segment, distance labels or angle arcs are supplied.",
+          "answerVisibility": "Question contains only the supplied route, point labels and north cues."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p14-21b-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "how far is he from $G$, correct to one decimal place?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10.2$ km",
+          "worked": "The bearing of $G$ from $H$ is $225^\\circ$, so $\\angle GHM=225^\\circ-150^\\circ=75^\\circ$.\n\nLet $d=GM$. By the cosine rule,\n$$\\begin{align*}d^2&=6^2+10^2-2(6)(10)\\cos75^\\circ\\\\d&=\\sqrt{136-120\\cos75^\\circ}\\\\d&\\approx10.2\\text{ km}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p14-21b-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "what is the bearing of $G$ from $M$, correct to one decimal place?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$295.5^\\circ$\n\nFind the angle at $M$, then subtract it from the reverse bearing $330^\\circ$.",
+          "worked": "Let $\\theta=\\angle HMG$ and retain $d=\\sqrt{136-120\\cos75^\\circ}$ without rounding. By the cosine rule,\n$$\\begin{align*}6^2&=10^2+d^2-2(10)d\\cos\\theta\\\\\\cos\\theta&=\\frac{10^2+d^2-6^2}{20d}\\\\\\theta&=\\cos^{-1}\\!\\left(\\frac{10^2+d^2-6^2}{20d}\\right)\\\\\\theta&\\approx34.5^\\circ.\\end{align*}$$\nThe bearing of $H$ from $M$ is $150^\\circ+180^\\circ=330^\\circ$. Since $MG$ lies anticlockwise from $MH$, the required bearing is\n$$330^\\circ-\\cos^{-1}\\!\\left(\\frac{10^2+d^2-6^2}{20d}\\right)\\approx295.5^\\circ.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p14-21b-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:52.904Z",
+  "updatedAt": "2026-11-13T05:03:52.905Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p14-21b-q1",
+    "sectionRole": "exercise"
+  }
+}

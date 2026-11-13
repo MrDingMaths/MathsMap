@@ -1,0 +1,394 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7e0aaeba-ea2a-4481-a693-1bb500331073",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadratic-word-problems",
+    "secondarySkillIds": [
+      "circle-angle-properties",
+      "intersecting-chords-secants",
+      "area-of-triangle",
+      "solve-quadratic-factorisation"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use intersecting-chord products to derive and factor a two-variable identity, then follow the supplied area scaffolding to form and solve a quadratic.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-22T23:05:27.604Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6e724d51de55fcc31d04e6065b19c5fa255c76356feb05042d224c0791bf44e1",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch21-20261015/background-repair-1792710241417/worker-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Suppose that the points $A$, $B$, $C$ and $D$ lie on a circle, with $AC$ meeting $BD$ at right angles at $E$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q10-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (190:2);\n\\coordinate (B) at (78:2);\n\\coordinate (C) at (30:2);\n\\coordinate (D) at (-38:2);\n\\coordinate (E) at (intersection of A--C and B--D);\n\\draw[black,line width=0.8pt] (0,0) circle[radius=2];\n\\draw[black,line width=0.8pt] (A)--(B) (A)--(C) (B)--(D) (C)--(D);\n\\coordinate (U) at ($(E)!0.20cm!(B)$);\n\\coordinate (V) at ($(E)!0.20cm!(C)$);\n\\draw[black,line width=0.4pt] (U)--($(U)+(V)-(E)$)--(V);\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Diagram between the opening stem and part a",
+          "description": "Circle with A lower left, B near the top, C upper right and D lower right; chords AB, AC, BD and CD. The right-angle square lies between EB and EC. Ordinary source-blue strokes are black under house style.",
+          "mathematics": "A, B, C and D are concyclic. E lies inside both AC and BD, and AC is perpendicular to BD. Coordinate angles are construction choices only and are not numerical givens.",
+          "answerVisibility": "All geometry and point labels remain visible; no answers are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q10-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "If $\\angle BAE=30^{\\circ}$, find the size of:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q10-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$\\angle ABE$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$60^{\\circ}$",
+              "worked": "$$\\begin{align*}\\angle ABE&=180^{\\circ}-90^{\\circ}-30^{\\circ}\\\\\\angle ABE&=60^{\\circ}\\end{align*}$$\nThe angles in triangle $ABE$ sum to $180^{\\circ}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p18-q10-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$\\angle CDE$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$30^{\\circ}$",
+              "worked": "$E$ lies on $AC$ and $BD$, so $\\angle BAE=\\angle BAC$ and $\\angle CDE=\\angle CDB$.\n$$\\begin{align*}\\angle CDE&=\\angle BAC\\\\\\angle CDE&=30^{\\circ}\\end{align*}$$\nAngles subtended by the same chord $BC$ in the same segment are equal.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      },
+      {
+        "id": "p18-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If $\\angle BAE=a^{\\circ}$ and $\\angle ECD=b^{\\circ}$, find an equation relating $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a+b=90$",
+          "worked": "Angles subtended by chord $BC$ in the same segment are equal, so $\\angle CDE=a^{\\circ}$. In right-angled triangle $CED$,\n$$\\begin{align*}a+b+90&=180\\\\a+b&=90.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q10-c",
+        "type": "group",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p18-q10-length-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Next, suppose that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "AC=10\\text{ cm},\\ BD=10\\text{ cm},\\ AE=x\\text{ cm}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "BE=y\\text{ cm}.",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p18-q10-c-find",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find:",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q10-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$CE$ in terms of $x$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(10-x)\\text{ cm}$",
+              "worked": "$$\\begin{align*}CE&=AC-AE\\\\CE&=(10-x)\\text{ cm}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p18-q10-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$DE$ in terms of $y$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(10-y)\\text{ cm}$",
+              "worked": "$$\\begin{align*}DE&=BD-BE\\\\DE&=(10-y)\\text{ cm}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      },
+      {
+        "id": "p18-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Show that $x=y$ or $x+y=10$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(x-y)(10-x-y)=0$, so $x=y$ or $x+y=10$.",
+          "worked": "By the intersecting-chords theorem, $AE\\times CE=BE\\times DE$.\n$$\\begin{align*}x(10-x)&=y(10-y)\\\\10x-x^2-10y+y^2&=0\\\\10(x-y)-(x-y)(x+y)&=0\\\\(x-y)(10-x-y)&=0.\\end{align*}$$\nHence $x=y$ or $x+y=10$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p18-q10-e",
+        "type": "group",
+        "label": "e",
+        "prompt": "Find, in terms of $x$ and $y$:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q10-e-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "area $\\triangle ABE$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{xy}{2}\\text{ cm}^2$",
+              "worked": "$AE$ and $BE$ are perpendicular.\n$$\\begin{align*}\\operatorname{Area}(\\triangle ABE)&=\\frac12\\times AE\\times BE\\\\\\operatorname{Area}(\\triangle ABE)&=\\frac{xy}{2}\\text{ cm}^2\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          },
+          {
+            "id": "p18-q10-e-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "area $\\triangle CED$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{(10-x)(10-y)}{2}\\text{ cm}^2$",
+              "worked": "$CE$ and $DE$ are perpendicular.\n$$\\begin{align*}\\operatorname{Area}(\\triangle CED)&=\\frac12\\times CE\\times DE\\\\\\operatorname{Area}(\\triangle CED)&=\\frac{(10-x)(10-y)}{2}\\text{ cm}^2\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          }
+        ]
+      },
+      {
+        "id": "p18-q10-f",
+        "type": "part",
+        "label": "f",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p18-q10-area-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Next, suppose that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\operatorname{Area}(\\triangle ABE)=\\operatorname{Area}(\\triangle CED).",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p18-q10-f-show",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x+y=10.",
+                  "display": false
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x+y=10$",
+          "worked": "$$\\begin{align*}\\frac{xy}{2}&=\\frac{(10-x)(10-y)}{2}\\\\xy&=100-10x-10y+xy\\\\10x+10y&=100\\\\10(x+y)&=100\\\\x+y&=10\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p18-q10-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Find the area of $\\triangle ABE$ in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{x(10-x)}{2}\\text{ cm}^2$",
+          "worked": "Since $x+y=10$, $y=10-x$.\n$$\\begin{align*}\\operatorname{Area}(\\triangle ABE)&=\\frac{xy}{2}\\\\\\operatorname{Area}(\\triangle ABE)&=\\frac{x(10-x)}{2}\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p18-q10-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Find $x$ if the area of $\\triangle ABE$ is $12\\text{ cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=4$ or $x=6$.",
+          "worked": "$$\\begin{align*}\\frac{x(10-x)}{2}&=12\\\\10x-x^2&=24\\\\x^2-10x+24&=0\\\\(x-4)(x-6)&=0\\end{align*}$$\nThus $x=4$ or $x=6$. Both satisfy $0<x<10$ and give area $\\tfrac12\\times4\\times6=12\\text{ cm}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T05:03:56.177Z",
+  "updatedAt": "2026-11-13T05:03:56.177Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch21-20261015",
+    "blockId": "p18-q10",
+    "sectionRole": "exercise"
+  }
+}
