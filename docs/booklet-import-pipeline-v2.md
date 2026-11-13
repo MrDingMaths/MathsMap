@@ -646,7 +646,7 @@ Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11
 
 ### Mastering Adv 11 Ch 3 pilot (13 November 2026, after the simplification and `finish`-time changes)
 
-Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages 13–26; 138 blocks, 155 diagrams (graph-heavy). **Deliverable after export 4** (one over the budget, approved by James): 297 pages accepted, no findings, no blockers. The candidate is saved in the run (`candidate.project.json`); it is not yet published to Studio or the bank.
+Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages 13–26; 138 blocks, 155 diagrams (graph-heavy). **Deliverable after export 4** (one over the budget, approved by James): 297 pages accepted, no findings, no blockers. Published to the Studio library on 13 November (`booklets/projects/mastering-maths-adv11-ch03.json`, revision 2, category `import-review`). **Not in the bank:** the bank plan leaves out 137 of 138 questions as `no-teaching-context`. The chapter has no teaching pages (each exercise starts with questions), so `sourceReview.teachingContext.pdfPages` is empty. Ch 2 met the same rule: 13 of its 97 questions are in the bank.
 
 **Final totals:** 295 model calls (214 per 100 blocks), 19.8 M input and 824 k output tokens; 7 `finish` runs and 4 full exports (101–234 s each). Elapsed 386 min, of which 136 min was active work; the rest was waiting on coordinator repairs and James's decisions.
 
