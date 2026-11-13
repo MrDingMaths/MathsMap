@@ -30,8 +30,12 @@ export function mergeQuestionContent(incoming,local,base=null){
  walk(local,(n,p)=>{if(n.id)localPaths.set(p.join('/'),n);});
  if(base)walk(base,(n,p)=>{if(n.id)basePaths.set(n.id,p.join('/'));});
  const ids=new Map(),localFor=new Map();
+ // Both arguments are the content roots of one question, so the roots always
+ // correspond. Keeping the local root id keeps the derived child ids stable;
+ // without this, each sync renamed the root and lengthened every id (13 November 2026).
+ if(incoming?.id&&local?.id){ids.set(incoming.id,local.id);localFor.set(incoming.id,local);}
  walk(incoming,n=>{
-  if(!n.id)return;
+  if(!n.id||ids.has(n.id))return;
   const match=localById.get(n.id)??localById.get(`${local.id}-bank-${n.id}`)??localPaths.get(basePaths.get(n.id));
   ids.set(n.id,match?.id??`${local.id}-bank-${n.id}`);
   if(match)localFor.set(n.id,match);

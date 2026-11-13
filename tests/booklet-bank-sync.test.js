@@ -277,6 +277,13 @@ test('rekeyed snapshots compare equally and retain internal diagram links when r
  const merged=mergeQuestionContent(next,local.content,bank.content);
  assert.equal(merged.id,local.content.id);assert.equal(merged.sharedSolutionDiagramId,merged.questionDiagrams[0].id);
 });
+test('syncing a copy whose ids differ from the bank keeps ids stable across saves',()=>{
+ const bank={id:'p1',type:'question',prompt:'Old',children:[{id:'p1-a',type:'question',prompt:'Part',children:[],answer:{short:'1',worked:'1',solutionDiagrams:[]}}]};
+ const block={id:'bd-q-x-p1',type:'question',prompt:'New',children:[{id:'bd-q-x-p1-a',type:'question',prompt:'Part',children:[],answer:{short:'2',worked:'2',solutionDiagrams:[]}}]};
+ const once=mergeQuestionContent(block,bank),twice=mergeQuestionContent(block,once),ids=v=>{const out=[];JSON.stringify(v,(k,x)=>{if(k==='id')out.push(x);return x;});return out;};
+ assert.equal(once.id,'p1');assert.equal(once.prompt,'New');assert.equal(once.children[0].answer.short,'2');
+ assert.deepEqual(ids(twice),ids(once));assert.deepEqual(twice,once);
+});
 test('concurrent saves serialize and reject the stale project revision',async t=>{
  const f=await fixture(t);const results=await Promise.allSettled([saveBookletProject(f.project,{...f.options,expectedRevision:f.project.revision}),saveBookletProject(f.project,{...f.options,expectedRevision:f.project.revision})]);
  assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(results.find(r=>r.status==='rejected').reason.statusCode,409);
