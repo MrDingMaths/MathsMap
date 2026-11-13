@@ -43,7 +43,9 @@ const publisherFurniture=reason=>/publisher.*(?:navigation|furniture)|(?:navigat
 // A bare heading: the inventory marks it as a heading AND it is a short title with no
 // sentence punctuation, numbers, maths or instruction verbs. Anything else stays a finding,
 // so a disguised instruction is never excluded automatically.
-const headingLike=e=>Object.entries(e.presentation??{}).some(([key,value])=>/heading/i.test(key)||typeof value==='string'&&/\bheading\b/i.test(value))&&
+// A marker value may be camelCase ("categoryHeading", Mastering Adv 11 Ch 7), so "heading" needs no
+// word boundary on its left.
+const headingLike=e=>Object.entries(e.presentation??{}).some(([key,value])=>/heading/i.test(key)||typeof value==='string'&&/heading\b/i.test(value))&&
   typeof e.description==='string'&&e.description.trim().split(/\s+/).length<=6&&!/[.?!:;=$\\\d]/.test(e.description)&&
   !/\b(?:instruction|find|calculate|show|prove|explain|write|complete|evaluate|simplify|solve|express|work out)\b/i.test(e.description);
 
