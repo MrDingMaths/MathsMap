@@ -1,0 +1,193 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-54cc8d05-7a61-4412-9e27-7bcb3114b7b2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "set-notation-events",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Translate unions, intersections and complements into shaded regions, then compare both sides of each statement on the supplied two-set diagram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:43:04.289Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "23acf8bd3426b85c70bac57cb771a266df35803f4523f77195100d9c6828151f",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794584511849-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-p1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Consider the following statements. Determine whether they are true or false by shading the relevant areas on two-way Venn diagrams.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "p7-p1-venn-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Source page 7, p7-p1-venn-figure\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (-2.4,-1.6) rectangle (2.4,1.6);\n\\draw (-0.8,0) circle (1.2);\n\\draw (0.8,0) circle (1.2);\n\\node at (-1.02,0) {$A$};\n\\node at (1.02,0) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "Problem 1, shared diagram between the direction and the three statements",
+          "description": "Unshaded universal rectangle with two horizontally overlapping circles. A is in the left-only region and B is in the right-only region.",
+          "mathematics": "Two intersecting sets with two exclusive regions, a shared region and an exterior region.",
+          "answerVisibility": "Blank model visible to students."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p7-p1-part-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$(A\\cap B)=\\bar A\\cup\\bar B$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False.",
+          "worked": "Shade only the overlap for $A\\cap B$. Shade the two exclusive regions and the area outside both circles for $\\bar A\\cup\\bar B$. The shaded regions differ, so the statement is false.",
+          "solutionDiagrams": [
+            {
+              "id": "p7-p1-a-shading",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"regions selected by the expressions\"}],\"reference\":\"Source page 7, p7-p1-a-shading\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\newcommand{\\vennoutlines}{\\draw (-2.4,-1.6) rectangle (2.4,1.6);\\draw (-0.8,0) circle (1.2);\\draw (0.8,0) circle (1.2);\\node at (-1.02,0) {$A$};\\node at (1.02,0) {$B$};}\n\\begin{scope}\n\\clip (-0.8,0) circle (1.2);\n\\fill[regionBlue] (0.8,0) circle (1.2);\n\\end{scope}\n\\vennoutlines\n\\node[above] at (0,1.6) {$A\\cap B$};\n\\begin{scope}[xshift=5.3cm]\n\\fill[regionBlue] (-2.4,-1.6) rectangle (2.4,1.6);\n\\begin{scope}\n\\clip (-0.8,0) circle (1.2);\n\\fill[white] (0.8,0) circle (1.2);\n\\end{scope}\n\\vennoutlines\n\\node[above] at (0,1.6) {$\\bar A\\cup\\bar B$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 96,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 7,
+                "sourceRegion": "Problem 1(a), using the shared two-set scaffold",
+                "description": "Paired diagrams compare the two expressions in source order.",
+                "mathematics": "Left shades the intersection. Right shades the complement of the intersection.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p7-p1-part-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$(A\\cup B)=\\bar A\\cup\\bar B$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "False.",
+          "worked": "Shade both circles, including their overlap, for $A\\cup B$. For $\\bar A\\cup\\bar B$, shade the two exclusive regions and the area outside both circles. The overlap belongs only to the left-hand side, and the exterior belongs only to the right-hand side.",
+          "solutionDiagrams": [
+            {
+              "id": "p7-p1-b-shading",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"regions selected by the expressions\"}],\"reference\":\"Source page 7, p7-p1-b-shading\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\newcommand{\\vennoutlines}{\\draw (-2.4,-1.6) rectangle (2.4,1.6);\\draw (-0.8,0) circle (1.2);\\draw (0.8,0) circle (1.2);\\node at (-1.02,0) {$A$};\\node at (1.02,0) {$B$};}\n\\fill[regionBlue] (-0.8,0) circle (1.2);\n\\fill[regionBlue] (0.8,0) circle (1.2);\n\\vennoutlines\n\\node[above] at (0,1.6) {$A\\cup B$};\n\\begin{scope}[xshift=5.3cm]\n\\fill[regionBlue] (-2.4,-1.6) rectangle (2.4,1.6);\n\\begin{scope}\n\\clip (-0.8,0) circle (1.2);\n\\fill[white] (0.8,0) circle (1.2);\n\\end{scope}\n\\vennoutlines\n\\node[above] at (0,1.6) {$\\bar A\\cup\\bar B$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 96,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 7,
+                "sourceRegion": "Problem 1(b), using the shared two-set scaffold",
+                "description": "Paired diagrams compare the two expressions in source order.",
+                "mathematics": "Left shades the union. Right shades the two exclusive regions and the exterior.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p7-p1-part-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\bar A\\cup\\bar B=\\overline{(A\\cap B)}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "True.",
+          "worked": "For $\\bar A\\cup\\bar B$, shade every region outside at least one circle. For $\\overline{(A\\cap B)}$, shade everything outside the overlap. Both expressions shade the same three regions, so the statement is true.",
+          "solutionDiagrams": [
+            {
+              "id": "p7-p1-c-shading",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"regions selected by the expressions\"}],\"reference\":\"Source page 7, p7-p1-c-shading\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\newcommand{\\complementfigure}{\\fill[regionBlue] (-2.4,-1.6) rectangle (2.4,1.6);\\begin{scope}\\clip (-0.8,0) circle (1.2);\\fill[white] (0.8,0) circle (1.2);\\end{scope}\\draw (-2.4,-1.6) rectangle (2.4,1.6);\\draw (-0.8,0) circle (1.2);\\draw (0.8,0) circle (1.2);\\node at (-1.02,0) {$A$};\\node at (1.02,0) {$B$};}\n\\complementfigure\n\\node[above] at (0,1.6) {$\\bar A\\cup\\bar B$};\n\\begin{scope}[xshift=5.3cm]\n\\complementfigure\n\\node[above] at (0,1.6) {$\\overline{(A\\cap B)}$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 96,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 7,
+                "sourceRegion": "Problem 1(c), using the shared two-set scaffold",
+                "description": "Paired diagrams show identical shading for the two expressions.",
+                "mathematics": "Both diagrams shade all regions except the intersection.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-p1-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:01.913Z",
+  "updatedAt": "2026-11-13T18:49:01.913Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p7-p1-block",
+    "sectionRole": "exercise"
+  }
+}

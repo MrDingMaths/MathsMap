@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0667d09a-ef4e-45ec-9ca2-793b64e4f050",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability",
+    "secondarySkillIds": [
+      "complementary-probability"
+    ],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use specificity to obtain the false-positive rate, combine the two weighted routes to a positive test, and decide which inputs might differ for Carol.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:40:45.859Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8242ec9076e87afa05cbadc7e56733ffb3cbafe08f5ccad540cc4a29a665c0dc",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794588018961-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "[Medical application]\n\nCarol is worried that she may have a rare disease and decides to get tested. The sensitivity of the test is $99\\%$ and the specificity of the test is also $99\\%$. Suppose that the prevalence of this rare disease is $0.01\\%$. Carol tests positive.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Research the definitions of sensitivity, specificity and prevalence in this context.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Sensitivity is the probability of a positive result among people with the disease. Specificity is the probability of a negative result among people without the disease. Prevalence is the proportion of the population with the disease.",
+          "worked": "Let $D$ mean having the disease, $D'$ mean being free of it, and $+$ and $-$ mean a positive and negative result respectively.\n\nSensitivity is $P(+\\mid D)$, the proportion of people with the disease who test positive. Specificity is $P(-\\mid D')$, the proportion of people without the disease who test negative. Prevalence is $P(D)$ for a randomly selected person in the population at the time of interest. Source: CDC, Epidemiology Glossary (www.cdc.gov).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p31-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p31-q1-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Use Bayes’ Theorem to find the probability that Carol ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "actually",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " has the disease.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{102}$, or about $0.98\\%$.\n\nDivide the probability of a true positive by the probability of any positive result.",
+          "worked": "Let $D$ mean Carol has the disease, $D'$ mean she does not, and $+$ mean a positive test. The false-positive probability is $P(+\\mid D')=1-0.99=0.01$, and $P(D')=1-0.0001=0.9999$.\n\nA positive result can come from a person with or without the disease.\n\n$$\\begin{align*}P(+) &= P(D)P(+\\mid D)+P(D')P(+\\mid D')\\\\P(+) &= 0.0001\\times0.99+0.9999\\times0.01\\\\P(+) &= 0.010098\\end{align*}$$\n\n$$\\begin{align*}P(D\\mid+) &= \\frac{P(D)P(+\\mid D)}{P(+)}\\\\P(D\\mid+) &= \\frac{0.0001\\times0.99}{0.010098}\\\\P(D\\mid+) &= \\frac{1}{102}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p31-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "In the medical scenario above, there is an underlying assumption that can affect the probability of Carol having the disease. Find some possible factors that may result in the calculations being invalid.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The calculation assumes the stated prevalence and test accuracy apply to Carol. Symptoms, exposure or family history could change her chance of having the disease before testing. The timing of the test or how the sample was collected could affect test accuracy.",
+          "worked": "The calculation uses the population prevalence as Carol’s probability of having the disease before testing. If she has relevant symptoms, a known exposure or a family history that raises her risk, she may belong to a group with a different prevalence. It also assumes the stated sensitivity and specificity apply under her testing conditions. A test taken too early or a poorly collected sample could change those probabilities. Different inputs would give a different probability after the positive result.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:45.947Z",
+  "updatedAt": "2026-11-13T18:49:45.948Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p31-q1",
+    "sectionRole": "exercise"
+  }
+}

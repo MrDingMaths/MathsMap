@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9c542ecc-7b28-4b5d-929b-60fd6818dfcf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability-tree",
+    "secondarySkillIds": [
+      "conditional-probability"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Combine rain and dry paths to find the overall win probability, then reverse the conditioning by dividing the rainy-win probability by the total win probability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:46:02.152Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e19a2b2fda92e77c5768e467737096aa16ea847cdcc09cbdf3beffddfd908a0e",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794584706999-19/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The manager of a team notices that the team has a probability of 0.6 of winning the game if it is raining, but 0.25 if it is dry. The probability that it will rain when they play is 0.3.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the probability that they will not win.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.645$",
+          "worked": "Let $R$ be rain, $D$ be dry weather and $W$ be a win. The dry branch has probability $P(D)=1-0.3=0.7$. The probabilities of no win are $1-0.6=0.4$ on the rain branch and $1-0.25=0.75$ on the dry branch.\n\n$$\\begin{align*}P(W^c)&=P(R)P(W^c\\mid R)+P(D)P(W^c\\mid D)\\\\P(W^c)&=0.3\\times0.4+0.7\\times0.75\\\\P(W^c)&=0.120+0.525\\\\P(W^c)&=0.645\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p17-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that the team has won a game, calculate the probability that it rained on the day of the match. Give your answer to 3 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.507$\n\nDivide the probability of a rainy win by the total probability of a win.",
+          "worked": "Multiply along each winning branch, then add the two winning probabilities.\n\n$$\\begin{align*}P(R\\cap W)&=0.3\\times0.6\\\\P(R\\cap W)&=0.180\\\\P(D\\cap W)&=0.7\\times0.25\\\\P(D\\cap W)&=0.175\\end{align*}$$\n\n$$\\begin{align*}P(R\\mid W)&=\\frac{P(R\\cap W)}{P(R\\cap W)+P(D\\cap W)}\\\\P(R\\mid W)&=\\frac{0.180}{0.180+0.175}\\\\P(R\\mid W)&=\\frac{36}{71}\\\\P(R\\mid W)&\\approx0.507\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:19.587Z",
+  "updatedAt": "2026-11-13T18:49:19.587Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p17-q9",
+    "sectionRole": "exercise"
+  }
+}

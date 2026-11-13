@@ -1,0 +1,159 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3a4ad8a-f824-489b-91f6-db8811ae915c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "venn-diagrams-two-way-tables",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Separate the inclusive France–Spain count from the triple overlap and choose a workable order for using the three country totals. Then read the exclusive and inclusive events from the completed diagram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T18:43:03.297Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "53f2292340a7bf7816c7b3a9e7cd8fcb2552c1310bcf9f48bca288dc25343d6e",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794595337210-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "58 people took a trip to Europe. Each person visited at least one of France, England or Spain. Of this group, 26 visited France, 38 visited England, 29 visited Spain, 10 visited France and Spain, 12 visited only Spain, 13 visited only England and 8 visited all three countries.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p6-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 6, p6-q5-diagram\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=0pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) rectangle (8.4,8.1);\n\\draw (4.2,5.45) circle[radius=2.05];\n\\draw (2.85,3.05) circle[radius=2.05];\n\\draw (5.55,3.05) circle[radius=2.05];\n\\node at (4.2,6.43) {France};\n\\node[anchor=south,yshift=0.50pt] at (2.34,3.12) {England};\n\\node[anchor=south,yshift=0.50pt] at (6.06,3.12) {Spain};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 84,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 6,
+          "sourceRegion": "Question 5, three-circle diagram between the givens and the probability prompt",
+          "description": "Three mutually overlapping unshaded circles in a rectangle, with France above England on the lower left and Spain on the lower right.",
+          "mathematics": "The figure contains seven distinct regions inside the circles and one outside. Each country name is in its own exclusive region.",
+          "answerVisibility": "All eight regions have space for handwritten counts. The student figure contains country names only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p6-q5-probabilities",
+        "type": "group",
+        "label": "",
+        "prompt": "A person from the group of 58 was chosen at random. What is the probability that the person visited",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p6-q5-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "France only?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{29}$\n\nStart with the 8 who visited all three countries and fill the pair overlaps before finding the France-only count.",
+              "worked": "Place 8 in the centre. France and Spain only has $10-8=2$ people.\n\nEngland and Spain only has $29-12-2-8=7$ people.\n\nFrance and England only has $38-13-7-8=10$ people.\n\nFrance only has $26-10-2-8=6$ people.\n\n$$\\begin{align*}P(\\text{France only})&=\\frac{6}{58}\\\\P(\\text{France only})&=\\frac{3}{29}\\end{align*}$$",
+              "solutionDiagrams": [
+                {
+                  "id": "p6-q5-completed-venn",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 6, p6-q5-diagram\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=0pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) rectangle (8.4,8.1);\n\\draw (4.2,5.45) circle[radius=2.05];\n\\draw (2.85,3.05) circle[radius=2.05];\n\\draw (5.55,3.05) circle[radius=2.05];\n\\node at (4.2,6.43) {France};\n\\node at (2.20,2.70) {England};\n\\node[anchor=south,yshift=0.50pt] at (6.24,3.00) {Spain};\n\\node at (4.2,5.8) {$6$};\n\\node at (2.25,1.65) {$13$};\n\\node at (6.06,2.47) {$12$};\n\\node at (3.07,4.49) {$10$};\n\\node at (5.33,4.49) {$2$};\n\\node at (4.2,2.73) {$7$};\n\\node at (4.2,3.89) {$8$};\n\\node at (0.62,0.57) {$0$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 84,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 6,
+                    "sourceRegion": "Question 5, three-circle diagram",
+                    "description": "Completed Venn diagram for the three countries. A rendered print inspection at 180 dpi showed the full-size England label nearly touching the left arc after the count was moved. The label is scaled to 84 percent of the standard 10 pt size, in order to retain source placement entirely within the England-only crescent. Keep the count at its regular size below the name.",
+                    "mathematics": "France only 6, England only 13, Spain only 12, France and England only 10, France and Spain only 2, England and Spain only 7, all three 8, outside 0. The counts sum to 58.",
+                    "answerVisibility": "Region counts appear only in the solution figure."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 31
+          },
+          {
+            "id": "p6-q5-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "England and France?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{9}{29}$",
+              "worked": "The England–France overlap contains 10 who visited just those two countries and 8 who visited all three. Let $E$ and $F$ be the events of visiting England and France, respectively.\n\n$$\\begin{align*}P(E\\cap F)&=\\frac{10+8}{58}\\\\P(E\\cap F)&=\\frac{9}{29}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          },
+          {
+            "id": "p6-q5-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "only one country?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{31}{58}$",
+              "worked": "Use the three exclusive regions. Let $A$ be the event of visiting exactly one country.\n\n$$\\begin{align*}P(A)&=\\frac{6+13+12}{58}\\\\P(A)&=\\frac{31}{58}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "workedSharedDiagramsAtWorkingEdge": true,
+    "ownerId": "p6-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:01.589Z",
+  "updatedAt": "2026-11-13T18:49:01.589Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p6-q5",
+    "sectionRole": "exercise"
+  }
+}

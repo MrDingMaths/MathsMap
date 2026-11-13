@@ -1,0 +1,327 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-35e9d71d-ad76-4067-a5b1-4ca837df5ce8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability-tree",
+    "secondarySkillIds": [
+      "conditional-probability"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reverse the condition using both positive paths, then interpret a sum of a joint probability and a marginal probability by identifying the omitted false-positive path.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T17:44:58.635Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "31f1cecd00bd296c07028870b7459d5c2093d62ab5971d7b1676bc9b7382c200",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794591867384-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-p3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "[Bayes’ Theorem]\n\nA hospital is trialling a new test that identifies if a patient has a certain disease. If the patient has that disease, the test is designed to return a ‘positive’ result, denoted by a ‘+’ sign. If the patient does not have the disease, the test should return a ‘negative’ result. However, no test is perfect and false results may occasionally occur. The hospital wishes to see how accurate the test is.\n\nThe following facts are known.\n\n$98\\%$ of patients who have the disease will test positive.\n\n$4\\%$ of patients who do not have the disease will also test positive (false positive).\n\n$10\\%$ of the general population has the disease.\n\nPatients are randomly chosen and their test result is compared against definitive proof whether they actually have it or not.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-p3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the probability that a randomly chosen patient does not have the disease and tests positive?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{9}{250}$",
+          "worked": "Let $N$ be the event that the patient does not have the disease. Then $P(N)=1-0.10=0.90$.\n\n$$\\begin{align*}P(N\\cap +)&=P(N)P(+\\mid N)\\\\&=0.90\\times 0.04\\\\&=0.036=\\frac{9}{250}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p20-p3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-p3-b-definitions-native",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Let ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "Y",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "N",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " represent the events that the patient does and does not have the disease, respectively. Let ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "+",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "-",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " represent the events that the patient tests positive and negative, respectively.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p20-p3-b-tree-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the information on this tree diagram.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-p3-b-tree",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 20, p20-p3-b-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont,inner sep=2pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.35,-2.06) rectangle (9.7,2.06);\n\\node[anchor=east] at (0,0) {Patient};\n\\coordinate (Y) at (2.7,1.04);\n\\node[above,inner sep=1pt] at (2.7,1.32) {$Y$};\n\\coordinate (N) at (2.7,-1.04);\n\\node[below,inner sep=1pt] at (2.7,-1.28) {$N$};\n\\coordinate (YP) at (5.64,1.66);\n\\coordinate (YM) at (5.64,.57);\n\\coordinate (NP) at (5.64,-.57);\n\\coordinate (NM) at (5.64,-1.66);\n\\draw[black,line width=.8pt] (0,.18) -- node[midway,above,sloped] {$0.1$} (Y);\n\\draw[black,line width=.8pt] (0,-.18) -- coordinate[midway] (a) (N);\n\\draw[black,line width=.8pt] (Y) -- node[midway,above,sloped] {$0.98$} (YP);\n\\draw[black,line width=.8pt] (Y) -- coordinate[midway] (b) (YM);\n\\draw[black,line width=.8pt] (N) -- node[midway,above,sloped] {$0.04$} (NP);\n\\draw[black,line width=.8pt] (N) -- coordinate[midway] (c) (NM);\n\\foreach \\pos in {a,b,c} {\\draw[black,densely dotted,line width=.4pt] ([xshift=-6.5mm,yshift=-4.5mm]\\pos) -- ([xshift=6.5mm,yshift=-4.5mm]\\pos);}\n\\foreach \\point/\\outcome in {YP/{Y,+},YM/{Y,-},NP/{N,+},NM/{N,-}} {\\fill[black] (\\point) circle[radius=1.25pt]; \\node[anchor=west,xshift=2pt] at (\\point) {$\\{\\outcome\\}$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 111,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "Problem 3(b), lower half of printed page 282",
+              "description": "Left-to-right two-stage tree with terminal dots, three supplied branch probabilities and three writable branch labels. Space to the right of the outcomes accommodates any terminal working.",
+              "mathematics": "Patient branches to Y above and N below. Outcomes from top to bottom are {Y,+}, {Y,−}, {N,+}, {N,−}. Visible probabilities are P(Y)=0.1, P(+|Y)=0.98 and P(+|N)=0.04.",
+              "answerVisibility": "given branches only"
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Missing branch probabilities $0.90$, $0.02$ and $0.96$ from top to bottom. Outcome probabilities $0.098$, $0.002$, $0.036$ and $0.864$ from top to bottom.",
+          "worked": "Branches from the same node add to 1.\n\n$$\\begin{align*}P(N)&=1-0.10=0.90\\\\P(-\\mid Y)&=1-0.98=0.02\\\\P(-\\mid N)&=1-0.04=0.96\\end{align*}$$\n\nMultiply along each complete path.\n\n$$\\begin{align*}P(Y\\cap +)&=0.10\\times0.98=0.098\\\\P(Y\\cap -)&=0.10\\times0.02=0.002\\\\P(N\\cap +)&=0.90\\times0.04=0.036\\\\P(N\\cap -)&=0.90\\times0.96=0.864\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p20-p3-b-tree-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Answer PDF page 89, p20-p3-b-tree-solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont,inner sep=2pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.35,-3.15) rectangle (9.7,3.15);\n\\node[anchor=east] at (0,0) {Patient};\n\\coordinate (Y) at (2.7,2.00);\n\\node[above,inner sep=1pt] at (2.7,2.20) {$Y$};\n\\coordinate (N) at (2.7,-2.00);\n\\node[below,inner sep=1pt] at (2.7,-2.20) {$N$};\n\\coordinate (YP) at (5.64,2.65);\n\\coordinate (YM) at (5.64,1.55);\n\\coordinate (NP) at (5.64,-1.55);\n\\coordinate (NM) at (5.64,-2.65);\n\\draw[black,line width=.8pt] (0,.18) -- node[midway,above,sloped] {$0.1$} (Y);\n\\draw[black,line width=.8pt] (0,-.18) -- node[midway,below,sloped] {$0.9$} (N);\n\\draw[black,line width=.8pt] (Y) -- node[midway,above,sloped] {$0.98$} (YP);\n\\draw[black,line width=.8pt] (Y) -- (YM);\n\\draw[black,line width=.8pt] (N) -- (NP);\n\\draw[black,line width=.8pt] (N) -- node[midway,below,sloped] {$0.96$} (NM);\n\\draw[line width=.4pt] (4.00,1.801)--(4.00,1.36);\n\\node[anchor=north,inner sep=1pt] at (4.00,1.32) {$0.02$};\n\\draw[line width=.4pt] (4.78,-1.683)--(4.78,-1.20);\n\\node[anchor=south,inner sep=1pt] at (4.78,-1.17) {$0.04$};\n\\foreach \\point/\\outcome/\\height/\\prob in {YP/{Y,+}/2.65/0.098,YM/{Y,-}/1.55/0.002,NP/{N,+}/-1.55/0.036,NM/{N,-}/-2.65/0.864} {\\fill[black] (\\point) circle[radius=1.25pt]; \\node[anchor=west,xshift=2pt] at (\\point) {$\\{\\outcome\\}$}; \\node[anchor=west] at (8.50,\\height) {$\\prob$};}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 111,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 89,
+                "sourceRegion": "Answer book, printed page 383, Exercise 10E P3(b)",
+                "description": "Completed disease-test tree with all six branch probabilities and the four outcome probabilities.",
+                "mathematics": "Added branches 0.90, 0.02 and 0.96. Outcome probabilities from top to bottom are 0.098, 0.002, 0.036 and 0.864.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p21-p3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the probability that a patient has the disease and also tests positive.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{49}{500}$",
+          "worked": "$$\\begin{align*}P(Y\\cap +)&=P(Y)P(+\\mid Y)\\\\P(Y\\cap +)&=0.10\\times 0.98\\\\P(Y\\cap +)&=0.098=\\frac{49}{500}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p21-p3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Show that the probability that a patient tests positive is $0.134$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.134$.\n\nAdd the probabilities of the two positive paths.",
+          "worked": "$$\\begin{align*}P(+)&=P(Y\\cap +)+P(N\\cap +)\\\\P(+)&=0.098+0.036\\\\P(+)&=0.134\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p21-p3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p21-p3-e-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "If a patient tests positive, what is the probability that they ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "actually",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " have the disease?",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{49}{67}$.\n\nDivide the probability of the positive path through $Y$ by the total probability of a positive result.",
+          "worked": "$$\\begin{align*}P(Y\\mid +)&=\\frac{P(Y\\cap +)}{P(+)}\\\\P(Y\\mid +)&=\\frac{0.098}{0.134}\\\\P(Y\\mid +)&=\\frac{49}{67}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p21-p3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find the probability that a patient tests negative.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{433}{500}$",
+          "worked": "$$\\begin{align*}P(-)&=1-P(+)\\\\P(-)&=1-0.134\\\\P(-)&=0.866=\\frac{433}{500}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p21-p3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "What can you say about the sum of your answers in (c) and (f)? Was this answer expected?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{241}{250}=0.964$. Yes. The sum leaves out patients who test positive without having the disease.",
+          "worked": "$$\\begin{align*}P(Y\\cap +)+P(-)&=\\frac{49}{500}+\\frac{433}{500}\\\\P(Y\\cap +)+P(-)&=\\frac{241}{250}=0.964\\end{align*}$$\n\nThe two events are disjoint. Together they include all negative results and all true positives, leaving out false positives with probability $0.036$. This accounts for the difference from 1.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-p3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:24.202Z",
+  "updatedAt": "2026-11-13T18:49:24.202Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p20-p3",
+    "sectionRole": "exercise"
+  }
+}

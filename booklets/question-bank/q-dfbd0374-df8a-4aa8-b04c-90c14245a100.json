@@ -1,0 +1,249 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dfbd0374-df8a-4aa8-b04c-90c14245a100",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "probability-complement-addition"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret the winning outcome across both players' turns, enumerate the stopping sequences of different lengths, sum their unequal probabilities, and reframe the five-turn event as the complement of uninterrupted play.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:40:12.877Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bf25eb0b596795dcde78b91ec8f6c65ead1f8ddec07e0ee08237c01e7462e297",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794587994995-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-p7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-p7-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Bob and Mary compete against each other in a game that involves taking turns spinning a counter that has three possible outcomes ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "C",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p15-p7-probabilities",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\begin{aligned}P(A)&=0.2\\\\P(B)&=0.3\\\\P(C)&=0.5\\end{aligned}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-p7-spinner",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 15, printed page 277, p15-p7-spinner\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\draw[black,line width=0.8pt] (O) circle[radius=2cm];\n\\draw[black,line width=0.8pt] (90:2cm) -- (270:2cm);\n\\draw[black,line width=0.8pt] (O) -- (18:2cm);\n\\draw[black,line width=0.8pt,arrows={-Stealth[length=3mm,width=2mm]}] (O) -- (150:1.5cm);\n\\fill[black] (O) circle[radius=0.8mm];\n\\node[text=black,font=\\fontsize{10}{12}\\selectfont] at (54:1.12cm) {$A$};\n\\node[text=black,font=\\fontsize{10}{12}\\selectfont] at (-36:1.12cm) {$B$};\n\\node[text=black,font=\\fontsize{10}{12}\\selectfont] at (180:1.02cm) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 42,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Centred spinner in Problem 7 on printed page 277.",
+          "description": "Unequal labelled sectors with an arrow from the central pivot into the upper-left of sector C. The source uses grey ordinary marks. The reconstruction uses house black.",
+          "mathematics": "A vertical diameter separates the left semicircle C from the right semicircle. A radius 18 degrees above the rightward horizontal separates upper-right A from lower-right B, giving sector proportions 0.2, 0.3 and 0.5.",
+          "answerVisibility": "The complete source figure is visible in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-p7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many ways can Bob win within three turns of the game overall? Write down the sequences of $A$, $B$ and $C$ representing these scenarios.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Three ways ($A$, $CA$ and $CCA$).",
+          "worked": "Bob wins as soon as a spin lands on $A$, whoever spins it. Every earlier spin must land on $C$ for the game to continue. The three sequences are $A$, $CA$ and $CCA$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p15-p7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the probability of Bob winning within three turns of the game.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{7}{20}$",
+          "worked": "Multiply the probabilities along each sequence of independent spins, then add because the three sequences are mutually exclusive.\n\n$$\\begin{align*}P(\\text{Bob wins within three turns})&=0.2+0.5\\times0.2+0.5^2\\times0.2\\\\P(\\text{Bob wins within three turns})&=0.2+0.1+0.05\\\\P(\\text{Bob wins within three turns})&=\\frac{7}{20}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p15-p7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the probability that somebody has won within the first 5 turns of the game overall?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{31}{32}$",
+          "worked": "There is no winner after five turns only if all five independent spins land on $C$.\n\n$$\\begin{align*}P(\\text{no winner after five turns})&=0.5^5\\\\P(\\text{no winner after five turns})&=\\frac{1}{32}\\\\P(\\text{a winner within five turns})&=1-\\frac{1}{32}\\\\P(\\text{a winner within five turns})&=\\frac{31}{32}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ],
+    "afterDiagramPrompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-p7-rules",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "If the counter lands on ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", then Bob wins. If the counter lands on ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", then Mary wins. If the counter lands on ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "C",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", then nobody wins that round, and the other person spins the counter. This is done repeatedly until somebody wins. Bob spins the counter first.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "presentation": {
+    "ownerId": "p15-p7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:15.153Z",
+  "updatedAt": "2026-11-13T18:49:15.153Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p15-p7",
+    "sectionRole": "exercise"
+  }
+}

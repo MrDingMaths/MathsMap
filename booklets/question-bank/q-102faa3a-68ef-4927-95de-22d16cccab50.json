@@ -1,0 +1,286 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-102faa3a-68ef-4927-95de-22d16cccab50",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Generalise the hinted complement to n independent rolls, then use the logarithm cue to solve a strict inequality, reverse it when dividing by a negative logarithm, and select the least integer.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:45:01.684Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6bcbf624376cf2d4563d1cccf3bac72d6b1f25fa2c35c26c1a7794f4ab188411",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794584655430-15/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "A fair die is rolled repeatedly.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p13-q14-a-task",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find the probability of rolling the number ‘5’ at least once in the first three rolls of the die.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p13-q14-a-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: ",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "You ",
+                  "marks": [],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "could",
+                  "marks": [
+                    "italic"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": " find the probability of rolling ‘5’ once, twice, and thrice. Alternatively, you could consider the c",
+                  "marks": [],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "omplementary",
+                  "width": 33,
+                  "joinPrevious": true
+                },
+                {
+                  "type": "text",
+                  "text": " e",
+                  "marks": [],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "vent",
+                  "width": 15,
+                  "joinPrevious": true
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{91}{216}$",
+          "worked": "Let $E$ be the event of rolling at least one 5 in the first three rolls. The complementary event is rolling no 5s. Each independent roll has probability $\\frac56$ of giving a number other than 5.\n\n$$\\begin{align*} P(E) &= 1-\\left(\\frac56\\right)^3 \\\\ P(E) &= 1-\\frac{125}{216} \\\\ P(E) &= \\frac{91}{216} \\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p13-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write down a formula for the probability of rolling the number ‘5’ at least once in the first $n$ rolls of the die.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1-\\left(\\frac56\\right)^n$",
+          "worked": "Let $E_n$ be the event of rolling at least one 5 in the first $n$ rolls. Multiply the probability of missing 5 across all $n$ independent rolls.\n\n$$\\begin{align*} P(E_n) &= 1-P(\\text{no 5 in the first }n\\text{ rolls}) \\\\ P(E_n) &= 1-\\left(\\frac56\\right)^n \\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p13-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p13-q14-c-task",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hence, find the number of times we must roll the die so that the probability of scoring ‘5’ at least once exceeds 99%.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p13-q14-c-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: ",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "You may need logs for this question.",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p13-q14-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "26 rolls.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p13-q14-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use logarithms to find the smallest whole number of rolls for which the probability of no 5 is below ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0.01",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Let $n$ be the number of rolls. The probability of missing 5 on all $n$ rolls must be less than $0.01$.\n\n$$\\begin{align*} 1-\\left(\\frac56\\right)^n &> 0.99 \\\\ \\left(\\frac56\\right)^n &< 0.01 \\\\ n\\log\\left(\\frac56\\right) &< \\log(0.01) \\end{align*}$$\n\nSince $\\log\\left(\\frac56\\right)<0$, dividing reverses the inequality.\n\n$$\\begin{align*} n &> \\frac{\\log(0.01)}{\\log\\left(\\frac56\\right)} \\end{align*}$$\n\nThe bound lies between $25$ and $26$, so the minimum is $26$ rolls.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:12.577Z",
+  "updatedAt": "2026-11-13T18:49:12.578Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p13-q14",
+    "sectionRole": "exercise"
+  }
+}

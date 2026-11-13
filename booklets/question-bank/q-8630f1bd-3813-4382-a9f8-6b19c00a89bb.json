@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8630f1bd-3813-4382-a9f8-6b19c00a89bb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "frequency-cumulative-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Infer distribution shape from changes in cumulative frequency, then select the quartile levels and estimate the corresponding marks to find the interquartile range.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T18:03:57.615Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "49703a11a95175b69ec7a4c0c206801c73181823ceed3818aa9356b736f791d3",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch10/lean-review/calls/content-1794593010224-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q9-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The cumulative frequency graph below shows a dataset of 100 marks. The graph rises most steeply between 60 and 80 marks, then rises more slowly.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-q9-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cumulativeBlue\",\"hex\":\"268CFF\",\"reason\":\"cumulative polygon over the columns\"}],\"reference\":\"source PDF page 24 p24-q9-graph\"}\n\\begin{tikzpicture}[x=0.073cm,y=0.055cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cumulativeBlue}{HTML}{268CFF}\n\\foreach \\l/\\r/\\h in {0/20/10,20/40/20,40/60/35,60/80/80,80/100/100}{\\draw[cumulativeBlue,line width=0.4pt] (\\l,0) -- (\\l,\\h) -- (\\r,\\h) -- (\\r,0);}\n\\draw[cumulativeBlue,line width=0.8pt] (0,0)--(20,10)--(40,20)--(60,35)--(80,80)--(100,100);\n\\draw[black,line width=0.5pt] (0,110)--(0,0)--(110,0);\n\\foreach \\x in {10,20,...,100}{\\draw[black,line width=0.4pt] (\\x,-2)--(\\x,2);\\node[below=2pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,10,...,100}{\\draw[black,line width=0.4pt] (-1.5,\\y)--(1.5,\\y);\\node[left=2pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[below=15pt] at (50,0) {Mark (out of 100)};\n\\node[rotate=90] at (-17,55) {Cumulative frequency (\\%)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 92,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Question 9 graph, above parts (a)–(c)",
+          "description": "Five light-blue cumulative columns with the cumulative polygon overlaid in solid blue. The light fill distinguishes the columns from the overlaid line. Black axes retain the printed axis titles and tick scales. Final-size fill review requires outlines only. The interiors are uniform and encode no data or structural purpose. The original fill remains in the pinned source evidence. Preserve every axis, numerical scale, bar, polygon vertex, and label in the editable diagram.",
+          "mathematics": "The polygon joins (0,0), (20,10), (40,20), (60,35), (80,80) and (100,100). The adjacent columns over mark intervals of width 20 have heights 10, 20, 35, 80 and 100. Both axes have ticks at intervals of 10, with zero labelled on the vertical axis only.",
+          "answerVisibility": "The whole figure is given. No percentile guides or read-off marks are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p24-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What does this tell you about the shape of the distribution of the data?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Negatively skewed.",
+          "worked": "The largest increase in cumulative frequency is from 60 to 80 marks, so this interval contains the most values. The distribution tails off over the wider range of lower marks, so it is negatively skewed.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p24-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Estimate the median of the distribution to the nearest mark.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "67 marks.",
+          "worked": "Read across from $50\\%$ to the polygon and then down to the mark axis. This falls on the segment from $(60,35)$ to $(80,80)$. $$\\begin{align*}\\text{Median}&=60+\\frac{50-35}{80-35}\\times(80-60)\\\\\\text{Median}&=\\frac{200}{3}\\end{align*}$$ The estimated median is 67 marks to the nearest mark.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p24-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the graph to estimate the interquartile range for the dataset. Give your final answer to the nearest mark.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "About 31 marks. Subtract the mark at $25\\%$ from the mark at $75\\%$.",
+          "worked": "Read across to the polygon at $25\\%$ and $75\\%$, then down to the mark axis. Use the straight segments to estimate the two marks. $$\\begin{align*}Q_1&=40+\\frac{25-20}{35-20}\\times(60-40)\\\\Q_1&=\\frac{140}{3}\\\\Q_3&=60+\\frac{75-35}{80-35}\\times(80-60)\\\\Q_3&=\\frac{700}{9}\\\\\\mathrm{IQR}&=Q_3-Q_1\\\\\\mathrm{IQR}&=\\frac{700}{9}-\\frac{140}{3}\\\\\\mathrm{IQR}&=\\frac{280}{9}\\end{align*}$$ The estimated interquartile range is 31 marks to the nearest mark.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:49:29.408Z",
+  "updatedAt": "2026-11-13T18:49:29.408Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch10",
+    "blockId": "p24-q9",
+    "sectionRole": "exercise"
+  }
+}
