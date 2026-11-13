@@ -64,8 +64,12 @@ function printDependencyFiles(root,files){
   return [...sources].some(([file,source])=>file!==row.path&&!allowed.has(file)&&imports.test(source));
  });
 }
+// Label checks and diagram checks write short-lived inputs to public/.audit-input for Studio's
+// #/tikz-check page. No booklet prints them, and a concurrent import writing one must not stop
+// another run's snapshot ("Source changed while freezing", Mastering Adv 11 Ch 6/7, 13 November).
+export const transientCheckInput=relative=>/^public[\\/]\.audit-input(?:[\\/]|$)/.test(relative);
 export function snapshotFiles(root,names=entries){
- const files=[];const walk=relative=>{const file=path.join(root,relative);if(!fs.existsSync(file))return;const stat=fs.lstatSync(file);if(stat.isSymbolicLink())throw Error('Snapshot source must not be symbolic: '+relative);if(stat.isDirectory())for(const name of fs.readdirSync(file).sort())walk(path.join(relative,name));else if(stat.isFile())files.push({path:relative.replaceAll('\\','/'),hash:hash(file)});};
+ const files=[];const walk=relative=>{if(transientCheckInput(relative))return;const file=path.join(root,relative);if(!fs.existsSync(file))return;const stat=fs.lstatSync(file);if(stat.isSymbolicLink())throw Error('Snapshot source must not be symbolic: '+relative);if(stat.isDirectory())for(const name of fs.readdirSync(file).sort())walk(path.join(relative,name));else if(stat.isFile())files.push({path:relative.replaceAll('\\','/'),hash:hash(file)});};
  names.forEach(walk);
  return printDependencyFiles(root,files);
 }
@@ -79,7 +83,7 @@ export function printRelevantChanges(root,files,changed){
 }
 export function snapshotDifferences(root,files){
  const actual=snapshotFiles(root),hashes=new Map(actual.map(row=>[row.path,row.hash]));
- const applicable=printDependencyFiles(root,files);
+ const applicable=printDependencyFiles(root,files.filter(row=>!transientCheckInput(row.path)));
  const expected=new Set(applicable.map(row=>row.path));
  return [...applicable.filter(row=>hashes.get(row.path)!==row.hash).map(row=>row.path),...actual.filter(row=>!expected.has(row.path)).map(row=>row.path)];
 }

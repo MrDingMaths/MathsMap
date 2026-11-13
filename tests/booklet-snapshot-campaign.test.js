@@ -48,3 +48,18 @@ for(const [name,file,legacy] of [['referenced skill','public/content/used-skill.
   assert.throws(()=>prepareVerificationSnapshot(f),/Source changed while freezing/);
  });
 }
+
+test('transient check inputs in public/.audit-input are not part of a snapshot',async()=>{
+ const {snapshotFiles}=await import('../scripts/booklet/import-verification-runtime.mjs');
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'snap-audit-'));
+ try{
+  fs.mkdirSync(path.join(root,'public','.audit-input'),{recursive:true});fs.mkdirSync(path.join(root,'src'),{recursive:true});
+  fs.writeFileSync(path.join(root,'src','a.js'),'export const a=1;\n');
+  fs.writeFileSync(path.join(root,'public','.audit-input','label-place-1.json'),'[]');
+  const files=snapshotFiles(root,['src','public']);
+  assert.ok(!files.some(r=>r.path.includes('.audit-input')));
+  // A concurrent run writing or removing a check input is not a difference, even against a list that recorded one.
+  fs.writeFileSync(path.join(root,'public','.audit-input','label-place-2.json'),'[]');
+  assert.deepEqual(snapshotDifferences(root,[...files,{path:'public/.audit-input/label-place-1.json',hash:'x'}]).filter(f=>f.includes('.audit-input')),[]);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
