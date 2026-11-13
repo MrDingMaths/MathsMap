@@ -30,11 +30,11 @@ const references=n=>[...(n.dependsOn??[]),...(n.flow?.dependsOn??[]),n.pairedBlo
 
 // Layout may add constraints, but cannot erase an existing link or suppress a response label.
 export function layoutSafetyIssues(before,after){
- const issues=[],next=new Map(nodesOf(after).map(n=>[n.id,n]));
+ const issues=[],next=new Map(nodesOf(after).map(n=>[n.id,n])),known=new Set(nodesOf(before).map(n=>n.id));
  for(const old of nodesOf(before)){
   const n=next.get(old.id);
   if(!equal(old.flow?.sharedResourceEdges,n?.flow?.sharedResourceEdges))issues.push('changed shared resource annotation on '+old.id);
-  if(references(old).some(id=>!n||!references(n).includes(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
+  if(references(old).filter(id=>known.has(id)).some(id=>!n||!references(n).includes(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
   if(old.flow?.exercisePageBreakBefore!==false&&n?.flow?.exercisePageBreakBefore===false)issues.push('removed exercise break on '+old.id);
   if(isPractice(before)){
    if(old.type==='part'&&!n||n&&(old.label!==''&&n.label===''||String(old.label??'').trim()&&!String(n.label??'').trim()||old.unlabelled!==true&&n.unlabelled===true||String(old.responseLabel??'').trim()&&!String(n.responseLabel??'').trim()))issues.push('lost part label on '+old.id);
@@ -68,7 +68,9 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
   for(const old of nodesOf(block)){
    const n=nextNodes.get(old.id)?.node;
    if(!equal(old.flow?.sharedResourceEdges,n?.flow?.sharedResourceEdges)&&!(resourceValidated&&(!old.flow||!Object.hasOwn(old.flow,'sharedResourceEdges'))))issues.push('changed shared resource annotation on '+old.id);
-   if(references(old).some(id=>!n||!references(n).includes(id)||beforeIds.has(id)&&!nextNodes.has(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
+   // Only a link to a real node can be lost: an author's label ("Question 13") that a later step
+   // replaces with the block it names is a repair (Mastering Adv 11 Ch 4, 13 November 2026).
+   if(references(old).filter(id=>beforeIds.has(id)).some(id=>!n||!references(n).includes(id)||!nextNodes.has(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
    // An implicit exercise break is just as binding as an explicit true.
    if(n&&old.flow?.exercisePageBreakBefore!==false&&n.flow?.exercisePageBreakBefore===false)issues.push('removed exercise break on '+old.id);
   }

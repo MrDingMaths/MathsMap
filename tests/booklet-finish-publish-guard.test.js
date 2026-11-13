@@ -118,3 +118,15 @@ test('topic corrections do not waive teacher decisions or mathematical dependenc
  const current=structuredClone(original);current.sections[0].topicId='corrected';current.studio.flags[0].note='Changed';current.sections[0].blocks[0].flow.dependsOn=[];
  const issues=polishSafetyIssues(original,current,{spacing:false});assert.ok(issues.includes('changed teacher comment teacher'));assert.ok(issues.includes('lost dependency on q1'));
 });
+
+test('replacing an author label in dependsOn with the block it names is not a lost dependency',async()=>{
+ const {layoutSafetyIssues}=await import('../polish/guards.mjs');
+ const {original}=fixture();block(original).flow.dependsOn=['Question 1'];
+ const current=structuredClone(original);block(current).flow.dependsOn=['prior'];
+ assert.ok(!polishSafetyIssues(original,current,{spacing:false}).includes('lost dependency on q'));
+ assert.ok(!layoutSafetyIssues(original,current).includes('lost dependency on q'));
+ // Dropping a real link is still caught.
+ const dropped=structuredClone(current);block(dropped).flow.dependsOn=[];
+ assert.ok(polishSafetyIssues(current,dropped,{spacing:false}).includes('lost dependency on q'));
+ assert.ok(layoutSafetyIssues(current,dropped).includes('lost dependency on q'));
+});
