@@ -20,6 +20,7 @@
   import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel,hasTopAlignedMathPrompt} from '../lib/booklet-labels.js';
   import {alignNativeTableLabel} from '../lib/booklet-table-label.js';
+  import {workedAnswerStartsWithDisplay} from '../lib/worked-answer-label.js';
 
   let { question, trailingQuestion = null, number = null, showSpaces = true, omitWorkingSpace = false, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, preserveDiagramWidths=false, answerLabelWidthMm=8, answerLink=null, answerHref=null, trailingAnswerHref=null, answerPartHref=null, answerMode=null, answerAnchorPrefix=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   // Bank records retain their source owner ID and local presentation. Explicit
@@ -32,7 +33,7 @@
   const sourceInPrompt = $derived(!!printedQuestionSource(question)&&!!sourceAttributionPromptId(question));
   const shortAnswerLabelBaseline = $derived(!!compactAnswerSettings && showShortAnswers && (blockLayouts[question.id]?.shortAnswerLabelAlign ?? blockLayouts[question.presentation?.ownerId]?.shortAnswerLabelAlign) === 'first-baseline');
   const workedAnswerLabelBaseline = node => !!compactAnswerSettings && showWorkedSolutions &&
-    !!node.answer?.worked && !/^\s*(?:\$\$|\\\[)/.test(contentSource(node.answer.worked));
+    !!node.answer?.worked && !workedAnswerStartsWithDisplay(contentSource(node.answer.worked));
   const teachingResponses = $derived(!compactAnswerSettings&&(showShortAnswers||showWorkedSolutions)?teachingAnswerArrangement(arrangementQuestionBlock(question,number),questionArrangement,{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides},showShortAnswers?'short':'worked'):null);
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
