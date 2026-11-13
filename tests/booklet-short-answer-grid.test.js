@@ -34,6 +34,14 @@ test('explicit group starts prevent sharing a short-answer row with the precedin
  assert.deepEqual(unchanged.map(row=>row.length),[3,3,2]);
 });
 
+test('a source category starts a short-answer row only on its first answer fragment',()=>{
+ const entries=Array.from({length:6},(_,index)=>({block:block(`q${index}`),section:{topicId:'t'}}));
+ entries[2].block.flow={answerFragment:0,practiceCategoryHeading:'Challenge Problems'};
+ entries[3].block.flow={answerFragment:1,practiceCategoryHeading:'Challenge Problems'};
+ const rows=packShortAnswerRows(entries,entries.map(()=>18),86);
+ assert.deepEqual(rows.map(row=>row.map(entry=>entry.block.id)),[['q0','q1'],['q2','q3','q4'],['q5']]);
+});
+
 test('brief mathematical methods span the column while final results can share',()=>{
  for(const value of ['$\\frac{30a}{5}=6a$',fromSource('$\\frac{3a+21}{3}=a+7$'),'$6+4=10$','$x=8/2=4$','$\\frac{80}{3}\\approx26.67$'])assert.equal(canShareShortAnswer(block('q',value)),false);
  for(const value of ['$6a$','$\\frac{3a+21}{3}$','$x=-2$',fromSource('$\\bar{x}=15$'),'$x_1=3$','$\\approx63.6\\%$','$\\angle XYZ=\\angle XZY$','$m=2,\\ c=3,\\ y=2x+3$','$3=\\log_2 8$','$x=2; y=3$'])assert.equal(canShareShortAnswer(block('q',value)),true,value);

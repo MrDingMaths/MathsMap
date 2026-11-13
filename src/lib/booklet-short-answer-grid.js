@@ -61,6 +61,7 @@ function questionKeys(entries){
 export function packShortAnswerRows(entries,widths,columnWidthMm){
   const rows=[],keys=questionKeys(entries),parts=new Map();
   const starts=entries.map(({block})=>{
+    if(block.flow?.answerFragment===0&&block.flow.practiceCategoryHeading)return true;
     const ids=new Set(block.presentation?.shortAnswerGroupStarts??[]);
     const contains=node=>!!node&&(ids.has(node.id)||(node.children??[]).some(contains));
     return contains(block.content);

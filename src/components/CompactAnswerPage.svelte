@@ -23,9 +23,12 @@
             {@const rows=shortAnswerRows(entries)}
             <div class="answer-column">
               {#each rows as row,index}
-                <section class="answer-row" data-answer-row={row[0].shortRow}>
+                <section class="answer-row" class:answer-group-start={page.mode==='short'&&row[0].block.flow.answerFragment===0&&row[0].block.presentation?.shortAnswerGroupStarts?.includes(row[0].block.content.id)} data-answer-row={row[0].shortRow}>
                   {#if !page.shortAnswerProbe&&(index===0||rows[index-1][0].section.topicId!==row[0].section.topicId)}
                     <h2><InlineContent text={title(row[0].section)}/></h2>
+                  {/if}
+                  {#if !page.shortAnswerProbe&&page.mode==='short'&&row[0].block.flow.answerFragment===0&&row[0].block.flow.practiceCategoryHeading}
+                    <div class="answer-category-heading">{row[0].block.flow.practiceCategoryHeading}</div>
                   {/if}
                   <div class="answer-row-grid" style={`grid-template-columns:repeat(${row[0].shortColumns??row.length},minmax(0,1fr));column-gap:${SHORT_ANSWER_GRID_GAP_MM}mm`}>
                     {#each row as entry}
@@ -53,6 +56,7 @@
   .answer-columns{display:grid;align-items:start}.answer-column{min-width:0}.answer-fragment{min-width:0}
   .answer-columns+.answer-columns{margin-top:3mm}
   .answer-row{break-inside:avoid;min-width:0}.answer-row-grid{display:grid;align-items:start;min-width:0}
+  .answer-row+.answer-group-start{margin-top:1.5mm}
   .answer-continuation{font-size:9.5pt;line-height:1.22;margin:0 0 1mm}
   .answer-category-heading{font-size:9.5pt;font-weight:800;margin:1.5mm 0 .75mm}
   .answer-width-probe{width:max-content}
