@@ -1,0 +1,147 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e48dade-db3e-45bd-871e-36bb5ead73fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-combined-transformations",
+    "secondarySkillIds": [],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "After two concrete sketches, students must derive where a general point moves under the input substitution and connect that coordinate map to reflection in x=a.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:27:13.628Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "16e4f2dc732f5b9d74eb89a203ae7c898d40133a6e61376ab88178e27641facb",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch09/lean-review/calls/content-1794583579522-20/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-p1-root",
+    "type": "question",
+    "label": "22",
+    "prompt": "[Symmetry property]",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-p1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $f(x)=x^2$. Sketch the graph of $y=f(2-x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Upward-opening parabola with vertex $(2,0)$ and $y$-intercept $(0,4)$.",
+          "worked": "$$\\begin{align*}y&=(2-x)^2\\\\y&=(x-2)^2\\end{align*}$$ Reflect $y=x^2$ across the $y$-axis, then translate it right by $2$. The vertex moves to $(2,0)$. At $x=0$, $y=4$.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-p1-a-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted function\"}],\"reference\":\"student PDF 16, answer PDF 82 P1(a), p16-p1-a-sketch\"}\n\\begin{tikzpicture}[x=8mm,y=6mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-1,0)--(5.15,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.8)--(0,5.2) node[right] {$y$};\n\\draw[curveBlue,<->,line width=0.8pt] plot[samples=81,domain=-0.24:4.24] (\\x,{((\\x)-2)^2});\n\\draw[black,line width=0.4pt] (2,0.08)--(2,-0.08) node[below,inner sep=1pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.09,4)--(-0.09,4) node[left,inner sep=1pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 52,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Answer book PDF 82, Exercise 9C P1(a)",
+                "description": "Arrowed upward parabola and axes marked at 2 and 4.",
+                "mathematics": "y=(x−2)^2, vertex (2,0), y-intercept (0,4).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p16-p1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $f(x)=\\ln x$. Sketch the graph of $y=f(4-x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Decreasing logarithmic curve for $x<4$, with vertical asymptote $x=4$ and $x$-intercept $(3,0)$.",
+          "worked": "Since $y=\\ln(4-x)$, reflect $y=\\ln x$ across the $y$-axis and translate right by $4$. The original asymptote $x=0$ moves to $x=4$, and the original $x$-intercept at $1$ moves to $-1+4=3$. The graph lies to the left of $x=4$.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-p1-b-sketch",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted function\"}],\"reference\":\"student PDF 16, answer PDF 82 P1(b), p16-p1-b-sketch\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-1,0)--(6.05,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-3.4)--(0,2.1) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (4,-3.4)--(4,2.1);\n\\draw[curveBlue,<->,line width=0.8pt] plot[samples=101,domain=1.58:-3.3] ({4-exp(\\x)},\\x);\n\\draw[black,line width=0.4pt] (3,0.1)--(3,-0.1) node[below,inner sep=1pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below right,inner sep=1pt] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 54,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Answer book PDF 82, Exercise 9C P1(b)",
+                "description": "Decreasing blue logarithmic curve with two end arrows and dashed guide at x=4.",
+                "mathematics": "y=ln(4−x), with x-intercept (3,0) and vertical asymptote x=4 approached from the left.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p16-p1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the graph of $y=f(2a-x)$ is the graph of $y=f(x)$ reflected across the vertical line $x=a$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(u,f(u))$ maps to $(2a-u,f(u))$. The two points have the same height and their midpoint lies on $x=a$.",
+          "worked": "Take any point $(u,f(u))$ on the original graph. At $x=2a-u$, the transformed graph has height\n$$\\begin{align*}y&=f(2a-(2a-u))\\\\y&=f(u).\\end{align*}$$\nThe midpoint of the two points has $x$-coordinate $\\frac{u+(2a-u)}2=a$. Since both points have the same height, they are reflections in $x=a$. Every point on the transformed graph arises this way by taking $u=2a-x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-p1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:54:47.195Z",
+  "updatedAt": "2026-11-13T16:54:47.195Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch09",
+    "blockId": "p16-p1",
+    "sectionRole": "exercise"
+  }
+}
