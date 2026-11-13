@@ -16,7 +16,7 @@ import {recordedReview,runIdOf,reviewContext} from '../scripts/booklet/recorded-
 import {questionDependencyFindings,promptText} from '../src/lib/booklet-question-dependencies.js';
 import {teacherBlocks} from '../polish/guards.mjs';
 import {markTokens,questionTextFields} from './exam-marks.mjs';
-import {importSource} from './bank-assessments.mjs';
+import {importSource,textbookTeachingPages} from './bank-assessments.mjs';
 import {validateQuestion,normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {bankProjectionPolicy,projectBankQuestion} from '../src/lib/question-bank-projection.js';
 
@@ -55,9 +55,9 @@ export function printedMarks(block){
 export function newRecordExclusions(block,origin,sourceAvailable){
  const reasons=[];
  if(origin==='textbook'){
-  const marks=printedMarks(block),tc=block.sourceReview?.teachingContext;
+  const marks=printedMarks(block);
   if(marks.length)reasons.push('printed-marks '+marks.join(' '));
-  if(!(typeof tc?.methodNote==='string'&&tc.methodNote.trim()&&tc.pdfPages?.length))reasons.push('no-teaching-context');
+  if(!textbookTeachingPages(block))reasons.push('no-teaching-context');
   if(!sourceAvailable)reasons.push('no-import-source');
  }
  const checked=validateQuestion(normaliseQuestion({...projectBankQuestion(block,{policy:bankProjectionPolicy(block)}),classification:block.classification}));

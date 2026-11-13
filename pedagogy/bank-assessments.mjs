@@ -19,6 +19,17 @@ export function importSource(project,root){
  let manifest=null,config=null;try{manifest=read(path.join(dir,'manifest.json'));}catch{}try{config=read(path.join(dir,'config.json'));}catch{}
  return manifest?.source?.pdf?{dir,pdf:manifest.source.pdf,pdfHash:manifest.source.pdfHash,model:manifest.model,effort:manifest.effort,createdAt:manifest.createdAt,topics:config?.topics??[]}:null;
 }
+// The pages a textbook question's teaching context rests on. Normally the teaching pages the import
+// cited. A practice-only book has none (Mastering Maths prints only questions), so a question with a
+// recorded method note cites its own printed page, which the import read, and the note is the taught
+// method (James, 13 November 2026). No method note, or no known page: no teaching context.
+export function textbookTeachingPages(block){
+ const tc=block?.sourceReview?.teachingContext;
+ if(!(typeof tc?.methodNote==='string'&&tc.methodNote.trim()))return null;
+ if(tc.pdfPages?.length)return {pages:[...new Set(tc.pdfPages)].sort((a,b)=>a-b),questionPage:false};
+ const own=[...new Set([block.sourceReview?.sourceIdentity?.pdfPage,...(block.sourceRefs??[]).map(r=>r.pageNumber)].filter(n=>Number.isInteger(n)&&n>0))].sort((a,b)=>a-b);
+ return own.length?{pages:own,questionPage:true}:null;
+}
 const topicOfPage=(topics,page)=>topics.find(t=>(t.teachingPages??[]).includes(page))??topics.find(t=>page>=t.start&&page<=t.end)??null;
 
 // Course and topic scope from the questions' own skills (skills.json courses; dotpoints.json topic ids).
@@ -32,7 +43,7 @@ const inScope=(id,scope,{skills,dotpoints})=>{const s=skills.find(x=>x.id===id),
 export function buildAssessments(project,rows,{root,skills,dotpoints,now=new Date().toISOString()}){
  const origin=rows.find(r=>r.origin)?.origin??(project.library?.category==='master'?'master':'textbook');
  const byId=new Map(practiceQuestions(project).map(b=>[b.id,b])),ctx=reviewContext(project,root),known=new Set(skills.map(s=>s.id));
- const source=origin==='textbook'?importSource(project,root):null,deferred=[],questions=[],reviews=[],masterLinks={};
+ const source=origin==='textbook'?importSource(project,root):null,deferred=[],questions=[],reviews=[],masterLinks={},questionPageOnly=new Set();
  const defer=(row,reasons)=>deferred.push({blockId:row.blockId,action:row.action,reasons});
  for(const row of rows){
   const block=byId.get(row.blockId);
@@ -44,7 +55,8 @@ export function buildAssessments(project,rows,{root,skills,dotpoints,now=new Dat
   if(!review.current)reasons.push(review.reason);
   const methodNote=typeof tc?.methodNote==='string'?tc.methodNote.trim():'';
   const mappingNote=typeof tc?.mappingNote==='string'?tc.mappingNote.trim():'';
-  if(origin==='textbook'&&!(methodNote&&tc.pdfPages?.length))reasons.push('no-teaching-context');
+  const taught=origin==='textbook'?textbookTeachingPages(block):null;
+  if(origin==='textbook'&&!taught)reasons.push('no-teaching-context');
   if(origin==='textbook'&&!source)reasons.push('no-import-source');
   if(reasons.length){defer(row,reasons);continue;}
   const secondary=(c.secondarySkillIds??[]).filter(id=>known.has(id)&&id!==c.primarySkillId);
@@ -52,7 +64,7 @@ export function buildAssessments(project,rows,{root,skills,dotpoints,now=new Dat
    classification:{primarySkillId:c.primarySkillId,secondarySkillIds:secondary,reasoningScore:c.reasoningScore,difficulty:difficultyBandForScore(c.reasoningScore),difficultyReason:c.difficultyReason,assessment:structuredClone(c.assessment)},
    mappingNote:mappingNote||`${c.primarySkillId} is the primary skill recorded on this ${origin} question; its ${review.by} review is current for this content.`,
    bankContext:{origin,projectId:project.id,blockId:block.id,sectionRole:row.sectionRole??'exercise',...(row.examTag?{exam:row.examTag}:{})}};
-  if(origin==='textbook'){entry.methodNote=methodNote;entry.teachingReferences=[{id:SOURCE_PDF_REFERENCE,pdfPages:[...new Set(tc.pdfPages)].sort((a,b)=>a-b)}];}
+  if(origin==='textbook'){entry.methodNote=methodNote;entry.teachingReferences=[{id:SOURCE_PDF_REFERENCE,pdfPages:taught.pages}];if(taught.questionPage)questionPageOnly.add(block.id);}
   questions.push(entry);reviews.push({sourceBlockId:block.id,contentHash:entry.contentHash,by:review.by});
  }
  const scope=sourceScope(questions.flatMap(q=>[q.classification.primarySkillId,...q.classification.secondarySkillIds]),{skills,dotpoints});
@@ -69,7 +81,7 @@ export function buildAssessments(project,rows,{root,skills,dotpoints,now=new Dat
   for(const q of questions)for(const p of q.teachingReferences[0].pdfPages){const at=lean[q.sourceBlockId]?.at??source.createdAt;const e=pages.get(p)??{questions:[],at};e.questions.push(q.sourceBlockId);if(at>e.at)e.at=at;pages.set(p,e);}
   sourceContext.externalTeachingReferences=[{id:SOURCE_PDF_REFERENCE,pdfPath:source.pdf,pdfSha256:source.pdfHash,
    teachingSummary:`Teaching pages of ${project.title}, as the import run ${path.basename(source.dir)} recorded them: each published question's teaching context names the pages and the taught method it was mapped against.`,
-   pages:[...pages].sort((a,b)=>a[0]-b[0]).map(([pdfPage,e])=>{const t=topicOfPage(source.topics,pdfPage);return {pdfPage,printedRef:`PDF page ${pdfPage}${t?` (${t.exerciseLabel??t.id} ${t.title??''})`.trimEnd():''}`,inspection:{reviewer:`${source.model} ${source.effort} (import run ${path.basename(source.dir)})`,note:`Teaching page cited by the import's teaching context for ${e.questions.length} published question(s): ${e.questions.slice(0,8).join(', ')}${e.questions.length>8?', …':''}.`,reviewedAt:e.at}};})}];
+   pages:[...pages].sort((a,b)=>a[0]-b[0]).map(([pdfPage,e])=>{const t=topicOfPage(source.topics,pdfPage);return {pdfPage,printedRef:`PDF page ${pdfPage}${t?` (${t.exerciseLabel??t.id} ${t.title??''})`.trimEnd():''}`,inspection:{reviewer:`${source.model} ${source.effort} (import run ${path.basename(source.dir)})`,note:(e.questions.every(id=>questionPageOnly.has(id))?`Question page read by the import; the book prints no separate teaching here, so each question's recorded method note is its taught method (James, 13 November 2026). `:`Teaching page cited by the import's teaching context. `)+`Published question(s): ${e.questions.length}: ${e.questions.slice(0,8).join(', ')}${e.questions.length>8?', …':''}.`,reviewedAt:e.at}};})}];
  }
  return {projectId:project.id,sourceContext,questions,
   existingTransferReview:{profile:RECORDED_REVIEW_PROFILE,origin,projectHash:revisionHash(project),reviewer:'pedagogy/bank-batch.mjs',note:'Decision 2 (James, 11 November 2026): published on the recorded review covering each question\'s current content; no new model review.',builtAt:now,questions:reviews},

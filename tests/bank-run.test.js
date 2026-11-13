@@ -5,7 +5,7 @@ import {recordedReview} from '../scripts/booklet/recorded-review.mjs';
 import {preservedProject} from '../scripts/booklet/import-project-bank.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
 import {mergedContent,resolveFollowUps,validJudgement} from '../pedagogy/bank-merges.mjs';
-import {buildAssessments,sourceScope} from '../pedagogy/bank-assessments.mjs';
+import {buildAssessments,sourceScope,textbookTeachingPages} from '../pedagogy/bank-assessments.mjs';
 import {bookletEdits,printedMarks,hasBankWork,scopedRows} from '../pedagogy/bank-run.mjs';
 import {newRecordExclusions} from '../pedagogy/bank-batch.mjs';
 import {questionDependencyFindings} from '../src/lib/booklet-question-dependencies.js';
@@ -180,4 +180,20 @@ test('fraction check accepts units, slope marks, exponents, limits and factorial
   String.raw`$8/2\text{km/h}$`,String.raw`$120/(40+60)$`,String.raw`$\text{ cm}/2$`,String.raw`$3/\text{min}$`,String.raw`$\frac{x/2}{3}$`,'$//$',
   String.raw`$\text{more than 10 km/h over limit}$`,String.raw`$\text{ miles/2}$`,String.raw`$\frac{x^{3/2}}{3/2}$`];
  for(const v of bad)assert.equal(invalidFractionSpans(v).length,1,v);
+});
+
+test('a practice-only textbook question with a method note cites its own page as teaching context (James, 13 November 2026)', ()=>{
+ const block=question('p3-q2','Sketch $y=2x+4$.');
+ const reasons=()=>newRecordExclusions(block,'textbook',true).filter(r=>r==='no-teaching-context');
+ assert.deepEqual(reasons(),['no-teaching-context'],'no method note: still excluded');
+ block.sourceRefs=[{pageNumber:3}];
+ block.sourceReview={teachingContext:{pdfPages:[],methodNote:'Plot both intercepts and join them.'}};
+ assert.deepEqual(textbookTeachingPages(block),{pages:[3],questionPage:true});
+ assert.deepEqual(reasons(),[]);
+ block.sourceReview.teachingContext.pdfPages=[6,2,6];
+ assert.deepEqual(textbookTeachingPages(block),{pages:[2,6],questionPage:false},'cited teaching pages win');
+ block.sourceReview.teachingContext={pdfPages:[],methodNote:'  '};
+ assert.equal(textbookTeachingPages(block),null,'a blank note is no teaching context');
+ delete block.sourceRefs;block.sourceReview={teachingContext:{pdfPages:[],methodNote:'A note.'}};
+ assert.equal(textbookTeachingPages(block),null,'no known page: no teaching context');
 });
