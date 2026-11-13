@@ -185,6 +185,11 @@ test('practice-only inventory normalises recognisable exclusion wording and chec
  assert.equal(normalizePracticeInventory({entries:[{id:'c',kind:'cover',exclusionReason:'Source identity and heading metadata; not a selectable question.'}]}).entries[0].exclusionReason,RUNNING_HEADER_REASON);
  // A camelCase marker such as role "categoryHeading" counts (Mastering Adv 11 Ch 7 p25).
  assert.equal(normalizePracticeInventory({entries:[{id:'f',kind:'teaching',description:'Fundamentals',presentation:{role:'categoryHeading'}}]}).entries[0].exclusionReason,TOPIC_HEADING_REASON);
+ // A printed category band filed inside the first question is still book furniture (Ch 6 p18).
+ const band=normalizePracticeInventory({entries:[{id:'p1',kind:'question',description:'Problem 1'},{id:'h',kind:'teaching',description:'Challenge Problems',parentId:'p1',embeddedInQuestion:'p1',presentation:{embeddedInQuestion:'p1',headingType:'band'}}]}).entries[1];
+ assert.equal(band.exclusionReason,TOPIC_HEADING_REASON);assert.equal(band.embeddedInQuestion,undefined);assert.equal(band.parentId,undefined);
+ // An embedded instruction is not a category label and stays embedded.
+ assert.equal(normalizePracticeInventory({entries:[{id:'p1',kind:'question'},{id:'i',kind:'teaching',description:'Use the diagram.',embeddedInQuestion:'p1'}]}).entries[1].embeddedInQuestion,'p1');
  // Printed exercise headings carry a digit, so they need their own rule (Mastering Adv 11 Ch 5).
  for(const [description,presentation] of [['Exercise 5C\nQuadrants and related angles',{role:'exercise-heading'}],['Exercise 5D — Trigonometric identities',{role:'exerciseHeading'}],['Exercise 5F\nSine rule and the area formula',{headingKind:'main topic band'}]]){
   const entry={id:'h',kind:'teaching',description,presentation};

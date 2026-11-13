@@ -56,12 +56,22 @@ const exerciseHeadingLike=e=>typeof e.description==='string'&&
   /^Exercise\s+\d+[A-Z]?(?:\s*[\n—–:-]\s*|\s+)?[A-Za-z][A-Za-z ,'’()&-]{0,60}$|^Exercise\s+\d+[A-Z]?$/.test(e.description.trim())&&
   Object.entries(e.presentation??{}).some(([key,value])=>/heading/i.test(key)||typeof value==='string'&&/heading/i.test(value));
 
+const CATEGORY_LABEL=/^(?:Fundamentals|Challenge Problems?|Investigation Tasks?|Review|Chapter \d+ Review|Foundation|Development|Challenge|Enrichment|Mastery)$/i;
+
 // The inventory envelope permits presentation metadata. Canonicalise explicit
 // scope declarations without changing the independently observed source content.
 export function normalizePracticeInventory(inventory) {
   const result=structuredClone(inventory),byId=new Map(result.entries.map(e=>[e.id,e]));
   const questionRoot=id=>{const seen=new Set();let owner=byId.get(id);while(owner&&owner.kind!=='question'&&!seen.has(owner.id)){seen.add(owner.id);owner=byId.get(owner.parentId);}return owner?.kind==='question'?owner.id:null;};
   for(const e of result.entries){
+    // A printed practice category label (the "Challenge Problems" band, Mastering Adv 11 Ch 6 p18) is
+    // book furniture even when the inventory files it inside the first question: the booklet adds its
+    // own category heading, so the label is never question content.
+    if(e.kind==='teaching'&&!e.exclusionReason&&CATEGORY_LABEL.test(String(e.description??'').trim())&&
+      (e.embeddedInQuestion||e.presentation?.embeddedInQuestion)){
+      delete e.embeddedInQuestion;delete e.parentId;if(e.presentation)delete e.presentation.embeddedInQuestion;
+      e.exclusionReason=TOPIC_HEADING_REASON;
+    }
     for(const key of ['exclusionReason','embeddedInQuestion']){
       const nested=e.presentation?.[key];
       if(e[key]!==undefined&&nested!==undefined&&e[key]!==nested&&!(key==='embeddedInQuestion'&&questionRoot(e[key])&&questionRoot(e[key])===questionRoot(nested)))throw Error('Conflicting inventory scope declaration: '+e.id);
