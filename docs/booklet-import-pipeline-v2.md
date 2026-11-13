@@ -646,7 +646,15 @@ Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11
 
 ### Mastering Adv 11 Ch 3 pilot (13 November 2026, after the simplification and `finish`-time changes)
 
-Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages 13–26; 138 blocks, 155 diagrams (graph-heavy). **Not yet deliverable:** after export 2 of 3, 297 pages are accepted and 16 need a change. There is also one coverage blocker (below).
+Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages 13–26; 138 blocks, 155 diagrams (graph-heavy). **Deliverable after export 4** (one over the budget, approved by James): 297 pages accepted, no findings, no blockers. The candidate is saved in the run (`candidate.project.json`); it is not yet published to Studio or the bank.
+
+**Final totals:** 295 model calls (214 per 100 blocks), 19.8 M input and 824 k output tokens; 7 `finish` runs and 4 full exports (101–234 s each). Elapsed 386 min, of which 136 min was active work; the rest was waiting on coordinator repairs and James's decisions.
+
+**How exports 3 and 4 closed it:**
+- **Export 2's 16 findings** were repaired in one batch (`finish-5-export2`, 11 patches): label and axis placement on 9 graphs, a two-row arrangement for the Exercise 7 1c sketches, and the Q5 coverage remap. Export 3's reviewers then accepted every page they inspected.
+- **Four page decisions by James** (`page-decisions.jsonl`): `p17-p3` fraction clearance accepted as is; three false verdicts (a "missing" y-axis on student p50 and worked p41, a "missing" 9a label on with-short p72), each shown wrong by a 300 dpi render.
+- **26 presentation checks hidden by the coverage blocker.** `currentExportProblems` reports readiness `source.issues` only once coverage is complete, so they first appeared after export 3, although every export had them: 24 blank-prompt parts answering tasks printed once in a shared stem (Exercise 2 Q8, Exercise 4 Q4) and one cloze part (`p7-f2-e`) recorded with working space. They were fixed with prompt bindings and a single response requirement (`finish-7-prompts`), with no printed change. Q8's tasks are list items, which the binding rule now accepts (`2be5192f2`).
+- **Gap to close:** neither `finish --check` nor the pre-review gate runs the readiness presentation checks. Running `inspectContentCoverage` before the first export would have caught all 26 at no export cost.
 
 | Per 100 blocks | Ch 2 (97 blocks) | Ch 5 (165) | **Ch 3 (138)** |
 |---|---|---|---|
@@ -681,7 +689,7 @@ Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages
 - **One cross-page matching question cost three authoring attempts.** The local patch repair can't change both page copies, and authors left the equation options unanswered.
 - **A reviewer failed a correct block** because it could not see the rendered diagram. A retry passed it.
 - **Fraction line clearance** on consecutive lines (`p17-p3`) is renderer line height, not content.
-- **Coverage:** the regenerated Question 5 mapped its answer-key line (`p20-answer-q5`) to the same target as the continued question. Repair files can't patch `source.inventory`, so fixing it means repairing the authored mapping and starting `finish` on the new input.
+- **Coverage:** the regenerated Question 5 mapped its answer-key line (`p20-answer-q5`) to the same target as the continued question. A repair file can now remap one inventory entry: `{"targetId":"inventory:ENTRY","field":"/targetId"|"/field",...}` in `lean-review repair`, and the new target must exist (`f0239213c`). The local patch repair refuses published pages, and changing the `finish` input makes `finish` refuse to resume.
 
 ### Pilots
 

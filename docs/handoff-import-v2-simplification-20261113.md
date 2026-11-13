@@ -17,7 +17,7 @@ For the next session that continues the [import v2 simplification plan](booklet-
 
 Results and the open items are in [import pipeline v2, Ch 3 pilot](booklet-import-pipeline-v2.md#mastering-adv-11-ch-3-pilot-13-november-2026-after-the-simplification-and-finish-time-changes).
 
-**Where it stands:** stopped after export 2 of 3 (`streamlined-exports/2`): 297 pages accepted, 16 findings open, and the `p20-answer-q5` duplicate coverage mapping. Repair files are in `RUN/repairs/`; the working candidate is `RUN/lean-review/finish/candidate.json`. Export 3 needs `--regenerate-reason`.
+**Where it stands:** deliverable after export 4 (`streamlined-exports/4`, James approved the 4th): 297 pages accepted, no findings, no blockers. Not yet published to Studio or the bank; that is James's call. Follow-up: run the readiness presentation checks in `finish --check` and the pre-review gate. They were hidden until coverage passed, and cost the 4th export.
 
 ## Next (ranked)
 
