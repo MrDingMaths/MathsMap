@@ -13,6 +13,12 @@ For the next session that continues the [import v2 simplification plan](booklet-
 - **Studio on 5173 stopped at about 07:33** while this work was running, cause unknown. It was restarted with the `mathsmap-dev` launch configuration (diagram fingerprint unchanged, `0c360a2a…`). The tunnel was not touched.
 - **Plan items 2 and 6–10 have not been started.** Decisions 2–5 in the plan doc are still open for James.
 
+## Mastering Ch 3 pilot (`mastering-maths-adv11-ch03`)
+
+Results and the open items are in [import pipeline v2, Ch 3 pilot](booklet-import-pipeline-v2.md#mastering-adv-11-ch-3-pilot-13-november-2026-after-the-simplification-and-finish-time-changes).
+
+**Where it stands:** stopped after export 2 of 3 (`streamlined-exports/2`): 297 pages accepted, 16 findings open, and the `p20-answer-q5` duplicate coverage mapping. Repair files are in `RUN/repairs/`; the working candidate is `RUN/lean-review/finish/candidate.json`. Export 3 needs `--regenerate-reason`.
+
 ## Next (ranked)
 
 1. **Measure on the next real import** with `import-run-metrics.mjs`: export compiles (`timings.tikzCompiles` per edition in the export's `report.json`) should be near zero after the label check, and `timings.paginationMs` close to Ch 2's rate.

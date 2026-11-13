@@ -644,6 +644,45 @@ Merged to master with items 1 and 3–5 (`ec8de9c9d`). Measured on Cambridge X11
   - Candidate detection is part of the frozen-export runtime check, so an in-flight run's frozen export is not reused after this change.
 - **Parallel compiles:** `prewarm-diagrams.mjs` (three pages, cold) compiled all 374 Ch 5 sources in 140 s. Collecting them by paginating five editions took 171 s more, so `finish` should not run it while the label check already publishes.
 
+### Mastering Adv 11 Ch 3 pilot (13 November 2026, after the simplification and `finish`-time changes)
+
+Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages 13–26; 138 blocks, 155 diagrams (graph-heavy). **Not yet deliverable:** after export 2 of 3, 297 pages are accepted and 16 need a change. There is also one coverage blocker (below).
+
+| Per 100 blocks | Ch 2 (97 blocks) | Ch 5 (165) | **Ch 3 (138)** |
+|---|---|---|---|
+| Model calls | 228 | 265 | **198** |
+| Input tokens / output tokens | 12.3 M / 486 k | 17.6 M / 1,013 k | **13.4 M / 591 k** |
+| Sample review calls (whole run) | 59 | 57 | **25** |
+| Content review calls per block | 0.44 | 0.65 | **0.42** |
+| Fresh visual inspections | 252 | 487 | 312 |
+| `finish` runs (stops) | 10 | 18 | **5 so far** |
+| Full five-edition export | 91–118 s (247 pages) | 480–763 s (574 pages) | **104 s (≈ 313 pages)** |
+| Elapsed (metrics) | 158 min | 894 min | 214 min to export 2 |
+
+**What worked:**
+- Exports now run at Ch 2's rate on a graph-heavy chapter. This comes from the `flushPending` fix and the warmed render cache.
+- `finish --check` listed every pre-review blocker in 98 s.
+- Placement cleared 26 author-stage label collisions with no model call.
+- The pre-render gate stopped two layout faults before any print.
+- The one-batch repair rule refused an export while findings were unrepaired.
+- Question references resolved automatically, once fixed (below).
+- The 2D-graph solid exemption removed the visibility-review step.
+
+**Shared defects found and fixed during the pilot** (each committed with a test):
+- the sampler took exercise boundaries from inconsistent inventory groups and recommended all 32 pages (`85efc7176`);
+- question references never resolved with "Question N" labels (`cfa8514ff`);
+- author placement wrote only the first page copy of a cross-page question, so the copies disagreed (`80ec194d5`);
+- the graph exemption refused tick-mark `\foreach` loops (`621493ec9`);
+- the renderer printed a doubled comma after inline maths before a joined cloze (`a64d4d683`).
+
+**Still weak:**
+- **Visual review finds label contacts the Studio label check passes**: a curve touching a label's closing parenthesis, or an axis letter beside a tick label. 10 of the 16 open findings are of this kind. The check's tolerance and the reviewer's disagree.
+- **Author-chosen graph styles defeat the check.** The source's grid was drawn black dotted rather than in the house grid grey, so the check flagged a collision under every label until the grid was recoloured.
+- **One cross-page matching question cost three authoring attempts.** The local patch repair can't change both page copies, and authors left the equation options unanswered.
+- **A reviewer failed a correct block** because it could not see the rendered diagram. A retry passed it.
+- **Fraction line clearance** on consecutive lines (`p17-p3`) is renderer line height, not content.
+- **Coverage:** the regenerated Question 5 mapped its answer-key line (`p20-answer-q5`) to the same target as the continued question. Repair files can't patch `source.inventory`, so fixing it means repairing the authored mapping and starting `finish` on the new input.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):
