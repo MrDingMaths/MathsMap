@@ -17,3 +17,10 @@ test('printed punctuation cannot wrap onto a line separate from its formula',asy
  for(const media of ['screen','print']){await page.emulateMedia({media});const boxes=await page.evaluate(()=>{const m=document.querySelector('.formula').getBoundingClientRect(),p=document.querySelector('[data-math-punctuation] em').getBoundingClientRect();return{math:[m.top,m.bottom],punctuation:[p.top,p.bottom],text:document.querySelector('p').textContent};});assert.ok(boxes.punctuation[0]<boxes.math[1]&&boxes.punctuation[1]>boxes.math[0],media+': punctuation shares the formula line');assert.equal(boxes.text,'1234567890 x+1. Mary continues.');}
  }finally{await browser.close();}
 });
+
+test('punctuation after inline maths prints once when the text leads into a joined cloze',()=>{
+ const doc={format:'maths-editor-document-v1',version:1,blocks:[{id:'p',type:'paragraph',inlines:[{type:'text',text:'points of '},{type:'math',latex:'y=g(x)',display:false},{type:'text',text:', we solve the two equations s'},{type:'cloze',answer:'imultaneously',width:35,joinPrevious:true},{type:'text',text:'.'}]}]};
+ const before=structuredClone(doc),html=renderDocument(doc),text=html.replace(/<[^>]+>/g,'');
+ assert.equal((text.match(/,/g)??[]).length,1,'one comma: '+text);
+ assert.match(html,/data-math-punctuation/);assert.match(html,/data-cloze-prefix/);assert.deepEqual(doc,before,'stored content unchanged');
+});

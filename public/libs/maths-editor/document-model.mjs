@@ -224,6 +224,12 @@ const lines=n.lines??1, metadata=`${n.appearance==='blank'?'data-cloze-appearanc
     if(n.type==='cloze'&&n.joinPrevious&&(previous?.type==='text'&&/\S$/.test(previous.text)||previous?.type==='math'&&!previous.display))return '';
     // An inline maths cue ("x =") stays on the line of the blank that joins it.
     if(n.type==='math'&&!n.display&&next?.type==='cloze'&&next.joinPrevious)return '<span data-cloze-prefix style="white-space:nowrap">'+inline(n,bold)+inline(next,bold)+'</span>';
+    // Punctuation after inline maths prints with the maths (below), so drop it here first: a text run that
+    // also leads into a joined cloze printed it twice ("y = g(x),, we solve", Mastering Ch 3).
+    if(n.type==='text'&&previous?.type==='math'&&!previous.display&&next?.type==='cloze'&&next.joinPrevious){
+      const punctuation=String(n.text??'').match(/^[.,;:!?]+/);
+      if(punctuation)n={...n,text:n.text.slice(punctuation[0].length)};
+    }
     if(n.type==='text'&&next?.type==='cloze'&&next.joinPrevious){
       const fragment=n.text.match(/\S+$/);
       if(fragment)return inline({...n,text:n.text.slice(0,-fragment[0].length)},bold)+'<span data-cloze-prefix style="white-space:nowrap">'+inline({...n,text:fragment[0]},bold)+inline(next,bold)+'</span>';
