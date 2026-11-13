@@ -72,7 +72,8 @@ export function isTaggedFunctionGraph(code,context='') {
   const tag=code.match(/(?:^|\n)[ \t]*% mathsmap-diagram-colours (\{[^\r\n]*\})/);
   let kind;try{kind=tag&&JSON.parse(tag[1]).kind;}catch{return false;}
   if(kind!=='graph'||!/data-graph-strokes="1"/.test(code))return false;
-  if(/mathsmap-solid|tdplot|canvas is|\\pgfmathsetmacro|\\foreach/.test(code)||[...coordinates(code).values()].some(point=>point.length===3))return false;
+  // \foreach is allowed: graphs draw tick marks with it (Mastering Ch 3 p18-q1).
+  if(/mathsmap-solid|tdplot|canvas is|\\pgfmathsetmacro/.test(code)||[...coordinates(code).values()].some(point=>point.length===3))return false;
   if(/\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)/.test(code))return false;
   const axes=[...code.matchAll(AXIS)].map(m=>m.slice(1).map(Number));
   const xAxis=axes.some(([x1,y1,x2,y2])=>y1===0&&y2===0&&x1<0&&x2>0),yAxis=axes.some(([x1,y1,x2,y2])=>x1===0&&x2===0&&y1<0&&y2>0);
