@@ -25,6 +25,7 @@ import {importDiagramPreflight} from './import-diagram-preflight.mjs';
 import {loadReuseContext,reuseCandidate,reuseContentHash,changedReviewFields,REUSE_CONTRACT} from './review-reuse.mjs';
 import {originalSource} from './source-lineage.mjs';
 import {inventoryShading} from './check-diagram-shading.mjs';
+import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {THEORY_TEXT_PROMPT,LEAN_IMPORT_PRINCIPLES,CURVED_SOLID_PROMPT} from './token-efficient-prompts.mjs';
 import {DIAGRAM_SIZING_PROMPT,renderedDiagramSizingFindings} from '../../src/lib/booklet-diagram-sizing.js';
 import {leanShadingIssues} from './lean-shading.mjs';
@@ -977,7 +978,8 @@ export function reviewStatus({runDir,projectFile,exportDir,projectHash}){
 
 // Apply a file of exact-field patches ({"corrections":[...]}, the shape reviewers
 // and repair workers return) through the revision-checked save. A patch names a
-// block or a node inside one, or "project" for a field under /settings. Nothing
+// block or a node inside one, "project" for a field under /settings, or
+// "inventory:ENTRY" for one source inventory entry's /targetId or /field. Nothing
 // is saved if any patch is rejected, and after saving each patch is read back:
 // a value the save normalised away is reported as lost instead of assumed.
 export function repairReadbackMismatches(expected,saved,applied){
@@ -993,21 +995,39 @@ export function repairReadbackMismatches(expected,saved,applied){
 }
 export async function applyRepair({runDir,projectFile,correctionsFile,exportDir,root=ROOT}){
  const dir=path.join(runDir,'lean-review'),handle=openProject(projectFile,{root}),corrections=read(correctionsFile).corrections??[];
- const settings=[],content=[];
+ const settings=[],content=[],mappings=[];
  for(const correction of corrections){
-  const own=(correction.patches??[]).filter(patch=>patch.targetId==='project'),rest=(correction.patches??[]).filter(patch=>patch.targetId!=='project');
+  const inventory=patch=>String(patch.targetId).startsWith('inventory:');
+  const own=(correction.patches??[]).filter(patch=>patch.targetId==='project'),rest=(correction.patches??[]).filter(patch=>patch.targetId!=='project'&&!inventory(patch));
   if(own.length)settings.push({...correction,patches:own});
   if(rest.length)content.push({...correction,patches:rest});
+  for(const patch of (correction.patches??[]).filter(inventory))mappings.push({correctionId:correction.id,reason:correction.reason,...patch});
+ }
+ // "inventory:ENTRY" remaps one source inventory entry (/targetId or /field only) to an
+ // existing content node, e.g. an answer-key line authored onto its question's target.
+ // Coverage then re-checks it; source facts and content are never changed this way.
+ const entries=handle.project.source?.inventory?.entries??[],remapped=[];
+ for(const patch of mappings){
+  const entryId=patch.targetId.slice('inventory:'.length),entry=entries.find(row=>row.id===entryId),key=String(patch.field).slice(1);
+  if(!entry)throw Error('No repair was saved; no source inventory entry '+entryId);
+  if(!['targetId','field'].includes(key)||patch.field!=='/'+key)throw Error('An inventory patch may change only /targetId or /field: '+patch.field);
+  if(!isDeepStrictEqual(entry[key]??null,patch.original??null))throw Error('No repair was saved; inventory:'+entryId+patch.field+' does not match the project');
+  if(typeof patch.corrected!=='string'||!patch.corrected)throw Error('An inventory patch needs a non-empty corrected value: inventory:'+entryId+patch.field);
+  remapped.push({entry,key,patch});
  }
  const blocks=reviewableBlocks(handle.project).map(row=>row.block),holder={id:'project',settings:handle.project.settings??={}};
  const before=new Map(blocks.map(block=>[block.id,structuredClone(block)]));
  for(const correction of settings)for(const patch of correction.patches)if(!/^\/settings\/./.test(patch.field??''))throw Error('A project patch must name a field under /settings: '+patch.field);
  const outcome=applyCorrections([...blocks,holder],[...content,...settings]),rejected=outcome.rejected.filter(row=>row.status==='rejected');
  if(rejected.length)throw Error('No repair was saved; these patches do not match the project: '+rejected.map(row=>row.targetId+row.field+' ('+row.error+')').join('; '));
- if(!outcome.applied.length)throw Error('The corrections file changes nothing');
+ for(const {entry,key,patch} of remapped)entry[key]=patch.corrected;
+ const nodes=contentNodes(handle.project);
+ for(const {entry} of remapped)if(!nodes.has(entry.targetId))throw Error('No repair was saved; inventory '+entry.id+' would map to a missing node '+entry.targetId);
+ if(!outcome.applied.length&&!remapped.length)throw Error('The corrections file changes nothing');
  const expected=structuredClone(handle.project);
  await handle.save();
  const saved=read(handle.file),lost=repairReadbackMismatches(expected,saved,outcome.applied);
+ for(const {entry,key,patch} of remapped)if((saved.source?.inventory?.entries??[]).find(row=>row.id===entry.id)?.[key]!==patch.corrected)lost.push({targetId:patch.targetId,field:patch.field});
  if(!lost.length){
   const state=loadReviewed(dir);let preserved=false;
   for(const {block} of reviewableBlocks(saved)){
@@ -1021,11 +1041,12 @@ export async function applyRepair({runDir,projectFile,correctionsFile,exportDir,
  for(const row of outcome.applied){
   logCorrection(dir,row);
  }
+ for(const {patch} of remapped)logCorrection(dir,{correctionId:patch.correctionId,reason:patch.reason,targetId:patch.targetId,field:patch.field,original:patch.original,corrected:patch.corrected});
  // Findings on the named export that no patch touched: repair them in the same
  // round or list them as unresolved, so they do not cost another export.
  const touched=new Set(outcome.applied.map(row=>row.blockId)),report=exportDir?read(path.join(exportDir,'report.json')).report?.[saved.id]:null;
  const untouched=report?outstandingFindings(loadReviewed(dir),report).filter(row=>!row.blocks.some(id=>touched.has(id))):[];
- return {applied:outcome.applied.length,revision:saved.revision??null,lost,findingsNotTouched:untouched,errors:lost.length?['Saved project does not contain '+lost.length+' applied values']:[]};
+ return {applied:outcome.applied.length+remapped.length,revision:saved.revision??null,lost,findingsNotTouched:untouched,errors:lost.length?['Saved project does not contain '+lost.length+' applied values']:[]};
 }
 
 export async function runImagePreflight({runDir,projectFile,runner,root=ROOT}){
