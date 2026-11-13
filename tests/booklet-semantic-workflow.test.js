@@ -223,6 +223,14 @@ test('source operation arrows can map to native table annotations with both cell
  arrow.toCellId='original';assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
 });
 
+test('an inventory diagram that is really a labelled response part may map to the part',()=>{
+ const packet={pageNumber:1,sections:[{id:'s',title:'Circles',blocks:[{id:'q',type:'question',classification:{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct reading of a graph in a fixture.'},content:{id:'q-root',type:'question',prompt:'Semicircles.',children:[{id:'q-d',type:'part',label:'d',prompt:'Write down the equation of the lower semicircle shown.',answer:{short:'y=-\\sqrt{4-x^2}',worked:'Lower half.'}}]}}]}],inventoryMappings:[{inventoryId:'src-d',targetId:'q-d'}]};
+ const source={entries:[{id:'src-d',kind:'diagram',sourceLabel:'(d)',responseKind:'short'}]};
+ assert.doesNotThrow(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}));
+ delete source.entries[0].sourceLabel;
+ assert.throws(()=>validateSemanticResult(packet,{stage:'author',page:1,inventory:source}),/Diagram mapped to non-diagram target/);
+});
+
 test('source diagrams can map to editable annotated equations only with resolved labels',()=>{
  const diagram={id:'formula',type:'annotated-equation',latex:'y=mx+c',anchors:[{id:'gradient',start:2,end:3,text:'m'}],annotations:[{id:'gradient-label',targetId:'gradient',blocks:[{id:'gradient-text',type:'paragraph',inlines:[{type:'text',text:'gradient'}]}]}]};
  const packet={pageNumber:1,sections:[{id:'section',title:'Gradient',blocks:[{id:'definition',type:'callout',content:{format:'maths-editor-document-v1',blocks:[diagram]}}]}],inventoryMappings:[{inventoryId:'source-formula',targetId:'formula'}]};

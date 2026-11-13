@@ -60,6 +60,21 @@ test('a supplied answer the inventory left without a reason may be excluded by t
  a.inventoryMappings[0].exclusionReason='Omit';assert.throws(()=>validatePracticeAuthor(a,i),/Practice content was excluded|cannot exclude/);
 });
 
+test('cover furniture and reused answer-key diagrams pass author validation',()=>{
+ // Cover entries the inventory excluded as page identity or decoration may be excluded again by the author.
+ for(const reason of ['Source identification and exercise heading; not a selectable question.','Decorative category enclosure; retain group membership without imposing an unbreakable layout.']){
+  const i=inventory(),a=author();i.entries.push({id:'c',kind:'cover',exclusionReason:reason});a.inventoryMappings.push({inventoryId:'c',exclusionReason:reason});
+  assert.doesNotThrow(()=>validatePracticeAuthor(a,i),reason);
+ }
+ // An excluded answer-key diagram may be the evidence a solution diagram reproduces.
+ const i=inventory(),a=author();i.entries.push({id:'ans',kind:'answer',parentId:'q',description:'Key answer'},{id:'ans-graph',kind:'diagram',parentId:'ans',exclusionReason:'Answer diagram; evidence only.'});
+ a.inventoryMappings.push({inventoryId:'ans-graph',targetId:'q'});
+ assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+ // Excluded teaching still may not be mapped.
+ const t=inventory(),b=author();b.inventoryMappings.push({inventoryId:'theory',targetId:'q'});
+ assert.throws(()=>validatePracticeAuthor(b,t),/Excluded teaching was mapped/);
+});
+
 test('part-only continuation owns only the explicitly parented distinct local responses',()=>{
  const i={pageNumber:12,entries:[{id:'source-f',kind:'part',parentId:'whole-q',description:'Part f'},{id:'source-g',kind:'part',parentId:'whole-q',description:'Part g'}]};
  const a={sections:[{phase:'practice',blocks:[{id:'whole-q',type:'question',sourceRefs:[{pageNumber:11},{pageNumber:12}],content:{id:'whole-root',type:'question',prompt:'Evaluate:',children:[{id:'f',type:'part',prompt:'1+2'},{id:'g',type:'part',prompt:'3+4'}]}}]}],inventoryMappings:[{inventoryId:'source-f',targetId:'f'},{inventoryId:'source-g',targetId:'g'}],sharedContentContinuations:[{blockId:'whole-q',canonicalPageNumber:11,reason:'Printed parts f–g continue the earlier question.'}]};

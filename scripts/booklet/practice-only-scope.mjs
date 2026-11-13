@@ -107,6 +107,8 @@ export function validatePracticeInventory(inventory) {
   }
 }
 
+// Cover entries the inventory excluded as page identity or decoration (Ch 4 p10, p18).
+const COVER_FURNITURE=/source ident|exercise heading|decorative|border|enclosure|banner/i;
 export function validatePracticeAuthor(result,inventory,{continuations=[],ancestorInventories=[]}={}) {
   inventory=normalizePracticeInventory(inventory);
   validatePracticeInventory(inventory);
@@ -116,7 +118,10 @@ export function validatePracticeAuthor(result,inventory,{continuations=[],ancest
     for(const b of s.blocks)if(b.type!=='question'||b.pedagogyRole||isTheoryReview(b,s))throw Error('Practice-only author contains teaching/non-selectable content: '+b.id);
   }
   const excluded=new Set(inventory.entries.filter(e=>e.exclusionReason&&!embeddedRetention(e)&&
-   (e.kind!=='cover'||/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher|^renderer-owned page styling\b/i.test(e.exclusionReason))).map(e=>e.id));
+   (e.kind!=='cover'||/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher|^renderer-owned page styling\b/i.test(e.exclusionReason)||COVER_FURNITURE.test(e.exclusionReason))).map(e=>e.id));
+  // An excluded answer-key entry, or anything inside one, may still be the evidence an authored
+  // answer reproduces, such as the key's graph redrawn as the solution diagram (Ch 4 p17, Ch 5 p2).
+  const answerEvidence=e=>{const seen=new Set();for(let x=e;x&&!seen.has(x.id);x=inventory.entries.find(y=>y.id===x.parentId)){seen.add(x.id);if(x.kind==='answer')return true;}return false;};
   // Some preserved inventories put reference-only answer/footer notes inside
   // presentation. They may stay as provenance without entering student prompts;
   // this never permits excluding a practice question, part or diagram.
@@ -130,7 +135,7 @@ export function validatePracticeAuthor(result,inventory,{continuations=[],ancest
     const mapped=editableNodes.get(m.targetId),ownerMapping=entry?.embeddedInQuestion&&result.inventoryMappings.find(row=>row.inventoryId===entry.embeddedInQuestion&&row.targetId),owner=ownerMapping&&editableNodes.get(ownerMapping.targetId);
     let retained=embeddedRetention(entry??{})&&m.exclusionReason===entry.exclusionReason&&mapped&&owner&&mapped.block===owner.block;
     if(retained){let value=mapped.node;for(const part of (m.field??'').split('/').filter(Boolean))value=value?.[part.replaceAll('~1','/').replaceAll('~0','~')];retained=value!==undefined&&value!==null&&value!==''&&(!Array.isArray(value)||value.length>0);}
-    if(excluded.has(m.inventoryId)&&!m.exclusionReason)throw Error('Excluded teaching was mapped to authored content: '+m.inventoryId);
+    if(excluded.has(m.inventoryId)&&!m.exclusionReason&&!answerEvidence(entry??{}))throw Error('Excluded teaching was mapped to authored content: '+m.inventoryId);
     if(!excluded.has(m.inventoryId)&&m.exclusionReason&&!referenceExclusions.has(m.inventoryId)&&!retained)throw Error('Practice content was excluded during authoring: '+m.inventoryId);
   }
   const questions=inventory.entries.filter(e=>e.kind==='question'&&!e.exclusionReason),owners=new Map(),targets=new Set();

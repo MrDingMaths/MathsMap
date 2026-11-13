@@ -289,9 +289,12 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
    const nativeScaffold=target.type==='layout'&&target.arrangement==='scaffold'&&target.slots?.length>0&&target.slots.every(s=>s.blocks?.length>0)&&target.slots.some(s=>hasNativeMath(s.blocks));
    const nativeResponseGrid=mapping.field==='/layout'&&['question','group','part'].includes(target.type)&&target.layout==='grid'&&target.children?.length>1&&target.children.every(n=>Object.hasOwn(n,'prompt'));
    const arrowSource=sourceIds.get(mapping.inventoryId);
+   // An inventory "diagram" with a printed part label and a student response is really a part
+   // (Mastering Adv 11 Ch 4 p11 "(d) Write down the equation…"): mapping it to the part is correct.
+   const labelledResponsePart=!!arrowSource.sourceLabel&&!!arrowSource.responseKind&&arrowSource.responseKind!=='none'&&['part','question'].includes(target.type);
    const sourceReferenceArrow=arrowSource.responseKind==='none'&&typeof arrowSource.presentation?.meaning==='string'&&/referenced|references|identifies.*line/i.test(arrowSource.presentation.meaning);
    const nativeTableArrow=target.type==='arrow'&&(typeof target.label==='string'&&target.label.trim()||sourceReferenceArrow)&&target.cellId!==target.toCellId&&ids.get(target.cellId)?.type==='cell'&&ids.get(target.toCellId)?.type==='cell';
-   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeSpeechBubbles.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeAnnotatedEquation&&!nativeScaffold&&!nativeResponseGrid&&!nativeTableArrow)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
+   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeSpeechBubbles.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeAnnotatedEquation&&!nativeScaffold&&!nativeResponseGrid&&!nativeTableArrow&&!labelledResponsePart)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
   }
  }
  for(const entry of inventory.entries)if(!entry.exclusionReason&&!result.inventoryMappings.some(m=>m.inventoryId===entry.id))throw Error('Missing inventory mapping '+entry.id);
