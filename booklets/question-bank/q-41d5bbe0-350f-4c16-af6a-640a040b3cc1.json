@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-41d5bbe0-350f-4c16-af6a-640a040b3cc1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-function-equation",
+    "secondarySkillIds": [
+      "graph-polynomials-factored",
+      "transform-dilations"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Use technology to graph the model and locate its maximum, interpret nonnegative zeros as ground times, then choose a vertical dilation that raises the maximum while preserving the landing time. The final part requires connecting coefficient magnitude, heights and unchanged roots.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T00:11:21.183Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "948c393cbfb8ee6c12cc6eadd5370808e4eb857e6f7afe88e4bb8bbb2cb605b9",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch03/lean-review/calls/content-1794528637370-31/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "A toy rocket is launched and its height above the ground (in metres) after $t$ seconds is modelled by the function\n$$h(t)=-2t(t+1)(t-5).$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use technology to sketch the graph for $0\\leq t\\leq6$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve starts at $(0,0)$, reaches a maximum near $(3.2,48.4)$, crosses the time axis at $(5,0)$ and ends at $(6,-84)$.",
+          "worked": "Plot $h(t)=-2t(t+1)(t-5)$ for $0\\leq t\\leq6$, with time $t$ in seconds on the horizontal axis and height $h$ in metres on the vertical axis. The graph passes through $(0,0)$ and $(5,0)$, has a maximum near $(3.2,48.4)$, and ends at $(6,-84)$. The negative part is the mathematical continuation of the model after landing.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q15-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"rocket-height curve distinguished from axes\"}],\"reference\":\"source page 21; answer page 23 Q15(a); p21-q15-a-solution-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.045cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (0,0)--(8.8,0) node[right] {$t$ (s)};\n\\draw[->,line width=0.5pt] (0,-91)--(0,64) node[above] {$h$ (m)};\n\\foreach \\v in {1,2,3,4,6,7,8}{\\draw[line width=0.4pt] (\\v,-2)--(\\v,2);\\node[below,yshift=-2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n{\\draw[line width=0.4pt] (5,-2)--(5,2);\\node[anchor=north west,xshift=1.41pt,yshift=-1.41pt] at (5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$5$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-80,-40,40}{\\draw[line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\\node[left] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,domain=0:6,samples=151] plot (\\x,{-2*(\\x)*((\\x)+1)*((\\x)-5)});\n\\fill (3.1892548,48.3852882) circle (1.5pt) node[above,yshift=3pt] {$(3.2,48.4)$};\n\\fill (6,-84) circle (1.5pt) node[right,xshift=3pt] {$(6,-84)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Question 15(a); supplied answer graph on answer PDF page 23",
+                "description": "Equation-driven rocket model on 0≤t≤6. Retains the answer sketch's ticks and labelled maximum and endpoint, with corrected axis variables. No grid or shading.",
+                "mathematics": "h(t)=-2t(t+1)(t-5); intercepts (0,0),(5,0); maximum approximately (3.1892548,48.3852882); endpoint (6,-84).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p21-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "At what time(s) is the rocket on the ground?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=0$ s and $t=5$ s.",
+          "worked": "$$-2t(t+1)(t-5)=0.$$\nThe roots are $t=-1,\\,0,\\,5$. Reject $t=-1$ because time is measured from launch. The rocket is on the ground at launch, $t=0$ s, and on landing, $t=5$ s.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p21-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the maximum height reached by the rocket? Give your answer correct to 1 decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$48.4$ m.",
+          "worked": "Use the maximum tool on the height graph between launch and landing. It gives a maximum near $t=3.1892548$ s with height $h\\approx48.3852882$ m. The maximum height is $48.4$ m, correct to 1 decimal place.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p21-q15-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Modify the function so that the rocket reaches a higher maximum height but still lands at 5 seconds.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For example, $H(t)=-4t(t+1)(t-5)$.",
+          "worked": "One possible function is\n$$H(t)=-4t(t+1)(t-5)=2h(t).$$\nThis doubles every height between launch and landing, so the maximum height doubles. The zeroes are unchanged, so the rocket still lands at $t=5$ s. The negative coefficient has been made larger in magnitude.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T04:36:38.880Z",
+  "updatedAt": "2026-11-13T04:36:38.880Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch03",
+    "blockId": "p21-q15",
+    "sectionRole": "exercise"
+  }
+}

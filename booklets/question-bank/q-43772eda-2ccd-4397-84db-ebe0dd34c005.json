@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-43772eda-2ccd-4397-84db-ebe0dd34c005",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "intersection-line-curve",
+    "secondarySkillIds": [
+      "zeroes-of-function"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch an increasing cubic against decreasing lines for two parameter signs, then use the scaffolded intersection interpretation to justify exactly one solution and determine its sign for each case.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T02:45:56.240Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6a7b4bf3d61272cca538af67f0cfd8e46cd4e7c93e14d176485036f69ca45069",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch03/lean-review/calls/content-1794537932958-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-problem-1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-problem-1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a sketch of $y=x^3$ and $y=k-x$ for when $k>0$ and when $k<0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The sketches show one intersection in the first quadrant when $k>0$, and one in the third quadrant when $k<0$.",
+          "worked": "Sketch the increasing cubic $y=x^3$ through the origin. Each line $y=k-x$ has gradient $-1$ and $y$-intercept $k$. For $k>0$, its intersection with the cubic lies in the first quadrant; for $k<0$, the intersection lies in the third quadrant. The diagram shows representative lines for the two cases.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-problem-1-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cubicBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the cubic\"},{\"name\":\"positiveRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the positive-k line\"},{\"name\":\"negativeGreen\",\"hex\":\"4F9B63\",\"reason\":\"identifies the negative-k line\"}],\"reference\":\"source page 28 Problem 1(a); teacher page 24 P1(a)\"}\n\\begin{tikzpicture}[x=1.35cm,y=0.9cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cubicBlue}{HTML}{268CFF}\n\\definecolor{positiveRed}{HTML}{EF6068}\n\\definecolor{negativeGreen}{HTML}{4F9B63}\n\\draw[->,black,line width=0.5pt] (-2,0)--(2,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-2.9)--(0,2.9) node[below right] {$y$};\n\\draw[<->,cubicBlue,line width=0.8pt,domain=-1.39:1.39,samples=121] plot (\\x,{(\\x)^3});\n\\draw[<->,positiveRed,line width=0.8pt] (-1.2,2.7)--(1.8,-0.3);\n\\draw[<->,negativeGreen,line width=0.8pt] (-1.8,0.3)--(1.2,-2.7);\n\\node[cubicBlue,anchor=east] at (1.15,3.45) {$y=x^3$};\n\\node[positiveRed,anchor=east] at (-1.3,2.7) {$k>0$};\n\\node[negativeGreen,anchor=west] at (1.3,-2.7) {$k<0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Problem 1(a); answer book PDF page 24, printed page 318, P1(a)",
+                "description": "One coordinate plane with an increasing cubic and two descending representative lines. Both parameter cases share the axes. There are no numerical ticks, grid lines or labelled point coordinates. Blue identifies the cubic, red the positive-k line and green the negative-k line.",
+                "mathematics": "y=x^3 and representative members y=3/2-x and y=-3/2-x of y=k-x. Numerical parameter choices are illustrative and are not printed.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p28-problem-1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence show that if $k>0$ then $x^3+x-k=0$ has one positive solution, but if $k<0$ then $x^3+x-k=0$ has one negative solution.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The increasing cubic and decreasing line intersect exactly once: at $x>0$ when $k>0$, and at $x<0$ when $k<0$.",
+          "worked": "$$\\begin{align*}x^3+x-k&=0\\\\x^3&=k-x\\end{align*}$$\nThe solutions are the $x$-coordinates of intersections of $y=x^3$ and $y=k-x$. The cubic is strictly increasing and the line is strictly decreasing, so they intersect exactly once.\n\nWhen $k>0$, the line is above the cubic at $x=0$, and the cubic overtakes it to the right: the solution is positive. When $k<0$, the line is below the cubic at $x=0$, and the intersection is to the left: the solution is negative.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-problem-1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T04:36:49.696Z",
+  "updatedAt": "2026-11-13T04:36:49.696Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch03",
+    "blockId": "p28-problem-1",
+    "sectionRole": "exercise"
+  }
+}

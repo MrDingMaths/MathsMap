@@ -1,0 +1,208 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1d864206-f0ac-4fdc-8f42-fe0e4a180e7d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation",
+      "complete-square-form"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Translate three fenced sides into a constraint, eliminate one dimension to obtain the supplied area model, complete the square to justify its maximum and interpret positivity restrictions on the dimensions. The staged parts and explicit method cue scaffold these linked modelling decisions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T00:08:46.972Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0694bcb1f9d115ecd57f2bfca36982bf613f8d86127e9539de684daa4f46b2ef",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch03/lean-review/calls/content-1794528483835-16/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-problem-1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "[Optimisation problem]\n\nA farmer will use 400 metres of fencing to construct a rectangular field. One of the sides of the field is a river, so the farmer only needs to fence three sides of the rectangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-problem-1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Create an expression for the total length of fencing required if the field has length $y$ metres and width $x$ metres as shown in the diagram below.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p12-problem-1-field",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"riverBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the river along the unfenced side\"},{\"name\":\"riverFill\",\"hex\":\"D4E8FF\",\"reason\":\"distinguishes the river from the unfilled field\"}],\"reference\":\"source PDF page 12, p12-problem-1-field\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{riverBlue}{HTML}{268CFF}\n\\definecolor{riverFill}{HTML}{D4E8FF}\n\\path[fill=riverFill] (-0.9,-0.75) -- (4.9,-0.75) -- (4.9,0) .. controls (4.6,-0.10) and (4.4,0.10) .. (4.1,0) .. controls (3.8,-0.08) and (3.5,0.08) .. (3.2,0) .. controls (2.9,-0.08) and (2.6,0.08) .. (2.3,0) .. controls (2,-0.08) and (1.7,0.08) .. (1.4,0) .. controls (1.1,-0.08) and (0.8,0.08) .. (0.5,0) .. controls (0.2,-0.08) and (-0.1,0.08) .. (-0.4,0) .. controls (-0.6,-0.08) and (-0.75,0.08) .. (-0.9,0) -- cycle;\n\\draw[black,line width=0.8pt] (0,0) -- (0,2) -- (4,2) -- (4,0);\n\\draw[riverBlue,line width=0.8pt] (-0.9,0) .. controls (-0.75,0.08) and (-0.6,-0.08) .. (-0.4,0) .. controls (-0.1,0.08) and (0.2,-0.08) .. (0.5,0) .. controls (0.8,0.08) and (1.1,-0.08) .. (1.4,0) .. controls (1.7,0.08) and (2,-0.08) .. (2.3,0) .. controls (2.6,0.08) and (2.9,-0.08) .. (3.2,0) .. controls (3.5,0.08) and (3.8,-0.08) .. (4.1,0) .. controls (4.4,0.10) and (4.6,-0.10) .. (4.9,0);\n\\path (0,2) -- node[above,black,font=\\fontsize{10}{12}\\selectfont] {$y$} (4,2);\n\\path (0,0) -- node[left,black,font=\\fontsize{10}{12}\\selectfont] {$x$} (0,2);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 12,
+              "sourceRegion": "Problem 1(a), field diagram",
+              "description": "An unfilled rectangular field with black fencing on its top and two vertical sides. The top is labelled y and the left side x. A blue river runs along the unfenced lower side. Relative proportions are illustrative.",
+              "mathematics": "Two fenced widths x and one fenced length y. The fourth side borders the river.",
+              "answerVisibility": "All supplied geometry and labels remain visible in the student edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$2x+y=400$.",
+          "worked": "The fencing covers two widths and one length, so the total length required is $2x+y$ metres. Hence $2x+y=400$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p12-problem-1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area $A$ of the field is given by $A=400x-2x^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=x(400-2x)=400x-2x^2$.",
+          "worked": "From $2x+y=400$, $y=400-2x$.\n\n$$\\begin{align*}A&=xy\\\\A&=x(400-2x)\\\\A&=400x-2x^2\\end{align*}$$\n\nThe area is measured in square metres.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p12-problem-1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By completing the square of the above expression, or otherwise, find the maximum area of the field that he can construct.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p12-problem-1-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "20\\,000\\text{ m}^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p12-problem-1-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Completing the square gives ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A=20\\,000-2(x-100)^2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", which is greatest when ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=100",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "$$\\begin{align*}A&=400x-2x^2\\\\A&=-2(x^2-200x)\\\\A&=-2\\bigl[(x-100)^2-10\\,000\\bigr]\\\\A&=20\\,000-2(x-100)^2\\end{align*}$$\n\nSince $(x-100)^2\\geq0$, $A\\leq20\\,000$. Equality occurs when $x=100$, giving $y=400-2(100)=200$.\n\nThe maximum area is $20\\,000\\text{ m}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p12-problem-1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What restrictions are there on your variables?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0<x<200$, $0<y<400$, with $y=400-2x$ and $A>0$.",
+          "worked": "Both dimensions must be positive, so $x>0$ and $y>0$.\n\nUsing $y=400-2x$, positivity of $y$ gives $x<200$. Thus $0<x<200$ and $0<y<400$, with the dimensions linked by $y=400-2x$. The rectangular field has area $A>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-problem-1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T04:36:24.228Z",
+  "updatedAt": "2026-11-13T04:36:24.229Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch03",
+    "blockId": "p12-problem-1",
+    "sectionRole": "exercise"
+  }
+}

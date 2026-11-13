@@ -218,6 +218,10 @@ The 40 excluded questions remained in their booklets without bank links. Of thos
 
 The post-publication plans confirmed that all 551 approved questions have bank links and no approved rows remain. No booklets were busy. The textbook plan found 11 new publication candidates in `cambridge-x11-ch05` after its separate repair. Those candidates were outside this approval. Across both plans, 95 questions are held for a duplicate decision and 2,229 are marked `leave-out`. The six deferred follow-ups are listed separately from `leave-out` rows.
 
+### Practice-only textbooks (James, 13 November 2026)
+
+A textbook question with a recorded `teachingContext.methodNote` but no cited teaching page now qualifies. It cites its own printed page (`sourceIdentity.pdfPage` or `sourceRefs`), which the import read, and that page's inspection note says the method note is the taught method. Questions with no method note, or no known page, stay out as `no-teaching-context`. The publisher's inspected-page validation is unchanged. Code: `textbookTeachingPages` in `pedagogy/bank-assessments.mjs`, used by the planner and the assessments builder; test in `tests/bank-run.test.js`. First use: Mastering Adv 11 Ch 3, 137 questions published. Re-planning the textbooks already left out as `no-teaching-context` (1,045 in the rollout) needs James to name the batch.
+
 ## Open points
 
 - Whether the 8,919 unpublished master questions include ones the audit added and still flags as comments-only. These would be left out until resolved.

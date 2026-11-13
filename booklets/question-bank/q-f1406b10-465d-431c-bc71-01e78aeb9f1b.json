@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f1406b10-465d-431c-bc71-01e78aeb9f1b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-quadratic-inequalities",
+    "secondarySkillIds": [
+      "sketch-parabola-from-equation"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Choose a parabola with two horizontal boundary lines, calculate their four intersection abscissae, and interpret the simultaneous bounds as two disjoint closed intervals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T00:13:49.332Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c835f6208b8643c08b2793e6a3569a3b4feb6c424aac1fccd65974b1b661a92a",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch03/lean-review/calls/content-1794528798031-45/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q20-root",
+    "type": "question",
+    "label": null,
+    "prompt": "By drawing an appropriate graph, solve the inequality $-5\\leq x^2-6x\\leq7$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$-1\\leq x\\leq1$ or $5\\leq x\\leq7$.",
+      "worked": "Sketch the upward-opening parabola using\n$$\\begin{align*}y&=x^2-6x\\\\y&=(x-3)^2-9.\\end{align*}$$\nIts vertex is $(3,-9)$ and its $x$-intercepts are 0 and 6. Draw the horizontal lines $y=-5$ and $y=7$.\n\nTheir intersection abscissae are found from\n$$\\begin{align*}x^2-6x&=-5\\\\x^2-6x+5&=0\\\\(x-1)(x-5)&=0\\\\x&=1\\text{ or }5,\n\\end{align*}$$\nand\n$$\\begin{align*}x^2-6x&=7\\\\x^2-6x-7&=0\\\\(x+1)(x-7)&=0\\\\x&=-1\\text{ or }7.\n\\end{align*}$$\nThe graph lies on or between the two horizontal lines for $-1\\leq x\\leq1$ or $5\\leq x\\leq7$.",
+      "solutionDiagrams": [
+        {
+          "id": "p32-q20-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"quadratic graph\"},{\"name\":\"boundOrange\",\"hex\":\"EF8B2C\",\"reason\":\"horizontal boundary lines\"}],\"reference\":\"source page 32 Question 20 authored solution\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.22cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{boundOrange}{HTML}{EF8B2C}\n\\draw[->,black,line width=0.5pt] (-1.8,0)--(7.9,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-10.5)--(0,10.5) node[above] {$y$};\n\\draw[<->,curveBlue,line width=0.8pt,domain=-1.2:7.2,samples=121] plot (\\x,{(\\x)^2-6*(\\x)});\n\\draw[boundOrange,line width=0.8pt] (-1.6,-5)--(7.6,-5) node[right,black] {$y=-5$};\n\\draw[boundOrange,dashed,line width=0.8pt] (-1.6,7)--(7.6,7) node[right,black] {$y=7$};\n\\foreach \\a/\\b in {-1/7,1/-5,5/-5,7/7}{\\draw[black,dashed,line width=0.4pt] (\\a,0)--(\\a,\\b);\\fill[black] (\\a,\\b) circle[radius=1.2pt];}\n\\foreach \\a in {-1,3,7}{\\draw[black,line width=0.4pt] (\\a,0)--++(0,-0.45) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a$\\special{dvisvgm:raw </g>}};}\n{\\draw[black,line width=0.4pt] (1,0)--++(0,-0.45) node[anchor=north west,xshift=0.35pt,yshift=-0.35pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};}\n{\\draw[black,line width=0.4pt] (5,0)--++(0,-0.45) node[anchor=north west,xshift=0.35pt,yshift=-0.35pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$5$\\special{dvisvgm:raw </g>}};}\n\\fill[black] (3,-9) circle[radius=1.2pt] node[below] {$(3,-9)$};\n\\node[above,text=curveBlue] at (4.6,9.3) {$y=x^2-6x$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 90,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 32,
+            "sourceRegion": "Question 20",
+            "description": "Complete authored solution graph of the quadratic and both horizontal bounds. Dashed vertical guides locate the four boundary abscissae. No grid is used.",
+            "mathematics": "y=(x-3)^2-9; y=-5 intersects at x=1,5; y=7 intersects at x=-1,7.",
+            "answerVisibility": "Solution only; the student prompt requires the student to draw the graph."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 59
+  },
+  "presentation": {
+    "ownerId": "p32-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T04:36:59.323Z",
+  "updatedAt": "2026-11-13T04:36:59.323Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch03",
+    "blockId": "p32-q20",
+    "sectionRole": "exercise"
+  }
+}

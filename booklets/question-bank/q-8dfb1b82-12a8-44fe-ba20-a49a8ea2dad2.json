@@ -1,0 +1,678 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8dfb1b82-12a8-44fe-ba20-a49a8ea2dad2",
+  "status": "approved",
+  "title": "Relationship between graph and coefficients",
+  "classification": {
+    "primarySkillId": "sketch-parabola-from-equation",
+    "secondarySkillIds": [
+      "parabola-intercepts-axis-vertex",
+      "quadratic-intercepts-vertex"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect concavity, intercept position and the vertex relation to infer coefficient signs, justify an identification order, and construct examples including zero coefficients. Generalising the sign of b across both concavities requires more than routine graph sketching.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T02:46:02.157Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "75ef7129a2140be01b0d1a3b0735bc169e0d531f98e3d47681899a806e2df24a",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch03/lean-review/calls/content-1794537937551-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-investigation-root",
+    "type": "question",
+    "label": "",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p33-context-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider a random parabola with some equation ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=ax^2+bx+c",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". If we move the parabola around, then the values of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "c",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " may change. For example, the parabola below has ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a>0,\\ b>0\\text{ and }c>0",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p33-context-purpose",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "This investigation task allows the student to explore the effect of the coefficients on the graphs, and vice-versa.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p33-context-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied example parabola\"}],\"reference\":\"source PDF page 33, p33-context-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3,-0.5) rectangle (1.8,4.4);\n\\draw[->,black,line width=0.5pt] (-2.8,0)--(1.5,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.3)--(0,4.1) node[right] {$y$};\n\\draw[<->,seriesBlue,line width=0.8pt,domain=-2.3:1.0,samples=80] plot (\\x,{(\\x+0.65)^2+0.55});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 33,
+          "sourceRegion": "Shared investigation context, central graph",
+          "description": "Unnumbered axes and an upward-opening blue parabola; its vertex is left of the vertical axis and above the horizontal axis. Both curve ends and positive axis ends have arrowheads.",
+          "mathematics": "Qualitative graph only: a>0, b>0, c>0. The plotting coordinates are a reconstruction device, not additional numerical givens.",
+          "answerVisibility": "Permanent supplied example, visible in every edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p33-q1",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain how you would find the sign of $a$, $b$ and $c$ without knowing explicitly what the equation of the parabola is. What did you find is a good order to find the coefficients? For example, is it best to find $c$ first, and then $b$, and then $a$? Explain why you think the order you have chosen is the best one.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "One useful order is $a$, $c$, then $b$. Concavity gives the sign of $a$; the $y$-intercept gives the sign of $c$. Use the vertex position and $x_V=-\\frac{b}{2a}$ to find the sign of $b$. Other justified orders are acceptable.",
+          "worked": "First find $a$: an upward-opening parabola has $a>0$, and a downward-opening parabola has $a<0$.\n\nNext find $c$: the $y$-intercept is $(0,c)$, so its position above, on or below the $x$-axis gives $c>0$, $c=0$ or $c<0$.\n\nFinally use the vertex's horizontal position:\n$$\\begin{align*}x_V&=-\\frac{b}{2a}\\\\b&=-2ax_V.\\end{align*}$$\nFor $a>0$, a vertex left of the $y$-axis gives $b>0$, and a vertex right of it gives $b<0$. For $a<0$, these signs reverse. A vertex on the $y$-axis gives $b=0$.\n\nThis order is useful because concavity and the $y$-intercept can be read directly, and the sign of $a$ is then known when finding $b$. For the supplied graph, $a>0$, $c>0$ and $b>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p33-q2",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a number of parabolas with different positions and concavities. For each graph, state the sign of $a$, $b$, and $c$. Can any of the coefficients be zero? Explain your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Examples: $y=x^2+2x+2$: $(+,+,+)$; $y=x^2-2x-1$: $(+,-,-)$; $y=-x^2+2x+1$: $(-,+,+)$; $y=-x^2$: $(-,0,0)$. Signs are listed in the order $(a,b,c)$. Either $b$ or $c$ can be zero; $a$ cannot be zero for a parabola.",
+          "worked": "Possible sketches are shown below. Their features follow from:\n$$\\begin{align*}y&=x^2+2x+2\\\\y&=(x+1)^2+1;\\end{align*}$$\nthis opens upwards, has vertex $(-1,1)$ and has $(a,b,c)=(1,2,2)$.\n$$\\begin{align*}y&=x^2-2x-1\\\\y&=(x-1)^2-2;\\end{align*}$$\nthis opens upwards, has vertex $(1,-2)$ and has $(a,b,c)=(1,-2,-1)$.\n$$\\begin{align*}y&=-x^2+2x+1\\\\y&=-(x-1)^2+2;\\end{align*}$$\nthis opens downwards, has vertex $(1,2)$ and has $(a,b,c)=(-1,2,1)$.\n\nThe graph $y=-x^2$ opens downwards with vertex at the origin and has $(a,b,c)=(-1,0,0)$.\n\nThe coefficient $b$ is zero when the axis of symmetry is the $y$-axis. The coefficient $c$ is zero when the graph passes through the origin. Both can be zero together. The coefficient $a$ must be nonzero; otherwise the equation is not quadratic and its graph is not a parabola.",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q2-example-sketches",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 33, p33-q2 authored example sketches\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.2,-10.7) rectangle (11,5.5);\n\\begin{scope}\n\\draw[->,line width=0.5pt] (-3,0)--(2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,5) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-2.9:0.9,samples=70] plot (\\x,{(\\x+1)^2+1});\n\\node at (-0.5,-1.3) {$y=x^2+2x+2$};\n\\end{scope}\n\\begin{scope}[xshift=5.3cm]\n\\draw[->,line width=0.5pt] (-1.5,0)--(3.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2.6)--(0,4) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.35:3.35,samples=70] plot (\\x,{(\\x-1)^2-2});\n\\node at (1,-3.4) {$y=x^2-2x-1$};\n\\end{scope}\n\\begin{scope}[yshift=-4.5cm]\n\\draw[->,line width=0.5pt] (-1.6,0)--(3.6,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3.4)--(0,2.8) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.25:3.25,samples=70] plot (\\x,{-(\\x-1)^2+2});\n\\node at (1,-4.2) {$y=-x^2+2x+1$};\n\\end{scope}\n\\begin{scope}[xshift=5.3cm,yshift=-4.5cm]\n\\draw[->,line width=0.5pt] (-2.5,0)--(2.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.5)--(0,1) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-2:2,samples=70] plot (\\x,{-(\\x)^2});\n\\node at (0,-5.2) {$y=-x^2$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Question 2",
+                "description": "Four possible student sketches in a two-by-two arrangement, with equation captions separate from the axes.",
+                "mathematics": "Graphs of x²+2x+2, x²−2x−1, −x²+2x+1 and −x²; numerical coordinates are supplied only in the answer.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 69
+      },
+      {
+        "id": "p33-q3",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p33-q3-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Ask a friend to fill in the following table with either ‘Zero’, ‘Positive’ or ‘Negative’. Once it has been filled, draw a parabola that satisfies these values of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "b",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "c",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ". Repeat this but for varying signs and values. An example has been given below.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p33-q3-table",
+              "type": "table",
+              "widthMm": 75,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [],
+              "annotations": [],
+              "border": true,
+              "padding": 2,
+              "widths": [
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p33-q3-header-a",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-header-a-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "a",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p33-q3-header-b",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-header-b-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "b",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p33-q3-header-c",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-header-c-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "c",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p33-q3-example-a",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-example-a-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Positive",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p33-q3-example-b",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-example-b-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Positive",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p33-q3-example-c",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p33-q3-example-c-text",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Negative",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "p33-q3-response-table",
+              "type": "table",
+              "widthMm": 75,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                10,
+                10
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 2,
+              "widths": [
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p33-q3-choice1-a",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p33-q3-choice1-b",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p33-q3-choice1-c",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ],
+                [
+                  {
+                    "id": "p33-q3-choice2-a",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p33-q3-choice2-b",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p33-q3-choice2-c",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Answers vary. The supplied signs $(+,+,-)$ are satisfied by $y=x^2+x-2$. Further examples are $(+,0,+)$ with $y=x^2+1$, and $(-,-,0)$ with $y=-x^2-x$. A choice $a=0$ cannot produce a parabola.",
+          "worked": "For the supplied row, choose $a=1$, $b=1$ and $c=-2$:\n$$\\begin{align*}y&=x^2+x-2\\\\y&=(x+2)(x-1)\\\\y&=\\left(x+\\frac12\\right)^2-\\frac94.\\end{align*}$$\nSketch an upward-opening parabola with $x$-intercepts $(-2,0)$ and $(1,0)$, $y$-intercept $(0,-2)$ and vertex $\\left(-\\frac12,-\\frac94\\right)$.\n\nFor a repeat, choose the signs Positive, Zero, Positive. The equation $y=x^2+1$ gives an upward-opening parabola with vertex $(0,1)$.\n\nFor another repeat, choose Negative, Negative, Zero:\n$$\\begin{align*}y&=-x^2-x\\\\y&=-x(x+1)\\\\y&=-\\left(x+\\frac12\\right)^2+\\frac14.\\end{align*}$$\nThis parabola opens downwards, crosses the $x$-axis at $(-1,0)$ and $(0,0)$, and has vertex $\\left(-\\frac12,\\frac14\\right)$.\n\nIf the friend chooses Zero for $a$, explain that no parabola is possible because the quadratic term disappears.",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q3-example-sketches",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 33, p33-q3 authored example sketches\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3,-12.4) rectangle (12.6,5);\n\\begin{scope}\n\\draw[->,line width=0.5pt] (-2.8,0)--(2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2.8)--(0,4.4) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-2.9:1.9,samples=80] plot (\\x,{(\\x)^2+\\x-2});\n\\node[anchor=north] at (-0.4,-3.3) {$y=x^2+x-2$};\n\\end{scope}\n\\begin{scope}[xshift=6.6cm]\n\\draw[->,line width=0.5pt] (-2.5,0)--(2.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,4.8) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-1.85:1.85,samples=80] plot (\\x,{(\\x)^2+1});\n\\node[anchor=north] at (0,-3.3) {$y=x^2+1$};\n\\end{scope}\n\\begin{scope}[xshift=3.3cm,yshift=-5.6cm]\n\\draw[->,line width=0.5pt] (-2.7,0)--(1.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2.8)--(0,1.3) node[right] {$y$};\n\\draw[<->,line width=0.8pt,domain=-2.15:1.15,samples=80] plot (\\x,{-(\\x)^2-\\x});\n\\node[anchor=north] at (-0.4,-3.3) {$y=-x^2-x$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 165,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Question 3",
+                "description": "Three possible completed sketches: one for the supplied sign row and two for repeated choices. Equation captions are below the graphs.",
+                "mathematics": "Graphs of x²+x−2, x²+1 and −x²−x.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 62
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-investigation": {}
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p33-investigation"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T04:37:00.236Z",
+  "updatedAt": "2026-11-13T04:37:00.237Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch03",
+    "blockId": "p33-investigation",
+    "sectionRole": "exercise"
+  }
+}
