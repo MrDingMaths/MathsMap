@@ -196,7 +196,8 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
   // sufficient. Shared prompts remain in contentVerificationKey dependencies.
   const boundParentPrompt=(node,block,ancestors)=>{
     const binding=block.sourceReview?.responses?.find(r=>r.targetId===node.id)?.promptBinding;
-    if(!binding?.reason?.trim()||!/^\/prompt(?:\/blocks\/\d+(?:\/inlines\/\d+)?)?$/.test(binding.path??''))return false;
+    // A task may sit in a list item of the shared stem (/prompt/blocks/N/items/K/blocks/J/...).
+    if(!binding?.reason?.trim()||!/^\/prompt(?:\/blocks\/\d+(?:\/items\/\d+\/blocks\/\d+)*(?:\/inlines\/\d+)?)?$/.test(binding.path??''))return false;
     const owner=ancestors.find(parent=>parent.id===binding.ownerId);
     const entry=entries.find(e=>e.id===binding.sourceInventoryId&&!e.exclusionReason);
     if(!owner||!entry||!['question','part','subpart'].includes(entry.kind))return false;
