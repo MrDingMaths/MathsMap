@@ -52,6 +52,14 @@ test('embedded supplied working retains its mapped content despite an explicit s
  }
 });
 
+test('a supplied answer the inventory left without a reason may be excluded by the author',()=>{
+ const i=inventory(),a=author();i.entries.push({id:'q-answer',kind:'answer',parentId:'q',description:'Supplied answer: True.'});
+ a.inventoryMappings.push({inventoryId:'q-answer',exclusionReason:'Teacher answer evidence only; exclude from student prompts.'});
+ assert.doesNotThrow(()=>validatePracticeAuthor(a,i));
+ // A question still cannot be excluded.
+ a.inventoryMappings[0].exclusionReason='Omit';assert.throws(()=>validatePracticeAuthor(a,i),/Practice content was excluded|cannot exclude/);
+});
+
 test('part-only continuation owns only the explicitly parented distinct local responses',()=>{
  const i={pageNumber:12,entries:[{id:'source-f',kind:'part',parentId:'whole-q',description:'Part f'},{id:'source-g',kind:'part',parentId:'whole-q',description:'Part g'}]};
  const a={sections:[{phase:'practice',blocks:[{id:'whole-q',type:'question',sourceRefs:[{pageNumber:11},{pageNumber:12}],content:{id:'whole-root',type:'question',prompt:'Evaluate:',children:[{id:'f',type:'part',prompt:'1+2'},{id:'g',type:'part',prompt:'3+4'}]}}]}],inventoryMappings:[{inventoryId:'source-f',targetId:'f'},{inventoryId:'source-g',targetId:'g'}],sharedContentContinuations:[{blockId:'whole-q',canonicalPageNumber:11,reason:'Printed parts f–g continue the earlier question.'}]};

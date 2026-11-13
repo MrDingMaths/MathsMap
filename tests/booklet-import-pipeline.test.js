@@ -345,6 +345,26 @@ test('failed assignment repair reuses successful work and publishes one validate
  assert.equal(result.ok,true,JSON.stringify(result));assert.equal(calls,2);
  const saved=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/page-001.author.json')));assert.equal(saved.sections.flatMap(s=>s.blocks).length,5);
 });
+test('assignment repair of a templated diagram expands the template before validation',async t=>{
+ const runDir=temp(t),inventory=inv(1,1);inventory.entries.push({id:'p1-line',kind:'diagram',parentId:'p1-q0',description:'Number line'});
+ fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));
+ for(const ext of ['png','txt'])fs.writeFileSync(path.join(runDir,'evidence/pages/page-001.'+ext),'Synthetic source');
+ fs.writeFileSync(path.join(runDir,'semantic-packets/page-001.inventory.json'),JSON.stringify(inventory));
+ const options={runDir,manifest:{...TRANSCRIPTION_DEFAULT,selectedPages:[1],pipelinePolicy:PIPELINE_POLICY,importPolicy:'import-v2',track:'booklet'},config:{title:'Algebra',authoringPreferences:'house-presets-v1',topics:[{id:'algebra',title:'Algebra',start:1,end:1}]},stage:'author',pages:[1]};
+ let calls=0;const runner=async({prompt})=>{calls++;const a=JSON.parse(prompt.slice(prompt.lastIndexOf('\n\n')+2)).assignment;const p=packet(1,a.inventory.filter(e=>e.kind==='question'),a.id);
+  p.sections[0].blocks[0].content.questionDiagrams=[{id:'line',role:'question',diagramTemplate:{family:'number-line',min:-1.4,max:1.4,step:1,labels:[{value:-1,tex:'-1'},{value:1,tex:'1'}],arrows:'none'}}];
+  p.inventoryMappings.push({inventoryId:'p1-line',targetId:'line'});return {result:{packets:[p]},metrics:{usage:{input_tokens:10,output_tokens:5}}};};
+ const failed=await runSemanticPackets(options,{runner,log:()=>{}});assert.equal(failed.ok,false);assert.match(JSON.stringify(failed),/whole intervals/);
+ const id=createAssignmentPlan([inventory]).assignments[0].id;
+ const context=attemptRepairContext(options,{page:1,assignmentId:id,fromAttempt:1,targets:[{targetId:'line',fields:['/diagramTemplate/min','/diagramTemplate/max']}]});
+ const record={context,patches:[{...context.targets[0],corrected:-1,reason:'Whole steps'},{...context.targets[1],corrected:1,reason:'Whole steps'}],review:{reviewer:'Regression fixture',note:'Synthetic exact-field repair',artifacts:[context.evidence[0]]}};
+ await repairAttempt({...options,attempt:2},record);
+ const result=await runSemanticPackets({...options,attempt:2,regenerationReason:'Assemble repaired assignment'},{runner:()=>assert.fail('No model retry expected'),log:()=>{}});
+ assert.equal(result.ok,true,JSON.stringify(result));assert.equal(calls,1);
+ const saved=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/page-001.author.json'),'utf8'));
+ const diagram=saved.sections[0].blocks[0].content.questionDiagrams[0];assert.equal(diagram.format,'tikz');assert.equal(diagram.diagramTemplate,undefined);
+});
+
 test('failed continuation repair retains configured question scope and cached unrelated assignments',async t=>{
  const runDir=temp(t);fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));
  const inventories=[1,2].map(page=>({pageNumber:page,inventoried:true,entries:[

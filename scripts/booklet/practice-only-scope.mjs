@@ -85,7 +85,7 @@ export function normalizePracticeInventory(inventory) {
     if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e)&&!omittedExampleReference(e)&&
       /\b(?:retain(?:ed)?|embedded|within|stem|parent|kept)\b/i.test(e.exclusionReason))canonical(EMBEDDED_RETENTION_REASON);
     if(['cover','footer'].includes(e.kind)&&e.exclusionReason&&!publisherFurniture(e.exclusionReason)&&
-      /running|header|page number|footer|furniture|pagination/i.test(e.exclusionReason))canonical(RUNNING_HEADER_REASON);
+      /running|header|page number|footer|furniture|pagination|source identity|heading metadata/i.test(e.exclusionReason))canonical(RUNNING_HEADER_REASON);
     if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&exerciseHeadingLike(e))
       canonical('Printed exercise boundary is retained in exercise identity and replaced by the house exercise heading.');
     if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&headingLike(e))canonical(TOPIC_HEADING_REASON);
@@ -120,7 +120,9 @@ export function validatePracticeAuthor(result,inventory,{continuations=[],ancest
   // Some preserved inventories put reference-only answer/footer notes inside
   // presentation. They may stay as provenance without entering student prompts;
   // this never permits excluding a practice question, part or diagram.
-  const referenceExclusions=new Set(inventory.entries.filter(e=>e.presentation?.exclusionReason?.trim()&&
+  // A supplied answer is reference evidence even when the inventory gave no reason
+  // (Mastering Adv 11 Ch 4 p13, 13 November 2026), so the author may exclude it.
+  const referenceExclusions=new Set(inventory.entries.filter(e=>e.kind==='answer'||e.presentation?.exclusionReason?.trim()&&
     (['answer','footer'].includes(e.kind)||e.kind==='cover'&&/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher/i.test(e.presentation.exclusionReason))).map(e=>e.id));
   const editableNodes=contentNodes(result);
   for(const m of result.inventoryMappings) {

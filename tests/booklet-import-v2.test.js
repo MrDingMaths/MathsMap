@@ -181,6 +181,8 @@ test('practice-only inventory normalises recognisable exclusion wording and chec
  // A heading that reads as an instruction, or carries no heading marker, is still a finding.
  assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Find the value',presentation:{headingRole:'band'}}]}),/exclude standalone/);
  assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Fractions'}]}),/exclude standalone/);
+ // A cover entry recording the source identity is book furniture too (Mastering Adv 11 Ch 4 p2).
+ assert.equal(normalizePracticeInventory({entries:[{id:'c',kind:'cover',exclusionReason:'Source identity and heading metadata; not a selectable question.'}]}).entries[0].exclusionReason,RUNNING_HEADER_REASON);
  // Printed exercise headings carry a digit, so they need their own rule (Mastering Adv 11 Ch 5).
  for(const [description,presentation] of [['Exercise 5C\nQuadrants and related angles',{role:'exercise-heading'}],['Exercise 5D — Trigonometric identities',{role:'exerciseHeading'}],['Exercise 5F\nSine rule and the area formula',{headingKind:'main topic band'}]]){
   const entry={id:'h',kind:'teaching',description,presentation};

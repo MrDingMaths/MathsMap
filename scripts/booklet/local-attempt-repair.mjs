@@ -205,7 +205,10 @@ export async function repairAttempt(options,record,{log=console.log}={}){
  const source=sourceAttempt(options,context),{packet}=source,result=bindRepairAssessment(applyAttemptPatches(packet,context,record.patches),record,{runDir:options.runDir});
  if(context.assignmentId){
   const {assignment,tasks,generation,root}=source;
-  const packets=generation.packets.map(p=>p.pageNumber===context.page?result:restorePacketRatings(structuredClone(p),{runDir:options.runDir,out:source.task.out}));
+  // Patches apply to the preserved model output; templated diagrams are then expanded
+  // as authoring expands them before validation and storage (13 November 2026).
+  const materialize=authorMaterializer(options.config);
+  const packets=generation.packets.map(p=>p.pageNumber===context.page?materialize(result):restorePacketRatings(materialize(structuredClone(p)),{runDir:options.runDir,out:source.task.out}));
   for(const p of packets){const task=tasks.find(t=>t.page===p.pageNumber);validateSemanticResult(p,{...task,inventory:{...task.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p.pageNumber)}});}
   const lock='assignment-'+assignment.id.slice(11).replace(/[0-9]/g,n=>String.fromCharCode(103+Number(n)));
   return withRunLock(options.runDir,lock,()=>{
