@@ -1,0 +1,315 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-26f76d30-fe2b-4aaa-86fa-008644e5fd40",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "sector-area-radians"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect unit-circle radii and the tangent ratio to two triangle areas, then translate strict containment of the triangle, sector and outer triangle into an inequality between functions. Earlier parts scaffold the area expressions, but the geometric comparison and its graphical interpretation require a non-trivial connection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T13:07:06.361Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6e74cf9dabd00513e47cb42b3e508fad86048bf792a0dd20181203ed816cdf42",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794575205299-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-p4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "[Important inequality for developing calculus of trigonometric functions]\n\nThe diagram below shows $\\theta$ radians on the unit circle, where $\\theta\\in\\left(0,\\frac{\\pi}{2}\\right)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-p4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 12 p12-p4-diagram\"}\n\\begin{tikzpicture}[x=4.1cm,y=4.1cm,every node/.style={font=\\normalsize,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (1,0);\n\\coordinate (P) at ({cos(50)},{sin(50)});\n\\coordinate (Q) at (1,{tan(50)});\n\\draw[black,line width=0.5pt,->] (-0.25,0)--(1.48,0) node[anchor=north,yshift=-0.50pt] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.23)--(0,1.38) node[anchor=east,xshift=-0.50pt] {$y$};\n\\draw[black,line width=0.8pt] (1,0) arc[start angle=0,end angle=90,radius=1];\n\\draw[black,line width=0.4pt,dashed] (O)--(Q);\n\\draw[black,line width=0.4pt,dashed] (P)--(R)--(Q);\n\\draw[black,line width=0.4pt] ($(R)!0.085!(O)$)--($(R)!0.085!(O)+(0,0.085)$)--($(R)+(0,0.085)$);\n\\draw[black,line width=0.4pt,->] (0:8mm) arc[start angle=0,end angle=45,radius=8mm];\n\\path (O)--(25:0.28) node {$\\theta$};\n\\fill[black] (P) circle[radius=1.2pt];\n\\fill[black] (Q) circle[radius=1.2pt];\n\\node[below left] at (O) {$O$};\n\\node[left] at (0,1) {$1$};\n\\node[anchor=south,yshift=3.50pt] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[below] at (R) {$Q'$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Shared diagram between the Problem 4 stem and part (a).",
+          "description": "Unshaded first-quadrant unit-circle construction. The axes have arrowheads; the arc joins the positive axis intercepts. A dashed ray passes from O through P to Q. Q lies vertically above Q′, and the chord PQ′ is dashed. The right-angle mark at Q′ belongs to OQ′Q. O is retained because it names the geometric centre used in every area comparison. The illustrative placement of P gives no additional numerical angle.",
+          "mathematics": "O=(0,0), Q′=(1,0), P=(cos θ,sin θ), Q=(1,tan θ), with 0<θ<π/2. OP=OQ′=1. O, P and Q are collinear; Q′Q is perpendicular to OQ′.",
+          "answerVisibility": "All source construction lines and labels are permanent givens; no area values or inequality answers are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-p4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the area of $\\triangle OPQ'=\\frac{1}{2}\\sin\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{\\triangle OPQ'}=\\frac{1}{2}(1)(1)\\sin\\theta=\\frac{1}{2}\\sin\\theta$.",
+          "worked": "The unit-circle radii give $OP=OQ'=1$, and the included angle is $\\theta$.\n\n$$\\begin{align*}A_{\\triangle OPQ'}&=\\frac{1}{2}\\,OP\\cdot OQ'\\sin\\theta\\\\A_{\\triangle OPQ'}&=\\frac{1}{2}(1)(1)\\sin\\theta\\\\A_{\\triangle OPQ'}&=\\frac{1}{2}\\sin\\theta.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p12-p4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area of $\\triangle OQQ'=\\frac{1}{2}\\tan\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q'Q=\\tan\\theta$, so $A_{\\triangle OQQ'}=\\frac{1}{2}(1)\\tan\\theta=\\frac{1}{2}\\tan\\theta$.",
+          "worked": "In the right triangle $OQQ'$, the adjacent side is $OQ'=1$.\n\n$$\\begin{align*}\\tan\\theta&=\\frac{Q'Q}{OQ'}\\\\\\tan\\theta&=\\frac{Q'Q}{1}\\\\Q'Q&=\\tan\\theta.\\end{align*}$$\n\n$$\\begin{align*}A_{\\triangle OQQ'}&=\\frac{1}{2}\\,OQ'\\cdot Q'Q\\\\A_{\\triangle OQQ'}&=\\frac{1}{2}(1)\\tan\\theta\\\\A_{\\triangle OQQ'}&=\\frac{1}{2}\\tan\\theta.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p12-p4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By finding the area of sector $OPQ'$ and comparing it to the areas from parts (a) and (b), show that for $\\theta\\in\\left(0,\\frac{\\pi}{2}\\right)$,\n\n$$\\sin\\theta<\\theta<\\tan\\theta.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A_{\\text{sector }OPQ'}=\\frac{\\theta}{2}$. The inner triangle, sector and outer triangle have strictly increasing areas, so $\\frac{1}{2}\\sin\\theta<\\frac{\\theta}{2}<\\frac{1}{2}\\tan\\theta$. Hence $\\sin\\theta<\\theta<\\tan\\theta$.",
+          "worked": "The sector has radius $1$ and angle $\\theta$ radians.\n\n$$\\begin{align*}A_{\\text{sector }OPQ'}&=\\frac{1}{2}r^2\\theta\\\\A_{\\text{sector }OPQ'}&=\\frac{1}{2}(1)^2\\theta\\\\A_{\\text{sector }OPQ'}&=\\frac{\\theta}{2}.\\end{align*}$$\n\nFor $0<\\theta<\\frac{\\pi}{2}$, triangle $OPQ'$ lies inside the sector, and the sector lies inside triangle $OQQ'$. Each successive region includes a nonzero additional area. Therefore\n\n$$A_{\\triangle OPQ'}<A_{\\text{sector }OPQ'}<A_{\\triangle OQQ'}.$$\n\nSubstituting the three areas gives\n\n$$\\frac{1}{2}\\sin\\theta<\\frac{\\theta}{2}<\\frac{1}{2}\\tan\\theta.$$\n\nMultiplying throughout by $2$ gives\n\n$$\\sin\\theta<\\theta<\\tan\\theta.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p12-p4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use graphing software in radian mode to sketch $y=\\sin x$, $y=x$, and $y=\\tan x$ for $0<x<\\frac{\\pi}{2}$, and verify the inequality in part (c).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph of $y=\\sin x$ lies below $y=x$, which lies below $y=\\tan x$, throughout $0<x<\\frac{\\pi}{2}$. Thus $\\sin x<x<\\tan x$ on this interval.",
+          "worked": "Plot the three functions in radian mode over $0<x<\\frac{\\pi}{2}$. The tangent curve rises without bound as $x$ approaches $\\frac{\\pi}{2}$ from the left.\n\nThe sine curve is below the line $y=x$, and the tangent curve is above it throughout the interval. This graphically verifies\n\n$$\\sin x<x<\\tan x\\qquad\\left(0<x<\\frac{\\pi}{2}\\right).$$\n\nThe curves meet at $x=0$, which is excluded from the interval; $\\tan x$ is undefined at $x=\\frac{\\pi}{2}$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-p4-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sineBlue\",\"hex\":\"268CFF\",\"reason\":\"Identifies the sine curve and its matching label.\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"Identifies the tangent curve and its matching label.\"}],\"reference\":\"source page 12 p12-p4-d authored solution graph\"}\n\\begin{tikzpicture}[x=3.5cm,y=1.15cm,every node/.style={font=\\normalsize,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sineBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,->] (-0.06,0)--(1.93,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.15)--(0,4.65) node[above] {$y$};\n\\draw[black,line width=0.4pt,dashed] ({pi/2},0)--({pi/2},4.35);\n\\draw[black,line width=0.4pt] ({pi/2},0.07)--({pi/2},-0.07) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac{\\pi}{2}$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.025,1)--(0.025,1);\n\\node[left] at (-0.025,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[sineBlue,line width=0.8pt] plot[domain=0:1.570796,samples=100] (\\x,{sin(\\x r)});\n\\draw[black,line width=0.8pt,dashed] (0,0)--({pi/2},{pi/2});\n\\draw[tangentRed,line width=0.8pt] plot[domain=0:1.337053,samples=120] (\\x,{tan(\\x r)});\n\\node[text=sineBlue,anchor=west] at (1.65,0.92) {$y=\\sin x$};\n\\node[anchor=west] at (1.65,1.75) {$y=x$};\n\\node[text=tangentRed,anchor=east] at (1.29,4.2) {$y=\\tan x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Part (d), requested graphical verification.",
+                "description": "Complete authored comparison graph, with sine blue, identity black dashed, and tangent red. A dashed vertical asymptote marks x=π/2. The view shows the lower portions of all three curves together; tangent continues beyond the displayed vertical range. Equation labels are separated from curves and axes. The deliberate 100 mm answer width preserves label legibility.",
+                "mathematics": "Equation-driven plots of sin x, x and tan x in radians on 0<x<π/2. Endpoints are shown only to indicate limiting behaviour and are excluded from the verified strict inequality.",
+                "answerVisibility": "Solution-only graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-p4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-p4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-p4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-p4-root/label",
+                  "type": "item",
+                  "ref": "p12-p4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p12-p4-root/prompt",
+                  "type": "item",
+                  "ref": "p12-p4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-p4-diagram",
+                  "type": "item",
+                  "ref": "p12-p4-diagram",
+                  "title": "Diagram",
+                  "width": 67.5
+                },
+                {
+                  "id": "p12-p4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p12-p4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-p4-a/label",
+                          "type": "item",
+                          "ref": "p12-p4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p12-p4-a/prompt",
+                          "type": "item",
+                          "ref": "p12-p4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-p4-a/space",
+                          "type": "item",
+                          "ref": "p12-p4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1.5
+                    },
+                    {
+                      "id": "p12-p4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-p4-b/label",
+                          "type": "item",
+                          "ref": "p12-p4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p12-p4-b/prompt",
+                          "type": "item",
+                          "ref": "p12-p4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-p4-b/space",
+                          "type": "item",
+                          "ref": "p12-p4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1.5
+                    },
+                    {
+                      "id": "p12-p4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-p4-c/label",
+                          "type": "item",
+                          "ref": "p12-p4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p12-p4-c/prompt",
+                          "type": "item",
+                          "ref": "p12-p4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-p4-c/space",
+                          "type": "item",
+                          "ref": "p12-p4-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1.5
+                    },
+                    {
+                      "id": "p12-p4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-p4-d/label",
+                          "type": "item",
+                          "ref": "p12-p4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p12-p4-d/prompt",
+                          "type": "item",
+                          "ref": "p12-p4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-p4-d/space",
+                          "type": "item",
+                          "ref": "p12-p4-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1.5
+                    }
+                  ],
+                  "gap": 1.5
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1.5
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:22:55.499Z",
+  "updatedAt": "2026-11-13T14:22:55.499Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p12-p4",
+    "sectionRole": "exercise"
+  }
+}

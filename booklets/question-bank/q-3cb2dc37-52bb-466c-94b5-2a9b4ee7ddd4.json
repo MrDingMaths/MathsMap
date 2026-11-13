@@ -1,0 +1,157 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3cb2dc37-52bb-466c-94b5-2a9b4ee7ddd4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "radian-definition",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Connect right-triangle sine and tangent ratios with unit-circle arc length, interpret how the three lengths compare for a small angle, and use the scaffolded comparison to infer both trigonometric ratios are approximately 1.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T09:44:11.243Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8ee57d2ff0a47d2d9e3e9a98fabc2bef33d4ec7c3d6ca3fa6f00601bee416a40",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794562977132-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p5-p3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "[Small angle approximation]\n\nThe diagram below shows $\\theta$ radians on the unit circle, where $\\theta\\in\\left(0,\\frac{\\pi}{2}\\right)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p5-p3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"arcBlue\",\"hex\":\"268CFF\",\"reason\":\"unit-circle arc compared with the perpendicular lengths\"},{\"name\":\"dropGreen\",\"hex\":\"4F9B63\",\"reason\":\"identifies the perpendicular PP prime\"},{\"name\":\"dropRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the perpendicular QQ prime\"}],\"reference\":\"source page 5 p5-p3-diagram\"}\n\\begin{tikzpicture}[x=42mm,y=42mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{arcBlue}{HTML}{268CFF}\n\\definecolor{dropGreen}{HTML}{4F9B63}\n\\definecolor{dropRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at ({cos(50)},{sin(50)});\n\\coordinate (F) at ({cos(50)},0);\n\\coordinate (T) at (1,0);\n\\coordinate (Q) at (1,{tan(50)});\n\\draw[black,line width=0.5pt,->] (-0.22,0)--(1.48,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.22)--(0,1.34) node[anchor=east,xshift=-0.50pt] {$y$};\n\\draw[black,line width=0.8pt] (0,1) arc[start angle=90,end angle=50,radius=1];\n\\draw[arcBlue,line width=0.8pt] (P) arc[start angle=50,end angle=0,radius=1];\n\\draw[black,dashed,line width=0.4pt] (O)--(Q);\n\\draw[dropGreen,dashed,line width=0.4pt] (P)--(F);\n\\draw[dropRed,dashed,line width=0.4pt] (Q)--(T);\n\\draw[black,line width=0.4pt] ($(F)+(-0.055,0)$)--($(F)+(-0.055,0.055)$)--($(F)+(0,0.055)$);\n\\draw[black,line width=0.4pt] ($(T)+(-0.055,0)$)--($(T)+(-0.055,0.055)$)--($(T)+(0,0.055)$);\n\\draw[black,line width=0.4pt,->] (0.19,0) arc[start angle=0,end angle=50,radius=0.19];\n\\node[black] at ({0.31*cos(25)},{0.31*sin(25)}) {$\\theta$};\n\\fill[black] (P) circle[radius=1.3pt];\n\\fill[black] (Q) circle[radius=1.3pt];\n\\node[black,anchor=south,yshift=3.50pt] at (P) {$P$};\n\\node[black,above] at (Q) {$Q$};\n\\node[dropGreen,below] at (F) {$P'$};\n\\node[dropRed,below] at (T) {$Q'$};\n\\node[black,left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[black,below left] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 82,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Problem 3, shared unit-circle diagram",
+          "description": "First-quadrant unit-circle arc with P on the circle, Q on the extension of OP directly above Q′=(1,0), and perpendicular feet P′ and Q′. The highlighted arc runs from P to Q′. The illustrative 50-degree construction parameter is unprinted and does not constrain the variable angle.",
+          "mathematics": "OP=OQ′=1; O,P,Q are collinear; PP′ and QQ′ are perpendicular to the x-axis; 0<theta<pi/2. The blue arc PQ′ has length theta.",
+          "answerVisibility": "All labels, guides and coloured distinctions are permanent question givens; no derived lengths or answers are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p5-p3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $PP'=\\sin\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin\\theta=\\frac{PP'}{OP}=PP'$, since $OP=1$.",
+          "worked": "In right triangle $OPP'$, $OP=1$.\n$$\\begin{align*}\\sin\\theta&=\\frac{PP'}{OP}\\\\\\sin\\theta&=\\frac{PP'}{1}\\\\PP'&=\\sin\\theta\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p5-p3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $QQ'=\\tan\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\theta=\\frac{QQ'}{OQ'}=QQ'$, since $OQ'=1$.",
+          "worked": "In right triangle $OQQ'$, $OQ'=1$.\n$$\\begin{align*}\\tan\\theta&=\\frac{QQ'}{OQ'}\\\\\\tan\\theta&=\\frac{QQ'}{1}\\\\QQ'&=\\tan\\theta\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p5-p3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Briefly explain why the arc length $\\widehat{PQ'}=\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "On the unit circle, arc length $=r\\theta=1\\times\\theta=\\theta$.",
+          "worked": "The arc subtends $\\theta$ radians at the centre. By the definition of radian measure,\n$$\\begin{align*}\\text{arc length }\\widehat{PQ'}&=r\\theta\\\\\\text{arc length }\\widehat{PQ'}&=1\\times\\theta=\\theta.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p5-p3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What can we say about the lengths $PP'$, $QQ'$ and the arc $\\widehat{PQ'}$ in comparison to each other, if $\\theta$ is a small angle?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "They are all approximately equal.",
+          "worked": "For a small positive angle, the two perpendicular lengths and the intervening arc length are approximately equal:\n$$PP'\\approx QQ'\\approx\\text{arc length }\\widehat{PQ'}.$$\nThus $\\sin\\theta\\approx\\tan\\theta\\approx\\theta$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p5-p3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence find the approximate value of $\\frac{\\sin\\theta}{\\theta}$ and $\\frac{\\tan\\theta}{\\theta}$ if $\\theta\\approx0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{\\sin\\theta}{\\theta}\\approx1$ and $\\frac{\\tan\\theta}{\\theta}\\approx1$.",
+          "worked": "For small positive $\\theta$ measured in radians, $\\sin\\theta\\approx\\theta$ and $\\tan\\theta\\approx\\theta$. Since $\\theta\\ne0$,\n$$\\begin{align*}\\frac{\\sin\\theta}{\\theta}&\\approx\\frac{\\theta}{\\theta}=1\\\\\\frac{\\tan\\theta}{\\theta}&\\approx\\frac{\\theta}{\\theta}=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-p3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:22:47.904Z",
+  "updatedAt": "2026-11-13T14:22:47.905Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p5-p3",
+    "sectionRole": "exercise"
+  }
+}

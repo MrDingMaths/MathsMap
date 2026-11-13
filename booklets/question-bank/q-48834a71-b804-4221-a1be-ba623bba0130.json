@@ -1,0 +1,203 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-48834a71-b804-4221-a1be-ba623bba0130",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "sector-area-radians"
+    ],
+    "reasoningScore": 60,
+    "difficulty": "Mastery",
+    "difficultyReason": "Identify the opposite vertices as arc centres, infer the π/3 sector angles, and construct a triangle-plus-three-segments decomposition with correct overlap subtraction to prove the exact area formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T13:40:12.535Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bbff3850ee728d1f917e7620db26b849cbbc9c2e90f6758f181334588c933502",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794577190551-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p21-q19-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "[Reuleaux triangle]",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p21-q19-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The diagram below shows a ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Reuleaux triangle",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ", which is formed by obtaining an equilateral triangle of side length ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and forming circular arcs along each side of the triangle.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q19-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q19-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (2,{2*sqrt(3)});\n\\draw (A)--(B)--(C)--cycle;\n\\draw (B) arc[start angle=240,end angle=300,radius=4];\n\\draw (C) arc[start angle=0,end angle=60,radius=4];\n\\draw (A) arc[start angle=120,end angle=180,radius=4];\n\\path (A)--(B) node[midway,left] {$r$};\n\\path (A)--(C) node[midway,right] {$r$};\n\\path (B)--(C) node[midway,below] {$r$};\n\\fill (A) circle[radius=1.4pt];\n\\fill (B) circle[radius=1.4pt];\n\\fill (C) circle[radius=1.4pt];\n\\node[above] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 62,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 19: Reuleaux triangle",
+          "description": "Equilateral triangle ABC with A above horizontal BC, filled vertex markers, external vertex labels and all three straight sides labelled r. Three outward circular arcs form the boundary, each centred at the opposite vertex.",
+          "mathematics": "Every arc has radius r and subtends pi/3 at its centre. The internal equilateral triangle remains visible.",
+          "answerVisibility": "Source geometry and side labels only; no area decomposition or answer annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q19-response",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p21-q19-response-opening",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that the area of the Reuleaux triangle is",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p21-q19-response-display",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 1,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\frac{1}{2}(\\pi-\\sqrt{3})r^2.",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\frac{1}{2}(\\pi-\\sqrt{3})r^2$.\n\nAdd three $\\frac{\\pi}{3}$ sectors and subtract twice the equilateral triangle's area.",
+          "worked": "Each circular segment is a sector of angle $\\frac{\\pi}{3}$ minus the equilateral triangle. The Reuleaux triangle consists of that triangle and three such segments.\n$$\\begin{align*}\nA_{\\triangle}&=\\frac{1}{2}r^2\\sin\\frac{\\pi}{3}\\\\\nA_{\\triangle}&=\\frac{\\sqrt{3}}{4}r^2,\\\\\nA_{\\text{sector}}&=\\frac{1}{2}r^2\\times\\frac{\\pi}{3}\\\\\nA_{\\text{sector}}&=\\frac{\\pi}{6}r^2.\n\\end{align*}$$\nThus\n$$\\begin{align*}\nA&=A_{\\triangle}+3(A_{\\text{sector}}-A_{\\triangle})\\\\\nA&=3A_{\\text{sector}}-2A_{\\triangle}\\\\\nA&=3\\times\\frac{\\pi}{6}r^2-2\\times\\frac{\\sqrt{3}}{4}r^2\\\\\nA&=\\frac{1}{2}(\\pi-\\sqrt{3})r^2.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "worked": {
+        "p21-q19-response": ""
+      },
+      "short": {
+        "p21-q19-response": ""
+      }
+    },
+    "ownerId": "p21-q19",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:23:13.586Z",
+  "updatedAt": "2026-11-13T14:23:13.586Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p21-q19",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6e82737d-3668-4639-aaca-8faf1c093563",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Recover the central angle from arc length, calculate sector and triangle areas, then recognise and subtract those regions to obtain the shaded segment; the preceding parts scaffold the final connection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T09:44:47.380Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a87f9bd13fcdc2ab25dd8e7ad867e760d08fa6423b8d4d81d91f790895d8365b",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794563036437-8/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q12-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram below shows an arc $PQ$ of length $40$ cm, subtended by some angle in a circle with radius $70$ cm. Find",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p8-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"segmentFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the minor segment requested as the shaded area\"}],\"reference\":\"source page 8 p8-q12-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{segmentFill}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (230:2.2);\n\\coordinate (Q) at (310:2.2);\n\\path[fill=segmentFill,draw=none] (P) arc[start angle=230,end angle=310,radius=2.2] -- cycle;\n\\draw (O) circle[radius=2.2];\n\\draw (P)--(O)--(Q) (P)--(Q);\n\\coordinate (MP) at ($(O)!0.5!(P)$);\n\\coordinate (MQ) at ($(O)!0.5!(Q)$);\n\\draw[line width=0.4pt] ($(MP)!1mm!90:(P)$)--($(MP)!1mm!-90:(P)$);\n\\draw[line width=0.4pt] ($(MQ)!1mm!90:(Q)$)--($(MQ)!1mm!-90:(Q)$);\n\\path (O)--(P) node[midway,above left] {$70\\text{ cm}$};\n\\node[above] at (O) {$O$};\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[below] at (270:2.2) {$40\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 12 diagram below the stem",
+          "description": "Schematic circle with centre O, lower horizontal chord PQ, two single-ticked radii and the 40 cm label beneath the minor arc. Light blue identifies the requested minor segment; no angle value is supplied in the diagram.",
+          "mathematics": "OP = OQ = 70 cm; the minor arc PQ has length 40 cm. The drawing is schematic and its pictured central angle is not a numerical given.",
+          "answerVisibility": "Givens only; no calculated angle, area or chord length."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p9-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\angle POQ$, in radians.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{4}{7}$ radians.",
+          "worked": "$$\\begin{align*}l&=r\\theta\\\\40&=70\\theta\\\\\\theta&=\\frac{40}{70}\\\\\\theta&=\\frac{4}{7}\\text{ radians}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p9-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the area of sector $POQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1400\\text{ cm}^2$.",
+          "worked": "$$\\begin{align*}A_{\\text{sector}}&=\\frac{1}{2}r^2\\theta\\\\A_{\\text{sector}}&=\\frac{1}{2}(70)^2\\left(\\frac{4}{7}\\right)\\\\A_{\\text{sector}}&=1400\\text{ cm}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p9-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the area of $\\triangle POQ$, to the nearest $\\text{cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1325\\text{ cm}^2$.",
+          "worked": "$$\\begin{align*}A_{\\triangle POQ}&=\\frac{1}{2}r^2\\sin\\theta\\\\A_{\\triangle POQ}&=\\frac{1}{2}(70)^2\\sin\\left(\\frac{4}{7}\\right)\\\\A_{\\triangle POQ}&=2450\\sin\\left(\\frac{4}{7}\\right)\\\\A_{\\triangle POQ}&\\approx1325\\text{ cm}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p9-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "the shaded area correct to the nearest $\\text{cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$75\\text{ cm}^2$.",
+          "worked": "The shaded segment is the sector less the triangle. Use the unrounded triangle area.\n\n$$\\begin{align*}A_{\\text{segment}}&=A_{\\text{sector}}-A_{\\triangle POQ}\\\\A_{\\text{segment}}&=1400-2450\\sin\\left(\\frac{4}{7}\\right)\\\\A_{\\text{segment}}&\\approx75\\text{ cm}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:22:52.715Z",
+  "updatedAt": "2026-11-13T14:22:52.715Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p8-q12",
+    "sectionRole": "exercise"
+  }
+}

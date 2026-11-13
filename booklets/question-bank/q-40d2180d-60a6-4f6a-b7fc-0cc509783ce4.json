@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-40d2180d-60a6-4f6a-b7fc-0cc509783ce4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the explicitly requested cosine rule to the radius–chord triangle, then interpret road shortening as arc length minus chord length and retain the unrounded angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T09:44:59.557Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8fc5667239e3e3dffdd1d1b32cbb9b079a1ccf7ffba999bd4bd371128121fa77",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794563051453-9/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q15-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A straight road was constructed to cut a dangerous bend on a country road. It was found that the bend was part of an arc of radius $180$ metres and the straight road was $240$ metres long.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q15-diagram\"}\n\\begin{tikzpicture}[x=16mm,y=16mm,line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at ({-4/3},{2*sqrt(5)/3});\n\\coordinate (R) at ({4/3},{2*sqrt(5)/3});\n\\pgfmathsetmacro{\\startangle}{acos(2/3)}\n\\pgfmathsetmacro{\\endangle}{180-\\startangle}\n\\draw[dashed] (R) arc[start angle=\\startangle,end angle=\\endangle,radius=2];\n\\draw (L)--(R) node[midway,below] {$240\\text{ m}$};\n\\draw[dashed] (L)--(O)--(R);\n\\coordinate (ML) at ($(O)!0.5!(L)$);\n\\coordinate (MR) at ($(O)!0.5!(R)$);\n\\draw[line width=0.4pt] ($(ML)!1mm!90:(L)$)--($(ML)!1mm!-90:(L)$);\n\\draw[line width=0.4pt] ($(MR)!1mm!90:(R)$)--($(MR)!1mm!-90:(R)$);\n\\path (O)--(L) node[midway,left=2mm] {$180\\text{ m}$};\n\\path (O)--(R) node[midway,right=2mm] {$180\\text{ m}$};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=R--O--L};\n\\node[above] at (0,0.48) {$\\theta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 88,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 15 continuation diagram above part (a)",
+          "description": "Dashed upper circular arc, solid horizontal chord labelled 240 m, and two dashed radii from the centre below, each labelled 180 m with matching single ticks. A central angle mark is labelled θ. Ordinary source blue and grey strokes are rendered black under house style; solid/dashed distinctions remain.",
+          "mathematics": "Both radii are 180 m and the chord is 240 m. The symmetric coordinate construction has chord-to-radius ratio 4:3 and uses the circular minor arc joining the chord endpoints.",
+          "answerVisibility": "No calculated angle or road-length reduction displayed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the cosine rule to find the size of $\\theta$, in radians, correct to two decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1.46$ radians.",
+          "worked": "$$\\begin{align*}240^2&=180^2+180^2-2(180)(180)\\cos\\theta\\\\\\cos\\theta&=\\frac{180^2+180^2-240^2}{2(180)(180)}\\\\\\cos\\theta&=\\frac{1}{9}\\\\\\theta&=\\cos^{-1}\\left(\\frac{1}{9}\\right)\\\\\\theta&\\approx1.46\\text{ radians}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p10-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the distance by which the old road was shortened, correct to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$23\\text{ m}$.",
+          "worked": "Use the unrounded angle from part (a). The old road is the arc and the new road is the chord.\n\n$$\\begin{align*}l_{\\text{old}}&=r\\theta\\\\l_{\\text{old}}&=180\\cos^{-1}\\left(\\frac{1}{9}\\right)\\text{ m}\\\\d_{\\text{shortened}}&=l_{\\text{old}}-240\\\\d_{\\text{shortened}}&=180\\cos^{-1}\\left(\\frac{1}{9}\\right)-240\\\\d_{\\text{shortened}}&\\approx23\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:22:53.771Z",
+  "updatedAt": "2026-11-13T14:22:53.771Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p9-q15",
+    "sectionRole": "exercise"
+  }
+}

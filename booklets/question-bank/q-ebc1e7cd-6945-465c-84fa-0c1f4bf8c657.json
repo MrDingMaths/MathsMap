@@ -1,0 +1,458 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ebc1e7cd-6945-465c-84fa-0c1f4bf8c657",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied hints to connect sector radius with cone slant height and sector arc with base circumference, then use Pythagoras and rearrange l=rθ. The parts explicitly scaffold these representation changes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T09:44:59.557Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "644928c7cf1d244dc6eeef52d20b702980d3ceb9fe34fa635c68541b172c79b9",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794563051453-9/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-p1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The cone below is made from a sector with radius $r$ and angle $\\theta$ by fastening the two straight-line edges together.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p11-p1-cone-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11, p11-p1-cone\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (C) at (0,0);\\coordinate (V) at (0,3);\n\\pgfmathsetmacro{\\tangentangle}{asin(0.25/3)}\n\\coordinate (L) at ({-1.45*cos(\\tangentangle)},{0.25*sin(\\tangentangle)});\n\\coordinate (R) at ({1.45*cos(\\tangentangle)},{0.25*sin(\\tangentangle)});\n\\draw (L)--(V)--(R);\n\\draw[dashed,line width=0.4pt] (1.45,0) arc[start angle=0,end angle=180,x radius=1.45,y radius=0.25];\n\\draw (-1.45,0) arc[start angle=180,end angle=360,x radius=1.45,y radius=0.25];\n\\draw[dashed,line width=0.4pt] (V)--(C) ;\n\\draw[dashed,line width=0.4pt] (-1.45,0)--(1.45,0);\n\\draw[line width=0.4pt] (0,0.14)--(0.14,0.14)--(0.14,0);\n\\path (V)--(R) node[midway,right=3pt] {$x$};\n\\node[below=2pt] at (0,-0.25) {$12\\text{ cm}$};\n\\node[anchor=east] at (-0.05,0.8) {$8\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Problem 1 paired cone and sector figures",
+          "description": "Right cone: apex above an elliptical base, dashed height 8 cm with right-angle mark, dashed base diameter 12 cm, hidden rear rim dashed, slant height x.",
+          "mathematics": "The cone has height 8 cm and base diameter 12 cm. Its slant height x becomes the sector radius r. The retained sector has a reflex angle theta; the radial lengths are equal.",
+          "answerVisibility": "Only source givens are visible; calculated radius, slant height, arc length and angle are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p11-p1-sector-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 11, p11-p1-sector\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (S) at (0,0);\\coordinate (E) at (-70:1.65);\\coordinate (F) at (146:1.65);\n\\draw (S)--(E) arc[start angle=-70,end angle=146,radius=1.65]--cycle;\n\\draw[line width=0.4pt] ($(S)!0.53!(E)$) ++(20:0.065)--++(200:0.13);\n\\draw[line width=0.4pt] ($(S)!0.53!(F)$) ++(236:0.065)--++(56:0.13);\n\\path (S)--(E) node[midway,right=3pt] {$r\\text{ cm}$};\n\\draw[->,line width=0.4pt] (-70:0.43) arc[start angle=-70,end angle=146,radius=0.43];\n\\node at (38:0.24) {$\\theta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 11,
+          "sourceRegion": "Problem 1 paired cone and sector figures",
+          "description": "Major sector of radius r cm with reflex angle theta, the net of the cone curved surface; equal-length ticks on both radii.",
+          "mathematics": "The cone has height 8 cm and base diameter 12 cm. Its slant height x becomes the sector radius r. The retained sector has a reflex angle theta; the radial lengths are equal.",
+          "answerVisibility": "Only source givens are visible; calculated radius, slant height, arc length and angle are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p11-p1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the radius of the cone.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6\\text{ cm}$",
+          "worked": "$$\\begin{align*}R&=\\frac{12}{2}\\\\R&=6\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p11-p1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-p1-b-task",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hence, find the value of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "r",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-p1-b-hint-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: ",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "What does ",
+                  "marks": [],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "math",
+                  "latex": "r",
+                  "display": false,
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": " become on the cone, when the sector is folded?",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10\\text{ cm}$",
+          "worked": "The sector radius becomes the cone's slant height. By Pythagoras,\n$$\\begin{align*}r^2&=8^2+6^2\\\\r^2&=100\\\\r&=10\\text{ cm}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p11-p1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p11-p1-c-task",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find the arc length of the sector.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p11-p1-c-hint-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: ",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "What does the arc length become on the cone, when the sector is folded?",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$12\\pi\\text{ cm}$",
+          "worked": "The sector arc becomes the circumference of the cone's base.\n$$\\begin{align*}l&=2\\pi(6)\\\\l&=12\\pi\\text{ cm}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p11-p1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the sector angle $\\theta$, in radians.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{6\\pi}{5}\\text{ radians}$",
+          "worked": "$$\\begin{align*}l&=r\\theta\\\\12\\pi&=10\\theta\\\\\\theta&=\\frac{12\\pi}{10}\\\\\\theta&=\\frac{6\\pi}{5}\\text{ radians}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-p1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p11-p1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p11-p1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p11-p1-root/label",
+                  "type": "item",
+                  "ref": "p11-p1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p11-p1-root/prompt",
+                  "type": "item",
+                  "ref": "p11-p1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p11-p1-source-diagram-pair",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p11-p1-cone-diagram",
+                      "type": "item",
+                      "ref": "p11-p1-cone-diagram",
+                      "title": "Diagram"
+                    },
+                    {
+                      "id": "layout:p11-p1-sector-diagram",
+                      "type": "item",
+                      "ref": "p11-p1-sector-diagram",
+                      "title": "Diagram"
+                    }
+                  ],
+                  "gap": 2,
+                  "keepTogether": true
+                },
+                {
+                  "id": "p11-p1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p11-p1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-p1-a/label",
+                          "type": "item",
+                          "ref": "p11-p1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p11-p1-a/prompt",
+                          "type": "item",
+                          "ref": "p11-p1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-a/space",
+                          "type": "item",
+                          "ref": "p11-p1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p11-p1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-p1-b/label",
+                          "type": "item",
+                          "ref": "p11-p1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p11-p1-b/prompt#p11-p1-b-task",
+                          "type": "item",
+                          "ref": "p11-p1-b/prompt#p11-p1-b-task",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-b/prompt#p11-p1-b-hint-text",
+                          "type": "item",
+                          "ref": "p11-p1-b/prompt#p11-p1-b-hint-text",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-b/space",
+                          "type": "item",
+                          "ref": "p11-p1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p11-p1-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-p1-c/label",
+                          "type": "item",
+                          "ref": "p11-p1-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p11-p1-c/prompt#p11-p1-c-task",
+                          "type": "item",
+                          "ref": "p11-p1-c/prompt#p11-p1-c-task",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-c/prompt#p11-p1-c-hint-text",
+                          "type": "item",
+                          "ref": "p11-p1-c/prompt#p11-p1-c-hint-text",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-c/space",
+                          "type": "item",
+                          "ref": "p11-p1-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p11-p1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-p1-d/label",
+                          "type": "item",
+                          "ref": "p11-p1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p11-p1-d/prompt",
+                          "type": "item",
+                          "ref": "p11-p1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-p1-d/space",
+                          "type": "item",
+                          "ref": "p11-p1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:22:54.478Z",
+  "updatedAt": "2026-11-13T14:22:54.478Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p11-p1",
+    "sectionRole": "exercise"
+  }
+}

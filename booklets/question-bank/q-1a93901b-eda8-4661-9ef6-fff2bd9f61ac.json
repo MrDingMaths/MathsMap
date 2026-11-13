@@ -1,0 +1,103 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1a93901b-eda8-4661-9ef6-fff2bd9f61ac",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the sector arc to the cone's base circumference and the sector radius to its slant height, then obtain the perpendicular height using Pythagoras before calculating the exact volume.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T13:07:29.992Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f0e156d49631ef6bf5363ff9e47ecee68e3c9d03316735d18d44e8d0beca4bc1",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch06/lean-review/calls/content-1794575226510-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "The diagram below shows a sector subtended by an angle of $\\frac{2\\pi}{3}$ from a circle with radius $6$ cm.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q18-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate (O) at (3,3);\n\\coordinate (L) at ($(O)+(210:3)$);\n\\coordinate (R) at ($(O)+(330:3)$);\n\\draw (L)--(O)--(R);\n\\draw (L) arc[start angle=210,end angle=330,radius=3];\n\\path (O)--(L) node[midway,above left] {$6\\text{ cm}$} coordinate[midway] (ML);\n\\path (O)--(R) node[midway,above right] {$6\\text{ cm}$} coordinate[midway] (MR);\n\\draw[line width=0.4pt] ($(ML)!2pt!90:(L)$)--($(ML)!2pt!-90:(L)$);\n\\draw[line width=0.4pt] ($(MR)!2pt!90:(R)$)--($(MR)!2pt!-90:(R)$);\n\\pic[draw,line width=0.4pt,angle radius=7mm] {angle=L--O--R};\n\\node[anchor=north,yshift=-0.50pt] at ($(O)+(270:1.02)$) {$\\frac{2\\pi}{3}$};\n\\draw[-{Stealth[length=4mm,width=3mm]},line width=1.3pt] (6,2.05)--(7,2.05);\n\\coordinate (C) at (9.4,0.45);\n\\coordinate (T) at (9.4,4.45);\n\\pgfmathsetmacro{\\rx}{1.7}\n\\pgfmathsetmacro{\\ry}{0.3}\n\\pgfmathsetmacro{\\height}{4}\n\\pgfmathsetmacro{\\tangentAngle}{asin(\\ry/\\height)}\n\\coordinate (TR) at ($(C)+({\\rx*cos(\\tangentAngle)},{\\ry*sin(\\tangentAngle)})$);\n\\coordinate (TL) at ($(C)+({-\\rx*cos(\\tangentAngle)},{\\ry*sin(\\tangentAngle)})$);\n\\draw (TL)--(T)--(TR);\n\\draw[dashed,line width=0.4pt] (TR) arc[start angle=\\tangentAngle,end angle={180-\\tangentAngle},x radius=\\rx,y radius=\\ry];\n\\draw (TL) arc[start angle={180-\\tangentAngle},end angle={360+\\tangentAngle},x radius=\\rx,y radius=\\ry];\n\\draw[dashed,line width=0.4pt] (T)--(C) node[midway,right] {$h$};\n\\coordinate (E) at ($(C)+(\\rx,0)$);\n\\draw[dashed,line width=0.4pt] (C)--(E) node[midway,anchor=south,inner sep=0pt,yshift=1.5pt] {$r$};\n\\draw[line width=0.4pt] ($(C)+(0,0.16)$)--($(C)+(0.16,0.16)$)--($(C)+(0.16,0)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 145,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 18: paired sector-to-cone figures",
+          "description": "Sector on the left, transformation arrow in the centre and cone on the right. The sector retains both 6 cm labels, matching single ticks and its interior angle. The cone retains dashed height, radius and rear rim, with a right-angle marker.",
+          "mathematics": "A sector of radius 6 cm and angle 2pi/3 forms a cone whose slant height is 6 cm. Cone silhouette generators meet the projected base ellipse at calculated tangencies.",
+          "answerVisibility": "Only source givens and the unknown labels h and r are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q18-response",
+        "type": "part",
+        "label": "",
+        "prompt": "The straight edges of the sector are joined so that the sector forms a cone. Find the volume of the cone that it forms.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=\\frac{16\\pi\\sqrt{2}}{3}\\text{ cm}^3$.\n\nThe sector arc becomes the base circumference, and the sector radius becomes the slant height.",
+          "worked": "The sector arc becomes the circumference of the cone's base.\n$$\\begin{align*}\nl&=6\\times\\frac{2\\pi}{3}\\\\\nl&=4\\pi\\text{ cm}\\\\\n2\\pi r&=4\\pi\\\\\nr&=2\\text{ cm}.\n\\end{align*}$$\nThe slant height is $6$ cm, so Pythagoras gives\n$$\\begin{align*}\nh^2&=6^2-2^2\\\\\nh^2&=32\\\\\nh&=4\\sqrt{2}\\text{ cm}.\n\\end{align*}$$\nTherefore\n$$\\begin{align*}\nV&=\\frac{1}{3}\\pi r^2h\\\\\nV&=\\frac{1}{3}\\pi(2)^2(4\\sqrt{2})\\\\\nV&=\\frac{16\\pi\\sqrt{2}}{3}\\text{ cm}^3.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "worked": {
+        "p21-q18-response": ""
+      },
+      "short": {
+        "p21-q18-response": ""
+      }
+    },
+    "ownerId": "p21-q18",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T14:23:13.192Z",
+  "updatedAt": "2026-11-13T14:23:13.192Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch06",
+    "blockId": "p21-q18",
+    "sectionRole": "exercise"
+  }
+}
