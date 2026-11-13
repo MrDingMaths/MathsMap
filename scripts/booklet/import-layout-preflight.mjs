@@ -212,7 +212,9 @@ export function resolveQuestionReferences(input){
   if(finding.reviewed||followUpReference(project,finding))continue;
   const section=project.sections.find(s=>s.id===finding.sectionId),questions=(section?.blocks??[]).filter(b=>b.type==='question');
   const index=questions.findIndex(b=>b.id===finding.blockId),block=questions[index];if(!block)continue;
-  const earlier=questions.slice(0,index),targets=new Set(block.flow?.dependsOn??[]),rewrites=[];
+  // Only links to an earlier question of this exercise seed the targets; an author's label
+  // ("Question 13") or an unknown id is replaced by what the reference resolves to (Mastering Adv 11 Ch 4).
+  const earlier=questions.slice(0,index),targets=new Set((block.flow?.dependsOn??[]).filter(id=>earlier.some(b=>b.id===id))),rewrites=[];
   let resolved=finding.external.every(id=>earlier.some(b=>b.id===id));
   for(const ref of finding.references){
    if(!resolved)break;

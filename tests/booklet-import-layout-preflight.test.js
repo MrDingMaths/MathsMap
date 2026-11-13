@@ -99,6 +99,10 @@ test('question references to an earlier question of the exercise are linked, ren
  const doc={format:'maths-editor-document-v1',version:1,blocks:[{id:'para',type:'paragraph',inlines:[{type:'text',text:'Compare with Question 4.'}]}]};
  const p2={id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('e','8',doc)]}]};
  assert.equal(resolveQuestionReferences(p2).project.sections[0].blocks[1].content.prompt.blocks[0].inlines[0].text,'Compare with Question 1.');
+ // An author's label in flow.dependsOn ("Question 4") is replaced by the block the reference names (Mastering Adv 11 Ch 4).
+ const bogus={id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),{...q('g','5','Use your answer to Question 4.'),flow:{dependsOn:['Question 4']}}]}]};
+ const fixed=resolveQuestionReferences(bogus);
+ assert.deepEqual(fixed.project.sections[0].blocks[1].flow.dependsOn,['a']);assert.equal(fixed.changes.length,1);
  // A number that names another exercise is never linked to this one's question.
  for(const prompt of ['Repeat Question 4 of Exercise 5B.','Use your answer to 5B Question 4.','See Question 4(b) in Exercise 3A.'])
   assert.equal(resolveQuestionReferences({id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('f','9',prompt)]}]}).changes.length,0,prompt);
