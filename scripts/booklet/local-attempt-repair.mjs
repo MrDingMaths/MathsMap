@@ -157,6 +157,18 @@ export function attemptRepairContext(options,request){
  return {version:1,page,fromAttempt,...(assignment?{assignmentId:assignment.id}:{}),inputHash:task.inputHash,source,evidence,targets,
   instructions:'Read source images, independent inventory and taught methods. Return {context, patches:[{targetId,field,original,corrected,reason}],review:{reviewer,note,artifacts:[{path,hash}]}}. Patch every selected field only; preserve IDs and unrelated content. Full validation and publication checks still run. This context is not approval. Source corrections and ambiguous mathematics belong in the review register.'};
 }
+// Apply a repair's content patches to another page's copy of the same node, only where that copy
+// still holds the patched original. Packet-level patches (mappings) are page-specific and skipped.
+export function patchContinuationCopy(packet,patches=[]){
+ const copy=structuredClone(packet);
+ for(const patch of patches){
+  if(patch.targetId==='$packet')continue;
+  let node;try{node=targetNode(copy,patch.targetId,patch.field);}catch{continue;}
+  if(!node||!isDeepStrictEqual(exactField(node,patch.field),patch.original))continue;
+  const parts=pointerParts(patch.field),last=parts.pop();let parent=node;for(const part of parts)parent=parent[part];parent[last]=structuredClone(patch.corrected);
+ }
+ return copy;
+}
 export function applyAttemptPatches(packet,context,patches){
  if(!Array.isArray(patches)||patches.length!==context.targets.length)throw Error('Repair must address exactly the selected fields');
  const expected=new Map(context.targets.map(t=>[t.targetId+t.field,t])),seen=new Set(),result=structuredClone(packet),renames=new Map();
@@ -208,7 +220,11 @@ export async function repairAttempt(options,record,{log=console.log}={}){
   // Patches apply to the preserved model output; templated diagrams are then expanded
   // as authoring expands them before validation and storage (13 November 2026).
   const materialize=authorMaterializer(options.config);
-  const packets=generation.packets.map(p=>p.pageNumber===context.page?materialize(result):restorePacketRatings(materialize(structuredClone(p)),{runDir:options.runDir,out:source.task.out}));
+  // A question continued across pages appears in each page's packet; assembly requires the copies
+  // to agree. Apply the same exact patch to every other copy that still holds the original value
+  // (Mastering Adv 11 Ch 6 Q15; also the Ch 3 pilot's cross-page matching question).
+  const copyPatched=p=>patchContinuationCopy(p,record.patches);
+  const packets=generation.packets.map(p=>p.pageNumber===context.page?materialize(result):restorePacketRatings(materialize(copyPatched(p)),{runDir:options.runDir,out:source.task.out}));
   for(const p of packets){const task=tasks.find(t=>t.page===p.pageNumber);validateSemanticResult(p,{...task,inventory:{...task.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p.pageNumber)}});}
   const lock='assignment-'+assignment.id.slice(11).replace(/[0-9]/g,n=>String.fromCharCode(103+Number(n)));
   return withRunLock(options.runDir,lock,()=>{

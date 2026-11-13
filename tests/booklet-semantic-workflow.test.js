@@ -906,3 +906,20 @@ test('lean authoring receives current priorities after historical house defaults
  assert.match(priorities,/keep each prompt beside or immediately before its supplied working/);
  assert.match(priorities,/examples\[\]\.label alone is metadata and does not print/);
 });
+
+test('an assignment repair also patches the other page copy of a continued question',async()=>{
+ const {patchContinuationCopy}=await import('../scripts/booklet/local-attempt-repair.mjs');
+ const bad='\pgfmathsetmacro{a}{1}',good='\pgfmathsetmacro{\a}{1}';
+ const page=n=>({pageNumber:n,sections:[{id:'s'+n,phase:'practice',blocks:[{id:'q',type:'question',content:{id:'q-root',type:'question',prompt:'Stem',questionDiagrams:[{id:'d',format:'tikz',code:bad}]}}]}],inventoryMappings:[{inventoryId:'x'+n,targetId:'q-root'}]});
+ const patches=[{targetId:'d',field:'/code',original:bad,corrected:good,reason:'Macro backslash'},{targetId:'$packet',field:'/inventoryMappings',original:[],corrected:[],reason:'page-specific'}];
+ const other=page(10),patched=patchContinuationCopy(other,patches);
+ assert.equal(patched.sections[0].blocks[0].content.questionDiagrams[0].code,good);
+ assert.deepEqual(patched.inventoryMappings,other.inventoryMappings,'packet-level patches stay on their page');
+ assert.equal(other.sections[0].blocks[0].content.questionDiagrams[0].code,bad,'input is not mutated');
+ // A copy whose value already differs from the original is left alone.
+ const changed=page(10);changed.sections[0].blocks[0].content.questionDiagrams[0].code='other';
+ assert.equal(patchContinuationCopy(changed,patches).sections[0].blocks[0].content.questionDiagrams[0].code,'other');
+ // A page without the node is unchanged.
+ const unrelated={pageNumber:11,sections:[{id:'t',phase:'practice',blocks:[]}],inventoryMappings:[]};
+ assert.deepEqual(patchContinuationCopy(unrelated,patches),unrelated);
+});
