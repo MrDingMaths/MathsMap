@@ -1,0 +1,141 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4ce4e19e-486a-414e-b2bd-dbb1821878eb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "chain-rule",
+    "secondarySkillIds": [],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Use the derivative in the supplied product identity, infer the reciprocal's limiting behaviour, and relate that behaviour to the flattening graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:06:32.061Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "148527bf34295fd990feb0c20f439f06272b5b100bc52b032b50b76aaa39cb6f",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578738985-18/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q4-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Differentiate $y=\\sqrt{2x+1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=\\frac{1}{\\sqrt{2x+1}}$",
+          "worked": "$$\\begin{align*}y'&=\\frac12(2x+1)^{-\\frac12}\\times2\\\\y'&=\\frac{1}{\\sqrt{2x+1}}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p14-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $y\\times y'=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\times y'=\\sqrt{2x+1}\\times\\frac{1}{\\sqrt{2x+1}}=1$ for $x>-\\frac12$.",
+          "worked": "For $x>-\\frac12$, the derivative exists and $\\sqrt{2x+1}>0$. $$\\begin{align*}y\\times y'&=\\sqrt{2x+1}\\times\\frac{1}{\\sqrt{2x+1}}\\\\y\\times y'&=1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      },
+      {
+        "id": "p14-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What does this imply about the behaviour of $y'$ as $y$ gets large?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'\\to0$ as $y$ increases.",
+          "worked": "Since $y'=\\frac{1}{y}$ for $y>0$, the gradient decreases towards zero as $y$ increases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p14-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Verify this result by drawing a graph of $y=\\sqrt{2x+1}$ either by hand or using graphing software.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph rises from $\\left(-\\frac12,0\\right)$ through $(0,1)$ and becomes progressively flatter.",
+          "worked": "The graph starts at $\\left(-\\frac12,0\\right)$ and passes through $(0,1)$. It rises and becomes progressively flatter to the right, consistent with its positive gradient approaching zero.",
+          "solutionDiagrams": [
+            {
+              "id": "p14-answer-q4-d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"Distinguishes the function curve from the axes\"}],\"reference\":\"Teacher PDF p53, printed p347, p14-answer-q4-d-graph\"}\n\\begin{tikzpicture}[x=1.25cm,y=1.05cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-0.98,0)--(3.05,0) node[inner sep=2pt,anchor=north east,xshift=-1.41pt,yshift=-1.41pt] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.33)--(0,2.86) node[inner sep=3pt,anchor=east,xshift=-2.00pt] {$y$};\n\\draw[curveBlue,->,line width=0.8pt] plot[domain=0:2.62,samples=72,variable=\\t] ({((\\t)^2-1)/2},{\\t});\n\\node[black,below,inner sep=3pt] at (-0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{1}{2}$\\special{dvisvgm:raw </g>}};\n\\node[black,inner sep=3pt,anchor=east,xshift=-3.50pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 53,
+                "sourceRegion": "Teacher answer page 347, Exercise 7E Q4(d)",
+                "description": "A blue square-root curve starts on the negative x-axis, crosses the y-axis at 1 and rises with decreasing slope. The positive axes and the continuation of the curve have arrowheads. House blue identifies the curve and black identifies the axes and labels.",
+                "mathematics": "y=\\sqrt{2x+1} for x\\ge-\\frac12. Plot with parameter t=y, x=(t^2-1)/2, starting at t=0. Label the endpoint abscissa and y-intercept.",
+                "answerVisibility": "Solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:58.491Z",
+  "updatedAt": "2026-11-13T16:58:58.491Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p14-q4",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7d821bba-a913-4644-a8dc-7d3a88a44229",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "average-speed-distance-time",
+    "secondarySkillIds": [
+      "average-rate-of-change"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Students convert both speeds into vertical rises, choose a distance at the shared endpoint or an equivalent starting point, and construct a distance–time graph that satisfies both secant constraints.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:02:43.096Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "136a67e8c105dd6eefc96a0815660c278656f687d35f69e53b65a361d149e29b",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578517322-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p4-p3-response",
+    "type": "question",
+    "label": null,
+    "prompt": "The graph of a car’s distance–time relationship is missing, but you know that between 1 and 3 seconds, the average speed is $10\\text{ m/s}$, and between 3 and 5 seconds, it is $14\\text{ m/s}$. Construct a plausible distance–time graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "One possible graph is $d=t^2+6t$ for $0\\le t\\le5$, with $d$ in metres and $t$ in seconds.",
+      "worked": "One possible distance model is $d(t)=t^2+6t$, giving $d(1)=7$, $d(3)=27$ and $d(5)=55$ metres.\n\n$$\\begin{align*}\\text{Average speed on }[1,3]&=\\frac{27-7}{3-1}\\\\\\text{Average speed on }[1,3]&=10\\text{ m/s}\\\\\\text{Average speed on }[3,5]&=\\frac{55-27}{5-3}\\\\\\text{Average speed on }[3,5]&=14\\text{ m/s}\\end{align*}$$\n\nThe increasing curve shown satisfies both conditions. Other graphs with the same changes in distance over these intervals are possible.",
+      "solutionDiagrams": [
+        {
+          "id": "p4-p3-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 4, Problem 3, p4-p3-solution-graph\"}\n\\begin{tikzpicture}[x=1cm,y=0.075cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (0,0)--(6,0) node[below right] {$t$ (s)};\n\\draw[black,line width=0.5pt,->] (0,0)--(0,66) node[above right] {$d$ (m)};\n\\foreach \\t/\\d in {1/7,3/27,5/55}{\n\\draw[black,line width=0.4pt,dashed] (\\t,0)--(\\t,\\d)--(0,\\d);\n\\draw[black,line width=0.4pt] (\\t,0)--++(0,-1.1);\n\\node[below] at (\\t,-1.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0,\\d)--++(-0.08,0);\n\\node[left] at (-0.08,\\d) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\d$\\special{dvisvgm:raw </g>}};\n}\n\\draw[black,line width=0.8pt,domain=0:5,samples=101] plot (\\x,{(\\x)^2+6*(\\x)});\n\\foreach \\t/\\d in {1/7,3/27,5/55}{\\fill[black] (\\t,\\d) circle[radius=1.2pt];}\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 4,
+            "sourceRegion": "Problem 3",
+            "description": "Authored example graph, not a supplied student scaffold. An increasing parabola passes through (1,7), (3,27) and (5,55); dashed guides identify those coordinates.",
+            "mathematics": "d(t)=t^2+6t for 0<=t<=5; secant gradients are 10 and 14 m/s on the requested intervals.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 53
+  },
+  "presentation": {
+    "ownerId": "p4-p3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:37.183Z",
+  "updatedAt": "2026-11-13T16:58:37.183Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p4-p3",
+    "sectionRole": "exercise"
+  }
+}

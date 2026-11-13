@@ -1,0 +1,196 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c8f2ba78-b147-400c-95d8-152e85f9b8e0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "displacement-velocity-distinction",
+    "secondarySkillIds": [
+      "interpret-derivative-rate"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Match the velocity crests to positions on the displacement graph, then combine velocity signs, turning positions and speed changes to describe the repeating motion.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:15:28.449Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "36e9593db5d9e609046e8602fe39ca84a36cced244cc1a12c6515e89181b3b4a",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794579279346-50/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A particle moves in a straight line. The diagrams below are the displacement-time and velocity-time graphs of this particle during the first 9 seconds of its motion.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q11-displacement-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"displacement curve distinguished from axes and grid\"}],\"reference\":\"source page 42, p42-q11-displacement-graph\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\foreach \\gx in {0,1,...,9} {\\draw[gridGrey,line width=0.25pt] (\\gx,-2.8) -- (\\gx,2.8);}\n\\foreach \\gy in {-2.5,-2,-1.5,-1,-0.5,0,0.5,1,1.5,2,2.5} {\\draw[gridGrey,line width=0.25pt] (0,\\gy) -- (9,\\gy);}\n\\draw[black,line width=0.5pt,->] (-0.3,0) -- (9.32,0);\n\\draw[black,line width=0.5pt,->] (0,-2.8) -- (0,2.8);\n\\draw[seriesBlue,line width=0.8pt] plot[domain=0:9,samples=121] (\\x,{-1.5*cos(90*\\x)});\n\\foreach \\gx in {1,2,...,9} {\\node[anchor=north,inner sep=0pt] at (\\gx,-0.55) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\gx$\\special{dvisvgm:raw </g>}};}\n\\foreach \\gy in {-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5} {\\node[anchor=east,inner sep=0pt] at (-0.2,\\gy) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\gy$\\special{dvisvgm:raw </g>}};}\n\\node[anchor=south,inner sep=0pt] at (4.5,3.03) {Displacement in metres};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 11, upper graph",
+          "description": "Displacement in metres, above the velocity graph with matching time positions and horizontal scale. The blue curve uses the house graph palette.",
+          "mathematics": "Time runs from 0 to 9 seconds, with unit horizontal grid spacing and 0.5 m vertical grid spacing. The smooth curve has minima of −1.5 m at 0, 4 and 8 s, maxima of 1.5 m at 2 and 6 s, and zeros at 1, 3, 5, 7 and 9 s. The cosine expression in the drawing interpolates the source curve.",
+          "answerVisibility": "The supplied graph, grid, ticks and caption are visible in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p42-q11-velocity-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"velocity curve distinguished from axes and grid\"}],\"reference\":\"source page 42, p42-q11-velocity-graph\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\foreach \\gx in {0,1,...,9} {\\draw[gridGrey,line width=0.25pt] (\\gx,-2.8) -- (\\gx,2.8);}\n\\foreach \\gy in {-2.5,-2,-1.5,-1,-0.5,0,0.5,1,1.5,2,2.5} {\\draw[gridGrey,line width=0.25pt] (0,\\gy) -- (9,\\gy);}\n\\draw[black,line width=0.5pt,->] (-0.3,0) -- (9.32,0);\n\\draw[black,line width=0.5pt,->] (0,-2.8) -- (0,2.8);\n\\draw[seriesBlue,line width=0.8pt] plot[domain=0:9,samples=121] (\\x,{(3*pi/4)*sin(90*\\x)});\n\\foreach \\gx in {1,2,...,9} {\\node[anchor=north,inner sep=0pt] at (\\gx,-0.55) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\gx$\\special{dvisvgm:raw </g>}};}\n\\foreach \\gy in {-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5} {\\node[anchor=east,inner sep=0pt] at (-0.2,\\gy) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\gy$\\special{dvisvgm:raw </g>}};}\n\\node[anchor=south,inner sep=0pt] at (4.5,3.03) {Velocity in m/s};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 11, lower graph",
+          "description": "Velocity in m/s, below the displacement graph with matching time positions and horizontal scale. The blue curve uses the house graph palette.",
+          "mathematics": "Time runs from 0 to 9 seconds, with unit horizontal grid spacing and 0.5 m/s vertical grid spacing. Velocity is zero at 0, 2, 4, 6 and 8 s. Positive crests at 1, 5 and 9 s and negative troughs at 3 and 7 s have magnitudes of about 2.4 m/s. The sine expression in the drawing interpolates the source curve consistently with the displacement graph.",
+          "answerVisibility": "The supplied graph, grid, ticks and caption are visible in the question. The peaks have no numerical callouts."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the initial position and velocity of the particle?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=-1.5\\,\\text{m}$ and $v=0\\,\\text{m/s}$.",
+          "worked": "At $t=0$, the displacement graph reads $x=-1.5\\,\\text{m}$ and the velocity graph reads $v=0\\,\\text{m/s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p42-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "After how long does the particle first return to its starting point?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4 seconds.",
+          "worked": "The starting position is $x=-1.5\\,\\text{m}$. The displacement graph first reaches this value again at $t=4\\,\\text{s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p42-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "In what direction does the particle start to move?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "To the right.",
+          "worked": "Just after $t=0$, the velocity is positive, so the particle starts moving to the right.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p42-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "When does the particle change direction for the first time?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=2\\,\\text{s}$.",
+          "worked": "At $t=2\\,\\text{s}$, the velocity first changes sign, from positive to negative. The particle reverses from moving right to moving left.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p43-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Where does the particle reach its maximum velocity?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At the origin, $x=0\\,\\text{m}$.\n\nRead the displacement at the times of the positive velocity peaks.",
+          "worked": "The velocity graph reaches its highest value at $t=1$, $5$ and $9\\,\\text{s}$. The displacement graph reads $x=0\\,\\text{m}$ at each of those times.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 11
+      },
+      {
+        "id": "p43-q11-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Describe the motion of this particle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Starting from rest at $x=-1.5\\,\\text{m}$, the particle moves right and then left between $-1.5\\,\\text{m}$ and $1.5\\,\\text{m}$ in a repeating 4-second cycle. It reverses at $t=2$, $4$, $6$ and $8\\,\\text{s}$ and is moving right through the origin at $t=9\\,\\text{s}$.\n\nRead direction from the sign of velocity and position from the displacement graph.",
+          "worked": "The particle starts at rest at $x=-1.5\\,\\text{m}$. It moves right when the velocity is positive, from $0$ to $2\\,\\text{s}$, from $4$ to $6\\,\\text{s}$ and from $8$ to $9\\,\\text{s}$. It moves left when the velocity is negative, from $2$ to $4\\,\\text{s}$ and from $6$ to $8\\,\\text{s}$.\n\nThe particle stops momentarily and reverses at $x=1.5\\,\\text{m}$ at $t=2$ and $6\\,\\text{s}$, and at $x=-1.5\\,\\text{m}$ at $t=4$ and $8\\,\\text{s}$. Between successive stops it speeds up towards the origin and slows down as it approaches the next turning point. The motion shown repeats every $4\\,\\text{s}$. At $t=9\\,\\text{s}$ it is passing through the origin to the right.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:59:50.145Z",
+  "updatedAt": "2026-11-13T16:59:50.145Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p42-q11",
+    "sectionRole": "exercise"
+  }
+}

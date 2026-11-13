@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ec0b91dd-38b1-44dd-bad5-4edc162a299a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "gradient-secant-limit",
+    "secondarySkillIds": [
+      "derivative-first-principles",
+      "define-derivative-tangent"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the supplied quotient into a labelled secant diagram and explain how its gradient tends to the tangent gradient.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:52:47.637Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eed23525a5a651965042d4cad5dc03d8fc4c2aaa6b1da178d9af9cf921652341",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794585128879-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p48-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "[Revising the mechanics of the standard version]\n\nThe standard formula for differentiation by first principles is\n$$f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}.$$\nExplain, using a clear diagram, how this formula finds the gradient of the tangent to the curve $y=f(x)$ at $P(x,f(x))$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The secant through $P(x,f(x))$ and $Q(x+h,f(x+h))$ has gradient $\\frac{f(x+h)-f(x)}{h}$. As $h\\to0$, $Q$ approaches $P$ and, when $f$ is differentiable at $x$, the secant gradient approaches the tangent gradient $f'(x)$.",
+      "worked": "Choose a second point $Q(x+h,f(x+h))$ on the curve, with $h\\ne0$.\n$$\\begin{align*}m_{PQ}&=\\frac{f(x+h)-f(x)}{(x+h)-x}\\\\m_{PQ}&=\\frac{f(x+h)-f(x)}{h}.\\end{align*}$$\nThe horizontal change is $h$ and the vertical change is $f(x+h)-f(x)$. As $h\\to0$, $Q$ approaches $P$. When $f$ is differentiable at $x$, the secant approaches the tangent at $P$, so\n$$f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}.$$\nThe diagram illustrates a positive value of $h$.",
+      "solutionDiagrams": [
+        {
+          "id": "p48-q1-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 48 p48-q1-response-diagram\"}\n\\begin{tikzpicture}[x=1.7cm,y=1.3cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.35,-0.55) rectangle (5.5,4.2);\n\\draw[->,line width=0.5pt] (0,0)--(4.3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,3.8) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0.4:3.5,samples=70] plot (\\x,{0.2*(\\x)^2+0.6});\n\\coordinate (P) at (1.2,0.888);\n\\coordinate (Q) at (3,2.4);\n\\coordinate (R) at (3,0.888);\n\\draw[line width=0.8pt] (0.7,0.648)--(3.1,1.8) node[right] {tangent};\n\\draw[dashed,line width=0.8pt] (0.7,0.468)--(3.45,2.778) node[right] {secant};\n\\draw[densely dotted,line width=0.4pt] (P)--(1.2,0) node[below] {$x$};\n\\draw[densely dotted,line width=0.4pt] (Q)--(3,0) node[below] {$x+h$};\n\\draw[dashed,line width=0.4pt] (P)--(R) node[pos=0.68,below=5pt] {$h$};\n\\draw[dashed,line width=0.4pt] (R)--(Q) node[midway,anchor=north west,xshift=0.35pt,yshift=-0.35pt] {$f(x+h)-f(x)$};\n\\fill (P) circle (1.3pt) node[above left=2pt] {$P$};\n\\fill (Q) circle (1.3pt) node[above=3pt] {$Q$};\n\\node[anchor=west] at (0.32,3.55) {$P=(x,f(x)),\\quad Q=(x+h,f(x+h))$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 48,
+            "sourceRegion": "Question 1 requested response diagram",
+            "description": "Authored illustrative curve, tangent at P and dashed secant through P and Q; horizontal and vertical changes are labelled. Source supplies no diagram.",
+            "mathematics": "The secant gradient is the vertical change divided by h; its limit is the tangent gradient when the derivative exists. Curve coordinates are illustrative, not additional givens.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 56
+  },
+  "presentation": {
+    "ownerId": "p48-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T17:00:13.397Z",
+  "updatedAt": "2026-11-13T17:00:13.398Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p48-q1",
+    "sectionRole": "exercise"
+  }
+}

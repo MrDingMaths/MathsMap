@@ -1,0 +1,166 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-19e4eb23-abef-471f-98c9-6bd3946836ce",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "power-rule",
+      "fractional-indices"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Find the normal equation without separate slope and point prompts, transfer the line to the sketch, and use its axis intercepts as perpendicular side lengths for the triangle area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:05:09.224Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "90a290cd245bb5ca05393c2b11cc1fe2d978577226663d1b44baa8df87e8955f",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578651341-13/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $y=\\sqrt{x}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curve starts at $(0,0)$, increases and becomes less steep as $x$ increases.",
+          "worked": "Plot $(0,0)$, $(1,1)$ and $(4,2)$. Draw the increasing square-root curve through these points for $x\\ge 0$, becoming less steep to the right.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q9-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinct from the axes\"}],\"reference\":\"answer PDF page 52 Q9(a), p12-q9-a-graph\"}\n\\begin{tikzpicture}[x=8mm,y=12mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (-1.1,0)--(4.9,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.7)--(0,2.55) node[left] {$y$};\n\\draw[->,curveBlue,line width=0.8pt] plot[domain=0:2.14,samples=81] ({(\\x)^2},\\x);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 54,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Printed answer page 346, right-column Q9(a) graph",
+                "description": "Square-root curve in the first quadrant with positive-end axis arrows and no numerical ticks or grid.",
+                "mathematics": "y=sqrt(x) for x at least 0, drawn from the origin with a right-end continuation arrow.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p12-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the normal to the curve $y=\\sqrt{x}$ at $x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-2x+3$",
+          "worked": "At $x=1$, $y=\\sqrt1=1$. By the power rule,\n\n$$\\begin{align*}y'&=\\frac12x^{-\\frac12}\\\\y'&=\\frac{1}{2\\sqrt{x}}\\\\\\left.y'\\right|_{x=1}&=\\frac12\\end{align*}$$\n\nThe normal gradient is $-2$. Using $(1,1)$ gives\n\n$$\\begin{align*}y-1&=-2(x-1)\\\\y&=-2x+3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p12-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "The normal from part (b) intersects the $x$- and $y$-axes at $A$ and $B$ respectively. Draw the normal on your sketch from part (a) and find the coordinates of $A$ and $B$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\left(\\frac32,0\\right)$ and $B=(0,3)$.",
+          "worked": "At $A$, set $y=0$.\n\n$$\\begin{align*}-2x+3&=0\\\\2x&=3\\\\x&=\\frac32\\end{align*}$$\n\nAt $B$, set $x=0$ to get $y=-2(0)+3=3$. Draw the normal through $A$ and $B$ on the curve sketch.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q9-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"square-root curve\"},{\"name\":\"normalRed\",\"hex\":\"EF6068\",\"reason\":\"normal line added in part (c)\"}],\"reference\":\"student PDF page 12 Q9(c), p12-q9-c-graph\"}\n\\begin{tikzpicture}[x=9mm,y=9mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{normalRed}{HTML}{EF6068}\n\\draw[->,black,line width=0.5pt] (-1.4,0)--(4.65,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-1.1)--(0,4.05) node[left] {$y$};\n\\draw[->,curveBlue,line width=0.8pt] plot[domain=0:2.06,samples=81] ({(\\x)^2},\\x);\n\\draw[<->,normalRed,dashed,line width=0.8pt] (-0.45,3.9)--(1.97,-0.94);\n\\fill[black] (1.5,0) circle[radius=1.1pt] (0,3) circle[radius=1.1pt] (1,1) circle[radius=1.1pt];\n\\node[inner sep=2pt,anchor=south west,xshift=0.35pt,yshift=0.35pt] at (1.5,0) {$A(\\frac32,0)$};\n\\node[below left,inner sep=3pt] at (0,3) {$B(0,3)$};\n\\draw[thin] (1,1)--(2.45,2.05);\n\\node[anchor=south west] at (2.45,2.05) {$(1,1)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 64,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Printed page 174, Q9(c) instruction to add the normal to the Q9(a) sketch",
+                "description": "Complete solution for part (c) using a blue square-root curve and a dashed red normal. Labels sit off the lines and the crossing at (1,1) is marked.",
+                "mathematics": "y=sqrt(x), x at least 0. Normal y=-2x+3 crosses the curve at (1,1) and the axes at A=(3/2,0) and B=(0,3).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p12-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the area of $\\triangle OAB$, where $O$ is the origin.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac94$ square units.",
+          "worked": "The legs along the axes have lengths $OA=\\frac32$ and $OB=3$.\n\n$$\\begin{align*}\\text{Area of }\\triangle OAB&=\\frac12\\times OA\\times OB\\\\\\text{Area of }\\triangle OAB&=\\frac12\\times\\frac32\\times3\\\\\\text{Area of }\\triangle OAB&=\\frac94\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:50.645Z",
+  "updatedAt": "2026-11-13T16:58:50.646Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p12-q9",
+    "sectionRole": "exercise"
+  }
+}

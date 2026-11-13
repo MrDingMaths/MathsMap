@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-44325d47-c388-4b0b-bdf7-4e0e6c8f3b38",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied general tangent form to derive symbolic intercepts, then exploit the reciprocal relation between the coordinates of P to show that the product of the intercept lengths is constant.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:09:09.000Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "026fb552c8c542816850ceef6f2744c9a1a44888a3911580351a842b6f6af34f",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578902267-28/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-problem1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The diagram below shows the tangent from a general point $P(x_0,y_0)$ on the curve $y=\\frac{1}{x}$.\n\nA tangent is drawn from $P$ and intersects the $x$- and $y$-axes at $A$ and $B$ respectively.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-problem1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"reciprocalBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the reciprocal curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the tangent from the curve\"}],\"reference\":\"PDF page 24, p24-problem1-diagram\"}\n\\begin{tikzpicture}[x=21mm,y=5.25mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{reciprocalBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\coordinate (P) at (1,1);\n\\coordinate (A) at (2,0);\n\\coordinate (B) at (0,2);\n\\draw[black,line width=0.5pt,->] (-0.5,0) -- (2.5,0);\n\\draw[black,line width=0.5pt,->] (0,-2) -- (0,10);\n\\draw[reciprocalBlue,line width=0.8pt,<->] plot[domain=0.105:2.5,samples=100,variable=\\x] ({\\x},{1/(\\x)});\n\\draw[tangentRed,line width=0.8pt,<->] (-0.5,2.5) -- (2.5,-0.5);\n\\fill[black] (P) circle[radius=1.1pt];\n\\fill[black] (A) circle[radius=1.1pt];\n\\fill[black] (B) circle[radius=1.1pt];\n\\node[black,above=1.2mm,inner sep=0pt] at (P) {$P$};\n\\node[black,below=1.7mm,inner sep=0pt] at (A) {$A$};\n\\node[black,anchor=north east,xshift=-1.4mm,yshift=-0.8mm,inner sep=0pt] at (B) {$B$};\n\\node[black,below=4mm,inner sep=0pt] at (2.5,0) {$x$};\n\\node[black,left=1.6mm,inner sep=0pt] at (0,10) {$y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Centred coordinate graph in Challenge Problems, Problem 1, on printed page 186.",
+          "description": "A blue first-quadrant reciprocal branch and a red descending tangent, with arrowheads at both ends of each. The positive ends of the black axes are arrowed. The graph has no ticks or grid. The house layout places the graph below the complete shared stem.",
+          "mathematics": "The branch is y = 1/x. The tangent touches it at the marked point P between its marked positive axis intercepts A and B. The unlabelled origin is the intersection of the axes. The plotted position of P represents a general point.",
+          "answerVisibility": "The curve, tangent, point of contact and named intercepts are supplied in the student figure. No numerical coordinates or area markings are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p24-problem1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the equation of the tangent from $P$ is\n\n$$y-y_0=-\\frac{1}{x_0^2}(x-x_0).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The tangent has gradient $-\\frac{1}{x_0^2}$. Point-gradient form gives $y-y_0=-\\frac{1}{x_0^2}(x-x_0)$.",
+          "worked": "$$\\begin{align*}\nf'(x)&=-x^{-2}\\\\\nf'(x)&=-\\frac{1}{x^2}\\\\\nf'(x_0)&=-\\frac{1}{x_0^2}\n\\end{align*}$$\nUsing this gradient and the point $P(x_0,y_0)$ in point-gradient form gives\n$$y-y_0=-\\frac{1}{x_0^2}(x-x_0).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p24-problem1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the coordinates of $A$ and $B$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=(2x_0,0)$ and $B=\\left(0,\\frac{2}{x_0}\\right)$.",
+          "worked": "Since $P$ lies on the curve, $y_0=\\frac{1}{x_0}$. The tangent equation becomes\n$$\\begin{align*}\ny&=y_0-\\frac{x-x_0}{x_0^2}\\\\\ny&=\\frac{2}{x_0}-\\frac{x}{x_0^2}.\n\\end{align*}$$\nAt $A$, $y=0$, so\n$$\\begin{align*}\n\\frac{x}{x_0^2}&=\\frac{2}{x_0}\\\\\nx&=2x_0.\n\\end{align*}$$\nAt $B$, $x=0$, so $y=\\frac{2}{x_0}$. Thus $A=(2x_0,0)$ and $B=\\left(0,\\frac{2}{x_0}\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p24-problem1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, show that the area of $\\triangle OAB$ is independent of the position of $P$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The area is always $2$ square units. The product of the two intercept lengths is $4$.",
+          "worked": "The axes are perpendicular, so $OA$ and $OB$ are the base and height. Their lengths are the absolute values of the intercept coordinates.\n$$\\begin{align*}\n\\operatorname{Area}(\\triangle OAB)&=\\frac{1}{2}\\,OA\\cdot OB\\\\\n\\operatorname{Area}(\\triangle OAB)&=\\frac{1}{2}\\lvert 2x_0\\rvert\\left\\lvert\\frac{2}{x_0}\\right\\rvert\\\\\n\\operatorname{Area}(\\triangle OAB)&=2\\text{ square units}.\n\\end{align*}$$\nThe area is constant for every position of $P$ on the curve.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-problem1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:59:16.183Z",
+  "updatedAt": "2026-11-13T16:59:16.183Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p24-problem1",
+    "sectionRole": "exercise"
+  }
+}

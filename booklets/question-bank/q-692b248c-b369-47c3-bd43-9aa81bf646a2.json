@@ -1,0 +1,152 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-692b248c-b369-47c3-bd43-9aa81bf646a2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Part (c) cues the conjugate method, but students must first combine reciprocal radicals to expose a radical difference, track its reversed sign and then cancel h before taking the limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:04:11.051Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e52304de06b7b277ba107126e143315ba057c74bc5c3411694352ee6f4849620",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578592642-10/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-p1-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p9-p1-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "[Differentiating functions involving square roots by first principles]",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p9-p1-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Define the function ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)=\\sqrt{x}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-p1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By rationalising the numerator, show that the difference quotient is equal to $$\\frac{1}{\\sqrt{x+h}+\\sqrt{x}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{\\sqrt{x+h}+\\sqrt{x}}$\n\nMultiply by the conjugate of the numerator to obtain a factor of $h$ that cancels.",
+          "worked": "$$\\begin{align*}\\frac{f(x+h)-f(x)}{h}&=\\frac{\\sqrt{x+h}-\\sqrt{x}}{h}\\\\\\frac{f(x+h)-f(x)}{h}&=\\frac{(\\sqrt{x+h}-\\sqrt{x})(\\sqrt{x+h}+\\sqrt{x})}{h(\\sqrt{x+h}+\\sqrt{x})}\\\\\\frac{f(x+h)-f(x)}{h}&=\\frac{(x+h)-x}{h(\\sqrt{x+h}+\\sqrt{x})}\\\\\\frac{f(x+h)-f(x)}{h}&=\\frac{1}{\\sqrt{x+h}+\\sqrt{x}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p9-p1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, write down what $f'(x)$ is.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=\\frac{1}{2\\sqrt{x}}$ for $x>0$.",
+          "worked": "For $x>0$, $$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{1}{\\sqrt{x+h}+\\sqrt{x}}\\\\f'(x)&=\\frac{1}{2\\sqrt{x}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p9-p1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use a similar technique to calculate $f'(x)$ if $f(x)=\\frac{1}{\\sqrt{x}}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=-\\frac{1}{2x\\sqrt{x}}$ for $x>0$.\n\nCombine the reciprocals and rationalise the resulting numerator before taking the limit.",
+          "worked": "For $x>0$, combine the reciprocals in the numerator. Multiply by the conjugate so that the numerator becomes $x-(x+h)=-h$.\n\n$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{\\frac{1}{\\sqrt{x+h}}-\\frac{1}{\\sqrt{x}}}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{\\sqrt{x}-\\sqrt{x+h}}{h\\sqrt{x+h}\\sqrt{x}}\\\\f'(x)&=\\lim_{h\\to0}\\frac{x-(x+h)}{h\\sqrt{x+h}\\sqrt{x}(\\sqrt{x}+\\sqrt{x+h})}\\\\f'(x)&=\\lim_{h\\to0}\\frac{-1}{\\sqrt{x+h}\\sqrt{x}(\\sqrt{x}+\\sqrt{x+h})}\\\\f'(x)&=-\\frac{1}{2x\\sqrt{x}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-p1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:45.296Z",
+  "updatedAt": "2026-11-13T16:58:45.296Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p9-p1",
+    "sectionRole": "exercise"
+  }
+}

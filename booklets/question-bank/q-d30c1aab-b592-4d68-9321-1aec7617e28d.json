@@ -1,0 +1,166 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d30c1aab-b592-4d68-9321-1aec7617e28d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [
+      "gradient-secant-limit",
+      "simplify-fractions-by-factorising"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret a secant whose two endpoints move toward the tangency point, then compare how three supplied quotients simplify for a quadratic and a reciprocal.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:11:08.302Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f5221d6bbf6f29ca958e078d945213a691302025a43c2dbbc7c3d3ee6e6bb2a1",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794586241456-4/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p48-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "[Alternate version]\n\nDraw a clear diagram to illustrate how the following formulae give the gradient of the tangent to $y=f(x)$ at $x=c$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p48-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f'(c)=\\lim_{u\\to c}\\frac{f(u)-f(c)}{u-c}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Join $P(c,f(c))$ to $Q(u,f(u))$. The secant gradient is $\\frac{f(u)-f(c)}{u-c}$; as $u\\to c$, it approaches the tangent gradient $f'(c)$, provided $f$ is differentiable at $c$.",
+          "worked": "For $u\\ne c$, the secant through $P(c,f(c))$ and $Q(u,f(u))$ has gradient\n$$m_{PQ}=\\frac{f(u)-f(c)}{u-c}.$$\nAs $u\\to c$, $Q$ approaches $P$. When $f$ is differentiable at $c$, the limiting secant gradient is the tangent gradient:\n$$f'(c)=\\lim_{u\\to c}\\frac{f(u)-f(c)}{u-c}.$$\nThis is the standard formula with $h=u-c$.",
+          "solutionDiagrams": [
+            {
+              "id": "p48-q2-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 48 p48-q2-a-response-diagram\"}\n\\begin{tikzpicture}[x=1.7cm,y=1.3cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.35,-0.55) rectangle (5.1,4.2);\n\\draw[->,line width=0.5pt] (0,0)--(4.3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,3.8) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0.4:3.5,samples=70] plot (\\x,{0.2*(\\x)^2+0.6});\n\\coordinate (P) at (1.2,0.888);\n\\coordinate (Q) at (3,2.4);\n\\coordinate (R) at (3,0.888);\n\\draw[line width=0.8pt] (0.7,0.648)--(3.1,1.8) node[right] {tangent};\n\\draw[dashed,line width=0.8pt] (0.7,0.468)--(3.45,2.778) node[right] {secant};\n\\draw[densely dotted,line width=0.4pt] (P)--(1.2,0) node[below] {$c$};\n\\draw[densely dotted,line width=0.4pt] (Q)--(3,0) node[below] {$u$};\n\\draw[dashed,line width=0.4pt] (P)--(R) node[midway,below] {$u-c$};\n\\draw[dashed,line width=0.4pt] (R)--(Q) node[midway,anchor=north west,xshift=0.35pt,yshift=-0.35pt] {$f(u)-f(c)$};\n\\node[anchor=west,xshift=2.00pt] (PLabel) at (0.5,3.60) {$P(c,f(c))$};\n\\draw[thin] (P)--(0.45,3.60)--(PLabel.west);\n\\fill (P) circle (1.3pt);\n\\fill (Q) circle (1.3pt) node[above left] {$Q(u,f(u))$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 48,
+                "sourceRegion": "Question 2(a) requested response diagram",
+                "description": "Authored illustrative curve with a fixed point P, moving point Q, tangent and dashed secant. The source supplies no diagram.",
+                "mathematics": "Horizontal change u-c and vertical change f(u)-f(c). The secant approaches the tangent as u approaches c when f is differentiable at c.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p48-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f'(c)=\\lim_{h\\to0}\\frac{f(c+h)-f(c-h)}{2h}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Join $A(c-h,f(c-h))$ to $B(c+h,f(c+h))$. The horizontal change from $A$ to $B$ is $2h$. If $f$ is differentiable at $c$, the secant gradient approaches $f'(c)$ as $h\\to0$.",
+          "worked": "For $h\\ne0$, the secant through $A(c-h,f(c-h))$ and $B(c+h,f(c+h))$ has gradient\n$$\\begin{align*}m_{AB}&=\\frac{f(c+h)-f(c-h)}{(c+h)-(c-h)}\\\\m_{AB}&=\\frac{f(c+h)-f(c-h)}{2h}.\\end{align*}$$\nAs $h\\to0$, both endpoints approach $P(c,f(c))$. If $f$ is differentiable at $c$,\n$$\\begin{align*}m_{AB}&=\\frac12\\left(\\frac{f(c+h)-f(c)}{h}+\\frac{f(c)-f(c-h)}{h}\\right)\\\\\\lim_{h\\to0}m_{AB}&=\\frac12\\bigl(f'(c)+f'(c)\\bigr)\\\\\\lim_{h\\to0}m_{AB}&=f'(c).\\end{align*}$$\nThus the limiting gradient is the tangent gradient at $P$. The symmetric limit alone does not establish that a derivative exists.",
+          "solutionDiagrams": [
+            {
+              "id": "p48-q2-b-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 48 p48-q2-b-response-diagram\"}\n\\begin{tikzpicture}[x=1.6cm,y=1.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.3,-0.6) rectangle (6,4.8);\n\\draw[->,line width=0.5pt] (0,0)--(4.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,4.3) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0.4:3.8,samples=80] plot (\\x,{0.08*(\\x)^3+0.5});\n\\coordinate (A) at (1,0.58);\n\\coordinate (P) at (2,1.14);\n\\coordinate (B) at (3,2.66);\n\\draw[dashed,line width=0.8pt] (0.8,0.372)--(3.45,3.128) node[right] {secant};\n\\draw[line width=0.8pt] (1.2,0.372)--(3.5,2.58) node[right] {tangent};\n\\draw[densely dotted,line width=0.4pt] (A)--(1,0) node[below] {$c-h$};\n\\draw[densely dotted,line width=0.4pt] (P)--(2,0) node[below] {$c$};\n\\draw[densely dotted,line width=0.4pt] (B)--(3,0) node[below] {$c+h$};\n\\draw[dashed,line width=0.4pt] (A)--(3,0.58);\n\\draw[<->,line width=0.4pt] (1,-0.68)--(3,-0.68) node[midway,below=2pt] {$2h$};\n\\draw[dashed,line width=0.4pt] (3,0.58)--(B) node[midway,right] {$f(c+h)-f(c-h)$};\n\\fill (A) circle (1.3pt) node[above left] {$A$};\n\\fill (P) circle (1.3pt) node[anchor=north west,xshift=0.35pt,yshift=-0.35pt] {$P$};\n\\fill (B) circle (1.3pt) node[above left] {$B$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 115,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 48,
+                "sourceRegion": "Question 2(b) requested response diagram",
+                "description": "Authored illustrative curve with symmetric abscissae c-h and c+h, central point P, dashed secant and tangent. Point coordinates are given in the accompanying editable answer text.",
+                "mathematics": "The endpoints have horizontal separation 2h. Both approach P as h tends to zero; the differentiability condition is stated in the answer.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 53
+      },
+      {
+        "id": "p48-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the gradient of the tangent at $x=c$ for the curve $y=x^2$ using both techniques above, as well as the standard formula. Verify that you get the same answer. Which technique do you think was most convenient to use?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "All three methods give $f'(c)=2c$. The symmetric formula is convenient because the $h^2$ terms cancel immediately. Other justified preferences are acceptable.",
+          "worked": "Standard formula:\n$$\\begin{align*}f'(c)&=\\lim_{h\\to0}\\frac{(c+h)^2-c^2}{h}\\\\f'(c)&=\\lim_{h\\to0}\\frac{2ch+h^2}{h}\\\\f'(c)&=\\lim_{h\\to0}(2c+h)\\\\f'(c)&=2c.\\end{align*}$$\nPart (a):\n$$\\begin{align*}f'(c)&=\\lim_{u\\to c}\\frac{u^2-c^2}{u-c}\\\\f'(c)&=\\lim_{u\\to c}\\frac{(u-c)(u+c)}{u-c}\\\\f'(c)&=\\lim_{u\\to c}(u+c)\\\\f'(c)&=2c.\\end{align*}$$\nPart (b):\n$$\\begin{align*}f'(c)&=\\lim_{h\\to0}\\frac{(c+h)^2-(c-h)^2}{2h}\\\\f'(c)&=\\lim_{h\\to0}\\frac{4ch}{2h}\\\\f'(c)&=\\lim_{h\\to0}2c\\\\f'(c)&=2c.\\end{align*}$$\nAll three results agree. The symmetric formula is convenient here because the constant and squared-increment terms cancel, leaving $2c$ before taking the limit. A different preference supported by the working is acceptable.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p48-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Repeat part (c) but now with $y=\\frac{1}{x}$, and again comment on which technique you think was most convenient to use.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "All three methods give $f'(c)=-\\frac{1}{c^2}$, where $c\\ne0$. The formula in part (a) is convenient because $c-u=-(u-c)$ cancels directly. Other justified preferences are acceptable.",
+          "worked": "Here $c\\ne0$, and all quotients are formed only where their denominators are nonzero.\n\nStandard formula:\n$$\\begin{align*}f'(c)&=\\lim_{h\\to0}\\frac{\\frac{1}{c+h}-\\frac{1}{c}}{h}\\\\f'(c)&=\\lim_{h\\to0}\\frac{-h}{hc(c+h)}\\\\f'(c)&=\\lim_{h\\to0}\\left(-\\frac{1}{c(c+h)}\\right)\\\\f'(c)&=-\\frac{1}{c^2}.\\end{align*}$$\nPart (a):\n$$\\begin{align*}f'(c)&=\\lim_{u\\to c}\\frac{\\frac{1}{u}-\\frac{1}{c}}{u-c}\\\\f'(c)&=\\lim_{u\\to c}\\frac{c-u}{uc(u-c)}\\\\f'(c)&=\\lim_{u\\to c}\\left(-\\frac{1}{uc}\\right)\\\\f'(c)&=-\\frac{1}{c^2}.\\end{align*}$$\nPart (b):\n$$\\begin{align*}f'(c)&=\\lim_{h\\to0}\\frac{\\frac{1}{c+h}-\\frac{1}{c-h}}{2h}\\\\f'(c)&=\\lim_{h\\to0}\\frac{-2h}{2h(c+h)(c-h)}\\\\f'(c)&=\\lim_{h\\to0}\\left(-\\frac{1}{c^2-h^2}\\right)\\\\f'(c)&=-\\frac{1}{c^2}.\\end{align*}$$\nAll three results agree. Part (a) is convenient because combining the fractions produces $c-u=-(u-c)$, which cancels directly. A different preference supported by the working is acceptable.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 81
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p48-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T17:00:14.264Z",
+  "updatedAt": "2026-11-13T17:00:14.264Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p48-q2",
+    "sectionRole": "exercise"
+  }
+}

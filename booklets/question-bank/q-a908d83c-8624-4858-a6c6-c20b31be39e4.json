@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a908d83c-8624-4858-a6c6-c20b31be39e4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "points-given-gradient",
+      "power-rule"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Use the negative-index power rule and the supplied gradient to establish the contact point. The parts guide the move from that point to the tangent equation, then require interpreting the axis intercepts as perpendicular triangle side lengths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:16:14.677Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "57ed9bd6e60ccff3e282441e6ff9b72e5c0e854f3fbd1841b82f8db8f422d642",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794579328786-54/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p45-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The diagram below shows the graph of $y=\\frac{4}{x^2}$. The tangent at the point $P$ cuts the $x$- and $y$-axes at $M$ and $N$ respectively.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p45-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the function branch from the dashed tangent\"}],\"reference\":\"PDF page 45, p45-q12-diagram\"}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{tikzpicture}[x=11mm,y=8.25mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-1.2,0) -- (4.85,0) node[below left,inner sep=1.5pt] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-1.32) -- (0,4.04) node[left,inner sep=2pt] {$y$};\n\\draw[black,dashed,<->,line width=0.8pt] (-1.2,4.2) -- (4.23,-1.23);\n\\draw[curveBlue,<->,line width=0.8pt] plot[domain=1.003:4.85,samples=96] (\\x,{4/((\\x)^2)});\n\\fill[black] (0,3) circle[radius=1.35pt] node[below left,inner sep=2pt] {$N$};\n\\fill[black] (2,1) circle[radius=1.35pt] node[above right,inner sep=2pt] {$P$};\n\\fill[black] (3,0) circle[radius=1.35pt] node[below left,inner sep=2pt] {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 45,
+          "sourceRegion": "Question 12 graph between the shared stem and part (a), printed page 207",
+          "description": "Blue positive branch and a descending dashed tangent with marked contact P and marked intercepts M and N. The positive axis ends and both ends of each plotted line have arrowheads. The axes have no ticks, grid or origin label.",
+          "mathematics": "The positive branch is plotted from y=4/x². The dashed tangent is derived from the given gradient and meets the y-axis at N and the x-axis at M. P is between N and M.",
+          "answerVisibility": "Only x, y, P, M and N are visible. No coordinates, equation of the tangent or numerical intercepts are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p45-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "If the gradient of the tangent at $P$ is $-1$, then show that $P$ has coordinates $(2,1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=-\\frac8{x^3}$. Setting $y'=-1$ gives $x^3=8$, so $x=2$ and $y=\\frac4{2^2}=1$. Hence $P=(2,1)$.",
+          "worked": "$$\\begin{align*}y&=4x^{-2}\\\\y'&=-8x^{-3}\\\\y'&=-\\frac8{x^3}\\end{align*}$$\n\nAt $P$, the gradient is $-1$.\n\n$$\\begin{align*}-\\frac8{x^3}&=-1\\\\x^3&=8\\\\x&=2\\\\y&=\\frac4{2^2}\\\\y&=1\\end{align*}$$\n\nHence $P=(2,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p45-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the tangent at $P$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-x+3$",
+          "worked": "The tangent through $(2,1)$ has gradient $-1$.\n\n$$\\begin{align*}y-1&=-(x-2)\\\\y&=-x+3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p45-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the area of $\\triangle OMN$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4.5\\text{ units}^2$",
+          "worked": "At $M$, $y=0$, so $0=-x+3$ gives $x=3$. At $N$, $x=0$ gives $y=3$. The perpendicular sides $OM$ and $ON$ each have length $3$.\n\n$$\\begin{align*}\\text{Area of }\\triangle OMN&=\\frac12(3)(3)\\\\\\text{Area of }\\triangle OMN&=\\frac92\\text{ units}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T17:00:01.425Z",
+  "updatedAt": "2026-11-13T17:00:01.425Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p45-q12",
+    "sectionRole": "exercise"
+  }
+}

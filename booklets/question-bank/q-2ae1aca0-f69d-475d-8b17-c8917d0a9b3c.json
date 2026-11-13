@@ -1,0 +1,165 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2ae1aca0-f69d-475d-8b17-c8917d0a9b3c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "power-rule"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive the tangent at a symbolic point, extract its axis intercepts and recognise that their absolute lengths have a constant product across both branches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:06:10.045Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6f579f2e7254e61024d0203767feae626a0bbae17834c42d78725c3028615feb",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578709522-16/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-p6-question",
+    "type": "question",
+    "label": "6",
+    "prompt": "Take $c\\ne0$ and $p\\ne0$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-p6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $P\\left(cp,\\frac{c}{p}\\right)$, where $c$ is a constant, lies on the hyperbola $xy=c^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(cp)\\left(\\frac{c}{p}\\right)=c^2$, so $P$ lies on the hyperbola.",
+          "worked": "Substitute the coordinates of $P$.\n\n$$\\begin{align*}xy&=(cp)\\left(\\frac{c}{p}\\right)\\\\xy&=c^2.\\end{align*}$$\n\nThus $P$ lies on the hyperbola.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p13-p6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a sketch of the hyperbola and label any point $P$ on the curve.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The branches lie in quadrants I and III and approach both axes. The sketch shows one choice of $P$.",
+          "worked": "Since $c^2>0$, $y=\\frac{c^2}{x}$ has the same sign as $x$. Draw branches in quadrants I and III approaching both axes. Mark $P\\left(cp,\\frac{c}{p}\\right)$ on either branch. The sketch shows the case $cp>0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-p6-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the hyperbola and its marked point\"}],\"reference\":\"Answer PDF page 53 P6(b)\"}\n\\begin{tikzpicture}[x=0.68cm,y=0.68cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\coordinate (P) at (1.5,1.6);\n\\draw[->,black,line width=0.5pt] (-4.45,0)--(4.5,0) node[below right,inner sep=1pt] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-4.45)--(0,4.5) node[above left,inner sep=1pt] {$y$};\n\\draw[dashed,black,line width=0.4pt] (0,1.6)--(P)--(1.5,0);\n\\node[left,inner sep=2pt] at (0,1.6) {$\\frac{c}{p}$};\n\\node[below,inner sep=2pt] at (1.5,0) {$cp$};\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-4.25:-0.57,samples=100,variable=\\t] ({\\t},{2.4/(\\t)});\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=0.57:4.25,samples=100,variable=\\t] ({\\t},{2.4/(\\t)});\n\\fill[curveBlue] (P) circle[radius=1.3pt];\n\\node[above right,inner sep=2pt] at (P) {$P$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 67,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 53,
+                "sourceRegion": "Answer book P6(b), left column",
+                "description": "Two hyperbola branches, the marked point P on the first-quadrant branch, and dashed projections to symbolic coordinate labels. The blue curve and point distinguish the function from the black axes and guides.",
+                "mathematics": "The sketch uses representative display coordinates for xy=c² and a first-quadrant choice of P. The axes are asymptotes, and the point's coordinates are labelled symbolically as cp and c/p.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 41
+      },
+      {
+        "id": "p13-p6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the tangent at $P$ has equation $x+p^2y=2cp$. Draw the tangent on your sketch.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x+p^2y=2cp$, with gradient $-\\frac{1}{p^2}$ at $P$.",
+          "worked": "$$\\begin{align*}y&=c^2x^{-1}\\\\y'&=-\\frac{c^2}{x^2}\\\\y'\\big|_{x=cp}&=-\\frac{c^2}{(cp)^2}=-\\frac{1}{p^2}.\\end{align*}$$\n\nUse this gradient and the coordinates of $P$.\n\n$$\\begin{align*}y-\\frac{c}{p}&=-\\frac{1}{p^2}(x-cp)\\\\p^2y-cp&=-x+cp\\\\x+p^2y&=2cp.\\end{align*}$$\n\nAdd this line through $P$ to the sketch from part (b).",
+          "solutionDiagrams": [
+            {
+              "id": "p13-p6-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the hyperbola and its marked point from the tangent\"}],\"reference\":\"Source PDF page 13 Problem 6(c), extending the answer sketch for P6(b)\"}\n\\begin{tikzpicture}[x=0.68cm,y=0.68cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\coordinate (P) at (1.5,1.6);\n\\draw[->,black,line width=0.5pt] (-4.45,0)--(4.5,0) node[below right,inner sep=1pt] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-4.45)--(0,4.5) node[above left,inner sep=1pt] {$y$};\n\\draw[dashed,black,line width=0.4pt] (0,1.6)--(P)--(1.5,0);\n\\node[left,inner sep=2pt] at (0,1.6) {$\\frac{c}{p}$};\n\\node[below,inner sep=2pt] at (1.5,0) {$cp$};\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-4.25:-0.57,samples=100,variable=\\t] ({\\t},{2.4/(\\t)});\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=0.57:4.25,samples=100,variable=\\t] ({\\t},{2.4/(\\t)});\n\\draw[<->,black,line width=0.8pt] (-0.65,{3.2+0.65*16/15})--(3.75,{3.2-3.75*16/15});\n\\fill[curveBlue] (P) circle[radius=1.3pt];\n\\node[above right,inner sep=2pt] at (P) {$P$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 67,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Problem 6(c), tangent construction requested in the prompt",
+                "description": "The complete sketch from part (b) with a solid black tangent through P. The projections remain dashed.",
+                "mathematics": "The tangent has the slope of the plotted reciprocal curve at P. Its axis intercepts are twice the corresponding coordinates of P, as required by x+p²y=2cp.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p13-p6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "The tangent intersects the $x$ and $y$ axes at $A$ and $B$ respectively. Show that the area of $\\triangle OAB$ will always be the same, regardless of where the tangent was drawn.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The area is $2c^2$ square units. The intercept distances are $|2cp|$ and $\\left|\\frac{2c}{p}\\right|$, so $p$ cancels.",
+          "worked": "Setting $y=0$ gives $A=(2cp,0)$. Setting $x=0$ gives $B=\\left(0,\\frac{2c}{p}\\right)$. The axes are perpendicular, so\n\n$$\\begin{align*}\\text{Area of }\\triangle OAB&=\\frac{1}{2}|2cp|\\left|\\frac{2c}{p}\\right|\\\\\\text{Area of }\\triangle OAB&=2c^2\\text{ square units}.\\end{align*}$$\n\nThe area depends only on the constant $c$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-p6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:55.607Z",
+  "updatedAt": "2026-11-13T16:58:55.607Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p13-p6",
+    "sectionRole": "exercise"
+  }
+}

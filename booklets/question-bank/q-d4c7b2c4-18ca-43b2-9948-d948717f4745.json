@@ -1,0 +1,159 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d4c7b2c4-18ca-43b2-9948-d948717f4745",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "gradient-secant-limit",
+    "secondarySkillIds": [
+      "instantaneous-rate-tangent"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Build the secant gradient from the two points, simplify to the stated expression and interpret its limit as a tangent gradient. The diagram and part sequence guide the transitions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:03:54.928Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1da12d56db5ed31e1f8c90ee207ce565d2ba7fc45d8c742f9417ddc566a1e277",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578584525-8/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The diagram below shows the point $P(2,3)$ on a function $f(x)=x^2-1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p8-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from axes and projection guides\"}],\"reference\":\"source PDF page 8, p8-q1-diagram\"}\n\\begin{tikzpicture}[x=0.76cm,y=0.76cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (-3.9,0)--(3.9,0) node[below left] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-2.6)--(0,5.3) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,3)--(2,3)--(2,0);\n\\node[left] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[<->,curveBlue,line width=0.8pt,domain=-2.48:2.48,samples=100] plot (\\x,{(\\x)^2-1});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 1 graph between stem and part (a)",
+          "description": "Centred upward-opening parabola with both branch arrowheads, positive axis arrowheads, and dashed projections from (2,3). Labels x, y, 2 and 3 only; no P or Q label and no origin label.",
+          "mathematics": "y=x^2-1; vertex (0,-1); projection guides x=2 and y=3.",
+          "answerVisibility": "Entire supplied graph remains visible in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p8-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the coordinates of the point $Q$ that has $x$ coordinate $2+h$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q(2+h,h^2+4h+3)$",
+          "worked": "$$\\begin{align*}f(2+h)&=(2+h)^2-1\\\\f(2+h)&=h^2+4h+3\\end{align*}$$\nThus $Q(2+h,h^2+4h+3)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p8-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the interval $PQ$ has gradient $h+4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$m_{PQ}=h+4$, for $h\\ne0$.",
+          "worked": "$$\\begin{align*}m_{PQ}&=\\frac{f(2+h)-f(2)}{(2+h)-2}\\\\m_{PQ}&=\\frac{h^2+4h+3-3}{h}\\\\m_{PQ}&=h+4\\qquad(h\\ne0)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p8-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Describe what happens to the point $Q$ as we make $h\\to0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q$ approaches $P(2,3)$ along the curve.",
+          "worked": "As $h\\to0$, $2+h\\to2$ and $h^2+4h+3\\to3$. Hence $Q$ approaches $P(2,3)$ along the curve.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p8-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "As $h\\to0$, what value does the gradient $m$ of $PQ$ approach?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4$",
+          "worked": "$$\\lim_{h\\to0}m=\\lim_{h\\to0}(h+4)=4.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p8-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Describe the geometric significance of this value of $m$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "It is the gradient of the tangent to $y=x^2-1$ at $P(2,3)$.",
+          "worked": "As $Q$ approaches $P$, the secant $PQ$ approaches the tangent at $P$. Its limiting gradient, $4$, is the gradient of that tangent.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:42.433Z",
+  "updatedAt": "2026-11-13T16:58:42.434Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p8-q1",
+    "sectionRole": "exercise"
+  }
+}

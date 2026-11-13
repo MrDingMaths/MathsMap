@@ -1,0 +1,160 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9e06306a-5dc5-4a3b-a5df-04250a25d1e6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "points-given-gradient",
+      "angle-inclination-gradient"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Translate equal angles in the intercept triangle into a negative tangent gradient, then use the scaffolded contact point and line equations to obtain intercepts and choose perpendicular bases and heights.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:09:09.000Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "75f871bac7edec2f1cb2fd461cf9a9616836cec0361cd696a9cf811a0a6770f3",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578902267-28/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "The diagram below shows a sketch of $y=\\frac{4}{x^2}$ for $x>0$.\n\nA tangent is drawn from $P$ and cuts the $x$- and $y$-axes at $M$ and $N$ respectively. The point $P$ is chosen such that $\\angle PNO=\\angle PMO$. A normal is drawn from $P$, and cuts the $x$- and $y$-axes respectively at $R$ and $Q$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the function from its dashed tangent and normal\"}],\"reference\":\"Student PDF p23 Q10, p23-q10-diagram\"}\n\\begin{tikzpicture}[x=1.12cm,y=1.12cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\coordinate (O) at (0,0);\n\\coordinate (N) at (0,3);\n\\coordinate (P) at (2,1);\n\\coordinate (M) at (3,0);\n\\coordinate (R) at (1,0);\n\\coordinate (Q) at (0,-1);\n\\draw[black,line width=0.5pt,->] (-1.02,0)--(5.05,0) node[below left,inner sep=2pt] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.02)--(0,4.08) node[left,inner sep=2pt] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-1.02,4.02)--(5.02,-2.02);\n\\draw[black,line width=0.4pt,dashed,<->] (-1.02,-2.02)--(5.02,4.02);\n\\draw[curveBlue,line width=0.8pt,<->] plot[variable=\\t,domain=1:5,samples=100] ({\\t},{4/((\\t)^2)});\n\\foreach \\point in {N,P,M,R,Q} {\\fill[black] (\\point) circle[radius=1.5pt];}\n\\node[black,below left,inner sep=2pt] at (O) {$O$};\n\\node[black,inner sep=2.5pt,anchor=north east,xshift=-0.35pt,yshift=-0.35pt] at (N) {$N$};\n\\node[black,inner sep=3pt,anchor=west,xshift=3.50pt] at (P) {$P$};\n\\node[black,inner sep=2.5pt,anchor=north east,xshift=-0.35pt,yshift=-0.35pt] at (M) {$M$};\n\\node[black,inner sep=2.5pt,anchor=south east,xshift=-0.35pt,yshift=0.35pt] at (R) {$R$};\n\\node[black,inner sep=2.5pt,anchor=south east,xshift=-0.35pt,yshift=0.35pt] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Printed page 185, Question 10, between the sketch caption and the tangent and normal description",
+          "description": "Blue decreasing curve with arrowheads, unticked axes with arrowheads, and two dashed lines with arrowheads at both ends. The source label O identifies the origin used as an angle endpoint. The preset places the sketch after the complete shared prompt.",
+          "mathematics": "The curve is y=4/x² on x>0. The descending tangent passes through N, P and M. The ascending normal passes through Q, R and P. The x-axis order is O, R, M and the y-axis order from bottom to top is Q, O, N.",
+          "answerVisibility": "question"
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why the gradient of $MN$ is $-1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The two acute angles of $\\triangle NOM$ are equal, so the inclination of $MN$ is $\\frac{3\\pi}{4}$ and its gradient is $-1$.",
+          "worked": "The axes meet at right angles at $O$. Since $P$ lies between $M$ and $N$, the given equal angles are the two acute angles of $\\triangle NOM$. Each is $\\frac{\\pi}{4}$, so the angle of inclination of $MN$ is $\\pi-\\frac{\\pi}{4}=\\frac{3\\pi}{4}$.\n\n$$m_{MN}=\\tan\\left(\\frac{3\\pi}{4}\\right)=-1.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p23-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the coordinates of $P$ are $(2,1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P=(2,1)$.",
+          "worked": "For $y=4x^{-2}$,\n\n$$\\begin{align*}\\frac{dy}{dx}&=-8x^{-3}\\\\\\frac{dy}{dx}&=-\\frac{8}{x^3}.\\end{align*}$$\n\nThe tangent gradient at $P$ is $-1$.\n\n$$\\begin{align*}-\\frac{8}{x^3}&=-1\\\\x^3&=8\\\\x&=2.\\end{align*}$$\n\nAt $x=2$, $y=\\frac{4}{2^2}=1$, so $P=(2,1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p23-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the equation of $MN$ and hence find the coordinates of $M$ and $N$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$MN$ has equation $y=-x+3$. The intercepts are $M(3,0)$ and $N(0,3)$.",
+          "worked": "The tangent passes through $P(2,1)$ with gradient $-1$.\n\n$$\\begin{align*}y-1&=-(x-2)\\\\y&=-x+3.\\end{align*}$$\n\nAt $M$, set $y=0$. Then $0=-x+3$, giving $M(3,0)$. At $N$, set $x=0$. Then $y=3$, giving $N(0,3)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p23-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the equation of the normal $PQ$, and hence find the coordinates of $R$ and $Q$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$PQ$ has equation $y=x-1$. The intercepts are $R(1,0)$ and $Q(0,-1)$.",
+          "worked": "The normal is perpendicular to the tangent, so its gradient is $-\\frac{1}{-1}=1$. It passes through $P(2,1)$.\n\n$$\\begin{align*}y-1&=x-2\\\\y&=x-1.\\end{align*}$$\n\nAt $R$, set $y=0$. Then $0=x-1$, giving $R(1,0)$. At $Q$, set $x=0$. Then $y=-1$, giving $Q(0,-1)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p23-q10-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence, find the area of $\\triangle RPM$ and $\\triangle NPQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle RPM$ has area $1$ square unit. $\\triangle NPQ$ has area $4$ square units.",
+          "worked": "For $\\triangle RPM$, the base $RM$ lies on the $x$-axis and has length $3-1=2$. The perpendicular height from $P$ to the $x$-axis is $1$.\n\n$$\\begin{align*}\\operatorname{Area}(\\triangle RPM)&=\\frac12\\times 2\\times 1\\\\\\operatorname{Area}(\\triangle RPM)&=1\\text{ square unit}.\\end{align*}$$\n\nFor $\\triangle NPQ$, the base $NQ$ lies on the $y$-axis and has length $3-(-1)=4$. The perpendicular height from $P$ to the $y$-axis is $2$.\n\n$$\\begin{align*}\\operatorname{Area}(\\triangle NPQ)&=\\frac12\\times 4\\times 2\\\\\\operatorname{Area}(\\triangle NPQ)&=4\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:59:15.667Z",
+  "updatedAt": "2026-11-13T16:59:15.667Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p23-q10",
+    "sectionRole": "exercise"
+  }
+}

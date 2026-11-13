@@ -1,0 +1,159 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-32baca81-1732-40c8-a005-d8d77a2cfaeb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "analyse-cubic-stationary",
+    "secondarySkillIds": [
+      "interpret-derivative-rate"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Use the nonnegative amount to bound the model, distinguish the initial zero derivative from the later maximum using derivative signs, and evaluate the cubic at that maximum. The graph and derivative hints cue the approach.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:13:55.764Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "087f7d5dbbd50e255ca6e9efbbc8a780f871c349c041081c0d8dd861ecae73ed",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794579192317-45/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-p3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A pharmaceutical drug is administered and the amount $A$ of the drug in a person’s bloodstream is given by the function\n\n$$A=8t^2-t^3,$$\n\nwhere $t$ is time in hours and $A$ is in milligrams.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-p3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain intuitively why the model is only limited up to a certain value of $t$, and find it.\n\nHint: Sketch a graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0\\le t\\le 8$ hours. After 8 hours the model predicts a negative amount.",
+          "worked": "$$\\begin{align*}A&=8t^2-t^3\\\\A&=t^2(8-t)\\end{align*}$$\n\nThe graph touches the time axis at $t=0$ and crosses it at $t=8$. After 8 hours, $8-t<0$ and the graph lies below the time axis. The amount in the bloodstream cannot be negative, so the model applies from $t=0$ to $t=8$ hours.",
+          "solutionDiagrams": [
+            {
+              "id": "p37-p3-a-amount-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 37 p37-p3-a-amount-graph\"}\n\\begin{tikzpicture}[x=0.59cm,y=0.035cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (0,0)--(9.6,0) node[right] {$t$ (h)};\n\\draw[black,->,line width=0.5pt] (0,-43)--(0,90) node[above] {$A$ (mg)};\n\\draw[black,line width=0.8pt] plot[domain=0:8,samples=65] (\\x,{(\\x)^2*(8-(\\x))});\n\\draw[black,dashed,line width=0.8pt] plot[domain=8:8.5,samples=12] (\\x,{(\\x)^2*(8-(\\x))});\n\\draw[black,line width=0.4pt] (8,-3)--(8,3);\n\\node[below left] at (8,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$8$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 37,
+                "sourceRegion": "Problem 3(a), graph sketch hint",
+                "description": "Graph of the amount function with the continuation beyond the model’s physical domain drawn dashed.",
+                "mathematics": "The graph of A=t²(8−t) touches the time axis at 0, crosses it at 8 and is negative immediately after 8.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p37-p3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $\\frac{dA}{dt}$ and provide a description of its physical meaning.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{dA}{dt}=16t-3t^2$, the instantaneous rate of change of the amount of drug in the bloodstream, in mg/h.",
+          "worked": "$$\\begin{align*}\\frac{dA}{dt}&=8(2t)-3t^2\\\\\\frac{dA}{dt}&=16t-3t^2\\end{align*}$$\n\nThe derivative gives the instantaneous rate of change of the amount of drug in the bloodstream, in milligrams per hour. A positive value means the amount is increasing and a negative value means it is decreasing.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p37-p3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "When did the amount of the drug in the bloodstream stop increasing?\n\nHint: What is the value of $\\frac{dA}{dt}$ when the amount reaches its maximum?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{16}{3}$ hours after administration.",
+          "worked": "$$\\begin{align*}\\frac{dA}{dt}&=t(16-3t)\\\\0&=t(16-3t)\\end{align*}$$\n\nThe roots are $t=0$ and $t=\\frac{16}{3}$. For positive $t$, the factor $16-3t$ is positive before $\\frac{16}{3}$ and negative afterwards. The amount stops increasing at $t=\\frac{16}{3}$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p37-p3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "During which interval of $t$ was the drug amount increasing, and during which interval of $t$ was the drug amount decreasing?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing for $0<t<\\frac{16}{3}$ and decreasing for $\\frac{16}{3}<t<8$, with $t$ in hours.",
+          "worked": "For $0<t<\\frac{16}{3}$, both factors of $t(16-3t)$ are positive, so $\\frac{dA}{dt}>0$ and the amount is increasing.\n\nFor $\\frac{16}{3}<t<8$, $t$ is positive and $16-3t$ is negative, so $\\frac{dA}{dt}<0$ and the amount is decreasing.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p37-p3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What was the highest amount of the drug in the bloodstream? Give your answer to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$75.85\\text{ mg}$",
+          "worked": "The amount increases up to $t=\\frac{16}{3}$ and decreases after that on the model’s domain, so its maximum occurs at $t=\\frac{16}{3}$.\n\n$$\\begin{align*}A\\!\\left(\\frac{16}{3}\\right)&=8\\left(\\frac{16}{3}\\right)^2-\\left(\\frac{16}{3}\\right)^3\\\\A\\!\\left(\\frac{16}{3}\\right)&=\\frac{2048}{27}\\text{ mg}\\\\A\\!\\left(\\frac{16}{3}\\right)&\\approx75.85\\text{ mg}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-p3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:59:40.657Z",
+  "updatedAt": "2026-11-13T16:59:40.658Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p37-p3",
+    "sectionRole": "exercise"
+  }
+}

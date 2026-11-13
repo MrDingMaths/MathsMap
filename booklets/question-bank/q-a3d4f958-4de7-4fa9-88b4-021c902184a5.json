@@ -1,0 +1,141 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a3d4f958-4de7-4fa9-88b4-021c902184a5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate two chain-rule derivatives at the supplied intersection abscissa, use the common point and gradient to establish a single tangent, and verify the result graphically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:09:09.000Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fd904262e0ca7a383bf0bf281c6d5485006636d75e9c2f8b6dbcbb8c56fa888f",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578902267-28/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the curves $y=\\sqrt{3x+1}$ and $y=\\sqrt{5x-x^2}$ intersect when $x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both curves pass through $(1,2)$.",
+          "worked": "At $x=1$,\n\n$$\\begin{align*}\\sqrt{3(1)+1}&=\\sqrt4=2,\\\\\\sqrt{5(1)-1^2}&=\\sqrt4=2.\\end{align*}$$\n\nSo both curves pass through $(1,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p23-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the tangent to both curves at this point. What do you notice?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3x-4y+5=0$ for both curves. The tangents coincide.",
+          "worked": "For $f(x)=\\sqrt{3x+1}$,\n\n$$\\begin{align*}f'(x)&=\\frac{3}{2\\sqrt{3x+1}}\\\\f'(1)&=\\frac{3}{2\\sqrt{3(1)+1}}=\\frac34.\\end{align*}$$\n\nFor $g(x)=\\sqrt{5x-x^2}$,\n\n$$\\begin{align*}g'(x)&=\\frac{5-2x}{2\\sqrt{5x-x^2}}\\\\g'(1)&=\\frac{5-2(1)}{2\\sqrt{5(1)-1^2}}=\\frac34.\\end{align*}$$\n\nAt $(1,2)$, the tangent to each curve has equation\n\n$$\\begin{align*}y-2&=\\frac34(x-1)\\\\3x-4y+5&=0.\\end{align*}$$\n\nThe tangents coincide.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p23-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain your findings.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The curves share a tangent because both have gradient $\\frac34$ at $(1,2)$.",
+          "worked": "Each tangent passes through $(1,2)$ and has gradient $\\frac34$. One point and a gradient determine a unique line, so the curves have a common tangent at $(1,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p23-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use graphing software to verify your findings.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The dashed line $y=\\frac34x+\\frac54$ is tangent to both curves at $(1,2)$.",
+          "worked": "Plot $y=\\sqrt{3x+1}$ in red, $y=\\sqrt{5x-x^2}$ in blue and $y=\\frac34x+\\frac54$ as a dashed line on the same axes. Zoom in around $(1,2)$. Both curves meet there and the dashed line follows the direction of both curves at that point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q9-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"rootRed\",\"hex\":\"EF6068\",\"reason\":\"identifies the rising square-root curve\"},{\"name\":\"semicircleBlue\",\"hex\":\"268CFF\",\"reason\":\"identifies the upper semicircle\"}],\"reference\":\"Answer PDF p56 Q9(d), p23-q9-d-solution-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{rootRed}{HTML}{EF6068}\n\\definecolor{semicircleBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-1.3,0)--(6.7,0) node[below left,inner sep=2pt] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.15)--(0,6.65) node[left,inner sep=2pt] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-1.3,0.275)--(6.35,6.0125);\n\\draw[rootRed,line width=0.8pt,->] plot[variable=\\t,domain=0:4.56,samples=80] ({((\\t)^2-1)/3},{\\t});\n\\draw[semicircleBlue,line width=0.8pt] plot[variable=\\t,domain=180:0,samples=100] ({2.5+2.5*cos(\\t)},{2.5*sin(\\t)});\n\\coordinate (contact) at (1,2);\n\\fill[semicircleBlue] (contact) circle[radius=1.4pt];\n\\node[black,inner sep=1pt,anchor=north west,xshift=0.35pt,yshift=-0.35pt] at (contact) {$(1,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 56,
+                "sourceRegion": "Answer book printed page 350, left column, Exercise 7H Q9(d)",
+                "description": "Unticked axes, rising red square-root curve, blue upper semicircle, dashed common tangent with arrows at both ends, and the labelled contact point.",
+                "mathematics": "The series are y=sqrt(3x+1), y=sqrt(5x-x²), and y=3x/4+5/4. The curves share the point (1,2) and tangent gradient 3/4.",
+                "answerVisibility": "solution"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:59:15.151Z",
+  "updatedAt": "2026-11-13T16:59:15.152Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p23-q9",
+    "sectionRole": "exercise"
+  }
+}

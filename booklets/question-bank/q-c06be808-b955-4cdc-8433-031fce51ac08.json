@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c06be808-b955-4cdc-8433-031fce51ac08",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "derivative-sum-multiple",
+      "power-rule"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate the curve and derivative at x=1, then connect the zero gradient and the sketch to the horizontal tangent and its vertical perpendicular.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:05:38.644Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "45b705c24aae238b120736a1079f42092055d4bbc2fc52c9849426693280bf16",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578684774-15/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Find the equation of the tangent and normal to $y=x+\\frac{1}{x}$ at $x=1$. You may notice some unusual results compared to other tangent and normal questions done earlier in this exercise. Use graphing software to sketch $y=x+\\frac{1}{x}$, and explain why this question is different.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Tangent $y=2$. Normal $x=1$.\n\nAt $(1,2)$ the derivative is zero, so the tangent is horizontal and the normal is vertical.",
+      "worked": "At $x=1$, $y=1+\\frac11=2$. Differentiate $y=x+x^{-1}$.\n\n$$\\begin{align*}y'&=1-x^{-2}\\\\y'&=1-\\frac{1}{x^2}\\\\\\left.y'\\right|_{x=1}&=1-1\\\\\\left.y'\\right|_{x=1}&=0.\\end{align*}$$\n\nThe sketch shows the horizontal tangent at the minimum of the right-hand branch. The tangent through $(1,2)$ is $y=2$. Its perpendicular is the vertical line $x=1$, whose gradient is undefined. The two branches approach the vertical asymptote $x=0$.",
+      "solutionDiagrams": [
+        {
+          "id": "p12-q14-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function branches distinct from the axes and dashed tangent and normal\"}],\"reference\":\"answer PDF page 52 Q14, p12-q14-graph\"}\n\\begin{tikzpicture}[x=5.7mm,y=5.7mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,dashed,line width=0.4pt] (-5.1,2)--(5.1,2) (1,-5.45)--(1,5.45);\n\\draw[->,black,line width=0.5pt] (-5.25,0)--(5.35,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-5.45)--(0,5.6) node[above left] {$y$};\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-5:-0.2,samples=151] (\\x,{(\\x)+1/(\\x)});\n\\draw[<->,curveBlue,line width=0.8pt] plot[domain=0.2:5,samples=151] (\\x,{(\\x)+1/(\\x)});\n\\node[above left,inner sep=2pt] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below right,inner sep=2pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 66,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 52,
+            "sourceRegion": "Printed answer page 346, right-column Q14 graph",
+            "description": "Two blue branches with continuation arrows. Black dashed lines mark the horizontal tangent and the vertical normal, with their values at the respective axes.",
+            "mathematics": "y=x+1/x for x nonzero. Right-branch minimum at (1,2) and left-branch maximum at (-1,-2). The guide lines are y=2 and x=1. Both branches approach x=0 on their respective sides.",
+            "answerVisibility": "solution-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 52
+  },
+  "presentation": {
+    "ownerId": "p12-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:52.885Z",
+  "updatedAt": "2026-11-13T16:58:52.885Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p12-q14",
+    "sectionRole": "exercise"
+  }
+}

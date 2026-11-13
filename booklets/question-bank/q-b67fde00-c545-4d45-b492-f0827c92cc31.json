@@ -1,0 +1,166 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b67fde00-c545-4d45-b492-f0827c92cc31",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [
+      "gradient-secant-limit",
+      "instantaneous-rate-tangent"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Students construct a moving point, infer the limiting secant gradient from the graph and verify the same value with a first-principles quotient at x=2. The prompt directs each transition.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T14:04:11.051Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "22411e3a4d1a21f6289a8c7e4258c450116d363e4030ab8479785375508ae937",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch07/lean-review/calls/content-1794578592642-10/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q7-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use graphing software to plot the point $P(2,1)$ on $y=\\frac{1}{4}x^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(2,1)$ marked on the parabola.",
+          "worked": "Enter $y=\\frac14x^2$ and plot $P=(2,1)$. At $x=2$, $y=\\frac14(2)^2=1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-answer-q7-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"parabola series\"}],\"reference\":\"Answer PDF page 51, p9-answer-q7-a-graph\"}\n\\begin{tikzpicture}[x=9mm,y=9mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-1.02,0)--(5.02,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.76)--(0,5.08) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,1)--(2,1)--(2,0);\n\\draw[curveBlue,->,line width=0.8pt,domain=-1:4.45,samples=75] plot (\\x,{(\\x)^2/4});\n\\draw[black,line width=0.4pt] (2,0.06)--(2,-0.06) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.06,1)--(-0.06,1) node[left] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\fill[curveBlue] (2,1) circle[radius=1.25pt];\n\\node[above left,inner sep=2pt] at (2,1) {$P$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 51,
+                "sourceRegion": "Printed page 345, left column, Exercise 7C Q7(a)",
+                "description": "Blue parabola with black coordinate guides to the labelled ticks. The point label follows the corrected student prompt.",
+                "mathematics": "y=x^2/4 with vertex at the origin and P=(2,1). Equal coordinate units, no grid.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p9-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Plot the point $Q$ on the curve where $x=2+h$, where $h>0$, on the same diagram. Create a slider that continuously varies the value of $h$ from 0 to 1.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q=\\left(2+h,\\frac{(2+h)^2}{4}\\right)$ with a slider from $0$ to $1$. The graph shows one position of $Q$ and the secant $PQ$.",
+          "worked": "Set up a slider for $h$ from $0$ to $1$ and enter $Q=\\left(2+h,\\frac{(2+h)^2}{4}\\right)$ on the graph from part (a). Draw the line through $P$ and $Q$. At $h=0$, $Q$ coincides with $P$. Use positive values of $h$ to view the secant.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-answer-q7-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"parabola series\"},{\"name\":\"secantRed\",\"hex\":\"EF6068\",\"reason\":\"highlights the segment PQ on the secant\"}],\"reference\":\"Answer PDF page 51, p9-answer-q7-b-graph\"}\n\\begin{tikzpicture}[x=9mm,y=9mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{secantRed}{HTML}{EF6068}\n\\coordinate (P) at (2,1);\n\\coordinate (Q) at (3,2.25);\n\\draw[black,->,line width=0.5pt] (-1.02,0)--(5.02,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.76)--(0,5.08) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,1)--(P)--(2,0);\n\\draw[black,dashed,line width=0.4pt] (0,2.25)--(Q)--(3,0);\n\\draw[black,dashed,line width=0.8pt] (1.2,0)--(P) (Q)--(4.95,4.6875);\n\\draw[curveBlue,->,line width=0.8pt,domain=-1:4.45,samples=75] plot (\\x,{(\\x)^2/4});\n\\draw[secantRed,line width=0.8pt] (P)--(Q);\n\\fill[curveBlue] (P) circle[radius=1.25pt];\n\\fill[secantRed] (Q) circle[radius=1.25pt];\n\\draw[black,line width=0.4pt] (2,0.06)--(2,-0.06) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (3,0.06)--(3,-0.06) node[below] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2+h$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.06,1)--(-0.06,1) node[left] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[above left,inner sep=2pt] at (P) {$P$};\n\\node[above left,inner sep=2pt] at (Q) {$Q$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 58,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 51,
+                "sourceRegion": "Printed page 345, left column, Exercise 7C Q7(b)",
+                "description": "Blue parabola with black coordinate guides and dashed secant extensions. The secant segment between the points is red. A static view of the slider at h=1 uses the source's symbolic tick 2+h.",
+                "mathematics": "y=x^2/4, P=(2,1), Q=(2+h,(2+h)^2/4). At the illustrated position h=1, the secant is y=5x/4-3/2. Equal coordinate units, no grid.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p9-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use your diagram to read off the gradient of the interval $PQ$ as $h$ approaches zero.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$",
+          "worked": "Move the slider towards $0$ and read the rise and run of $PQ$ on the graph. For example, at $h=0.5$ the rise is $0.5625$ and the run is $0.5$, giving gradient $1.125$. At $h=0.1$ the rise is $0.1025$ and the run is $0.1$, giving gradient $1.025$. The secant gradient approaches $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p9-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Verify this result algebraically using differentiation by first principles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(2)=1$",
+          "worked": "$$\\begin{align*}f'(2)&=\\lim_{h\\to0}\\frac{f(2+h)-f(2)}{h}\\\\f'(2)&=\\lim_{h\\to0}\\frac{(2+h)^2-4}{4h}\\\\f'(2)&=\\lim_{h\\to0}\\frac{4h+h^2}{4h}\\\\f'(2)&=\\lim_{h\\to0}\\left(1+\\frac h4\\right)\\\\f'(2)&=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T16:58:44.451Z",
+  "updatedAt": "2026-11-13T16:58:44.451Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch07",
+    "blockId": "p9-q7",
+    "sectionRole": "exercise"
+  }
+}
