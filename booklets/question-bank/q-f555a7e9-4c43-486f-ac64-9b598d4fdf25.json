@@ -1,0 +1,334 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f555a7e9-4c43-486f-ac64-9b598d4fdf25",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-function-transformations",
+    "secondarySkillIds": [
+      "graph-log-functions"
+    ],
+    "reasoningScore": 26,
+    "difficulty": "Development",
+    "difficultyReason": "Choose whether each transformation changes the input or output, write the corresponding equation and use software to compare the result with the parent graph on common axes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:20:12.747Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0d26aded2d0a395e16ee9803d8fee3851c34fc1196b9537342427f5ee5f182aa",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794586748190-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $y=\\ln(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing logarithmic curve through $(1,0)$ with vertical asymptote $x=0$.",
+          "worked": "The domain is $x>0$. Since $\\ln(1)=0$, the graph crosses the $x$-axis at $(1,0)$. It falls without bound as $x$ approaches $0$ from the right and rises as $x$ increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q11-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"logarithmic curve and matching label\"}],\"reference\":\"Answer PDF p. 70, p16-q11-a-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\begin{tikzpicture}[x=0.95cm,y=0.76cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.85,0)--(5.25,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2.95)--(0,2.55) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.75:1.56,samples=65] ({exp(\\x)},{\\x});\n\\draw[black,line width=0.4pt] (1,-0.08)--(1,0.08);\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[logBlue] at (3.4,2.02) {$y=\\ln(x)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 58,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 70,
+                "sourceRegion": "Q11 first (a)",
+                "description": "Increasing logarithmic curve with two continuation arrows and the intercept tick 1.",
+                "mathematics": "y=ln(x), x>0, vertical asymptote x=0",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p16-q11-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Write down the equation of the graph after each transformation. Use graphing software to sketch each transformed graph and $y=\\ln(x)$ on the same axes so you can compare them.",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-q11-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Shifted down by 1 unit.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=\\ln(x)-1$.",
+              "worked": "Subtract 1 from every $y$-coordinate. The point $(1,0)$ moves to $(1,-1)$ and the vertical asymptote stays at the vertical axis.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-i-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-i-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.96cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.8,0)--(5.25,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-3.55)--(0,2.65) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-3.25:1.57,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-1.62:1.57,samples=65] ({exp(\\x)},{\\x-1});\n\\node[logBlue,anchor=west] at (0.45,2.28) {$y=\\ln(x)$};\n\\node[logRed,anchor=west] at (1.55,-1.12) {$y=\\ln(x)-1$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(i)",
+                    "description": "Original and downward translation on common axes. Blue solid is the original and red dashed is the transformed graph.",
+                    "mathematics": "y=ln(x) and y=ln(x)-1",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 27
+          },
+          {
+            "id": "p16-q11-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Shifted up by 2 units.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=\\ln(x)+2$.",
+              "worked": "Add 2 to every $y$-coordinate. The point $(1,0)$ moves to $(1,2)$ and the vertical asymptote stays at $x=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-ii-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-ii-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.96cm,y=0.63cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.8,0)--(5.25,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2.65)--(0,4.65) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.35:1.57,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-3.55:1.57,samples=75] ({exp(\\x)},{\\x+2});\n\\node[logRed,anchor=west] at (0.45,4.02) {$y=\\ln(x)+2$};\n\\node[logBlue,anchor=west] at (1.55,-0.93) {$y=\\ln(x)$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(ii)",
+                    "description": "Original and upward translation on common axes.",
+                    "mathematics": "y=ln(x) and y=ln(x)+2",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 27
+          },
+          {
+            "id": "p16-q11-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Translated to the left by 1 unit.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=\\ln(x+1)$.",
+              "worked": "Replace $x$ with $x+1$. The point $(1,0)$ moves to $(0,0)$ and the vertical asymptote moves from $x=0$ to $x=-1$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-iii-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-iii-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.91cm,y=0.76cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-1.65,0)--(4.9,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2.85)--(0,2.82) node[left] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-1,-2.8)--(-1,2.12);\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.65:1.49,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-2.65:1.68,samples=65] ({exp(\\x)-1},{\\x});\n\\node[logRed,anchor=west] at (0.3,2.28) {$y=\\ln(x+1)$};\n\\node[logBlue,anchor=west] at (1.45,-0.68) {$y=\\ln(x)$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(iii)",
+                    "description": "Original and left translation on common axes, with the shifted vertical asymptote dashed.",
+                    "mathematics": "y=ln(x) and y=ln(x+1)",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p16-q11-b-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "Dilated vertically by a factor of 2.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=2\\ln(x)$.",
+              "worked": "Double every $y$-coordinate. The intercept $(1,0)$ stays fixed, and $(e,1)$ moves to $(e,2)$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-iv-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-iv-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.96cm,y=0.68cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.8,0)--(5.25,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-3.28)--(0,3.65) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.9:1.57,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-1.52:1.57,samples=65] ({exp(\\x)},{2*\\x});\n\\node[logRed,anchor=west] at (0.4,2.76) {$y=2\\ln(x)$};\n\\node[logBlue,anchor=west] at (1.6,-0.7) {$y=\\ln(x)$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(iv)",
+                    "description": "Original and vertical stretch on common axes, sharing the intercept.",
+                    "mathematics": "y=ln(x) and y=2ln(x)",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 27
+          },
+          {
+            "id": "p16-q11-b-v",
+            "type": "part",
+            "label": "v",
+            "prompt": "Dilated vertically by a factor of 0.5.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=\\tfrac12\\ln(x)$.",
+              "worked": "Halve every $y$-coordinate. The intercept $(1,0)$ stays fixed, and $(e,1)$ moves to $\\left(e,\\tfrac12\\right)$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-v-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-v-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.96cm,y=0.86cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-0.8,0)--(5.25,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2.75)--(0,2.55) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.5:1.57,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-3.8:1.57,samples=75] ({exp(\\x)},{0.5*\\x});\n\\node[logBlue,anchor=west] at (0.45,2.04) {$y=\\ln(x)$};\n\\node[logRed,anchor=west] at (1.55,-0.81) {$y=\\tfrac12\\ln(x)$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(v)",
+                    "description": "Original and vertical compression on common axes, sharing the intercept.",
+                    "mathematics": "y=ln(x) and y=(1/2)ln(x)",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p16-q11-b-vi",
+            "type": "part",
+            "label": "vi",
+            "prompt": "Reflected across the $y$-axis.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=\\ln(-x)$.",
+              "worked": "Replace $x$ with $-x$. The point $(1,0)$ moves to $(-1,0)$ and the reflected curve lies to the left of its vertical asymptote $x=0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p16-q11-b-vi-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"original curve\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"transformed curve\"}],\"reference\":\"PDF p. 16, p16-q11-b-vi-solution\"}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\begin{tikzpicture}[x=0.68cm,y=0.76cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.5pt] (-4.45,0)--(4.45,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-2.85)--(0,2.7) node[left] {$y$};\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-2.62:1.37,samples=65] ({exp(\\x)},{\\x});\n\\draw[logRed,dashed,<->,line width=0.8pt] plot[domain=-1.65:1.37,samples=65] ({-exp(\\x)},{\\x});\n\\node[logBlue,anchor=west] at (0.42,2.03) {$y=\\ln(x)$};\n\\node[logRed,anchor=east] at (-0.42,2.03) {$y=\\ln(-x)$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 61,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 16,
+                    "sourceRegion": "Q11(b)(vi)",
+                    "description": "Original and its reflection on opposite sides of the y-axis.",
+                    "mathematics": "y=ln(x) and y=ln(-x)",
+                    "answerVisibility": "solution only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 27
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:25.443Z",
+  "updatedAt": "2026-11-13T18:37:25.443Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p16-q11",
+    "sectionRole": "exercise"
+  }
+}

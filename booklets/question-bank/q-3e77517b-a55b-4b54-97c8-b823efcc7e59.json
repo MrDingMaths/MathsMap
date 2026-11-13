@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3e77517b-a55b-4b54-97c8-b823efcc7e59",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-exponential-features",
+    "secondarySkillIds": [
+      "graph-function-transformations"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Use the asymptote to determine the vertical shift, use the intercept to isolate the multiplier, then use the negative-input point to determine the base before evaluating the function at −3.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:50:08.894Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b1e8b4cdf1ffabe0c6212ccab606f247e818fbfbfd71067a66770181b3d63cf5",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794584986328-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "The point $(-3,p)$ lies on the graph of the exponential function $y=k\\times a^x+c$, shown in the diagram below. The points $\\left(-1,-\\frac12\\right)$ and $(0,-1)$ also lie on the same graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q16-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the exponential curve from the axes and asymptote\"}],\"reference\":\"PDF page 28, printed page 238, Question 16, p28-q16-graph\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.55,-2.65) rectangle (7.25,2.8);\n\\draw[black,line width=0.5pt,->] (-4.05,0) -- (7.05,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.5) -- (0,2.55) node[below left] {$y$};\n\\draw[black,line width=0.4pt,dashed] (-4.55,-2) -- (7.05,-2);\n\\node[black,below] at (2.6,-2) {$y=-2$};\n\\draw[curveBlue,line width=0.8pt,<->] plot[domain=-3.55:6.1,samples=90,variable=\\x] ({\\x},{pow(2/3,(\\x))-2});\n\\coordinate (P) at (-3,{pow(2/3,-3)-2});\n\\coordinate (A) at (-1,-0.5);\n\\coordinate (B) at (0,-1);\n\\fill[black] (P) circle[radius=1.5pt];\n\\fill[black] (A) circle[radius=1.5pt];\n\\fill[black] (B) circle[radius=1.5pt];\n\\node[black,anchor=west,xshift=3.50pt] at (P) {$(-3,p)$};\n\\node[black,below left] at (A) {$\\left(-1,-\\frac12\\right)$};\n\\node[black,above right] at (B) {$(0,-1)$};\n\\node[black,anchor=south,yshift=0.50pt] at (-3.12,2.18) {$y=k\\times a^x+c$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 118,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 16 graph between the stem and parts (a) and (b), printed page 238",
+          "description": "A decreasing blue exponential curve with arrows at both ends, positive-direction axis arrows, three marked points and a dashed horizontal asymptote. The source has no axis ticks or grid. House styling uses black for ordinary axes, labels, guide and point markers.",
+          "mathematics": "The curve is plotted from the unique exponential determined by the two given coordinates and the asymptote. It passes through the point labelled (-3,p), crosses the x-axis between x=-3 and x=-1, and approaches y=-2 from above.",
+          "answerVisibility": "The curve label is y=k×a^x+c and the unknown ordinate is labelled p. The student diagram displays no solved parameter values, numerical value of p or intercept coordinates beyond the supplied point labels."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the values of $a$, $c$ and $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=\\frac23$, $c=-2$, $k=1$.",
+          "worked": "The horizontal asymptote is $y=-2$, so $c=-2$. Substitute $(0,-1)$.\n$$\\begin{align*}-1&=k\\cdot a^0-2\\\\-1&=k-2\\\\k&=1.\\end{align*}$$\nSubstitute $\\left(-1,-\\frac12\\right)$.\n$$\\begin{align*}-\\frac12&=a^{-1}-2\\\\\\frac32&=\\frac1a\\\\a&=\\frac23.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p28-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the value of $p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$p=\\frac{11}{8}$.",
+          "worked": "Substitute $x=-3$ into $y=\\left(\\frac23\\right)^x-2$.\n$$\\begin{align*}p&=\\left(\\frac23\\right)^{-3}-2\\\\p&=\\frac{27}{8}-2\\\\p&=\\frac{11}{8}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:51.105Z",
+  "updatedAt": "2026-11-13T18:37:51.105Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p28-q16",
+    "sectionRole": "exercise"
+  }
+}

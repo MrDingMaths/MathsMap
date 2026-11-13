@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7bac1bf7-9bde-43dc-95f7-024da0f83edb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-exponential-features",
+    "secondarySkillIds": [
+      "log-identities-inverse"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the ordered cues to extract parameters from the asymptote and two points, then verify the exact crossing by combining a negative exponent with the inverse logarithm identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:37:14.303Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ca9d71ae703b3faf3ecfb45deb121b85aba4bba1fc87acb1625237cfabb22fa",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794584169722-25/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-p3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The diagram below shows the graph of a function $y=k\\times a^{-x}+c$. Find the values of $a$, $c$ and $k$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-p3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the function from the axes and asymptote\"}],\"reference\":\"source PDF page 18 p18-p3-graph\"}\n\\begin{tikzpicture}[x=13mm,y=12mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,line width=0.4pt,dashed] (-0.95,1)--(4.30,1);\n\\draw[black,line width=0.5pt,->] (-0.95,0)--(4.58,0) node[below left,inner sep=2pt] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.1)--(0,2.0) node[left,inner sep=2pt] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->] plot[domain=-0.59:3.95,samples=100] (\\x,{1-2*pow(3,-(\\x))});\n\\draw[black,line width=0.4pt] (-0.08,-1)--(0.08,-1);\n\\node[left,inner sep=2pt] at (-0.08,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[above right,inner sep=2pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\coordinate (intercept) at ({ln(2)/ln(3)},0);\n\\fill[black] (intercept) circle[radius=0.85mm];\n\\node[right,inner sep=2pt] (interceptLabel) at (2,-1.02) {$\\log_3(2)$};\n\\draw[black,line width=0.4pt,->,shorten >=1.15mm] (interceptLabel.west) to[out=145,in=-40] (intercept);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 74,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Problem 3, graph below the shared stem",
+          "description": "Black axes and dashed asymptote. The blue curve rises and bends down towards the asymptote, with continuation arrows at both ends. A leader from the logarithmic label points to the filled x-intercept. The curve colour distinguishes it from the axes and asymptote.",
+          "mathematics": "Dashed y=1, y-intercept (0,-1), and marked x-intercept x=log base 3 of 2. Plot the curve through these points using the equation implied by the givens. The point supplied in part (c) is left unmarked.",
+          "answerVisibility": "Student-visible graph with the original labels only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-p3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the value of $c$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c=1$",
+          "worked": "The curve approaches the horizontal asymptote $y=c$. The graph shows this line at $y=1$, so $c=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p18-p3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By using the fact that the curve passes through $(0,-1)$, find the value of $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=-2$",
+          "worked": "Substitute $(0,-1)$ and $c=1$.\n$$\\begin{align*}\n-1&=k\\times a^0+1\\\\\n-1&=k+1\\\\\nk&=-2\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p18-p3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Suppose that the curve passes through $\\left(1,\\dfrac13\\right)$. Find the value of $a$ and hence, find the equation of the curve.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=3$, so $y=-2\\times 3^{-x}+1$.",
+          "worked": "Substitute $\\left(1,\\frac13\\right)$, $k=-2$ and $c=1$.\n$$\\begin{align*}\n\\frac13&=-2a^{-1}+1\\\\\n-\\frac23&=-\\frac{2}{a}\\\\\n\\frac13&=\\frac1a\\\\\na&=3\n\\end{align*}$$\nThe equation is $y=-2\\times 3^{-x}+1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p18-p3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Verify that the $x$-intercept is $x=\\log_3(2)$, as shown in the diagram above.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y(\\log_3(2))=0$, so the $x$-intercept is $x=\\log_3(2)$.",
+          "worked": "$$\\begin{align*}\ny(\\log_3(2))&=-2\\times 3^{-\\log_3(2)}+1\\\\\ny(\\log_3(2))&=-2\\times \\frac12+1\\\\\ny(\\log_3(2))&=0\n\\end{align*}$$\nThis is the only $x$-intercept because the curve is strictly increasing.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-p3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:30.147Z",
+  "updatedAt": "2026-11-13T18:37:30.148Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p18-p3",
+    "sectionRole": "exercise"
+  }
+}

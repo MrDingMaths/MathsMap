@@ -1,0 +1,175 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-25fe33fb-fe31-488d-8999-def07f82693b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-exp-log-quadratic-form",
+    "secondarySkillIds": [
+      "solve-exponential-log-equations"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Build equations from two speed measurements, choose how to eliminate b, use k>0 to reject one quadratic root when fitting the model, and interpret the fitted asymptote as terminal speed.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:16:36.325Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a88388cc02f7f8c2f5de8e1e5a7b8c0b961066d31fb6184f5691cae625dc3e9e",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794586576848-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-p2",
+    "type": "question",
+    "label": "2",
+    "prompt": "An object falls from a hot-air balloon. The speed $v$ of the object after $t$ seconds can be modelled by the equation $v=b(1-e^{-kt})$, where $b$ and $k$ are positive constants and $v$ is measured in metres per second.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-p2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The speed of the object is measured at $t=1$ and $t=2$, and found to be $v=10$ and $v=15$ respectively. Show that $2e^{-2k}-3e^{-k}+1=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2e^{-2k}-3e^{-k}+1=0$. Divide the second speed equation by the first to eliminate $b$.",
+          "worked": "$$\\begin{align*}10&=b(1-e^{-k})\\\\15&=b(1-e^{-2k})\\end{align*}$$\n\nDivide the second equation by the first.\n\n$$\\begin{align*}\\frac{15}{10}&=\\frac{1-e^{-2k}}{1-e^{-k}}\\\\3(1-e^{-k})&=2(1-e^{-2k})\\\\2e^{-2k}-3e^{-k}+1&=0\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p13-p2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Let $p=e^{-k}$ and solve the resultant quadratic equation for $p$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$p=\\frac12$ or $p=1$.",
+          "worked": "$$\\begin{align*}2p^2-3p+1&=0\\\\(2p-1)(p-1)&=0\\\\p&=\\frac12\\quad\\text{or}\\quad p=1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p13-p2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the value of $k$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\ln 2$ and $b=20\\,\\mathrm{m/s}$.",
+          "worked": "Since $k>0$, we have $0<e^{-k}<1$, so use $p=\\frac12$.\n\n$$\\begin{align*}e^{-k}&=\\frac12\\\\-k&=\\ln\\!\\left(\\frac12\\right)\\\\k&=\\ln 2\\end{align*}$$\n\nSubstitute $e^{-k}=\\frac12$ into the equation for $t=1$.\n\n$$\\begin{align*}10&=b\\left(1-\\frac12\\right)\\\\10&=\\frac b2\\\\b&=20\\,\\mathrm{m/s}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p13-p2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use graphing software to sketch the graph of $v$ against $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph of $v=20(1-2^{-t})$ starts at $(0,0)$ and approaches $v=20$ from below.",
+          "worked": "$$\\begin{align*}v&=20(1-e^{-t\\ln 2})\\\\v&=20(1-2^{-t})\\end{align*}$$\n\nEnter the function in graphing software for $t\\ge 0$, with $t$ on the horizontal axis and $v$ on the vertical axis. The curve passes through $(0,0)$, $(1,10)$ and $(2,15)$ and levels off towards the horizontal asymptote $v=20$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-p2-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"speed curve and its equation label\"}],\"reference\":\"answer PDF p. 68, P2(d), p13-p2-d-solution-graph\"}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\begin{tikzpicture}[x=8mm,y=2.1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (-0.24,0) -- (7.05,0) node[below] {$t$};\n\\draw[black,line width=0.5pt,->] (0,-1) -- (0,23.2) node[left] {$v$};\n\\draw[black,line width=0.4pt,dashed] (0,20) -- (7,20);\n\\draw[black,line width=0.4pt] (-0.11,20) -- (0,20);\n\\node[left] at (-0.11,20) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$20$\\special{dvisvgm:raw </g>}};\n\\draw[curveBlue,line width=0.8pt,->] plot[domain=0:6.65,samples=80] (\\x,{20*(1-pow(2,-(\\x)))});\n\\node[curveBlue,below,yshift=-3mm] at (4.75,18.7) {$v=20(1-2^{-t})$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 68,
+                "sourceRegion": "Answer book printed page 362, Exercise 8D P2(d)",
+                "description": "Positive-direction axis arrows, no labelled horizontal scale, a blue rising curve with a right-facing continuation arrow and a matching formula label, and a dashed guide through the vertical-axis label 20. The house blue is used for the curve and its label.",
+                "mathematics": "v=20(1-2^{-t}) for t≥0. The curve starts at (0,0), is increasing and concave down, and approaches v=20 from below.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p13-p2-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What is the limiting value of $v$ as $t\\to\\infty$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\,\\mathrm{m/s}$",
+          "worked": "As $t\\to\\infty$, $2^{-t}\\to 0$, so $v=20(1-2^{-t})\\to 20\\,\\mathrm{m/s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p13-p2-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "What is the physical significance of this result?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The object approaches a terminal speed of $20\\,\\mathrm{m/s}$.",
+          "worked": "As the object continues to fall, its downward speed approaches $20\\,\\mathrm{m/s}$. Its terminal velocity is $20\\,\\mathrm{m/s}$ downward.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-p2-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:17.303Z",
+  "updatedAt": "2026-11-13T18:37:17.304Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p13-p2-block",
+    "sectionRole": "exercise"
+  }
+}

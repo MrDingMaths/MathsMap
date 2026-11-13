@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-33d301a3-4a1c-477e-8a21-e082204fd3ac",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "graph-exponential-features"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch familiar parent curves and use their increasing shape to turn the given left-to-right order of the inputs into a comparison of output heights.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:36:56.549Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c4838c7c4081b2c2e8246b040df8b3c0baa3801809cb97a08228c1aefb6705f4",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794584157292-24/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Suppose $a$ and $b$ are numbers such that $a>b$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By drawing a graph of $y=e^x$, explain why $e^a>e^b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=e^x$ is increasing, so $a>b$ gives $e^a>e^b$.",
+          "worked": "On $y=e^x$, the point with input $a$ lies to the right of the point with input $b$. The curve rises from left to right, so its height at $a$ is greater. Therefore $e^a>e^b$.",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q17-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"expBlue\",\"hex\":\"268CFF\",\"reason\":\"matches the exponential curve to its equation\"}],\"reference\":\"student PDF p17 p17-q17-a-graph\"}\n\\begin{tikzpicture}[x=14mm,y=10mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{expBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-2.5,0)--(2.55,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.36)--(0,4.35) node[left] {$y$};\n\\coordinate (B) at (0.65,{exp(0.65)});\n\\coordinate (A) at (1.28,{exp(1.28)});\n\\draw[black,dashed,line width=0.4pt] (0,{exp(0.65)})--(B)--(0.65,0);\n\\draw[black,dashed,line width=0.4pt] (0,{exp(1.28)})--(A)--(1.28,0);\n\\draw[expBlue,<->,line width=0.8pt] plot[domain=-2.35:1.40,samples=85,variable=\\t] ({\\t},{exp(\\t)});\n\\draw[black,line width=0.4pt] (-0.06,1)--(0.06,1);\n\\node[left] at (-0.06,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\fill[black] (A) circle[radius=1pt] (B) circle[radius=1pt];\n\\node[below] at (0.65,0) {$b$};\n\\node[below] at (1.28,0) {$a$};\n\\node[left] at (0,{exp(0.65)}) {$e^b$};\n\\node[left] at (0,{exp(1.28)}) {$e^a$};\n\\node[expBlue,right] at (1.47,3.48) {$y=e^x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 76,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 17,
+                "sourceRegion": "Question 17(a), authored response sketch",
+                "description": "Increasing exponential with guides from two illustrative inputs to their corresponding output heights.",
+                "mathematics": "On y = e^x, a is right of b and e^a is above e^b. The x-axis is the horizontal asymptote and (0,1) is the y-intercept.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p17-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If $b>0$, draw a graph of $y=\\ln(x)$ and explain why $\\ln(a)>\\ln(b)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\ln(x)$ is increasing for $x>0$, so $a>b>0$ gives $\\ln(a)>\\ln(b)$.",
+          "worked": "Both $a$ and $b$ lie in the domain $x>0$. The point with input $a$ is to the right of the point with input $b$. The logarithmic curve rises from left to right, so its height at $a$ is greater and $\\ln(a)>\\ln(b)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q17-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logBlue\",\"hex\":\"268CFF\",\"reason\":\"matches the logarithmic curve to its equation\"}],\"reference\":\"student PDF p17 p17-q17-b-graph\"}\n\\begin{tikzpicture}[x=10mm,y=13mm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{logBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-1.55,0)--(5.65,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-1.93)--(0,2.18) node[left] {$y$};\n\\coordinate (B) at (1.85,{ln(1.85)});\n\\coordinate (A) at (3.85,{ln(3.85)});\n\\draw[black,dashed,line width=0.4pt] (0,{ln(1.85)})--(B)--(1.85,0);\n\\draw[black,dashed,line width=0.4pt] (0,{ln(3.85)})--(A)--(3.85,0);\n\\draw[logBlue,<->,line width=0.8pt] plot[domain=-1.75:1.64,samples=100,variable=\\t] ({exp(\\t)},{\\t});\n\\draw[black,line width=0.4pt] (1,-0.06)--(1,0.06);\n\\node[below] at (1,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\fill[black] (A) circle[radius=1pt] (B) circle[radius=1pt];\n\\node[below] at (1.85,0) {$b$};\n\\node[below] at (3.85,0) {$a$};\n\\node[left] at (0,{ln(1.85)}) {$\\ln(b)$};\n\\node[left] at (0,{ln(3.85)}) {$\\ln(a)$};\n\\node[logBlue,above left] at (5.08,1.80) {$y=\\ln(x)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 77,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 17,
+                "sourceRegion": "Question 17(b), authored response sketch",
+                "description": "Increasing logarithm with guides from two illustrative positive inputs to their corresponding output heights.",
+                "mathematics": "On y = ln(x), a is right of b and ln(a) is above ln(b). The curve crosses at (1,0) and approaches x = 0 from the right.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:28.039Z",
+  "updatedAt": "2026-11-13T18:37:28.040Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p17-q17",
+    "sectionRole": "exercise"
+  }
+}

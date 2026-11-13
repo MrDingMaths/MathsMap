@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-58fef1a1-2dc6-422e-903d-3b6e818da94e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "log-results"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Choose a usable concentration scale and turn the supplied reciprocal logarithm into a sketch with the correct intercept, asymptote and direction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T16:16:57.489Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "24e16fd3559d3cefd933ce7854976a0471af82ca28c63fb34628651b29082058",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794586596590-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Using $\\mathrm{pH}=\\log_{10}\\!\\left(\\frac{1}{C}\\right)$, draw a graph of pH against the hydronium ion concentration $C$ in $\\mathrm{mol\\,L^{-1}}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "A decreasing logarithmic curve for $C>0$, crossing the horizontal axis at $(1,0)$ and approaching the vertical asymptote $C=0$.",
+      "worked": "Put $C$ on the horizontal axis and pH on the vertical axis. Use a linear scale on each axis.\n\n$$\\begin{align*}\\mathrm{pH}&=\\log_{10}\\!\\left(\\frac{1}{C}\\right)\\\\\\mathrm{pH}&=-\\log_{10}C\\end{align*}$$\n\nPlot $(0.1,1)$, $(1,0)$ and $(2,-\\log_{10}2)$. Draw a smooth decreasing curve through them. The curve rises without bound as $C$ approaches zero from the right and falls without bound as $C$ increases.",
+      "solutionDiagrams": [
+        {
+          "id": "p32-q2-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"pH function curve\"}],\"reference\":\"PDF page 32, p32-q2-solution-graph, authored solution\"}\n\\begin{tikzpicture}[x=23mm,y=24mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,->,line width=0.5pt] (-0.14,0) -- (2.63,0) node[above,anchor=south east,yshift=6mm] {$C\\;(\\mathrm{mol\\,L^{-1}})$};\n\\draw[black,->,line width=0.5pt] (0,-0.52) -- (0,1.48) node[above] {$\\mathrm{pH}$};\n\\foreach \\t/\\side/\\offset in {0.5/below/-0.026,1/below/-0.026,1.5/above/0.026,2/below/-0.026,2.5/below/-0.026} {\n  \\draw[black,line width=0.4pt] (\\t,-0.026) -- (\\t,0.026);\n  \\node[black,\\side] at (\\t,\\offset) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {0.5,1} {\n  \\draw[black,line width=0.4pt] (-0.027,\\t) -- (0.027,\\t);\n  \\node[black,left] at (-0.027,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[curveBlue,<->,line width=0.8pt,domain=-0.38:1.28,samples=100,variable=\\t] plot ({pow(10,-(\\t))},{\\t});\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 76,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 32,
+            "sourceRegion": "Question 2",
+            "description": "Authored solution graph on linear axes. The source provides only the graphing instruction. The blue curve shows the model, with arrows showing its continuation.",
+            "mathematics": "pH = -log10(C), C > 0. The graph crosses at (1,0), decreases, and has vertical asymptote C = 0. The plotted parametrisation is (10^(-t),t).",
+            "answerVisibility": "solution-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 42
+  },
+  "presentation": {
+    "ownerId": "p32-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:54.979Z",
+  "updatedAt": "2026-11-13T18:37:54.979Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p32-q2",
+    "sectionRole": "exercise"
+  }
+}

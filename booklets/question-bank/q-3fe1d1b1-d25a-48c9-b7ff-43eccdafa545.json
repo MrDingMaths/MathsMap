@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3fe1d1b1-d25a-48c9-b7ff-43eccdafa545",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiate-exponential",
+    "secondarySkillIds": [
+      "graph-exponential-features"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Use the derivative to obtain and sketch the tangent, then construct the perpendicular normal and use line intercepts to identify the base and height of each triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T15:38:38.446Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5395cbf2ee609dc8d576addfd3f06865a76d81b2289559d2a42da5a2bec9bc57",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch08/lean-review/calls/content-1794584270330-31/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the equation of the tangent to $y=e^{-x}$ when $x=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-x+1$.",
+          "worked": "When $x=0$, $y=e^0=1$.\n\n$$\\begin{align*}y'&=-e^{-x}\\\\y'(0)&=-1\\end{align*}$$\n\nThe tangent through $(0,1)$ has gradient $-1$.\n\n$$\\begin{align*}y-1&=-1(x-0)\\\\y&=-x+1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw the graph of $y=e^{-x}$ and the tangent in (a).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The blue curve $y=e^{-x}$ and the red tangent $y=-x+1$ touch at $(0,1)$.",
+          "worked": "The curve $y=e^{-x}$ decreases through $(0,1)$ and approaches $y=0$ from above as $x$ increases. Draw the tangent $y=-x+1$ through $(0,1)$ and $(1,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q9-b-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve\"},{\"name\":\"tangentRed\",\"hex\":\"EF6068\",\"reason\":\"tangent line\"}],\"reference\":\"Answer book PDF page 72 p22-q9-b-answer-graph\"}\n\\begin{tikzpicture}[x=1.10cm,y=1.10cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{tangentRed}{HTML}{EF6068}\n\\draw[black,->,line width=0.5pt] (-2.2,0) -- (2.42,0) node[below] {$x$};\n\\draw[black,->,line width=0.5pt] (0,-0.57) -- (0,3.2) node[above] {$y$};\n\\draw[curveBlue,<->,line width=0.8pt,domain=-1.11:2.34,samples=101,smooth,variable=\\x] plot ({\\x},{exp(-(\\x))});\n\\draw[tangentRed,<->,line width=0.8pt] (-2.1,3.1) -- (1.53,-0.53);\n\\draw[black,line width=0.4pt] (-0.055,1) -- (0.055,1);\n\\draw[black,line width=0.4pt] (1,-0.055) -- (1,0.055);\n\\node[below left,inner sep=2pt] at (-0.055,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below left,inner sep=2pt] at (1,-0.055) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 54,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 72,
+                "sourceRegion": "Exercise 8F Q9(b), printed page 366, right column",
+                "description": "Blue decreasing exponential and red descending tangent, with continuation arrows at both ends of each. Labelled coordinate axes mark one on each axis. The tangent touches the curve at the vertical intercept and crosses the horizontal axis at its marked tick.",
+                "mathematics": "The curve y=e^{-x} and its tangent y=1-x share (0,1). The tangent intersects the x-axis at (1,0).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 31
+      },
+      {
+        "id": "p22-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the area of the triangle enclosed by the tangent and the coordinate axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12\\,\\mathrm{u}^2$.",
+          "worked": "The tangent $y=1-x$ meets the axes at $(1,0)$ and $(0,1)$, so the base and height are each 1 unit.\n\n$$\\begin{align*}A&=\\frac12\\times1\\times1\\,\\mathrm{u}^2\\\\A&=\\frac12\\,\\mathrm{u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p22-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the area of the triangle enclosed by the tangent, the normal and the $x$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1\\,\\mathrm{u}^2$.",
+          "worked": "The normal has gradient 1 because it is perpendicular to the tangent of gradient $-1$. It passes through $(0,1)$.\n\n$$\\begin{align*}y-1&=1(x-0)\\\\y&=x+1\\end{align*}$$\n\nAt $y=0$, the normal gives $x=-1$. The tangent meets the $x$-axis at $x=1$. The base is 2 units and the height from $(0,1)$ is 1 unit.\n\n$$\\begin{align*}A&=\\frac12\\times2\\times1\\,\\mathrm{u}^2\\\\A&=1\\,\\mathrm{u}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T18:37:38.743Z",
+  "updatedAt": "2026-11-13T18:37:38.744Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch08",
+    "blockId": "p22-q9",
+    "sectionRole": "exercise"
+  }
+}
