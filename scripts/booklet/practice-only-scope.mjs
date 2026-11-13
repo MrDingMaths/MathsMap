@@ -47,6 +47,13 @@ const headingLike=e=>Object.entries(e.presentation??{}).some(([key,value])=>/hea
   typeof e.description==='string'&&e.description.trim().split(/\s+/).length<=6&&!/[.?!:;=$\\\d]/.test(e.description)&&
   !/\b(?:instruction|find|calculate|show|prove|explain|write|complete|evaluate|simplify|solve|express|work out)\b/i.test(e.description);
 
+// A printed exercise heading ("Exercise 5C" and its short subtitle, Mastering Adv 11 Ch 5,
+// 13 November 2026) marked as a heading in any presentation key or value (exercise-heading,
+// exerciseHeading). The digit in the label keeps headingLike from matching it.
+const exerciseHeadingLike=e=>typeof e.description==='string'&&
+  /^Exercise\s+\d+[A-Z]?(?:\s*[\n—–:-]\s*|\s+)?[A-Za-z][A-Za-z ,'’()&-]{0,60}$|^Exercise\s+\d+[A-Z]?$/.test(e.description.trim())&&
+  Object.entries(e.presentation??{}).some(([key,value])=>/heading/i.test(key)||typeof value==='string'&&/heading/i.test(value));
+
 // The inventory envelope permits presentation metadata. Canonicalise explicit
 // scope declarations without changing the independently observed source content.
 export function normalizePracticeInventory(inventory) {
@@ -79,6 +86,8 @@ export function normalizePracticeInventory(inventory) {
       /\b(?:retain(?:ed)?|embedded|within|stem|parent|kept)\b/i.test(e.exclusionReason))canonical(EMBEDDED_RETENTION_REASON);
     if(['cover','footer'].includes(e.kind)&&e.exclusionReason&&!publisherFurniture(e.exclusionReason)&&
       /running|header|page number|footer|furniture|pagination/i.test(e.exclusionReason))canonical(RUNNING_HEADER_REASON);
+    if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&exerciseHeadingLike(e))
+      canonical('Printed exercise boundary is retained in exercise identity and replaced by the house exercise heading.');
     if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&headingLike(e))canonical(TOPIC_HEADING_REASON);
   }
   return result;

@@ -181,6 +181,14 @@ test('practice-only inventory normalises recognisable exclusion wording and chec
  // A heading that reads as an instruction, or carries no heading marker, is still a finding.
  assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Find the value',presentation:{headingRole:'band'}}]}),/exclude standalone/);
  assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Fractions'}]}),/exclude standalone/);
+ // Printed exercise headings carry a digit, so they need their own rule (Mastering Adv 11 Ch 5).
+ for(const [description,presentation] of [['Exercise 5C\nQuadrants and related angles',{role:'exercise-heading'}],['Exercise 5D — Trigonometric identities',{role:'exerciseHeading'}],['Exercise 5F\nSine rule and the area formula',{headingKind:'main topic band'}]]){
+  const entry={id:'h',kind:'teaching',description,presentation};
+  assert.match(normalizePracticeInventory({entries:[entry]}).entries[0].exclusionReason,/Printed exercise boundary/);
+  assert.doesNotThrow(()=>validatePracticeInventory({entries:[entry]}));
+ }
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Exercise 5C: find x when 2x = 5',presentation:{role:'exercise-heading'}}]}),/exclude standalone/);
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Exercise 5C Quadrants'}]}),/exclude standalone/);
  // An embedded item excluded for an unrelated reason fails at inventory, not first at authoring.
  assert.throws(()=>validatePracticeInventory({entries:[{id:'q',kind:'question'},{id:'d',kind:'teaching',embeddedInQuestion:'q',exclusionReason:'Omit all supplied working'}]}),/Conflicting embedded/);
 });

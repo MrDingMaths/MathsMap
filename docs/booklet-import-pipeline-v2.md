@@ -691,6 +691,13 @@ Run `mastering-maths-adv11-ch03`: Part 5 PDF pages 2–33, answers Part 13 pages
 - **Fraction line clearance** on consecutive lines (`p17-p3`) is renderer line height, not content.
 - **Coverage:** the regenerated Question 5 mapped its answer-key line (`p20-answer-q5`) to the same target as the continued question. A repair file can now remap one inventory entry: `{"targetId":"inventory:ENTRY","field":"/targetId"|"/field",...}` in `lean-review repair`, and the new target must exist (`f0239213c`). The local patch repair refuses published pages, and changing the `finish` input makes `finish` refuse to resume.
 
+### Textbook campaign (from 13 November 2026)
+
+The remaining NSW textbook chapters are imported on this route, Year 11 first (James, 13 November): Mastering Adv 11 Ch 4–10, Mastering X11 Ch 1–4, Cambridge X11 Ch 6–8 and 10–18, then the Year 12 books. WRM GCSE is out of scope. Shared defects found on the way:
+
+- **Printed exercise headings failed inventory.** "Exercise 5C Quadrants and related angles", marked `role: "exercise-heading"` or `"exerciseHeading"`, was neither excluded nor recognised: `headingLike` refuses any description with a digit. `exerciseHeadingLike` (`practice-only-scope.mjs`) now gives such an entry the exercise-boundary exclusion. It applies only to an "Exercise N[X]" label with a short subtitle, and only when the entry is marked as a heading; instruction-like text still fails. Three of Ch 5's 34 pages failed on this. Test: `tests/booklet-import-v2.test.js`.
+- **A shared instruction embedded in several questions** ("For questions 9–14 justify…", Ch 4 p17) was written with a list in `presentation.embeddedInQuestion`; acceptance needs one owner. It was fixed with a page note naming Question 9; not yet a code change.
+
 ### Pilots
 
 Before rollout, run one new import on each track with a fresh run (so the manifest records `import-v2`):
