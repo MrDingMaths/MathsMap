@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f8aae3fb-f22e-43a5-8723-f0838ea47f3c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-trig-identities",
+    "secondarySkillIds": [
+      "trig-practical-problems"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Combine isosceles and exterior-angle reasoning, express two lengths using right-triangle ratios, then use the prompted results in AB/BC and cancel x to prove the identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:44:07.850Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b72f8ff04b78bdc4b4ace62f88efdd34bd463ba3fe35af8c4d91f5f0787cd73b",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555797632-36/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "The triangle $ABC$ is right angled at $B$. Suppose that $AD=DC=x$ and $\\angle ACB=\\alpha$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p34-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q15-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3);\n\\coordinate (B) at (0,0);\n\\coordinate (D) at (2.5,0);\n\\coordinate (C) at ({2.5+sqrt(15.25)},0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (A)--(D);\n\\draw[black,line width=0.4pt] ($(B)!2.8mm!(A)$)--($(B)!2.8mm!(A)+(B)!2.8mm!(C)-(B)$)--($(B)!2.8mm!(C)$);\n\\coordinate (MAD) at ($(A)!0.5!(D)$);\n\\coordinate (MDC) at ($(D)!0.5!(C)$);\n\\draw[black,line width=0.4pt] ($(MAD)!2pt!90:(D)$)--($(MAD)!2pt!-90:(D)$);\n\\draw[black,line width=0.4pt] ($(MDC)!2pt!90:(C)$)--($(MDC)!2pt!-90:(C)$);\n\\path (A)--node[midway,left=5pt] {$x$} (D);\n\\path (D)--node[midway,below=5pt] {$x$} (C);\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.35,\"$\\alpha$\"] {angle=A--C--B};\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (D) {$D$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 15 diagram",
+          "description": "Right triangle ABC with D between B and C, internal segment AD, a right-angle mark at B, alpha at C, and single equal-length ticks on AD and DC. Both equal segments are labelled x.",
+          "mathematics": "AB is perpendicular to BC; B, D and C are collinear; AD=DC=x; angle ACB=alpha. Construction coordinates enforce the equal lengths.",
+          "answerVisibility": "All source givens remain visible; no derived lengths or angles are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\angle ADB=2\\alpha$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Since $AD=DC$, $\\angle DAC=\\angle ACD=\\alpha$. The exterior angle $\\angle ADB=\\alpha+\\alpha=2\\alpha$.",
+          "worked": "Since $AD=DC$, triangle $ADC$ is isosceles, so $\\angle DAC=\\angle ACD=\\alpha$. As $DB$ extends $DC$, the exterior angle equals the sum of the two interior opposite angles:\n$$\\begin{align*}\\angle ADB&=\\angle DAC+\\angle ACD\\\\\\angle ADB&=\\alpha+\\alpha\\\\\\angle ADB&=2\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p34-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $AB=x\\sin 2\\alpha$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin 2\\alpha=\\dfrac{AB}{x}$, so $AB=x\\sin 2\\alpha$.",
+          "worked": "In right triangle $ADB$, $AD=x$ and $\\angle ADB=2\\alpha$.\n$$\\begin{align*}\\sin 2\\alpha&=\\frac{AB}{AD}\\\\\\sin 2\\alpha&=\\frac{AB}{x}\\\\AB&=x\\sin 2\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p34-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $BC=x+x\\cos 2\\alpha$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$BD=x\\cos 2\\alpha$, so $BC=BD+DC=x+x\\cos 2\\alpha$.",
+          "worked": "$$\\begin{align*}\\cos 2\\alpha&=\\frac{BD}{AD}\\\\\\cos 2\\alpha&=\\frac{BD}{x}\\\\BD&=x\\cos 2\\alpha\\\\BC&=BD+DC\\\\BC&=x\\cos 2\\alpha+x\\\\BC&=x+x\\cos 2\\alpha.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p34-q15-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence prove that\n$$\\tan\\alpha=\\frac{\\sin 2\\alpha}{1+\\cos 2\\alpha}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\alpha=\\dfrac{AB}{BC}=\\dfrac{x\\sin 2\\alpha}{x+x\\cos 2\\alpha}=\\dfrac{\\sin 2\\alpha}{1+\\cos 2\\alpha}$.",
+          "worked": "Using parts (b) and (c) in right triangle $ABC$:\n$$\\begin{align*}\\tan\\alpha&=\\frac{AB}{BC}\\\\\\tan\\alpha&=\\frac{x\\sin 2\\alpha}{x+x\\cos 2\\alpha}\\\\\\tan\\alpha&=\\frac{x\\sin 2\\alpha}{x(1+\\cos 2\\alpha)}\\\\\\tan\\alpha&=\\frac{\\sin 2\\alpha}{1+\\cos 2\\alpha}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:58.498Z",
+  "updatedAt": "2026-11-13T08:19:58.498Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p34-q15",
+    "sectionRole": "exercise"
+  }
+}

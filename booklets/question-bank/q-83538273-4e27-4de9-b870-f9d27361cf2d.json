@@ -1,0 +1,996 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-83538273-4e27-4de9-b870-f9d27361cf2d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-absolute-value",
+    "secondarySkillIds": [
+      "express-abs-as-piecewise"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hardest demand is independently exploring parameter choices and classifying graph families, connecting relative coefficient magnitudes and coincident or distinct argument zeros to corners, flat sections and cancellation. The later piecewise calculation and sketch are strongly scaffolded, but the initial investigation requires non-trivial generalisation across algebraic and graphical representations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T08:02:16.797Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3de8ae774f7b14a2cf96f328ed10461d981ca811de0df86ac4a60c7b8664d739",
+      "evidence": "D:\\WebApps\\MathsMap\\.booklet-work\\bank-import-20261112\\mastering-maths-adv11-ch04\\follow-ups\\rerate\\call-cb663dab-1-1794556927655\\last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Use graphing software to sketch various functions in the form\n$$f(x)=|ax+b|\\pm|cx+d|,$$\nfor varying values of $a$, $b$, $c$ and $d$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q1-root-run-1",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p24-q1-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "How many different general ‘shapes’ can you observe forming?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Answers vary according to how general shapes are grouped.",
+              "worked": "Compare graphs with coincident and distinct turning points, equal and unequal coefficient magnitudes, and both choices of sign. Reflected versions may be counted separately or grouped together, so the question does not determine a unique number.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p24-q1-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "List all the possible general shapes that you find, and state the particular values of $a$, $b$, $c$ and $d$ that resulted in each one.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Examples: V, $|x|+|x|$; V with an extra corner on one arm, $|2x|+|x-1|$; flat-bottomed V, $|x+1|+|x-2|$; inverted V, $|x|-|2x|$; inverted V with an extra corner, $|x|-|2x-2|$; ramp between horizontal rays, $|x|-|x-1|$; horizontal line, $|x|-|x|$. Reflections give further orientations.",
+              "worked": "One possible collection is shown below. The parameter order is $(a,b,c,d)$.\n\nV: choose the plus sign and $(1,0,1,0)$.\n$$f(x)=2|x|.$$\n\nV with an extra corner on one arm: choose the plus sign and $(2,0,1,-1)$.\n$$f(x)=\\begin{cases}-3x+1,&x<0,\\\\x+1,&0\\le x\\le1,\\\\3x-1,&x>1.\\end{cases}$$\n\nFlat-bottomed V: choose the plus sign and $(1,1,1,-2)$.\n$$f(x)=\\begin{cases}-2x+1,&x<-1,\\\\3,&-1\\le x\\le2,\\\\2x-1,&x>2.\\end{cases}$$\n\nInverted V: choose the minus sign and $(1,0,2,0)$.\n$$f(x)=-|x|.$$\n\nInverted V with an extra corner: choose the minus sign and $(1,0,2,-2)$.\n$$f(x)=\\begin{cases}x-2,&x<0,\\\\3x-2,&0\\le x\\le1,\\\\-x+2,&x>1.\\end{cases}$$\n\nRamp between horizontal rays: choose the minus sign and $(1,0,1,-1)$.\n$$f(x)=\\begin{cases}-1,&x<0,\\\\2x-1,&0\\le x\\le1,\\\\1,&x>1.\\end{cases}$$\n\nHorizontal line: choose the minus sign and $(1,0,1,0)$.\n$$f(x)=0.$$\n\nReplacing $x$ by $-x$ gives the reflected orientations. These examples illustrate shape families; the source does not define a unique rule for counting them.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 69
+          },
+          {
+            "id": "p24-q1-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "For $a\\ne0$ and $c\\ne0$, what is the significance of $x=-\\dfrac{b}{a}$ and $x=-\\dfrac{d}{c}$?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "They are the zeros of the two absolute-value arguments and the possible locations of corners in the combined graph.",
+              "worked": "$$\\begin{align*}ax+b&=0\\\\x&=-\\frac{b}{a}\\end{align*}$$\n$$\\begin{align*}cx+d&=0\\\\x&=-\\frac{d}{c}\\end{align*}$$\nEach argument changes sign at its zero. These values divide the domain into regions where the absolute-value signs can be removed consistently. Coincident changes can cancel in a difference, so a visible corner need not remain.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      },
+      {
+        "id": "p24-q2-root",
+        "type": "group",
+        "label": "",
+        "prompt": "Consider the equation\n$$f(x)=|x+1|+|x-2|.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p24-q2-a",
+            "type": "part",
+            "label": "d",
+            "prompt": "From your findings in Question 1, what kind of shape should the graph have?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "A flat-bottomed V.",
+              "worked": "The two absolute-value terms have equal coefficient magnitudes and different zeros. Between their zeros, one term increases at the same rate as the other decreases, giving a horizontal middle section.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p24-q2-b",
+            "type": "part",
+            "label": "e",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p24-q2-b-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "What are the ‘critical’ ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "x",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": "-coordinates where the shape may change?",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$x=-1$ and $x=2$.",
+              "worked": "$$\\begin{align*}x+1&=0\\\\x&=-1\\end{align*}$$\n$$\\begin{align*}x-2&=0\\\\x&=2\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0
+          },
+          {
+            "id": "p24-q2-c",
+            "type": "part",
+            "label": "f",
+            "prompt": "These critical points split the $x$-axis into three regions. Write down what the three regions are as inequalities.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$x<-1$, $-1\\le x\\le2$, $x>2$.",
+              "worked": "Using the endpoint convention in part (e), the regions are\n$$x<-1,\\qquad-1\\le x\\le2,\\qquad x>2.$$\nBoth adjoining expressions agree at each boundary.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p24-q2-d",
+            "type": "part",
+            "label": "g",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p24-q2-d-instruction",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Complete and simplify the following.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "p24-q2-d-scaffold",
+                  "type": "table",
+                  "widthMm": 125,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [
+                    10,
+                    10
+                  ],
+                  "annotations": [],
+                  "border": false,
+                  "padding": 0,
+                  "widths": [
+                    13,
+                    5,
+                    37,
+                    70
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "p24-q2-d-lhs",
+                        "type": "cell",
+                        "header": false,
+                        "align": "right",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 2,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-lhs-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "|X|=",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-d-brace",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 2,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-brace-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "\\left\\{\\begin{array}{c}\\phantom{X}\\\\[3mm]\\phantom{X}\\end{array}\\right.",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-d-positive",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-positive-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "X,",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-d-positive-condition",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-positive-condition-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "for ",
+                                "marks": []
+                              },
+                              {
+                                "type": "math",
+                                "latex": "X\\ge",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$0$",
+                                "width": 9
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p24-q2-d-negative",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-negative-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "cloze",
+                                "answer": "$-X$",
+                                "width": 13
+                              },
+                              {
+                                "type": "text",
+                                "text": ",",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-d-negative-condition",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-d-negative-condition-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "for ",
+                                "marks": []
+                              },
+                              {
+                                "type": "math",
+                                "latex": "X<0",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$|X|=\\begin{cases}X,&X\\ge0,\\\\-X,&X<0.\\end{cases}$",
+              "worked": "Absolute value leaves a nonnegative number unchanged and changes the sign of a negative number:\n$$|X|=\\begin{cases}X,&X\\ge0,\\\\-X,&X<0.\\end{cases}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p24-q2-e",
+            "type": "part",
+            "label": "h",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p24-q2-e-instruction",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Hence, complete and simplify the following for ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "f(x)",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " as defined above.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "p24-q2-e-scaffold",
+                  "type": "table",
+                  "widthMm": 160,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [
+                    12,
+                    12,
+                    12
+                  ],
+                  "annotations": [],
+                  "border": false,
+                  "padding": 0,
+                  "widths": [
+                    15,
+                    5,
+                    75,
+                    65
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "p24-q2-e-lhs",
+                        "type": "cell",
+                        "header": false,
+                        "align": "right",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 3,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-lhs-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "f(x)=",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-e-brace",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 3,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-brace-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "\\left\\{\\begin{array}{c}\\phantom{X}\\\\[5mm]\\phantom{X}\\\\[5mm]\\phantom{X}\\end{array}\\right.",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-e-upper-expression",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-upper-expression-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$x+1$",
+                                "width": 13
+                              },
+                              {
+                                "type": "math",
+                                "latex": ")+(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$x-2$",
+                                "width": 13
+                              },
+                              {
+                                "type": "math",
+                                "latex": "),",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-e-upper-condition",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-upper-condition-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "for ",
+                                "marks": []
+                              },
+                              {
+                                "type": "math",
+                                "latex": "x>",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$2$",
+                                "width": 9
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p24-q2-e-middle-expression",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-middle-expression-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$x+1$",
+                                "width": 13
+                              },
+                              {
+                                "type": "math",
+                                "latex": ")+(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$-x+2$",
+                                "width": 15
+                              },
+                              {
+                                "type": "math",
+                                "latex": "),",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-e-middle-condition",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-middle-condition-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "for ",
+                                "marks": []
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$-1$",
+                                "width": 11
+                              },
+                              {
+                                "type": "math",
+                                "latex": "\\le x\\le",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$2$",
+                                "width": 9
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "p24-q2-e-lower-expression",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-lower-expression-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$-x-1$",
+                                "width": 15
+                              },
+                              {
+                                "type": "math",
+                                "latex": ")+(",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$-x+2$",
+                                "width": 15
+                              },
+                              {
+                                "type": "math",
+                                "latex": "),",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "p24-q2-e-lower-condition",
+                        "type": "cell",
+                        "header": false,
+                        "align": "left",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "p24-q2-e-lower-condition-p",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "left",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "for ",
+                                "marks": []
+                              },
+                              {
+                                "type": "math",
+                                "latex": "x<",
+                                "display": false
+                              },
+                              {
+                                "type": "cloze",
+                                "answer": "$-1$",
+                                "width": 11
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$f(x)=\\begin{cases}2x-1,&x>2,\\\\3,&-1\\le x\\le2,\\\\-2x+1,&x<-1.\\end{cases}$",
+              "worked": "For $x>2$, both arguments are positive:\n$$\\begin{align*}f(x)&=(x+1)+(x-2)\\\\f(x)&=2x-1.\\end{align*}$$\nFor $-1\\le x\\le2$, $x+1\\ge0$ and $x-2\\le0$:\n$$\\begin{align*}f(x)&=(x+1)+(-x+2)\\\\f(x)&=3.\\end{align*}$$\nFor $x<-1$, both arguments are negative:\n$$\\begin{align*}f(x)&=(-x-1)+(-x+2)\\\\f(x)&=-2x+1.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p24-q2-f",
+            "type": "part",
+            "label": "i",
+            "prompt": "Hence, sketch the graph of $y=f(x)$ and label the branches.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Horizontal segment $y=3$ from $(-1,3)$ to $(2,3)$; left ray $y=-2x+1$ for $x<-1$; right ray $y=2x-1$ for $x>2$.",
+              "worked": "Plot $(-1,3)$ and $(2,3)$ and join them with the horizontal segment $y=3$. Extend a ray of gradient $-2$ to the left and a ray of gradient $2$ to the right. The three branches join continuously.",
+              "solutionDiagrams": [
+                {
+                  "id": "p24-q2-f-solution-graph",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24, p24-q2-f-solution-graph\"}\n\\begin{tikzpicture}[x=0.95cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-4.8,-0.8) rectangle (6.6,9.1);\n\\draw[->,line width=0.5pt] (-4.1,0)--(5.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.5)--(0,8.9) node[above] {$y$};\n\\draw[line width=0.4pt] (-1,-0.1)--(-1,0.1);\n\\node[below] at (-1,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (2,-0.1)--(2,0.1);\n\\node[below] at (2,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (-0.08,3)--(0.08,3);\n\\node[anchor=south east,xshift=-0.35pt,yshift=0.35pt] at (-0.08,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\draw[dashed,line width=0.4pt] (-1,0)--(-1,3);\n\\draw[dashed,line width=0.4pt] (2,0)--(2,3);\n\\draw[<-,line width=0.8pt] (-3.5,8)--(-1,3);\n\\draw[line width=0.8pt] (-1,3)--(2,3);\n\\draw[->,line width=0.8pt] (2,3)--(4.5,8);\n\\fill (-1,3) circle (1.2pt);\n\\fill (2,3) circle (1.2pt);\n\\node[anchor=north east] at (-1.15,2.8) {$(-1,3)$};\n\\node[anchor=north west] at (2.15,2.8) {$(2,3)$};\n\\node[anchor=north east,xshift=-2.47pt,yshift=-2.47pt] at (-3.0,7.5) {$y=-2x+1$};\n\\node[anchor=north west] at (3.85,6.2) {$y=2x-1$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 105,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 24,
+                    "sourceRegion": "Question 2(f)",
+                    "description": "Authored complete solution graph; the source supplies no axes or grid. Shows all three labelled branches and the two joining points.",
+                    "mathematics": "f(x)=-2x+1 for x<-1, f(x)=3 for -1<=x<=2, and f(x)=2x-1 for x>2.",
+                    "answerVisibility": "solution-only"
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 43
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:02:56.556Z",
+  "updatedAt": "2026-11-13T08:02:56.557Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch04",
+    "blockId": "p24-q1",
+    "sectionRole": "exercise"
+  }
+}

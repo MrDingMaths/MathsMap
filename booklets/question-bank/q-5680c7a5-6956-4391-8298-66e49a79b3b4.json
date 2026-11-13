@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5680c7a5-6956-4391-8298-66e49a79b3b4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-optimisation",
+    "secondarySkillIds": [
+      "linear-real-life"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Translate two resource limits into inequalities, find their boundary intersection, identify the common first-quadrant region, and test a production plan against both limits.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:34:55.035Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f3eae62edc8f76387f92a5f71af39cad84254e0d8ef76b8c14c05343b07ac472",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch04/lean-review/calls/content-1794555264299-25/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-p2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "A manufacturer produces two types of chairs: wooden ($x$) and metal ($y$). Each wooden chair requires 3 hours of carpentry and 1 hour of painting. Each metal chair requires 2 hours of carpentry and 2 hours of painting. The factory has at most 60 hours available for carpentry and 40 hours for painting each week.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-p2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the feasible region for the production of chairs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x\\geq0$, $y\\geq0$, $3x+2y\\leq60$ and $x+2y\\leq40$. The closed feasible region has vertices $(0,0)$, $(20,0)$, $(10,15)$ and $(0,20)$.\n\nShade below both resource boundaries in the first quadrant. Actual chair quantities have integer coordinates.",
+          "worked": "The resource constraints and non-negative quantities give\n$$\\begin{align*}3x+2y&\\leq60&&\\text{(carpentry)}\\\\x+2y&\\leq40&&\\text{(painting)}\\\\x&\\geq0\\\\y&\\geq0.\\end{align*}$$\nThe boundary lines meet at\n$$\\begin{align*}(3x+2y)-(x+2y)&=60-40\\\\2x&=20\\\\x&=10\\\\10+2y&=40\\\\2y&=30\\\\y&=15.\\end{align*}$$\nDraw solid boundary lines. Shade the common region below both lines in the first quadrant, including the boundaries. Its vertices are $(0,0)$, $(20,0)$, $(10,15)$ and $(0,20)$. Only integer-coordinate points represent actual chair-production choices.",
+          "solutionDiagrams": [
+            {
+              "id": "p18-p2-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"paintingBlue\",\"hex\":\"268CFF\",\"reason\":\"painting resource boundary\"},{\"name\":\"carpentryRed\",\"hex\":\"EF6068\",\"reason\":\"carpentry resource boundary\"},{\"name\":\"feasibleFill\",\"hex\":\"D4E8FF\",\"reason\":\"common feasible production region\"}],\"reference\":\"source page 18 Problem 2(a), teacher page 34 P2(a)\"}\n\\begin{tikzpicture}[x=0.23cm,y=0.18cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{paintingBlue}{HTML}{268CFF}\n\\definecolor{carpentryRed}{HTML}{EF6068}\n\\definecolor{feasibleFill}{HTML}{D4E8FF}\n\\fill[feasibleFill] (0,0)--(20,0)--(10,15)--(0,20)--cycle;\n\\draw[paintingBlue,line width=0.8pt] (0,20)--(28,6);\n\\draw[carpentryRed,line width=0.8pt] (0,30)--(22,-3);\n\\draw[->,black,line width=0.5pt] (-2,0)--(29,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-4)--(0,33) node[above] {$y$};\n\\fill[black] (10,15) circle (1.4pt);\n\\node[above right] at (10,15) {$(10,15)$};\n\\node[left] at (0,20) {$(0,20)$};\n\\node[anchor=north east,xshift=-0.35pt,yshift=-0.35pt] at (20,0) {$(20,0)$};\n\\node[paintingBlue,above right] at (28,6) {$x+2y=40$};\n\\node[carpentryRed,below right] at (22,-3) {$3x+2y=60$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 18,
+                "sourceRegion": "Problem 2(a); answer book PDF page 34, P2(a)",
+                "description": "Corrected first-quadrant feasible region. The source graph has no grid or numeric axis ticks. Blue and red distinguish the resource boundaries; light blue identifies their common feasible region.",
+                "mathematics": "3x+2y<=60, x+2y<=40, x>=0, y>=0. Vertices (0,0), (20,0), (10,15), (0,20).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p18-p2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Is it possible to make 15 wooden chairs and 20 metal chairs in one week? Justify your response.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. Carpentry requires 85 hours and painting requires 55 hours, exceeding the limits of 60 and 40 hours respectively.",
+          "worked": "For $x=15$ and $y=20$:\n$$\\begin{align*}\\text{Carpentry hours}&=3(15)+2(20)\\\\\\text{Carpentry hours}&=85>60\\\\\\text{Painting hours}&=15+2(20)\\\\\\text{Painting hours}&=55>40.\\end{align*}$$\nBoth resource limits are exceeded, so the production plan is not feasible.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-p2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:02:46.940Z",
+  "updatedAt": "2026-11-13T08:02:46.940Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch04",
+    "blockId": "p18-p2",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bad60174-b12f-4373-9924-041b4366ce36",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-practical-problems",
+    "secondarySkillIds": [
+      "bearings"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Introduce a perpendicular to split the supplied route into two right triangles, convert the bearing and south-east direction into usable angles, then combine their horizontal lengths using the height found in part (a).",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:36:43.394Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8ca8b7b386c16f0b848a936fe71abbad6889058efc3d5de1bd8d94934532941b",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555363918-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "A mining surveyor is travelling due East and to avoid a flooded area, a detour is made by first driving from $A$ to $B$, a distance of 12 kilometres, on a bearing of $60^\\circ$. From $B$ the surveyor travels south-east until re-joining the original line of travel at $C$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p6-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 6, p6-q18-diagram\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at ({12*sin(60)},{12*cos(60)});\n\\coordinate (C) at ({12*sin(60)+12*cos(60)},0);\n\\draw[line width=0.4pt,dashed] (A)--(C);\n\\draw[line width=0.8pt] (-2,0)--(A);\n\\draw[line width=0.8pt,->] (-1.9,0)--(-1.1,0);\n\\draw[line width=0.8pt] (C)--++(3,0);\n\\draw[line width=0.8pt,->] ($(C)+(0.7,0)$)--($(C)+(1.9,0)$);\n\\draw[line width=0.8pt] (A)--node[midway,above,sloped,fill=white,inner sep=2pt] {$12\\text{ km}$} (B)--(C);\n\\draw[line width=0.8pt,->] ($(A)!0.43!(B)$)--($(A)!0.49!(B)$);\n\\draw[line width=0.8pt,->] ($(B)!0.46!(C)$)--($(B)!0.54!(C)$);\n\\fill (A) circle[radius=1.3pt] node[below=3pt] {$A$};\n\\fill (B) circle[radius=1.3pt] node[above=3pt] {$B$};\n\\fill (C) circle[radius=1.3pt] node[below=3pt] {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 115,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 6,
+          "sourceRegion": "Question 18 route diagram, between the shared stem and parts (a)–(b)",
+          "description": "A horizontal dashed baseline joins A to C. B is above and between them. Solid AB and BC have travel arrows A to B and B to C. AB is labelled 12 km. Horizontal extensions carry eastward arrows. Filled points and italic labels identify A, B and C. Ordinary source marks are reconstructed in house black.",
+          "mathematics": "AB has length 12 and bearing 60 degrees. Coordinates are derived from B=(12 sin 60 degrees,12 cos 60 degrees); the south-east leg reaches C=(12 sin 60 degrees+12 cos 60 degrees,0). Coordinate values are construction data and are not printed.",
+          "answerVisibility": "Only the supplied route and 12 km given are visible. No altitude, bearing angle, north arrow, right-angle mark or calculated distance is added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p6-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate how far north the surveyor had to travel.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6\\text{ km}$",
+          "worked": "Let $D$ be the foot of the perpendicular from $B$ to $AC$. The bearing gives $\\angle BAD=30^\\circ$.\n$$\\begin{align*}BD&=12\\sin30^\\circ\\\\BD&=6\\text{ km}\\end{align*}$$\nThe surveyor travelled 6 km north.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p6-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By considering two different triangles, find the distance $AC$ (to the nearest tenth of a kilometre).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$16.4\\text{ km}$\n\nSplit the route into right-angled triangles using the perpendicular from $B$ to $AC$.",
+          "worked": "Let $D$ be the foot of the perpendicular from $B$ to $AC$. Then $BD=6\\text{ km}$ and $\\angle BAD=30^\\circ$. Since $BC$ runs south-east, $\\angle BCD=45^\\circ$.\n$$\\begin{align*}AD&=12\\cos30^\\circ\\\\AD&=6\\sqrt3\\text{ km}\\\\DC&=\\frac{6}{\\tan45^\\circ}\\\\DC&=6\\text{ km}\\\\AC&=AD+DC\\\\AC&=6\\sqrt3+6\\text{ km}\\\\AC&\\approx16.4\\text{ km}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p6-q18",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:23.202Z",
+  "updatedAt": "2026-11-13T08:19:23.202Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p6-q18",
+    "sectionRole": "exercise"
+  }
+}

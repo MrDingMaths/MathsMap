@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-063420c7-b6f4-4acf-bc0d-1470d75522a9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "cosine-rule",
+      "cosine-rule-angles",
+      "bearings"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Uses reverse bearings to establish the specified included angle, applies the cosine rule for the direct distance, then chooses the correct orientation when converting a triangle angle into the return bearing.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:42:34.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "179e05952ffd1b8912618a883dc6c3d0e06a31e5996da4d277b4f8a60d4262a5",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555709996-31/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q9-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Nathan leaves island $A$ in a boat and sails $152$ km on a bearing of $72^\\circ$ to island $B$. Nathan then sails on a bearing of $196^\\circ$ for $240$ km to island $C$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a diagram in your book displaying all the information above.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Diagram showing $AB=152$ km on bearing $072^\\circ$ and $BC=240$ km on bearing $196^\\circ$, with north references at $A$ and $B$.",
+          "worked": "Place $B$ northeast of $A$, then $C$ south and slightly west of $B$. Mark the clockwise bearings at $A$ and $B$, and label both distances.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q9-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 Q9; answer page 43\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (18:{152/60});\n\\path (B) ++(-106:4) coordinate (C);\n\\draw[line width=0.8pt] (A)--node[midway,above,sloped,fill=white,inner sep=1pt] {$152\\text{ km}$}(B)--node[midway,right,fill=white,inner sep=1pt] {$240\\text{ km}$}(C);\n\\draw[dashed,->,line width=0.5pt] (0,-0.5)--(0,1.1) node[above] {$N$};\n\\draw[dashed,->,line width=0.5pt] ($(B)+(0,-0.6)$)--($(B)+(0,1.1)$) node[above] {$N$};\n\\draw[->,line width=0.4pt] (90:0.45) arc[start angle=90,end angle=18,radius=0.45];\n\\node[above right] at (54:0.5) {$72^\\circ$};\n\\draw[->,line width=0.4pt] ($(B)+(90:0.45)$) arc[start angle=90,end angle=-106,radius=0.45];\n\\node[right] at ($(B)+(-8:0.6)$) {$196^\\circ$};\n\\fill (A) circle (1pt) node[below left] {$A$};\n\\fill (B) circle (1pt) node[above left] {$B$};\n\\fill (C) circle (1pt) node[below] {$C$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 9(a); answer book page 43 Q9(a)",
+                "description": "Two journey legs with north arrows at the bearing origins. House-style black marks replace decorative source shades.",
+                "mathematics": "AB has bearing 72° and length 152 km; BC has bearing 196° and length 240 km. Coordinates use one drawing unit per 60 km.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p29-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $\\angle ABC=56^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle ABC=56^\\circ$",
+          "worked": "The reverse bearing from $B$ to $A$ is $72^\\circ+180^\\circ=252^\\circ$.\n\n$$\\begin{align*}\\angle ABC&=252^\\circ-196^\\circ\\\\\\angle ABC&=56^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      },
+      {
+        "id": "p29-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the distance from island $C$ to island $A$ is approximately $200$ km.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$CA\\approx199.76$ km, approximately $200$ km.",
+          "worked": "$$\\begin{align*}CA^2&=152^2+240^2-2(152)(240)\\cos56^\\circ\\\\CA&=\\sqrt{152^2+240^2-2(152)(240)\\cos56^\\circ}\\\\CA&\\approx199.76\\text{ km}\\end{align*}$$\n\nThus the distance is approximately $200$ km.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p29-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Nathan wants to sail from island $C$ directly to island $A$. On what bearing should he sail? Give your answer correct to the nearest degree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$337^\\circ$",
+          "worked": "Let $d=CA$, retaining the exact expression from part (c), and let $\\theta=\\angle BCA$.\n\n$$\\begin{align*}\\cos\\theta&=\\frac{240^2+d^2-152^2}{2(240)d}\\\\\\theta&=\\cos^{-1}\\left(\\frac{240^2+d^2-152^2}{480d}\\right)\\\\\\theta&\\approx39.11^\\circ\\end{align*}$$\n\nThe reverse bearing from $C$ to $B$ is $196^\\circ-180^\\circ=016^\\circ$. Since $CA$ lies west of $CB$,\n\n$$\\begin{align*}\\text{Bearing of }A\\text{ from }C&=360^\\circ+16^\\circ-\\theta\\\\\\text{Bearing of }A\\text{ from }C&\\approx336.89^\\circ\\end{align*}$$\n\nNathan should sail on a bearing of $337^\\circ$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:50.680Z",
+  "updatedAt": "2026-11-13T08:19:50.681Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p29-q9",
+    "sectionRole": "exercise"
+  }
+}

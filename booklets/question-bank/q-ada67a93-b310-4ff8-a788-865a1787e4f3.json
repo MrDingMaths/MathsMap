@@ -1,0 +1,120 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ada67a93-b310-4ff8-a788-865a1787e4f3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "elevation-depression",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Find the shared pole height with tangent, then use that unrounded height in the second right triangle to determine the other ground distance.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:36:48.909Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4ff9784920e2a30418e6bfc77a41c93684d6a60e0019beb871fdd551f670d226",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555354782-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p5-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "From two points $A$ and $B$ on opposite sides of a telegraph pole, the angles of elevation of the top of the pole are found to be $40^\\circ$ and $55^\\circ$ respectively, as shown in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p5-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 p5-q11-diagram\"}\n\\begin{tikzpicture}[x=1.3cm,y=1.3cm]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.5,0);\n\\coordinate (T) at (0,{3.5*tan(40)});\n\\coordinate (B) at ({-3.5*tan(40)/tan(55)},0);\n\\draw[black,line width=0.8pt] (B)--(A);\n\\draw[black,line width=1.6pt] (O)--(T);\n\\draw[black,dashed,line width=0.4pt] (B)--(T)--(A);\n\\fill[black] (A) circle (1.5pt) (B) circle (1.5pt);\n\\node[above right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\pic[draw=black,line width=0.4pt,angle radius=8mm,angle eccentricity=1.45,\"$55^\\circ$\"] {angle=O--B--T};\n\\pic[draw=black,line width=0.4pt,angle radius=8mm,angle eccentricity=1.45,\"$40^\\circ$\"] {angle=T--A--O};\n\\draw[black,<->,line width=0.4pt] (0,-0.35)--node[below] {$25\\text{ m}$} (3.5,-0.35);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 105,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Question 11 diagram",
+          "description": "Vertical pole between B on the left and A on the right; dashed sight lines, elevation arcs, point labels and a double-headed 25 m dimension below the pole-to-A segment.",
+          "mathematics": "A is 25 m from the foot. Elevations are 40 degrees at A and 55 degrees at B. Diagram coordinates derive from these angles.",
+          "answerVisibility": "All supplied givens remain visible; no calculated lengths are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p5-q11-task",
+        "type": "group",
+        "label": "",
+        "prompt": "If $A$ is $25\\text{ m}$ from the base of the pole, find",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p5-q11-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "the height of the pole to the nearest metre",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$21\\text{ m}$",
+              "worked": "Let $h$ be the height of the pole in metres.\n$$\\begin{align*}\\tan40^\\circ&=\\frac{h}{25}\\\\h&=25\\tan40^\\circ\\\\h&\\approx21\\text{ m}\\quad\\text{(nearest metre).}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p5-q11-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "how far $B$ is from the base of the pole, to the nearest metre.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$15\\text{ m}$",
+              "worked": "Let $x$ be the distance from $B$ to the base in metres. Use the unrounded height from part (a).\n$$\\begin{align*}\\tan55^\\circ&=\\frac{25\\tan40^\\circ}{x}\\\\x&=\\frac{25\\tan40^\\circ}{\\tan55^\\circ}\\\\x&\\approx15\\text{ m}\\quad\\text{(nearest metre).}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:21.514Z",
+  "updatedAt": "2026-11-13T08:19:21.514Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p5-q11",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f3c94732-303d-497c-8640-2d586dd31ae0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cosine-rule",
+    "secondarySkillIds": [
+      "bearings"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Reverse the bearing to express both directions from C, subtract to establish the supplied 20° angle, and substitute the two distances into an unevaluated cosine-rule expression.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:44:07.850Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cfe05e6b2659545bad62cd535d2c94d0d3b85f1b431090480dcd96f972a42fdc",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555797632-36/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "The diagram shows the path of a plane flying from town $A$ on a bearing of $240^\\circ\\mathrm{T}$ to town $C$, which is 350 kilometres away. At town $C$, the plane changes course, and travels 500 km on a bearing of $80^\\circ\\mathrm{T}$ to town $B$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p33-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 33 p33-q14-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (C) at (0,0);\n\\coordinate (A) at ({3.5*sin(60)},{3.5*cos(60)});\n\\coordinate (B) at ({5*sin(80)},{5*cos(80)});\n\\foreach \\P in {A,B,C}{\n\\draw[dashed,line width=0.4pt] ($(\\P)+(0,-0.65)$)--(\\P);\n\\draw[->,dashed,line width=0.5pt] (\\P)--($(\\P)+(0,0.9)$) node[above] {$N$};\n\\draw[->,dashed,line width=0.4pt] ($(\\P)+(-0.65,0)$)--($(\\P)+(0.8,0)$);\n}\n\\draw (A)--(C)--(B)--cycle;\n\\path (C)--(A) node[midway,sloped,above,fill=white,inner sep=1.5pt] {$350\\text{ km}$};\n\\path (C)--(B) node[midway,sloped,below,fill=white,inner sep=1.5pt] {$500\\text{ km}$};\n\\node[above right] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 96,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 33,
+          "sourceRegion": "Question 14 flight-path diagram between stem and parts",
+          "description": "Triangle ACB with dashed vertical and horizontal compass guides at each town, upward north arrows and rightward reference arrows. Distances label AC and CB. Bearings remain in the stem.",
+          "mathematics": "Taking C as origin, A has offset (350 sin 60 degrees, 350 cos 60 degrees) and B has offset (500 sin 80 degrees, 500 cos 80 degrees). Thus A to C has bearing 240 degrees and C to B has bearing 80 degrees.",
+          "answerVisibility": "No computed angle or unknown distance is labelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p33-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\angle ACB=20^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The bearing of $A$ from $C$ is $060^\\circ\\mathrm{T}$, so $\\angle ACB=80^\\circ-60^\\circ=20^\\circ$.",
+          "worked": "The reverse bearing gives the bearing of $A$ from $C$:\n$$\\begin{align*}\\text{Bearing of }A\\text{ from }C&=240^\\circ-180^\\circ\\\\\\text{Bearing of }A\\text{ from }C&=060^\\circ\\mathrm{T}.\\end{align*}$$\nBoth bearings at $C$ are measured clockwise from north, so\n$$\\begin{align*}\\angle ACB&=80^\\circ-60^\\circ\\\\\\angle ACB&=20^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p33-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write down how you would find the distance of town $B$ from town $A$, without evaluating your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AB=\\sqrt{350^2+500^2-2\\times350\\times500\\cos20^\\circ}\\text{ km}$",
+          "worked": "Use the cosine rule with the included angle $\\angle ACB=20^\\circ$:\n$$\\begin{align*}AB^2&=AC^2+CB^2-2(AC)(CB)\\cos\\angle ACB\\\\AB^2&=350^2+500^2-2\\times350\\times500\\cos20^\\circ\\\\AB&=\\sqrt{350^2+500^2-2\\times350\\times500\\cos20^\\circ}\\text{ km}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:58.088Z",
+  "updatedAt": "2026-11-13T08:19:58.088Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p33-q14",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-43bdfa5a-3742-4c21-b5f9-c08d06c8d775",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "evaluate-trig-given-ratio",
+    "secondarySkillIds": [
+      "pythagorean-identities"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Derive positive cosine and tangent expressions from two sine ratios, substitute them into the supplied tangent relationship, then cancel x>0 and square to solve for x. The displayed intermediate equation guides the connection between the ratio work and the algebra.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:46:19.784Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6b6cdeeac8eed38dc5f1eb0043df2af9a401bf593e45bfef65de353d3dcc554a",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555947006-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Let $\\theta$ and $\\beta$ be acute angles. Let $x=\\sin\\theta$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q17-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q17-diagram; corrected to two triangles\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (T) at (0,3.2);\\coordinate (L) at (0,0);\\coordinate (R) at (2.6,0);\n\\draw[black,line width=0.8pt] (T)--(L)--(R)--cycle;\n\\draw[black,line width=0.4pt] ($(L)!3mm!(T)$)--($(L)!3mm!(T)+(L)!3mm!(R)-(L)$)--($(L)!3mm!(R)$);\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.45,\"$\\theta$\"] {angle=L--T--R};\n\\coordinate (T2) at (4.2,3.2);\\coordinate (L2) at (4.2,0);\\coordinate (R2) at (6.8,0);\n\\draw[black,line width=0.8pt] (T2)--(L2)--(R2)--cycle;\n\\draw[black,line width=0.4pt] ($(L2)!3mm!(T2)$)--($(L2)!3mm!(T2)+(L2)!3mm!(R2)-(L2)$)--($(L2)!3mm!(R2)$);\n\\pic[draw=black,line width=0.4pt,angle radius=7mm,angle eccentricity=1.45,\"$\\beta$\"] {angle=T2--R2--L2};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 17 diagram",
+          "description": "Two separate right triangles: theta at the top vertex of the first, beta at the right vertex of the second.",
+          "mathematics": "The source draws theta and beta in one right triangle, which forces beta = 90 degrees - theta and contradicts parts (b) and (c) (sin beta = x/2, tan theta = 3 tan beta give x = sqrt(5/8)). The angles are independent, so each has its own triangle.",
+          "answerVisibility": "Only printed angle givens and the right-angle mark are visible.",
+          "sourceCorrection": "source-error: one triangle split into two so the diagram agrees with the printed givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Express $\\cos\\theta$ and $\\tan\\theta$ in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\cos\\theta=\\sqrt{1-x^2}$, $\\tan\\theta=\\dfrac{x}{\\sqrt{1-x^2}}$.",
+          "worked": "Since $\\theta$ is acute, $\\cos\\theta>0$.\n$$\\begin{align*}\\cos^2\\theta&=1-\\sin^2\\theta\\\\\\cos^2\\theta&=1-x^2\\\\\\cos\\theta&=\\sqrt{1-x^2}\\\\\\tan\\theta&=\\frac{\\sin\\theta}{\\cos\\theta}\\\\\\tan\\theta&=\\frac{x}{\\sqrt{1-x^2}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p34-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose $\\sin\\beta=\\dfrac{x}{2}$. Find $\\tan\\beta$ in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\beta=\\dfrac{x}{\\sqrt{4-x^2}}$.",
+          "worked": "Since $\\beta$ is acute, $\\cos\\beta>0$.\n$$\\begin{align*}\\cos\\beta&=\\sqrt{1-\\sin^2\\beta}\\\\\\cos\\beta&=\\sqrt{1-\\frac{x^2}{4}}\\\\\\cos\\beta&=\\frac{\\sqrt{4-x^2}}{2}\\\\\\tan\\beta&=\\frac{\\sin\\beta}{\\cos\\beta}\\\\\\tan\\beta&=\\frac{x/2}{\\sqrt{4-x^2}/2}\\\\\\tan\\beta&=\\frac{x}{\\sqrt{4-x^2}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p34-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Using the assumption in part (b), suppose also that $\\tan\\theta=3\\tan\\beta$. Show that\n$$\\frac{x}{\\sqrt{1-x^2}}=\\frac{3x}{\\sqrt{4-x^2}},$$\nand hence show that\n$$x=\\sqrt{\\frac{5}{8}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{x}{\\sqrt{1-x^2}}=\\dfrac{3x}{\\sqrt{4-x^2}}$, giving $x=\\sqrt{\\dfrac58}$.\n\nSubstitute the ratios from (a) and (b), cancel $x>0$, then square and solve.",
+          "worked": "Substituting the expressions from (a) and (b):\n$$\\begin{align*}\\tan\\theta&=3\\tan\\beta\\\\\\frac{x}{\\sqrt{1-x^2}}&=\\frac{3x}{\\sqrt{4-x^2}}.\\end{align*}$$\nSince $\\theta$ is acute, $0<x<1$, so $x$ can be cancelled and both square roots are positive.\n$$\\begin{align*}\\frac{1}{\\sqrt{1-x^2}}&=\\frac{3}{\\sqrt{4-x^2}}\\\\\\sqrt{4-x^2}&=3\\sqrt{1-x^2}\\\\4-x^2&=9(1-x^2)\\\\4-x^2&=9-9x^2\\\\8x^2&=5\\\\x^2&=\\frac58\\\\x&=\\sqrt{\\frac58}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:59.341Z",
+  "updatedAt": "2026-11-13T08:19:59.341Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p34-q17",
+    "sectionRole": "exercise"
+  }
+}

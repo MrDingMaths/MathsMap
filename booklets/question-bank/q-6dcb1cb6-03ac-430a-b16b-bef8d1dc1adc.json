@@ -1,0 +1,169 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6dcb1cb6-03ac-430a-b16b-bef8d1dc1adc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "cosine-rule"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect two triangles through their shared side, select cosine rule and Pythagoras to establish the supplied quadratic, then solve it exactly and reject the root giving a negative side length; the stated quadratic and root-selection hint provide support.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:43:17.329Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "606996b7db1802cd5fd99397d72f0c4d91ab03d8373cec206ed324d5a2ccfe4b",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555742996-32/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-p1-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Consider the following triangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-p1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-p1-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Q) at (0,0);\n\\coordinate (S) at ({2*sqrt(3)},0);\n\\coordinate (P) at ({2*sqrt(3)},2);\n\\pgfmathsetmacro{\\qa}{1+sqrt(5)}\n\\pgfmathsetmacro{\\sa}{sqrt(5)-1}\n\\coordinate (R) at ({\\qa*\\qa/(2*sqrt(3))},{-\\qa*\\sa/(2*sqrt(3))});\n\\draw[line width=0.8pt] (P)--node[midway,above left] {$4$}(Q)--node[midway,below left] {$4-x$}(R)--node[midway,below right] {$2-x$}(S)--node[midway,right] {$2$}(P);\n\\draw[line width=0.8pt] (Q)--(S);\n\\pic[draw,line width=0.4pt,angle radius=6mm] {angle=Q--P--S};\n\\path (P) ++(240:0.95) node {$60^\\circ$};\n\\coordinate (U) at ($(R)!3mm!(Q)$);\n\\coordinate (V) at ($(R)!3mm!(S)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(R)$)--(V);\n\\node[above] at (P) {$P$};\n\\node[left] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\node[right] at (S) {$S$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Challenge Problems, Problem 1 diagram",
+          "description": "Triangles PQS and QRS share horizontal QS, with P above and R below. Coordinates give consistent geometry; house proportions differ from the source sketch. All labels and the right-angle square are retained.",
+          "mathematics": "PQ=4, PS=2, angle QPS=60°, QR=4−x, RS=2−x and angle QRS=90°. QS is an unlabelled shared side.",
+          "answerVisibility": "Only supplied lengths, variable expressions and angle information are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-p1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $x$ satisfies the quadratic equation $x^2-6x+4=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x^2-6x+4=0$",
+          "worked": "In $\\triangle PQS$, use the cosine rule.\n\n$$\\begin{align*}QS^2&=4^2+2^2-2(4)(2)\\cos60^\\circ\\\\QS^2&=12\\end{align*}$$\n\nIn right-angled $\\triangle QRS$, use Pythagoras’ theorem.\n\n$$\\begin{align*}QS^2&=(4-x)^2+(2-x)^2\\\\12&=2x^2-12x+20\\\\0&=2x^2-12x+8\\\\x^2-6x+4&=0\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p29-p1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p29-p1-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hence, find the exact value of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p29-p1-hint-text",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint:",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": " Only one solution works!",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=3-\\sqrt{5}$\n\nThe other root makes $2-x$ negative.",
+          "worked": "$$\\begin{align*}x&=\\frac{6\\pm\\sqrt{(-6)^2-4(1)(4)}}{2}\\\\x&=\\frac{6\\pm\\sqrt{20}}{2}\\\\x&=3\\pm\\sqrt{5}\\end{align*}$$\n\nSince $RS=2-x>0$, we need $x<2$. Reject $3+\\sqrt{5}$. Therefore $x=3-\\sqrt{5}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-p1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:51.523Z",
+  "updatedAt": "2026-11-13T08:19:51.524Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p29-p1",
+    "sectionRole": "exercise"
+  }
+}

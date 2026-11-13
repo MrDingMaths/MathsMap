@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-921469e9-a806-4c18-8d84-c743d2eed54d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "express-abs-as-piecewise"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Use the requested piecewise representation to split |x| at zero, then sketch the appropriate restricted quadratic branches and join them at the origin.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:30:48.120Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a3f85914566a420e500ccd970af32cbb2cd51d21921caefc051348dbb655fc04",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch04/lean-review/calls/content-1794555002864-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-problem-1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "By expressing as a piecewise-defined function, sketch the function $f(x)=x^2+|x|$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$f(x)=\\begin{cases}x^2+x,&x\\geq0,\\\\x^2-x,&x<0.\\end{cases}$\n\nThe graph is symmetric about the $y$-axis, with a cusp and minimum at $(0,0)$.",
+      "worked": "For $x\\geq0$, $|x|=x$; for $x<0$, $|x|=-x$. Thus\n$$f(x)=\\begin{cases}x^2+x,&x\\geq0,\\\\x^2-x,&x<0.\\end{cases}$$\nSketch each quadratic only on its stated domain. The branches meet at $(0,0)$ and rise on either side, symmetrically about the $y$-axis.",
+      "solutionDiagrams": [
+        {
+          "id": "p6-problem-1-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from axes\"}],\"reference\":\"source page 6; teacher page 29 P1\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-2.5,0)--(2.6,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.65)--(0,6.8) node[above] {$y$};\n\\draw[<-,curveBlue,line width=0.8pt,domain=-2:0,samples=70] plot (\\x,{(\\x)^2-(\\x)});\n\\draw[->,curveBlue,line width=0.8pt,domain=0:2,samples=70] plot (\\x,{(\\x)^2+(\\x)});\n\\node[curveBlue,anchor=east] at (-1.55,2.8) {$x^2-x$};\n\\node[curveBlue,anchor=west] at (1.55,2.8) {$x^2+x$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 6,
+            "sourceRegion": "Problem 1; answer book PDF page 29, P1",
+            "description": "Two restricted quadratic branches meet in a cusp at the origin, with continuation arrows and branch labels.",
+            "mathematics": "Left branch y=x^2-x for x<0; right branch y=x^2+x for x>=0.",
+            "answerVisibility": "solution only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 43
+  },
+  "presentation": {
+    "ownerId": "p6-problem-1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:02:26.870Z",
+  "updatedAt": "2026-11-13T08:02:26.870Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch04",
+    "blockId": "p6-problem-1",
+    "sectionRole": "exercise"
+  }
+}

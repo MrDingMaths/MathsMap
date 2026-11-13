@@ -1,0 +1,159 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dabaa015-c5a0-4433-a7a6-224c2d857730",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "non-right-triangle-problems",
+    "secondarySkillIds": [
+      "cosine-rule"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Links a cosine-rule expression to a scaffolded quadratic minimum, then recognises the resulting side lengths as a right triangle and determines its remaining angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:42:34.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "17ce1869f23c2608c0c8c5f8d2db7420c0259e21d8a3b2009e7c1fa02619a9d7",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555709996-31/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q7-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The diagram below shows $\\triangle PQR$ such that $PQ=4$, $QR=x$, $PR=q$, and $\\angle PQR=60^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28, p28-q7-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Q) at (0,0);\n\\coordinate (P) at (60:4);\n\\coordinate (R) at (5.3,0);\n\\draw[black,line width=0.8pt] (Q)--(P)--(R)--cycle;\n\\draw[black,line width=0.4pt] (0.65,0) arc[start angle=0,end angle=60,radius=0.65];\n\\node[black] at (30:1.02) {$60^\\circ$};\n\\path (Q)--(P) node[black,midway,above left] {$4$};\n\\path (P)--(R) node[black,midway,above right] {$q$};\n\\path (Q)--(R) node[black,midway,below] {$x$};\n\\node[black,above] at (P) {$P$};\n\\node[black,below left] at (Q) {$Q$};\n\\node[black,below right] at (R) {$R$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 7 triangle",
+          "description": "Triangle with P above, Q lower left and R lower right; side labels outside their edges and 60-degree angle at Q.",
+          "mathematics": "PQ=4, QR=x, PR=q and angle PQR=60 degrees. The drawing represents a general configuration.",
+          "answerVisibility": "No minimum value or right-angle mark is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the cosine rule to show that $q^2=x^2-4x+16$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$q^2=x^2+4^2-2(x)(4)\\cos60^\\circ=x^2-4x+16$.",
+          "worked": "$$\\begin{align*}q^2&=x^2+4^2-2(x)(4)\\cos60^\\circ\\\\q^2&=x^2+16-4x\\\\q^2&=x^2-4x+16.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p28-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use graphing software, or otherwise, to show that the minimum value of $y=x^2-4x+16$ is $12$, and that it occurs when $x=2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x-2)^2+12\\ge12$, with equality when $x=2$.",
+          "worked": "$$\\begin{align*}y&=x^2-4x+16\\\\y&=(x-2)^2+12.\\end{align*}$$\nSince $(x-2)^2\\ge0$, the minimum value of $y$ is $12$, attained when $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p28-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the minimum value of $q$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\sqrt3$",
+          "worked": "Since $q$ is a positive length, its minimum occurs when $q^2=12$.\n$$\\begin{align*}q_{\\min}&=\\sqrt{12}\\\\q_{\\min}&=2\\sqrt3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      },
+      {
+        "id": "p28-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Using $x=2$ and the minimum value of $q$, investigate what type of triangle $\\triangle PQR$ is in this scenario.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A right-angled triangle, with $\\angle PRQ=90^\\circ$.",
+          "worked": "$$\\begin{align*}QR^2+PR^2&=2^2+(2\\sqrt3)^2\\\\QR^2+PR^2&=4+12\\\\QR^2+PR^2&=16=PQ^2.\\end{align*}$$\nBy the converse of Pythagoras’ theorem, $\\triangle PQR$ is right-angled at $R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p28-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find $\\angle QPR$ for this minimum value of $q$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$30^\\circ$",
+          "worked": "Using the angle sum of a triangle,\n$$\\begin{align*}\\angle QPR&=180^\\circ-90^\\circ-60^\\circ\\\\\\angle QPR&=30^\\circ.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:49.876Z",
+  "updatedAt": "2026-11-13T08:19:49.876Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p28-q7",
+    "sectionRole": "exercise"
+  }
+}

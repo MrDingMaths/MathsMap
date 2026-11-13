@@ -1,0 +1,109 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3a708bc0-be57-4759-9104-dcf524793c42",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "elevation-depression",
+    "secondarySkillIds": [],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Use equal building heights to interpret the depression angles, find the sightline and horizontal separation, then calculate the total height and subtract the antenna height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-13T07:41:48.176Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "15b94f8fd3c03bcfa30f67c1d2ee84879bce2431ed5b012c672596195b85d341",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch05/lean-review/calls/content-1794555637127-26/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A 12 m high antenna is on top of a building $BC$. Opposite the road is another building $DE$ with the same height. From the top of the antenna, the angles of depression to the base and top of building $DE$ respectively are $70^\\circ$ and $30^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 p23-q3-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (C) at (0,0);\n\\coordinate (D) at (3.2,0);\n\\coordinate (A) at (0,{3.2*tan(70)});\n\\coordinate (B) at (0,{3.2*tan(70)-3.2*tan(30)});\n\\coordinate (E) at (3.2,{3.2*tan(70)-3.2*tan(30)});\n\\coordinate (N) at ($(A)+(2.4,0)$);\n\\draw[black,line width=0.8pt] (A)--(C)--(D)--(E)--++(0.65,0);\n\\draw[black,line width=0.4pt,dashed] (B)--(E) (A)--(E) (A)--(D);\n\\draw[black,line width=0.4pt,dashed,->,>=Stealth] (A)--(N);\n\\draw[black,line width=0.4pt] ($(C)+(0,0.20)$)--($(C)+(0.20,0.20)$)--($(C)+(0.20,0)$);\n\\draw[black,line width=0.4pt,<->,>=Stealth] ($(B)+(-0.48,0)$)--node[midway,left] {$12\\text{ m}$} ($(A)+(-0.48,0)$);\n\\pic[draw=black,line width=0.4pt,angle radius=10mm] {angle=E--A--N};\n\\node at ($(A)+(-15:1.6)$) {$30^\\circ$};\n\\pic[draw=black,line width=0.4pt,angle radius=5mm] {angle=D--A--N};\n\\node at ($(A)+(-50:1.4)$) {$70^\\circ$};\n\\node[above left] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\node[above right] at (E) {$E$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 3 shared antenna and buildings diagram",
+          "description": "A, B and C lie on the left vertical; D and E lie on the right vertical. B and E are level, as are C and D. AB has an external 12 m dimension arrow. Solid outlines include AC, CD, DE and the short roof extending right from E. BE, AE and AD are dashed. A dashed horizontal arrow extends right from A, and C has a right-angle square. Both depression angles are measured from the horizontal through A. Geometry uses the stated angles rather than the source's schematic proportions. All marks are black and unshaded.",
+          "mathematics": "AB=12 m, BC=DE, horizontal-to-AE depression 30°, horizontal-to-AD depression 70°. The angle between AE and AD is not labelled 70°.",
+          "answerVisibility": "No calculated distances or building heights are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the length of $AE$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$24\\text{ m}$",
+          "worked": "The equal building heights make $BE$ horizontal, so $\\angle AEB=30^\\circ$. In right-angled $\\triangle ABE$,\n$$\\begin{align*}\\sin30^\\circ&=\\frac{12}{AE}\\\\AE&=\\frac{12}{\\sin30^\\circ}\\\\AE&=24\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p23-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the height of building $BC$, correct to the nearest metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$45\\text{ m}$",
+          "worked": "The horizontal separation is $CD=BE$.\n$$\\begin{align*}CD&=24\\cos30^\\circ\\\\CD&=12\\sqrt3\\text{ m}.\\end{align*}$$\nThe angle of elevation $\\angle ADC$ is $70^\\circ$. In right-angled $\\triangle ACD$,\n$$\\begin{align*}AC&=CD\\tan70^\\circ\\\\AC&=12\\sqrt3\\tan70^\\circ\\text{ m}\\\\BC&=AC-AB\\\\BC&=12\\sqrt3\\tan70^\\circ-12\\text{ m}\\\\BC&\\approx45.11\\text{ m}.\\end{align*}$$\nThe building is $45\\text{ m}$ high, to the nearest metre.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-13T08:19:42.774Z",
+  "updatedAt": "2026-11-13T08:19:42.774Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch05",
+    "blockId": "p23-q3",
+    "sectionRole": "exercise"
+  }
+}
