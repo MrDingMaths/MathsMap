@@ -213,6 +213,11 @@ test('page-break continuations are derived from inventory flags; declared pairs 
  const {continuations,warnings}=deriveContinuations(inventories);
  assert.deepEqual(continuations.map(c=>[c.from,c.to,c.entryIds]),[[15,16,['p15-q19','p16-q19-cont']],[17,18,['p17-q1','p18-cont']]]);
  assert.equal(warnings.length,1);assert.match(warnings[0],/Page 19 continues onto page 20/);
+ // Only the first page flags it; the next page's first question is printed "2 (continued)" (Ch 7 p29-30).
+ const oneSided=deriveContinuations([page(29,[{id:'p29-q2',kind:'question',sourceLabel:'Question 2',continuesOnNextPage:true}]),page(30,[{id:'p30-q2',kind:'question',sourceLabel:'2 (continued)'},{id:'p30-q3',kind:'question',sourceLabel:'Question 3'}])]);
+ assert.deepEqual(oneSided.continuations.map(c=>c.entryIds),[['p29-q2','p30-q2']]);
+ // A different number is not paired.
+ assert.equal(deriveContinuations([page(29,[{id:'a',kind:'question',sourceLabel:'Question 2',continuesOnNextPage:true}]),page(30,[{id:'b',kind:'question',sourceLabel:'5 (continued)'}])]).continuations.length,0);
  const declared=[{from:15,to:16,entryIds:['p15-q19','p16-x']}];
  assert.deepEqual(mergeContinuations(declared,continuations).map(c=>c.from+'-'+c.to),['15-16','17-18']);
  assert.equal(mergeContinuations(declared,continuations)[0].entryIds[1],'p16-x');

@@ -27,7 +27,13 @@ export function deriveContinuations(inventories){
   for(const inv of inventories){
     const next=byPage.get(inv.pageNumber+1);
     const ends=roots(inv).filter(e=>e.continuesOnNextPage===true);
-    const starts=next?roots(next).filter(e=>e.continuesFromPreviousPage===true):[];
+    let starts=next?roots(next).filter(e=>e.continuesFromPreviousPage===true):[];
+    // Only the first page flagged it (Mastering Adv 11 Ch 6 p10, Ch 7 p30): pair with the next page's first
+    // question when its printed label names the same question as continued ("2 (continued)").
+    if(next&&!starts.length&&ends.length===1){
+      const first=roots(next).find(e=>e.kind==='question'),number=label=>/(\d+)/.exec(String(label??''))?.[1];
+      if(first&&/continued/i.test(first.sourceLabel??'')&&number(first.sourceLabel)&&number(first.sourceLabel)===number(ends[0].sourceLabel))starts=[first];
+    }
     if(!next){if(ends.length)warnings.push(`Page ${inv.pageNumber} continues onto page ${inv.pageNumber+1}, which is not selected.`);continue;}
     if(starts.length>1||ends.length>1){warnings.push(`Pages ${inv.pageNumber}-${next.pageNumber}: more than one flagged continuation; declare it in assignmentLimits.continuations.`);continue;}
     if(!starts.length){if(ends.length)warnings.push(`Page ${inv.pageNumber} flags ${ends[0].id} as continuing, but page ${next.pageNumber} has no continuation question entry; rerun its inventory or declare it.`);continue;}
