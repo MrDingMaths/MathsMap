@@ -98,6 +98,17 @@ export function bankReader(root=ROOT){
   itemsOf:id=>{if(!items.has(id))items.set(id,practiceItemCount(get(id)));return items.get(id);},
   signaturesOf:c=>{if(!signatures.has(c.id))signatures.set(c.id,exerciseSignatures(get(c.id)));return signatures.get(c.id);}};
 }
+// Questions a bank draw never places (James's pilot review, 13 November 2026): one that points at its source
+// book ("See Exercise 2I, Question 9", "the remark made in the notes") makes no sense in a booklet; and in a
+// section without working space (Mixed practice) a drawing task has nowhere to be drawn.
+const SOURCE_REFERENCE=/\bSee (?:Exercise|Question|Example|Section|Chapter)\b|\bExercise \d+[A-Z]\b|\b(?:in|from) the (?:notes|text)\b|\bthe notes\b|\bprevious (?:question|exercise)\b/i;
+const DRAWING_TASK=/\b(?:draw|sketch|construct|plot)\b/i;
+export function unsuitable(record,{workingSpace=true}={}){
+ const text=[rawText(record.content),...(record.content?.children??[]).flatMap(c=>[rawText(c),...(c.children??[]).map(rawText)])].join(' ');
+ if(SOURCE_REFERENCE.test(text))return 'refers to its source book';
+ if(!workingSpace&&DRAWING_TASK.test(text))return 'drawing task in a section without working space';
+ return null;
+}
 const candidateView=(c,reader)=>{const r=reader.record(c.id);return {id:c.id,skill:c.skill,score:c.score,items:reader.itemsOf(c.id),source:c.owner,text:(rawText(r.content)||questionText(r.content)).slice(0,PROMPT_CHARS)};};
 
 // ---- the booklet ----------------------------------------------------------------------------------------
@@ -149,11 +160,11 @@ const ownSkills=(project,topicId)=>[...new Set(project.sections.filter(s=>s.topi
 // ---- shortlist ----------------------------------------------------------------------------------------------
 // Primary skill in the set, not already in the booklet (bank id or prompt signature), then at most perSkill per
 // skill spread evenly across the ratings.
-export function shortlist(candidates,skills,{exclude={ids:new Set(),signatures:new Set()},perSkill=16,minScore=0,maxScore=100,signaturesOf=()=>[]}={}){
+export function shortlist(candidates,skills,{exclude={ids:new Set(),signatures:new Set()},perSkill=16,minScore=0,maxScore=100,signaturesOf=()=>[],reject=()=>null}={}){
  const wanted=new Set(skills),bySkill=new Map();
  for(const c of candidates){
   if(!wanted.has(c.skill)||exclude.ids.has(c.id)||c.score<minScore||c.score>maxScore)continue;
-  if(signaturesOf(c).some(k=>exclude.signatures.has(k)))continue;
+  if(signaturesOf(c).some(k=>exclude.signatures.has(k))||reject(c))continue;
   const rows=bySkill.get(c.skill)??[];rows.push(c);bySkill.set(c.skill,rows);
  }
  const out=[];
@@ -221,24 +232,48 @@ export function parseRange(value,fallback){
 }
 
 // ---- model picks --------------------------------------------------------------------------------------------
+// Over a skill's ceiling, drop that skill's hardest questions (never a kept one) until it fits. The pilot's
+// picker filled several skills to 19–21 of 18 items (13 November 2026); trimming keeps the rest of the pick.
+export function trimToCeiling(ids,{itemsOf,skillOf,scoreOf,ceiling,keep=new Set()}){
+ let out=[...ids];const dropped=[];
+ for(let over=overCeiling(out,{itemsOf,skillOf,ceiling});over.length;over=overCeiling(out,{itemsOf,skillOf,ceiling})){
+  const skill=over[0].skill,victim=out.filter(id=>skillOf(id)===skill&&!keep.has(id)).sort((a,b)=>scoreOf(b)-scoreOf(a)||b.localeCompare(a))[0];
+  if(!victim)break;
+  out=out.filter(id=>id!==victim);dropped.push({id:victim,reason:'over the '+ceiling+'-item ceiling for '+skill});
+ }
+ return {ids:out,dropped};
+}
+// Hard errors are structural only. Ids off the shortlist or repeated are dropped and a skill over its ceiling
+// is trimmed, all recorded, because callSonnet's retry resends the same prompt without the error.
 export function validateExercisePick(reply,lists,{itemsOf,skillOf,scoreOf=()=>0,budget=DEFAULT_BUDGET.exercises,shortlists={},examples={}}){
  if(!reply||typeof reply.topics!=='object')throw Error('Reply needs {"topics":{topicId:[ids]},"openings":{topicId:{workedExampleId:id|null}},"notes":{skillId:"why"}}');
- const used=new Set(),out={},openings={},problems=[];
- for(const [topicId,ids] of Object.entries(reply.topics)){
-  const allowed=lists[topicId];if(!allowed)throw Error('Unknown topic '+topicId);
-  if(!Array.isArray(ids))throw Error(topicId+': ids must be a list');
-  for(const id of ids){if(!allowed.has(id))throw Error(topicId+': '+id+' is not on its shortlist');if(used.has(id))throw Error(id+' is used twice');used.add(id);}
-  const over=overCeiling(ids,{itemsOf,skillOf,ceiling:budget.ceiling});
-  if(over.length)problems.push(topicId+': over the '+budget.ceiling+'-item ceiling for '+over.map(o=>o.skill+' ('+o.items+')').join(', '));
+ const used=new Set(),out={},openings={},dropped={},problems=[];
+ for(const [topicId,raw] of Object.entries(reply.topics)){
+  const allowed=lists[topicId];if(!allowed){problems.push('unknown topic '+topicId);continue;}
+  if(!Array.isArray(raw))throw Error(topicId+': ids must be a list');
+  const ids=[],drop=dropped[topicId]=[];
+  for(const id of raw){if(!allowed.has(id))drop.push({id,reason:'not on the shortlist'});else if(used.has(id))drop.push({id,reason:'used twice'});else{used.add(id);ids.push(id);}}
   // Openings name the topic's own worked examples and shortlist questions; anything else is dropped here
   // and the gap is reported by finishExercise.
   const given=reply.openings?.[topicId]??{};
   openings[topicId]=Object.fromEntries((examples[topicId]??[]).map(e=>[e.id,allowed.has(given[e.id])?given[e.id]:null]));
-  out[topicId]=[...ids];
+  const trimmed=trimToCeiling(ids,{itemsOf,skillOf,scoreOf,ceiling:budget.ceiling,keep:new Set(Object.values(openings[topicId]).filter(Boolean))});
+  drop.push(...trimmed.dropped);
+  out[topicId]=trimmed.ids;
  }
  for(const topicId of Object.keys(lists))if(!out[topicId]?.length)problems.push(topicId+': no questions picked');
  if(problems.length)throw Error(problems.join('; '));
- return {topics:out,openings,notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
+ return {topics:out,openings,dropped,notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
+}
+// Move a question that sits next to one from the same topic to the nearest later place where it does not.
+export function separateTopics(ids,topicOf){
+ const out=[...ids];
+ for(let i=1;i<out.length;i++){
+  if(topicOf(out[i])!==topicOf(out[i-1]))continue;
+  const j=out.findIndex((id,k)=>k>i&&topicOf(id)!==topicOf(out[i-1]));
+  if(j<0)continue;const [moved]=out.splice(j,1);out.splice(i,0,moved);
+ }
+ return out;
 }
 // After the pick, the script (selection only): adds a named opening question that was left out, fills each
 // avoidable jump with the shortlist question nearest its midpoint, orders by score, and reports what is left
@@ -256,36 +291,45 @@ export function finishExercise(ids,list,{openings={},examples=[],scoreOf,itemsOf
  const unopened=examples.filter(e=>!openings[e.id]||!picked.includes(openings[e.id])).map(e=>e.id);
  return {ids:ordered,added,jumps:jumps(ordered,scoreOf),unopened,lateOpenings:openingProblems(picked,openings,examples,{scoreOf}).filter(p=>p.includes('harder half'))};
 }
-export function validateMixedPick(reply,{mixed,challenge,topicOf,challengeWanted,bandOf=null,supply=null,itemsOf=()=>1,skillOf=()=>null,budget=DEFAULT_BUDGET}){
+// Like the exercise pick: structural problems fail; stray or repeated ids are dropped, a skill over its ceiling
+// is trimmed (hardest first), Challenge is cut to its per-skill and total limits (first listed kept), same-topic
+// neighbours are separated, and what remains off target (band ratio, unseparable neighbours) is reported.
+export function validateMixedPick(reply,{mixed,challenge,topicOf,challengeWanted,bandOf=null,supply=null,itemsOf=()=>1,skillOf=()=>null,scoreOf=()=>0,budget=DEFAULT_BUDGET}){
  if(!Array.isArray(reply?.mixed))throw Error('Reply needs {"mixed":[ids],"challenge":[ids],"notes":{}}');
- const used=new Set(),check=(ids,allowed,name)=>{for(const id of ids){if(!allowed.has(id))throw Error(name+': '+id+' is not on the shortlist');if(used.has(id))throw Error(id+' is used twice');used.add(id);}};
- check(reply.mixed,mixed,'mixed');
- const challengeIds=challengeWanted?reply.challenge??[]:[];
- if(!Array.isArray(challengeIds)||challengeIds.length>budget.challenge.max)throw Error('challenge: at most '+budget.challenge.max+' questions');
- check(challengeIds,challenge,'challenge');
- const perSkill=new Map();for(const id of challengeIds){const s=skillOf(id);perSkill.set(s,(perSkill.get(s)??0)+1);}
- for(const [s,n] of perSkill)if(n>budget.challenge.perSkill)throw Error(`challenge: ${n} questions for ${s}; at most ${budget.challenge.perSkill} per skill`);
- if(!reply.mixed.length&&mixed.size)throw Error('mixed: no questions picked');
- for(let i=1;i<reply.mixed.length;i++)if(topicOf(reply.mixed[i])===topicOf(reply.mixed[i-1]))throw Error(`mixed: ${reply.mixed[i-1]} and ${reply.mixed[i]} are adjacent from one topic`);
- const over=overCeiling(reply.mixed,{itemsOf,skillOf,ceiling:budget.mixed.ceiling});
- if(over.length)throw Error('mixed: over the '+budget.mixed.ceiling+'-item ceiling for '+over.map(o=>o.skill+' ('+o.items+')').join(', '));
+ const used=new Set(),dropped=[],take=(ids,allowed,name)=>(Array.isArray(ids)?ids:[]).filter(id=>{if(!allowed.has(id)){dropped.push({id,section:name,reason:'not on the shortlist'});return false;}if(used.has(id)){dropped.push({id,section:name,reason:'used twice'});return false;}used.add(id);return true;});
+ let picked=take(reply.mixed,mixed,'mixed');
+ const trimmed=trimToCeiling(picked,{itemsOf,skillOf,scoreOf,ceiling:budget.mixed.ceiling});
+ dropped.push(...trimmed.dropped.map(d=>({...d,section:'mixed'})));
+ picked=separateTopics(trimmed.ids,topicOf);
+ if(!picked.length&&mixed.size)throw Error('mixed: no questions picked');
+ const perSkill=new Map(),challengeIds=[];
+ for(const id of challengeWanted?take(reply.challenge,challenge,'challenge'):[]){
+  const s=skillOf(id),n=perSkill.get(s)??0;
+  if(n>=budget.challenge.perSkill){dropped.push({id,section:'challenge',reason:'over '+budget.challenge.perSkill+' per skill'});continue;}
+  if(challengeIds.length>=budget.challenge.max){dropped.push({id,section:'challenge',reason:'over '+budget.challenge.max+' in all'});continue;}
+  perSkill.set(s,n+1);challengeIds.push(id);
+ }
+ const problems=[];
+ for(let i=1;i<picked.length;i++)if(topicOf(picked[i])===topicOf(picked[i-1]))problems.push(`${picked[i-1]} and ${picked[i]} are neighbours from one topic`);
  if(bandOf&&supply){
   // 1 : 2 : 1 by question count, within a tenth of the section (at least one question) per band.
-  const counts={};for(const id of reply.mixed){const b=bandOf(id);counts[b]=(counts[b]??0)+1;}
-  const target=bandTargets(reply.mixed.length,supply),slack=Math.max(1,Math.round(reply.mixed.length/10));
-  for(const b of MIXED_BANDS)if(Math.abs((counts[b.id]??0)-target[b.id])>slack)throw Error(`mixed: ${counts[b.id]??0} ${b.id} questions; aim for ${target[b.id]} of ${reply.mixed.length} (Foundation : Development : Mastery is 1 : 2 : 1)`);
+  const counts={};for(const id of picked){const b=bandOf(id);counts[b]=(counts[b]??0)+1;}
+  const target=bandTargets(picked.length,supply),slack=Math.max(1,Math.round(picked.length/10));
+  for(const b of MIXED_BANDS)if(Math.abs((counts[b.id]??0)-target[b.id])>slack)problems.push(`${counts[b.id]??0} ${b.id} questions; 1 : 2 : 1 would be ${target[b.id]} of ${picked.length}`);
  }
- return {mixed:[...reply.mixed],challenge:[...challengeIds],notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
+ return {mixed:picked,challenge:challengeIds,dropped,problems,notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
 }
 async function sonnet(dir,{stage,system,prompt,validate}){
  const {callSonnet}=await import('./audit-v2.mjs');
  const stamp=new Date().toISOString().replace(/\D/g,'').slice(0,14),workDir=path.join(dir,stamp.slice(0,8)+'-'+stamp.slice(8));
+ // callSonnet's reply reuse lists the folder above workDir, so it must exist before the first call.
+ fs.mkdirSync(workDir,{recursive:true});
  const ctx={workDir,runDir:dir,calls:[],log:m=>console.error(m)};
  const {value,file}=await callSonnet(ctx,{stage,system,prompt,validate});
  return {value,file,calls:ctx.calls.map(({id,model,effort,elapsedMs,costUsd,ok})=>({id,model,effort,elapsedMs,costUsd,ok}))};
 }
 const SYSTEM='You select existing, already rated questions from a question bank for a NSW secondary mathematics booklet. You never write or change questions. Reply with one JSON object only.';
-const VARIETY='Give as much practice as the budget allows without repetition: a question is repetitive when it asks for the same kind of working as one already picked with only the numbers changed and no new feature (a new form, a new step, a context, a reverse question, a trap). When every further candidate for a skill would be repetitive, stop that skill below its ceiling and say why in notes. "items" is the number of parts a student answers on its own (at most 3 counted per question).';
+const VARIETY='Give as much practice as the budget allows without repetition: a question is repetitive when it asks for the same kind of working as one already picked with only the numbers changed and no new feature (a new form, a new step, a context, a reverse question, a trap). Leave out any question that needs content this booklet does not teach (in an algebra booklet, for example, limits, the discriminant or continued fractions), even when its skill matches. When every further candidate for a skill would be repetitive, stop that skill below its ceiling and say why in notes. "items" is the number of parts a student answers on its own (at most 3 counted per question).';
 
 // ---- topic-to-skill map -------------------------------------------------------------------------------------
 export const mapFile=(projectId,root=ROOT)=>path.join(projectDir(projectId,root),'topic-skills.json');
@@ -330,7 +374,7 @@ async function proposeExercises(project,{sources,budget,root=ROOT}){
  const candidates=loadCandidates({sources,root}),byId=new Map(candidates.map(c=>[c.id,c])),topics=teachingTopics(live),kept=[],gaps=[],lists={},views={},shortlists={},examples={};
  for(const t of topics){
   if(existing.exercises.has(t.id)){kept.push({topicId:t.id,title:t.title,sections:existing.exercises.get(t.id).map(s=>s.id)});continue;}
-  const list=shortlist(candidates,map.topics[t.id]??[],{exclude,maxScore:CHALLENGE_SCORE-1,perSkill:budget.shortlistPerSkill,signaturesOf:reader.signaturesOf});
+  const list=shortlist(candidates,map.topics[t.id]??[],{exclude,maxScore:CHALLENGE_SCORE-1,perSkill:budget.shortlistPerSkill,signaturesOf:reader.signaturesOf,reject:c=>unsuitable(reader.record(c.id))});
   if(list.length<MIN_EXERCISE_CANDIDATES){gaps.push({topicId:t.id,title:t.title,candidates:list.length,skills:map.topics[t.id]??[]});continue;}
   shortlists[t.id]=list;lists[t.id]=new Set(list.map(c=>c.id));examples[t.id]=workedExamples(live,t.id);
   const skills=[...new Set(list.map(c=>c.skill))].map(s=>({skill:s,supplyItems:list.filter(c=>c.skill===s).reduce((n,c)=>n+reader.itemsOf(c.id),0)}));
@@ -346,7 +390,7 @@ async function proposeExercises(project,{sources,budget,root=ROOT}){
   call=await sonnet(projectDir(project.id,root),{stage:'exercises',system:SYSTEM,prompt,validate:r=>validateExercisePick(r,lists,{itemsOf:reader.itemsOf,skillOf,scoreOf,budget,shortlists,examples})});picks=call.value;
  }
  const finished=Object.fromEntries(Object.entries(picks.topics).map(([topicId,ids])=>[topicId,finishExercise(ids,shortlists[topicId],{openings:picks.openings[topicId],examples:examples[topicId],scoreOf,itemsOf:reader.itemsOf,skillOf,ceiling:budget.ceiling})]));
- const sections=Object.entries(finished).map(([topicId,f])=>({kind:'exercises',topicId,title:'Exercise',bankIds:f.ids,added:f.added,jumps:f.jumps,openings:picks.openings[topicId],unopened:f.unopened,lateOpenings:f.lateOpenings}));
+ const sections=Object.entries(finished).map(([topicId,f])=>({kind:'exercises',topicId,title:'Exercise',bankIds:f.ids,added:f.added,dropped:picks.dropped?.[topicId]??[],jumps:f.jumps,openings:picks.openings[topicId],unopened:f.unopened,lateOpenings:f.lateOpenings}));
  const pickedIds=new Set(sections.flatMap(s=>s.bankIds));
  const short=Object.entries(shortlists).flatMap(([topicId,list])=>belowFloor(finished[topicId]?.ids??[],list,{itemsOf:reader.itemsOf,floor:budget.floor}).map(b=>({...b,topicId,note:picks.notes[b.skill]??null})));
  return {command:'exercises',budget:{exercises:budget},sections,kept,gaps,belowFloor:short,notes:picks.notes,items:itemTotals(sections,reader,byId),unused:unusedBySkill(Object.values(lists).flatMap(s=>[...s]),pickedIds,byId),call:call?.file??null,calls:call?.calls??[]};
@@ -355,18 +399,22 @@ async function proposeExercises(project,{sources,budget,root=ROOT}){
 async function proposeMixed(project,{sources,budget,root=ROOT}){
  const map=readMap(project.id,{root}),live=withoutOwnSections(project,['mixed','challenge']),reader=bankReader(root);
  const existing=existingPracticeSections(live),exclude=bookletExclusions(live),topicOf=skillTopic(map);
+ // An exercise proposal awaiting approval on this revision counts as in the booklet, so the two previews can
+ // be reviewed together without drawing the same question twice.
+ const pending=proposalFile(project.id,'exercises',root);
+ if(fs.existsSync(pending)){const p=read(pending);if(!p.savedAt&&p.revision===project.revision)for(const s of p.sections)for(const id of s.bankIds){exclude.ids.add(id);for(const k of reader.signaturesOf({id}))exclude.signatures.add(k);}}
  const candidates=loadCandidates({sources,root}),skills=[...topicOf.keys()],byId=new Map(candidates.map(c=>[c.id,c]));
- const mixedList=MIXED_BANDS.flatMap(b=>shortlist(candidates,skills,{exclude,minScore:b.minScore,maxScore:b.maxScore,signaturesOf:reader.signaturesOf,perSkill:b.perSkill}));
+ const mixedList=MIXED_BANDS.flatMap(b=>shortlist(candidates,skills,{exclude,minScore:b.minScore,maxScore:b.maxScore,signaturesOf:reader.signaturesOf,perSkill:b.perSkill,reject:c=>unsuitable(reader.record(c.id),{workingSpace:false})}));
  const supply={};for(const c of mixedList){const b=mixedBand(c.score);supply[b]=(supply[b]??0)+1;}
  const challengeWanted=!existing.challenges.length;
- const challengeList=challengeWanted?shortlist(candidates,skills,{exclude,minScore:CHALLENGE_SCORE,signaturesOf:reader.signaturesOf,perSkill:budget.challenge.shortlistPerSkill}):[];
+ const challengeList=challengeWanted?shortlist(candidates,skills,{exclude,minScore:CHALLENGE_SCORE,signaturesOf:reader.signaturesOf,perSkill:budget.challenge.shortlistPerSkill,reject:c=>unsuitable(reader.record(c.id))}):[];
  const topics=teachingTopics(live),topicTitle=new Map(topics.map(t=>[t.id,t.title]));
  const covered=new Set(mixedList.map(c=>topicOf.get(c.skill)));
  const base={existingReviews:existing.reviews.map(s=>({id:s.id,title:s.title,topicId:s.topicId})),existingChallenge:existing.challenges.map(s=>s.id)};
  if(!mixedList.length)return {command:'mixed',budget,sections:[],...base,gaps:[{candidates:0}],belowFloor:[],notes:{},unused:{},call:null,calls:[]};
  const view=c=>({...candidateView(c,reader),topic:topicOf.get(c.skill),band:mixedBand(c.score)});
  const prompt=['Booklet: '+project.title+'. Build one interleaved Mixed practice section from MIXED. Budget per skill: '+budget.mixed.floor+' to '+budget.mixed.ceiling+' practice items, and at least one question for every skill in MIXED where that is possible; a skill may end with one question that crosses the ceiling. Order the questions so that no two neighbours come from the same topic and difficulty (score) rises overall. Keep the difficulty bands Foundation : Development : Mastery at 1 : 2 : 1 by number of questions. '+VARIETY+' '+(challengeWanted?'Then pick a Challenge section from CHALLENGE: at most '+budget.challenge.perSkill+' question per skill and '+budget.challenge.max+' in all, the most worthwhile first.':'The booklet already has a Challenge section; return "challenge": [].')+' Use each id once.','Reply: {"mixed":["<id>",...],"challenge":["<id>",...],"notes":{"<skillId>":"why it stops below the floor or has no question"}}','TOPICS '+JSON.stringify(topics.filter(t=>covered.has(t.id)).map(t=>({id:t.id,title:t.title}))),'MIXED '+JSON.stringify(mixedList.map(view)),'CHALLENGE '+JSON.stringify(challengeList.map(view))].join('\n\n');
- const sets={mixed:new Set(mixedList.map(c=>c.id)),challenge:new Set(challengeList.map(c=>c.id)),topicOf:id=>topicOf.get(byId.get(id)?.skill),challengeWanted,bandOf:id=>mixedBand(byId.get(id)?.score),supply,itemsOf:reader.itemsOf,skillOf:id=>byId.get(id)?.skill,budget};
+ const sets={mixed:new Set(mixedList.map(c=>c.id)),challenge:new Set(challengeList.map(c=>c.id)),topicOf:id=>topicOf.get(byId.get(id)?.skill),challengeWanted,bandOf:id=>mixedBand(byId.get(id)?.score),supply,itemsOf:reader.itemsOf,skillOf:id=>byId.get(id)?.skill,scoreOf:id=>byId.get(id)?.score??0,budget};
  const call=await sonnet(projectDir(project.id,root),{stage:'mixed',system:SYSTEM,prompt,validate:r=>validateMixedPick(r,sets)});
  const sections=[{kind:'mixed',title:'Mixed practice',bankIds:call.value.mixed}];
  if(call.value.challenge.length)sections.push({kind:'challenge',title:'Challenge exercise',bankIds:[...call.value.challenge].sort(byScore(byId))});
@@ -374,7 +422,7 @@ async function proposeMixed(project,{sources,budget,root=ROOT}){
  const missing=[...covered].filter(t=>!call.value.mixed.some(id=>sets.topicOf(id)===t)).map(t=>({topicId:t,title:topicTitle.get(t),note:'candidates but none picked'}));
  const uncovered=topics.filter(t=>!covered.has(t.id)).map(t=>({topicId:t.id,title:t.title,candidates:0}));
  const short=belowFloor(call.value.mixed,mixedList,{itemsOf:reader.itemsOf,floor:budget.mixed.floor}).map(b=>({...b,topicId:topicOf.get(b.skill),note:call.value.notes[b.skill]??null}));
- return {command:'mixed',budget,sections,...base,gaps:[...uncovered,...missing],belowFloor:short,notes:call.value.notes,items:itemTotals(sections,reader,byId),unused:unusedBySkill([...sets.mixed,...sets.challenge],picked,byId),call:call.file,calls:call.calls};
+ return {command:'mixed',budget,sections,...base,gaps:[...uncovered,...missing],belowFloor:short,notes:call.value.notes,dropped:call.value.dropped,problems:call.value.problems,items:itemTotals(sections,reader,byId),unused:unusedBySkill([...sets.mixed,...sets.challenge],picked,byId),call:call.file,calls:call.calls};
 }
 function unusedBySkill(ids,picked,byId){const out={};for(const id of ids)if(!picked.has(id)){const s=byId.get(id).skill;out[s]=(out[s]??0)+1;}return out;}
 function itemTotals(sections,reader,byId){const out={};for(const s of sections)for(const id of s.bankIds){const k=(s.topicId??s.kind)+' '+byId.get(id).skill;out[k]=(out[k]??0)+reader.itemsOf(id);}return out;}
@@ -392,6 +440,9 @@ function report(project,proposal,root){
   if(s.unopened?.length)lines.push('Worked examples with no opening practice: '+s.unopened.map(id=>'`'+id+'`').join(', ')+'.','');
   if(s.lateOpenings?.length)lines.push('Opening practice in the harder half: '+s.lateOpenings.join('; ')+'.','');
  }
+ const drops=[...proposal.sections.flatMap(s=>(s.dropped??[]).map(d=>({...d,section:s.topicId??s.kind}))),...(proposal.dropped??[])];
+ if(drops.length)lines.push('## Picks the script removed','',...drops.map(d=>`- \`${d.id}\` (${d.section}): ${d.reason}`),'');
+ if(proposal.problems?.length)lines.push('## Left for review','',...proposal.problems.map(p=>'- '+p),'');
  if(proposal.belowFloor?.length)lines.push('## Skills below the floor','',...proposal.belowFloor.map(b=>`- \`${b.skill}\`${b.topicId?' ('+(titles.get(b.topicId)??b.topicId)+')':''}: ${b.items} of ${b.supply} available items${b.note?' — '+b.note:''}`),'');
  const notes=Object.entries(proposal.notes??{});if(notes.length)lines.push('## Picker notes','',...notes.map(([s,n])=>`- \`${s}\`: ${n}`),'');
  if(proposal.kept?.length)lines.push('## Existing exercises kept','',...proposal.kept.map(k=>`- ${k.title} (${k.sections.length} section${k.sections.length>1?'s':''})`),'');
@@ -417,8 +468,8 @@ async function propose(project,command,{sources,budget,root=ROOT}){
 // ---- apply ------------------------------------------------------------------------------------------------
 const marker=(proposal,command)=>({run:path.basename(RUN),command,version:VERSION,sources:proposal.sources,selection:'item-budget-shortlist-then-sonnet-pick',order:command==='mixed'?'interleaved-by-pick':'reasoningScore-then-bank-id',proposedAt:proposal.createdAt});
 const newSection=(id,fields,proposal,command)=>({id,phase:'practice',headingStyle:'page-title',pageBreakBefore:true,difficulty:null,showDifficultyHeading:false,...fields,bankDraw:marker(proposal,command),blocks:[]});
-export function buildCandidate(project,proposal,{recordOf}){
- if(project.revision!==proposal.revision)throw Error(`Live revision is ${project.revision}; the proposal was made on ${proposal.revision}. Propose again.`);
+export function buildCandidate(project,proposal,{recordOf,acceptRevision=null}){
+ if(project.revision!==proposal.revision&&project.revision!==acceptRevision)throw Error(`Live revision is ${project.revision}; the proposal was made on ${proposal.revision}. Propose again.`);
  const commands=proposal.command==='mixed'?['mixed','challenge']:['exercises'];
  let next=structuredClone(withoutOwnSections(project,commands));
  next.topics=(next.topics??[]).filter(t=>!(commands.includes('mixed')&&t.id==='bank-draw-mixed-practice'));
@@ -458,7 +509,11 @@ async function save(project,command,{approvedBy,root=ROOT}){
  await preflight(project);
  const file=proposalFile(project.id,command,root);if(!fs.existsSync(file))throw Error('No proposal; run '+command+' first');
  const proposal=read(file);if(proposal.savedAt)throw Error('This proposal was already saved at '+proposal.savedAt+'; propose again for a new draw');
- const {project:candidate,inserted}=buildCandidate(project,proposal,{recordOf:id=>bankRecord(id,root)});
+ // A mixed proposal made while the exercise proposal was pending already excluded its picks, so it may be
+ // saved on the revision that exercise save produced, and on no other.
+ let acceptRevision=null;
+ if(command==='mixed'){const ex=proposalFile(project.id,'exercises',root);if(fs.existsSync(ex)){const e=read(ex);if(e.savedAt&&e.revision===proposal.revision)acceptRevision=e.savedRevision;}}
+ const {project:candidate,inserted}=buildCandidate(project,proposal,{recordOf:id=>bankRecord(id,root),acceptRevision});
  const dir=projectDir(project.id,root),candidateFile=path.join(dir,'candidate-'+command+'.json');write(candidateFile,candidate);
  const {publishProject}=await import('../scripts/booklet/publish-project.mjs');
  const result=await publishProject({candidateFile,expectedRevision:project.revision,apply:true,allowBank:false,root,record:path.join(dir,'publication-'+command+'-r'+project.revision+'.json'),ledger:path.join(root,RUN,'ledger.jsonl'),note:'bank draw '+command+': '+inserted.join(', ')});

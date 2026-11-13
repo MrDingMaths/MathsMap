@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {shortlist,validateExercisePick,validateMixedPick,existingPracticeSections,exerciseAnchors,buildCandidate,bookletExclusions,CHALLENGE_SCORE,bandTargets,mixedBand,overCeiling,belowFloor,budgetFromArgs,parseSources,finishExercise,orderExercise,openingProblems} from '../pedagogy/bank-draw.mjs';
+import {shortlist,validateExercisePick,validateMixedPick,existingPracticeSections,exerciseAnchors,buildCandidate,bookletExclusions,CHALLENGE_SCORE,bandTargets,mixedBand,overCeiling,belowFloor,budgetFromArgs,parseSources,finishExercise,orderExercise,openingProblems,unsuitable} from '../pedagogy/bank-draw.mjs';
 import {examQuestionGapMm,MIXED_REVIEW_QUESTION_GAP_MM,EXAM_QUESTION_GAP_MM} from '../src/lib/booklet-section-options.js';
 
 const q=(id,prompt=id)=>({id,type:'question',classification:{primarySkillId:'s',reasoningScore:30,difficulty:'Development',difficultyReason:'r',secondarySkillIds:[]},content:{id:id+'-root',type:'question',label:null,prompt,children:[],answer:{short:'1',worked:'1',solutionDiagrams:[]}}});
@@ -25,11 +25,17 @@ test('exercise picks come from the topic shortlist, once each, within each skill
   const lists={a:new Set(['x','y','w']),b:new Set(['z'])},items={x:3,y:3,w:3,z:1},skill={x:'s',y:'s',w:'s',z:'t'};
   const opts={itemsOf:id=>items[id],skillOf:id=>skill[id],budget:{floor:2,ceiling:6}};
   const withExamples={...opts,examples:{a:[{id:'we1'},{id:'we2'}],b:[]}};
-  assert.deepEqual(validateExercisePick({topics:{a:['y','x'],b:['z']},openings:{a:{we1:'x',we2:'not-listed',stray:'y'}},notes:{s:'varied enough'}},lists,withExamples),{topics:{a:['y','x'],b:['z']},openings:{a:{we1:'x',we2:null},b:{}},notes:{s:'varied enough'}});
-  assert.throws(()=>validateExercisePick({topics:{a:['x','y','w'],b:['z']}},lists,opts),/ceiling for s \(9\)/);
-  assert.throws(()=>validateExercisePick({topics:{a:['z'],b:['z']}},lists,opts),/not on its shortlist/);
-  assert.throws(()=>validateExercisePick({topics:{a:['x','x'],b:['z']}},lists,opts),/twice/);
-  assert.throws(()=>validateExercisePick({topics:{a:['x']}},lists,opts),/b: no questions/);
+  assert.deepEqual(validateExercisePick({topics:{a:['y','x'],b:['z']},openings:{a:{we1:'x',we2:'not-listed',stray:'y'}},notes:{s:'varied enough'}},lists,withExamples),{topics:{a:['y','x'],b:['z']},openings:{a:{we1:'x',we2:null},b:{}},dropped:{a:[],b:[]},notes:{s:'varied enough'}});
+  // Over the ceiling: the hardest question of the skill is trimmed, unless it is a worked example's opening.
+  const score={x:10,y:20,w:30,z:5},scored={...opts,scoreOf:id=>score[id]};
+  const over=validateExercisePick({topics:{a:['x','y','w'],b:['z']}},lists,scored);
+  assert.deepEqual(over.topics.a,['x','y']);assert.deepEqual(over.dropped.a,[{id:'w',reason:'over the 6-item ceiling for s'}]);
+  const kept=validateExercisePick({topics:{a:['x','y','w'],b:['z']},openings:{a:{we1:'w'}}},lists,{...scored,examples:{a:[{id:'we1'}]}});
+  assert.deepEqual(kept.topics.a,['x','w']);
+  // Stray and repeated ids are dropped and recorded; a topic left empty is still an error.
+  const stray=validateExercisePick({topics:{a:['x','x','z'],b:['z']}},lists,scored);
+  assert.deepEqual(stray.topics.a,['x']);assert.deepEqual(stray.dropped.a.map(d=>d.reason),['used twice','not on the shortlist']);
+  assert.throws(()=>validateExercisePick({topics:{a:['x']}},lists,scored),/b: no questions/);
 });
 
 test('a skill may end with one question across the ceiling, never two; shortfalls are reported', () => {
@@ -68,10 +74,14 @@ test('budgets come from defaults or FLOOR-CEILING flags', () => {
 
 test('mixed picks interleave topics, stay on the shortlist and cap challenge per skill', () => {
   const topic={m1:'a',m2:'a',m3:'b',m4:'b'},sets={mixed:new Set(Object.keys(topic)),challenge:new Set(['c1','c2']),topicOf:id=>topic[id],skillOf:id=>id.startsWith('c')?'cs':topic[id],challengeWanted:true};
-  assert.deepEqual(validateMixedPick({mixed:['m1','m3','m2','m4'],challenge:['c1']},sets),{mixed:['m1','m3','m2','m4'],challenge:['c1'],notes:{}});
-  assert.throws(()=>validateMixedPick({mixed:['m1','m2','m3'],challenge:[]},sets),/adjacent/);
-  assert.throws(()=>validateMixedPick({mixed:['m1','m3','c1'],challenge:[]},sets),/not on the shortlist/);
-  assert.throws(()=>validateMixedPick({mixed:['m1','m3'],challenge:['c1','c2']},sets),/per skill/);
+  assert.deepEqual(validateMixedPick({mixed:['m1','m3','m2','m4'],challenge:['c1']},sets),{mixed:['m1','m3','m2','m4'],challenge:['c1'],dropped:[],problems:[],notes:{}});
+  // Same-topic neighbours are separated where a later question allows it.
+  assert.deepEqual(validateMixedPick({mixed:['m1','m2','m3','m4'],challenge:[]},sets).mixed,['m1','m3','m2','m4']);
+  const left=validateMixedPick({mixed:['m1','m2'],challenge:[]},sets);
+  assert.match(left.problems[0],/neighbours from one topic/);
+  const stray=validateMixedPick({mixed:['m1','m3','c1'],challenge:['c1','c2']},sets);
+  assert.deepEqual(stray.mixed,['m1','m3']);assert.deepEqual(stray.challenge,['c1']);
+  assert.deepEqual(stray.dropped.map(d=>[d.id,d.reason]),[['c1','not on the shortlist'],['c2','over 1 per skill']]);
   assert.deepEqual(validateMixedPick({mixed:['m1','m3'],challenge:['c1']},{...sets,challengeWanted:false}).challenge,[]);
 });
 
@@ -81,8 +91,8 @@ test('mixed practice keeps Foundation : Development : Mastery at 1 : 2 : 1', () 
   assert.equal(mixedBand(55),'Mastery');assert.equal(mixedBand(60),null);
   const score={f:10,d1:30,d2:35,m:55,d3:40,d4:45},bandOf=id=>mixedBand(score[id]),supply={Foundation:5,Development:5,Mastery:5};
   const base={mixed:new Set(Object.keys(score)),challenge:new Set(),topicOf:id=>id,skillOf:id=>id,challengeWanted:false,bandOf,supply};
-  assert.ok(validateMixedPick({mixed:['f','d1','d2','m']},base));
-  assert.throws(()=>validateMixedPick({mixed:['d1','d2','d3','d4']},base),/Foundation|Mastery/);
+  assert.deepEqual(validateMixedPick({mixed:['f','d1','d2','m']},base).problems,[]);
+  assert.match(validateMixedPick({mixed:['d1','d2','d3','d4']},base).problems.join(' '),/4 Development questions; 1 : 2 : 1 would be 2 of 4/);
 });
 
 test('sources accept series, book or chapter prefixes and all; a prefix with no textbook is refused', () => {
@@ -134,6 +144,8 @@ test('a re-run replaces only its own sections; booklet ids and stale revisions a
   assert.deepEqual(twice.sections.filter(s=>s.bankDraw).flatMap(s=>s.blocks.map(b=>b.bankRef.id)),['q-9']);
   assert.throws(()=>buildCandidate(p,proposal(['q-in-booklet']),{recordOf}),/already in the booklet/);
   assert.throws(()=>buildCandidate({...p,revision:5},proposal(['q-1']),{recordOf}),/Propose again/);
+  assert.ok(buildCandidate({...p,revision:5},proposal(['q-1']),{recordOf,acceptRevision:5}));
+  assert.throws(()=>buildCandidate({...p,revision:6},proposal(['q-1']),{recordOf,acceptRevision:5}),/Propose again/);
   const withChallenge={...p,sections:[...p.sections,{id:'ch',topicId:'challenge',role:'challenge',phase:'practice',blocks:[]}]};
   assert.throws(()=>buildCandidate(withChallenge,{revision:4,command:'mixed',series:[],createdAt:'t',sections:[{kind:'challenge',bankIds:['q-1']}]},{recordOf}),/already has a Challenge/);
 });
@@ -146,4 +158,15 @@ test('mixed practice prints a 5 mm gap; Exam and Challenge keep 10 mm', () => {
   assert.equal(examQuestionGapMm({role:'mixed-practice',bankDraw:{command:'exercises'}},blocks,blocks[1]),0);
   assert.equal(examQuestionGapMm({role:'mixed-practice',title:'Mixed practice'},blocks,blocks[1]),0);
   assert.equal(examQuestionGapMm({role:'exam'},blocks,blocks[1]),EXAM_QUESTION_GAP_MM);
+});
+
+test('questions that refer to their source book, or draw without working space, are never drawn', () => {
+  const rec=prompt=>({content:{prompt,children:[]}});
+  assert.equal(unsuitable(rec('Write 67/29 as a continued fraction. (See Exercise 2I, Question 9.)')),'refers to its source book');
+  assert.equal(unsuitable(rec('Explain the remark made in the notes that 0^0 is undefined.')),'refers to its source book');
+  assert.equal(unsuitable(rec('Draw a diagram of the pavers.')),null);
+  assert.equal(unsuitable(rec('Draw a diagram of the pavers.'),{workingSpace:false}),'drawing task in a section without working space');
+  assert.equal(unsuitable(rec('Expand and simplify.'),{workingSpace:false}),null);
+  const rows=[{id:'a',skill:'s',score:10},{id:'b',skill:'s',score:20}];
+  assert.deepEqual(shortlist(rows,['s'],{reject:c=>c.id==='a'?'x':null}).map(c=>c.id),['b']);
 });
