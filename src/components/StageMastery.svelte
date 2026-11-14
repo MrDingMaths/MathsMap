@@ -3,6 +3,14 @@
   // inside. Stages 3–5 count every skill at that stage. Stage 6 is split by
   // course (Year 11 Standard, Year 12 Advanced, …), because a student takes one
   // pathway and a single Stage 6 ring across all 560 skills could never fill.
+  //
+  // Most students work in one stage or course for a whole year, so only the
+  // rows for their current courses stay open; the rest fold under a toggle.
+  // Courses repeat earlier-stage skills as review (Year 11 Advanced includes 67
+  // Stage 5 skills), so relevance is decided per course: a course whose active
+  // skills mostly sit inside a busier course's active skills is explained by
+  // that course and dropped; of the rest, any with at least half the busiest
+  // course's activity is relevant. With no progress yet, every row shows.
   // `progress` is the store's allProgress() map.
   import { skills, courses } from '../lib/data.js';
 
@@ -10,6 +18,8 @@
 
   const R = 26;
   const C = 2 * Math.PI * R;
+  const RELEVANT_SHARE = 0.5;
+  const EXPLAINED_SHARE = 0.8;
 
   function summarise(pool) {
     let mastered = 0;
@@ -22,17 +32,36 @@
     const fraction = pool.length ? mastered / pool.length : 0;
     const percent = fraction * 100;
     const label = mastered === 0 ? '0%' : percent < 1 ? '<1%' : `${Math.round(percent)}%`;
-    return { total: pool.length, mastered, inProgress, fraction, label };
+    return { total: pool.length, mastered, inProgress, active: mastered + inProgress, fraction, label };
   }
 
-  let stages = $derived(['3', '4', '5']
-    .map((stage) => ({ key: `stage-${stage}`, title: `Stage ${stage}`, ...summarise(skills.filter((skill) => String(skill.stage) === stage)) }))
-    .filter((row) => row.total > 0));
-  let stage6Courses = $derived(courses
-    .filter((course) => Number(course.stage) === 6)
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    .map((course) => ({ key: course.id, title: course.title, ...summarise(skills.filter((skill) => skill.courses?.includes(course.id))) }))
-    .filter((row) => row.total > 0));
+  let rows = $derived([
+    ...['3', '4', '5'].map((stage) => ({ key: `stage-${stage}`, group: 'stage', title: `Stage ${stage}`, ...summarise(skills.filter((skill) => String(skill.stage) === stage)) })),
+    ...courses
+      .filter((course) => Number(course.stage) === 6)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      .map((course) => ({ key: course.id, group: 'stage6', title: course.title, ...summarise(skills.filter((skill) => skill.courses?.includes(course.id))) })),
+  ].filter((row) => row.total > 0));
+
+  let busiest = $derived(Math.max(0, ...rows.map((row) => row.active)));
+
+  // Row keys for the student's current courses (see the comment at the top).
+  let relevantKeys = $derived.by(() => {
+    const isActive = (skill) => ['learning', 'proficient', 'mastered'].includes(progress[skill.id]?.level);
+    const activeByCourse = courses
+      .map((course) => ({ course, ids: new Set(skills.filter((skill) => skill.courses?.includes(course.id) && isActive(skill)).map((skill) => skill.id)) }))
+      .filter((entry) => entry.ids.size > 0);
+    const explained = (entry) => activeByCourse.some((other) => other !== entry && other.ids.size > entry.ids.size
+      && [...entry.ids].filter((id) => other.ids.has(id)).length >= EXPLAINED_SHARE * entry.ids.size);
+    const own = activeByCourse.filter((entry) => !explained(entry));
+    const top = Math.max(0, ...own.map((entry) => entry.ids.size));
+    return new Set(own
+      .filter((entry) => entry.ids.size >= top * RELEVANT_SHARE)
+      .map(({ course }) => (Number(course.stage) === 6 ? course.id : `stage-${course.stage}`)));
+  });
+  let relevant = $derived(busiest === 0 ? rows : rows.filter((row) => relevantKeys.has(row.key)));
+  let others = $derived(rows.filter((row) => !relevant.includes(row)));
+  let showOthers = $state(false);
 </script>
 
 {#snippet ring(row)}
@@ -52,19 +81,34 @@
   </li>
 {/snippet}
 
-<ul class="stage-mastery">
-  {#each stages as row (row.key)}{@render ring(row)}{/each}
-</ul>
-{#if stage6Courses.length}
-  <p class="group-label">Stage 6, by course</p>
-  <ul class="stage-mastery">
-    {#each stage6Courses as row (row.key)}{@render ring(row)}{/each}
-  </ul>
+{#snippet grouped(list)}
+  {@const stageRows = list.filter((row) => row.group === 'stage')}
+  {@const courseRows = list.filter((row) => row.group === 'stage6')}
+  {#if stageRows.length}<ul class="stage-mastery">{#each stageRows as row (row.key)}{@render ring(row)}{/each}</ul>{/if}
+  {#if courseRows.length}
+    <p class="group-label">Stage 6, by course</p>
+    <ul class="stage-mastery">{#each courseRows as row (row.key)}{@render ring(row)}{/each}</ul>
+  {/if}
+{/snippet}
+
+{#if busiest === 0}
+  {@render grouped(rows)}
+{:else}
+  <ul class="stage-mastery">{#each relevant as row (row.key)}{@render ring(row)}{/each}</ul>
+  {#if others.length}
+    <button class="others-toggle" aria-expanded={showOthers} aria-controls="other-stages" onclick={() => (showOthers = !showOthers)}>
+      {showOthers ? 'Hide other stages and courses' : `Show other stages and courses (${others.length})`}
+    </button>
+    {#if showOthers}<div id="other-stages" class="others">{@render grouped(others)}</div>{/if}
+  {/if}
 {/if}
 
 <style>
   .stage-mastery { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
   .group-label { margin: 1.1rem 0 0.55rem; color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+  .others { margin-top: 0.75rem; }
+  .others-toggle { margin-top: 0.7rem; padding: 0; border: 0; background: none; color: var(--muted); font: 700 0.85rem var(--font-body); cursor: pointer; }
+  .others-toggle:hover { color: var(--accent); }
   li { display: flex; align-items: center; gap: 0.9rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md, 10px); background: var(--panel); }
   .stage-ring { flex: none; overflow: visible; }
   circle { fill: none; stroke-width: 6; }
