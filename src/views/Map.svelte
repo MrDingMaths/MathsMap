@@ -854,7 +854,7 @@
   }
 
   // Keep the address bar shareable: courses, the opened topic and the selected
-  // skill. replaceState does not fire hashchange, so the map is not remounted.
+  // skill. replaceState does not fire popstate, so the map is not remounted.
   function syncUrl() {
     if (typeof history === 'undefined') return;
     const params = new URLSearchParams();
@@ -862,8 +862,8 @@
     if (expandedTopicId) params.set('topic', expandedTopicId);
     if (selectedSkillId) params.set('skill', selectedSkillId);
     else if (selectedNodeId) params.set('focus', selectedNodeId);
-    const next = `#/map${params.size ? `?${params.toString().replaceAll('%2C', ',')}` : ''}`;
-    if (location.hash !== next) history.replaceState(history.state, '', next);
+    const next = `/map${params.size ? `?${params.toString().replaceAll('%2C', ',')}` : ''}`;
+    if (`${location.pathname}${location.search}` !== next) history.replaceState(history.state, '', next);
   }
 
   function labelEnter(id) {

@@ -11,8 +11,8 @@
   import QuizQuestion from '../components/QuizQuestion.svelte';
   import QuizResults from '../components/QuizResults.svelte';
 
-  // Routes: #/quiz (global picker), #/quiz?course=<id>,
-  // #/quiz?topic=<id>[&course=<id>], #/quiz?skill=<id>[&course=<id>].
+  // Routes: /quiz (global picker), /quiz?course=<id>,
+  // /quiz?topic=<id>[&course=<id>], /quiz?skill=<id>[&course=<id>].
   let { skillId = null, topicId = null, courseId = null } = $props();
 
   let skill = $derived(skillId ? skillById.get(skillId) : null);

@@ -1,5 +1,7 @@
 # SEO investigation (14 November 2026)
 
+> **Status, 14 November 2026:** finding 1 is done. Public pages now use real paths (`/skill/{id}`, `/topic/{id}`, `/course/{id}`, `/map`, `/quiz`, `/learning`) through `src/lib/router.svelte.js`. Booklet Studio and the TikZ check stay at `/#/booklet` and `/#/tikz-check`. An old `#/skill/…` link is rewritten to its path on load. Links in MathsDatabase and MrDingMaths were updated to match. Per-page titles, `robots.txt` and the sitemap are still to do.
+
 This is a report only. Nothing here has been built, except the social-share tags and `public/og-image.png`, which were added to `index.html` on the same day. Production is `https://mathsmap.mrdingmaths.com`, served from `dist/` as Cloudflare Workers static assets (`wrangler.jsonc`).
 
 ## Summary
