@@ -1,6 +1,8 @@
 <script>
   import { route, href } from './lib/router.svelte.js';
   import { theme } from './lib/theme.svelte.js';
+  import { pageMeta, applyPageMeta } from './lib/page-meta.js';
+  import { skills, skillById, topicById, courseById, primaryTopicForSkill } from './lib/data.js';
   import Home from './views/Home.svelte';
   import Course from './views/Course.svelte';
   import Topic from './views/Topic.svelte';
@@ -26,6 +28,14 @@
   let siteV2 = $derived(route.name !== 'booklet' && route.name !== 'tikz-check');
   $effect(() => {
     document.documentElement.classList.toggle('site-v2', siteV2);
+  });
+
+  // Per-page title, description, canonical URL and robots (src/lib/page-meta.js).
+  // Booklet Studio and the TikZ check set their own titles.
+  const skillCountForCourse = (id) => skills.filter((skill) => skill.courses?.includes(id)).length;
+  $effect(() => {
+    if (!siteV2) return;
+    applyPageMeta(pageMeta({ name: route.name, params: route.params }, { skillById, topicById, courseById, primaryTopicForSkill, skillCountForCourse }));
   });
 
   $effect(() => {

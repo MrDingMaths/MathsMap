@@ -1,6 +1,13 @@
 # SEO investigation (14 November 2026)
 
-> **Status, 14 November 2026:** finding 1 is done. Public pages now use real paths (`/skill/{id}`, `/topic/{id}`, `/course/{id}`, `/map`, `/quiz`, `/learning`) through `src/lib/router.svelte.js`. Booklet Studio and the TikZ check stay at `/#/booklet` and `/#/tikz-check`. An old `#/skill/…` link is rewritten to its path on load. Links in MathsDatabase and MrDingMaths were updated to match. Per-page titles, `robots.txt` and the sitemap are still to do.
+> **Status, 14 November 2026:** finding 1 is done. Public pages now use real paths (`/skill/{id}`, `/topic/{id}`, `/course/{id}`, `/map`, `/quiz`, `/learning`) through `src/lib/router.svelte.js`. Booklet Studio and the TikZ check stay at `/#/booklet` and `/#/tikz-check`. An old `#/skill/…` link is rewritten to its path on load. Links in MathsDatabase and MrDingMaths were updated to match. Phase 1 is complete:
+>
+> - **Page metadata:** each page sets its own title, description, canonical, robots and og tags in the browser (`src/lib/page-meta.js`, called from `App.svelte`). LaTeX in titles is turned into plain text.
+> - **Excluded pages:** the learning, quiz and unknown-id pages are `noindex`.
+> - **`public/robots.txt`:** blocks the personal pages and the Studio folders.
+> - **Sitemap:** `npm run build` now runs `seo/build-sitemap.mjs`, which writes `dist/sitemap.xml` (1,195 URLs: home, the map, every course and topic, and every skill that has content).
+>
+> Next is phase 2 (prerendered HTML).
 
 This is a report only. Nothing here has been built, except the social-share tags and `public/og-image.png`, which were added to `index.html` on the same day. Production is `https://mathsmap.mrdingmaths.com`, served from `dist/` as Cloudflare Workers static assets (`wrangler.jsonc`).
 
