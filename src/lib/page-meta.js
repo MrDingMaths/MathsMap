@@ -5,8 +5,8 @@
 
 export const SITE_URL = 'https://mathsmap.mrdingmaths.com';
 const SITE = 'MathsMap';
-const HOME_TITLE = 'MathsMap: every NSW maths skill, mapped';
-const HOME_DESCRIPTION = 'Every NSW Stage 3–6 maths skill, mapped: theory, worked examples, practice and quizzes, with the prerequisites that lead to each skill.';
+const HOME_TITLE = 'MathsMap: See how every NSW maths skill connects';
+const HOME_DESCRIPTION = 'See how every NSW Stage 3–6 maths skill connects, with theory, worked examples, practice and quizzes for each one.';
 
 const SYMBOLS = {
   '\\times': '×', '\\div': '÷', '\\pm': '±', '\\leq': '≤', '\\le': '≤', '\\geq': '≥', '\\ge': '≥',

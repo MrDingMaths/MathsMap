@@ -85,7 +85,7 @@
   <section class="intro" aria-labelledby="hero-title">
     <div class="intro-copy">
       <h1 id="hero-title">Your Maths Skill Tree</h1>
-      <p class="lede">See how every skill in NSW maths is linked to what comes before and what it leads to. Take a quick multiple choice quiz to start building your own skill tree!</p>
+      <p class="lede">See how every NSW maths skill connects. Take a quick multiple choice quiz to start building your own skill tree!</p>
       <div class="intro-actions">
         <a class="mm-btn primary big" href={href('/quiz')}>Take the quiz</a>
         <a class="mm-btn big" href={href('/map')}>Explore the skill map</a>
