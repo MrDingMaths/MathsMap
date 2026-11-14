@@ -164,8 +164,11 @@ export function exerciseAnchors(project){
  return anchors;
 }
 // Every worked example of a topic, in teaching order: the exercise opens with practice of each (audit v2 Aim 6).
-export const workedExamples=(project,topicId)=>project.sections.filter(s=>s.topicId===topicId&&isTeaching(s)).flatMap(s=>s.blocks).filter(b=>b.type==='worked-example').map(b=>({id:b.id,title:b.title??'',text:rawText({prompt:b.content}).slice(0,400)}));
-const workedText=(project,topicId)=>project.sections.filter(s=>s.topicId===topicId&&isTeaching(s)).flatMap(s=>s.blocks).filter(b=>b.type==='worked-example').slice(0,2).map(b=>(b.title?b.title+': ':'')+(rawText({prompt:b.content})||'')).join(' | ').slice(0,600);
+// Worked examples keep their prompts in `content` or, in the v4 examples block, in `examples[].prompt` with
+// the working in `theorySolution`; reading only `content` gave the picker empty text (14 November 2026).
+const exampleText=b=>b.content?rawText({prompt:b.content}):(b.examples??[]).map(e=>[(e.label?'('+e.label+') ':'')+rawText({prompt:e.prompt}),typeof e.theorySolution==='string'?'working: '+e.theorySolution.replace(/\\color\{[^}]*\}|\\,/g,'').slice(0,160):''].filter(Boolean).join(' ')).join(' | ');
+export const workedExamples=(project,topicId)=>project.sections.filter(s=>s.topicId===topicId&&isTeaching(s)).flatMap(s=>s.blocks).filter(b=>b.type==='worked-example').map(b=>({id:b.id,title:b.title??'',text:exampleText(b).slice(0,400)}));
+const workedText=(project,topicId)=>project.sections.filter(s=>s.topicId===topicId&&isTeaching(s)).flatMap(s=>s.blocks).filter(b=>b.type==='worked-example').slice(0,2).map(b=>(b.title?b.title+': ':'')+(exampleText(b)||'')).join(' | ').slice(0,600);
 const ownSkills=(project,topicId)=>[...new Set(project.sections.filter(s=>s.topicId===topicId&&isTeaching(s)).flatMap(s=>s.blocks).map(b=>b.classification?.primarySkillId).filter(Boolean))];
 
 // ---- shortlist ----------------------------------------------------------------------------------------------
