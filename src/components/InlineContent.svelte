@@ -64,6 +64,10 @@
      transitions. Rows inside one aligned equation keep their own spacing. */
   .text-line:has(:global(.mfrac)) + .text-line:has(:global(.mfrac)) { margin-top: 8pt; }
   .blank-line { height: 0.55rem; }
-  .inline-tikz { width: 100%; display: flex; justify-content: center; overflow-x: auto; margin: 0.45rem 0; }
+  /* The inner .tikz-wrap is the only horizontal scroller. A second scroll box
+     here showed an empty scrollbar whenever the diagram's sub-pixel width
+     rounded past the row's width. */
+  .inline-tikz { width: 100%; display: flex; justify-content: center; margin: 0.45rem 0; }
+  .inline-tikz > :global(*) { min-width: 0; max-width: 100%; }
   .inline-tikz :global(svg) { max-width: 100%; height: auto; }
 </style>

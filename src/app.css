@@ -86,6 +86,38 @@
   color-scheme: dark;
 }
 
+/* Booklet-styled blocks on public pages (skill theory, worked examples, practice)
+   take the booklet palette (--booklet-*, set on :root by main.js for Studio and
+   print). In dark mode they get dark-paper versions here, scoped to .booklet-web,
+   so Studio pages and exports keep their print colours. */
+:root[data-theme="dark"] .booklet-web {
+  --booklet-ink: #E8ECF2;
+  --booklet-white: #171D27;
+  --booklet-border: #364156;
+  --booklet-muted: #9AA4B4;
+  --booklet-blue: #6CB2FF;
+  --booklet-headerBlue: #34506E;
+  --booklet-red: #F27A80;
+  --booklet-green: #6BC487;
+  --booklet-orange: #F4A259;
+  --booklet-purple: #B595E6;
+  --booklet-tableLabel: #1E3550;
+  --booklet-blueFill: #1A2A40;
+  --booklet-redFill: #3A1E24;
+  --booklet-greenFill: #17301F;
+  --booklet-orangeFill: #36261A;
+  --booklet-purpleFill: #2A2140;
+  --booklet-gotText: #A7E3B9;
+  --booklet-notText: #F8C795;
+}
+
+/* TikZ figures are black ink on white paper. In dark mode, flip their lightness
+   but keep their hues (red stays red), on transparent paper. */
+:root[data-theme="dark"] .booklet-web .tikz-wrap {
+  background: transparent;
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
 * { box-sizing: border-box; }
 
 @keyframes route-enter {

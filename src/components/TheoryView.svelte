@@ -20,8 +20,8 @@
       paired: aligned ? null : pairParts(example.question_text, example.solution_text),
     };
   }));
-  const INK = '#24282d';
-  const BLUE = '#268cff';
+  const INK = 'var(--booklet-ink)';
+  const BLUE = 'var(--booklet-blue)';
 </script>
 
 <div class="theory booklet-web">
@@ -74,8 +74,8 @@
   .theory { display: flex; flex-direction: column; gap: 1.1rem; font-family: 'Nunito', var(--font-body); }
   .theory-intro { font-size: 1rem; line-height: 1.65; }
 
-  /* Booklet teaching box: tinted accent header + white body, 1px border, no top border. */
-  .booklet-box { background: #ffffff; color: var(--booklet-ink); border-radius: 2px; overflow: hidden; }
+  /* Booklet teaching box: tinted accent header + paper (white) body, 1px border, no top border. */
+  .booklet-box { background: var(--booklet-white); color: var(--booklet-ink); border-radius: 2px; overflow: hidden; }
   .box-body { padding: 0.85rem 1rem 1rem; border: 1px solid var(--booklet-border); border-top: 0; }
 
   .facts { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.5rem; }

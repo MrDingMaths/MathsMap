@@ -28,8 +28,8 @@
   })));
   let allOpen = $derived(items.length > 0 && open.size === items.length);
 
-  const INK = '#24282d';
-  const BLUE = '#268cff';
+  const INK = 'var(--booklet-ink)';
+  const BLUE = 'var(--booklet-blue)';
 
   function toggle(i) {
     const next = new Set(open);
@@ -41,7 +41,7 @@
   }
 </script>
 
-<section class="practice-tier" aria-labelledby="tier-{tier.key}">
+<section class="practice-tier booklet-web" aria-labelledby="tier-{tier.key}">
   <div class="tier-band">
     <h3 id="tier-{tier.key}">{tier.label}</h3>
     <span class="tier-count">{items.length} {items.length === 1 ? 'question' : 'questions'}</span>
@@ -97,7 +97,7 @@
 </section>
 
 <style>
-  .practice-tier { margin-top: 1.35rem; font-family: 'Nunito', var(--font-body); background: #ffffff; color: var(--booklet-ink); border: 1px solid var(--booklet-border); border-radius: 2px; }
+  .practice-tier { margin-top: 1.35rem; font-family: 'Nunito', var(--font-body); background: var(--booklet-white); color: var(--booklet-ink); border: 1px solid var(--booklet-border); border-radius: 2px; }
   /* Booklet exercise band: header blue with white bold text. */
   .tier-band { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; padding: 0.45rem 0.75rem 0.45rem 1rem; background: var(--booklet-headerBlue); color: #ffffff; }
   .tier-band h3 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: 0; }
@@ -117,14 +117,14 @@
   .part-label { font-weight: 800; }
 
   .reveal-row { display: flex; justify-content: flex-end; margin-top: 0.55rem; }
-  .reveal { padding: 0.3rem 0.7rem; border: 1px solid var(--booklet-blue); border-radius: 6px; background: #ffffff; color: var(--booklet-blue); font: 700 0.82rem 'Nunito', var(--font-body); cursor: pointer; }
+  .reveal { padding: 0.3rem 0.7rem; border: 1px solid var(--booklet-blue); border-radius: 6px; background: var(--booklet-white); color: var(--booklet-blue); font: 700 0.82rem 'Nunito', var(--font-body); cursor: pointer; }
   .reveal:hover, .reveal[aria-expanded='true'] { background: var(--booklet-blueFill); }
   /* Coral accent bar on the right, no fill. */
   .solution { margin-top: 0.55rem; padding: 0.35rem 0.9rem 0.35rem 0; border-right: 4px solid var(--booklet-red); line-height: 1.8; display: flex; flex-direction: column; gap: 0.2rem; }
   .self-check { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.55rem; font-size: 0.82rem; color: var(--booklet-muted, #777777); }
-  .check { padding: 0.25rem 0.7rem; border: 1px solid var(--booklet-border); border-radius: 6px; background: #ffffff; color: var(--booklet-ink); font: 700 0.82rem 'Nunito', var(--font-body); cursor: pointer; }
-  .check.got:hover, .check.got[aria-pressed='true'] { border-color: var(--booklet-green); background: var(--booklet-greenFill); color: #2f6b40; }
-  .check.not:hover, .check.not[aria-pressed='true'] { border-color: var(--booklet-orange); background: var(--booklet-orangeFill); color: #9a5410; }
+  .check { padding: 0.25rem 0.7rem; border: 1px solid var(--booklet-border); border-radius: 6px; background: var(--booklet-white); color: var(--booklet-ink); font: 700 0.82rem 'Nunito', var(--font-body); cursor: pointer; }
+  .check.got:hover, .check.got[aria-pressed='true'] { border-color: var(--booklet-green); background: var(--booklet-greenFill); color: var(--booklet-gotText, #2f6b40); }
+  .check.not:hover, .check.not[aria-pressed='true'] { border-color: var(--booklet-orange); background: var(--booklet-orangeFill); color: var(--booklet-notText, #9a5410); }
   .check:focus-visible { outline: 2px solid var(--booklet-blue); outline-offset: 2px; }
   .mark-note { margin-top: 0.3rem; text-align: right; font-size: 0.78rem; font-weight: 700; color: var(--booklet-muted, #777777); }
   @media (max-width: 520px) {
