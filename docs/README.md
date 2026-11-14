@@ -110,6 +110,7 @@ Each is the only place a rule, command or decision is written down, or is cited 
 | [booklet-feedback-2026-09-13.md](booklet-feedback-2026-09-13.md) | Angle Relationships repairs, cited by the project file |
 | [booklet-volume-feedback-2026-09-12.md](booklet-volume-feedback-2026-09-12.md) | Volume repairs and prevention rules |
 | [booklet-volume-feedback-r198.md](booklet-volume-feedback-r198.md) | Volume revision 198 repairs: headings and continuation rules |
+| [seo-investigation.md](seo-investigation.md) | SEO findings for the public site (hash routing, prerender options, sitemap, structured data) and the phased plan; report only |
 | [booklet-comments-settled-20261112.md](booklet-comments-settled-20261112.md) | Every booklet comment settled 12 Nov 2026 (masters and imports); what is left and why; bank-sync EMFILE fix |
 
 ## Data

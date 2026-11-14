@@ -7,6 +7,7 @@
   import { getQuizHistory } from '../lib/quiz-history.js';
   import SkillCard from '../components/SkillCard.svelte';
   import MasteryStatus from '../components/MasteryStatus.svelte';
+  import StageMastery from '../components/StageMastery.svelte';
   import Math from '../components/Math.svelte';
 
   let tick = $state(0);
@@ -26,6 +27,10 @@
     return nextSkills({ limit: 6 });
   });
   let quizHistory = $derived(getQuizHistory());
+  let progressMap = $derived.by(() => {
+    tick;
+    return allProgress();
+  });
 </script>
 
 <div class="container learning-view">
@@ -38,6 +43,11 @@
       <a class="mm-btn primary" href={href(`/skill/${recommended[0].id}`)}>Start <Math text={recommended[0].title} /> <span aria-hidden="true">&rarr;</span></a>
     {/if}
   </header>
+
+  <section>
+    <div class="section-heading"><div><h2>Mastery by stage</h2></div></div>
+    <StageMastery progress={progressMap} />
+  </section>
 
   {#if active.length}
     <section>
