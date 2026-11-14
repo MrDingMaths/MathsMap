@@ -8,13 +8,18 @@
   import Topic from './views/Topic.svelte';
   import SkillDetail from './views/SkillDetail.svelte';
   import MyLearning from './views/MyLearning.svelte';
-  import Map from './views/Map.svelte';
   import Quiz from './views/Quiz.svelte';
   import QuizHistory from './views/QuizHistory.svelte';
- import TikzCheck from './views/TikzCheck.svelte';
-  import BookletStudioView from './views/BookletStudio.svelte';
   import GlobalSearch from './components/GlobalSearch.svelte';
   import SiteFooter from './components/SiteFooter.svelte';
+
+  // Heavy or authoring-only views load on first visit, so the public site's
+  // first download stays small. When the Studio flag is off (the normal public
+  // build) the Studio and TikZ check imports are dropped from the build entirely.
+  const STUDIO_ENABLED = import.meta.env.DEV || import.meta.env.VITE_BOOKLET_STUDIO === 'true';
+  const loadMap = () => import('./views/Map.svelte');
+  const loadStudio = STUDIO_ENABLED ? () => import('./views/BookletStudio.svelte') : null;
+  const loadTikzCheck = import.meta.env.DEV ? () => import('./views/TikzCheck.svelte') : null;
 
   let searchOpen = $state(false);
   let routeKey = $derived(`${route.name}/${route.params.join('/')}`);
@@ -103,12 +108,14 @@
 <GlobalSearch open={searchOpen} onClose={() => (searchOpen = false)} />
 
 {#if route.name === 'map'}
-  <Map
-    courseId={route.query.course ?? null}
-    skillId={route.query.skill ?? null}
-    topicId={route.query.topic ?? null}
-    focusId={route.query.focus ?? null}
-  />
+  {#await loadMap() then { default: MapView }}
+    <MapView
+      courseId={route.query.course ?? null}
+      skillId={route.query.skill ?? null}
+      topicId={route.query.topic ?? null}
+      focusId={route.query.focus ?? null}
+    />
+  {/await}
 {:else}
   <main class="site-content">
     {#key routeKey}
@@ -127,16 +134,20 @@
           <Quiz skillId={route.query.skill ?? null} topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
         {:else if route.name === 'quiz-history'}
           <QuizHistory id={route.params[0] ?? null} />
-        {:else if route.name === 'booklet' && (import.meta.env.DEV || import.meta.env.VITE_BOOKLET_STUDIO === 'true')}
-          <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'projects'} initialOutput={route.query.output ?? null} />
-        {:else if route.name === 'tikz-check' && import.meta.env.DEV}
-          <TikzCheck
-            topicId={route.query.topic ?? null}
-            ids={route.query.ids ?? null}
-            inputUrl={route.query.input ?? null}
-            offset={route.query.offset ?? 0}
-            limit={route.query.limit ?? null}
-          />
+        {:else if route.name === 'booklet' && loadStudio}
+          {#await loadStudio() then { default: BookletStudioView }}
+            <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'projects'} initialOutput={route.query.output ?? null} />
+          {/await}
+        {:else if route.name === 'tikz-check' && loadTikzCheck}
+          {#await loadTikzCheck() then { default: TikzCheck }}
+            <TikzCheck
+              topicId={route.query.topic ?? null}
+              ids={route.query.ids ?? null}
+              inputUrl={route.query.input ?? null}
+              offset={route.query.offset ?? 0}
+              limit={route.query.limit ?? null}
+            />
+          {/await}
         {:else}
           <div class="container"><p class="muted">Page not found. <a href={href('/')}>Go home</a>.</p></div>
         {/if}

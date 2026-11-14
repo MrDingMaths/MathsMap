@@ -1,16 +1,17 @@
 <script>
   // Skill-page theory in an adapted booklet house style: the same accent
-  // headers (BookletSectionHeader), palette (--booklet-*), blue working and red
+  // headers (SkillBoxHeader, the read-only twin of BookletSectionHeader), palette (--booklet-*), blue working and red
   // step numbers as Booklet Studio teaching pages, resized for the screen.
   // Theory fields carry the same rich-text format as practice cards, inline
   // `[tikz]` figures included, so they render through InlineContent. It emits
   // block-level divs, hence divs rather than <p> wrappers.
   import InlineContent from './InlineContent.svelte';
-  import BookletSectionHeader from './BookletSectionHeader.svelte';
+  import SkillBoxHeader from './SkillBoxHeader.svelte';
   import { getWorkedExamples } from '../lib/theory-content.js';
   import { teachingEquationDisplays } from '../lib/booklet-teaching-alignment.js';
   import { pairParts } from '../lib/skill-parts.js';
-  let { theory } = $props();
+  // examplesOnly: just the worked examples, for the side panel beside practice.
+  let { theory, examplesOnly = false } = $props();
   let examples = $derived(getWorkedExamples(theory).map((example, i) => {
     const aligned = teachingEquationDisplays({ ...example, id: `theory-example-${i}`, prompt: example.question_text, theorySolution: example.solution_text });
     return {
@@ -24,11 +25,11 @@
 </script>
 
 <div class="theory booklet-web">
-  {#if theory.intro}<div class="theory-intro"><InlineContent text={theory.intro} /></div>{/if}
+  {#if theory.intro && !examplesOnly}<div class="theory-intro"><InlineContent text={theory.intro} /></div>{/if}
 
-  {#if theory.facts?.length || theory.steps?.length}
+  {#if (theory.facts?.length || theory.steps?.length) && !examplesOnly}
     <section class="booklet-box" aria-label="Theory">
-      <BookletSectionHeader kind="definition" label="Theory" />
+      <SkillBoxHeader kind="definition" label="Theory" />
       <div class="box-body">
         {#if theory.facts?.length}
           <ul class="facts">{#each theory.facts as fact}<li><InlineContent text={fact} textColor={INK} /></li>{/each}</ul>
@@ -48,7 +49,7 @@
   {#each examples as example, i}
     {@const title = examples.length > 1 ? `Example ${i + 1}` : 'Example'}
     <section class="booklet-box" aria-label={title}>
-      <BookletSectionHeader kind="example" label={title} />
+      <SkillBoxHeader kind="example" label={title} />
       <div class="box-body">
         {#if example.paired}
           {#if example.paired.stem}<div class="example-stem"><InlineContent text={example.paired.stem} textColor={INK} nativeTables={true} /></div>{/if}
@@ -75,11 +76,6 @@
 
   /* Booklet teaching box: tinted accent header + white body, 1px border, no top border. */
   .booklet-box { background: #ffffff; color: var(--booklet-ink); border-radius: 2px; overflow: hidden; }
-  .booklet-box :global(.accent-header) {
-    min-height: 2rem; gap: 0.5rem; padding: 0.3rem 0.75rem 0.3rem 0.65rem;
-    border-left-width: 6px; font-size: 0.98rem; border-top: 1px solid var(--booklet-border); border-right: 1px solid var(--booklet-border);
-  }
-  .booklet-box :global(.header-icon) { width: 1.2rem; height: 1.2rem; flex-basis: 1.2rem; }
   .box-body { padding: 0.85rem 1rem 1rem; border: 1px solid var(--booklet-border); border-top: 0; }
 
   .facts { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.5rem; }

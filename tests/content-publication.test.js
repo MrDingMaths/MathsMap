@@ -244,6 +244,7 @@ test('SkillDetail ignores delayed content and quiz acknowledgements after Aâ†’Bâ
     'router.svelte.js': 'export const href=value=>value;',
     'recommender.js': 'export const lockedSkills=()=>[];',
     'store.js': "export const getMastery=()=>'none';export const subscribe=fn=>{fn();return ()=>{};};",
+    'practice-progress.js': "export const getPracticeMarks=()=>({});export const subscribePractice=()=>()=>{};export const practiceSummary=()=>({got:0,needed:3,level:'none'});",
     'content.js': 'export const loadSkillContent=async()=>null;export const setContentCache=(id,value)=>window.cacheWrites.push({id,value});',
     'quiz.js': 'export const setQuizCache=(id,value)=>window.cacheWrites.push({id,value});',
     'admin.svelte.js': saveStubs,

@@ -2,11 +2,24 @@
   // One practice tier on the public skill page, laid out like a booklet
   // exercise: a header band, numbered questions with bold labels, lettered
   // parts, and a per-question "Show solution" reveal with blue working.
-  // (File name kept from the earlier carousel so SkillDetail needs no change.)
+  // (The file name is left over from the earlier carousel.)
+  // After checking a solution the student marks it "Got it" or "Not yet";
+  // practice-progress.js turns those marks into Learning / Proficient (never
+  // Mastered, which only the quiz awards).
   import InlineContent from './InlineContent.svelte';
   import { splitParts, pairParts } from '../lib/skill-parts.js';
+  import { getPracticeMarks, markPractice, subscribePractice } from '../lib/practice-progress.js';
 
-  let { tier, items } = $props();
+  let { tier, items, skillId = null, hasHigherTiers = false } = $props();
+  let marks = $state({});
+  $effect(() => {
+    const id = skillId;
+    marks = id ? getPracticeMarks(id) : {};
+    return subscribePractice(() => { marks = id ? getPracticeMarks(id) : {}; });
+  });
+  function mark(i, value) {
+    if (skillId) markPractice(skillId, `${tier.key}-${i}`, value, { hasHigherTiers });
+  }
   let open = $state(new Set());
   let questions = $derived(items.map((item) => ({
     item,
@@ -66,6 +79,16 @@
                 <InlineContent text={q.item.solution_text} textColor={BLUE} />
               {/if}
             </div>
+            {#if skillId}
+              {@const current = marks[`${tier.key}-${i}`]}
+              <div class="self-check" role="group" aria-label="How did question {i + 1} go?">
+                <span>How did you go?</span>
+                <button class="check got" aria-pressed={current === 'got'} onclick={() => mark(i, 'got')}>Got it</button>
+                <button class="check not" aria-pressed={current === 'not'} onclick={() => mark(i, 'not')}>Not yet</button>
+              </div>
+            {/if}
+          {:else if skillId && marks[`${tier.key}-${i}`]}
+            <div class="mark-note">{marks[`${tier.key}-${i}`] === 'got' ? 'Got it' : 'Not yet'}</div>
           {/if}
         </div>
       </li>
@@ -98,6 +121,12 @@
   .reveal:hover, .reveal[aria-expanded='true'] { background: var(--booklet-blueFill); }
   /* Coral accent bar on the right, no fill. */
   .solution { margin-top: 0.55rem; padding: 0.35rem 0.9rem 0.35rem 0; border-right: 4px solid var(--booklet-red); line-height: 1.8; display: flex; flex-direction: column; gap: 0.2rem; }
+  .self-check { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.55rem; font-size: 0.82rem; color: var(--booklet-muted, #777777); }
+  .check { padding: 0.25rem 0.7rem; border: 1px solid var(--booklet-border); border-radius: 6px; background: #ffffff; color: var(--booklet-ink); font: 700 0.82rem 'Nunito', var(--font-body); cursor: pointer; }
+  .check.got:hover, .check.got[aria-pressed='true'] { border-color: var(--booklet-green); background: var(--booklet-greenFill); color: #2f6b40; }
+  .check.not:hover, .check.not[aria-pressed='true'] { border-color: var(--booklet-orange); background: var(--booklet-orangeFill); color: #9a5410; }
+  .check:focus-visible { outline: 2px solid var(--booklet-blue); outline-offset: 2px; }
+  .mark-note { margin-top: 0.3rem; text-align: right; font-size: 0.78rem; font-weight: 700; color: var(--booklet-muted, #777777); }
   @media (max-width: 520px) {
     .questions { padding: 0 0.75rem; }
     .toggle-all { margin-left: 0; }

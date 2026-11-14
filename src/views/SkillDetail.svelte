@@ -6,6 +6,9 @@
   import { loadSkillContent, setContentCache } from '../lib/content.js';
   import { setQuizCache } from '../lib/quiz.js';
   import { adminState, loadAdminSnapshot, saveContent, saveQuiz } from '../lib/admin.svelte.js';
+  import { getPracticeMarks, subscribePractice, practiceSummary } from '../lib/practice-progress.js';
+  import { getWorkedExamples } from '../lib/theory-content.js';
+  import { tick, untrack } from 'svelte';
   import { strandColour } from '../lib/strands.js';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import SkillLink from '../components/SkillLink.svelte';
@@ -64,6 +67,65 @@
     return () => { active = false; };
   });
   let hasPractice = $derived(Boolean(content?.practice && TIERS.some((tier) => content.practice[tier.key]?.length)));
+  let hasHigherTiers = $derived(Boolean(content?.practice?.development?.length || content?.practice?.mastery?.length));
+
+  // Self-marked practice progress (Got it / Not yet), capped at Proficient.
+  let practiceProgress = $state(null);
+  $effect(() => {
+    const currentId = skill?.id;
+    const options = { hasHigherTiers };
+    const update = () => { practiceProgress = currentId ? practiceSummary(getPracticeMarks(currentId), options) : null; };
+    update();
+    return subscribePractice(update);
+  });
+
+  // Side-by-side practice: on wide screens, once the student scrolls into
+  // Practice, the sidebar gives way to a sticky panel of worked examples.
+  let workedExamples = $derived(content?.theory ? getWorkedExamples(content.theory) : []);
+  let wide = $state(false);
+  $effect(() => {
+    const query = matchMedia('(min-width: 1100px)');
+    const set = () => { wide = query.matches; };
+    set();
+    query.addEventListener('change', set);
+    return () => query.removeEventListener('change', set);
+  });
+  let canSideBySide = $derived(wide && !adminState.isAdmin && hasPractice && workedExamples.length > 0);
+  let practiceMode = $state(false);
+  let holdModeUntil = 0;
+  async function setPracticeMode(next) {
+    // The main column changes width, so keep Practice where it was on screen.
+    const before = practiceEl?.getBoundingClientRect().top ?? 0;
+    practiceMode = next;
+    await tick();
+    const after = practiceEl?.getBoundingClientRect().top ?? 0;
+    if (Math.abs(after - before) > 1) window.scrollBy(0, after - before);
+  }
+  $effect(() => {
+    if (!canSideBySide) { practiceMode = false; return; }
+    let switching = false;
+    // One position read per scroll event is cheap, so no animation-frame throttle.
+    const check = async () => {
+      if (switching || !practiceEl || Date.now() < holdModeUntil) return;
+      const top = practiceEl.getBoundingClientRect().top;
+      // Enter once Practice reaches the top; leave only well above it, so the
+      // layout does not flicker at the boundary.
+      const next = practiceMode ? top < 320 : top <= 140;
+      if (next === practiceMode) return;
+      switching = true;
+      try { await setPracticeMode(next); } finally { switching = false; }
+    };
+    window.addEventListener('scroll', check, { passive: true });
+    untrack(check);
+    return () => window.removeEventListener('scroll', check);
+  });
+  async function backToTheory() {
+    holdModeUntil = Date.now() + 1500;
+    practiceMode = false;
+    theoryOpen = true;
+    await tick();
+    document.getElementById('theory')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   async function saveQuizContent(updated) {
     const currentId = skill.id;
@@ -123,7 +185,7 @@
       </div>
     </header>
 
-    <div class="skill-grid">
+    <div class="skill-grid" class:practice-mode={practiceMode}>
       <main class="skill-content">
         {#if content}
           {#if content.theory || adminState.isAdmin}
@@ -141,7 +203,18 @@
               {#if adminState.isAdmin}
                 <PracticeEditor practice={content.practice ?? {}} onSave={savePractice} />
               {:else}
-                {#each TIERS as tier}{#if content.practice[tier.key]?.length}<PracticeCarousel {tier} items={content.practice[tier.key]} />{/if}{/each}
+                {#if hasPractice && practiceProgress}
+                  <p class="practice-note">
+                    {#if currentMastery === 'mastered'}
+                      Mastered. Practise here any time.
+                    {:else if currentMastery === 'proficient'}
+                      You're Proficient. Take the quiz to reach Mastered.
+                    {:else}
+                      Check each solution, then mark it <b>Got it</b> or <b>Not yet</b>. {practiceProgress.got} of {practiceProgress.needed} "Got it"{hasHigherTiers ? ', with one beyond Foundation,' : ''} makes you Proficient. Mastered comes from the quiz.
+                    {/if}
+                  </p>
+                {/if}
+                {#each TIERS as tier}{#if content.practice[tier.key]?.length}<PracticeCarousel {tier} items={content.practice[tier.key]} skillId={skill.id} {hasHigherTiers} />{/if}{/each}
               {/if}
             </section>
           {/if}
@@ -175,6 +248,15 @@
         {/if}
       </main>
 
+      {#if practiceMode}
+      <aside class="example-rail" aria-label="Worked examples">
+        <div class="example-rail-head">
+          <p class="rail-label">Worked examples</p>
+          <button class="rail-back" onclick={backToTheory}>Back to theory <span aria-hidden="true">&uarr;</span></button>
+        </div>
+        <div class="example-rail-scroll"><TheoryView theory={content.theory} examplesOnly /></div>
+      </aside>
+      {:else}
       <aside class="skill-side" aria-label="Learning details">
         {#if content && (content.theory || content.practice)}
           <nav class="side-section toc-block" aria-label="On this page">
@@ -201,6 +283,7 @@
           </section>
         {/if}
       </aside>
+      {/if}
     </div>
   {:else}
     <p class="muted">Unknown skill.</p>
@@ -252,6 +335,16 @@
   .snav.next { margin-left: auto; text-align: right; }
   .snav:hover { color: var(--accent); text-decoration: none; }
   .nav-direction { color: var(--muted); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
+  .practice-note { margin: 0 0 0.4rem; color: var(--muted); font-size: 0.92rem; }
+  .practice-note b { color: var(--text); }
+  /* Side-by-side practice: examples panel replaces the sidebar. */
+  .skill-grid.practice-mode { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; }
+  .example-rail { position: sticky; top: calc(var(--top-nav-height, 60px) + 1rem); display: flex; flex-direction: column; max-height: calc(100vh - var(--top-nav-height, 60px) - 2rem); padding-top: 1.4rem; }
+  .example-rail-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; }
+  .example-rail-head .rail-label { margin: 0; }
+  .rail-back { padding: 0; border: 0; background: none; color: var(--muted); font: 700 0.82rem var(--font-body); cursor: pointer; }
+  .rail-back:hover { color: var(--accent); }
+  .example-rail-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 0.4rem; }
   @media (max-width: 960px) { .skill-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; } .skill-side { position: static; } .toc-block { display: none; } }
   @media (max-width: 620px) { .title-actions .mm-btn.primary { width: 100%; } .skill-nav { align-items: flex-start; } .snav { max-width: 46%; } }
 </style>
