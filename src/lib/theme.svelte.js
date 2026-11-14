@@ -1,7 +1,7 @@
 const KEY = 'mathsmap.theme.v1';
 
 function saved() {
-  try { return localStorage.getItem(KEY) || 'dark'; } catch { return 'dark'; }
+  try { return localStorage.getItem(KEY) || 'light'; } catch { return 'light'; }
 }
 
 class ThemeStore {

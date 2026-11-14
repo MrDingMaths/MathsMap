@@ -13,10 +13,31 @@ export const MAX_ZOOM_DEFAULT = 3;
 
 const geometryCache = new Map();
 
-export function mapGeometryKey({ mode, courseIds = [], topicIds = null, crossOnly = false }) {
+export function mapGeometryKey({ mode, courseIds = [], topicIds = null, crossOnly = false, expanded = null, hiddenStrands = [] }) {
   const courses = [...courseIds].sort().join(',');
   const topics = topicIds == null ? '*' : [...topicIds].sort().join(',');
-  return `v2|${mode}|${courses}|${topics}|${crossOnly ? 1 : 0}`;
+  const strands = [...hiddenStrands].sort().join(',');
+  return `v3|${mode}|${courses}|${topics}|${crossOnly ? 1 : 0}|${expanded ?? ''}|${strands}`;
+}
+
+// Initial view: fit the whole map when that keeps cards readable, otherwise
+// start at a readable zoom anchored to the map's top-left corner.
+export function initialViewport(bounds, viewportWidth, viewportHeight, { readableZoom = 0.9, padding = 24 } = {}) {
+  if (!bounds || !(viewportWidth > 0) || !(viewportHeight > 0)) return null;
+  const bw = Math.max(1, bounds.x2 - bounds.x1);
+  const bh = Math.max(1, bounds.y2 - bounds.y1);
+  const fit = Math.min((viewportWidth - 2 * padding) / bw, (viewportHeight - 2 * padding) / bh);
+  if (fit >= readableZoom) {
+    const zoom = Math.min(fit, 1.1);
+    return {
+      zoom,
+      pan: {
+        x: (viewportWidth - bw * zoom) / 2 - bounds.x1 * zoom,
+        y: padding - bounds.y1 * zoom
+      }
+    };
+  }
+  return { zoom: readableZoom, pan: { x: padding - bounds.x1 * readableZoom, y: padding - bounds.y1 * readableZoom } };
 }
 
 export function getCachedGeometry(key) {
@@ -67,6 +88,30 @@ export function normalizeWheelDelta({
   return Math.max(-maxStepPx, Math.min(maxStepPx, scaled));
 }
 
+// Wheel and two-finger scroll pan the map like a page; Ctrl/Cmd + wheel (which
+// is also what a trackpad pinch sends) zooms.
+export function wheelIntent({ ctrlKey = false, metaKey = false } = {}) {
+  return ctrlKey || metaKey ? 'zoom' : 'pan';
+}
+
+// Screen-pixel pan for one wheel event. Shift + a vertical-only wheel scrolls
+// sideways, as in a page. Each axis is clamped like the zoom delta so a single
+// spiky event cannot fling the map.
+export function wheelPanDelta({
+  deltaX = 0,
+  deltaY = 0,
+  deltaMode = 0,
+  shiftKey = false,
+  pageHeight = WHEEL_PAGE_PX,
+  maxStepPx = WHEEL_MAX_STEP_PX
+} = {}) {
+  let x = Number.isFinite(deltaX) ? deltaX : 0;
+  let y = Number.isFinite(deltaY) ? deltaY : 0;
+  if (shiftKey && x === 0) { x = y; y = 0; }
+  const scale = (value) => normalizeWheelDelta({ deltaY: value, deltaMode, pageHeight, maxStepPx });
+  return { dx: x === 0 ? 0 : scale(x), dy: y === 0 ? 0 : scale(y) };
+}
+
 export function wheelZoomFactor(event, rate = WHEEL_ZOOM_RATE) {
   const px = normalizeWheelDelta(event);
   if (px === 0) return 1;
@@ -78,7 +123,7 @@ export function boundsFromBands(bands) {
   const rows = bands?.rows || [];
   if (!lanes.length || !rows.length) return null;
   return {
-    x1: lanes[0].xLeft - 40,
+    x1: Math.min(lanes[0].xLeft - 40, bands.labelGutter != null ? 0 : Infinity),
     y1: rows[0].yTop - 20,
     x2: lanes[lanes.length - 1].xRight + 40,
     y2: rows[rows.length - 1].yBottom + 60

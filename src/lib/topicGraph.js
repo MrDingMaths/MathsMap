@@ -8,6 +8,7 @@ import { masteryColour, masteryLabel, nodeSize, degreeMap } from './graph.js';
 import { ringSvg, trackColour } from './ring.js';
 import { plainMath } from './mathText.js';
 import { buildTopicBackbone } from './graphReduction.js';
+import { cardSize, groupSize } from './mapCards.js';
 
 const MASTERY_KEYS = ['none', 'learning', 'proficient', 'mastered'];
 
@@ -27,13 +28,19 @@ function dominantMastery(skillIds) {
 function masteryStats(skillIds) {
   let mastered = 0;
   let inProgress = 0;
+  let proficient = 0;
   for (const id of skillIds) {
     const m = getMastery(id);
     if (m === 'mastered') mastered++;
     else if (m === 'learning' || m === 'proficient') inProgress++;
+    if (m === 'proficient') proficient++;
   }
   const total = skillIds.length || 1;
   return {
+    mastered,
+    proficient,
+    inProgress,
+    count: skillIds.length,
     masteredPct: Math.round((mastered / total) * 100),
     inProgressPct: Math.round((inProgress / total) * 100),
     fullyMastered: mastered === skillIds.length && skillIds.length > 0,
@@ -44,7 +51,8 @@ function masteryStats(skillIds) {
 // `courseIds` may be a string or an array of course ids. The returned graph keeps
 // the complete semantic relation set for readiness/inspection, while marking a
 // much smaller reachability-preserving backbone for the default map view.
-export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = false } = {}) {
+export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = false, expandedTopicId = null, expandedTopicIds = null, expandAll = false, hiddenStrands = null } = {}) {
+  const expandedSet = new Set(expandedTopicIds ?? (expandedTopicId ? [expandedTopicId] : []));
   const wanted = courseIds == null ? null : new Set([].concat(courseIds));
 
   let pool = skills;
@@ -59,6 +67,7 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
       const topic = topicById.get(topicId);
       if (!topic) continue;
       if (wanted && !(topic.courses || []).some((c) => wanted.has(c))) continue;
+      if (hiddenStrands?.has(topic.strand)) continue;
       if (!topicSkills.has(topicId)) topicSkills.set(topicId, []);
       topicSkills.get(topicId).push(s.id);
     }
@@ -72,21 +81,32 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
     const mastery = dominantMastery(skillIds);
     const stats = masteryStats(skillIds);
     statsById.set(topicId, stats);
+    // Same states and colours as the skill rings: learning (amber) under
+    // proficient (blue) under mastered (green), each arc a share of the topic.
+    const proficientPct = Math.round((stats.proficient / (skillIds.length || 1)) * 100);
     const ring = stats.fullyMastered
       ? ringSvg({ track, full: true })
       : ringSvg({
           track,
-          // Longer (amber) arc first so the green mastered arc sits on top.
           segments: [
-            { pct: stats.masteredPct + stats.inProgressPct, color: '#fbbf24' },
-            { pct: stats.masteredPct, color: '#16a34a' }
-          ]
+            { pct: stats.masteredPct + stats.inProgressPct, color: masteryColour.learning },
+            { pct: stats.masteredPct + proficientPct, color: masteryColour.proficient },
+            { pct: stats.masteredPct, color: masteryColour.mastered }
+          ].filter((segment) => segment.pct > 0)
         });
+    const expanded = expandAll || expandedSet.has(topicId);
+    const box = expanded ? groupSize(skillIds.length) : cardSize(plainMath(topic.title));
     nodes.push({
+      classes: expanded ? 'card expanded' : 'card',
       data: {
         id: topicId,
         label: plainMath(topic.title),
         name: topic.title,
+        w: box.w,
+        h: box.h,
+        ringX: box.w - 12 - 18,
+        skillIds,
+        stats,
         blurb: topic.blurb || '',
         strand: topic.strand,
         stage: topic.stage,
@@ -163,7 +183,7 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
       !stats.started &&
       prereqs.length > 0 &&
       prereqs.every((t) => statsById.get(t)?.fullyMastered);
-    if (ready) n.classes = 'ready';
+    if (ready) n.classes = `${n.classes} ready`;
   }
 
   const visibleRelations = crossOnly ? relations.filter((relation) => relation.cross) : relations;

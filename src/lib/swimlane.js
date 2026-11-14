@@ -10,12 +10,148 @@
 // depth is now a band-wide property, not a per-cell one. Flow runs downward so the
 // long prerequisite-depth axis uses the (scrollable) vertical dimension and the
 // strands span the wide axis.
-import { STRANDS } from './data.js';
+import { STRANDS } from './strands.js';
 
 // Shared with graph.js's routeEdges(), which needs to know the gutter height
 // between rank rows to place taxi turns inside it. Keep in sync with the default
 // passed to layoutSwimlanes() below.
 export const RANK_SEP = 200;
+// Card layout: the node-free gutter between rank rows (edge jogs run along its
+// midline, staggered ±30px), and the world-space strip left of the first lane
+// that holds the stage labels.
+export const ROW_GAP = 64;
+// Most cards side by side in one strand column; a wider rank wraps onto extra
+// rows (each with its own gutter, so routing still never crosses a card).
+export const MAX_PER_ROW = 3;
+const COL_GAP = 16; // horizontal gap between card columns
+const YEARS_BY_STAGE = { 3: 'Years 5–6', 4: 'Years 7–8', 5: 'Years 9–10', 6: 'Years 11–12' };
+
+// Column-grid placement for card layouts. Each strand gets as many columns as
+// its widest row needs; a row's cards are placed in consecutive columns,
+// centred under the cards they build on (left-aligned when they build on
+// nothing in that column), so prerequisite chains run straight down. Rows are
+// top-aligned and every node records the gutters above and below its row.
+function placeOnGrid({ groups, nodeById, predOf, colOrder, rowOrder, bandLabels, pitch, spanOf, pad, gap, bandGap, rowGap, left }) {
+  const slotsByStrand = new Map();
+  const rowHeight = new Map(); // `${band}|${row}` -> tallest node
+  const rowsByBand = new Map();
+  for (const [key, ids] of groups) {
+    const [strand, bandStr, rowStr] = key.split('|');
+    const band = Number(bandStr);
+    const row = Number(rowStr);
+    const total = ids.reduce((sum, id) => sum + spanOf(id), 0);
+    if (!slotsByStrand.has(strand)) slotsByStrand.set(strand, 0);
+    slotsByStrand.set(strand, Math.max(slotsByStrand.get(strand), total));
+    const h = Math.max(...ids.map((id) => nodeById.get(id).height() || 40));
+    rowHeight.set(`${band}|${row}`, Math.max(rowHeight.get(`${band}|${row}`) || 0, h));
+    if (!rowsByBand.has(band)) rowsByBand.set(band, new Set());
+    rowsByBand.get(band).add(row);
+  }
+
+  const colX = new Map();
+  const colCount = new Map();
+  let cx = left;
+  for (const strand of colOrder) {
+    if (!slotsByStrand.has(strand)) continue;
+    colX.set(strand, cx);
+    colCount.set(strand, slotsByStrand.get(strand));
+    cx += slotsByStrand.get(strand) * pitch - COL_GAP + 2 * pad + gap;
+  }
+
+  const rowTop = new Map();
+  const contentH = new Map();
+  const bandRows = new Map();
+  for (const band of rowOrder) {
+    const rows = [...(rowsByBand.get(band) || [])].sort((a, b) => a - b);
+    if (!rows.length) continue;
+    let y = 0;
+    rows.forEach((row, i) => {
+      if (i) y += rowGap;
+      rowTop.set(`${band}|${row}`, y);
+      y += rowHeight.get(`${band}|${row}`);
+    });
+    bandRows.set(band, rows);
+    contentH.set(band, y);
+  }
+  const bandY = new Map();
+  let yCursor = 0;
+  for (const band of rowOrder) {
+    if (!contentH.has(band)) continue;
+    bandY.set(band, yCursor);
+    yCursor += contentH.get(band) + 2 * pad + bandGap;
+  }
+
+  // Place rows top-down so a card's predecessors already have columns.
+  const centreCol = new Map(); // node id -> centre column (fractional for spans)
+  const keys = [...groups.keys()].sort((a, b) => {
+    const [, ba, ra] = a.split('|');
+    const [, bb, rb] = b.split('|');
+    return Number(ba) - Number(bb) || Number(ra) - Number(rb);
+  });
+  for (const key of keys) {
+    const [strand, bandStr, rowStr] = key.split('|');
+    const band = Number(bandStr);
+    const row = Number(rowStr);
+    const ids = groups.get(key);
+    const spans = ids.map(spanOf);
+    const total = spans.reduce((a, b) => a + b, 0);
+    const cols = colCount.get(strand);
+    // Only predecessors in the same strand column steer the position.
+    const anchor = ids.flatMap((id) => (predOf.get(id) || [])
+      .filter((p) => nodeById.get(p)?.data('strand') === strand && centreCol.has(p))
+      .map((p) => centreCol.get(p)));
+    let start = 0;
+    if (anchor.length) {
+      const sorted = [...anchor].sort((a, b) => a - b);
+      const median = sorted[Math.floor((sorted.length - 1) / 2)];
+      start = Math.round(median - (total - 1) / 2);
+    }
+    start = Math.max(0, Math.min(cols - total, start));
+    const top = bandY.get(band) + pad + rowTop.get(`${band}|${row}`);
+    const rows = bandRows.get(band);
+    const isFirst = rows[0] === row;
+    const isLast = rows[rows.length - 1] === row;
+    const bandBottom = bandY.get(band) + contentH.get(band) + 2 * pad;
+    const gAbove = isFirst ? bandY.get(band) - bandGap / 2 : top - rowGap / 2;
+    const gBelow = isLast ? bandBottom + bandGap / 2 : top + rowHeight.get(`${band}|${row}`) + rowGap / 2;
+    let col = start;
+    ids.forEach((id, i) => {
+      const node = nodeById.get(id);
+      const span = spans[i];
+      const centre = col + (span - 1) / 2;
+      centreCol.set(id, centre);
+      const x = colX.get(strand) + pad + centre * pitch + (pitch - COL_GAP) / 2;
+      node.position({ x, y: top + (node.height() || 40) / 2 });
+      node.data('_gAbove', gAbove);
+      node.data('_gBelow', gBelow);
+      col += span;
+    });
+  }
+
+  const lanes = colOrder
+    .filter((s) => colX.has(s))
+    .map((strand) => ({
+      strand,
+      xLeft: colX.get(strand),
+      xRight: colX.get(strand) + colCount.get(strand) * pitch - COL_GAP + 2 * pad
+    }));
+  const rows = rowOrder
+    .filter((b) => contentH.has(b))
+    .map((band) => {
+      const count = [...groups.entries()].filter(([key]) => Number(key.split('|')[1]) === band).reduce((n, [, ids]) => n + ids.length, 0);
+      const anyId = [...groups.entries()].find(([key]) => Number(key.split('|')[1]) === band)?.[1]?.[0];
+      return {
+        band,
+        label: bandLabels.get(band),
+        stage: anyId ? nodeById.get(anyId).data('stage') ?? null : null,
+        count,
+        yTop: bandY.get(band),
+        yBottom: bandY.get(band) + contentH.get(band) + 2 * pad
+      };
+    });
+  return { lanes, rows, labelGutter: left };
+}
+export const LABEL_GUTTER = 210;
 
 // Approximate rendered width of a node's label chip, so same-row neighbours can be
 // spaced far enough apart that chips never overlap. Must stay in sync with the
@@ -30,20 +166,24 @@ export function estimateChipWidth(text) {
 }
 
 // Subtle background tints + label colour per strand, for dark and light themes.
+// Same blue / green / amber / purple as before, as soft panels; heading text
+// matches the --strand-* tokens in app.css.
 const BAND_STYLE = {
   dark: {
-    'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.075)',  text: 'rgba(164, 213, 240, 0.86)' },
-    'Measurement & Space':   { fill: 'rgba(168, 247, 148, 0.075)', text: 'rgba(184, 224, 166, 0.86)' },
-    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.075)', text: 'rgba(235, 197, 146, 0.86)' },
-    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.08)',  text: 'rgba(207, 180, 240, 0.86)' }
+    'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.07)',  text: '#7dd3fc' },
+    'Measurement & Space':   { fill: 'rgba(74, 222, 128, 0.065)', text: '#86efac' },
+    'Statistics & Probability': { fill: 'rgba(251, 191, 36, 0.065)', text: '#fcd34d' },
+    'Functions & Calculus':  { fill: 'rgba(192, 132, 252, 0.075)',  text: '#d8b4fe' }
   },
   light: {
-    'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.09)',   text: 'rgba(2, 92, 148, 0.88)' },
-    'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.09)',   text: 'rgba(18, 108, 46, 0.88)' },
-    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.09)', text: 'rgba(145, 72, 0, 0.88)' },
-    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.09)',  text: 'rgba(99, 42, 156, 0.88)' }
+    'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.06)',   text: '#0369a1' },
+    'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.06)',   text: '#15803d' },
+    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.07)', text: '#b45309' },
+    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.06)',  text: '#7e22ce' }
   }
 };
+export const strandPanelStyle = (strand, isDark) =>
+  (isDark ? BAND_STYLE.dark : BAND_STYLE.light)[strand] || (isDark ? DEFAULT_STYLE.dark : DEFAULT_STYLE.light);
 const DEFAULT_STYLE = {
   dark:  { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163, 184, 0.7)' },
   light: { fill: 'rgba(100, 116, 139, 0.07)', text: 'rgba(60, 80, 110, 0.75)' }
@@ -146,7 +286,7 @@ export function rankBand(nodeIds, edges) {
 // estimated label chip (see estimateChipWidth), so chips never collide. Returns
 // { lanes, rows } in model coords for drawBands(). Generous band gutters keep
 // cross-band taxi turns off the node rows.
-export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep = 40, rankSep = RANK_SEP } = {}) {
+export function layoutSwimlanes(cy, { gap = 72, bandGap = 90, pad = 48, minSep = 40, rowGap = ROW_GAP, left = LABEL_GUTTER, maxPerRow = MAX_PER_ROW } = {}) {
   // Bucket nodes by band alone (not band+strand) so rankBand sees the full
   // cross-strand DAG for that band.
   const bandNodes = new Map(); // band -> node ids
@@ -186,6 +326,7 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
   // left-to-right node-id order for every (strand, band, rank) slot.
   const groups = new Map(); // `${strand}|${band}|${rank}` -> node id[]
   const orderKey = new Map(); // node id -> sortable scalar, used as "x" for barycenter of successors
+  const predOf = new Map(); // node id -> intra-band predecessors (for column alignment)
 
   for (const band of rowOrder) {
     const ids = bandNodes.get(band);
@@ -193,7 +334,7 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
     // cross-course edges keep their bezier style and never drove layout anyway.
     const edgeList = intraEdgesByBand.get(band) || [];
     const { rank, pred } = rankBand(ids, edgeList);
-    for (const id of ids) nodeById.get(id).data('_rank', rank.get(id));
+    for (const id of ids) { nodeById.get(id).data('_rank', rank.get(id)); predOf.set(id, pred.get(id) || []); }
 
     // Group by (rank, strand); process ranks ascending so every predecessor's
     // orderKey is already set (predecessors always have a strictly lower rank —
@@ -235,61 +376,147 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
   // its label chip, and the centre-to-centre gap between neighbours is
   // max(minSep, half of each effective width + breathing room) — a wide chip next
   // to a narrow one still gets exactly the room the pair needs, no more.
-  const GAP_PAD = 16; // breathing room between two adjacent chips' edges
+  // Wrap wide ranks: a (strand, band, rank) slot with more than maxPerRow nodes
+  // is split into consecutive rows, and every strand in that band moves down by
+  // the same number of rows so ranks stay aligned across columns.
+  // Card layouts sit on a column grid: each card fills one column slot and the
+  // opened topic fills as many as its width needs.
+  const cardLayout = cy.nodes().length > 0 && cy.nodes().every((n) => n.hasClass('card'));
+  const cardPitch = cardLayout
+    ? Math.max(...cy.nodes().filter((n) => !n.hasClass('expanded')).map((n) => n.width() || 0), 120) + COL_GAP
+    : 0;
+  const spanOf = (id) => (cardLayout ? Math.max(1, Math.round(((nodeById.get(id).width() || 0) + COL_GAP) / cardPitch)) : 1);
+  if (maxPerRow > 0) {
+    const wrapped = new Map();
+    for (const band of rowOrder) {
+      const slots = [...groups.keys()]
+        .map((key) => key.split('|'))
+        .filter(([, b]) => Number(b) === band)
+        .map(([strand, , r]) => ({ strand, rank: Number(r) }));
+      const ranks = [...new Set(slots.map((slot) => slot.rank))].sort((a, b) => a - b);
+      let row = 0;
+      for (const r of ranks) {
+        const here = slots.filter((slot) => slot.rank === r);
+        let height = 1;
+        for (const { strand } of here) {
+          const ids = groups.get(`${strand}|${band}|${r}`);
+          // Fill each row up to maxPerRow columns (an opened topic counts for
+          // the columns it spans).
+          const chunks = [];
+          let current = [];
+          let used = 0;
+          for (const id of ids) {
+            const span = Math.min(spanOf(id), maxPerRow);
+            if (current.length && used + span > maxPerRow) { chunks.push(current); current = []; used = 0; }
+            current.push(id);
+            used += span;
+          }
+          if (current.length) chunks.push(current);
+          height = Math.max(height, chunks.length);
+          chunks.forEach((chunk, k) => wrapped.set(`${strand}|${band}|${row + k}`, chunk));
+        }
+        row += height;
+      }
+    }
+    groups.clear();
+    for (const [key, ids] of wrapped) groups.set(key, ids);
+  }
+
+  if (cardLayout) {
+    return placeOnGrid({ groups, nodeById, predOf, colOrder, rowOrder, bandLabels, pitch: cardPitch, spanOf, pad, gap, bandGap, rowGap, left });
+  }
+
+  // Card nodes are measured by their own box; legacy disc nodes still reserve
+  // room for their label chip.
+  const GAP_PAD = 16; // breathing room between two adjacent nodes' edges
+  const effWidth = (node) =>
+    node.hasClass('card')
+      ? node.width() || 60
+      : Math.max(node.width() || 60, estimateChipWidth(node.data('label') || node.data('name') || ''));
   const colW = new Map();
   const maxRankInBand = new Map();
-  const maxNodeHeightInBand = new Map();
+  const rankHeight = new Map(); // `${band}|${rank}` -> tallest node in that rank row
   const groupOffsets = new Map(); // group key -> cumulative centre-x offsets (offsets[0] = 0)
   for (const [key, ids] of groups) {
     const [strand, bandStr, rankStr] = key.split('|');
     const band = Number(bandStr);
     const rank = Number(rankStr);
-    const eff = ids.map((id) => {
-      const node = nodeById.get(id);
-      return Math.max(node.width() || 60, estimateChipWidth(node.data('label') || node.data('name') || ''));
-    });
+    const eff = ids.map((id) => effWidth(nodeById.get(id)));
     const heights = ids.map((id) => nodeById.get(id).height() || 60);
     const offsets = [0];
     for (let i = 1; i < ids.length; i++)
       offsets.push(offsets[i - 1] + Math.max(minSep, (eff[i - 1] + eff[i]) / 2 + GAP_PAD));
     groupOffsets.set(key, offsets);
-    // Slot span includes each end's half-chip overhang so the outermost chips fit
-    // inside the column too.
+    // Slot span includes each end's half-width overhang so the outermost nodes
+    // fit inside the column too.
     const slotW = offsets[offsets.length - 1] + eff[0] / 2 + eff[eff.length - 1] / 2;
     colW.set(strand, Math.max(colW.get(strand) || 0, slotW));
     maxRankInBand.set(band, Math.max(maxRankInBand.get(band) || 0, rank));
-    maxNodeHeightInBand.set(band, Math.max(maxNodeHeightInBand.get(band) || 0, Math.max(...heights)));
+    const rowKey = `${band}|${rank}`;
+    rankHeight.set(rowKey, Math.max(rankHeight.get(rowKey) || 0, Math.max(...heights)));
   }
 
   const colX = new Map();
-  let cx = 0;
+  let cx = left;
   for (const strand of colOrder) {
     if (!colW.has(strand)) continue;
     colX.set(strand, cx);
     cx += colW.get(strand) + 2 * pad + gap;
   }
+
+  // Rank rows stack with their own heights (tall cards and an opened topic get
+  // the room they need), separated by a fixed node-free gutter.
+  const rankTop = new Map(); // `${band}|${rank}` -> offset from the band's content top
+  const contentH = new Map();
+  const ranksPresent = new Map(); // band -> ascending ranks that hold nodes
+  for (const band of rowOrder) {
+    if (!maxRankInBand.has(band)) continue;
+    let y = 0;
+    const present = [];
+    for (let r = 0; r <= maxRankInBand.get(band); r++) {
+      const h = rankHeight.get(`${band}|${r}`);
+      if (!h) continue;
+      if (present.length) y += rowGap;
+      rankTop.set(`${band}|${r}`, y);
+      present.push(r);
+      y += h;
+    }
+    ranksPresent.set(band, present);
+    contentH.set(band, y);
+  }
   const rowY = new Map();
   let cyTop = 0;
   for (const band of rowOrder) {
-    if (!maxRankInBand.has(band)) continue;
-    const h = maxRankInBand.get(band) * rankSep + (maxNodeHeightInBand.get(band) || 60);
+    if (!contentH.has(band)) continue;
     rowY.set(band, cyTop);
-    cyTop += h + 2 * pad + bandGap;
+    cyTop += contentH.get(band) + 2 * pad + bandGap;
   }
 
   // Pass C: place every node — column-centred x within its (strand, band, rank)
-  // slot using the label-aware cumulative offsets from Pass B, row-top-anchored y
-  // at bandTop + rank * rankSep.
+  // slot, top-aligned in its rank row. Each node also records the midlines of
+  // the gutters above and below its row, which routeEdges() runs its jogs along.
   for (const [key, ids] of groups) {
     const [strand, bandStr, rankStr] = key.split('|');
     const band = Number(bandStr);
     const rank = Number(rankStr);
     const centerX = colX.get(strand) + pad + colW.get(strand) / 2;
-    const topY = rowY.get(band) + pad + (maxNodeHeightInBand.get(band) || 60) / 2;
+    const contentTop = rowY.get(band) + pad;
+    const top = contentTop + rankTop.get(`${band}|${rank}`);
+    const rowH = rankHeight.get(`${band}|${rank}`);
+    const present = ranksPresent.get(band);
+    const isFirst = present[0] === rank;
+    const isLast = present[present.length - 1] === rank;
+    const bandTop = rowY.get(band);
+    const bandBottom = bandTop + contentH.get(band) + 2 * pad;
+    const gAbove = isFirst ? bandTop - bandGap / 2 : top - rowGap / 2;
+    const gBelow = isLast ? bandBottom + bandGap / 2 : top + rowH + rowGap / 2;
     const offsets = groupOffsets.get(key);
     const span = offsets[offsets.length - 1];
     ids.forEach((id, i) => {
-      nodeById.get(id).position({ x: centerX + offsets[i] - span / 2, y: topY + rank * rankSep });
+      const node = nodeById.get(id);
+      node.position({ x: centerX + offsets[i] - span / 2, y: top + (node.height() || 60) / 2 });
+      node.data('_gAbove', gAbove);
+      node.data('_gBelow', gBelow);
     });
   }
 
@@ -301,14 +528,14 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
       xRight: colX.get(strand) + colW.get(strand) + 2 * pad
     }));
   const rows = rowOrder
-    .filter((b) => maxRankInBand.has(b))
+    .filter((b) => contentH.has(b))
     .map((band) => ({
       band,
       label: bandLabels.get(band),
       yTop: rowY.get(band),
-      yBottom: rowY.get(band) + maxRankInBand.get(band) * rankSep + (maxNodeHeightInBand.get(band) || 60) + 2 * pad
+      yBottom: rowY.get(band) + contentH.get(band) + 2 * pad
     }));
-  return { lanes, rows };
+  return { lanes, rows, labelGutter: left };
 }
 
 // Paints the strand stripes + strand labels and the horizontal course-band guides onto
@@ -329,67 +556,104 @@ export function drawBands(cy, canvas, layout, isDark = true) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
   // This canvas sits behind the (transparent) Cytoscape container, so it owns
-  // the graph backdrop as well as the lane stripes.
-  ctx.fillStyle = isDark ? '#0f172a' : '#ffffff';
+  // the graph backdrop as well as the lane panels.
+  ctx.fillStyle = isDark ? '#11131a' : '#ffffff';
   ctx.fillRect(0, 0, w, h);
-  if (lanes.length === 0) return;
+
+  const zoom = cy.zoom();
+  const pan = cy.pan();
+  // Dot grid in map space, so it moves with the map. The spacing doubles when
+  // zoomed out far enough that dots would crowd together.
+  let step = 24 * zoom;
+  while (step < 14) step *= 2;
+  const dot = Math.max(1.2, Math.min(2, 1.8 * zoom));
+  ctx.fillStyle = isDark ? 'rgba(148, 163, 184, 0.26)' : 'rgba(100, 116, 139, 0.34)';
+  const startX = ((pan.x % step) + step) % step;
+  const startY = ((pan.y % step) + step) % step;
+  for (let x = startX; x < w; x += step) {
+    for (let y = startY; y < h; y += step) ctx.fillRect(x - dot / 2, y - dot / 2, dot, dot);
+  }
+  if (lanes.length === 0 || rows.length === 0) return;
 
   const palette = isDark ? BAND_STYLE.dark : BAND_STYLE.light;
   const defaultStyle = isDark ? DEFAULT_STYLE.dark : DEFAULT_STYLE.light;
-  const zoom = cy.zoom();
-  const pan = cy.pan();
-  ctx.font = '600 13px system-ui, sans-serif';
+  const top = (rows[0].yTop - 8) * zoom + pan.y;
+  const bottom = (rows[rows.length - 1].yBottom + 8) * zoom + pan.y;
+  const radius = Math.min(16, 16 * zoom);
+
+  // Strand panels: a soft tint behind each column, with its heading pinned to
+  // the top of the panel (or the top of the screen once the panel scrolls up).
   ctx.textBaseline = 'top';
+  const headingSize = Math.round(Math.max(11, Math.min(15, 14 * zoom)));
+  ctx.font = `800 ${headingSize}px Nunito, system-ui, sans-serif`;
   for (const lane of lanes) {
     const style = palette[lane.strand] || defaultStyle;
     const left = lane.xLeft * zoom + pan.x;
     const right = lane.xRight * zoom + pan.x;
-
+    if (right < 0 || left > w) continue;
     ctx.fillStyle = style.fill;
-    ctx.fillRect(left, 0, right - left, h);
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(left, top, right - left, bottom - top, radius);
+    else ctx.rect(left, top, right - left, bottom - top);
+    ctx.fill();
 
-    // Skip labels for lanes scrolled entirely out of view, and keep each label
-    // pinned within its own lane's visible span so it never drifts to a neighbour.
-    if (right < 8 || left > w - 8) continue;
     const textW = ctx.measureText(lane.strand).width;
-    const labelX = Math.min(Math.max(left + 10, 8), right - textW - 10);
-    if (labelX < left || labelX + textW > right) continue;
-
+    const labelX = Math.min(Math.max(left + 14, 8), right - textW - 14);
+    if (labelX < left + 4 || labelX + textW > right - 4) continue;
+    const labelY = Math.min(Math.max(top + 14 * Math.min(1, zoom), 10), bottom - headingSize - 10);
+    if (labelY < top) continue;
     ctx.fillStyle = style.text;
-    ctx.fillText(lane.strand, labelX, 8);
+    ctx.fillText(lane.strand, labelX, labelY);
   }
 
-  // Horizontal course-band guides: a faint separator above each band (except the
-  // first) plus the course name pinned at the band's top-left, so the new vertical
-  // stage separation reads clearly.
-  if (rows.length > 1) {
-    const sep = isDark ? 'rgba(148, 163, 184, 0.18)' : 'rgba(100, 116, 139, 0.22)';
-    const bandText = defaultStyle.text;
-    ctx.font = '600 12px system-ui, sans-serif';
-    rows.forEach((row, i) => {
-      const top = row.yTop * zoom + pan.y;
-      if (i > 0) {
-        // Place the separator midway in the gutter above this band.
-        const prevBottom = rows[i - 1].yBottom * zoom + pan.y;
-        const y = (prevBottom + top) / 2;
-        if (y > 0 && y < h) {
-          ctx.strokeStyle = sep;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(w, y);
-          ctx.stroke();
-        }
+  // Stage bands: a hairline between bands and a large stage name in the left
+  // gutter, drawn at map scale so it reads like a heading.
+  const sep = isDark ? 'rgba(148, 163, 184, 0.22)' : 'rgba(100, 116, 139, 0.2)';
+  const ink = isDark ? '#e8eaed' : '#1b1f24';
+  const gutterLeft = (layout?.labelGutter ?? LABEL_GUTTER) > 0 ? 24 * zoom + pan.x : null;
+  const labelSize = 30 * zoom;
+  rows.forEach((row, i) => {
+    const rowTop = row.yTop * zoom + pan.y;
+    if (i > 0) {
+      const prevBottom = rows[i - 1].yBottom * zoom + pan.y;
+      const y = Math.round((prevBottom + rowTop) / 2) + 0.5;
+      if (y > 0 && y < h) {
+        ctx.strokeStyle = sep;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(Math.max(0, (gutterLeft ?? 0) - 4), y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
       }
-      // Pin the course name while any part of its band is on screen: clamp
-      // between the viewport top (just below the strand labels) and the band's
-      // own bottom, so scrolling inside a tall band keeps the label visible
-      // instead of letting it scroll away with the band top.
-      const bottom = row.yBottom * zoom + pan.y;
-      if (row.label && bottom > 26 && top < h) {
-        ctx.fillStyle = bandText;
-        ctx.fillText(row.label, 10, Math.min(Math.max(top + 4, 26), bottom - 24));
-      }
-    });
-  }
+    }
+    if (gutterLeft == null || !row.label || labelSize < 9) return;
+    const rowBottom = row.yBottom * zoom + pan.y;
+    if (rowBottom < 0 || rowTop > h) return;
+    const maxWidth = ((layout?.labelGutter ?? LABEL_GUTTER) - 40) * zoom;
+    const words = String(row.label).split(' ');
+    // Wrap the stage name onto at most two lines inside the gutter.
+    ctx.font = `800 ${labelSize}px Nunito, system-ui, sans-serif`;
+    const lines = [];
+    let line = '';
+    for (const word of words) {
+      const next = line ? `${line} ${word}` : word;
+      if (line && ctx.measureText(next).width > maxWidth) { lines.push(line); line = word; }
+      else line = next;
+    }
+    if (line) lines.push(line);
+    ctx.fillStyle = ink;
+    const y0 = rowTop + 48 * zoom;
+    const shown = lines.slice(0, 3);
+    shown.forEach((text, index) => ctx.fillText(text, gutterLeft, y0 + index * labelSize * 1.08, maxWidth));
+    // Subtitle: school years and how many topics the band holds.
+    const subSize = 14 * zoom;
+    if (subSize >= 8) {
+      const years = YEARS_BY_STAGE[row.stage];
+      const sub = [years, row.count ? `${row.count} ${row.count === 1 ? 'topic' : 'topics'}` : null].filter(Boolean);
+      ctx.font = `600 ${subSize}px Nunito, system-ui, sans-serif`;
+      ctx.fillStyle = isDark ? '#9ca3af' : '#5b6470';
+      const subTop = y0 + shown.length * labelSize * 1.08 + 6 * zoom;
+      sub.forEach((text, index) => ctx.fillText(text, gutterLeft, subTop + index * subSize * 1.5, maxWidth));
+    }
+  });
 }

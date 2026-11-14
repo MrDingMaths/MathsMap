@@ -240,7 +240,7 @@ const saveStubs = `
 
 test('SkillDetail ignores delayed content and quiz acknowledgements after A→B→A navigation', async () => {
   const stubs = {
-    'data.js': `export const skillById=new Map(['a','b'].map(id=>[id,{id,title:id,courses:[],prereqs:[]}]));export const dependentsOf=new Map();export const courseById=new Map();export const primaryTopicForSkill=()=>null;export const siblingSkills=()=>({});`,
+    'data.js': `export const skillById=new Map(['a','b'].map(id=>[id,{id,title:id,courses:[],prereqs:[]}]));export const dependentsOf=new Map();export const courseById=new Map();export const dotpointById=new Map();export const primaryTopicForSkill=()=>null;export const siblingSkills=()=>({});`,
     'router.svelte.js': 'export const href=value=>value;',
     'recommender.js': 'export const lockedSkills=()=>[];',
     'store.js': "export const getMastery=()=>'none';export const subscribe=fn=>{fn();return ()=>{};};",

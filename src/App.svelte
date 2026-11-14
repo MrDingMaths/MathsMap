@@ -21,6 +21,13 @@
     document.documentElement.setAttribute('data-theme', theme.current);
   });
 
+  // The clean site look is scoped to html.site-v2; Booklet Studio and the TikZ
+  // check keep their existing styling and token values.
+  let siteV2 = $derived(route.name !== 'booklet' && route.name !== 'tikz-check');
+  $effect(() => {
+    document.documentElement.classList.toggle('site-v2', siteV2);
+  });
+
   $effect(() => {
     const openFinder = (event) => {
       if (!event.defaultPrevented && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
@@ -42,7 +49,7 @@
       <line x1="38" y1="13" x2="38" y2="38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
       <circle cx="10" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
       <circle cx="38" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
-      <circle cx="24" cy="27" r="4.2" fill="#E8443A"/>
+      <circle cx="24" cy="27" r="4.2" fill="var(--accent)"/>
       <circle cx="10" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
       <circle cx="38" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
     </svg><span>Maths<span class="accent">Map</span></span>
@@ -63,15 +70,23 @@
   </button>
 
   <button
-    class="dark-mode-toggle"
+    class="theme-toggle"
     role="switch"
     aria-checked={theme.current === 'dark' ? 'true' : 'false'}
-    aria-label="Toggle dark mode"
+    aria-label="Dark mode"
+    title={theme.current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
     onclick={() => theme.toggle()}
   >
-    <span class="knob">
-      <span class="icon">{theme.current === 'dark' ? '🌙' : '☀️'}</span>
-    </span>
+    {#if theme.current === 'dark'}
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2" />
+        <path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    {:else}
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      </svg>
+    {/if}
   </button>
 </nav>
 
@@ -82,6 +97,7 @@
     courseId={route.query.course ?? null}
     skillId={route.query.skill ?? null}
     topicId={route.query.topic ?? null}
+    focusId={route.query.focus ?? null}
   />
 {:else}
   <main class="site-content">
@@ -154,36 +170,23 @@
   .search-trigger:active { transform: scale(0.97); }
   nav.top button:focus-visible, nav.top a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .search-trigger kbd { margin-left: auto; font: 0.64rem system-ui, sans-serif; color: var(--muted); }
-  .dark-mode-toggle {
+  .theme-toggle {
     margin-left: 0.35rem;
-    position: relative;
-    width: 52px;
-    height: 28px;
-    background: #e5e7eb;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
     padding: 0;
     flex-shrink: 0;
-    transition: background 0.25s ease;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color var(--motion-fast), background var(--motion-fast);
   }
-  .dark-mode-toggle[aria-checked="true"] { background: #1e3a5f; }
-  .dark-mode-toggle .knob {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 24px;
-    height: 24px;
-    background: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    line-height: 1;
-    transition: transform 0.25s ease, background 0.25s ease;
-  }
-  .dark-mode-toggle[aria-checked="true"] .knob { transform: translateX(24px); background: #000000; }
+  .theme-toggle:hover { border-color: var(--text); }
+  .theme-toggle svg { width: 18px; height: 18px; }
   .mobile-nav { display: none; }
   @media (max-width: 768px) {
     .desktop-links { display: none; }
@@ -211,7 +214,7 @@
       border: 0;
       background: transparent;
       color: var(--muted);
-      font: 650 0.65rem system-ui, sans-serif;
+      font: 700 0.68rem var(--font-body, system-ui, sans-serif);
     }
     .mobile-nav span { font-size: 1rem; line-height: 1.1; }
     .mobile-nav .active { color: var(--accent); }

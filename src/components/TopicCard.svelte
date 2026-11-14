@@ -4,8 +4,10 @@
   import { topicStats, subscribe } from '../lib/store.js';
   import Math from './Math.svelte';
   import MasteryBar from './MasteryBar.svelte';
+  import MasteryRing from './MasteryRing.svelte';
 
-  let { topic, courseId = null } = $props();
+  // variant 'row' is the flat list row used on Home and Course; 'card' is the tile.
+  let { topic, courseId = null, variant = 'card' } = $props();
 
   let tick = $state(0);
   // untrack the increment: subscribe() invokes the callback synchronously while
@@ -17,45 +19,59 @@
     return topicStats(topic.id, courseId);
   });
 
+  // One ring for the whole topic: mastered when every skill is, proficient when
+  // every skill is at least proficient, learning once anything has started.
+  let level = $derived.by(() => {
+    if (!stats.total) return 'none';
+    if (stats.fullyMastered) return 'mastered';
+    if (stats.mastered + stats.proficient === stats.total) return 'proficient';
+    if (stats.mastered + stats.inProgress > 0) return 'learning';
+    return 'none';
+  });
+  let link = $derived(href(`/topic/${topic.id}${courseId ? `?course=${courseId}` : ''}`));
   let statusColor = $derived(stats.mastered > 0 ? 'var(--status-mastered)' : 'var(--muted)');
 </script>
 
-<a
-  class="card topic"
-  style="background:color-mix(in srgb, {topic.color} 8%, var(--panel))"
-  href={href(`/topic/${topic.id}${courseId ? `?course=${courseId}` : ''}`)}
->
-  {#if stats.fullyMastered}
-    <span class="badge" aria-label="Fully mastered">
-      <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
-        <polyline points="1,3.5 3.5,6 8,1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </span>
-  {/if}
-  <h3><Math text={topic.title} /></h3>
-  <div class="meter">
-    <div class="meter-top">
-      <span class="count" style="color:{statusColor}">{stats.mastered}/{stats.total}</span>
+{#if variant === 'row'}
+  <a class="topic-row" href={link}>
+    <MasteryRing {level} size={20} />
+    <span class="title"><Math text={topic.title} /></span>
+    <span class="count">{stats.mastered + stats.proficient} of {stats.total} {stats.total === 1 ? 'skill' : 'skills'}</span>
+  </a>
+{:else}
+  <a class="card topic" href={link}>
+    <div class="head">
+      <h3><Math text={topic.title} /></h3>
+      <MasteryRing {level} size={20} />
     </div>
-    <MasteryBar {stats} height="7px" />
-  </div>
-</a>
+    <div class="meter">
+      <div class="meter-top">
+        <span class="count" style="color:{statusColor}">{stats.mastered}/{stats.total}</span>
+      </div>
+      <MasteryBar {stats} height="6px" />
+    </div>
+  </a>
+{/if}
 
 <style>
-  .topic { position: relative; display: flex; flex-direction: column; min-height: 130px; }
-  .badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--status-mastered-fill);
-    display: grid;
-    place-items: center;
-  }
-  h3 { font-size: 1.12rem; font-weight: 500; margin: 0 0 0.9rem; padding-right: 1.2rem; }
+  .topic { position: relative; display: flex; flex-direction: column; min-height: 120px; }
+  .head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.9rem; }
+  h3 { font-size: 1.05rem; font-weight: 800; margin: 0; }
   .meter { margin-top: auto; }
   .meter-top { display: flex; justify-content: flex-end; margin-bottom: 0.45rem; }
-  .count { font-size: 0.95rem; font-weight: 600; }
+  .topic .count { font-size: 0.9rem; font-weight: 700; }
+
+  .topic-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 0.3rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: background var(--motion-fast);
+  }
+  .topic-row:hover { background: var(--surface-soft); text-decoration: none; }
+  .topic-row:hover .title { color: var(--accent); }
+  .topic-row .title { flex: 1; min-width: 0; font-weight: 700; font-size: 1rem; line-height: 1.3; }
+  .topic-row .count { flex: none; color: var(--muted); font-size: 0.8rem; font-weight: 600; }
 </style>

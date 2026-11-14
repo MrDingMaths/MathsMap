@@ -187,7 +187,8 @@
       {#each orderedCourses as c}
         {@const n = quizzableCountFor(c.id)}
         <a class="picker-card" class:disabled={manifestLoaded && n === 0} href={n > 0 ? href(`/quiz?course=${c.id}`) : undefined}>
-          <span class="picker-title" style="background:{c.color}">{c.title}</span>
+          {#if !/^Stage/i.test(c.title)}<span class="picker-stage">Stage {c.stage}</span>{/if}
+          <span class="picker-title">{c.title}</span>
           <span class="picker-count muted">
             {#if !manifestLoaded}Loading…{:else if n > 0}{n} quizzable {n === 1 ? 'skill' : 'skills'}{:else}No quiz content yet{/if}
           </span>
@@ -250,40 +251,43 @@
 </div>
 
 <style>
-  .quiz-view { max-width: 760px; }
-  h1 { font-size: 1.75rem; }
-  .lede { color: var(--muted); font-size: 0.95rem; max-width: 60ch; }
+  /* Sized for one question per screen: text and targets scale with the window
+     so nobody needs to zoom the browser. */
+  .quiz-view { max-width: 980px; font-size: clamp(1rem, 0.9rem + 0.35vw, 1.15rem); }
+  h1 { font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1.1; }
+  .lede { color: var(--muted); font-size: 1.05em; max-width: 60ch; }
   .error { color: #ef4444; font-size: 0.9rem; }
 
-  .history-link { display: inline-block; margin-top: 0.6rem; color: var(--accent); font-size: 0.85rem; font-weight: 600; }
-  .picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
+  .history-link { display: inline-block; margin-top: 0.6rem; color: var(--accent); font-size: 0.95em; font-weight: 700; }
+  .picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
   .picker-card {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 1rem 1.1rem;
+    gap: 0.3rem;
+    padding: 1.1rem 1.2rem;
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 12px;
     background: var(--panel);
     color: var(--text);
-    animation: card-enter var(--motion-base) var(--ease-out) both;
-    transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast);
+    transition: border-color var(--motion-fast), background var(--motion-fast);
   }
-  .picker-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: var(--shadow); text-decoration: none; }
-  .picker-card:active { transform: scale(0.98); }
+  .picker-card:hover { border-color: var(--text); text-decoration: none; }
+  .picker-card:hover .picker-title { color: var(--accent); }
   .picker-card.disabled { opacity: 0.5; pointer-events: none; }
-  .picker-title { align-self: flex-start; font-size: 0.95rem; font-weight: 600; color: #fff; padding: 0.35rem 0.75rem; border-radius: 999px; }
-  .picker-count { font-size: 0.8rem; }
+  .picker-stage { color: var(--muted); font-size: 0.85em; font-weight: 700; }
+  .picker-title { font-size: 1.15em; font-weight: 800; }
+  .picker-count { font-size: 0.9em; }
 
   .start-btn {
-    padding: 0.75rem 1.5rem;
+    min-height: 52px;
+    padding: 0.8rem 1.8rem;
     border: none;
-    border-radius: 999px;
+    border-radius: 10px;
     background: var(--accent);
     color: #fff;
     font-family: inherit;
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-weight: 800;
+    font-size: 1.05em;
     cursor: pointer;
     margin-top: 0.4rem;
     transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast);
@@ -295,15 +299,17 @@
   .loading-state { padding: 3rem 0; text-align: center; color: var(--muted); }
 
   .quiz-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
-  .progress { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .progress { font-size: 1em; color: var(--muted); font-weight: 700; }
   .finish-early {
-    padding: 0.4rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
     background: transparent;
-    color: var(--muted);
+    color: var(--text);
     font-family: inherit;
-    font-size: 0.8rem;
+    font-weight: 700;
+    font-size: 0.95em;
     cursor: pointer;
     transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
   }

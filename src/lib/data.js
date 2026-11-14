@@ -70,12 +70,8 @@ export const topicOf = (skill) =>
   topicById.get(dotpointById.get((skill.dotPointIds || [])[0])?.topicId);
 
 // Fixed strand order — used as the swimlane band order in the Map view.
-export const STRANDS = [
-  'Number & Algebra',
-  'Measurement & Space',
-  'Statistics & Probability',
-  'Functions & Calculus'
-];
+import { STRANDS } from './strands.js';
+export { STRANDS };
 
 // Ordered, unique topic ids a skill maps to (via its dot points).
 export const topicsForSkill = (skillId) => {

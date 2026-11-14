@@ -15,11 +15,14 @@ import {
   diffSets,
   geometryCacheKeys,
   getCachedGeometry,
+  initialViewport,
   labelFade,
   mapGeometryKey,
   normalizeWheelDelta,
   selectVisibleLabels,
   setCachedGeometry,
+  wheelIntent,
+  wheelPanDelta,
   wheelZoomFactor
 } from '../src/lib/mapView.js';
 
@@ -133,6 +136,60 @@ test('dynamic zoom bounds and pan clamping keep both huge and compact maps usabl
   assert.ok(farOffPan.y <= 828 - 160 - compactBounds.y1);
   const centered = { x: 200, y: 150 };
   assert.deepEqual(clampPanToBounds(centered, 0.8, compactBounds, 1160, 828), centered);
+});
+
+test('wheel pans like a page and only Ctrl/Cmd (or a trackpad pinch) zooms', () => {
+  assert.equal(wheelIntent({}), 'pan');
+  assert.equal(wheelIntent({ ctrlKey: true }), 'zoom');
+  assert.equal(wheelIntent({ metaKey: true }), 'zoom');
+  assert.deepEqual(wheelPanDelta({ deltaX: 0, deltaY: 100 }), { dx: 0, dy: 100 });
+  assert.deepEqual(wheelPanDelta({ deltaX: -30, deltaY: 40 }), { dx: -30, dy: 40 });
+  // Shift + vertical wheel scrolls sideways; line mode scales; spikes clamp.
+  assert.deepEqual(wheelPanDelta({ deltaY: 3, deltaMode: 1, shiftKey: true }), { dx: 108, dy: 0 });
+  assert.deepEqual(wheelPanDelta({ deltaY: 50000 }), { dx: 0, dy: WHEEL_MAX_STEP_PX });
+  assert.deepEqual(wheelPanDelta({ deltaX: Number.NaN, deltaY: Number.NaN }), { dx: 0, dy: 0 });
+});
+
+test('initial view fits small maps and anchors large ones at a readable zoom', () => {
+  const small = initialViewport({ x1: 0, y1: 0, x2: 800, y2: 500 }, 1440, 900);
+  assert.ok(small.zoom >= 0.9 && small.zoom <= 1.1);
+  const large = initialViewport({ x1: -40, y1: -20, x2: 4000, y2: 6000 }, 1440, 900, { readableZoom: 0.9 });
+  assert.equal(large.zoom, 0.9);
+  assert.deepEqual(large.pan, { x: 24 + 40 * 0.9, y: 24 + 20 * 0.9 });
+  assert.equal(initialViewport(null, 1440, 900), null);
+});
+
+test('card layout wraps wide ranks and records node-free gutters for routing', async () => {
+  const { default: cytoscape } = await import('cytoscape');
+  const { layoutSwimlanes, MAX_PER_ROW, ROW_GAP } = await import('../src/lib/swimlane.js');
+  const nodes = Array.from({ length: 5 }, (_, i) => ({
+    data: { id: `t${i}`, strand: 'Number & Algebra', band: 1, bandLabel: 'Stage 4', w: 184, h: 40 + i * 2 },
+    classes: 'card'
+  }));
+  const cy = cytoscape({ headless: true, styleEnabled: true, elements: [...nodes, { data: { id: 'late', strand: 'Number & Algebra', band: 1, w: 184, h: 40 }, classes: 'card' }, { data: { id: 'e', source: 't0', target: 'late' }, classes: 'layout-edge' }] });
+  cy.style([{ selector: 'node.card', style: { shape: 'round-rectangle', width: 'data(w)', height: 'data(h)' } }]);
+  const layout = layoutSwimlanes(cy);
+  const rowOf = new Map();
+  for (const node of cy.nodes()) {
+    const top = Math.round(node.position('y') - node.height() / 2);
+    if (!rowOf.has(top)) rowOf.set(top, []);
+    rowOf.get(top).push(node.id());
+  }
+  const rows = [...rowOf.entries()].sort((a, b) => a[0] - b[0]).map(([, ids]) => ids);
+  assert.ok(rows.every((ids) => ids.length <= MAX_PER_ROW), JSON.stringify(rows));
+  assert.equal(rows.flat().length, 6);
+  // Every node's lower gutter sits below its own bottom edge and above the next
+  // row's cards, so a jog along it never crosses a card.
+  for (const node of cy.nodes()) {
+    const bottom = node.position('y') + node.height() / 2;
+    assert.ok(node.data('_gBelow') > bottom, node.id());
+    assert.ok(node.data('_gAbove') < node.position('y') - node.height() / 2, node.id());
+  }
+  const late = cy.getElementById('late');
+  assert.ok(late.position('y') > cy.getElementById('t0').position('y') + ROW_GAP);
+  assert.equal(layout.lanes.length, 1);
+  assert.ok(layout.lanes[0].xRight - layout.lanes[0].xLeft < 4 * 184);
+  cy.destroy();
 });
 
 test('Map.svelte compiles without Svelte warnings', async () => {

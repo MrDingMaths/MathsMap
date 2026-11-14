@@ -4,8 +4,10 @@
   import { courseStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import { loadManifest, quizPool } from '../lib/manifest.js';
+  import { strandColour } from '../lib/strands.js';
   import TopicCard from '../components/TopicCard.svelte';
   import SlabHero from '../components/SlabHero.svelte';
+  import MapLink from '../components/MapLink.svelte';
 
   let { id } = $props();
   let course = $derived(courseById.get(id));
@@ -27,18 +29,10 @@
       if (!map.has(s)) map.set(s, []);
       map.get(s).push(t);
     }
-    return [...map].map(([name, topics]) => ({
-      name,
-      topics,
-      color: topics[0]?.color ?? 'var(--accent)'
-    }));
+    return [...map].map(([name, topics]) => ({ name, topics }));
   }
 
   let groups = $derived(course ? strandGroups(id) : []);
-
-  let strandFilter = $state(null);
-  const toggleFilter = (name) => (strandFilter = strandFilter === name ? null : name);
-  let visible = $derived(strandFilter ? groups.filter((g) => g.name === strandFilter) : groups);
 
   let tick = $state(0);
   // untrack: subscribe() fires the callback synchronously inside this effect,
@@ -54,43 +48,31 @@
   {#if course}
     <div class="page-head">
       <div class="crumbs"><a href={href('/')}>Browse</a> / {course.title}</div>
-      {#if quizzableCount > 0}
-        <a class="map-link" href={href(`/quiz?course=${id}`)}>Check my skills</a>
-      {/if}
     </div>
 
     {#if stats}
       <SlabHero
-        color={course.color}
+        meta={`Stage ${course.stage} · ${stats.topicCount} ${stats.topicCount === 1 ? 'topic' : 'topics'} · ${stats.skillCount} ${stats.skillCount === 1 ? 'skill' : 'skills'}`}
         title={course.title}
-        meta={`${stats.topicCount} ${stats.topicCount === 1 ? 'topic' : 'topics'} · ${stats.skillCount} ${stats.skillCount === 1 ? 'skill' : 'skills'}`}
         {stats}
-      />
+      >
+        {#snippet actions()}
+          {#if quizzableCount > 0}
+            <a class="mm-btn primary" href={href(`/quiz?course=${id}`)}>Check my skills</a>
+          {/if}
+          <MapLink to={`/map?course=${id}`} />
+        {/snippet}
+      </SlabHero>
     {/if}
 
     {#if groups.length}
-      <div class="chips">
-        <button class="chip" class:active={strandFilter === null} onclick={() => (strandFilter = null)}>
-          All
-        </button>
-        {#each groups as g}
-          <button class="chip" class:active={strandFilter === g.name} onclick={() => toggleFilter(g.name)}>
-            <span class="dot" style="background:{g.color}"></span>{g.name}
-          </button>
-        {/each}
-      </div>
-
-      <div class="strands">
-        {#each visible as strand}
-          <div>
-            <div class="strand-label">
-              <span class="dot" style="background:{strand.color}"></span>
-              {strand.name}
-              <span class="count">{strand.topics.length} topics</span>
-            </div>
-            <div class="grid">
-              {#each strand.topics as t}<TopicCard topic={t} courseId={id} />{/each}
-            </div>
+      <div class="strand-columns">
+        {#each groups as strand}
+          <div class="strand-column">
+            <h2 style="color:{strandColour(strand.name)}; border-color:{strandColour(strand.name)}">{strand.name} <span>{strand.topics.length} topics</span></h2>
+            <ul class="row-list">
+              {#each strand.topics as t}<li><TopicCard topic={t} courseId={id} variant="row" /></li>{/each}
+            </ul>
           </div>
         {/each}
       </div>
@@ -103,25 +85,8 @@
 </div>
 
 <style>
-  .chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 1.3rem 0 1rem; }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: inherit;
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.75rem;
-    border-radius: 99px;
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
-  }
-  .chip .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .chip:active { transform: scale(0.96); }
-
-  .strands { display: flex; flex-direction: column; gap: 1.75rem; }
+  .strand-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem 3rem; margin-top: 2rem; }
+  .strand-column h2 { display: flex; justify-content: space-between; align-items: baseline; margin: 0; padding-bottom: 0.55rem; border-bottom: 2px solid; font-size: 0.95rem; font-weight: 800; letter-spacing: 0; }
+  .strand-column h2 span { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+  .strand-column .row-list { border-top: 0; }
 </style>

@@ -216,7 +216,7 @@ nav.top {
 nav.top .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.5rem; margin-right: 0.8rem; }
 nav.top .brand a { color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
 nav.top .brand a:hover { text-decoration: none; }
-nav.top .brand .accent { color: #E8443A; }
+nav.top .brand .accent { color: var(--accent); }
 nav.top a.navlink {
   color: var(--muted);
   font-size: 1rem;
@@ -261,7 +261,7 @@ input.search {
   outline: none;
   transition: border-color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
 }
-input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 58, 0.18); }
+input.search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232, 68, 58, 0.18); }
 
 .mastery {
   display: inline-flex;
@@ -349,6 +349,164 @@ input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 
   text-decoration: none;
 }
 .map-link:active { transform: scale(0.97); }
+
+/* ---------------------------------------------------------------------------
+   Clean site look (November 2026 redesign).
+   Every rule is scoped to html.site-v2, which App.svelte sets on all routes
+   except Booklet Studio and TikZ check, so Studio and exported booklets keep
+   their existing look and token values.
+   ------------------------------------------------------------------------- */
+html.site-v2 {
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --app-canvas: var(--bg);
+  --radius-card: 12px;
+  /* Strand text colours: the map's existing blue / green / amber / purple. */
+  --strand-na: #7dd3fc;
+  --strand-ms: #86efac;
+  --strand-sp: #fcd34d;
+  --strand-fc: #d8b4fe;
+}
+html.site-v2[data-theme="light"] {
+  --strand-na: #0369a1;
+  --strand-ms: #15803d;
+  --strand-sp: #b45309;
+  --strand-fc: #7e22ce;
+}
+html.site-v2[data-theme="light"] {
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f4f5f7;
+  --surface-soft: #f5f6f8;
+  --surface-warm: #f7f7f8;
+  --text: #1b1f24;
+  --muted: #5b6470;
+  --border: #e4e7eb;
+  --border-strong: #cfd4db;
+}
+html.site-v2 body { color: var(--text); }
+html.site-v2 h1,
+html.site-v2 h2,
+html.site-v2 h3 { font-weight: 800; letter-spacing: -0.015em; }
+
+/* Flat cards: hairline border, no shadow, no lift. */
+html.site-v2 .card {
+  border-radius: var(--radius-card);
+  box-shadow: none;
+  transition: border-color var(--motion-fast), background var(--motion-fast);
+}
+html.site-v2 .card:hover { transform: none; box-shadow: none; border-color: var(--border-strong); }
+
+/* Breadcrumb row: plain, not a floating bar. */
+html.site-v2 .page-head {
+  position: static;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+html.site-v2 .crumbs { font-size: 0.84rem; }
+html.site-v2 .crumbs a { color: var(--muted); }
+html.site-v2 .crumbs a:hover { color: var(--accent); }
+
+/* Shared buttons. */
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--text);
+  font: 700 0.9rem var(--font-body);
+  line-height: 1.1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+.mm-btn:hover { border-color: var(--text); text-decoration: none; }
+.mm-btn:active { transform: scale(0.98); }
+.mm-btn.primary { border-color: transparent; background: var(--accent); color: #fff; }
+.mm-btn.primary:hover { background: var(--accent-strong); color: #fff; }
+.mm-btn svg { width: 18px; height: 18px; flex: none; }
+html.site-v2 .map-link {
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 700;
+}
+html.site-v2 .map-link:hover { color: var(--text); background: var(--panel); border-color: var(--text); }
+html.site-v2 .map-link svg { width: 18px; height: 18px; }
+
+/* Theory reads as part of the page rather than a boxed panel. */
+html.site-v2 .theory-body .theory { padding: 0; background: none; }
+/* Diagram wrappers scroll sideways only when a figure is genuinely wider than
+   the column; overflow-x:auto alone also made sub-pixel vertical overflow
+   scrollable, which showed stray scrollbars on theory and worked examples. */
+/* Diagrams on site pages scale down to fit their column instead of scrolling;
+   a figure even 1px wider than its box otherwise showed a scrollbar. */
+html.site-v2 .site-content .inline-tikz,
+html.site-v2 .site-content .tikz-wrap {
+  overflow: visible;
+  max-width: 100%;
+  min-width: 0;
+}
+html.site-v2 .site-content .inline-tikz svg,
+html.site-v2 .site-content .tikz-wrap svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Small uppercase rail / section label. */
+.rail-label {
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font: 800 0.72rem var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* Hairline list of rows (skills, topics). */
+.row-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+.row-list > li { border-bottom: 1px solid var(--border); }
+
+/* Top bar. */
+html.site-v2 nav.top {
+  height: 60px;
+  padding: 0 1.5rem;
+  background: var(--bg);
+  backdrop-filter: none;
+}
+html.site-v2 { --top-nav-height: 60px; }
+html.site-v2 nav.top .brand { font-weight: 800; font-size: 1.35rem; }
+html.site-v2 nav.top .brand svg { width: 34px; height: 34px; }
+html.site-v2 nav.top a.navlink {
+  position: relative;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 0;
+}
+html.site-v2 nav.top a.navlink:hover { background: none; color: var(--text); }
+html.site-v2 nav.top a.navlink.active::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: -11px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
 
 /* Correctness glyphs have a physical size independent of ordinary math scaling. */
 [data-semantic-role="correctness-marker"] .katex { font-size: 1em; }

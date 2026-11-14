@@ -1,38 +1,47 @@
 <script>
   import { onMount, untrack } from 'svelte';
   import cytoscape from 'cytoscape';
-  import { buildElements, getCyStyle, routeEdges } from '../lib/graph.js';
+  import { getCyStyle, routeEdges } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicGraph } from '../lib/topicGraph.js';
-  import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
+  import { layoutSwimlanes, drawBands, strandPanelStyle } from '../lib/swimlane.js';
   import {
     boundsFromBands,
     clampPanToBounds,
     computeZoomBounds,
     getCachedGeometry,
+    initialViewport,
     labelFade,
     mapGeometryKey,
     selectVisibleLabels,
     setCachedGeometry,
+    wheelIntent,
+    wheelPanDelta,
     wheelZoomFactor
   } from '../lib/mapView.js';
-  import { courses, topicById, skillById, topicsForSkill } from '../lib/data.js';
-  import { go } from '../lib/router.svelte.js';
+  import { GROUP_HEAD_H, GROUP_ROW_H, CARD_PAD_X, CARD_PAD_Y, CARD_FOOT_H } from '../lib/mapCards.js';
+  import { courses, courseById, topicById, skillById, dependentsOf, skillsForTopic, topicsForSkill, STRANDS } from '../lib/data.js';
+  import { getMastery, MASTERY } from '../lib/store.js';
+  import { go, href } from '../lib/router.svelte.js';
+  import { strandColour } from '../lib/strands.js';
   import MathText, { renderMath } from '../components/Math.svelte';
+  import MasteryRing from '../components/MasteryRing.svelte';
 
-  let { courseId = null, skillId = null, topicId = null } = $props();
+  let { courseId = null, skillId = null, topicId = null, focusId = null } = $props();
   let graphArea;
   let container;
   let bandCanvas;
   let labelWorld;
+  let minimapCanvas = $state(null);
   let cy;
-  let bands = [];
-  let graphBounds = null;
+  let bands = $state.raw({ lanes: [], rows: [] });
+  let graphBounds = $state.raw(null);
   let labelRecords = [];
   let currentGeometryKey = null;
   let currentDark = null;
   let currentTopicGraph = null;
-  let activeFocus = null;
+  // Raw state: holds Cytoscape collections, which must not be proxied.
+  let activeFocus = $state.raw(null);
   let focusCache = new Map();
   let viewportRaf = null;
   let bandRaf = null;
@@ -42,86 +51,81 @@
   let lastFarZoom = null;
   let clampingViewport = false;
   let resizeObserver = null;
+  let firstBuild = true;
 
-  const initial = untrack(() => courseId);
-  const initSkillId = untrack(() => skillId);
-  const initTopicId = untrack(() => topicId);
-  const focusSkill = initSkillId ? skillById.get(initSkillId) : null;
-  const focusTopic = initTopicId ? topicById.get(initTopicId) : null;
+  // Deep links: ?course=a,b selects courses; ?topic= opens that topic's skill
+  // list; ?skill= opens its topic and selects the skill.
+  const initialCourses = untrack(() => courseId)?.split(',').filter((id) => courseById.has(id)) ?? [];
+  const initSkill = untrack(() => skillId) ? skillById.get(untrack(() => skillId)) : null;
+  const initTopic = untrack(() => topicId) ? topicById.get(untrack(() => topicId)) : null;
 
   let selected = $state(
-    focusSkill
-      ? [...(focusSkill.courses || [])]
-      : focusTopic
-        ? (initial ? [initial] : [...(focusTopic.courses || [])])
-        : initial
-          ? [initial]
+    initialCourses.length
+      ? initialCourses
+      : initSkill
+        ? [...(initSkill.courses || [])]
+        : initTopic
+          ? [...(initTopic.courses || [])]
           : ['s4', 's5-core']
   );
-  let mode = $state(focusSkill || focusTopic ? 'skill' : 'topic');
-  let scopeTopicIds = $state(
-    focusSkill ? topicsForSkill(initSkillId) : focusTopic ? [initTopicId] : null
-  );
-  let scopeTopicId = $state(
-    focusSkill ? topicsForSkill(initSkillId)[0] ?? null : initTopicId ?? null
-  );
-  let pendingFocusSkill = focusSkill ? initSkillId : null;
+  let expandedTopicId = $state(initSkill ? topicsForSkill(initSkill.id)[0] ?? null : initTopic?.id ?? null);
+  let pendingSkillId = initSkill?.id ?? null;
+  let pendingSelectTopic = !initSkill && !initTopic ? untrack(() => focusId) ?? null : null;
+  let pendingCentre = Boolean(initSkill || initTopic);
   let crossOnly = $state(false);
-  let showLabels = $state(true);
-  let showAllLinks = $state(false);
+  // Main pathways show by default (quiet), so the map's structure reads at a
+  // glance; selecting a topic highlights its own links.
+  let linkMode = $state('main');
+  let hiddenStrands = $state([]);
+  let showReady = $state(true);
   let tracePath = $state(false);
   let selectedNodeId = $state(null);
+  let selectedSkillId = $state(null);
   let inspector = $state(null);
-  let tip = $state(null);
   let edgeTip = $state(null);
   let labels = $state([]);
-  let sidebarOpen = $state(false);
+  // Opened topics, each listing its skills. One at a time normally; every
+  // topic when "All skills" is on.
+  let groups = $state([]);
+  let showAllSkills = $state(false);
+  let filtersOpen = $state(true);
+  let legendOpen = $state(true);
   let touchMode = $state(false);
+  let narrow = $state(false);
 
-  function toggle(id) {
-    selected = selected.includes(id)
-      ? selected.filter((course) => course !== id)
-      : [...selected, id];
+  function toggleCourse(id) {
+    selected = selected.includes(id) ? selected.filter((course) => course !== id) : [...selected, id];
   }
-
-  function setMode(nextMode) {
-    if (nextMode === 'topic') { scopeTopicIds = null; scopeTopicId = null; }
-    mode = nextMode;
-  }
-
-  function filterCrossOnly(elements) {
-    const edges = elements.filter(
-      (element) => 'source' in (element.data || {}) && (element.classes || '').includes('cross-course')
-    );
-    const keep = new Set();
-    for (const edge of edges) {
-      keep.add(edge.data.source);
-      keep.add(edge.data.target);
-    }
-    const nodes = elements.filter(
-      (element) => !('source' in (element.data || {})) && keep.has(element.data.id)
-    );
-    return [...nodes, ...edges];
+  function toggleStrand(strand) {
+    hiddenStrands = hiddenStrands.includes(strand)
+      ? hiddenStrands.filter((s) => s !== strand)
+      : [...hiddenStrands, strand];
   }
 
   function buildGraphData(isDark) {
-    if (mode === 'topic') {
-      const topicGraph = buildTopicGraph({ courseIds: selected, isDark, crossOnly });
-      return { elements: topicGraph.elements, topicGraph };
-    }
-    let elements = buildElements({ courseIds: selected, topicIds: scopeTopicIds, isDark });
-    if (crossOnly) elements = filterCrossOnly(elements);
-    return { elements, topicGraph: null };
+    const topicGraph = buildTopicGraph({
+      courseIds: selected,
+      isDark,
+      crossOnly,
+      expandedTopicId,
+      expandAll: showAllSkills,
+      hiddenStrands: new Set(hiddenStrands)
+    });
+    return { elements: topicGraph.elements, topicGraph };
   }
 
   function graphKey() {
-    return mapGeometryKey({ mode, courseIds: selected, topicIds: scopeTopicIds, crossOnly });
+    return mapGeometryKey({ mode: 'topic', courseIds: selected, crossOnly, expanded: showAllSkills ? '*' : expandedTopicId, hiddenStrands });
   }
 
   function applyCachedGeometry(geometry) {
     for (const [id, position] of Object.entries(geometry.positions)) {
       const node = cy.getElementById(id);
       if (node.nonempty()) node.position(position);
+    }
+    for (const [id, gutters] of Object.entries(geometry.gutters || {})) {
+      const node = cy.getElementById(id);
+      if (node.nonempty()) { node.data('_gAbove', gutters[0]); node.data('_gBelow', gutters[1]); }
     }
     for (const [id, style] of Object.entries(geometry.routes)) {
       const edge = cy.getElementById(id);
@@ -130,23 +134,78 @@
     bands = geometry.bands;
   }
 
-  function capturePositions() {
-    return Object.fromEntries(cy.nodes().map((node) => [node.id(), { ...node.position() }]));
+  function captureGeometry() {
+    const positions = {};
+    const gutters = {};
+    cy.nodes().forEach((node) => {
+      positions[node.id()] = { ...node.position() };
+      gutters[node.id()] = [node.data('_gAbove'), node.data('_gBelow')];
+    });
+    return { positions, gutters };
   }
 
   function rebuildLabelRecords() {
-    labelRecords = cy.nodes().map((node) => {
+    labelRecords = cy.nodes().filter((node) => !node.hasClass('expanded')).map((node) => {
       const position = node.position();
+      const w = node.data('w') ?? node.width();
+      const h = node.data('h') ?? node.height();
       return {
         id: node.id(),
         name: node.data('name') ?? node.data('label'),
-        x: position.x,
-        y: position.y + node.height() / 2,
-        boundary: node.hasClass('boundary'),
+        x: position.x - w / 2,
+        y: position.y - h / 2,
+        w,
+        h,
         ready: node.hasClass('ready'),
+        skillCount: node.data('skillCount') ?? 0,
         priority: node.degree(false) + (node.hasClass('ready') ? 1000 : 0)
       };
     });
+  }
+
+  function groupFor(node) {
+    const id = node.id();
+    const topic = topicById.get(id);
+    const wanted = new Set(node.data('skillIds') || []);
+    const ordered = [];
+    const seen = new Set();
+    for (const dp of skillsForTopic(id)) {
+      for (const skill of dp.skills) {
+        if (wanted.has(skill.id) && !seen.has(skill.id)) { seen.add(skill.id); ordered.push(skill); }
+      }
+    }
+    for (const skillIdValue of wanted) if (!seen.has(skillIdValue) && skillById.has(skillIdValue)) ordered.push(skillById.get(skillIdValue));
+    const position = node.position();
+    const w = node.data('w');
+    const h = node.data('h');
+    const stats = node.data('stats') || {};
+    return {
+      id,
+      title: topic?.title ?? id,
+      x: position.x - w / 2,
+      y: position.y - h / 2,
+      w,
+      h,
+      gAbove: node.data('_gAbove'),
+      gBelow: node.data('_gBelow'),
+      ready: (stats.mastered ?? 0) + (stats.proficient ?? 0),
+      total: ordered.length,
+      rows: ordered.map((skill) => ({ id: skill.id, title: skill.title, level: getMastery(skill.id) }))
+    };
+  }
+
+  function rebuildGroups() {
+    groups = cy.nodes('.expanded').map(groupFor);
+  }
+
+  // The opened topic that lists a skill (its first topic on the map that is open).
+  function groupOfSkill(id) {
+    const topics = topicsForSkill(id);
+    for (const topic of topics) {
+      const found = groups.find((g) => g.id === topic && g.rows.some((row) => row.id === id));
+      if (found) return found;
+    }
+    return groups.find((g) => g.rows.some((row) => row.id === id)) ?? null;
   }
 
   function focusedIdSet() {
@@ -154,7 +213,7 @@
   }
 
   function refreshVisibleLabels() {
-    if (!cy || cy.destroyed() || !showLabels) { labels = []; return; }
+    if (!cy || cy.destroyed()) { labels = []; return; }
     const focused = focusedIdSet();
     const visible = selectVisibleLabels(labelRecords, {
       zoom: cy.zoom(),
@@ -174,9 +233,7 @@
     if (!cy || cy.destroyed() || !labelWorld) return;
     const zoom = cy.zoom();
     const pan = cy.pan();
-    const readableScale = Math.min(Math.max(zoom, 0.85), 1.25);
     labelWorld.style.transform = `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoom})`;
-    labelWorld.style.setProperty('--label-counter-scale', String(readableScale / zoom));
     labelWorld.style.setProperty('--label-fade', String(labelFade(zoom)));
   }
 
@@ -186,6 +243,7 @@
       viewportRaf = null;
       updateLabelWorld();
       syncFar();
+      drawMinimap();
     });
   }
 
@@ -215,10 +273,25 @@
     }, 80 - elapsed);
   }
 
-  function enforceViewportBounds() {
-    if (clampingViewport || !cy || cy.destroyed() || cy.animated() || !graphBounds || !container) {
-      return;
+  function setViewport(zoom, pan) {
+    if (!cy || cy.destroyed() || !container) return;
+    const clamped = graphBounds
+      ? clampPanToBounds(pan, zoom, graphBounds, container.clientWidth, container.clientHeight)
+      : pan;
+    clampingViewport = true;
+    try {
+      cy.viewport({ zoom, pan: clamped });
+    } finally {
+      clampingViewport = false;
     }
+    edgeTip = null;
+    scheduleViewportPaint();
+    scheduleBandDraw();
+    scheduleLabelCull();
+  }
+
+  function enforceViewportBounds() {
+    if (clampingViewport || !cy || cy.destroyed() || cy.animated() || !graphBounds || !container) return;
     const width = container.clientWidth;
     const height = container.clientHeight;
     if (!(width > 0) || !(height > 0)) return;
@@ -237,44 +310,21 @@
   function onViewport() {
     if (clampingViewport) return;
     enforceViewportBounds();
-    if (tip) tip = null;
-    if (edgeTip) edgeTip = null;
+    edgeTip = null;
     scheduleViewportPaint();
     scheduleBandDraw();
     scheduleLabelCull();
   }
 
   const FAR_ZOOM = 0.55;
-  const ZOOM_STEP = 1.18;
+  const ZOOM_STEP = 1.2;
   function syncFar() {
     if (!cy || cy.destroyed()) return;
-    const zoom = cy.zoom();
-    const next = zoom < FAR_ZOOM;
-    if (!next && next === farState) return;
-    if (
-      next &&
-      farState === true &&
-      lastFarZoom !== null &&
-      Math.abs(zoom - lastFarZoom) / lastFarZoom < 0.02
-    ) {
-      return;
-    }
-    cy.batch(() => {
-      if (next) {
-        lastFarZoom = zoom;
-        const minOverview = Math.min(84, 6 / zoom);
-        const border = Math.min(10, 0.8 / zoom);
-        cy.nodes().forEach((node) => {
-          node.data('overviewSize', Math.max(node.data('size'), minOverview));
-          node.data('overviewBorder', border);
-        });
-      } else {
-        lastFarZoom = null;
-      }
-      if (next === farState) return;
-      farState = next;
-      cy.elements().toggleClass('far', next);
-    });
+    const next = cy.zoom() < FAR_ZOOM;
+    if (next === farState) return;
+    farState = next;
+    lastFarZoom = next ? cy.zoom() : null;
+    cy.batch(() => cy.elements().toggleClass('far', next));
   }
 
   function zoomAround(factor, posX, posY) {
@@ -283,47 +333,35 @@
     const nextZoom = Math.min(cy.maxZoom(), Math.max(cy.minZoom(), currentZoom * factor));
     if (nextZoom === currentZoom) return;
     const currentPan = cy.pan();
-    const rawPan = {
+    setViewport(nextZoom, {
       x: posX - (nextZoom / currentZoom) * (posX - currentPan.x),
       y: posY - (nextZoom / currentZoom) * (posY - currentPan.y)
-    };
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const pan = graphBounds
-      ? clampPanToBounds(rawPan, nextZoom, graphBounds, width, height)
-      : rawPan;
-    clampingViewport = true;
-    try {
-      cy.viewport({ zoom: nextZoom, pan });
-    } finally {
-      clampingViewport = false;
-    }
-    if (tip) tip = null;
-    if (edgeTip) edgeTip = null;
-    scheduleViewportPaint();
-    scheduleBandDraw();
-    scheduleLabelCull();
+    });
   }
 
   function onWheel(event) {
     if (!cy || cy.destroyed() || !container) return;
-    if (
-      event.target instanceof Element &&
-      event.target.closest('.node-inspector, .map-toolbar, .zoom-controls')
-    ) {
+    if (event.target instanceof Element && event.target.closest('.map-panel')) {
       return;
     }
     event.preventDefault();
     event.stopPropagation();
     const rect = container.getBoundingClientRect();
-    const factor = wheelZoomFactor({
+    if (wheelIntent(event) === 'zoom') {
+      const factor = wheelZoomFactor({ deltaY: event.deltaY, deltaMode: event.deltaMode, ctrlKey: event.ctrlKey, pageHeight: rect.height });
+      if (factor !== 1) zoomAround(factor, event.clientX - rect.left, event.clientY - rect.top);
+      return;
+    }
+    const { dx, dy } = wheelPanDelta({
+      deltaX: event.deltaX,
       deltaY: event.deltaY,
       deltaMode: event.deltaMode,
-      ctrlKey: event.ctrlKey,
+      shiftKey: event.shiftKey,
       pageHeight: rect.height
     });
-    if (factor === 1) return;
-    zoomAround(factor, event.clientX - rect.left, event.clientY - rect.top);
+    if (!dx && !dy) return;
+    const pan = cy.pan();
+    setViewport(cy.zoom(), { x: pan.x - dx, y: pan.y - dy });
   }
 
   const FOCUS_CLASSES = 'dim focus-root focus-chain path-lit incoming-lit outgoing-lit';
@@ -331,22 +369,25 @@
   function refreshEdgeVisibility() {
     if (!cy || cy.destroyed()) return;
     cy.edges().removeClass('edge-visible');
-    if (showAllLinks) cy.edges('.semantic-edge').addClass('edge-visible');
-    else if (mode === 'topic') cy.edges('.backbone').addClass('edge-visible');
-    else if (scopeTopicIds) cy.edges('.semantic-edge').addClass('edge-visible');
+    if (linkMode === 'all') cy.edges('.semantic-edge, .interdependent').addClass('edge-visible');
+    // Main pathways: the reduced backbone within each strand column. Links that
+    // cross to another strand appear when a topic is selected.
+    else if (linkMode === 'main') cy.edges('.backbone').filter((edge) => edge.source().data('strand') === edge.target().data('strand')).addClass('edge-visible');
     activeFocus?.edges.addClass('edge-visible');
   }
 
-  function clearFocus({ clearTip = false } = {}) {
+  function clearFocus({ keepSkill = false } = {}) {
     if (!cy || cy.destroyed()) return;
     cy.batch(() => cy.elements().removeClass(FOCUS_CLASSES));
     activeFocus = null;
     selectedNodeId = null;
+    if (!keepSkill) selectedSkillId = null;
     inspector = null;
     tracePath = false;
-    if (clearTip) { tip = null; edgeTip = null; }
+    edgeTip = null;
     refreshEdgeVisibility();
     refreshVisibleLabels();
+    syncUrl();
   }
 
   function componentFor(id) {
@@ -357,78 +398,39 @@
 
   function directFocusFor(node) {
     const id = node.id();
-    const component = componentFor(id);
-    const componentIds = new Set(component || [id]);
+    const componentIds = new Set(componentFor(id) || [id]);
     const incoming = cy.edges('.semantic-edge').filter(
       (edge) => edge.target().id() === id && !componentIds.has(edge.source().id())
     );
     const outgoing = cy.edges('.semantic-edge').filter(
       (edge) => edge.source().id() === id && !componentIds.has(edge.target().id())
     );
-    const interdependent = component?.length > 1
+    const interdependent = componentIds.size > 1
       ? cy.edges('.interdependent').filter(
           (edge) => componentIds.has(edge.source().id()) && componentIds.has(edge.target().id())
         )
       : cy.collection();
     const edges = incoming.union(outgoing).union(interdependent);
     const nodes = edges.connectedNodes().union(node);
-    return { nodes, edges, incoming, outgoing, interdependent, rootId: id };
+    return { nodes, edges, incoming, outgoing, rootId: id };
   }
 
   function chainFor(node) {
-    const key = `${mode}:${node.id()}`;
+    const key = node.id();
     if (focusCache.has(key)) return focusCache.get(key);
     const hood = node.predecessors().union(node.successors()).union(node);
     const chain = {
       nodes: hood.nodes(),
       edges: hood.edges().filter('.semantic-edge, .interdependent'),
+      incoming: cy.collection(),
+      outgoing: cy.collection(),
       rootId: node.id()
     };
     focusCache.set(key, chain);
     return chain;
   }
 
-  function itemFor(id) {
-    const node = cy.getElementById(id);
-    if (!node.nonempty()) return null;
-    return { id, title: node.data('name') ?? node.data('label'), course: node.data('course') };
-  }
-
-  function buildInspector(node) {
-    const id = node.id();
-    const componentIds = new Set(componentFor(id) || [id]);
-    const incoming = cy.edges('.semantic-edge')
-      .filter((edge) => edge.target().id() === id && !componentIds.has(edge.source().id()))
-      .map((edge) => itemFor(edge.source().id()))
-      .filter(Boolean)
-      .sort((a, b) => a.title.localeCompare(b.title));
-    const outgoing = cy.edges('.semantic-edge')
-      .filter((edge) => edge.source().id() === id && !componentIds.has(edge.target().id()))
-      .map((edge) => itemFor(edge.target().id()))
-      .filter(Boolean)
-      .sort((a, b) => a.title.localeCompare(b.title));
-    const interdependent = [...componentIds]
-      .filter((other) => other !== id)
-      .map(itemFor)
-      .filter(Boolean)
-      .sort((a, b) => a.title.localeCompare(b.title));
-    const data = node.data();
-    return {
-      id,
-      title: data.name ?? data.label,
-      blurb: data.blurb,
-      course: data.bandLabel ?? data.course,
-      mastery: data.masteryLabel,
-      skillCount: data.skillCount,
-      incoming,
-      outgoing,
-      interdependent
-    };
-  }
-
-  function focusNode(node, sticky, fullPath = false) {
-    if (!node?.nonempty()) return;
-    const next = fullPath ? chainFor(node) : directFocusFor(node);
+  function applyFocus(next, rootNode, fullPath = false) {
     cy.batch(() => {
       cy.elements().removeClass(FOCUS_CLASSES);
       activeFocus = next;
@@ -442,15 +444,94 @@
         next.incoming.addClass('incoming-lit');
         next.outgoing.addClass('outgoing-lit');
       }
-      node.addClass('focus-root');
+      rootNode.addClass('focus-root');
     });
+    refreshVisibleLabels();
+  }
+
+  function topicItem(id) {
+    const node = cy.getElementById(id);
+    if (!node.nonempty()) return null;
+    return { id, title: node.data('name') ?? node.data('label') };
+  }
+
+  function buildTopicInspector(node) {
+    const focus = directFocusFor(node);
+    const sortByTitle = (a, b) => a.title.localeCompare(b.title);
+    const stats = node.data('stats') || {};
+    return {
+      kind: 'topic',
+      id: node.id(),
+      title: node.data('name') ?? node.data('label'),
+      strand: node.data('strand'),
+      band: node.data('bandLabel'),
+      ready: (stats.mastered ?? 0) + (stats.proficient ?? 0),
+      total: stats.count ?? node.data('skillCount') ?? 0,
+      incoming: focus.incoming.map((edge) => topicItem(edge.source().id())).filter(Boolean).sort(sortByTitle),
+      outgoing: focus.outgoing.map((edge) => topicItem(edge.target().id())).filter(Boolean).sort(sortByTitle)
+    };
+  }
+
+  function focusNode(node, sticky, fullPath = false) {
+    if (!node?.nonempty()) return;
+    applyFocus(fullPath ? chainFor(node) : directFocusFor(node), node, fullPath);
     if (sticky) {
       selectedNodeId = node.id();
-      inspector = buildInspector(node);
-      tip = null;
+      selectedSkillId = null;
+      inspector = buildTopicInspector(node);
       edgeTip = null;
+      syncUrl();
     }
-    refreshVisibleLabels();
+  }
+
+  // The topic a skill sits in on this map: its first topic that has a card.
+  function mapTopicFor(skillIdValue) {
+    return topicsForSkill(skillIdValue).find((id) => cy?.getElementById(id).nonempty()) ?? null;
+  }
+
+  function selectSkill(id) {
+    const home = groupOfSkill(id);
+    const skill = skillById.get(id);
+    if (!home || !skill || !cy) return;
+    const groupNode = cy.getElementById(home.id);
+    const prereqs = (skill.prereqs || []).map((p) => skillById.get(p)).filter(Boolean);
+    const dependents = (dependentsOf.get(id) || []).map((d) => skillById.get(d)).filter(Boolean);
+    const topicOf = (s) => groupOfSkill(s.id)?.id ?? mapTopicFor(s.id);
+    const openIds = new Set(groups.map((g) => g.id));
+    const prereqTopics = new Set(prereqs.map(topicOf).filter((t) => t && t !== home.id));
+    const dependentTopics = new Set(dependents.map(topicOf).filter((t) => t && t !== home.id));
+    // Links to skills in other open topics are drawn skill to skill; links to
+    // closed topics light the topic-level edge instead.
+    const incoming = cy.edges('.semantic-edge').filter((edge) => edge.target().id() === home.id && prereqTopics.has(edge.source().id()) && !openIds.has(edge.source().id()));
+    const outgoing = cy.edges('.semantic-edge').filter((edge) => edge.source().id() === home.id && dependentTopics.has(edge.target().id()) && !openIds.has(edge.target().id()));
+    const linkedNodes = cy.nodes().filter((node) => prereqTopics.has(node.id()) || dependentTopics.has(node.id()));
+    applyFocus({ nodes: linkedNodes.union(groupNode), edges: incoming.union(outgoing), incoming, outgoing, rootId: home.id }, groupNode);
+    selectedNodeId = null;
+    selectedSkillId = id;
+    const item = (s) => ({ id: s.id, title: s.title, topic: topicById.get(topicOf(s) ?? topicsForSkill(s.id)[0])?.title ?? '', inGroup: Boolean(groupOfSkill(s.id)), sameTopic: groupOfSkill(s.id)?.id === home.id });
+    inspector = {
+      kind: 'skill',
+      id,
+      title: skill.title,
+      topic: home.title,
+      stage: skill.stage,
+      level: getMastery(id),
+      incoming: prereqs.map(item),
+      outgoing: dependents.map(item)
+    };
+    syncUrl();
+  }
+
+  function goToSkill(item) {
+    if (item.inGroup) { selectSkill(item.id); return; }
+    const topic = topicsForSkill(item.id).find((t) => cy?.getElementById(t).nonempty());
+    if (topic) {
+      pendingSkillId = item.id;
+      pendingCentre = true;
+      expandedTopicId = topic;
+    } else {
+      go(`/skill/${item.id}`);
+    }
   }
 
   function toggleTracePath() {
@@ -460,10 +541,10 @@
     focusNode(node, true, tracePath);
   }
 
-  function toggleAllLinks() {
-    showAllLinks = !showAllLinks;
-    const node = selectedNodeId ? cy?.getElementById(selectedNodeId) : null;
-    if (node?.nonempty()) focusNode(node, true, tracePath);
+  function setLinkMode(next) {
+    linkMode = next;
+    if (selectedSkillId) selectSkill(selectedSkillId);
+    else if (selectedNodeId) focusNode(cy.getElementById(selectedNodeId), true, tracePath);
     else refreshEdgeVisibility();
   }
 
@@ -473,25 +554,6 @@
     tracePath = false;
     focusNode(node, true, false);
     cy.animate({ center: { eles: node }, duration: 280 });
-  }
-
-  function showTip(node, actionable = false) {
-    const data = node.data();
-    const position = node.renderedPosition();
-    const halfWidth = 135;
-    const width = container?.clientWidth || 0;
-    tip = {
-      id: node.id(),
-      x: Math.max(halfWidth, Math.min(width - halfWidth, position.x)),
-      y: Math.max(100, position.y),
-      title: data.name ?? data.label,
-      blurb: data.blurb,
-      course: data.course,
-      mastery: data.masteryLabel,
-      colour: data.colour,
-      skillCount: data.skillCount,
-      actionable
-    };
   }
 
   function showEdgeTip(edge) {
@@ -511,60 +573,94 @@
     };
   }
 
-  function openNode(nodeOrId) {
-    const node = typeof nodeOrId === 'string' ? cy?.getElementById(nodeOrId) : nodeOrId;
-    if (!node?.nonempty()) return;
-    if (mode === 'topic') {
-      scopeTopicIds = [node.id()];
-      scopeTopicId = node.id();
-      mode = 'skill';
-    } else {
-      go(`/skill/${node.id()}?course=${node.data('courseId') || selected[0]}`);
+  function expandTopic(id) {
+    if (!id) return;
+    pendingCentre = true;
+    pendingSkillId = null;
+    expandedTopicId = id;
+  }
+
+  function collapseGroup(id = expandedTopicId) {
+    selectedSkillId = null;
+    if (showAllSkills) {
+      // Leaving "All skills" from one topic keeps that topic open.
+      showAllSkills = false;
+      expandedTopicId = null;
+      pendingSelectTopic = id;
+      return;
     }
+    expandedTopicId = null;
+    pendingSelectTopic = id;
+  }
+
+  function setShowAllSkills(next) {
+    if (next === showAllSkills) return;
+    selectedSkillId = null;
+    showAllSkills = next;
   }
 
   function bindGraphEvents() {
     cy.on('mouseover', 'node', (event) => {
-      if (touchMode) return;
-      if (!selectedNodeId) focusNode(event.target, false, false);
-      showTip(event.target);
+      if (touchMode || event.target.hasClass('expanded')) return;
+      if (!selectedNodeId && !selectedSkillId) focusNode(event.target, false, false);
     });
     cy.on('mouseout', 'node', () => {
       if (touchMode) return;
-      tip = null;
-      if (!selectedNodeId) clearFocus();
+      if (!selectedNodeId && !selectedSkillId) clearFocus();
     });
     cy.on('tap', 'node', (event) => {
+      if (event.target.hasClass('expanded')) return;
       tracePath = false;
       focusNode(event.target, true, false);
-      if (touchMode) tip = null;
     });
-    cy.on('tap', (event) => { if (event.target === cy) clearFocus({ clearTip: true }); });
-    cy.on('mouseover', 'edge.edge-visible', (event) => {
-      if (!touchMode) showEdgeTip(event.target);
-    });
+    cy.on('tap', (event) => { if (event.target === cy) clearFocus(); });
+    cy.on('mouseover', 'edge.edge-visible', (event) => { if (!touchMode) showEdgeTip(event.target); });
     cy.on('mouseout', 'edge.edge-visible', () => { if (!touchMode) edgeTip = null; });
     cy.on('tap', 'edge.edge-visible', (event) => showEdgeTip(event.target));
-    cy.on('dbltap', 'node', (event) => { if (!touchMode) openNode(event.target); });
+    cy.on('dbltap', 'node', (event) => { if (!touchMode && !event.target.hasClass('expanded')) expandTopic(event.target.id()); });
     cy.on('viewport', onViewport);
   }
 
   function syncZoomBounds() {
     if (!cy || cy.destroyed() || !container) return;
-    const { minZoom, maxZoom } = computeZoomBounds(
-      graphBounds,
-      container.clientWidth,
-      container.clientHeight
-    );
+    const { minZoom, maxZoom } = computeZoomBounds(graphBounds, container.clientWidth, container.clientHeight);
     cy.zoomRange({ min: minZoom, max: maxZoom });
     const current = cy.zoom();
     if (current < minZoom) cy.zoom(minZoom);
     else if (current > maxZoom) cy.zoom(maxZoom);
   }
 
+  function startView() {
+    const view = initialViewport(graphBounds, container.clientWidth, container.clientHeight, {
+      readableZoom: narrow ? 0.8 : 0.9
+    });
+    if (!view) return;
+    // Leave room for the open Filters panel on wide screens.
+    const offset = !narrow && filtersOpen ? 280 : 0;
+    setViewport(view.zoom, { x: view.pan.x + offset, y: view.pan.y + (narrow ? 44 : 52) });
+  }
+
+  function centreOnGroup() {
+    const node = expandedTopicId ? cy.getElementById(expandedTopicId) : null;
+    if (!node?.nonempty() || !container) return;
+    const zoom = Math.max(cy.zoom(), narrow ? 0.8 : 0.9);
+    const position = node.position();
+    const top = position.y - node.height() / 2;
+    const offset = !narrow && filtersOpen ? 140 : 0;
+    setViewport(zoom, {
+      x: container.clientWidth / 2 + offset - position.x * zoom,
+      y: (narrow ? 70 : 90) - top * zoom
+    });
+  }
+
   function rebuildGraph(key, isDark) {
     if (!cy || cy.destroyed()) return;
-    clearFocus({ clearTip: true });
+    const keepView = !firstBuild ? { zoom: cy.zoom(), pan: { ...cy.pan() } } : null;
+    cy.batch(() => cy.elements().removeClass(FOCUS_CLASSES));
+    activeFocus = null;
+    selectedNodeId = null;
+    inspector = null;
+    edgeTip = null;
     focusCache = new Map();
     labels = [];
     labelRecords = [];
@@ -573,13 +669,15 @@
     lastLabelCullAt = 0;
 
     const graphData = buildGraphData(isDark);
-    const elements = graphData.elements;
     currentTopicGraph = graphData.topicGraph;
+    if (expandedTopicId && !graphData.elements.some((element) => element.data?.id === expandedTopicId)) {
+      expandedTopicId = null;
+    }
     const cached = getCachedGeometry(key);
     let routes = {};
     cy.batch(() => {
       cy.elements().remove();
-      cy.add(elements);
+      cy.add(graphData.elements);
     });
     // End the element batch before measuring nodes: Cytoscape resolves data-driven
     // widths at batch end. The following geometry batch still lands before paint.
@@ -595,26 +693,46 @@
       cy.endBatch();
     }
 
-    if (!cached) setCachedGeometry(key, { positions: capturePositions(), routes, bands });
+    if (!cached) setCachedGeometry(key, { ...captureGeometry(), routes, bands });
     currentGeometryKey = key;
     graphBounds = boundsFromBands(bands);
     syncZoomBounds();
     refreshEdgeVisibility();
     rebuildLabelRecords();
-    if (cy.nodes().length) cy.fit(undefined, 30);
+    rebuildGroups();
+
+    if (pendingCentre && expandedTopicId) centreOnGroup();
+    else if (keepView) setViewport(keepView.zoom, keepView.pan);
+    else startView();
+    pendingCentre = false;
+    firstBuild = false;
+
     updateLabelWorld();
     syncFar();
     scheduleBandDraw();
     refreshVisibleLabels();
+    drawMinimap();
 
-    if (pendingFocusSkill) {
-      const node = cy.getElementById(pendingFocusSkill);
+    if (pendingSkillId) {
+      const id = pendingSkillId;
+      pendingSkillId = null;
+      if (groupOfSkill(id)) selectSkill(id);
+    } else if (pendingSelectTopic) {
+      const node = cy.getElementById(pendingSelectTopic);
+      pendingSelectTopic = null;
       if (node.nonempty()) {
-        cy.animate({ center: { eles: node }, zoom: 1.2 }, { duration: 350 });
         focusNode(node, true, false);
+        // Centre it in the part of the canvas the inspector leaves visible.
+        const zoom = cy.zoom();
+        const position = node.position();
+        const offset = !narrow && filtersOpen ? 140 : 0;
+        setViewport(zoom, {
+          x: container.clientWidth / 2 + offset - position.x * zoom,
+          y: container.clientHeight * (narrow ? 0.25 : 0.38) - position.y * zoom
+        });
       }
-      pendingFocusSkill = null;
     }
+    syncUrl();
   }
 
   function applyTheme(isDark) {
@@ -634,6 +752,7 @@
     });
     refreshEdgeVisibility();
     scheduleBandDraw();
+    drawMinimap();
   }
 
   function zoomBy(factor) {
@@ -642,34 +761,120 @@
   }
 
   function fitAll() {
-    if (cy && !cy.destroyed() && cy.nodes().length) cy.fit(undefined, 30);
+    if (!cy || cy.destroyed() || !graphBounds || !container) return;
+    const bw = graphBounds.x2 - graphBounds.x1;
+    const bh = graphBounds.y2 - graphBounds.y1;
+    const offset = !narrow && filtersOpen ? 280 : 0;
+    const rightPanel = !narrow && inspector ? 340 : 0;
+    const width = container.clientWidth - offset - rightPanel;
+    const zoom = Math.max(cy.minZoom(), Math.min(1, (width - 60) / bw, (container.clientHeight - 100) / bh));
+    setViewport(zoom, {
+      x: offset + (width - bw * zoom) / 2 - graphBounds.x1 * zoom,
+      y: (container.clientHeight - bh * zoom) / 2 - graphBounds.y1 * zoom
+    });
   }
 
   function jumpToCourse(title) {
-    if (!cy || cy.destroyed()) return;
-    const rows = bands?.rows || [];
-    const lanes = bands?.lanes || [];
-    const row = rows.find((candidate) => candidate.label === title);
-    if (!row || !lanes.length) return;
-    const boundingBox = {
-      x1: lanes[0].xLeft,
-      y1: row.yTop,
-      x2: lanes[lanes.length - 1].xRight,
-      y2: row.yBottom
+    const row = bands?.rows?.find((candidate) => candidate.label === title);
+    if (!row || !cy) return;
+    const zoom = cy.zoom();
+    const pan = { x: cy.pan().x, y: 70 - row.yTop * zoom };
+    const clamped = graphBounds ? clampPanToBounds(pan, zoom, graphBounds, container.clientWidth, container.clientHeight) : pan;
+    cy.animate({ pan: clamped }, { duration: 320 });
+  }
+
+  // Minimap: the whole map in miniature with the current view framed; click or
+  // drag to move the view.
+  const MINI_W = 196;
+  const MINI_H = 124;
+  function minimapTransform() {
+    if (!graphBounds) return null;
+    const bw = graphBounds.x2 - graphBounds.x1;
+    const bh = graphBounds.y2 - graphBounds.y1;
+    const scale = Math.min((MINI_W - 12) / bw, (MINI_H - 12) / bh);
+    return {
+      scale,
+      ox: (MINI_W - bw * scale) / 2 - graphBounds.x1 * scale,
+      oy: (MINI_H - bh * scale) / 2 - graphBounds.y1 * scale
     };
-    cy.animate({ fit: { boundingBox, padding: 30 } }, { duration: 350 });
+  }
+
+  function drawMinimap() {
+    if (!minimapCanvas || !cy || cy.destroyed()) return;
+    const t = minimapTransform();
+    const ctx = minimapCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (minimapCanvas.width !== MINI_W * dpr) {
+      minimapCanvas.width = MINI_W * dpr;
+      minimapCanvas.height = MINI_H * dpr;
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, MINI_W, MINI_H);
+    if (!t) return;
+    const isDark = currentDark;
+    const rows = bands?.rows || [];
+    const yTop = rows.length ? rows[0].yTop : 0;
+    const yBottom = rows.length ? rows[rows.length - 1].yBottom : 0;
+    for (const lane of bands?.lanes || []) {
+      ctx.fillStyle = strandPanelStyle(lane.strand, isDark).fill;
+      ctx.fillRect(lane.xLeft * t.scale + t.ox, yTop * t.scale + t.oy, (lane.xRight - lane.xLeft) * t.scale, (yBottom - yTop) * t.scale);
+    }
+    cy.nodes().forEach((node) => {
+      const box = node.boundingBox({ includeLabels: false, includeOverlays: false });
+      const strand = node.data('strand');
+      ctx.globalAlpha = node.hasClass('dim') ? 0.35 : 0.85;
+      ctx.fillStyle = strandPanelStyle(strand, isDark).text;
+      ctx.fillRect(box.x1 * t.scale + t.ox, box.y1 * t.scale + t.oy, Math.max(2, box.w * t.scale), Math.max(1.5, box.h * t.scale));
+    });
+    ctx.globalAlpha = 1;
+    const extent = cy.extent();
+    ctx.strokeStyle = '#E8443A';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(extent.x1 * t.scale + t.ox, extent.y1 * t.scale + t.oy, extent.w * t.scale, extent.h * t.scale);
+  }
+
+  let minimapDragging = false;
+  function minimapMove(event) {
+    const t = minimapTransform();
+    if (!t || !cy || !container) return;
+    const rect = minimapCanvas.getBoundingClientRect();
+    const wx = (event.clientX - rect.left - t.ox) / t.scale;
+    const wy = (event.clientY - rect.top - t.oy) / t.scale;
+    const zoom = cy.zoom();
+    setViewport(zoom, { x: container.clientWidth / 2 - wx * zoom, y: container.clientHeight / 2 - wy * zoom });
+  }
+  function minimapDown(event) {
+    minimapDragging = true;
+    minimapCanvas.setPointerCapture?.(event.pointerId);
+    minimapMove(event);
+  }
+  function minimapUp(event) {
+    minimapDragging = false;
+    minimapCanvas.releasePointerCapture?.(event.pointerId);
+  }
+
+  // Keep the address bar shareable: courses, the opened topic and the selected
+  // skill. replaceState does not fire hashchange, so the map is not remounted.
+  function syncUrl() {
+    if (typeof history === 'undefined') return;
+    const params = new URLSearchParams();
+    if (selected.length) params.set('course', selected.join(','));
+    if (expandedTopicId) params.set('topic', expandedTopicId);
+    if (selectedSkillId) params.set('skill', selectedSkillId);
+    else if (selectedNodeId) params.set('focus', selectedNodeId);
+    const next = `#/map${params.size ? `?${params.toString().replaceAll('%2C', ',')}` : ''}`;
+    if (location.hash !== next) history.replaceState(history.state, '', next);
   }
 
   function labelEnter(id) {
     if (touchMode || !cy) return;
     const node = cy.getElementById(id);
-    if (node.nonempty()) { if (!selectedNodeId) focusNode(node, false, false); showTip(node); }
+    if (node.nonempty() && !selectedNodeId && !selectedSkillId) focusNode(node, false, false);
   }
 
   function labelLeave() {
     if (touchMode) return;
-    tip = null;
-    if (!selectedNodeId) clearFocus();
+    if (!selectedNodeId && !selectedSkillId) clearFocus();
   }
 
   function labelClick(id) {
@@ -680,10 +885,63 @@
     }
   }
 
+  // Skill links for the selected skill, in map coordinates.
+  //  - Inside one open topic: prerequisites as brackets on the left, skills it
+  //    leads to as brackets on the right.
+  //  - Between open topics: right-angle routes that leave the source row on the
+  //    right, run down the gap beside its column, along the gutter above the
+  //    target's row and down the gap beside the target, so they never cross a
+  //    card or a skill list.
+  const ROW_INSET = 26; // matches .group-rows side padding
+  let skillLinks = $derived.by(() => {
+    if (!selectedSkillId || !groups.length) return [];
+    const where = new Map();
+    for (const g of groups) g.rows.forEach((row, i) => { if (!where.has(row.id)) where.set(row.id, { g, i }); });
+    const home = groupOfSkill(selectedSkillId);
+    if (!home) return [];
+    const self = { g: home, i: home.rows.findIndex((row) => row.id === selectedSkillId) };
+    const skill = skillById.get(selectedSkillId);
+    const yOf = ({ g, i }) => g.y + GROUP_HEAD_H + i * GROUP_ROW_H + GROUP_ROW_H / 2;
+    const out = [];
+    let left = 0;
+    let right = 0;
+    let cross = 0;
+    const route = (from, to, kind) => {
+      if (from.g === to.g) {
+        if (kind === 'before') {
+          const x = from.g.x + 16 - (left++ % 3) * 4;
+          out.push({ kind, d: `M ${from.g.x + ROW_INSET + 2} ${yOf(from)} H ${x} V ${yOf(to)} H ${to.g.x + ROW_INSET}` });
+        } else {
+          const x = from.g.x + from.g.w - 16 + (right++ % 3) * 4;
+          out.push({ kind, d: `M ${from.g.x + from.g.w - ROW_INSET - 2} ${yOf(from)} H ${x} V ${yOf(to)} H ${to.g.x + to.g.w - ROW_INSET}` });
+        }
+        return;
+      }
+      const k = cross++ % 5;
+      const ya = yOf(from);
+      const yb = yOf(to);
+      const gx1 = from.g.x + from.g.w + 6 + k * 2;
+      const gx2 = to.g.x - 6 - k * 2;
+      const gutter = (to.g.y > from.g.y + 1 ? to.g.gAbove : from.g.gAbove) + (k - 2) * 4;
+      out.push({ kind, d: `M ${from.g.x + from.g.w - ROW_INSET + 4} ${ya} H ${gx1} V ${gutter} H ${gx2} V ${yb} H ${to.g.x + 8}` });
+    };
+    for (const p of skill?.prereqs || []) if (where.has(p)) route(where.get(p), self, 'before');
+    for (const d of dependentsOf.get(selectedSkillId) || []) if (where.has(d)) route(self, where.get(d), 'after');
+    return out;
+  });
+  let focusedGroupIds = $derived(activeFocus ? new Set(activeFocus.nodes.map((node) => node.id())) : null);
+  let linkedRows = $derived.by(() => {
+    if (!selectedSkillId) return new Set();
+    const skill = skillById.get(selectedSkillId);
+    return new Set([...(skill?.prereqs || []), ...(dependentsOf.get(selectedSkillId) || [])]);
+  });
+
   onMount(() => {
     touchMode = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    narrow = window.matchMedia('(max-width: 768px)').matches;
+    if (narrow) { filtersOpen = false; legendOpen = false; }
     currentDark = theme.current === 'dark';
-    // Wheel/trackpad zoom is handled statelessly in capture phase by onWheel on
+    // Wheel/trackpad input is handled statelessly in capture phase by onWheel on
     // graphArea so Cytoscape's stateful wheel-delta sampler cannot ratchet zoom
     // sensitivity up when tiny fractional deltas arrive, and wheel works over labels.
     cy = cytoscape({
@@ -720,9 +978,10 @@
 
     const onKeydown = (event) => {
       if (event.key !== 'Escape') return;
-      if (selectedNodeId) clearFocus({ clearTip: true });
-      else if (sidebarOpen) sidebarOpen = false;
-      else clearFocus({ clearTip: true });
+      if (selectedNodeId || selectedSkillId) clearFocus();
+      else if (showAllSkills) setShowAllSkills(false);
+      else if (expandedTopicId) collapseGroup();
+      else if (narrow && filtersOpen) filtersOpen = false;
     };
     window.addEventListener('keydown', onKeydown);
 
@@ -738,9 +997,9 @@
   });
 
   $effect(() => {
-    selected; mode; scopeTopicIds; crossOnly;
+    selected; crossOnly; expandedTopicId; hiddenStrands; showAllSkills;
     const key = graphKey();
-    if (cy && key !== currentGeometryKey) rebuildGraph(key, untrack(() => theme.current === 'dark'));
+    if (cy && key !== currentGeometryKey) untrack(() => rebuildGraph(key, theme.current === 'dark'));
   });
 
   $effect(() => {
@@ -748,133 +1007,99 @@
     if (cy && isDark !== currentDark) applyTheme(isDark);
   });
 
-  let scopeLabel = $derived(scopeTopicId ? topicById.get(scopeTopicId)?.title : null);
+  $effect(() => {
+    minimapCanvas;
+    if (minimapCanvas) drawMinimap();
+  });
+
+  let presentStrands = $derived(STRANDS.filter((strand) => bands.lanes?.some((lane) => lane.strand === strand) || hiddenStrands.includes(strand)));
 </script>
 
 <div class="map-wrap">
-  {#if sidebarOpen}
-    <button class="drawer-backdrop" aria-label="Close map filters" onclick={() => (sidebarOpen = false)}></button>
-  {/if}
-
-  <aside class="sidebar" class:open={sidebarOpen} aria-label="Map filters">
-    <div class="sidebar-head">
-      <button class="drawer-close" aria-label="Close map filters" onclick={() => (sidebarOpen = false)}>×</button>
-    </div>
-
-    <div class="section-label">View</div>
-    <div class="seg">
-      <button class:on={mode === 'topic'} onclick={() => setMode('topic')}>Topics</button>
-      <button class:on={mode === 'skill'} onclick={() => setMode('skill')}>Skills</button>
-    </div>
-    <p class="muted hint">{touchMode ? 'Tap a node, then use Open.' : `Double-click a ${mode === 'topic' ? 'topic' : 'skill'} to open it.`}</p>
-
-    {#if scopeLabel}
-      <div class="scope-pill">
-        Scoped to <strong>{scopeLabel}</strong>
-        <button class="link" onclick={() => { scopeTopicIds = null; scopeTopicId = null; }}>Show all skills</button>
-      </div>
-    {/if}
-
-    <details class="map-options">
-      <summary>Advanced link options</summary>
-      <label class="cross-toggle">
-        <input type="checkbox" checked={crossOnly} onchange={() => (crossOnly = !crossOnly)} />
-        Only show cross-course links
-      </label>
-      <label class="cross-toggle">
-        <input type="checkbox" checked={showLabels} onchange={() => { showLabels = !showLabels; refreshVisibleLabels(); }} />
-        Show labels
-      </label>
-      <label class="cross-toggle">
-        <input type="checkbox" checked={showAllLinks} onchange={toggleAllLinks} />
-        Show all links
-      </label>
-    </details>
-
-    <div class="section-label">Courses</div>
-    <div class="course-list">
-      {#each courses as course}
-        <label class="course-opt" class:on={selected.includes(course.id)}>
-          <input type="checkbox" checked={selected.includes(course.id)} onchange={() => toggle(course.id)} />
-          <span class="swatch" style="background:{course.color}"></span>
-          <span class="course-title">{course.title}</span>
-          {#if selected.includes(course.id)}
-            <button
-              class="locate"
-              title="Jump to this course on the map"
-              aria-label="Jump to {course.title}"
-              onclick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                jumpToCourse(course.title);
-                if (touchMode) sidebarOpen = false;
-              }}
-            >⌖</button>
-          {/if}
-        </label>
-      {/each}
-    </div>
-
-    <div class="section-label">Link direction</div>
-    <ul class="link-legend">
-      <li><span class="link-sample incoming"></span> Comes before selected</li>
-      <li><span class="link-sample outgoing"></span> Leads on from selected</li>
-      <li><span class="link-sample interdependent"></span> Interdependent topics</li>
-      <li><span class="link-sample cross"></span> Cross-course link</li>
-    </ul>
-
-    <div class="section-label">Progress key</div>
-    <ul class="legend">
-      <li><span class="ring" style="--c:var(--track); --p:100%"></span> Not started</li>
-      <li><span class="ring" style="--c:var(--status-learning-fill); --p:33%"></span> Learning</li>
-      <li><span class="ring" style="--c:var(--status-proficient-fill); --p:66%"></span> Proficient</li>
-      <li><span class="ring" style="--c:var(--status-mastered-fill); --p:100%"></span> Mastered</li>
-      <li><span class="ring ready"></span> Ready now</li>
-    </ul>
-    <p class="muted hint">Each node is a mastery ring. A dashed teal halo marks topics whose prerequisites are complete.</p>
-  </aside>
-
   <div bind:this={graphArea} class="graph-area" class:inspector-open={Boolean(inspector)}>
     <canvas bind:this={bandCanvas} class="bands"></canvas>
     <div bind:this={container} class="graph"></div>
 
-    <div class="label-layer" aria-hidden={!showLabels}>
+    <div class="label-layer">
       <div bind:this={labelWorld} class="label-world">
         {#each labels as label (label.id)}
-          <button
-            type="button"
-            class="node-label"
-            class:boundary={label.boundary}
-            class:ready={label.ready}
+          <div
+            role="button"
+            tabindex="0"
+            class="card-label"
             class:focused={label.focused}
             class:focus-root={label.root}
             class:dimmed={label.dimmed}
-            style="left:{label.x}px; top:{label.y}px;"
+            style="left:{label.x}px; top:{label.y}px; width:{label.w}px; height:{label.h}px; --pad-x:{CARD_PAD_X}px; --pad-y:{CARD_PAD_Y}px; --foot-h:{CARD_FOOT_H}px;"
             onmouseenter={() => labelEnter(label.id)}
             onmouseleave={labelLeave}
             onclick={() => labelClick(label.id)}
-            ondblclick={() => { if (!touchMode) openNode(label.id); }}
-          >{@html label.html}</button>
+            onkeydown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); labelClick(label.id); } }}
+            ondblclick={() => { if (!touchMode) expandTopic(label.id); }}
+          >
+            <span class="card-title">{@html label.html}</span>
+            <button
+              type="button"
+              class="card-skills"
+              aria-label="Show the {label.skillCount} skills in this topic"
+              onclick={(event) => { event.stopPropagation(); expandTopic(label.id); }}
+              ondblclick={(event) => event.stopPropagation()}
+            >
+              <span>{label.skillCount} {label.skillCount === 1 ? 'skill' : 'skills'}</span>
+              <span class="show">Show <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg></span>
+            </button>
+            {#if showReady && label.ready}<span class="ready-tag">Ready now</span>{/if}
+          </div>
         {/each}
-      </div>
-    </div>
 
-    {#if tip}
-      <div
-        class="tip"
-        class:touch={tip.actionable}
-        style="left:{tip.x}px; top:{tip.y}px; --c:{tip.colour}"
-      >
-        <strong><MathText text={tip.title} /></strong>
-        {#if tip.blurb}<span class="tip-blurb"><MathText text={tip.blurb} /></span>{/if}
-        <span class="tip-meta">
-          {tip.course} · {tip.mastery}{#if tip.skillCount} · {tip.skillCount} skills{/if}
-        </span>
-        {#if tip.actionable}
-          <button class="tip-open" onclick={() => openNode(tip.id)}>Open {mode === 'topic' ? 'topic' : 'skill'} →</button>
+        {#each groups as group (group.id)}
+          <section
+            class="group"
+            class:dimmed={Boolean(focusedGroupIds) && !focusedGroupIds.has(group.id)}
+            style="left:{group.x}px; top:{group.y}px; width:{group.w}px; height:{group.h}px;"
+            aria-label="Skills in {group.title}"
+          >
+            <header class="group-head" style="height:{GROUP_HEAD_H}px">
+              <span class="group-title"><MathText text={group.title} /></span>
+              <span class="group-count" title="{group.ready} of {group.total} skills proficient or better">{group.ready}/{group.total}</span>
+              {#if !showAllSkills}
+                <button class="group-close" type="button" onclick={() => collapseGroup(group.id)} aria-label="Hide the skills in {group.title}">Hide skills <svg viewBox="0 0 12 12" aria-hidden="true"><path d="m3 7.5 3-3 3 3" /></svg></button>
+              {/if}
+            </header>
+            <ol class="group-rows">
+              {#each group.rows as row (row.id)}
+                <li style="height:{GROUP_ROW_H}px">
+                  <button
+                    type="button"
+                    class:selected={row.id === selectedSkillId}
+                    class:linked={linkedRows.has(row.id)}
+                    class:quiet={Boolean(selectedSkillId) && row.id !== selectedSkillId && !linkedRows.has(row.id)}
+                    title={row.title}
+                    onclick={() => selectSkill(row.id)}
+                    ondblclick={() => go(`/skill/${row.id}?course=${selected[0] ?? ''}`)}
+                  >
+                    <MasteryRing level={row.level} size={14} />
+                    <span class="row-title"><MathText text={row.title} /></span>
+                  </button>
+                </li>
+              {/each}
+            </ol>
+          </section>
+        {/each}
+
+        {#if skillLinks.length}
+          <svg class="skill-links" width="1" height="1" aria-hidden="true">
+            <defs>
+              <marker id="sl-before" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L6 3 L0 6 z" class="head-before" /></marker>
+              <marker id="sl-after" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L6 3 L0 6 z" class="head-after" /></marker>
+            </defs>
+            {#each skillLinks as link}
+              <path d={link.d} class="link-{link.kind}" marker-end="url(#sl-{link.kind})" />
+            {/each}
+          </svg>
         {/if}
       </div>
-    {/if}
+    </div>
 
     {#if edgeTip}
       <div class="edge-tip" style="left:{edgeTip.x}px; top:{edgeTip.y}px;">
@@ -883,275 +1108,406 @@
           <strong aria-hidden="true">{edgeTip.interdependent ? '↔' : '→'}</strong>
           <MathText text={edgeTip.target} />
         </span>
-        <small>{edgeTip.interdependent ? 'Interdependent topics' : edgeTip.cross ? 'Cross-course prerequisite' : 'Prerequisite direction'}</small>
+        <small>{edgeTip.interdependent ? 'Topics that depend on each other' : edgeTip.cross ? 'Prerequisite from another course' : 'Comes before'}</small>
       </div>
     {/if}
 
-    {#if inspector}
-      <aside class="node-inspector" aria-label="Selected {mode === 'topic' ? 'topic' : 'skill'}">
-        <div class="inspector-head">
-          <div>
-            <h2><MathText text={inspector.title} /></h2>
+    <div class="view-switch map-panel" role="group" aria-label="Map detail">
+      <button type="button" class:on={!showAllSkills} aria-pressed={!showAllSkills} onclick={() => setShowAllSkills(false)}>Topics</button>
+      <button type="button" class:on={showAllSkills} aria-pressed={showAllSkills} onclick={() => setShowAllSkills(true)}>All skills</button>
+    </div>
+
+    {#if filtersOpen}
+      {#if narrow}<button class="drawer-backdrop" aria-label="Close map filters" onclick={() => (filtersOpen = false)}></button>{/if}
+      <aside class="filters map-panel" aria-label="Map filters">
+        <div class="panel-head">
+          <h2>Filters</h2>
+          <button class="icon-button" type="button" aria-label="Hide filters" onclick={() => (filtersOpen = false)}>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" /></svg>
+          </button>
+        </div>
+
+        <section>
+          <h3>Courses</h3>
+          <div class="course-list">
+            {#each courses as course (course.id)}
+              <div class="course-row">
+                <label class="check">
+                  <input type="checkbox" checked={selected.includes(course.id)} onchange={() => toggleCourse(course.id)} />
+                  {course.title}
+                </label>
+                {#if selected.includes(course.id)}
+                  <button type="button" class="jump" title="Jump to {course.title}" aria-label="Jump to {course.title}" onclick={() => jumpToCourse(course.title)}>
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v7M4.5 7 8 10.5 11.5 7M3.5 13h9" /></svg>
+                  </button>
+                {/if}
+              </div>
+            {/each}
           </div>
-          <button class="inspector-close" aria-label="Close selection" onclick={() => clearFocus({ clearTip: true })}>×</button>
-        </div>
-        <div class="inspector-meta">
-          {#if inspector.course}<span>{inspector.course}</span>{/if}
-          {#if inspector.mastery}<span>{inspector.mastery}</span>{/if}
-          {#if inspector.skillCount}<span>{inspector.skillCount} skills</span>{/if}
-        </div>
-        {#if inspector.blurb}<p class="inspector-blurb"><MathText text={inspector.blurb} /></p>{/if}
+        </section>
 
-        <div class="relation-groups">
+        {#if presentStrands.length > 1}
           <section>
-            <h3><span class="relation-dot incoming"></span>Comes before <small>{inspector.incoming.length}</small></h3>
-            {#if inspector.incoming.length}
-              <div class="relation-list">
-                {#each inspector.incoming as item}
-                  <button onclick={() => selectRelated(item.id)}><MathText text={item.title} /><span aria-hidden="true">←</span></button>
-                {/each}
-              </div>
-            {:else}<p class="relation-empty">No earlier prerequisite shown.</p>{/if}
+            <h3>Strands</h3>
+            {#each presentStrands as strand}
+              <label class="check">
+                <input type="checkbox" checked={!hiddenStrands.includes(strand)} onchange={() => toggleStrand(strand)} />
+                <span class="dot" style="background:{strandColour(strand)}"></span>{strand}
+              </label>
+            {/each}
           </section>
-          <section>
-            <h3><span class="relation-dot outgoing"></span>Leads to <small>{inspector.outgoing.length}</small></h3>
-            {#if inspector.outgoing.length}
-              <div class="relation-list">
-                {#each inspector.outgoing as item}
-                  <button onclick={() => selectRelated(item.id)}><MathText text={item.title} /><span aria-hidden="true">→</span></button>
-                {/each}
-              </div>
-            {:else}<p class="relation-empty">No next step shown.</p>{/if}
-          </section>
-          {#if inspector.interdependent.length}
-            <section>
-              <h3><span class="relation-dot interdependent"></span>Interdependent</h3>
-              <div class="relation-list">
-                {#each inspector.interdependent as item}
-                  <button onclick={() => selectRelated(item.id)}><MathText text={item.title} /><span aria-hidden="true">↔</span></button>
-                {/each}
-              </div>
-            </section>
-          {/if}
-        </div>
+        {/if}
 
-        <div class="inspector-actions">
-          <button class:active={tracePath} onclick={toggleTracePath}>{tracePath ? 'Show direct links' : 'Trace full pathway'}</button>
-          <button class="primary" onclick={() => openNode(inspector.id)}>Open {mode === 'topic' ? 'topic skills' : 'skill'} →</button>
-        </div>
+        <section>
+          <h3>Links</h3>
+          <label class="check"><input type="radio" name="link-mode" checked={linkMode === 'selected'} onchange={() => setLinkMode('selected')} /> Selected topic only</label>
+          <label class="check"><input type="radio" name="link-mode" checked={linkMode === 'main'} onchange={() => setLinkMode('main')} /> Main pathways in each strand</label>
+          <label class="check"><input type="radio" name="link-mode" checked={linkMode === 'all'} onchange={() => setLinkMode('all')} /> All links</label>
+          <label class="check"><input type="checkbox" checked={crossOnly} onchange={() => (crossOnly = !crossOnly)} /> Only links between courses</label>
+        </section>
+
+        <section>
+          <label class="check"><input type="checkbox" checked={showReady} onchange={() => (showReady = !showReady)} /> Mark topics I am ready for</label>
+        </section>
+        <p class="hint">{touchMode ? 'Tap a topic, then Show skills.' : 'Click a topic to see its links. Double-click to list its skills.'}</p>
       </aside>
-      <div class="sr-only" aria-live="polite">{inspector.title} selected. {inspector.incoming.length} prerequisites and {inspector.outgoing.length} next steps.</div>
+    {:else}
+      <button class="filters-button map-panel" type="button" aria-expanded="false" onclick={() => (filtersOpen = true)}>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4h11M4.5 8h7M6.5 12h3" /></svg>
+        Filters
+      </button>
     {/if}
 
-    <div class="map-toolbar">
-      <button class="filters-button" aria-expanded={sidebarOpen} onclick={() => (sidebarOpen = true)}>☰ <span>Filters</span></button>
+    {#if legendOpen}
+      <aside class="legend map-panel" class:beside={filtersOpen && !narrow} aria-label="Map key">
+        <div class="panel-head">
+          <h2>Key</h2>
+          <button class="icon-button" type="button" aria-label="Hide key" onclick={() => (legendOpen = false)}>×</button>
+        </div>
+        <ul class="key-rings">
+          {#each ['none', 'learning', 'proficient', 'mastered'] as level}
+            <li><MasteryRing {level} size={15} />{MASTERY[level].label}</li>
+          {/each}
+        </ul>
+        <ul class="key-lines">
+          <li><span class="ready-sample">Ready now</span> what it needs is mastered</li>
+          <li><span class="line-sample before"></span> comes before</li>
+          <li><span class="line-sample after"></span> leads to</li>
+        </ul>
+      </aside>
+    {:else if !narrow}
+      <button class="key-button map-panel" class:beside={filtersOpen} type="button" onclick={() => (legendOpen = true)}>Key</button>
+    {/if}
+
+    {#if inspector}
+      <aside class="node-inspector map-panel" aria-label="Selected {inspector.kind}">
+        <button class="inspector-close icon-button" type="button" aria-label="Close selection" onclick={() => clearFocus()}>×</button>
+        <div class="inspector-main">
+          {#if inspector.kind === 'topic'}
+            <p class="eyebrow"><span style="color:{strandColour(inspector.strand)}">{inspector.strand}</span>{#if inspector.band} · {inspector.band}{/if}</p>
+            <h2><MathText text={inspector.title} /></h2>
+            <p class="meta">{inspector.ready} of {inspector.total} skills proficient or better</p>
+            <div class="inspector-actions">
+              {#if expandedTopicId !== inspector.id}
+                <button class="mm-btn primary" type="button" onclick={() => expandTopic(inspector.id)}>Show skills</button>
+              {/if}
+              <a class="mm-btn" href={href(`/topic/${inspector.id}${selected.length === 1 ? `?course=${selected[0]}` : ''}`)}>Open topic</a>
+            </div>
+            <button class="text-button" type="button" onclick={toggleTracePath}>{tracePath ? 'Show direct links only' : 'Trace the full pathway'}</button>
+          {:else}
+            <p class="eyebrow"><MathText text={inspector.topic} /> · Stage {inspector.stage}</p>
+            <h2><MathText text={inspector.title} /></h2>
+            <p class="meta level-{inspector.level}"><MasteryRing level={inspector.level} size={14} /> {MASTERY[inspector.level].label}</p>
+            <div class="inspector-actions">
+              <a class="mm-btn primary" href={href(`/skill/${inspector.id}${selected.length === 1 ? `?course=${selected[0]}` : ''}`)}>Open skill</a>
+              <a class="mm-btn" href={href(`/quiz?skill=${inspector.id}`)}>Take quiz</a>
+            </div>
+          {/if}
+        </div>
+        <div class="inspector-links">
+          <section>
+            <h3 class="before">Comes before</h3>
+            {#if inspector.incoming.length}
+              <ul>
+                {#each inspector.incoming as item}
+                  <li><button type="button" onclick={() => (inspector.kind === 'topic' ? selectRelated(item.id) : goToSkill(item))}><MathText text={item.title} />{#if item.topic && !item.sameTopic}<small><MathText text={item.topic} /></small>{/if}</button></li>
+                {/each}
+              </ul>
+            {:else}<p class="empty-note">Nothing earlier on this map.</p>{/if}
+          </section>
+          <section>
+            <h3 class="after">Leads to</h3>
+            {#if inspector.outgoing.length}
+              <ul>
+                {#each inspector.outgoing as item}
+                  <li><button type="button" onclick={() => (inspector.kind === 'topic' ? selectRelated(item.id) : goToSkill(item))}><MathText text={item.title} />{#if item.topic && !item.sameTopic}<small><MathText text={item.topic} /></small>{/if}</button></li>
+                {/each}
+              </ul>
+            {:else}<p class="empty-note">Nothing later on this map.</p>{/if}
+          </section>
+        </div>
+      </aside>
+      <div class="sr-only" aria-live="polite">{inspector.title} selected. {inspector.incoming.length} come before and {inspector.outgoing.length} lead on.</div>
+    {/if}
+
+    <div class="corner">
+      {#if !narrow && graphBounds}
+        <canvas
+          bind:this={minimapCanvas}
+          class="minimap map-panel"
+          width={MINI_W}
+          height={MINI_H}
+          style="width:{MINI_W}px; height:{MINI_H}px"
+          aria-label="Minimap: click or drag to move the view"
+          onpointerdown={minimapDown}
+          onpointermove={(event) => { if (minimapDragging) minimapMove(event); }}
+          onpointerup={minimapUp}
+        ></canvas>
+      {/if}
+      <div class="zoom-controls map-panel" aria-label="Map zoom controls">
+        <button type="button" aria-label="Zoom in" title="Zoom in" onclick={() => zoomBy(ZOOM_STEP)}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>
+        </button>
+        <button type="button" aria-label="Zoom out" title="Zoom out" onclick={() => zoomBy(1 / ZOOM_STEP)}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10" /></svg>
+        </button>
+        <button type="button" aria-label="Fit whole map" title="Fit whole map" onclick={fitAll}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10" /></svg>
+        </button>
+      </div>
     </div>
-    <div class="zoom-controls" aria-label="Map zoom controls">
-      <button aria-label="Zoom in" title="Zoom in" onclick={() => zoomBy(ZOOM_STEP)}>＋</button>
-      <button aria-label="Zoom out" title="Zoom out" onclick={() => zoomBy(1 / ZOOM_STEP)}>−</button>
-      <button aria-label="Fit whole map" title="Fit whole map" onclick={fitAll}>⤢</button>
-    </div>
+
     {#if selected.length === 0}
-      <div class="empty"><span aria-hidden="true">↝</span><strong>Choose a course to begin</strong><small>The learning routes will appear here.</small></div>
+      <div class="empty"><strong>Choose a course to begin</strong><small>Add a course in Filters and its topics appear here.</small></div>
     {/if}
   </div>
 </div>
 
 <style>
   .map-wrap {
-    --map-label-bg: color-mix(in srgb, var(--panel) 96%, transparent);
-    --map-label-border: rgba(148, 163, 184, 0.38);
-    --map-ready: #22d3ee;
+    --map-ready-bg: #ecfeff;
+    --map-ready-text: #0e7490;
+    --map-ready-border: #a5f3fc;
     position: relative;
     display: flex;
-    height: calc(100dvh - var(--top-nav-height, 72px));
+    height: calc(100dvh - var(--top-nav-height, 60px));
     overflow: hidden;
     background: var(--app-canvas);
     font-family: var(--font-body);
   }
-  :global([data-theme="light"]) .map-wrap {
-    --map-label-bg: rgba(255, 255, 255, 0.98);
-    --map-label-border: #cbd5e1;
-    --map-ready: #0e7490;
+  :global([data-theme="dark"]) .map-wrap {
+    --map-ready-bg: rgba(34, 211, 238, 0.12);
+    --map-ready-text: #67e8f9;
+    --map-ready-border: rgba(103, 232, 249, 0.35);
   }
 
-  .sidebar {
-    width: 280px;
-    flex: 0 0 280px;
-    overflow-y: auto;
-    padding: 1rem 1.1rem max(1rem, env(safe-area-inset-bottom));
-    border-right: 1px solid var(--border-strong);
-    background: linear-gradient(165deg, var(--surface-warm), var(--panel) 32%);
-    z-index: 7;
-  }
-  .sidebar-head { display: flex; align-items: center; justify-content: flex-end; }
-  .drawer-close { display: none; }
-  .hint { font-size: 0.76rem; line-height: 1.5; margin: 0.45rem 0 0; }
-  .section-label {
-    font-size: 0.65rem;
-    font-weight: 750;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--muted);
-    margin: 1.15rem 0 0.45rem;
-  }
-  .seg { display: flex; gap: 0.3rem; }
-  .seg button,
-  .zoom-controls button,
-  .filters-button,
-  .drawer-close {
-    border: 1px solid var(--border-strong);
-    background: color-mix(in srgb, var(--panel) 92%, transparent);
-    color: var(--text);
-    cursor: pointer;
-  }
-  .seg button { flex: 1; min-height: 38px; padding: 0.35rem 0.5rem; border-radius: 10px; font: 650 0.78rem var(--font-body); }
-  .seg button.on { background: var(--accent); border-color: transparent; color: #fff; }
-  .seg button:hover:not(.on), .zoom-controls button:hover, .filters-button:hover { border-color: var(--border-strong); background: var(--panel-2); }
-  button:focus-visible, .node-label:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; }
-
-  .scope-pill { margin-top: 0.65rem; padding: 0.65rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); font-size: 0.76rem; }
-  .scope-pill .link { display: block; margin-top: 0.25rem; padding: 0; border: 0; background: none; color: var(--accent); cursor: pointer; font-size: 0.76rem; }
-  .map-options { margin-top: 0.65rem; border: 1px solid var(--border); border-radius: 10px; background: color-mix(in srgb, var(--surface-soft) 70%, transparent); }
-  .map-options summary { padding: 0.58rem 0.65rem; color: var(--muted); cursor: pointer; font-size: 0.76rem; font-weight: 700; }
-  .map-options[open] { padding-bottom: 0.35rem; }
-  .map-options[open] summary { color: var(--text); border-bottom: 1px solid var(--border); margin-bottom: 0.2rem; }
-  .map-options .cross-toggle { margin-inline: 0.35rem; }
-  .cross-toggle { display: flex; align-items: center; gap: 0.55rem; min-height: 36px; margin-top: 0.25rem; padding: 0.2rem 0.25rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer; }
-  .cross-toggle:hover { background: var(--surface-soft); }
-  .cross-toggle input, .course-opt input { accent-color: var(--accent); cursor: pointer; }
-  .course-list { display: flex; flex-direction: column; gap: 0.3rem; }
-  .course-opt { display: flex; align-items: center; gap: 0.5rem; min-height: 40px; padding: 0.4rem 0.5rem; border: 1px solid transparent; border-radius: 10px; cursor: pointer; font-size: 0.8rem; }
-  .course-opt:hover, .course-opt.on { background: var(--surface-soft); }
-  .course-opt.on { border-color: var(--border-strong); background: var(--surface-soft); }
-  .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
-  .course-title { line-height: 1.2; }
-  .locate { margin-left: auto; width: 28px; height: 28px; flex: none; padding: 0; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--panel); color: var(--muted); cursor: pointer; }
-  .locate:hover { color: var(--accent); border-color: var(--border-strong); background: var(--panel-2); }
-  .link-legend { display: flex; flex-direction: column; gap: 0.42rem; list-style: none; margin: 0; padding: 0; font-size: 0.74rem; }
-  .link-legend li { display: flex; align-items: center; gap: 0.5rem; }
-  .link-sample { position: relative; width: 28px; height: 0; flex: none; border-top: 3px solid var(--border-strong); color: var(--border-strong); }
-  .link-sample::after { content: ''; position: absolute; top: -5px; right: -1px; border-block: 4px solid transparent; border-left: 6px solid currentColor; }
-  .link-sample.incoming { border-color: #fbbf24; color: #fbbf24; }
-  .link-sample.outgoing { border-color: #2dd4bf; color: #2dd4bf; }
-  .link-sample.interdependent { border-color: #c084fc; color: #c084fc; border-top-style: dashed; }
-  .link-sample.interdependent::before { content: ''; position: absolute; top: -5px; left: -1px; border-block: 4px solid transparent; border-right: 6px solid currentColor; }
-  .link-sample.cross { border-color: #f59e0b; color: #f59e0b; border-top-style: dashed; }
-  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.65rem; list-style: none; margin: 0; padding: 0; font-size: 0.74rem; }
-  .legend li { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
-  .legend .ring { position: relative; width: 16px; height: 16px; flex: none; border-radius: 50%; background: conic-gradient(var(--c) 0 var(--p), var(--track) var(--p) 100%); }
-  .legend .ring::before { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--panel); }
-  .legend .ring.ready { background: none; border: 2px dashed var(--map-ready); }
-  .legend .ring.ready::before { content: none; }
-
-  .graph-area { position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden; contain: layout paint style; background: var(--app-canvas); }
+  .graph-area { position: relative; flex: 1 1 auto; min-width: 0; overflow: clip; contain: layout paint style; background: var(--app-canvas); }
   .bands, .graph, .label-layer { position: absolute; inset: 0; }
   .bands { width: 100%; height: 100%; z-index: 0; }
   .graph { z-index: 1; background: transparent; touch-action: none; }
-  .label-layer { z-index: 2; overflow: hidden; pointer-events: none; contain: strict; }
+  /* clip, not hidden: a hidden box can still be scrolled when a focused label
+     is brought into view, which would shift every label off its card. */
+  .label-layer { z-index: 2; overflow: clip; pointer-events: none; contain: strict; }
   .label-world { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; }
-  .node-label {
+
+  .card-skills {
     position: absolute;
-    transform: translateX(-50%) scale(var(--label-counter-scale, 1));
-    transform-origin: top center;
-    margin-top: calc(4px * var(--label-counter-scale, 1));
-    max-width: 150px;
-    width: max-content;
-    padding: 4px 8px;
-    border: 1px solid var(--map-label-border);
+    left: calc(var(--pad-x) - 4px);
+    right: calc(var(--pad-x) - 4px);
+    bottom: 6px;
+    height: calc(var(--foot-h) - 2px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--muted);
+    font: 700 11.5px var(--font-body);
+    cursor: pointer;
+  }
+  .card-skills .show { display: inline-flex; align-items: center; gap: 2px; opacity: 0; transition: opacity var(--motion-fast); }
+  .card-skills svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .card-label:hover .card-skills .show, .card-label.focus-root .card-skills .show, .card-skills:focus-visible .show { opacity: 1; }
+  .card-skills:hover { background: var(--panel-2); color: var(--accent); }
+  .card-label {
+    position: absolute;
+    display: block;
+    margin: 0;
+    padding: var(--pad-y) calc(var(--pad-x) + 26px) calc(var(--pad-y) + var(--foot-h)) var(--pad-x);
+    border: 0;
     border-radius: 10px;
-    background: var(--map-label-bg);
+    background: transparent;
     color: var(--text);
-    box-shadow: var(--shadow);
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    text-align: center;
-    text-wrap: balance;
-    white-space: normal;
+    font: 700 14px/18px var(--font-body);
+    text-align: left;
     opacity: var(--label-fade, 1);
     pointer-events: auto;
     cursor: pointer;
     user-select: none;
     appearance: none;
   }
-  .node-label.boundary { font-size: 13px; opacity: calc(0.62 * var(--label-fade, 1)); }
-  .node-label.ready { color: var(--map-ready); font-weight: 700; }
-  .node-label.dimmed { opacity: calc(0.28 * var(--label-fade, 1)); }
-  .node-label.focused { opacity: 1; border-color: color-mix(in srgb, var(--text) 42%, transparent); }
-  .node-label.focus-root { opacity: 1; border-color: var(--border-strong); background: var(--panel-2); box-shadow: var(--shadow); }
-  .node-label :global(.katex) { font-size: 1em; }
+  .card-title { display: block; overflow: hidden; overflow-wrap: anywhere; }
+  .card-label :global(.katex) { font-size: 1em; }
+  .card-label.dimmed { opacity: calc(0.5 * var(--label-fade, 1)); }
+  .card-label.focused, .card-label.focus-root { opacity: 1; }
+  .card-label:hover .card-title { color: var(--accent); }
+  .ready-tag {
+    position: absolute;
+    top: -9px;
+    right: 8px;
+    padding: 1px 7px;
+    border: 1px solid var(--map-ready-border);
+    border-radius: 999px;
+    background: var(--map-ready-bg);
+    color: var(--map-ready-text);
+    font: 800 10px/14px var(--font-body);
+    white-space: nowrap;
+  }
 
-  .tip { position: absolute; z-index: 5; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: 270px; padding: 0.7rem 0.8rem; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-lg); pointer-events: none; display: flex; flex-direction: column; gap: 0.3rem; }
-  .tip strong { font-size: 0.88rem; line-height: 1.25; }
-  .tip-blurb { font-size: 0.77rem; color: var(--muted); }
-  .tip-meta { font-size: 0.7rem; color: var(--muted); }
-  .tip-open { min-height: 40px; margin-top: 0.25rem; border: 0; border-radius: 9px; background: var(--accent); color: #fff; font: 700 0.78rem var(--font-body); cursor: pointer; }
+  .group { position: absolute; pointer-events: auto; color: var(--text); }
+  .group.dimmed { opacity: 0.5; }
+  .group-head { display: flex; align-items: center; gap: 0.6rem; padding: 0 12px 0 14px; border-bottom: 1px solid var(--border); }
+  .group-title { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 800 15px var(--font-body); }
+  .group-count { flex: none; color: var(--muted); font: 600 11.5px var(--font-body); }
+  .group-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vertical-align: -1px; }
+  .group-close { margin-left: auto; flex: none; padding: 3px 9px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--panel); color: var(--text); font: 700 11px var(--font-body); cursor: pointer; }
+  .group-close:hover { border-color: var(--text); }
+  .skill-links { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: 1; }
+  .skill-links path { fill: none; stroke-width: 1.5; }
+  .skill-links .link-before { stroke: var(--muted); }
+  .skill-links .link-after { stroke: var(--accent); }
+  .skill-links .head-before { fill: var(--muted); stroke: none; }
+  .skill-links .head-after { fill: var(--accent); stroke: none; }
+  .group-rows { margin: 0; padding: 0 26px; list-style: none; }
+  .group-rows li { display: flex; align-items: center; }
+  .group-rows button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    height: 22px;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text);
+    font: 600 12.5px var(--font-body);
+    text-align: left;
+    cursor: pointer;
+  }
+  .group-rows button:hover { background: var(--surface-soft); }
+  .group-rows button.selected { background: color-mix(in srgb, var(--accent) 12%, var(--panel)); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 800; }
+  .group-rows button.linked { background: var(--surface-soft); font-weight: 700; }
+  .group-rows button.quiet { color: var(--muted); }
+  .row-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .edge-tip { position: absolute; z-index: 6; transform: translate(-50%, calc(-100% - 12px)); width: max-content; max-width: 310px; padding: 0.55rem 0.7rem; border: 1px solid var(--border-strong); border-radius: 10px; background: color-mix(in srgb, var(--panel) 96%, transparent); box-shadow: var(--shadow); pointer-events: none; }
-  .edge-tip-route { display: flex; align-items: center; gap: 0.4rem; color: var(--text); font-size: 0.76rem; font-weight: 650; }
-  .edge-tip-route strong { color: var(--accent); font-size: 1rem; }
-  .edge-tip small { display: block; margin-top: 0.2rem; color: var(--muted); font-size: 0.66rem; }
+  .map-panel {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--panel) 97%, transparent);
+    box-shadow: 0 6px 20px -12px rgba(15, 23, 42, 0.3), 0 1px 2px rgba(15, 23, 42, 0.06);
+  }
+  .icon-button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+  .icon-button:hover { color: var(--text); background: var(--panel-2); }
+  .icon-button svg, .filters-button svg, .zoom-controls svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+  .panel-head h2 { margin: 0; font: 800 0.95rem var(--font-body); letter-spacing: 0; }
 
-  .node-inspector { position: absolute; z-index: 8; top: 14px; right: 14px; bottom: 14px; width: min(330px, calc(100% - 28px)); display: flex; flex-direction: column; padding: 1rem; border: 1px solid var(--border-strong); border-radius: 16px; background: color-mix(in srgb, var(--panel) 96%, transparent); box-shadow: var(--shadow-lg); backdrop-filter: blur(16px); overflow: hidden; }
-  .inspector-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-  .inspector-head h2 { margin: 0; font: 600 1.12rem/1.2 var(--font-display); text-wrap: balance; }
-  .inspector-close { width: 36px; height: 36px; flex: none; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); color: var(--muted); cursor: pointer; font-size: 1.25rem; }
-  .inspector-close:hover { color: var(--text); background: var(--panel-2); }
-  .inspector-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.65rem; }
-  .inspector-meta span { padding: 0.2rem 0.45rem; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); background: var(--surface-soft); font-size: 0.66rem; }
-  .inspector-blurb { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.77rem; line-height: 1.45; }
-  .relation-groups { min-height: 0; margin-top: 0.8rem; padding-right: 0.15rem; overflow-y: auto; }
-  .relation-groups section + section { margin-top: 0.8rem; }
-  .relation-groups h3 { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.35rem; color: var(--text); font: 750 0.72rem/1.2 var(--font-body); text-transform: uppercase; letter-spacing: 0.04em; }
-  .relation-groups h3 small { margin-left: auto; color: var(--muted); font-size: 0.66rem; }
-  .relation-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); }
-  .relation-dot.incoming { background: #fbbf24; }
-  .relation-dot.outgoing { background: #2dd4bf; }
-  .relation-dot.interdependent { background: #c084fc; }
-  .relation-list { display: flex; flex-direction: column; gap: 0.28rem; }
-  .relation-list button { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 36px; padding: 0.42rem 0.55rem; border: 1px solid transparent; border-radius: 9px; background: var(--surface-soft); color: var(--text); cursor: pointer; text-align: left; font: 600 0.73rem/1.25 var(--font-body); }
-  .relation-list button:hover { border-color: var(--border-strong); background: var(--panel-2); }
-  .relation-list button span:last-child { color: var(--muted); }
-  .relation-empty { margin: 0; color: var(--muted); font-size: 0.7rem; }
-  .inspector-actions { display: grid; grid-template-columns: 1fr; gap: 0.4rem; margin-top: auto; padding-top: 0.8rem; }
-  .inspector-actions button { min-height: 40px; padding: 0.5rem 0.65rem; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--surface-soft); color: var(--text); cursor: pointer; font: 700 0.75rem var(--font-body); }
-  .inspector-actions button.active { border-color: #c084fc; color: #c084fc; }
-  .inspector-actions button.primary { border-color: transparent; background: var(--accent); color: #fff; }
+  .filters { position: absolute; z-index: 6; top: 14px; left: 14px; width: 252px; max-height: calc(100% - 28px); overflow-y: auto; padding: 0.8rem 0.9rem 0.9rem; }
+  .filters section { padding: 0.75rem 0 0.2rem; border-top: 1px solid var(--border); margin-top: 0.6rem; }
+  .filters h3 { margin: 0 0 0.45rem; color: var(--muted); font: 800 0.7rem var(--font-body); letter-spacing: 0.07em; text-transform: uppercase; }
+  .course-list { display: flex; flex-direction: column; }
+  .course-row { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; }
+  .course-row .check { min-height: 28px; flex: 1; }
+  .jump { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--muted); cursor: pointer; }
+  .jump:hover { color: var(--accent); background: var(--panel-2); }
+  .jump svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .add-course { margin-top: 0.5rem; width: 100%; min-height: 32px; padding: 0.2rem 0.4rem; border: 1px dashed var(--border-strong); border-radius: 8px; background: var(--panel); color: var(--text); font: 700 0.8rem var(--font-body); cursor: pointer; }
+  .check { display: flex; align-items: center; gap: 0.5rem; min-height: 30px; font-size: 0.86rem; cursor: pointer; }
+  .check input { accent-color: var(--accent); cursor: pointer; margin: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .hint { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.76rem; line-height: 1.45; }
+  .filters-button, .key-button { position: absolute; z-index: 6; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 38px; padding: 0 0.85rem; color: var(--text); cursor: pointer; font: 800 0.85rem var(--font-body); }
+  .filters-button { top: 14px; left: 14px; }
+  .key-button { bottom: 14px; left: 14px; }
+
+  .legend { position: absolute; z-index: 5; bottom: 14px; left: 14px; width: 252px; padding: 0.7rem 0.9rem 0.8rem; }
+  /* With Filters open the key sits beside it rather than underneath. */
+  .legend.beside, .key-button.beside { left: 280px; }
+  .key-rings { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.6rem; margin: 0.55rem 0 0; padding: 0; list-style: none; font-size: 0.8rem; }
+  .key-rings li, .key-lines li { display: flex; align-items: center; gap: 0.45rem; }
+  .key-lines { display: flex; flex-direction: column; gap: 0.35rem; margin: 0.6rem 0 0; padding: 0.6rem 0 0; border-top: 1px solid var(--border); list-style: none; font-size: 0.8rem; color: var(--muted); }
+  .ready-sample { padding: 0 6px; border: 1px solid var(--map-ready-border); border-radius: 999px; background: var(--map-ready-bg); color: var(--map-ready-text); font: 800 10px/16px var(--font-body); }
+  .line-sample { position: relative; width: 26px; height: 0; border-top: 1.5px solid var(--muted); }
+  .line-sample::after { content: ''; position: absolute; top: -4px; right: -1px; border-block: 3.5px solid transparent; border-left: 5px solid var(--muted); }
+  .line-sample.after { border-color: var(--accent); }
+  .line-sample.after::after { border-left-color: var(--accent); }
+
+  /* Topics / All skills switch, top centre. */
+  .view-switch { position: absolute; z-index: 4; top: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 2px; padding: 4px; border-radius: 12px; }
+  .view-switch button { min-height: 34px; padding: 0.3rem 1rem; border: 0; border-radius: 9px; background: none; color: var(--muted); white-space: nowrap; cursor: pointer; font: 800 0.88rem var(--font-body); }
+  .view-switch button:hover { color: var(--text); }
+  .view-switch button.on { background: var(--accent); color: #fff; }
+
+  .corner { position: absolute; z-index: 5; right: 14px; bottom: 14px; display: flex; align-items: flex-end; gap: 8px; }
+  .minimap { display: block; cursor: pointer; touch-action: none; }
+  .zoom-controls { display: flex; flex-direction: column; gap: 2px; padding: 3px; }
+  .zoom-controls button { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 8px; background: none; color: var(--text); cursor: pointer; }
+  .zoom-controls button:hover { background: var(--panel-2); }
+
+  /* Floating right sidebar for the selected topic or skill. */
+  .node-inspector { position: absolute; z-index: 7; top: 14px; right: 14px; bottom: 14px; width: 320px; display: flex; flex-direction: column; padding: 1rem 1.1rem; overflow-y: auto; }
+  .graph-area.inspector-open .corner { right: 348px; }
+  .inspector-main { min-width: 0; padding-right: 1.6rem; }
+  .inspector-close { position: absolute; top: 8px; right: 8px; }
+  .eyebrow { margin: 0 0 0.25rem; color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+  .node-inspector h2 { margin: 0; font: 800 1.3rem/1.2 var(--font-body); letter-spacing: -0.01em; text-wrap: balance; }
+  .meta { display: flex; align-items: center; gap: 0.35rem; margin: 0.35rem 0 0; color: var(--muted); font-size: 0.85rem; }
+  .inspector-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.85rem; }
+  .inspector-actions .mm-btn { min-height: 36px; padding: 0.4rem 0.85rem; font-size: 0.85rem; }
+  .text-button { margin-top: 0.6rem; padding: 0; border: 0; background: none; color: var(--muted); font: 700 0.8rem var(--font-body); cursor: pointer; }
+  .text-button:hover { color: var(--accent); }
+  .inspector-links { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--border); }
+  .inspector-links section + section { margin-top: 1rem; }
+  .inspector-links h3 { margin: 0 0 0.25rem; font: 800 0.78rem var(--font-body); letter-spacing: 0; }
+  .inspector-links h3.before { color: var(--muted); }
+  .inspector-links h3.after { color: var(--accent); }
+  .inspector-links ul { margin: 0; padding: 0; list-style: none; }
+  .inspector-links button { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: 0.18rem 0; border: 0; background: none; color: var(--text); text-align: left; cursor: pointer; font: 600 0.84rem/1.3 var(--font-body); }
+  .inspector-links button:hover { color: var(--accent); }
+  .inspector-links small { color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+  .empty-note { margin: 0; color: var(--muted); font-size: 0.8rem; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
-  .map-toolbar { position: absolute; z-index: 4; top: 12px; left: 12px; }
-  .filters-button { display: none; min-height: 44px; padding: 0 0.85rem; border-radius: 10px; align-items: center; gap: 0.45rem; box-shadow: var(--shadow); backdrop-filter: blur(10px); font: 700 0.78rem var(--font-body); }
-  .zoom-controls { position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); z-index: 4; display: flex; flex-direction: column; gap: 5px; padding: 5px; border: 1px solid var(--border-strong); border-radius: 14px; background: color-mix(in srgb, var(--panel) 88%, transparent); box-shadow: var(--shadow); backdrop-filter: blur(10px); }
-  .zoom-controls button { width: 40px; height: 40px; padding: 0; border-radius: 9px; font-size: 1.15rem; }
-  .empty { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; margin: auto; width: max-content; height: max-content; padding: 1.1rem 1.4rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); color: var(--muted); box-shadow: var(--shadow); pointer-events: none; }
-  .empty > span { color: var(--accent); font-size: 1.6rem; transform: rotate(-18deg); }
-  .empty strong { color: var(--text); font-family: var(--font-display); font-size: 1rem; }
-  .empty small { font-size: 0.72rem; }
+  .edge-tip { position: absolute; z-index: 6; transform: translate(-50%, calc(-100% - 12px)); width: max-content; max-width: 310px; padding: 0.5rem 0.7rem; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); box-shadow: 0 6px 20px -12px rgba(15, 23, 42, 0.35); pointer-events: none; }
+  .edge-tip-route { display: flex; align-items: center; gap: 0.4rem; color: var(--text); font-size: 0.8rem; font-weight: 700; }
+  .edge-tip-route strong { color: var(--accent); }
+  .edge-tip small { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.7rem; }
+
+  .empty { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; margin: auto; width: max-content; height: max-content; padding: 1rem 1.3rem; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); color: var(--muted); pointer-events: none; }
+  .empty strong { color: var(--text); font-size: 1rem; }
+  .empty small { font-size: 0.8rem; }
   .drawer-backdrop { display: none; }
 
-  @media (min-width: 769px) {
-    .graph-area.inspector-open .zoom-controls { right: 356px; }
+  button:focus-visible, input:focus-visible, .card-label:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 768px) {
+    .view-switch { top: 12px; left: auto; right: 10px; transform: none; }
   }
 
   @media (max-width: 768px) {
-    .sidebar { position: absolute; inset: 0 auto 0 0; width: min(320px, 88vw); max-width: 88vw; flex-basis: auto; padding-top: max(1rem, env(safe-area-inset-top)); transform: translateX(-105%); transition: transform 180ms ease; box-shadow: 12px 0 34px rgba(0,0,0,.42); }
-    .sidebar.open { transform: translateX(0); }
-    .drawer-close { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 9px; font-size: 1.5rem; }
-    .drawer-backdrop { display: block; position: absolute; inset: 0; z-index: 6; border: 0; background: rgba(3, 7, 18, 0.58); backdrop-filter: blur(2px); }
-    .filters-button { display: inline-flex; }
-    .zoom-controls button { width: 44px; height: 44px; }
-    .tip.touch { position: absolute; left: 12px !important; right: 12px; top: auto !important; bottom: calc(70px + env(safe-area-inset-bottom)); width: auto; max-width: none; transform: none; pointer-events: auto; }
-    .node-inspector { top: auto; left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom)); width: auto; max-height: 46dvh; padding: 0.85rem; border-radius: 18px; }
-    .inspector-head h2 { font-size: 1rem; }
-    .inspector-blurb { display: none; }
-    .relation-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-    .relation-groups section + section { margin-top: 0; }
-    .relation-groups section:last-child { grid-column: 1 / -1; }
-    .inspector-actions { grid-template-columns: 1fr 1fr; }
-    .graph-area.inspector-open .zoom-controls { bottom: calc(46dvh + 14px); }
-    .edge-tip { max-width: min(300px, calc(100% - 24px)); }
+    .filters { inset: 0 auto 0 0; top: 0; left: 0; width: min(300px, 86vw); max-height: none; height: 100%; border-radius: 0 14px 14px 0; z-index: 9; }
+    .drawer-backdrop { display: block; position: absolute; inset: 0; z-index: 8; border: 0; background: rgba(3, 7, 18, 0.45); }
+    .legend { display: none; }
+    .corner { right: 10px; bottom: 10px; }
+    .zoom-controls button { width: 40px; height: 40px; }
+    .node-inspector { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 52%; border-radius: 16px; }
+    .inspector-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 0.7rem; padding-top: 0.6rem; }
+    .inspector-links section + section { margin-top: 0; }
+    .graph-area.inspector-open .corner { display: none; }
+    .card-label:hover .card-title { color: inherit; }
   }
-
 </style>

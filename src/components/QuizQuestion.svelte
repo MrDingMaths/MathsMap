@@ -126,25 +126,28 @@
   /* Diagrams and running text read small at the default InlineContent scale —
      bump both for the quiz's one-question-per-screen layout. */
   :global(.qq-diagram .inline-tikz) { margin: 1.1rem 0; }
-  :global(.qq-diagram .inline-tikz svg) { width: 100%; max-width: 480px; height: auto; }
-  :global(.qq-diagram .text-line) { font-size: 1.05rem; }
-  .qq-stem { font-size: 1.35rem; }
-  .qq-solution { font-size: 1.05rem; }
+  /* Sizes scale with the window (quiz-view sets the base font size). */
+  :global(.qq-diagram .inline-tikz svg) { width: 100%; max-width: min(640px, 100%); height: auto; }
+  :global(.qq-diagram .text-line) { font-size: 1em; }
+  :global(.qq-diagram .inline-tikz) { overflow-y: hidden; }
+  .qq-stem { font-size: clamp(1.3rem, 1rem + 1.1vw, 1.75rem); line-height: 1.45; }
+  .qq-solution { font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem); }
 
-  .qq-options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .qq-options { display: flex; flex-direction: column; gap: 0.7rem; }
   .qq-opt {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.9rem;
     width: 100%;
+    min-height: 60px;
     text-align: left;
-    padding: 0.75rem 0.95rem;
-    border: 1px solid var(--border);
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border-strong);
     border-radius: 12px;
     background: var(--panel);
     color: var(--text);
     font-family: inherit;
-    font-size: 1.08rem;
+    font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.4rem);
     cursor: pointer;
     transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap), opacity var(--motion-fast), box-shadow var(--motion-fast);
   }
@@ -153,15 +156,15 @@
   .qq-opt:disabled { cursor: default; }
   .opt-key {
     flex: none;
-    width: 26px;
-    height: 26px;
+    width: 34px;
+    height: 34px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     background: var(--panel-2);
     color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.8em;
+    font-weight: 800;
   }
   .opt-text { flex: 1; }
   .opt-mark { flex: none; font-weight: 700; }
@@ -191,13 +194,15 @@
 
   .qq-skip {
     align-self: flex-start;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
     background: transparent;
-    color: var(--muted);
+    color: var(--text);
     font-family: inherit;
-    font-size: 0.8rem;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
     transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
   }
@@ -215,14 +220,15 @@
 
   .qq-next {
     align-self: flex-end;
-    padding: 0.6rem 1.3rem;
+    min-height: 52px;
+    padding: 0.75rem 1.8rem;
     border: none;
-    border-radius: 999px;
+    border-radius: 10px;
     background: var(--accent);
     color: #fff;
     font-family: inherit;
-    font-weight: 600;
-    font-size: 0.92rem;
+    font-weight: 800;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: opacity var(--motion-fast), transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-fast);
   }

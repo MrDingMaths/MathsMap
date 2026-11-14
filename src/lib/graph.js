@@ -186,19 +186,26 @@ export function routeEdges(cy, layout, rankSep = RANK_SEP) {
   }
   const laneIndexOf = (x) => lanes.findIndex((l) => x >= l.xLeft && x <= l.xRight);
 
-  // Group by the target's rank (its gutter). Falls back to the position-derived
-  // gutter if a node somehow has no `_rank` (e.g. layoutSwimlanes wasn't run) —
-  // still deterministic, just coarser.
+  // Card layout: every node knows the midlines of the gutters above and below
+  // its row (set by layoutSwimlanes). Edges always leave the source's bottom and
+  // enter the target's top; when the source's lower gutter is the target's upper
+  // gutter a single jog suffices, otherwise the route detours via a corridor.
+  const gutterBelow = (n) => n.data('_gBelow');
+  const gutterAbove = (n) => n.data('_gAbove');
+  const hasGutters = edges.length > 0 && edges.every((e) => gutterBelow(e.source()) != null && gutterAbove(e.target()) != null);
+
+  // Group by the target's gutter so parallel jogs into one row are staggered.
+  // Falls back to the position-derived gutter if a node has no recorded gutter.
   const byGutter = new Map();
   edges.forEach((e) => {
     const t = e.target();
-    const gutter = t.data('_rank') ?? Math.round(t.position('y') / rankSep);
+    const gutter = hasGutters ? Math.round(gutterAbove(t)) : (t.data('_rank') ?? Math.round(t.position('y') / rankSep));
     if (!byGutter.has(gutter)) byGutter.set(gutter, []);
     byGutter.get(gutter).push(e);
   });
 
   const LINES = 7; // distinct jog lines per gutter
-  const SPREAD = 30; // px either side of the gutter midline
+  const SPREAD = hasGutters ? 18 : 30; // px either side of the gutter midline
   for (const group of byGutter.values()) {
     group.forEach((e, i) => {
       // Per-edge stagger offset, shared by both of this edge's gutter lines so
@@ -206,8 +213,31 @@ export function routeEdges(cy, layout, rankSep = RANK_SEP) {
       const stag = -SPREAD + ((i % LINES) / (LINES - 1)) * (2 * SPREAD);
       const S = e.source().position();
       const T = e.target().position();
-      const down = T.y >= S.y ? 1 : -1;
       const sN = e.source(), tN = e.target();
+      if (hasGutters) {
+        const SE = { x: S.x, y: S.y + sN.outerHeight() / 2 };
+        const TE = { x: T.x, y: T.y - tN.outerHeight() / 2 };
+        const below = gutterBelow(sN);
+        const above = gutterAbove(tN);
+        let pts;
+        if (Math.abs(below - above) < 1 || corridors.length === 0) {
+          const g = (corridors.length === 0 ? (below + above) / 2 : below) + stag;
+          pts = [[S.x, g], [T.x, g]];
+        } else {
+          const sameLane = laneIndexOf(S.x) === laneIndexOf(T.x);
+          const ref = sameLane ? S.x : (S.x + T.x) / 2;
+          let cx = corridors.reduce((best, c) => (Math.abs(c - ref) < Math.abs(best - ref) ? c : best));
+          cx += ((i % LINES) - (LINES - 1) / 2) * 7;
+          pts = [[S.x, below + stag], [cx, below + stag], [cx, above + stag], [T.x, above + stag]];
+        }
+        const style = segmentStyle(SE, TE, pts, sN.outerHeight() / 2, -tN.outerHeight() / 2);
+        if (!style) return;
+        e.addClass('routed');
+        e.style(style);
+        routes[e.id()] = style;
+        return;
+      }
+      const down = T.y >= S.y ? 1 : -1;
       // Pinned endpoints directly above/below each node's centre — see the
       // note below on why segments project against these rather than S/T.
       const SE = { x: S.x, y: S.y + down * (sN.outerHeight() / 2) };
@@ -289,17 +319,50 @@ export function routeEdges(cy, layout, rankSep = RANK_SEP) {
   return routes;
 }
 
+// Cytoscape 'segments' waypoints, expressed relative to the pinned endpoints
+// SE→TE (see the projection note in routeEdges). Returns null for coincident
+// endpoints.
+function segmentStyle(SE, TE, pts, sourceOffsetY, targetOffsetY) {
+  const vx = TE.x - SE.x;
+  const vy = TE.y - SE.y;
+  const len2 = vx * vx + vy * vy;
+  if (len2 === 0) return null;
+  const len = Math.sqrt(len2);
+  const weights = [];
+  const dists = [];
+  for (const [px, py] of pts) {
+    const rx = px - SE.x;
+    const ry = py - SE.y;
+    weights.push(((rx * vx + ry * vy) / len2).toFixed(4));
+    dists.push(((rx * -vy + ry * vx) / len).toFixed(2));
+  }
+  return {
+    'segment-weights': weights.join(' '),
+    'segment-distances': dists.join(' '),
+    'source-endpoint': `0 ${sourceOffsetY}`,
+    'target-endpoint': `0 ${targetOffsetY}`,
+    'edge-distances': 'endpoints'
+  };
+}
+
+// The site accent, shared by the map's focus and "leads to" colours.
+export const ACCENT = '#E8443A';
+
 export function getCyStyle(isDark = true) {
-  const edgeColor = isDark ? '#8291a8' : '#64748b';
+  const edgeColor = isDark ? '#6b7688' : '#9aa4b2';
   const nodeBorder = isDark ? '#64748b' : '#aab6c5';
   const highlight = isDark ? '#38bdf8' : '#0284c7';
-  const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
-  const litColor = isDark ? '#f8fafc' : '#0f172a';
-  const crossColor = isDark ? '#f59e0b' : '#b45309';
-  const incoming = isDark ? '#fbbf24' : '#b45309';
-  const outgoing = isDark ? '#2dd4bf' : '#0f766e';
+  const nodeFill = isDark ? '#11131a' : '#ffffff'; // solid node centre (matches backdrop)
+  const litColor = isDark ? '#e8eaed' : '#1b1f24';
+  const crossColor = edgeColor;
+  // "Comes before" is quiet grey; "leads to" carries the site accent.
+  const incoming = isDark ? '#a3adbb' : '#5b6470';
+  const outgoing = ACCENT;
   const interdependent = isDark ? '#c084fc' : '#7e22ce';
   const ready = isDark ? '#22d3ee' : '#0e7490'; // theme-safe "ready now" halo
+  const cardFill = isDark ? '#1a1e26' : '#ffffff';
+  const cardBorder = isDark ? '#353c4b' : '#dfe3e8';
+  const cardBorderStrong = isDark ? '#8a94a6' : '#5b6470';
   return [
     {
       // Detailed view shows mastery rings; overview uses course-coloured dots.
@@ -480,12 +543,83 @@ export function getCyStyle(isDark = true) {
       style: {
         'border-width': 3,
         'border-style': 'solid',
-        'border-color': '#e8443a',
-        'underlay-color': '#e8443a',
+        'border-color': ACCENT,
+        'underlay-color': ACCENT,
         'underlay-opacity': 0.3,
         'underlay-padding': 9
       }
     },
-    { selector: 'edge.highlight', style: { 'line-color': highlight, 'target-arrow-color': highlight, width: 3 } }
+    { selector: 'edge.highlight', style: { 'line-color': highlight, 'target-arrow-color': highlight, width: 3 } },
+    // Card rules last so they win over the disc rules above.
+    ...cardOverrides({ cardFill, cardBorder, cardBorderStrong, edgeColor, incoming, outgoing, litColor })
+  ];
+}
+
+// Topic cards: rounded rectangles sized by data(w)/data(h), mastery ring in the
+// top-right corner, titles drawn by the HTML label layer. Links are thin with
+// small heads and only appear on demand.
+function cardOverrides({ cardFill, cardBorder, cardBorderStrong, edgeColor, incoming, outgoing, litColor }) {
+  const thin = 1.5;
+  const lit = 1.9;
+  const head = 0.62;
+  return [
+    {
+      selector: 'node.card',
+      style: {
+        shape: 'round-rectangle',
+        'corner-radius': 10,
+        width: 'data(w)',
+        height: 'data(h)',
+        'background-color': cardFill,
+        'background-opacity': 1,
+        'background-image': 'data(ring)',
+        'background-fit': 'none',
+        'background-width': 18,
+        'background-height': 18,
+        'background-position-x': 'data(ringX)',
+        'background-position-y': 11,
+        'background-clip': 'none',
+        'border-width': 1,
+        'border-style': 'solid',
+        'border-color': cardBorder,
+        opacity: 1
+      }
+    },
+    {
+      selector: 'node.card.far',
+      style: {
+        width: 'data(w)',
+        height: 'data(h)',
+        'background-color': cardFill,
+        'background-image': 'data(ring)',
+        'border-width': 1,
+        'border-color': cardBorder
+      }
+    },
+    { selector: 'node.card.expanded', style: { 'background-image': 'none', 'border-color': cardBorderStrong } },
+    { selector: 'node.card.ready', style: { 'border-style': 'solid', 'border-width': 1, 'border-color': cardBorder } },
+    { selector: 'node.card.dim', style: { opacity: 0.5 } },
+    { selector: 'node.card.focus-chain', style: { opacity: 1, 'border-color': cardBorderStrong } },
+    {
+      selector: 'node.card.focus-root',
+      style: {
+        'border-width': 2,
+        'border-color': ACCENT,
+        'underlay-opacity': 0
+      }
+    },
+    // Links.
+    { selector: 'edge', style: { width: thin, 'arrow-scale': head, 'line-color': edgeColor, 'target-arrow-color': edgeColor } },
+    { selector: 'edge.edge-visible', style: { opacity: 1, 'line-opacity': 0.55, 'arrow-scale': head, width: thin } },
+    { selector: 'edge.backbone.edge-visible', style: { width: thin, 'line-opacity': 0.55 } },
+    { selector: 'edge.edge-visible.far', style: { width: thin, 'line-opacity': 0.45, 'arrow-scale': head } },
+    { selector: 'edge.cross-course.edge-visible', style: { width: thin, 'line-style': 'dashed', 'line-dash-pattern': [5, 4], 'arrow-scale': head } },
+    { selector: 'edge.interdependent.edge-visible', style: { width: thin, 'arrow-scale': head } },
+    { selector: 'edge.path-lit', style: { width: lit, 'line-color': litColor, 'target-arrow-color': litColor, 'line-opacity': 1, 'arrow-scale': head } },
+    { selector: 'edge.incoming-lit', style: { opacity: 1, width: lit, 'line-color': incoming, 'target-arrow-color': incoming, 'line-opacity': 1, 'arrow-scale': head } },
+    { selector: 'edge.outgoing-lit', style: { opacity: 1, width: lit, 'line-color': outgoing, 'target-arrow-color': outgoing, 'line-opacity': 1, 'arrow-scale': head } },
+    { selector: 'edge.cross-course.path-lit, edge.boundary-edge.path-lit', style: { width: lit, 'arrow-scale': head } },
+    { selector: 'edge.boundary-edge.incoming-lit, edge.boundary-edge.outgoing-lit', style: { width: lit, 'arrow-scale': head } },
+    { selector: 'edge.dim.edge-visible', style: { opacity: 1, 'line-opacity': 0.12 } }
   ];
 }

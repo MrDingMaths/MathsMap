@@ -1,36 +1,66 @@
 <script>
   import Math from './Math.svelte';
   import MasteryBar from './MasteryBar.svelte';
-  import MasteryStatus from './MasteryStatus.svelte';
+  import MasteryRing from './MasteryRing.svelte';
 
-  let { color, title, meta = null, stats } = $props();
+  // Flat page header: eyebrow, title, optional lede, then one summary row with
+  // the mastery figures and the page's actions (passed as the `actions` snippet).
+  let { color = null, title, meta = null, eyebrow = null, lede = null, stats, unit = 'skills', actions } = $props();
+
+  let ready = $derived(stats.mastered + stats.proficient);
+  let level = $derived.by(() => {
+    if (!stats.total) return 'none';
+    if (stats.fullyMastered) return 'mastered';
+    if (ready === stats.total) return 'proficient';
+    if (stats.mastered + stats.inProgress > 0) return 'learning';
+    return 'none';
+  });
 </script>
 
-<section class="hero" style="--hero-color:{color}">
-  <div class="hero-copy">
-    <h1><Math text={title} /></h1>
-    {#if meta}<div class="meta">{meta}</div>{/if}
-  </div>
-  <div class="progress-panel">
-    <div class="stats">
-      <span><MasteryStatus level="mastered" compact /><strong>{stats.mastered}</strong></span>
-      <span><MasteryStatus level="proficient" compact /><strong>{stats.proficient}</strong></span>
-      <span><MasteryStatus level="learning" compact /><strong>{stats.learning}</strong></span>
-      <span><MasteryStatus level="none" compact /><strong>{stats.none}</strong></span>
+<header class="page-header" style={color ? `--hero-color:${color}` : ''}>
+  {#if eyebrow || meta}
+    <div class="eyebrow">
+      {#if eyebrow}<span class="strand"><span class="dot" aria-hidden="true"></span>{eyebrow}</span>{/if}
+      {#if meta}<span>{meta}</span>{/if}
     </div>
-    <MasteryBar {stats} height="8px" />
+  {/if}
+  <h1><Math text={title} /></h1>
+  {#if lede}<p class="lede"><Math text={lede} /></p>{/if}
+
+  <div class="summary">
+    <div class="score">
+      <MasteryRing {level} size={44} />
+      <div>
+        <strong>{ready} of {stats.total} {unit}</strong>
+        <span>proficient or better</span>
+      </div>
+    </div>
+    <div class="breakdown">
+      <MasteryBar {stats} height="6px" />
+      <div class="counts">
+        <span>{stats.mastered} mastered</span>
+        <span>{stats.proficient} proficient</span>
+        <span>{stats.learning} learning</span>
+        <span>{stats.none} not started</span>
+      </div>
+    </div>
+    {#if actions}<div class="actions">{@render actions()}</div>{/if}
   </div>
-</section>
+</header>
 
 <style>
-  .hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr); align-items: end; gap: 2rem; padding: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 0.5rem; border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--hero-color) 11%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); }
-  .hero-copy, .progress-panel { position: relative; z-index: 1; }
-  h1 { margin: 0; color: var(--text); font-size: clamp(1.8rem, 4vw, 2.45rem); line-height: 1.06; }
-  .meta { margin-top: 0.65rem; color: var(--muted); font-size: 0.83rem; }
-  .progress-panel { display: flex; flex-direction: column; gap: 0.8rem; padding: 0.85rem 0.95rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: color-mix(in srgb, var(--panel) 92%, transparent); box-shadow: var(--shadow-rest); }
-  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
-  .stats > span { display: flex; align-items: center; justify-content: space-between; gap: 0.45rem; min-width: 0; }
-  .stats strong { font-family: var(--font-display); font-size: 1.05rem; }
-  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 1.2rem; } }
-  @media (max-width: 420px) { .stats { grid-template-columns: 1fr; } }
+  .page-header { margin: 0.4rem 0 1.5rem; }
+  .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; margin-bottom: 0.55rem; color: var(--muted); font-size: 0.86rem; font-weight: 600; }
+  .strand { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--hero-color, var(--accent)); font-weight: 800; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hero-color, var(--accent)); }
+  h1 { margin: 0; color: var(--text); font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; }
+  .lede { max-width: 68ch; margin: 0.7rem 0 0; color: var(--muted); font-size: 1.08rem; }
+  .summary { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem; margin-top: 1.5rem; padding: 1.1rem 0; border-block: 1px solid var(--border); }
+  .score { display: flex; align-items: center; gap: 0.85rem; }
+  .score strong { display: block; font-size: 1.2rem; font-weight: 800; line-height: 1.2; }
+  .score span { color: var(--muted); font-size: 0.82rem; }
+  .breakdown { flex: 1 1 220px; min-width: 200px; display: flex; flex-direction: column; gap: 0.55rem; }
+  .counts { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; color: var(--muted); font-size: 0.8rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-left: auto; }
+  @media (max-width: 640px) { .actions { margin-left: 0; width: 100%; } }
 </style>
