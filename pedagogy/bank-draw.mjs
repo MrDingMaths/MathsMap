@@ -18,6 +18,7 @@ import {fileURLToPath} from 'node:url';
 import {promptText} from '../src/lib/booklet-question-dependencies.js';
 import {exerciseSignatures} from '../src/lib/booklet-assembly.js';
 import {snapshotBankQuestion,addProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {applyHouseColumns} from './house-style.mjs';
 import {practiceItemCount} from './audit-v2-plan.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -528,7 +529,9 @@ export function buildCandidate(project,proposal,{recordOf,acceptRevision=null}){
   if(at(section.id)>=0)throw Error('Section '+section.id+' already exists');
   const removed=removedFrom(project,section.id);if(removed.length)section.bankDraw.removed=structuredClone(removed);
   next.sections.splice(index,0,section);
-  for(const id of s.bankIds)next=addProjectBlock(next,section.id,snapshotBankQuestion(recordOf(id),{placementId:'bd-'+id}));
+  // House columns (docs/booklet-build-principles.md): bank sources often print short items 2 across; James
+  // widened them by hand throughout WF1.
+  for(const id of s.bankIds)next=addProjectBlock(next,section.id,applyHouseColumns(snapshotBankQuestion(recordOf(id),{placementId:'bd-'+id}),{workingSpace:section.workingSpace!=='none'}));
   inserted.push(section.id);
  }
  return {project:next,inserted};

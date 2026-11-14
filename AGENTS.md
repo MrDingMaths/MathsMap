@@ -30,6 +30,7 @@ A Sol low fallback must be explicit, never automatic. [Detail](docs/agent-rules.
 | Task | Read |
 | --- | --- |
 | Any booklet or question-bank work | [standing conventions](docs/booklet-standing-conventions.md), [cross-session rules](docs/booklet-cross-session-rules.md) |
+| Building, drawing or consolidating a booklet | [build principles](docs/booklet-build-principles.md) (James's WF1 feedback); run `node pedagogy/house-style.mjs <project>` before review |
 | New booklet import | [import pipeline v2](docs/booklet-import-pipeline-v2.md) only; it links every rule it still uses. `lean-review.mjs finish` completes an import |
 | Feedback repair on named blocks | [lean local repairs](docs/agent-rules.md#lean-local-feedback-repairs-5-october-2026), [change runbook](docs/booklet-change-runbook.md) |
 | Verification scope | [verification cuts](docs/booklet-verification-cuts-20261030.md), else [lean acceptance](docs/booklet-lean-acceptance.md) |
