@@ -20,6 +20,9 @@ export function hasTopAlignedMathPrompt(value){
  // Native tables expose a synthetic baseline for the entire table. Labels
  // belong beside its opening row, including borderless calculation scaffolds.
  if(value?.blocks?.[0]?.type==='table')return true;
+ // An annotated equation's arrows sit above its formula; the label belongs beside
+ // the formula, not the top of the arrows (14 November 2026, James: "align this with the part letter").
+ if(value?.blocks?.[0]?.type==='annotated-equation')return true;
  if(hasStandaloneMathTable(value))return true;
  let latex;
  if(typeof value==='string'){

@@ -6,8 +6,9 @@ export function alignNativeTableLabel(element,enabled){
  const measure=()=>{
   const body=label?.nextElementSibling;
   const paragraph=body?.querySelector('[data-table-wrap] tr:first-child :is(td,th) p');
-  const firstMathRow=!paragraph&&body?.querySelector('.katex-html .mtable > span > .vlist-t > .vlist-r:first-child > .vlist > span:first-child');
-  const opening=paragraph||firstMathRow;
+  const formula=!paragraph&&body?.querySelector('[data-type="annotated-equation"] [data-equation-formula]');
+  const firstMathRow=!paragraph&&!formula&&body?.querySelector('.katex-html .mtable > span > .vlist-t > .vlist-r:first-child > .vlist > span:first-child');
+  const opening=paragraph||formula||firstMathRow;
   if(!opening||!label)return;
   const probe=()=>{const span=document.createElement('span');span.setAttribute('aria-hidden','true');span.style.cssText='display:inline-block;width:0;height:0;padding:0;margin:0;border:0;vertical-align:baseline';return span;};
   const a=probe(),b=probe();label.prepend(a);opening.append(b);
