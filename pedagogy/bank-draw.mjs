@@ -118,6 +118,17 @@ export function bookletExclusions(project){
  for(const block of questionBlocks(project)){if(block.bankRef?.id)ids.add(block.bankRef.id);if(block.content)for(const key of exerciseSignatures(block))signatures.add(key);}
  return {ids,signatures};
 }
+// Questions removed from a bank-drawn section (James's cuts, Studio deletions) are never drawn again. Read from
+// the whole booklet: a re-draw replaces its own sections, and their lists with them (14 November 2026).
+export const removedBankIds=project=>new Set(project.sections.flatMap(s=>(s.bankDraw?.removed??[]).map(r=>r.id)));
+const removedFrom=(project,sectionId)=>project.sections.find(s=>s.id===sectionId)?.bankDraw?.removed??[];
+// The booklet's Exam questions, numbered, for Mixed practice to prepare for (James, 14 November 2026: "the mixed
+// review questions should prepare students as much as possible for the exam questions").
+export const EXAM_STEM_CHARS=220;
+export function examQuestions(project){
+ const exam=project.sections.filter(s=>s.role==='exam'&&!/^exercise$/i.test(s.title??''));
+ return exam.flatMap(s=>s.blocks.filter(b=>b.type==='question')).map((b,i)=>({n:i+1,skill:b.classification?.primarySkillId??null,text:rawText(b.content).slice(0,EXAM_STEM_CHARS)}));
+}
 const isFront=s=>s.role==='front-matter'||s.topicId==='front-matter';
 const isTeaching=s=>!isFront(s)&&(s.phase==='teaching'||s.role==='teaching')&&!/^mixed practice$/i.test(s.title??'');
 // Existing practice sections (not made here), classified by what they stand for. Roles are inconsistent
@@ -294,10 +305,16 @@ export function finishExercise(ids,list,{openings={},examples=[],scoreOf,itemsOf
 // Like the exercise pick: structural problems fail; stray or repeated ids are dropped, a skill over its ceiling
 // is trimmed (hardest first), Challenge is cut to its per-skill and total limits (first listed kept), same-topic
 // neighbours are separated, and what remains off target (band ratio, unseparable neighbours) is reported.
-export function validateMixedPick(reply,{mixed,challenge,topicOf,challengeWanted,bandOf=null,supply=null,itemsOf=()=>1,skillOf=()=>null,scoreOf=()=>0,budget=DEFAULT_BUDGET}){
+// With Exam questions, every Mixed pick names the exam questions (by number) it prepares for; a pick that
+// prepares for none is dropped.
+export function validateMixedPick(reply,{mixed,challenge,topicOf,challengeWanted,bandOf=null,supply=null,itemsOf=()=>1,skillOf=()=>null,scoreOf=()=>0,budget=DEFAULT_BUDGET,examCount=0}){
  if(!Array.isArray(reply?.mixed))throw Error('Reply needs {"mixed":[ids],"challenge":[ids],"notes":{}}');
  const used=new Set(),dropped=[],take=(ids,allowed,name)=>(Array.isArray(ids)?ids:[]).filter(id=>{if(!allowed.has(id)){dropped.push({id,section:name,reason:'not on the shortlist'});return false;}if(used.has(id)){dropped.push({id,section:name,reason:'used twice'});return false;}used.add(id);return true;});
  let picked=take(reply.mixed,mixed,'mixed');
+ const prepares={};
+ if(examCount){
+  picked=picked.filter(id=>{const ns=(Array.isArray(reply.prepares?.[id])?reply.prepares[id]:[]).map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=examCount);if(!ns.length){dropped.push({id,section:'mixed',reason:'prepares for no exam question'});return false;}prepares[id]=ns;return true;});
+ }
  const trimmed=trimToCeiling(picked,{itemsOf,skillOf,scoreOf,ceiling:budget.mixed.ceiling});
  dropped.push(...trimmed.dropped.map(d=>({...d,section:'mixed'})));
  picked=separateTopics(trimmed.ids,topicOf);
@@ -317,7 +334,8 @@ export function validateMixedPick(reply,{mixed,challenge,topicOf,challengeWanted
   const target=bandTargets(picked.length,supply),slack=Math.max(1,Math.round(picked.length/10));
   for(const b of MIXED_BANDS)if(Math.abs((counts[b.id]??0)-target[b.id])>slack)problems.push(`${counts[b.id]??0} ${b.id} questions; 1 : 2 : 1 would be ${target[b.id]} of ${picked.length}`);
  }
- return {mixed:picked,challenge:challengeIds,dropped,problems,notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
+ if(examCount){const hit=new Set(picked.flatMap(id=>prepares[id]));if(hit.size<examCount/3)problems.push(`Mixed practice prepares for ${hit.size} of ${examCount} exam questions`);}
+ return {mixed:picked,challenge:challengeIds,dropped,problems,prepares,notes:typeof reply.notes==='object'&&reply.notes?reply.notes:{}};
 }
 async function sonnet(dir,{stage,system,prompt,validate}){
  const {callSonnet}=await import('./audit-v2.mjs');
@@ -371,6 +389,7 @@ const byScore=byId=>(a,b)=>byId.get(a).score-byId.get(b).score||a.localeCompare(
 async function proposeExercises(project,{sources,budget,root=ROOT}){
  const map=readMap(project.id,{root}),live=withoutOwnSections(project,['exercises']),reader=bankReader(root);
  const existing=existingPracticeSections(live),exclude=bookletExclusions(live);
+ for(const id of removedBankIds(project))exclude.ids.add(id);
  const candidates=loadCandidates({sources,root}),byId=new Map(candidates.map(c=>[c.id,c])),topics=teachingTopics(live),kept=[],gaps=[],lists={},views={},shortlists={},examples={};
  for(const t of topics){
   if(existing.exercises.has(t.id)){kept.push({topicId:t.id,title:t.title,sections:existing.exercises.get(t.id).map(s=>s.id)});continue;}
@@ -399,6 +418,8 @@ async function proposeExercises(project,{sources,budget,root=ROOT}){
 async function proposeMixed(project,{sources,budget,root=ROOT}){
  const map=readMap(project.id,{root}),live=withoutOwnSections(project,['mixed','challenge']),reader=bankReader(root);
  const existing=existingPracticeSections(live),exclude=bookletExclusions(live),topicOf=skillTopic(map);
+ for(const id of removedBankIds(project))exclude.ids.add(id);
+ const exam=examQuestions(live);
  // An exercise proposal awaiting approval on this revision counts as in the booklet, so the two previews can
  // be reviewed together without drawing the same question twice.
  const pending=proposalFile(project.id,'exercises',root);
@@ -413,10 +434,14 @@ async function proposeMixed(project,{sources,budget,root=ROOT}){
  const base={existingReviews:existing.reviews.map(s=>({id:s.id,title:s.title,topicId:s.topicId})),existingChallenge:existing.challenges.map(s=>s.id)};
  if(!mixedList.length)return {command:'mixed',budget,sections:[],...base,gaps:[{candidates:0}],belowFloor:[],notes:{},unused:{},call:null,calls:[]};
  const view=c=>({...candidateView(c,reader),topic:topicOf.get(c.skill),band:mixedBand(c.score)});
- const prompt=['Booklet: '+project.title+'. Build one interleaved Mixed practice section from MIXED. Budget per skill: '+budget.mixed.floor+' to '+budget.mixed.ceiling+' practice items, and at least one question for every skill in MIXED where that is possible; a skill may end with one question that crosses the ceiling. Order the questions so that no two neighbours come from the same topic and difficulty (score) rises overall. Keep the difficulty bands Foundation : Development : Mastery at 1 : 2 : 1 by number of questions. '+VARIETY+' '+(challengeWanted?'Then pick a Challenge section from CHALLENGE: at most '+budget.challenge.perSkill+' question per skill and '+budget.challenge.max+' in all, the most worthwhile first.':'The booklet already has a Challenge section; return "challenge": [].')+' Use each id once.','Reply: {"mixed":["<id>",...],"challenge":["<id>",...],"notes":{"<skillId>":"why it stops below the floor or has no question"}}','TOPICS '+JSON.stringify(topics.filter(t=>covered.has(t.id)).map(t=>({id:t.id,title:t.title}))),'MIXED '+JSON.stringify(mixedList.map(view)),'CHALLENGE '+JSON.stringify(challengeList.map(view))].join('\n\n');
- const sets={mixed:new Set(mixedList.map(c=>c.id)),challenge:new Set(challengeList.map(c=>c.id)),topicOf:id=>topicOf.get(byId.get(id)?.skill),challengeWanted,bandOf:id=>mixedBand(byId.get(id)?.score),supply,itemsOf:reader.itemsOf,skillOf:id=>byId.get(id)?.skill,scoreOf:id=>byId.get(id)?.score??0,budget};
+ // Mixed practice comes just before the Exam questions and prepares students for them: its spread follows the
+ // exam's, and a skill the exam does not assess (number theory, proof by contradiction in an algebra booklet)
+ // gets no question (James, 14 November 2026).
+ const examRule=exam.length?' Mixed practice comes just before the EXAM questions and must prepare students for them as directly as possible. Spread the questions across topics roughly in proportion to how often the exam assesses each topic, and prefer the exam\'s styles: multi-step simplifications, "show that" and "hence" questions, and the forms the exam uses. Leave out skills and styles the exam never assesses (for example proofs, number theory or classification of numbers when the exam asks none), even when they are in MIXED. For every picked id, list in "prepares" the numbers of the exam questions it prepares for; a question that prepares for none is not picked.':' At least one question for every skill in MIXED where that is possible.';
+ const prompt=['Booklet: '+project.title+'. Build one interleaved Mixed practice section from MIXED. Budget per skill: '+budget.mixed.floor+' to '+budget.mixed.ceiling+' practice items; a skill may end with one question that crosses the ceiling.'+examRule+' Order the questions so that no two neighbours come from the same topic and difficulty (score) rises overall. Keep the difficulty bands Foundation : Development : Mastery at 1 : 2 : 1 by number of questions. '+VARIETY+' '+(challengeWanted?'Then pick a Challenge section from CHALLENGE: at most '+budget.challenge.perSkill+' question per skill and '+budget.challenge.max+' in all, the most worthwhile first.':'The booklet already has a Challenge section; return "challenge": [].')+' Use each id once.','Reply: {"mixed":["<id>",...],'+(exam.length?'"prepares":{"<id>":[<exam number>,...]},':'')+'"challenge":["<id>",...],"notes":{"<skillId>":"why it stops below the floor or has no question"}}',...(exam.length?['EXAM '+JSON.stringify(exam.map(({n,text})=>({n,text})))]:[]),'TOPICS '+JSON.stringify(topics.filter(t=>covered.has(t.id)).map(t=>({id:t.id,title:t.title}))),'MIXED '+JSON.stringify(mixedList.map(view)),'CHALLENGE '+JSON.stringify(challengeList.map(view))].join('\n\n');
+ const sets={mixed:new Set(mixedList.map(c=>c.id)),challenge:new Set(challengeList.map(c=>c.id)),topicOf:id=>topicOf.get(byId.get(id)?.skill),challengeWanted,bandOf:id=>mixedBand(byId.get(id)?.score),supply,itemsOf:reader.itemsOf,skillOf:id=>byId.get(id)?.skill,scoreOf:id=>byId.get(id)?.score??0,budget,examCount:exam.length};
  const call=await sonnet(projectDir(project.id,root),{stage:'mixed',system:SYSTEM,prompt,validate:r=>validateMixedPick(r,sets)});
- const sections=[{kind:'mixed',title:'Mixed practice',bankIds:call.value.mixed}];
+ const sections=[{kind:'mixed',title:'Mixed practice',bankIds:call.value.mixed,...(exam.length?{prepares:call.value.prepares,examQuestions:exam.length}:{})}];
  if(call.value.challenge.length)sections.push({kind:'challenge',title:'Challenge exercise',bankIds:[...call.value.challenge].sort(byScore(byId))});
  const picked=new Set(sections.flatMap(s=>s.bankIds));
  const missing=[...covered].filter(t=>!call.value.mixed.some(id=>sets.topicOf(id)===t)).map(t=>({topicId:t,title:topicTitle.get(t),note:'candidates but none picked'}));
@@ -435,7 +460,8 @@ function report(project,proposal,root){
   lines.push(`## ${s.title}${s.topicId?' — '+(titles.get(s.topicId)??s.topicId):''}`,'','| # | Bank id | Source | Skill | Score | Items |','|---|---|---|---|---|---|');
   const opens=new Map(Object.entries(s.openings??{}).filter(([,id])=>id).map(([ex,id])=>[id,ex])),added=new Map((s.added??[]).map(a=>[a.id,a.reason]));
   if(s.kind==='exercises')lines[lines.length-2]='| # | Bank id | Source | Skill | Score | Items | Note |',lines[lines.length-1]='|---|---|---|---|---|---|---|';
-  s.bankIds.forEach((id,i)=>{const r=reader.record(id),c=proposal.rows[id],note=[opens.has(id)?'opens '+opens.get(id):'',added.has(id)?'added by script: '+added.get(id):''].filter(Boolean).join('; ');lines.push(`| ${i+1} | \`${id}\` | ${c.owner} | ${r.classification.primarySkillId} | ${r.classification.reasoningScore} | ${reader.itemsOf(id)} |${s.kind==='exercises'?' '+note+' |':''}`);});lines.push('');
+  if(s.prepares)lines[lines.length-2]='| # | Bank id | Source | Skill | Score | Items | Prepares for exam Q |',lines[lines.length-1]='|---|---|---|---|---|---|---|';
+  s.bankIds.forEach((id,i)=>{const r=reader.record(id),c=proposal.rows[id],note=[opens.has(id)?'opens '+opens.get(id):'',added.has(id)?'added by script: '+added.get(id):''].filter(Boolean).join('; ');lines.push(`| ${i+1} | \`${id}\` | ${c.owner} | ${r.classification.primarySkillId} | ${r.classification.reasoningScore} | ${reader.itemsOf(id)} |${s.kind==='exercises'?' '+note+' |':s.prepares?' '+(s.prepares[id]??[]).join(', ')+' |':''}`);});lines.push('');
   if(s.jumps?.length)lines.push('Jumps over '+JUMP_LIMIT+' points the bank cannot fill: '+s.jumps.map(j=>`${j.fromScore}→${j.toScore}`).join(', ')+'.','');
   if(s.unopened?.length)lines.push('Worked examples with no opening practice: '+s.unopened.map(id=>'`'+id+'`').join(', ')+'.','');
   if(s.lateOpenings?.length)lines.push('Opening practice in the harder half: '+s.lateOpenings.join('; ')+'.','');
@@ -497,6 +523,7 @@ export function buildCandidate(project,proposal,{recordOf,acceptRevision=null}){
    if(!next.topics.some(t=>t.id==='challenge')){const fm=next.topics.findIndex(t=>t.id==='front-matter'),topic={id:'challenge',title:'Challenge exercise'};if(fm>=0&&fm===next.topics.length-1)next.topics.splice(fm,0,topic);else next.topics.push(topic);}
   }else throw Error('Unknown section kind '+s.kind);
   if(at(section.id)>=0)throw Error('Section '+section.id+' already exists');
+  const removed=removedFrom(project,section.id);if(removed.length)section.bankDraw.removed=structuredClone(removed);
   next.sections.splice(index,0,section);
   for(const id of s.bankIds)next=addProjectBlock(next,section.id,snapshotBankQuestion(recordOf(id),{placementId:'bd-'+id}));
   inserted.push(section.id);

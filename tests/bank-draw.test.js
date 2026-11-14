@@ -74,7 +74,7 @@ test('budgets come from defaults or FLOOR-CEILING flags', () => {
 
 test('mixed picks interleave topics, stay on the shortlist and cap challenge per skill', () => {
   const topic={m1:'a',m2:'a',m3:'b',m4:'b'},sets={mixed:new Set(Object.keys(topic)),challenge:new Set(['c1','c2']),topicOf:id=>topic[id],skillOf:id=>id.startsWith('c')?'cs':topic[id],challengeWanted:true};
-  assert.deepEqual(validateMixedPick({mixed:['m1','m3','m2','m4'],challenge:['c1']},sets),{mixed:['m1','m3','m2','m4'],challenge:['c1'],dropped:[],problems:[],notes:{}});
+  assert.deepEqual(validateMixedPick({mixed:['m1','m3','m2','m4'],challenge:['c1']},sets),{mixed:['m1','m3','m2','m4'],challenge:['c1'],dropped:[],problems:[],prepares:{},notes:{}});
   // Same-topic neighbours are separated where a later question allows it.
   assert.deepEqual(validateMixedPick({mixed:['m1','m2','m3','m4'],challenge:[]},sets).mixed,['m1','m3','m2','m4']);
   const left=validateMixedPick({mixed:['m1','m2'],challenge:[]},sets);
@@ -169,4 +169,28 @@ test('questions that refer to their source book, or draw without working space, 
   assert.equal(unsuitable(rec('Expand and simplify.'),{workingSpace:false}),null);
   const rows=[{id:'a',skill:'s',score:10},{id:'b',skill:'s',score:20}];
   assert.deepEqual(shortlist(rows,['s'],{reject:c=>c.id==='a'?'x':null}).map(c=>c.id),['b']);
+});
+
+import {snapshotBankQuestion,deleteProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {removedBankIds,examQuestions} from '../pedagogy/bank-draw.mjs';
+test('a bank copy keeps the shape of its saved arrangement ids',()=>{
+ const r=record('q-x');r.content.children=[{id:'q-x-a',type:'question',label:'a',prompt:'one',children:[],answer:{short:'1',worked:'1',solutionDiagrams:[]}}];
+ r.presentation={ownerId:'q-x',layoutOverrides:{blockLayouts:{'q-x':{arrangement:{version:1,root:{id:'q-x-root:question',type:'group',direction:'stack',children:[{id:'q-x-root:parts',type:'group',direction:'stack',children:[{id:'layout:q-x-a/prompt',type:'item',ref:'q-x-a/prompt'}]}]}}}}}};
+ const copy=snapshotBankQuestion(r,{placementId:'bd-q-x'}),tree=JSON.stringify(copy.presentation);
+ assert.match(tree,/"bd-q-x-q-x-root:parts"/);assert.match(tree,/"layout:bd-q-x-q-x-a\/prompt"/);assert.doesNotMatch(tree,/-parts"/);
+});
+test('a bank question deleted from a bank-drawn section is remembered and never drawn again',()=>{
+ const p=booklet();p.sections.push({id:'bank-draw-mixed-practice',bankDraw:{command:'mixed'},blocks:[{...q('bd-q-y'),bankRef:{id:'q-y',revision:'r'}},{...q('local')}]});
+ const next=deleteProjectBlock(p,'bank-draw-mixed-practice','bd-q-y');
+ assert.deepEqual(next.sections.at(-1).bankDraw.removed.map(r=>[r.id,r.reason]),[['q-y','deleted in the Studio']]);
+ assert.equal(p.sections.at(-1).bankDraw.removed,undefined);
+ assert.deepEqual([...removedBankIds(next)],['q-y']);
+ assert.equal(deleteProjectBlock(next,'bank-draw-mixed-practice','local').sections.at(-1).bankDraw.removed.length,1);
+});
+test('with exam questions, mixed picks that prepare for none are dropped',()=>{
+ assert.deepEqual(examQuestions(booklet()).map(e=>e.n),[1]);
+ const topic={m1:'a',m2:'b',m3:'a'},sets={mixed:new Set(Object.keys(topic)),challenge:new Set(),topicOf:id=>topic[id],skillOf:id=>topic[id],challengeWanted:false,examCount:3};
+ const out=validateMixedPick({mixed:['m1','m2','m3'],prepares:{m1:[1],m2:[9],m3:['2',3]}},sets);
+ assert.deepEqual(out.mixed,['m1','m3']);assert.deepEqual(out.prepares,{m1:[1],m3:[2,3]});
+ assert.deepEqual(out.dropped,[{id:'m2',section:'mixed',reason:'prepares for no exam question'}]);
 });

@@ -522,6 +522,19 @@ node pedagogy/review.mjs audit-v2 apply-comments --project ID --comments all|ID,
 - Then one page check of the changed blocks (student, short and worked), one revision-checked save, and each applied comment is resolved with what was done. Studio's Resolve button only marks a comment done; it applies nothing.
 - `--dry-run` builds the candidate and report under `.booklet-work/pedagogy-audit-v2/ID/STAMP-apply-comments/` with no model call and no save. A replay of the pilot's 10 comments applied all 10, matching the hand repair, and passed the page check.
 
+### Bank-drawn Mixed review prepares for the exam (James, 14 November 2026)
+
+James: "the mixed review questions should prepare students as much as possible for the exam questions." `pedagogy/bank-draw.mjs mixed` follows these rules:
+
+- **Exam alignment.** The picker sees the booklet's Exam questions, numbered (`examQuestions`, first 220 characters of each). It spreads Mixed practice across topics roughly in proportion to the exam and prefers the exam's styles. It leaves out skills the exam never assesses, such as proofs, number theory or classifying numbers in an algebra booklet, even when the topic-to-skill map lists them.
+- **Each pick cites exam questions.** Every pick lists in `prepares` the exam questions it prepares for. `validateMixedPick` drops any pick that cites none. The proposal report shows the citations, and flags a set that prepares for fewer than a third of the exam questions.
+- **The "one per skill" rule.** It applies only to booklets without Exam questions.
+- **Deletions are never redrawn.** A bank question removed from a bank-drawn section is recorded in that section's `bankDraw.removed[]`, by one of two routes:
+  - James's cuts, recorded by a script with his words;
+  - a Studio deletion, which `deleteProjectBlock` records with the reason "deleted in the Studio".
+- **Every draw excludes them.** Exercises and Mixed both exclude these ids, read from the whole booklet. A re-draw carries each replaced section's list over to the new section.
+- **First applied** to WF1 Algebraic Techniques, revision 206. Three number-theory items were removed (rationals in [0,π], gaps in y=x²−2, infinitely many irrationals). The two contradiction proofs James had already deleted were recorded.
+
 ## Cost per booklet
 
 - First run: about 5–7 calls: 1–2 audit, 1 challenge (plus 1 return for unchecked findings, if any), 1 slot drafting and 1 proposal drafting (only if proposals are confirmed), each one call per 5 requests, 1 blind solve, plus 1 rating batch only if ratings are missing. Redrafts and their second solve add one drafting and one solve call when any draft fails. Malformed replies and inconsistent placements are retried once.
