@@ -7,7 +7,7 @@
   import {feedbackText} from '../lib/booklet-feedback.js';
   import {questionCodeSearchIndex} from '../lib/booklet-document-search.js';
   import {BLOCK_ROLES,blockRole,changeBlockRole} from '../lib/booklet-layout-actions.js';
-  let {project,pages=[],bank=[],onrequestbank=null,onbank=null,onboundary=null,selectedBlockId='',activePage=0,selectedIds=[],onselection=null,onpick=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
+  let {project,pages=[],bank=[],onrequestbank=null,onbank=null,onboundary=null,selectedBlockId='',activePage=0,selectedIds=[],onselection=null,onpick=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onjump=null,onsection=null,onerror=null}=$props();
   let openMenus=$state({});
   let organising=$state(false),expandedTopic=$state(''),outlineQuery=$state('');
   let allBlocksView=$state(false);
@@ -16,6 +16,9 @@
   $effect(()=>{const id=selectedBlockId;const topic=project.sections.find(s=>s.blocks.some(b=>b.id===id))?.topicId;expandedTopic=topic??project.topics[0]?.id??'';});
   const viewTopic=$derived(activePage?project.sections.find(s=>s.blocks.some(b=>pages[activePage-1]?.blocks.some(v=>v.id===b.id)))?.topicId:undefined);
   const currentTopic=$derived(project.sections.find(s=>s.blocks.some(b=>b.id===selectedBlockId))?.topicId);
+  const jump=id=>{if(id)onjump?.(id);};
+  const firstShown=sections=>sections.flatMap(s=>s.blocks).find(b=>b.type!=='page-break')?.id;
+  function deleteTopic(id){attempt(()=>{if(project.sections.some(s=>s.topicId===id&&s.blocks.length))throw Error('Move or delete the content in this topic first.');commit({...project,topics:project.topics.filter(t=>t.id!==id),sections:project.sections.filter(s=>s.topicId!==id)});});}
   function boundary(id,action){attempt(()=>commit(setPageBoundary(project,id,action)));}
 
   let selected=$state([]),clipboard=$state.raw(null),destination=$state(''),beforeId=$state(''),blockType=$state('question'),bankId=$state('');
@@ -77,7 +80,7 @@
   {#each project.sections.flatMap(s=>s.blocks.map(b=>({block:b,section:s}))).filter(({block:b})=>!outlineQuery||matches({blocks:[b]})) as item (item.block.id)}
    {@const b=item.block}{@const p=pages.find(p=>p.blocks.some(v=>v.id===b.id||v.flow?.continuationOf===b.id))}
    <div class="outline-block" data-outline-block={b.id}>
-    <button onclick={()=>onselect?.(b.id,item.section.id)}>{p?'p'+p.pageNumber+' · ':''}{label(b)}</button>
+    <button onclick={()=>onselect?.(b.id,item.section.id)} ondblclick={()=>jump(b.id)}>{p?'p'+p.pageNumber+' · ':''}{label(b)}</button>
     <label>Role<select aria-label={'Role for '+b.id} value={blockRole(b)} onchange={e=>attempt(()=>commit(changeBlockRole(project,b.id,e.currentTarget.value)))}>{#each BLOCK_ROLES as [role,title]}<option value={role}>{title}</option>{/each}</select></label>
    </div>
   {/each}
@@ -85,27 +88,27 @@
  {#each project.topics.filter(t=>!outlineQuery||units.some(u=>project.sections.find(s=>s.id===u.sectionId)?.topicId===t.id&&matches(u))) as topic (topic.id)}
   {@const topicTicks=ticks(project.sections.filter(s=>s.topicId===topic.id).map(s=>s.id))}
   <section class="topic">
-   <div class="topic-heading" class:in-view={viewTopic===topic.id}><input type="checkbox" class="group-check" aria-label={'Select everything in '+topic.title} disabled={!topicTicks.ids.length} checked={topicTicks.checked} indeterminate={topicTicks.indeterminate} onchange={e=>selectAll(topicTicks.ids,e.currentTarget.checked)}/><button class="topic-toggle" aria-expanded={expandedTopic===topic.id} onclick={()=>expandedTopic=expandedTopic===topic.id?'':topic.id}><span aria-hidden="true">{expandedTopic===topic.id?'▾':'▸'}</span><strong>{exercises[topic.id]?exercises[topic.id]+'. ':''}{topic.title}</strong></button>
+   <div class="topic-heading" class:in-view={viewTopic===topic.id}><input type="checkbox" class="group-check" aria-label={'Select everything in '+topic.title} disabled={!topicTicks.ids.length} checked={topicTicks.checked} indeterminate={topicTicks.indeterminate} onchange={e=>selectAll(topicTicks.ids,e.currentTarget.checked)}/><button class="topic-toggle" title="Double-click to jump to this topic" aria-expanded={expandedTopic===topic.id} onclick={()=>expandedTopic=expandedTopic===topic.id?'':topic.id} ondblclick={()=>{expandedTopic=topic.id;jump(firstShown(project.sections.filter(s=>s.topicId===topic.id)));}}><span aria-hidden="true">{expandedTopic===topic.id?'▾':'▸'}</span><strong>{exercises[topic.id]?exercises[topic.id]+'. ':''}{topic.title}</strong></button>
     <details class="item-menu" ontoggle={e=>openMenus[topic.id]=e.currentTarget.open}><summary aria-label={'Actions for '+topic.title}>•••</summary>{#if openMenus[topic.id]}<div>
      <label>Topic title<input value={topic.title} onchange={e=>attempt(()=>commit({...project,topics:project.topics.map(t=>t.id===topic.id?{...t,title:e.currentTarget.value||t.title}:t)}))}/></label>
-     <button onclick={()=>attempt(()=>commit(startExerciseOnNewPage(project,topic.id)))}>Start exercise on new page</button><button onclick={()=>moveTopic(topic.id,-1)}>Move topic up</button><button onclick={()=>moveTopic(topic.id,1)}>Move topic down</button><button onclick={()=>newSection(topic.id)}>Add section</button>
+     <button onclick={()=>attempt(()=>commit(startExerciseOnNewPage(project,topic.id)))}>Start exercise on new page</button><button onclick={()=>moveTopic(topic.id,-1)}>Move topic up</button><button onclick={()=>moveTopic(topic.id,1)}>Move topic down</button><button onclick={()=>newSection(topic.id)}>Add section</button><button onclick={()=>deleteTopic(topic.id)}>Delete topic{project.sections.some(s=>s.topicId===topic.id&&s.blocks.length)?'':' (empty)'}</button>
     </div>{/if}</details>
    </div>
    {#if outlineQuery||expandedTopic===topic.id}
     {#each project.sections.filter(s=>s.topicId===topic.id) as section (section.id)}
      {@const sectionTicks=ticks([section.id])}
      <div class="section" ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,null);}} role="group" aria-label={section.title}>
-      <div class="section-heading"><input type="checkbox" class="group-check" aria-label={'Select everything in '+section.title} disabled={!sectionTicks.ids.length} checked={sectionTicks.checked} indeterminate={sectionTicks.indeterminate} onchange={e=>selectAll(sectionTicks.ids,e.currentTarget.checked)}/><button onclick={()=>{destination=section.id;onsection?.(section.id);}}>{section.phase==='practice'?'Practice':section.title}</button><details class="item-menu" ontoggle={e=>openMenus[section.id]=e.currentTarget.open}><summary aria-label={'Section settings: '+section.title}>•••</summary>{#if openMenus[section.id]}<div>
+      <div class="section-heading"><input type="checkbox" class="group-check" aria-label={'Select everything in '+section.title} disabled={!sectionTicks.ids.length} checked={sectionTicks.checked} indeterminate={sectionTicks.indeterminate} onchange={e=>selectAll(sectionTicks.ids,e.currentTarget.checked)}/><button title="Double-click to jump to this section" onclick={()=>{destination=section.id;onsection?.(section.id);}} ondblclick={()=>jump(firstShown([section]))}>{section.phase==='practice'?'Practice':section.title}</button><details class="item-menu" ontoggle={e=>openMenus[section.id]=e.currentTarget.open}><summary aria-label={'Section settings: '+section.title}>•••</summary>{#if openMenus[section.id]}<div>
        <label>Title<input value={section.title} onchange={e=>patchSection(section.id,{title:e.currentTarget.value||section.title})}/></label>
        <label>Topic<select value={section.topicId} onchange={e=>reassignSection(section.id,e.currentTarget.value)}>{#each project.topics as t}<option value={t.id}>{t.title}</option>{/each}</select></label>
        <label>Phase<select value={section.phase} onchange={e=>patchSection(section.id,{phase:e.currentTarget.value,role:e.currentTarget.value})}><option value="teaching">Teaching</option><option value="practice">Practice</option><option value="front-matter">Front matter</option></select></label>
        <label class="check"><input type="checkbox" checked={section.pageBreakBefore!==false} onchange={e=>patchSection(section.id,{pageBreakBefore:e.currentTarget.checked})}/>Start on new page</label>
        {#if !exercises[topic.id]}<label>Start numbering<input type="number" min="1" placeholder="Continue" value={section.numberingStart??''} onchange={e=>patchSection(section.id,{numberingStart:e.currentTarget.value?Math.max(1,Math.trunc(Number(e.currentTarget.value))):null})}/></label><label>Difficulty<select value={section.difficulty??''} onchange={e=>patchSection(section.id,{difficulty:e.currentTarget.value||null})}><option value="">None</option>{#each ['Foundation','Development','Mastery','Challenge'] as tier}<option>{tier}</option>{/each}</select></label><label class="check"><input type="checkbox" checked={section.showDifficultyHeading!==false} onchange={e=>patchSection(section.id,{showDifficultyHeading:e.currentTarget.checked})}/>Show difficulty heading</label>{/if}
-       <button onclick={()=>moveSection(section.id,-1)}>Move section up</button><button onclick={()=>moveSection(section.id,1)}>Move section down</button><button onclick={()=>joinPrevious(section.id)}>Join previous section</button>
+       <button onclick={()=>moveSection(section.id,-1)}>Move section up</button><button onclick={()=>moveSection(section.id,1)}>Move section down</button><button onclick={()=>joinPrevious(section.id)}>Join previous section</button>{#if !section.blocks.length}<button onclick={()=>attempt(()=>commit({...project,sections:project.sections.filter(s=>s.id!==section.id)}))}>Delete empty section</button>{/if}
       </div>{/if}</details></div>
       {#each units.filter(u=>u.sectionId===section.id&&matches(u)) as unit (unit.id)}
        {@const b=unit.blocks[0]}{@const p=pages.find(p=>p.blocks.some(b=>unit.blocks.some(u=>u.id===b.id)))}
-       <div class="content-item" data-block-id={unit.id} class:active={unit.blocks.some(b=>b.id===selectedBlockId)} class:in-view={!!activePage&&p?.pageNumber===activePage} class:picked={selected.length>1&&picked(unit)} draggable={true} ondragstart={e=>e.dataTransfer.setData('application/x-booklet-block',unit.id)} ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();e.stopPropagation();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,unit.id);}} role="group" aria-label={label(b)}>
+       <div class="content-item" data-block-id={unit.id} class:active={unit.blocks.some(b=>b.id===selectedBlockId)} class:in-view={!!activePage&&p?.pageNumber===activePage} class:picked={selected.length>1&&picked(unit)} draggable={true} ondragstart={e=>e.dataTransfer.setData('application/x-booklet-block',unit.id)} ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();e.stopPropagation();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,unit.id);}} role="group" aria-label={label(b)} ondblclick={e=>{if(!e.target.closest('.item-menu,.content-check'))jump(unit.blocks[0].id);}}>
         <BookletOutlineRow block={b} number={numbers[b.id]} page={p?.pageNumber} checked={picked(unit)} pressed={picked(unit)} active={unit.blocks.some(b=>b.id===selectedBlockId)} onpick={e=>pick(unit,section,e)} oncheck={(checked,e)=>tick(unit,checked,e)}/>
         <details class="item-menu" ontoggle={e=>openMenus[unit.id]=e.currentTarget.open}><summary aria-label={'Actions for '+label(b)}>•••</summary>{#if openMenus[unit.id]}<div>
          <button onclick={()=>boundary(unit.id,'before')}>Page break before</button><button onclick={()=>boundary(unit.id,'after')}>Page break after</button><button onclick={()=>boundary(unit.id,'remove')}>Remove break before</button>

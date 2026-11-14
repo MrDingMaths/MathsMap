@@ -192,7 +192,24 @@ function duplicateBlocks(blocks) {
   return {blocks:resultBlocks,ids};
 }
 
+// Sections and topics that a delete or move has just emptied are removed. Only ones that held content
+// beforehand go, so a section or topic the user adds empty stays until they use it. Never empties the booklet.
+function pruneEmptied(before, after) {
+  if (!after?.sections || after === before) return after;
+  const held = new Set(before.sections.filter(s => s.blocks.length).map(s => s.id));
+  const sections = after.sections.filter(s => s.blocks.length || !held.has(s.id));
+  if (sections.length === after.sections.length || !sections.length) return after;
+  const hadSections = new Set(before.sections.map(s => s.topicId)), has = new Set(sections.map(s => s.topicId));
+  const topics = (after.topics ?? []).filter(t => has.has(t.id) || !hadSections.has(t.id));
+  return {...after, sections, topics};
+}
+
 export function flowCommand(project, command) {
+  const next = runFlowCommand(project, command);
+  return ['delete','move'].includes(command.type) ? pruneEmptied(project, next) : next;
+}
+
+function runFlowCommand(project, command) {
   // Only the sections and blocks a command changes are copied.
   const next = withProjectSections(project);
   const ids = new Set(selectedFlowIds(project,command.ids ?? [],{atoms:!command.single}));

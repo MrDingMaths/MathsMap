@@ -261,3 +261,13 @@ test('exercise opening skips guided-only sections and leading guided practice in
  const p={id:'p',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{exerciseOrganisation:'topic'},sections:[{id:'g',topicId:'t',phase:'practice',blocks:[guided('g1')]},{id:'mixed',topicId:'t',phase:'practice',pageBreakBefore:false,blocks:[guided('g2'),q]}]};
  const before=structuredClone(p),sections=flowEditionSections(p,'student'),blocks=sections.flatMap(s=>s.blocks);assert.equal(blocks.find(b=>b.flow.exerciseHeadingBefore)?.id,'exercise-q');assert.equal(blocks.find(b=>b.id==='g1').flow.exerciseHeadingBefore,undefined);assert.equal(blocks.find(b=>b.id==='exercise-q').flow.pageBreakBefore,true);assert.equal(sections.find(s=>s.sourceSectionId==='mixed').difficultyTitle,null);assert.deepEqual(p,before);
 });
+
+test("deleting or moving the last block removes the emptied section and topic, but not ones added empty",()=>{
+ const q=id=>({id,type:"question",content:{}});
+ const project={id:"p",topics:[{id:"t1"},{id:"t2"},{id:"t3"}],sections:[{id:"s1",topicId:"t1",blocks:[q("a")]},{id:"s2",topicId:"t2",blocks:[q("b")]},{id:"s3",topicId:"t3",blocks:[]}],settings:{layoutOverrides:{}}};
+ const moved=flowCommand(project,{type:"move",ids:["a"],sectionId:"s2",beforeId:null});
+ assert.deepEqual(moved.sections.map(s=>s.id),["s2","s3"]);
+ assert.deepEqual(moved.topics.map(t=>t.id),["t2","t3"]);
+ const deleted=flowCommand(project,{type:"delete",ids:["b"]});
+ assert.deepEqual(deleted.sections.map(s=>s.id),["s1","s3"]);
+});
