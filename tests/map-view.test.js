@@ -192,6 +192,19 @@ test('card layout wraps wide ranks and records node-free gutters for routing', a
   cy.destroy();
 });
 
+test('quiz diagrams scale from their natural size by the surrounding text size', async () => {
+  const { naturalWidthPx, textScale, BASE_TEXT_PX } = await import('../src/lib/diagram-scale.js');
+  const svg = (width, viewBox = null) => ({ getAttribute: () => width, viewBox: viewBox ? { baseVal: viewBox } : null });
+  assert.equal(naturalWidthPx(svg('150pt')), 200);
+  assert.equal(naturalWidthPx(svg('120px')), 120);
+  assert.equal(naturalWidthPx(svg('', { width: 30 })), 40);
+  assert.equal(naturalWidthPx(svg('')), null);
+  // A 10pt label is drawn at the text size: 28px text doubles a 14px label.
+  assert.equal(textScale(BASE_TEXT_PX), 1);
+  assert.equal(Math.round(textScale(28) * 1000) / 1000, 2.1);
+  assert.equal(textScale(0), null);
+});
+
 test('Map.svelte compiles without Svelte warnings', async () => {
   const fs = await import('node:fs');
   const { compile } = await import('svelte/compiler');

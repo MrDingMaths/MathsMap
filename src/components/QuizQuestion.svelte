@@ -2,6 +2,7 @@
   import MathText from './Math.svelte';
   import InlineContent from './InlineContent.svelte';
   import { mulberry32 } from '../lib/quiz-engine.js';
+  import { scaleDiagrams } from '../lib/diagram-scale.js';
 
   // One question, one screen. The parent is expected to remount this component
   // per question (keyed on skill + question id, since ids repeat across
@@ -85,7 +86,7 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<div class="quiz-question">
+<div class="quiz-question" use:scaleDiagrams={{ hosts: '.qq-stem, .qq-solution, .qq-opt' }}>
   <div class="qq-stem"><InlineContent text={question.question_text} class="qq-diagram" /></div>
 
   <div class="qq-options">
@@ -127,7 +128,9 @@
      bump both for the quiz's one-question-per-screen layout. */
   :global(.qq-diagram .inline-tikz) { margin: 1.1rem 0; }
   /* Sizes scale with the window (quiz-view sets the base font size). */
-  :global(.qq-diagram .inline-tikz svg) { width: 100%; max-width: min(640px, 100%); height: auto; }
+  /* Diagram width is set by the scaleDiagrams action (natural size times the
+     text scale), so labels grow with the question text. */
+  :global(.qq-diagram .inline-tikz svg) { max-width: 100%; height: auto; }
   :global(.qq-diagram .text-line) { font-size: 1em; }
   :global(.qq-diagram .inline-tikz) { overflow-y: hidden; }
   .qq-stem { font-size: clamp(1.3rem, 1rem + 1.1vw, 1.75rem); line-height: 1.45; }

@@ -2,7 +2,11 @@ import {BOOKLET_HOUSE_STYLE} from '../../public/libs/maths-editor/house-style.mj
 import {convexPolygonsOverlap} from './diagram-label-geometry.js';
 export function graphPageScale(svg) {
   const article=svg.closest('.booklet-page');
-  return article ? article.getBoundingClientRect().width/((article.closest('.flow')?180:210)*96/25.4) : 1;
+  if(article)return article.getBoundingClientRect().width/((article.closest('.flow')?180:210)*96/25.4);
+  // Opt-in for enlarged screen text (the quiz sets data-diagram-scale): labels
+  // and strokes keep their house sizes relative to that text. Booklets never set it.
+  const scaled=Number(svg.closest('[data-diagram-scale]')?.dataset.diagramScale);
+  return scaled>0?scaled:1;
 }
 
 // Wrap the complete TeX node, including fraction rules and scripts. Scaling
