@@ -3,7 +3,6 @@
   import { courses, coursesByStage, topicsForCourse, skillById, primaryTopicForSkill } from '../lib/data.js';
   import { topicStats, allProgress, subscribe, MASTERY } from '../lib/store.js';
   import { route, href, go } from '../lib/router.svelte.js';
-  import { strandColour } from '../lib/strands.js';
   import TopicCard from '../components/TopicCard.svelte';
   import MasteryRing from '../components/MasteryRing.svelte';
   import Math from '../components/Math.svelte';
@@ -157,7 +156,7 @@
       <div class="strand-columns">
         {#each strandGroups as group}
           <div class="strand-column">
-            <h3 style="color:{strandColour(group.name)}; border-color:{strandColour(group.name)}">{group.name}</h3>
+            <h3>{group.name}</h3>
             <ul class="row-list">
               {#each group.topics as topic}<li><TopicCard {topic} courseId={selectedCourse.id} variant="row" /></li>{/each}
             </ul>
@@ -186,7 +185,7 @@
   .intro-graph .card .tick { fill: none; stroke: var(--status-mastered-fill); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .intro-graph .card.focus rect { stroke: var(--accent); stroke-width: 2; }
   .intro-graph .card.focus text { font-size: 14px; font-weight: 800; }
-  .intro-graph .card.focus .kicker { fill: var(--muted); font-size: 11px; font-weight: 700; }
+  .intro-graph .card.focus .kicker { fill: var(--muted); font-size: 12px; font-weight: 700; }
   .intro-graph .card.focus .track { fill: none; stroke: color-mix(in srgb, var(--status-none) 32%, transparent); stroke-width: 2.2; }
   .intro-graph .card.focus .arc { fill: none; stroke: var(--status-learning-fill); stroke-width: 2.2; stroke-linecap: round; }
   .intro-graph .card.next rect { stroke-dasharray: 4 3; }
@@ -200,29 +199,29 @@
   .resume .rail-label { margin: 0 0.6rem 0 0; }
   .resume strong { font-weight: 800; }
   .resume-meta { color: var(--muted); font-size: 0.88rem; }
-  .resume-go { margin-left: auto; color: var(--accent); font-weight: 800; font-size: 0.92rem; }
+  .resume-go { margin-left: auto; color: var(--text); font-weight: 800; font-size: 0.92rem; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
   .choose-label { margin: 0 0 0.6rem; color: var(--muted); font: 800 0.8rem var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; }
   /* Stage switch: four large tabs, the chosen one filled with the accent. */
   .stage-switch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; max-width: 760px; }
-  .stage-switch button { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; min-height: 64px; padding: 0.7rem 1rem; border: 1.5px solid var(--border-strong); border-radius: 12px; background: var(--panel); color: var(--text); font-family: var(--font-body); text-align: left; cursor: pointer; transition: border-color var(--motion-fast), background var(--motion-fast); }
+  .stage-switch button { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; min-height: 64px; padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--panel); color: var(--text); font-family: var(--font-body); text-align: left; cursor: pointer; transition: border-color var(--motion-fast), background var(--motion-fast); }
   .stage-switch button strong { font-size: 1.1rem; font-weight: 800; }
   .stage-switch button span { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
-  .stage-switch button:hover { border-color: var(--accent); }
-  .stage-switch button.active { border-color: var(--accent); background: var(--accent); color: #fff; }
-  .stage-switch button.active span { color: rgba(255, 255, 255, 0.85); }
+  .stage-switch button:hover { border-color: var(--border-strong); }
+  .stage-switch button.active { border-color: var(--primary); background: var(--primary); color: var(--on-primary); }
+  .stage-switch button.active span { color: var(--on-primary); opacity: 0.9; }
   .browse-head { margin-top: 2rem; }
   .browse-head h2 { margin: 0 0 0.3rem; font-size: clamp(1.7rem, 3.5vw, 2.3rem); }
   .browse-head p { margin: 0; font-size: 0.92rem; }
   .course-switch { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
-  .course-switch button { padding: 0.4rem 0.85rem; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--muted); font: 700 0.85rem var(--font-body); cursor: pointer; }
+  .course-switch button { padding: 0.4rem 0.85rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); color: var(--muted); font: 700 0.875rem var(--font-body); cursor: pointer; }
   .course-switch button:hover { color: var(--text); border-color: var(--border-strong); }
   .course-switch button.active { border-color: var(--text); color: var(--text); }
 
   .strand-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem 3rem; margin-top: 1.8rem; }
-  .strand-column h3 { margin: 0; padding-bottom: 0.55rem; border-bottom: 2px solid; font-size: 0.95rem; font-weight: 800; letter-spacing: 0; }
+  .strand-column h3 { margin: 0; padding-bottom: 0.55rem; border-bottom: 2px solid var(--border-strong); color: var(--text); font-size: 0.95rem; font-weight: 800; letter-spacing: 0; }
   .strand-column .row-list { border-top: 0; }
-  .full-course { display: inline-block; margin-top: 1.6rem; font-weight: 800; font-size: 0.92rem; }
+  .full-course { display: inline-block; margin-top: 1.6rem; font-weight: 700; font-size: 0.875rem; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
   @media (max-width: 900px) {
     .intro { grid-template-columns: minmax(0, 1fr); }

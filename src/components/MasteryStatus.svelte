@@ -24,5 +24,5 @@
   .status-learning { color: var(--status-learning); }
   .status-proficient { color: var(--status-proficient); }
   .status-mastered { color: var(--status-mastered); }
-  .compact { gap: 0.3rem; font-size: 0.72rem; }
+  .compact { gap: 0.3rem; font-size: 0.75rem; }
 </style>

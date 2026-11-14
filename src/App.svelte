@@ -12,6 +12,8 @@
   import QuizHistory from './views/QuizHistory.svelte';
   import GlobalSearch from './components/GlobalSearch.svelte';
   import SiteFooter from './components/SiteFooter.svelte';
+  import AppTile from './components/AppTile.svelte';
+  import { APPS, CURRENT_APP } from './lib/apps.js';
 
   // Heavy or authoring-only views load on first visit, so the public site's
   // first download stays small. When the Studio flag is off (the normal public
@@ -28,12 +30,8 @@
     document.documentElement.setAttribute('data-theme', theme.current);
   });
 
-  // The clean site look is scoped to html.site-v2; Booklet Studio and the TikZ
-  // check keep their existing styling and token values.
+  // Booklet Studio and the TikZ check set their own titles.
   let siteV2 = $derived(route.name !== 'booklet' && route.name !== 'tikz-check');
-  $effect(() => {
-    document.documentElement.classList.toggle('site-v2', siteV2);
-  });
 
   // Per-page title, description, canonical URL and robots (src/lib/page-meta.js).
   // Booklet Studio and the TikZ check set their own titles.
@@ -42,6 +40,28 @@
     if (!siteV2) return;
     applyPageMeta(pageMeta({ name: route.name, params: route.params }, { skillById, topicById, courseById, primaryTopicForSkill, skillCountForCourse }));
   });
+
+  // App switcher popover: closes on outside click and Escape.
+  let switcherOpen = $state(false);
+  let switcherEl = $state(null);
+  $effect(() => {
+    if (!switcherOpen) return;
+    const onDown = (event) => { if (switcherEl && !switcherEl.contains(event.target)) switcherOpen = false; };
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        switcherOpen = false;
+        switcherEl?.querySelector('button')?.focus();
+      }
+    };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  });
+
+  let browseActive = $derived(['home', 'course', 'topic', 'skill'].includes(route.name));
 
   $effect(() => {
     const openFinder = (event) => {
@@ -62,20 +82,21 @@
       <line x1="10" y1="13" x2="24" y2="27" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
       <line x1="24" y1="27" x2="38" y2="13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
       <line x1="38" y1="13" x2="38" y2="38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-      <circle cx="10" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
-      <circle cx="38" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
-      <circle cx="24" cy="27" r="4.2" fill="var(--accent)"/>
-      <circle cx="10" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
-      <circle cx="38" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="10" cy="13" r="4.2" fill="var(--panel)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="38" cy="13" r="4.2" fill="var(--panel)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="24" cy="27" r="4.2" fill="#E8443A"/>
+      <circle cx="10" cy="38" r="4.2" fill="var(--panel)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="38" cy="38" r="4.2" fill="var(--panel)" stroke="currentColor" stroke-width="2.4"/>
     </svg><span>Maths<span class="accent">Map</span></span>
   </a></span>
 
   <div class="desktop-links">
-    <a href={href('/')} class="navlink {['home', 'course', 'topic', 'skill'].includes(route.name) ? 'active' : ''}">Browse</a>
-    <a href={href('/learning')} class="navlink {route.name === 'learning' ? 'active' : ''}">My learning</a>
-    <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
+    <a href={href('/')} class="navlink {browseActive ? 'active' : ''}" aria-current={browseActive ? 'page' : undefined}>Browse</a>
+    <a href={href('/learning')} class="navlink {route.name === 'learning' ? 'active' : ''}" aria-current={route.name === 'learning' ? 'page' : undefined}>My learning</a>
+    <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}" aria-current={route.name === 'map' ? 'page' : undefined}>Map</a>
   </div>
 
+  <div class="bar-right">
   <button class="search-trigger" onclick={() => (searchOpen = true)} aria-label="Search MathsMap">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
@@ -85,7 +106,7 @@
   </button>
 
   <button
-    class="theme-toggle"
+    class="icon-btn theme-toggle"
     role="switch"
     aria-checked={theme.current === 'dark' ? 'true' : 'false'}
     aria-label="Dark mode"
@@ -103,6 +124,35 @@
       </svg>
     {/if}
   </button>
+
+  <div class="switcher" bind:this={switcherEl}>
+    <button
+      class="icon-btn"
+      type="button"
+      aria-label="Switch site"
+      aria-haspopup="true"
+      aria-expanded={switcherOpen ? 'true' : 'false'}
+      aria-controls="site-switcher"
+      onclick={() => (switcherOpen = !switcherOpen)}
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        {#each [6, 12, 18] as cy}{#each [6, 12, 18] as cx}<circle {cx} {cy} r="2" />{/each}{/each}
+      </svg>
+    </button>
+    {#if switcherOpen}
+      <div class="popover" id="site-switcher">
+        <p class="eyebrow">MrDingMaths sites</p>
+        {#each APPS as app (app.id)}
+          <a class="app-row" href={app.url} aria-current={app.id === CURRENT_APP ? 'true' : undefined} onclick={() => (switcherOpen = false)}>
+            <AppTile id={app.id} />
+            <span class="app-text"><span class="t">{app.name}</span><span class="d">{app.desc}</span></span>
+            {#if app.id === CURRENT_APP}<span class="here">You are here</span>{/if}
+          </a>
+        {/each}
+      </div>
+    {/if}
+  </div>
+  </div>
 </nav>
 
 <GlobalSearch open={searchOpen} onClose={() => (searchOpen = false)} />
@@ -160,59 +210,86 @@
   <SiteFooter />
 {/if}
 
-{#if route.name !== 'map'}
-  <nav class="mobile-nav" aria-label="Primary navigation">
-    <a href={href('/')} class:active={['home', 'course', 'topic', 'skill'].includes(route.name)}><span aria-hidden="true">&#9638;</span>Browse</a>
-    <a href={href('/learning')} class:active={route.name === 'learning'}><span aria-hidden="true">&#8594;</span>Continue</a>
-    <button onclick={() => (searchOpen = true)}><span aria-hidden="true">&#8981;</span>Search</button>
-    <a href={href('/map')}><span aria-hidden="true">&#9671;</span>Map</a>
-  </nav>
-{/if}
+<nav class="mobile-nav" aria-label="Primary navigation">
+  <a href={href('/')} class:active={browseActive} aria-current={browseActive ? 'page' : undefined}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z" /></svg>Browse
+  </a>
+  <a href={href('/learning')} class:active={route.name === 'learning'} aria-current={route.name === 'learning' ? 'page' : undefined}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="3.5" /></svg>My learning
+  </a>
+  <a href={href('/map')} class:active={route.name === 'map'} aria-current={route.name === 'map' ? 'page' : undefined}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5" /><circle cx="18" cy="8" r="2.5" /><circle cx="10" cy="18" r="2.5" /><path d="m8 7 8 1M7.5 8l2 8M16.5 10.5l-5 6" /></svg>Map
+  </a>
+  <button type="button" onclick={() => (searchOpen = true)}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>Search
+  </button>
+</nav>
 
 <style>
-  .desktop-links { display: flex; align-items: center; gap: 0.15rem; }
+  .desktop-links { display: flex; align-items: stretch; align-self: stretch; gap: 2px; }
+  .bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
   .search-trigger {
-    margin-left: auto;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    min-width: 170px;
-    padding: 0.48rem 0.65rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
-    background: var(--panel);
+    gap: 8px;
+    min-width: 190px;
+    height: 40px;
+    padding: 0 8px 0 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--panel-2);
     color: var(--muted);
     font: inherit;
-    font-size: 0.83rem;
+    font-size: 0.875rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: color var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
+    transition: color var(--motion-fast), border-color var(--motion-fast);
   }
-  .search-trigger:hover { color: var(--text); border-color: var(--border-strong); background: var(--panel-2); }
-  .search-trigger:active { transform: scale(0.97); }
-  nav.top button:focus-visible, nav.top a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .search-trigger kbd { margin-left: auto; font: 0.64rem system-ui, sans-serif; color: var(--muted); }
-  .theme-toggle {
-    margin-left: 0.35rem;
+  .search-trigger:hover { color: var(--text); border-color: var(--border-strong); }
+  .search-trigger svg { flex: none; }
+  nav.top button:focus-visible, nav.top a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .search-trigger kbd { margin-left: auto; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); font: 700 0.75rem/1 var(--font-body); color: var(--muted); }
+  .icon-btn {
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     flex-shrink: 0;
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
     background: var(--panel);
-    color: var(--text);
+    color: var(--muted);
     cursor: pointer;
-    transition: border-color var(--motion-fast), background var(--motion-fast);
+    transition: border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
   }
-  .theme-toggle:hover { border-color: var(--text); }
-  .theme-toggle svg { width: 18px; height: 18px; }
+  .icon-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .icon-btn[aria-expanded='true'] { background: var(--accent-soft); border-color: var(--accent-soft-border); color: var(--text); }
+  .icon-btn svg { width: 18px; height: 18px; }
+  .switcher { position: relative; flex: none; }
+  .popover {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    z-index: 110;
+    width: min(310px, calc(100vw - 32px));
+    padding: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+  .popover .eyebrow { margin: 0; padding: 6px 10px 8px; color: var(--muted); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .app-row { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: var(--radius-md); color: var(--text); text-decoration: none; }
+  .app-row:hover { background: var(--panel-2); text-decoration: none; }
+  .app-text { display: flex; flex-direction: column; min-width: 0; }
+  .app-text .t { font-size: 0.9375rem; font-weight: 800; line-height: 1.2; }
+  .app-text .d { color: var(--muted); font-size: 0.8125rem; line-height: 1.35; }
+  .app-row .here { margin-left: auto; color: var(--muted); font-size: 0.75rem; font-weight: 800; white-space: nowrap; }
   .mobile-nav { display: none; }
-  @media (max-width: 768px) {
+  @media (max-width: 760px) {
     .desktop-links { display: none; }
-    .search-trigger { min-width: 0; margin-left: auto; border: 0; background: transparent; }
-    .search-trigger span, .search-trigger kbd { display: none; }
+    .search-trigger { display: none; }
     .mobile-nav {
       position: fixed;
       left: 0;
@@ -220,24 +297,27 @@
       bottom: 0;
       z-index: 150;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 0.35rem max(0.5rem, env(safe-area-inset-right)) calc(0.35rem + env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left));
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
       border-top: 1px solid var(--border);
-      background: color-mix(in srgb, var(--panel) 94%, transparent);
-      backdrop-filter: blur(12px);
+      background: var(--panel);
     }
     .mobile-nav a, .mobile-nav button {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.1rem;
-      padding: 0.3rem;
+      gap: 2px;
+      padding: 6px 0;
       border: 0;
+      border-radius: var(--radius-md);
       background: transparent;
       color: var(--muted);
-      font: 700 0.68rem var(--font-body, system-ui, sans-serif);
+      font: 700 0.75rem var(--font-body);
+      text-decoration: none;
+      cursor: pointer;
     }
-    .mobile-nav span { font-size: 1rem; line-height: 1.1; }
-    .mobile-nav .active { color: var(--accent); }
+    .mobile-nav svg { width: 22px; height: 22px; }
+    .mobile-nav .active { color: var(--text); background: var(--accent-soft); }
   }
 </style>

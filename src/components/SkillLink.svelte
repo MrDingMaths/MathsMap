@@ -23,6 +23,6 @@
   .skill-link:hover { color: var(--accent); text-decoration: none; }
   .body { min-width: 0; flex: 1; }
   .title { display: block; margin-bottom: 0.3rem; font-size: 0.9rem; font-weight: 650; line-height: 1.3; }
-  .relation { flex: none; color: var(--status-learning); font-size: 0.68rem; font-weight: 700; }
+  .relation { flex: none; color: var(--status-learning); font-size: 0.75rem; font-weight: 700; }
   .arrow { flex: none; color: var(--muted); }
 </style>

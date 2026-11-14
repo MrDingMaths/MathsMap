@@ -146,7 +146,7 @@
     text-align: left;
     padding: 0.9rem 1.1rem;
     border: 1px solid var(--border-strong);
-    border-radius: 12px;
+    border-radius: 14px;
     background: var(--panel);
     color: var(--text);
     font-family: inherit;
@@ -182,7 +182,7 @@
 
   .qq-feedback {
     padding: 0.85rem 1rem;
-    border-radius: 12px;
+    border-radius: 14px;
     border: 1px solid var(--border);
     animation: content-rise var(--motion-base) var(--ease-out) both;
   }
@@ -214,7 +214,7 @@
 
   .qq-solution {
     padding: 0.85rem 1rem;
-    border-radius: 12px;
+    border-radius: 14px;
     background: var(--panel-2);
     transform-origin: top;
     animation: solution-open var(--motion-slow) var(--ease-out) both;
@@ -227,7 +227,7 @@
     padding: 0.75rem 1.8rem;
     border: none;
     border-radius: 10px;
-    background: var(--accent);
+    background: var(--primary);
     color: #fff;
     font-family: inherit;
     font-weight: 800;

@@ -114,18 +114,18 @@
     box-shadow: var(--shadow-lg);
   }
   header { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.25rem 0.8rem; }
-  .group-label { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .group-label { color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   h2 { margin: 0; font-size: 1.35rem; }
-  .close { width: 2.2rem; height: 2.2rem; border: 0; border-radius: 999px; background: var(--panel-2); color: var(--text); font-size: 1.35rem; cursor: pointer; }
-  .finder-input { display: flex; align-items: center; gap: 0.7rem; margin: 0 1.25rem; padding: 0 0.9rem; height: 3.1rem; border: 1px solid var(--border-strong); border-radius: 12px; color: var(--muted); background: var(--surface-soft); }
+  .close { width: 2.2rem; height: 2.2rem; border: 0; border-radius: var(--radius-md); background: var(--panel-2); color: var(--text); font-size: 1.35rem; cursor: pointer; }
+  .finder-input { display: flex; align-items: center; gap: 0.7rem; margin: 0 1.25rem; padding: 0 0.9rem; height: 3.1rem; border: 1px solid var(--border-strong); border-radius: 14px; color: var(--muted); background: var(--surface-soft); }
   .finder-input:focus-within { border-color: var(--accent); box-shadow: var(--focus-ring); }
   input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text); font: inherit; font-size: 1rem; }
-  kbd { padding: 0.15rem 0.4rem; border: 1px solid var(--border-strong); border-radius: 5px; color: var(--muted); background: var(--panel); font: 0.68rem system-ui, sans-serif; }
+  kbd { padding: 0.15rem 0.4rem; border: 1px solid var(--border-strong); border-radius: 6px; color: var(--muted); background: var(--panel); font: 0.75rem system-ui, sans-serif; }
   .finder-results { max-height: 500px; overflow-y: auto; padding: 0.9rem 1.25rem 1.25rem; }
   .finder-hint { margin: 0; padding: 2.5rem 1rem; text-align: center; color: var(--muted); }
   .result-group + .result-group { margin-top: 0.85rem; }
   .group-label { display: block; margin: 0 0 0.35rem 0.25rem; }
-  .result-group a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.65rem 0.75rem; border-radius: 9px; color: var(--text); }
+  .result-group a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.65rem 0.75rem; border-radius: 10px; color: var(--text); }
   .result-group a:hover { background: var(--panel-2); color: var(--accent); text-decoration: none; }
   .finder :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

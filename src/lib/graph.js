@@ -4,28 +4,25 @@ import { getMastery } from './store.js';
 import { plainMath } from './mathText.js';
 import { ringSvg, trackColour } from './ring.js';
 import { RANK_SEP } from './swimlane.js';
+import { progressColours, canvasColours, ACCENT } from './tokens.js';
 
 // Discrete-state ring for a single skill: one coloured arc whose length grows with
 // mastery, matching the legend colours below. `mastered` is the full ring + check.
 const skillRing = (masteryKey, isDark) => {
   const track = trackColour(isDark);
-  if (masteryKey === 'mastered') return ringSvg({ track, full: true });
+  if (masteryKey === 'mastered') return ringSvg({ track, full: true, green: progressColours(isDark).mastered });
   const segments =
     masteryKey === 'learning'
-      ? [{ pct: 33, color: masteryColour.learning }]
+      ? [{ pct: 33, color: progressColours(isDark).learning }]
       : masteryKey === 'proficient'
-        ? [{ pct: 66, color: masteryColour.proficient }]
+        ? [{ pct: 66, color: progressColours(isDark).proficient }]
         : [];
   return ringSvg({ track, segments });
 };
 
 // Shared so the topic meta-graph (topicGraph.js) renders with the same palette.
-export const masteryColour = {
-  none: '#475569',
-  learning: '#f59e0b',
-  proficient: '#3b82f6',
-  mastered: '#22c55e'
-};
+// One progress scale, theme-aware; see tokens.js.
+export const masteryColour = (isDark = false) => progressColours(isDark);
 
 export const masteryLabel = {
   none: 'Not started',
@@ -110,7 +107,7 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
         mapColour: courseMapColour(course?.color, isDark),
         masteryKey: mastery,
         masteryLabel: masteryLabel[mastery],
-        mastery: masteryColour[mastery],
+        mastery: masteryColour(isDark)[mastery],
         ring: skillRing(mastery, isDark)
       },
       classes: [boundaryIds.has(s.id) ? 'boundary' : '', ready ? 'ready' : '']
@@ -345,24 +342,25 @@ function segmentStyle(SE, TE, pts, sourceOffsetY, targetOffsetY) {
   };
 }
 
-// The site accent, shared by the map's focus and "leads to" colours.
-export const ACCENT = '#E8443A';
+// The map's focus and "leads to" colour comes from tokens.js (--primary).
+export { ACCENT };
 
 export function getCyStyle(isDark = true) {
   const edgeColor = isDark ? '#6b7688' : '#9aa4b2';
-  const nodeBorder = isDark ? '#64748b' : '#aab6c5';
+  const c = canvasColours(isDark);
+  const nodeBorder = c.borderStrong;
   const highlight = isDark ? '#38bdf8' : '#0284c7';
-  const nodeFill = isDark ? '#11131a' : '#ffffff'; // solid node centre (matches backdrop)
-  const litColor = isDark ? '#e8eaed' : '#1b1f24';
+  const nodeFill = c.card; // solid node centre
+  const litColor = c.ink;
   const crossColor = edgeColor;
   // "Comes before" is quiet grey; "leads to" carries the site accent.
-  const incoming = isDark ? '#a3adbb' : '#5b6470';
+  const incoming = c.muted;
   const outgoing = ACCENT;
   const interdependent = isDark ? '#c084fc' : '#7e22ce';
   const ready = isDark ? '#22d3ee' : '#0e7490'; // theme-safe "ready now" halo
-  const cardFill = isDark ? '#1a1e26' : '#ffffff';
-  const cardBorder = isDark ? '#353c4b' : '#dfe3e8';
-  const cardBorderStrong = isDark ? '#8a94a6' : '#5b6470';
+  const cardFill = c.card;
+  const cardBorder = c.border;
+  const cardBorderStrong = c.muted;
   return [
     {
       // Detailed view shows mastery rings; overview uses course-coloured dots.

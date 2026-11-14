@@ -4,7 +4,6 @@
   import { topicStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import { loadManifest, quizPool } from '../lib/manifest.js';
-  import { strandColour } from '../lib/strands.js';
   import SkillCard from '../components/SkillCard.svelte';
   import SlabHero from '../components/SlabHero.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -71,7 +70,6 @@
     <div class="layout">
       <div class="main">
         <SlabHero
-          color={strandColour(topic.strand)}
           eyebrow={topic.strand}
           meta={[`Stage ${topic.stage}`, ...codes].join(' · ')}
           title={topic.title}
@@ -148,7 +146,7 @@
   .links li { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
   .links a { color: var(--text); font-size: 0.92rem; font-weight: 600; }
   .links a:hover { color: var(--accent); text-decoration: none; }
-  .stage { color: var(--muted); font-size: 0.74rem; }
+  .stage { color: var(--muted); font-size: 0.75rem; }
   @media (max-width: 960px) {
     .layout { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
     .rail { position: static; order: 2; }

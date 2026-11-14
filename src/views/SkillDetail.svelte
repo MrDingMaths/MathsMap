@@ -9,7 +9,6 @@
   import { getPracticeMarks, subscribePractice, practiceSummary } from '../lib/practice-progress.js';
   import { getWorkedExamples } from '../lib/theory-content.js';
   import { tick, untrack } from 'svelte';
-  import { strandColour } from '../lib/strands.js';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -171,7 +170,7 @@
 
     <header class="skill-header">
       <div class="eyebrow">
-        {#if topic}<span class="strand" style="color:{strandColour(topic.strand)}"><span class="dot" aria-hidden="true"></span>{topic.strand}</span>{/if}
+        {#if topic}<span class="strand">{topic.strand}</span>{/if}
         <span>Stage {skill.stage}</span>
         {#if outcomeCode}<span>{outcomeCode}</span>{/if}
         <MasteryStatus level={currentMastery} />
@@ -293,8 +292,7 @@
 <style>
   .skill-header { max-width: 900px; margin: 0.4rem 0 2rem; }
   .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; margin-bottom: 0.55rem; color: var(--muted); font-size: 0.86rem; font-weight: 600; }
-  .strand { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 800; }
-  .strand .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .strand { color: var(--text); font-weight: 800; }
   .skill-header h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; }
   .skill-header .blurb { max-width: 68ch; margin: 0.7rem 0 0; color: var(--muted); font-size: 1.08rem; }
   .title-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.3rem; }
@@ -320,11 +318,11 @@
   .practice-placeholder { margin-top: 0.8rem; padding: 1.5rem; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-soft); text-align: center; }
   .tier-list { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
   .tier-list span { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.8rem; }
-  .tier-list b { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 7px; background: var(--panel); color: var(--text); }
+  .tier-list b { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 6px; background: var(--panel); color: var(--text); }
   .side-section { padding: 1.2rem 0; border-top: 1px solid var(--border); }
   .side-section:first-child { padding-top: 0; border-top: 0; }
   .side-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-  .count-pill { color: var(--muted); font-size: 0.72rem; font-weight: 700; }
+  .count-pill { color: var(--muted); font-size: 0.75rem; font-weight: 700; }
   .side-section > .muted { margin: 0; font-size: 0.86rem; }
   .side-link-stack { margin-top: -0.4rem; }
   .quiz-cta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2.4rem; padding: 1.4rem 1.6rem; border-radius: var(--radius-card, 12px); background: var(--surface-soft); }
@@ -334,7 +332,7 @@
   .snav { display: flex; flex-direction: column; gap: 0.15rem; max-width: 48%; color: var(--text); font-size: 0.82rem; }
   .snav.next { margin-left: auto; text-align: right; }
   .snav:hover { color: var(--accent); text-decoration: none; }
-  .nav-direction { color: var(--muted); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
+  .nav-direction { color: var(--muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
   .practice-note { margin: 0 0 0.4rem; color: var(--muted); font-size: 0.92rem; }
   .practice-note b { color: var(--text); }
   /* Side-by-side practice: examples panel replaces the sidebar. */

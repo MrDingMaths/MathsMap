@@ -25,21 +25,22 @@ function arc(pct, color) {
   );
 }
 
+import { PROGRESS } from './tokens.js';
+
 /**
  * @param {object}  opts
  * @param {string}  opts.track     track (unfilled) colour
  * @param {Array<{pct:number,color:string}>} [opts.segments] coloured arcs
  * @param {boolean} [opts.full]    100% mastered → solid ring + check mark
  */
-export function ringSvg({ track, segments = [], full = false }) {
-  const key = `${track}|${full ? 1 : 0}|${segments.map((s) => `${s.pct}:${s.color}`).join(',')}`;
+export function ringSvg({ track, segments = [], full = false, green = PROGRESS.light.mastered }) {
+  const key = `${track}|${full ? `1${green}` : 0}|${segments.map((s) => `${s.pct}:${s.color}`).join(',')}`;
   if (cache.has(key)) return cache.get(key);
   const trackCircle =
     `<circle cx="${CX}" cy="${CX}" r="${R}" fill="none" stroke="${track}" stroke-width="${STROKE}"/>`;
 
   let body;
   if (full) {
-    const green = '#22c55e';
     const check =
       `<path d="M14 20.5 L18 24.5 L26.5 15.5" fill="none" stroke="${green}" ` +
       `stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
@@ -59,4 +60,4 @@ export function ringSvg({ track, segments = [], full = false }) {
 }
 
 // Theme-aware track colour for the unfilled portion of the ring.
-export const trackColour = (isDark) => (isDark ? '#64748b' : '#c2ccd8');
+export const trackColour = (isDark) => (isDark ? '#475569' : '#CBD2DC');

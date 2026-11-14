@@ -74,6 +74,7 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
   }
 
   const track = trackColour(isDark);
+  const prog = masteryColour(isDark);
   const nodes = [];
   const statsById = new Map(); // topicId -> { fullyMastered, started }
   for (const [topicId, skillIds] of topicSkills) {
@@ -85,13 +86,13 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
     // proficient (blue) under mastered (green), each arc a share of the topic.
     const proficientPct = Math.round((stats.proficient / (skillIds.length || 1)) * 100);
     const ring = stats.fullyMastered
-      ? ringSvg({ track, full: true })
+      ? ringSvg({ track, full: true, green: prog.mastered })
       : ringSvg({
           track,
           segments: [
-            { pct: stats.masteredPct + stats.inProgressPct, color: masteryColour.learning },
-            { pct: stats.masteredPct + proficientPct, color: masteryColour.proficient },
-            { pct: stats.masteredPct, color: masteryColour.mastered }
+            { pct: stats.masteredPct + stats.inProgressPct, color: prog.learning },
+            { pct: stats.masteredPct + proficientPct, color: prog.proficient },
+            { pct: stats.masteredPct, color: prog.mastered }
           ].filter((segment) => segment.pct > 0)
         });
     const expanded = expandAll || expandedSet.has(topicId);
@@ -121,7 +122,7 @@ export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = 
         skillCount: skillIds.length,
         masteryKey: mastery,
         masteryLabel: masteryLabel[mastery],
-        mastery: masteryColour[mastery],
+        mastery: prog[mastery],
         ring
       }
     });

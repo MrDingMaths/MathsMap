@@ -84,14 +84,14 @@
     display: inline-block;
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 999px;
-    background: var(--accent);
+    border-radius: var(--radius-md);
+    background: var(--primary);
     color: #fff;
     font-weight: 600;
     font-size: 0.95rem;
     transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast);
   }
-  .start-btn:hover { background: var(--accent-strong); box-shadow: var(--shadow); transform: translateY(-1px); text-decoration: none; }
+  .start-btn:hover { background: var(--primary-hover); box-shadow: var(--shadow); transform: translateY(-1px); text-decoration: none; }
   .start-btn:active { transform: scale(0.97); }
 
   .history-list { border-block: 1px solid var(--border); }
@@ -99,7 +99,7 @@
   .history-row:last-child { border-bottom: 0; }
   .history-row:hover { color: var(--accent); text-decoration: none; }
   .history-main { flex: 1; display: flex; flex-direction: column; gap: 0.15rem; }
-  .history-date { color: var(--muted); font-size: 0.74rem; }
+  .history-date { color: var(--muted); font-size: 0.75rem; }
   .history-score { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
   .row-arrow { color: var(--muted); }
 

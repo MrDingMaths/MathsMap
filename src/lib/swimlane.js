@@ -11,6 +11,7 @@
 // long prerequisite-depth axis uses the (scrollable) vertical dimension and the
 // strands span the wide axis.
 import { STRANDS } from './strands.js';
+import { canvasColours } from './tokens.js';
 
 // Shared with graph.js's routeEdges(), which needs to know the gutter height
 // between rank rows to place taxi turns inside it. Keep in sync with the default
@@ -557,7 +558,7 @@ export function drawBands(cy, canvas, layout, isDark = true) {
   ctx.clearRect(0, 0, w, h);
   // This canvas sits behind the (transparent) Cytoscape container, so it owns
   // the graph backdrop as well as the lane panels.
-  ctx.fillStyle = isDark ? '#11131a' : '#ffffff';
+  ctx.fillStyle = canvasColours(isDark).bg;
   ctx.fillRect(0, 0, w, h);
 
   const zoom = cy.zoom();
@@ -609,7 +610,7 @@ export function drawBands(cy, canvas, layout, isDark = true) {
   // Stage bands: a hairline between bands and a large stage name in the left
   // gutter, drawn at map scale so it reads like a heading.
   const sep = isDark ? 'rgba(148, 163, 184, 0.22)' : 'rgba(100, 116, 139, 0.2)';
-  const ink = isDark ? '#e8eaed' : '#1b1f24';
+  const ink = canvasColours(isDark).ink;
   const gutterLeft = (layout?.labelGutter ?? LABEL_GUTTER) > 0 ? 24 * zoom + pan.x : null;
   const labelSize = 30 * zoom;
   rows.forEach((row, i) => {
@@ -651,7 +652,7 @@ export function drawBands(cy, canvas, layout, isDark = true) {
       const years = YEARS_BY_STAGE[row.stage];
       const sub = [years, row.count ? `${row.count} ${row.count === 1 ? 'topic' : 'topics'}` : null].filter(Boolean);
       ctx.font = `600 ${subSize}px Nunito, system-ui, sans-serif`;
-      ctx.fillStyle = isDark ? '#9ca3af' : '#5b6470';
+      ctx.fillStyle = canvasColours(isDark).muted;
       const subTop = y0 + shown.length * labelSize * 1.08 + 6 * zoom;
       sub.forEach((text, index) => ctx.fillText(text, gutterLeft, subTop + index * subSize * 1.5, maxWidth));
     }

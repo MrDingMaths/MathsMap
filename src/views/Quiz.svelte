@@ -266,7 +266,7 @@
     gap: 0.3rem;
     padding: 1.1rem 1.2rem;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     background: var(--panel);
     color: var(--text);
     transition: border-color var(--motion-fast), background var(--motion-fast);
@@ -283,7 +283,7 @@
     padding: 0.8rem 1.8rem;
     border: none;
     border-radius: 10px;
-    background: var(--accent);
+    background: var(--primary);
     color: #fff;
     font-family: inherit;
     font-weight: 800;
@@ -293,7 +293,7 @@
     transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast);
   }
   .start-btn:disabled { opacity: 0.5; cursor: default; }
-  .start-btn:hover:not(:disabled) { background: var(--accent-strong); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .start-btn:hover:not(:disabled) { background: var(--primary-hover); box-shadow: var(--shadow); transform: translateY(-1px); }
   .start-btn:active:not(:disabled) { transform: scale(0.97); }
 
   .loading-state { padding: 3rem 0; text-align: center; color: var(--muted); }

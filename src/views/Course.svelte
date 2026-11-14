@@ -4,7 +4,6 @@
   import { courseStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import { loadManifest, quizPool } from '../lib/manifest.js';
-  import { strandColour } from '../lib/strands.js';
   import TopicCard from '../components/TopicCard.svelte';
   import SlabHero from '../components/SlabHero.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -69,7 +68,7 @@
       <div class="strand-columns">
         {#each groups as strand}
           <div class="strand-column">
-            <h2 style="color:{strandColour(strand.name)}; border-color:{strandColour(strand.name)}">{strand.name} <span>{strand.topics.length} topics</span></h2>
+            <h2>{strand.name} <span>{strand.topics.length} topics</span></h2>
             <ul class="row-list">
               {#each strand.topics as t}<li><TopicCard topic={t} courseId={id} variant="row" /></li>{/each}
             </ul>
@@ -86,7 +85,7 @@
 
 <style>
   .strand-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem 3rem; margin-top: 2rem; }
-  .strand-column h2 { display: flex; justify-content: space-between; align-items: baseline; margin: 0; padding-bottom: 0.55rem; border-bottom: 2px solid; font-size: 0.95rem; font-weight: 800; letter-spacing: 0; }
+  .strand-column h2 { display: flex; justify-content: space-between; align-items: baseline; margin: 0; padding-bottom: 0.55rem; border-bottom: 2px solid var(--border-strong); color: var(--text); font-size: 0.95rem; font-weight: 800; letter-spacing: 0; }
   .strand-column h2 span { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
   .strand-column .row-list { border-top: 0; }
 </style>

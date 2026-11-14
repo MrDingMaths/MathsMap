@@ -43,8 +43,8 @@
   h3 { font-size: 1rem; margin: 0 0 0.4rem; }
   .skill .blurb { color: var(--muted); font-size: 0.84rem; margin: 0; }
   .spacer { flex: 1; min-height: 0.8rem; }
-  .tags-text { color: var(--muted); font-size: 0.72rem; margin-bottom: 0.55rem; }
-  .open-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.74rem; font-weight: 700; }
+  .tags-text { color: var(--muted); font-size: 0.75rem; margin-bottom: 0.55rem; }
+  .open-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.75rem; font-weight: 700; }
   .skill:hover .open-label { color: var(--accent); }
 
   .skill-row {

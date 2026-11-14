@@ -20,7 +20,7 @@
 <header class="page-header" style={color ? `--hero-color:${color}` : ''}>
   {#if eyebrow || meta}
     <div class="eyebrow">
-      {#if eyebrow}<span class="strand"><span class="dot" aria-hidden="true"></span>{eyebrow}</span>{/if}
+      {#if eyebrow}<span class="strand">{eyebrow}</span>{/if}
       {#if meta}<span>{meta}</span>{/if}
     </div>
   {/if}
@@ -51,8 +51,7 @@
 <style>
   .page-header { margin: 0.4rem 0 1.5rem; }
   .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; margin-bottom: 0.55rem; color: var(--muted); font-size: 0.86rem; font-weight: 600; }
-  .strand { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--hero-color, var(--accent)); font-weight: 800; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hero-color, var(--accent)); }
+  .strand { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text); font-weight: 800; }
   h1 { margin: 0; color: var(--text); font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; }
   .lede { max-width: 68ch; margin: 0.7rem 0 0; color: var(--muted); font-size: 1.08rem; }
   .summary { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem; margin-top: 1.5rem; padding: 1.1rem 0; border-block: 1px solid var(--border); }

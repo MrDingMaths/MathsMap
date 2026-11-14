@@ -9,7 +9,7 @@
 </div>
 
 <style>
-  .bar { display: flex; gap: 2px; border-radius: 999px; overflow: hidden; background: var(--track); }
+  .bar { display: flex; gap: 2px; border-radius: 3px; overflow: hidden; background: var(--track); }
   .bar.light { background: color-mix(in srgb, var(--status-none) 18%, transparent); }
   .bar > span { display: block; height: 100%; transition: width var(--motion-slow) var(--ease-out); }
   .mastered { background: var(--status-mastered-fill); }
