@@ -404,3 +404,13 @@ test('parts that are each a figure with its working space beside it regroup into
  assert.equal(gridFigureParts(saved,{id:'q',children:[...content.children,{id:'q-e'}]},2),null,'a part with no row of its own');
  assert.equal(gridFigureParts(saved,content,1),null);
 });
+
+// Bank copies made before 14 November 2026 slugged their saved arrangement ids (`-parts`, `-row-N`); the
+// Part layout control still regroups them.
+test('regridParts accepts the slugged parts and row ids of older bank copies',()=>{
+ const block=gridBlock(6,2),saved=copyTree(resolveArrangement(block).tree);
+ const slug=n=>{n.id=n.id.replace(/^q:parts$/,'q-parts').replace(/^q:row:(\d+)$/,'q-row-$1');(n.children??[]).forEach(slug);};slug(saved.root);
+ const next=regridParts(saved,block.content,3);
+ assert.ok(next);assert.deepEqual(findArrangement(next.root,'q-parts').children.map(r=>r.children.length),[3,3]);
+ assert.deepEqual(partRefs(next),partRefs(saved));
+});

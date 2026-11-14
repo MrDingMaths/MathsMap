@@ -220,11 +220,26 @@ export function materializeReconstruction(transcription, review = {}, { projectI
   return project;
 }
 
+// Presentations (saved arrangements) are remapped by remapQuestionPresentation, which keeps their derived ids'
+// shape (`<id>:parts`, `<id>:row:N`, `layout:<ref>`). Walking them here slugged those ids to `-parts`/`-row-N`,
+// and the Part layout control could no longer find the parts (14 November 2026, James: "why can't I change it").
+function walkContent(value, visit, seen = new Set()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return;
+  seen.add(value);
+  visit(value);
+  for (const [key, child] of Object.entries(value)) {
+    if (key === 'presentation') continue;
+    if (Array.isArray(child)) child.forEach((item) => walkContent(item, visit, seen));
+    else if (child && typeof child === 'object') walkContent(child, visit, seen);
+  }
+}
+
 function rekeyTree(value, prefix) {
   const copy = clone(value);
   const idMap = new Map();
-  walk(copy, (node) => { if (node?.id) idMap.set(node.id, `${prefix}-${safeSlug(node.id)}`); });
-  walk(copy, (node) => {
+  walkContent(copy, (node) => { if (node?.id) idMap.set(node.id, `${prefix}-${safeSlug(node.id)}`); });
+  walkContent(copy, (node) => {
+    if (node !== copy && node.presentation) node.presentation = remapQuestionPresentation(node.presentation, idMap);
     if (node?.id && idMap.has(node.id)) node.id = idMap.get(node.id);
     if (node?.overlayOf && idMap.has(node.overlayOf)) node.overlayOf = idMap.get(node.overlayOf);
     if(node.sharedSolutionDiagramId&&idMap.has(node.sharedSolutionDiagramId))node.sharedSolutionDiagramId=idMap.get(node.sharedSolutionDiagramId);
@@ -460,7 +475,14 @@ export function deleteProjectBlock(project, sectionId, blockId) {
   if (!current?.blocks.some((block) => block.id === blockId)) return project;
   const next = withProjectSections(project);
   const section = ownProjectSection(next, sectionId);
+  const removed = section.blocks.find((block) => block.id === blockId);
   section.blocks = section.blocks.filter((block) => block.id !== blockId);
+  // A bank question deleted from a bank-drawn section is recorded there, so a re-draw never brings it back
+  // (14 November 2026, James deleted a proof by contradiction that the draw could otherwise re-add).
+  const bankId = removed?.bankRef?.id;
+  if (section.bankDraw && bankId && !(section.bankDraw.removed ?? []).some((row) => row.id === bankId)) {
+    section.bankDraw = { ...section.bankDraw, removed: [...(section.bankDraw.removed ?? []), { id: bankId, reason: 'deleted in the Studio', approvedBy: 'Studio deletion', at: new Date().toISOString() }] };
+  }
   return next;
 }
 

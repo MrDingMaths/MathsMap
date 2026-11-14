@@ -75,14 +75,15 @@ export function gridRows(nodeId,children,columns){
  }
  return rows;
 }
-const generatedRow=n=>n.type==='group'&&n.direction==='row'&&/:row:\d+$/.test(n.id);
+// Bank copies made before 14 November 2026 slugged these ids (`-row-N`, `-parts`); both shapes are generated.
+const generatedRow=n=>n.type==='group'&&n.direction==='row'&&/[:-]row[:-]\d+$/.test(n.id);
 // Saved arrangements store their rows. Pad only rows still in generated form:
 // a resized or regrouped row is an explicit spacing decision.
 function padSavedGridRows(node){
  if(node.type!=='group')return;
  node.children.forEach(padSavedGridRows);
  const rows=node.children;
- if(node.direction==='row'||!node.id.endsWith(':parts')||rows.length<2||!rows.every(generatedRow))return;
+ if(node.direction==='row'||!/[:-]parts$/.test(node.id)||rows.length<2||!rows.every(generatedRow))return;
  const count=rows[0].children.length,last=rows.at(-1);
  if(rows.slice(0,-1).some(row=>row.children.length!==count)||last.children.length>=count)return;
  if(rows.some(row=>row.children.some(child=>child.weight!=null||child.width!=null)))return;
@@ -92,7 +93,7 @@ function padSavedGridRows(node){
 // part keeps its own group, so adjusted gaps and answer spaces survive.
 // Returns null when the parts no longer sit in a generated list or grid.
 export function regridParts(tree,node,columns){
- const next=JSON.parse(JSON.stringify(tree)),parts=findArrangement(next.root,node.id+':parts');
+ const next=JSON.parse(JSON.stringify(tree)),parts=findArrangement(next.root,node.id+':parts')??findArrangement(next.root,node.id+'-parts');
  if(!parts)return null;
  const rows=parts.direction!=='row'&&parts.children.length&&parts.children.every(generatedRow);
  const cells=(rows?parts.children.flatMap(row=>row.children):parts.children).filter(child=>!isGridFiller(child));
